@@ -9,13 +9,13 @@
 <!-- PROJECT SHIELDS GO HERE -->
 <div align="center">
   <span>&nbsp;</span> <!-- &nbsp to nudge shields down just a tad -->
-  <span align="center" style="width: 35%; display: flex; flex-direction: row; justify-content: space-around;">
+  <div align="center" style="width: 35%; display: flex; flex-direction: row; justify-content: space-around;">
 
 [![pre-commit][pre-commit-shield-url]](https://github.com/pre-commit/pre-commit)
 
 [![code style: prettier][prettier-shield-url]](https://github.com/prettier/prettier)
 
-  </span>
+  </div>
 </div>
 
 ---
