@@ -1,23 +1,91 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+######################################################################
+### REACT gitignore ENTRIES
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# This section includes entries from the gitignore.io API
+# https://www.toptal.com/developers/gitignore/api/react
 
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
+# Packages/npm/yarn
+node_modules
+.npm/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Create-React-App Dependencies
+/.pnp
+.pnp.js
+
+# Build Files
+build/
+fixit-web-*/
+
+# Testing
+/coverage
+
+# Backup Files
+**/*.backup.*
+**/*.back.*
+
+# Logs
+*.log
+logs
+
+# macOS Devs (Desktop Services Store)
+.DS_*
+
+# Misc
+psd
+thumb
+sketch
+
+#---------------------------------------------------------------------
+### NERDWARE gitignore ENTRIES
+
+# Notes
+TODO*
+FIXME*
+NOTE*
+
+# Security
+*.bak
+*.ca
+*.crt
+*.csr
+*.der
+*.env
+*.env.*
+*.env*
+*.kdb
+*.mwb
+*.org
+*.p12
+*.pem
+*.rnd
+*.smime
+*.sql
+*.ssleay
+schema.json
+
+# Logs
+logs
+*.log
+
+# VSCode Related
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
+
+# Diagnostic Reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime Data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+######################################################################

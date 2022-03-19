@@ -1,0 +1,72 @@
+# FIXME add these GitHub secrets in new repo:
+#   - REACT_APP_API_BASE_URL
+#   - REACT_APP_SENTRY_DSN
+#   - REACT_APP_STRIPE_VIP_PROMO_CODE
+#   - REACT_APP_STRIPE_SUBMIT_PAYMENT_ROUTE
+#   - REACT_APP_STRIPE_TEST_PUBLISHABLE_KEY
+#   - REACT_APP_STRIPE_LIVE_PUBLISHABLE_KEY
+#   - AWS_REGION
+#   - AWS_S3_BUCKET
+#   - AWS_ACCESS_KEY_ID
+#   - AWS_SECRET_ACCESS_KEY
+########################################################
+# name: Upload Builds to S3 on Push
+
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - "package*.json"
+#       - "src/**"
+#       - "public/**"
+#       - ".github/workflows/upload_builds_to_s3_on_push.yml"
+
+# jobs:
+#   build_and_upload:
+#     runs-on: ubuntu-20.04
+#     strategy:
+#       matrix:
+#         include:
+#           # TODO add dev env build+export to fixit-web s3 in Development account
+#           # GitHub Secret vars can't be used in matrix, so instead we use the NAME to access it later.
+#           - env_name: staging
+#             pretty_env_name: Staging
+#             stripe_pk_name: REACT_APP_STRIPE_TEST_PUBLISHABLE_KEY
+#           - env_name: prod
+#             pretty_env_name: Production
+#             stripe_pk_name: REACT_APP_STRIPE_LIVE_PUBLISHABLE_KEY
+#     env:
+#       SKIP_PREFLIGHT_CHECK: true
+#       REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }}
+#       REACT_APP_SENTRY_DSN: ${{ secrets.REACT_APP_SENTRY_DSN }}
+#       REACT_APP_STRIPE_VIP_PROMO_CODE: ${{ secrets.REACT_APP_STRIPE_VIP_PROMO_CODE }}
+#       REACT_APP_STRIPE_SUBMIT_PAYMENT_ROUTE: ${{ secrets.REACT_APP_STRIPE_SUBMIT_PAYMENT_ROUTE }}
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: actions/setup-node@v2
+#         with:
+#           node-version: "14"
+#           cache: npm
+#       - run: npm ci
+#       - name: Build Fixit-Web (${{ matrix.pretty_env_name }})
+#         shell: bash
+#         env:
+#           # Here we access the GitHub Secret we couldn't put in the matrix.
+#           REACT_APP_STRIPE_PUBLISHABLE_KEY: ${{ secrets[matrix.stripe_pk_name] }}
+#         # To avoid conflicts with staging/prod build dirs, rename the dir using env_name.
+#         run: |
+#           npm run build
+#           mv build build-${{ matrix.env_name }}
+#       - name: Deploy to S3
+#         # Action docs => https://github.com/marketplace/actions/s3-sync
+#         uses: jakejarvis/s3-sync-action@v0.5.1
+#         with:
+#           args: --acl bucket-owner-full-control --sse AES256 --delete
+#         env:
+#           SOURCE_DIR: "build-${{ matrix.env_name }}"
+#           DEST_DIR: "fixit-web-${{ matrix.env_name }}"
+#           AWS_REGION: ${{ secrets.AWS_REGION }}
+#           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
