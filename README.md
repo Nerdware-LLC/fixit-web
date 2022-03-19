@@ -8,7 +8,7 @@
 
 <!-- PROJECT SHIELDS GO HERE -->
 <div align="center">
-  <span>&nbsp;</span> <!-- &nbsp to nudge shields down just a tad -->
+  &nbsp; <!-- &nbsp to nudge shields down just a tad -->
   <div align="center" style="width: 35%; display: flex; flex-direction: row; justify-content: space-around;">
 
 [![pre-commit][pre-commit-shield-url]](https://github.com/pre-commit/pre-commit)
