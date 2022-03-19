@@ -1,7 +1,7 @@
 {
   "name": "fixit-web",
   "version": "0.1.0",
-  "description": "Payment portal page for Fixit client.",
+  "description": "React-based web app for Fixit users.",
   "author": {
     "name": "Trevor Anderson",
     "email": "T.AndersonProperty@gmail.com"
@@ -23,12 +23,6 @@
   "engines": {
     "node": "^16.0.0",
     "npm": "^8.0.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "scripts": {
     "start": "react-scripts start",
