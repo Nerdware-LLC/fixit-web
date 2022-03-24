@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useStripeCardInput } from "./StripeCardInput";
 import { StripeFormSubmitButton } from "./StripeFormSubmitButton";
 import { useFetchStateContext } from "../Indicators";

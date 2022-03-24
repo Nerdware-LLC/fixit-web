@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useElements, CardElement } from "@stripe/react-stripe-js";
 import { useFetchStateContext } from "../../Indicators";
 import { ErrorMessage } from "../../Typography";
