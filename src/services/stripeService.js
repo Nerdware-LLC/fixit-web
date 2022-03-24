@@ -1,11 +1,10 @@
 import { apiService } from "./apiService";
-import { CONFIG } from "../config";
 import { logger } from "../utils";
 
-const {
-  STRIPE_SUBMIT_PAYMENT_ROUTE,
-  STRIPE_CONNECT_ONBOARDING_ROUTE
-} = CONFIG.STRIPE.ROUTES;
+const STRIPE_ROUTES = {
+  SUBMIT_PAYMENT: "/subscriptions/submit-payment",
+  CONNECT_ONBOARDING: "/connect/account-link"
+};
 
 export const stripeService = {
   submitPaymentForSubscription: async ({
@@ -14,7 +13,7 @@ export const stripeService = {
     paymentMethod_id
   }) => {
     logger.stripe("submitting payment for subscription...");
-    return await apiService.post(STRIPE_SUBMIT_PAYMENT_ROUTE, {
+    return await apiService.post(STRIPE_ROUTES.SUBMIT_PAYMENT, {
       selectedSubscription,
       promoCode,
       paymentMethod_id
@@ -22,6 +21,6 @@ export const stripeService = {
   },
   getConnectOnboardingLink: async () => {
     logger.stripe("fetching connect onboarding account link...");
-    return await apiService.get(STRIPE_CONNECT_ONBOARDING_ROUTE);
+    return await apiService.get(STRIPE_ROUTES.CONNECT_ONBOARDING);
   }
 };
