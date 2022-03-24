@@ -1,12 +1,14 @@
 import React from "react";
-import MaterialDialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogActions from "@material-ui/core/DialogActions";
+import MuiDialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
 import { SlideTransition } from "../Transitions/SlideTransition";
 import { Button } from "../Button";
 import { bool, string, func, shape, styleType } from "../../types";
+
+// Docs: https://mui.com/components/dialogs/
 
 export const Dialog = ({
   isVisible,
@@ -18,7 +20,7 @@ export const Dialog = ({
   cancelLabel = "CANCEL",
   styles
 }) => (
-  <MaterialDialog
+  <MuiDialog
     open={isVisible}
     onClose={handleCancel}
     aria-labelledby={"dialog-title"}
@@ -37,15 +39,11 @@ export const Dialog = ({
     </DialogContent>
     <DialogActions>
       {handleCancel && (
-        <Button onClick={handleCancel} color={"primary"}>
-          {cancelLabel}
-        </Button>
+        <Button label={cancelLabel} onClick={handleCancel} color={"primary"} />
       )}
-      <Button onClick={handleAccept} color={"primary"}>
-        {acceptLabel}
-      </Button>
+      <Button label={acceptLabel} onClick={handleAccept} color={"primary"} />
     </DialogActions>
-  </MaterialDialog>
+  </MuiDialog>
 );
 
 Dialog.propTypes = {
