@@ -1,12 +1,9 @@
-import colors from "colors";
 import * as Sentry from "@sentry/react";
-import { CONFIG } from "../../config";
+import { ENV } from "../config";
 
-export const getLogFnFromTemplate = (label, opts) => {
-  const { messageColor } = opts ?? { messageColor: colors.white };
-  const labelColor = opts?.labelColor ?? messageColor?.bold ?? messageColor;
-
-  const { messageLogFn, errorReportFn, errorLogFn } = CONFIG.IS_PROD_ENV
+// Fn which returns env-appropriate log fn with desired label.
+const getLogFnFromTemplate = (label, opts) => {
+  const { messageLogFn, errorReportFn, errorLogFn } = ENV.IS_PROD_ENV
     ? {
         // prettier-ignore
         messageLogFn: (labelTxt, messageTxt) => Sentry.captureMessage(`${labelTxt} ${messageTxt}`),
@@ -15,7 +12,7 @@ export const getLogFnFromTemplate = (label, opts) => {
       }
     : {
         // prettier-ignore
-        messageLogFn: (labelTxt, messageTxt) => console.log(`${labelColor(labelTxt)} ${messageColor(messageTxt)}`),
+        messageLogFn: (labelTxt, messageTxt) => console.log(`${labelTxt} ${messageTxt}`),
         errorReportFn: console.error,
         errorLogFn: console.error
       };
@@ -31,4 +28,11 @@ export const getLogFnFromTemplate = (label, opts) => {
       messageLogFn(labelTxt, messageTxt);
     }
   };
+};
+
+export const logger = {
+  debug: getLogFnFromTemplate("DEBUG"),
+  info: getLogFnFromTemplate("INFO"),
+  error: getLogFnFromTemplate("ERROR"),
+  stripe: getLogFnFromTemplate("STRIPE")
 };
