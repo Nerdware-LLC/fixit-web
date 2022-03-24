@@ -20,7 +20,67 @@
 
 ---
 
-## 🗺 Project Layout
+Fixit Web provides Fixit users with business-critical web interfaces that are each a crucial part of the user's journey, like the Stripe-powered [CheckoutPage](/src/pages/CheckoutPage/). Each page contained in this project connects one part of the user onboarding funnel to another.
+
+### Table of Contents
+
+- [☁️ Cloud Architecture](#️-cloud-architecture)
+  - [End-User Delivery](#end-user-delivery)
+- [👨‍💻 Front-End Development](#-front-end-development)
+  - [🗺 Project Layout](#-project-layout)
+  - [Create React App](#create-react-app)
+    - [Available Scripts](#available-scripts)
+  - [Browserslist](#browserslist)
+  - [Testing](#testing)
+    - [Auto-Mocked Node Modules](#auto-mocked-node-modules)
+- [License](#license)
+- [Contact](#contact)
+
+---
+
+## ☁️ Cloud Architecture
+
+As with all Fixit cloud infrastructure, IaC files responsible for _defining_ and _implementing_ Fixit Web's cloud architecture/resources are split between two sibling repos:
+
+- [**fixit-cloud-modules**](https://github.com/Nerdware-LLC/fixit-cloud-modules) &nbsp; Terraform modules which _define_ Fixit Web's cloud.
+- [**fixit-cloud-live**](https://github.com/Nerdware-LLC/fixit-cloud-live) &nbsp;&nbsp;&nbsp; Terragrunt configs which _implement_ Fixit Web's cloud.
+
+### End-User Delivery
+
+Fixit Web is delivered to end users via the process outlined in the diagram below.
+
+```mermaid
+%%{init: { 'theme': 'dark', 'themeVariables': { 'fontFamily': '"trebuchet ms"'} } }%%
+sequenceDiagram
+    participant User as End User
+    participant CF as CloudFront Cache
+    participant S3 as S3 Bucket Origin
+    autonumber
+    %%{wrap}%%
+    User->>CF: GET request
+    Note over User,CF: CloudFront Trigger: Viewer Request
+    alt if cache hit
+        CF-->>User: Return cached content
+        Note over CF,User: CloudFront Trigger: Viewer Response
+    else if no cache hit
+        CF->>S3: GET content from S3
+        Note over CF,S3: CloudFront Trigger: Origin Request
+        S3-->>CF: Return content
+        Note over S3,CF: CloudFront Trigger: Origin Response
+        CF-->>User: Return content
+        Note over CF,User: CloudFront Trigger: Viewer Response
+    end
+```
+
+---
+
+## 👨‍💻 Front-End Development
+
+Welcome to the team. Please review the info below to familiarize yourself with the project.
+
+> 💡 If you have any questions, please don't hesitate to ask.
+
+### 🗺 Project Layout
 
 - [`__mocks__`](/__mocks__) &nbsp; Mock npm modules (these are automatically mocked in test files, [see here](#auto-mocked-node-modules)).
 - [`.github`](/.github) &nbsp; &nbsp;&nbsp; GitHub Actions and other GitHub-related files.
@@ -37,48 +97,37 @@
   - [`src/types`](/src/types) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Prop-types objects.
   - [`src/utils`](/src/utils) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Helper functions for formatting, logging, etc.
 
-## Create React App
+### Create React App
 
 This project was bootstrapped with [Create React App v5](https://github.com/facebook/create-react-app/docs) using the "typescript" template.
 
-## Available Scripts
+#### Available Scripts
 
 In the project root directory, you can run:
 
-### `npm start`
+- `npm start` Runs the app in "development" mode.\
+  Open [http://localhost:3000](http://localhost:3000) to view it in the browser.\
+  The page will reload if you make edits.\
+  You will also see any errors in the console.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- `npm test` Launches the test runner, [Jest](https://jestjs.io/docs/getting-started).\
+  If you'd like to run tests using the interactive "watch" mode, use `npm test -- --watchAll=true`.\
+  Links to more info regarding tests/testing:\
+  &nbsp; &nbsp;&nbsp; • [create-react-app docs: running-tests](https://facebook.github.io/create-react-app/docs/running-tests)\
+  &nbsp; &nbsp;&nbsp; • [README: Testing](#testing)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- `npm run build` Builds the app and places the resultant files in `/[repo_root]/build/`.\
+  It correctly bundles React in production mode and optimizes the build for the best performance.\ <!-- TODO add info on building staging env -->
+  The build is minified and the filenames include the hashes.\
+  Links to more info regarding builds/building:\
+  &nbsp; &nbsp;&nbsp; • [create-react-app docs: deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm test`
+- `npm run eject` Provides full access to the underlying tools and configs that are normally obfuscated by create-react-app.\
+  **WARNING: this is a one-way operation. Once you `eject`, you can’t go back!**\
+  Due to the one-way nature of `eject`, the main branch will likely never be ejected.\
+  However, this CRA-default npm script is retained for toying around with Webpack/Babel/ESLint/etc on throwaway branches.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Browserslist
+### Browserslist
 
 Some of the [package.json "browserslist"](/package.json#"browserslist") elements were included as part of the _create-react-app_ template defaults, while others are required by [Material UI](https://mui.com/guides/migration-v4/#supported-browsers-and-node-versions) (note that these are not mutually exclusive).
 
@@ -105,13 +154,15 @@ The included Browserslist queries were sourced as follows -
 
 More info on Browserslist queries can be found [here](https://github.com/browserslist/browserslist).
 
-## Testing
+### Testing
 
 #### Auto-Mocked Node Modules
 
 Mock implementations of the npm modules listed below are available for testing and are auto-mocked by Jest (i.e., explicitly calling `jest.mock('foo-module')` in test files is not necessary). [More info here](https://jestjs.io/docs/manual-mocks#mocking-node-modules).
 
 - [react-router-dom](/__mocks__/react-router-dom.js)
+
+---
 
 ## License
 
@@ -132,3 +183,8 @@ Trevor Anderson - [@TeeRevTweets](https://twitter.com/teerevtweets) - T.Anderson
 [prettier-shield-url]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg
 [linkedin-url]: https://www.linkedin.com/in/trevor-anderson-3a3b0392/
 [linkedin-shield]: https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white
+
+<!-- MERMAID CHARTS:
+Docs:         https://mermaid-js.github.io/mermaid/#/n00b-syntaxReference
+Live Editor:  https://mermaid-js.github.io/mermaid-live-editor/edit
+-->
