@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import logoSrc from "../../images/fixit-icon.png";
 
 export const HeaderIcon = () => <StyledHeaderIcon src={logoSrc} />;

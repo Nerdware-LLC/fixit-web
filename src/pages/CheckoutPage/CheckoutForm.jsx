@@ -1,6 +1,6 @@
 import React from "react";
 import { toast } from "react-toastify";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useCheckoutContext } from "./CheckoutContext";
 import { StripeForm } from "../../components";
 import { stripeService } from "../../services";

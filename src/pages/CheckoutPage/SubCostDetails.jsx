@@ -1,9 +1,12 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 import { useCheckoutContext } from "./CheckoutContext";
 import { Text } from "../../components";
-import { CONFIG } from "../../config";
+import { ENV } from "../../config";
 import { formatNum } from "../../utils";
+
+// TODO fetch/validate promoCode via API or something
 
 export const SubCostDetails = () => {
   const { selectedSubscription: sub, promoCode } = useCheckoutContext();
@@ -77,7 +80,7 @@ const PLAN_DICT = {
 };
 
 const DISCOUNT_DICT = {
-  [CONFIG.STRIPE.VIP_PROMO_CODE]: -1
+  [ENV.STRIPE.VIP_PROMO_CODE]: -1
 };
 
 const SubDetailsContainer = styled.div`

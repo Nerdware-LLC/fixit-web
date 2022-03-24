@@ -1,8 +1,8 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useCheckoutContext } from "./CheckoutContext";
 import { Title } from "../../components";
-import { CONFIG } from "../../config";
+import { ENV } from "../../config";
 
 export const ExplainerText = () => {
   const { selectedSubscription: sub, promoCode } = useCheckoutContext();
@@ -10,7 +10,7 @@ export const ExplainerText = () => {
   const subUpper = sub.toUpperCase();
 
   const isNotBeingCharged =
-    subUpper === "TRIAL" || promoCode === CONFIG.STRIPE.VIP_PROMO_CODE;
+    subUpper === "TRIAL" || promoCode === ENV.STRIPE.VIP_PROMO_CODE;
 
   const subStartCondition = isNotBeingCharged
     ? "a valid payment method is placed on file."
