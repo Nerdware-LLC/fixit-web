@@ -22,19 +22,20 @@
 
 ## 🗺 Project Layout
 
-- [`.github`](/.github) &nbsp; GitHub Actions and other GitHub-related files.
-- [`public`](/public) &nbsp;&nbsp;&nbsp; HTML, favicon, and other dist files.
-- [`src`](/src) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Source code root dir.
+- [`__mocks__`](/__mocks__) &nbsp; Mock npm modules (these are automatically mocked in test files, [see here](#auto-mocked-node-modules)).
+- [`.github`](/.github) &nbsp; &nbsp;&nbsp; GitHub Actions and other GitHub-related files.
+- [`public`](/public) &nbsp; &nbsp; &nbsp;&nbsp; HTML, favicon, and other dist files.
+- [`src`](/src) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Source code root dir.
   - [`src/__tests__`](/src/__tests__) &nbsp;&nbsp; 🃏 Jest integration and unit tests.
-  - [`src/app`](/src/app) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Top-level app structure JSX.
+  - [`src/app`](/src/app) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Top-level app structure JSX.
   - [`src/components`](/src/components) &nbsp; Individual JSX components.
-  - [`src/config`](/src/config) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Init logic and run-time env vars object.
-  - [`src/images`](/src/images) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In-app image assets (included with build bundle).
+  - [`src/config`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Init logic and run-time env vars object.
+  - [`src/images`](/src/images) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; In-app image assets (included with build bundle).
   - [`src/navigation`](/src/navigation) &nbsp; Routing-related JSX.
-  - [`src/pages`](/src/pages) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Application pages (nav targets).
-  - [`src/services`](/src/services) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HTTP handlers for the Fixit and Stripe APIs.
-  - [`src/types`](/src/types) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Prop-types objects.
-  - [`src/utils`](/src/utils) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Helper functions for formatting, logging, etc.
+  - [`src/pages`](/src/pages) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Application pages (nav targets).
+  - [`src/services`](/src/services) &nbsp; &nbsp; &nbsp; HTTP handlers for the Fixit and Stripe APIs.
+  - [`src/types`](/src/types) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Prop-types objects.
+  - [`src/utils`](/src/utils) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Helper functions for formatting, logging, etc.
 
 ## Create React App
 
@@ -76,6 +77,41 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Browserslist
+
+Some of the [package.json "browserslist"](/package.json#"browserslist") elements were included as part of the _create-react-app_ template defaults, while others are required by [Material UI](https://mui.com/guides/migration-v4/#supported-browsers-and-node-versions) (note that these are not mutually exclusive).
+
+The included Browserslist queries were sourced as follows -
+
+```jsonc
+"browserslist": {
+  "production": [
+    ">0.2%",                    // create-react-app
+    "last 2 versions",          // MUI
+    "Firefox ESR",              // MUI
+    "not dead",                 // create-react-app & MUI
+    "not IE 11",                // MUI
+    "not op_mini all",          // create-react-app
+    "maintained node versions"  // MUI
+  ],
+  "development": [
+    "last 1 chrome version",    // create-react-app
+    "last 1 firefox version",   // create-react-app
+    "last 1 safari version"     // create-react-app
+  ]
+}
+```
+
+More info on Browserslist queries can be found [here](https://github.com/browserslist/browserslist).
+
+## Testing
+
+#### Auto-Mocked Node Modules
+
+Mock implementations of the npm modules listed below are available for testing and are auto-mocked by Jest (i.e., explicitly calling `jest.mock('foo-module')` in test files is not necessary). [More info here](https://jestjs.io/docs/manual-mocks#mocking-node-modules).
+
+- [react-router-dom](/__mocks__/react-router-dom.js)
 
 ## License
 
