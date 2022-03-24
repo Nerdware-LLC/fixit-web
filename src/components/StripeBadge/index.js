@@ -1,0 +1,1 @@
+export { StripeBadge } from "./StripeBadge";
