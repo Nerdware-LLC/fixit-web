@@ -1,6 +1,8 @@
 import React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 import { IndicatorContainer } from "./IndicatorContainer";
+
+// Docs: https://mui.com/components/progress/
 
 export const Loading = () => (
   <IndicatorContainer>
