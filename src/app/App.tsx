@@ -1,15 +1,15 @@
 import { ThemeProvider } from "./ThemeProvider";
 import { GlobalStyle } from "./GlobalStyle";
 import { ToastContainer } from "./ToastContainer";
-import { RootRouter } from "../navigation/RootRouter";
-import { WebViewContextProvider } from "../components/WebView";
+import { AppRouter } from "./AppRouter";
+import { ErrorBoundary } from "../components";
 
 export const App = () => (
-  <WebViewContextProvider>
+  <ErrorBoundary>
     <ThemeProvider>
       <GlobalStyle />
-      <RootRouter />
+      <AppRouter />
       <ToastContainer />
     </ThemeProvider>
-  </WebViewContextProvider>
+  </ErrorBoundary>
 );
