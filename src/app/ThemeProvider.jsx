@@ -1,25 +1,23 @@
 import React from "react";
-import {
-  ThemeProvider as MaterialTP,
-  createMuiTheme
-} from "@material-ui/core/styles";
-import { ThemeProvider as StyledTP } from "styled-components";
+import { ThemeProvider as MTP, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import { any } from "../types";
 
 export const ThemeProvider = ({ children }) => {
-  const theme = createMuiTheme(THEME);
+  const theme = createTheme(THEME);
 
   return (
-    <MaterialTP theme={theme}>
-      <StyledTP theme={theme}>{children}</StyledTP>
-    </MaterialTP>
+    <MTP theme={theme}>
+      <CssBaseline />
+      {children}
+    </MTP>
   );
 };
 
 const THEME = {
   description: "dark",
   palette: {
-    type: "dark",
+    mode: "dark",
     primary: {
       light: "#f89a35",
       main: "#f78103", // Fixit orange
