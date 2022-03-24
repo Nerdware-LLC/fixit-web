@@ -1,8 +1,8 @@
 import axios from "axios";
-import { CONFIG } from "../config";
+import { ENV } from "../config";
 import { storage } from "../utils";
 
-axios.defaults.baseURL = CONFIG.API_BASE_URL;
+axios.defaults.baseURL = ENV.API_BASE_URL;
 
 // Before each REQUEST goes out, do this
 axios.interceptors.request.use(
