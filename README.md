@@ -66,7 +66,7 @@ sequenceDiagram
         CF->>S3: GET content from S3
         Note over CF,S3: CloudFront Trigger: Origin Request
         S3-->>CF: Return content
-        Note over S3,CF: CloudFront Trigger: Origin Response
+        Note over S3,CF: CloudFront Trigger: Origin Response<br> (Lambda fn updates CSP header)
         CF-->>User: Return content
         Note over CF,User: CloudFront Trigger: Viewer Response
     end
