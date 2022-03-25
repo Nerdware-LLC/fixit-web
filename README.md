@@ -50,7 +50,6 @@ As with all Fixit cloud infrastructure, IaC files responsible for _defining_ and
 Fixit Web is delivered to end users via the process outlined in the diagram below.
 
 ```mermaid
-%%{init: { 'theme': 'dark', 'themeVariables': { 'fontFamily': '"trebuchet ms"'} } }%%
 sequenceDiagram
     participant User as End User
     participant CF as CloudFront Cache
