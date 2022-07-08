@@ -1,51 +1,50 @@
-<!-- REPO HEADER -->
 <div align="center">
   <a href="https://github.com/Nerdware-LLC/fixit-web" >
     <img src=".github/assets/fixit_web_repo_header.png" alt="Header with logo" height="135">
   </a>
-  <h1></h1> <!-- line separator (github applies a low-opacity bottom-border to h1 elements) -->
-</div>
+  <h1></h1> <!-- empty h1 for border and spacing -->
+  <br>
+  <div align="center" style="width:100%; display:flex; flex-direction:row; justify-content:center;">
 
-<!-- PROJECT SHIELDS GO HERE -->
-<div align="center">
-  &nbsp; <!-- &nbsp to nudge shields down just a tad -->
-  <div align="center" style="width: 35%; display: flex; flex-direction: row; justify-content: space-around;">
+  <!-- PROJECT SHIELDS -->
 
-[![pre-commit][pre-commit-shield-url]](https://github.com/pre-commit/pre-commit)
-
-[![code style: prettier][prettier-shield-url]](https://github.com/prettier/prettier)
+[![pre-commit][pre-commit-shield]](https://github.com/pre-commit/pre-commit)
+&emsp;
+[![code style: prettier][prettier-shield]](https://github.com/prettier/prettier)
+&emsp;
+[![license][license-shield]](/LICENSE)
 
   </div>
 </div>
-
----
+<br>
 
 Fixit Web provides Fixit users with business-critical web interfaces that are each a crucial part of the user's journey, like the Stripe-powered [CheckoutPage](/src/pages/CheckoutPage/). Each page contained in this project connects one part of the user onboarding funnel to another.
 
 ### Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [☁️ Cloud Architecture](#️-cloud-architecture)
-  - [End-User Delivery](#end-user-delivery)
+  - [📨 End-User Delivery](#-end-user-delivery)
 - [👨‍💻 Front-End Development](#-front-end-development)
-  - [🗺 Project Layout](#-project-layout)
-  - [Create React App](#create-react-app)
-    - [Available Scripts](#available-scripts)
-  - [Browserslist](#browserslist)
-  - [Testing](#testing)
-    - [Auto-Mocked Node Modules](#auto-mocked-node-modules)
-- [License](#license)
-- [Contact](#contact)
+- [🗺 Project Layout](#-project-layout)
+- [Create React App](#create-react-app)
+  - [Available Scripts](#available-scripts)
+- [Browserslist](#browserslist)
+- [Testing](#testing)
+  - [Auto-Mocked Node Modules](#auto-mocked-node-modules)
+- [📝 License](#-license)
+- [💬 Contact](#-contact)
 
 ---
 
-## ☁️ Cloud Architecture
+### ☁️ Cloud Architecture
 
 As with all Fixit cloud infrastructure, IaC files responsible for _defining_ and _implementing_ Fixit Web's cloud architecture/resources are split between two sibling repos:
 
 - [**fixit-cloud-modules**](https://github.com/Nerdware-LLC/fixit-cloud-modules) &nbsp; Terraform modules which _define_ Fixit Web's cloud.
 - [**fixit-cloud-live**](https://github.com/Nerdware-LLC/fixit-cloud-live) &nbsp;&nbsp;&nbsp; Terragrunt configs which _implement_ Fixit Web's cloud.
 
-### End-User Delivery
+#### 📨 End-User Delivery
 
 Fixit Web is delivered to end users via the process outlined in the diagram below.
 
@@ -73,7 +72,7 @@ sequenceDiagram
 
 ---
 
-## 👨‍💻 Front-End Development
+### 👨‍💻 Front-End Development
 
 Welcome to the team. Please review the info below to familiarize yourself with the project.
 
@@ -163,27 +162,47 @@ Mock implementations of the npm modules listed below are available for testing a
 
 ---
 
-## License
+### 📝 License
 
-All files and/or source code contained herein are for commercial use only by Nerdware, LLC.
+All files, scripts, and source code contained herein are for commercial use only by Nerdware, LLC.
 
 See [LICENSE](/LICENSE) for more information.
 
-## Contact
+<div align="center">
 
-Trevor Anderson - [@TeeRevTweets](https://twitter.com/teerevtweets) - trevor@nerdware.cloud
+### 💬 Contact
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
+Trevor Anderson - [@TeeRevTweets](https://twitter.com/teerevtweets) - [trevor@nerdware.cloud](mailto:trevor@nerdware.cloud)
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+  <a href="https://www.youtube.com/channel/UCguSCK_j1obMVXvv-DUS3ng">
+    <img src="https://github.com/trevor-anderson/trevor-anderson/blob/main/assets/YouTube_icon_circle.svg" height="40" />
+  </a>
+  &nbsp;
+  <a href="https://www.linkedin.com/in/trevor-anderson-3a3b0392/">
+    <img src="https://github.com/trevor-anderson/trevor-anderson/blob/main/assets/LinkedIn_icon_circle.svg" height="40" />
+  </a>
+  &nbsp;
+  <a href="https://twitter.com/TeeRevTweets">
+    <img src="https://github.com/trevor-anderson/trevor-anderson/blob/main/assets/Twitter_icon_circle.svg" height="40" />
+  </a>
+  &nbsp;
+  <a href="mailto:trevor@nerdware.cloud">
+    <img src="https://github.com/trevor-anderson/trevor-anderson/blob/main/assets/email_icon_circle.svg" height="40" />
+  </a>
+  <br><br>
 
-[pre-commit-shield-url]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
-[prettier-shield-url]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg
-[linkedin-url]: https://www.linkedin.com/in/trevor-anderson-3a3b0392/
-[linkedin-shield]: https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white
+  <a href="https://daremightythings.co/">
+    <strong><i>Dare Mighty Things.</i></strong>
+  </a>
 
-<!-- MERMAID CHARTS:
-Docs:         https://mermaid-js.github.io/mermaid/#/n00b-syntaxReference
-Live Editor:  https://mermaid-js.github.io/mermaid-live-editor/edit
+</div>
+
+<!-- LINKS -->
+
+[pre-commit-shield]: https://img.shields.io/badge/pre--commit-33A532.svg?logo=pre-commit&logoColor=F8B424&labelColor=gray
+[license-shield]: https://img.shields.io/badge/license-Proprietary-000080.svg?labelColor=gray
+[prettier-shield]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg
+
+<!-- TODO use below Semantic shield in README after SR is setup in project.
+[semantic-shield]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-E10079.svg
 -->
