@@ -171,7 +171,7 @@ See [LICENSE](/LICENSE) for more information.
 
 ## Contact
 
-Trevor Anderson - [@TeeRevTweets](https://twitter.com/teerevtweets) - T.AndersonProperty@gmail.com
+Trevor Anderson - [@TeeRevTweets](https://twitter.com/teerevtweets) - trevor@nerdware.cloud
 
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
