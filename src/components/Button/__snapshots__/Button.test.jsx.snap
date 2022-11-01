@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <button
-  className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root css-1p1iq82-MuiButtonBase-root-MuiButton-root"
+  className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1p1iq82-MuiButtonBase-root-MuiButton-root"
   disabled={false}
   onBlur={[Function]}
   onContextMenu={[Function]}

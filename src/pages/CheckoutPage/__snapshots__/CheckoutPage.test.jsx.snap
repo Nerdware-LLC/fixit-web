@@ -24,7 +24,7 @@ exports[`renders correctly 1`] = `
         }
       }
     >
-      Your subscription will begin as soon as 
+      Your subscription will begin as soon as
       your payment is submitted.
     </p>
     <ul
@@ -49,8 +49,8 @@ exports[`renders correctly 1`] = `
       <li>
         <span>
           You'll receive a confirmation email
-           
-          with receipt 
+
+          with receipt
           upon completion, as well as regular emails regarding account updates and other Fixit info.
         </span>
       </li>
@@ -126,13 +126,11 @@ exports[`renders correctly 1`] = `
       >
         <p
           className="css-1qyvk2s"
-        >
-          
-        </p>
+        />
       </div>
     </div>
     <button
-      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root Mui-disabled css-1mo5pof-MuiButtonBase-root-MuiButton-root"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge css-1mo5pof-MuiButtonBase-root-MuiButton-root"
       disabled={true}
       onBlur={[Function]}
       onContextMenu={[Function]}

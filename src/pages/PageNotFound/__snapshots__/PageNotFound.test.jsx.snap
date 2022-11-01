@@ -18,7 +18,7 @@ exports[`renders correctly 1`] = `
     >
       ❌
     </span>
-     
+
     404 - File or directory not found.
   </p>
   <p
@@ -27,7 +27,7 @@ exports[`renders correctly 1`] = `
     The resource you are looking for might have been removed, had its name changed, or is temporarily unavailable.
   </p>
   <button
-    className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root css-1mo5pof-MuiButtonBase-root-MuiButton-root"
+    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge css-1mo5pof-MuiButtonBase-root-MuiButton-root"
     disabled={false}
     onBlur={[Function]}
     onClick={[Function]}
