@@ -9,19 +9,15 @@
   "repository": "https://github.com/Nerdware-LLC/fixit-web",
   "private": true,
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "last 2 versions",
-      "Firefox ESR",
-      "not dead",
-      "not IE 11",
-      "not op_mini all",
-      "maintained node versions"
-    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
     ]
   },
   "engines": {
@@ -32,39 +28,39 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
+    "test:ci": "react-scripts test --ci --coverage --coverageDirectory='coverage' --reporters='default' --reporters='./.github/github_actions_reporter.js'",
     "test:update-snapshots": "react-scripts test --updateSnapshot",
-    "test:coverage": "react-scripts test --coverage --coverageDirectory='coverage'",
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@emotion/react": "^11.8.2",
-    "@emotion/styled": "^11.8.1",
-    "@mui/material": "^5.5.1",
-    "@mui/styles": "^5.5.1",
-    "@sentry/react": "^6.18.2",
-    "@sentry/tracing": "^6.18.2",
-    "@stripe/react-stripe-js": "^1.7.0",
-    "@stripe/stripe-js": "^1.25.0",
-    "axios": "^0.26.1",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/material": "^5.10.10",
+    "@mui/styles": "^5.10.10",
+    "@sentry/react": "^7.16.0",
+    "@sentry/tracing": "^7.16.0",
+    "@stripe/react-stripe-js": "^1.13.0",
+    "@stripe/stripe-js": "^1.42.0",
+    "axios": "^1.1.3",
     "prop-types": "^15.8.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^6.2.2",
-    "react-scripts": "5.0.0",
-    "react-toastify": "^8.2.0",
-    "type-fest": "^2.12.1",
-    "typescript": "^4.6.2",
-    "web-vitals": "^2.1.4"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.2",
+    "react-scripts": "^5.0.1",
+    "react-toastify": "^9.0.8",
+    "type-fest": "^3.1.0",
+    "web-vitals": "^3.0.4"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.4",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.4.1",
-    "@types/node": "^17.0.22",
-    "@types/react": "^17.0.41",
-    "@types/react-dom": "^17.0.14",
-    "@types/react-test-renderer": "^17.0.1",
-    "react-test-renderer": "^17.0.2"
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/jest": "^29.2.0",
+    "@types/node": "^18.11.4",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.8",
+    "@types/react-test-renderer": "^18.0.0",
+    "react-test-renderer": "^18.2.0",
+    "typescript": "^4.8.4"
   }
 }
