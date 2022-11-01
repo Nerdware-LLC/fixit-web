@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 ---
 
 
+# [1.1.0](https://github.com/Nerdware-LLC/fixit-web/compare/v1.0.0...v1.1.0) (2022-11-01)
+
+
+### Features
+
+* **ts:** convert typescript from dev-dep to regular dep for CRA ([b671875](https://github.com/Nerdware-LLC/fixit-web/commit/b671875e98bcc6809ccf6d812ac0d2d8b46eabb1))
+
 # 1.0.0 (2022-11-01)
 
 
