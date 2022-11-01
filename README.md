@@ -1,36 +1,36 @@
 <div align="center">
+
   <a href="https://github.com/Nerdware-LLC/fixit-web" >
     <img src=".github/assets/fixit_web_repo_header.png" alt="Header with logo" height="135">
   </a>
-  <h1></h1> <!-- empty h1 for border and spacing -->
-  <br>
-  <div align="center" style="width:100%; display:flex; flex-direction:row; justify-content:center;">
+  <h1></h1> <!--empty h1 for border and spacing -->
 
-  <!-- PROJECT SHIELDS -->
+Author: [Trevor Anderson](https://github.com/trevor-anderson), Founder of [Nerdware](https://github.com/Nerdware-LLC)
 
+[<img src="./.github/assets/powered_by_Stripe_blurple.svg" height="26" style="position:relative;top:3px;"/>](https://stripe.com/)
+&nbsp;
+[![react][react-shield]](https://reactjs.org/)
+&nbsp;
 [![pre-commit][pre-commit-shield]](https://github.com/pre-commit/pre-commit)
-&emsp;
+&nbsp;
+[![semantic-release][semantic-shield]](https://github.com/semantic-release/semantic-release)
+&nbsp;
 [![code style: prettier][prettier-shield]](https://github.com/prettier/prettier)
-&emsp;
+&nbsp;
 [![license][license-shield]](/LICENSE)
 
-  </div>
 </div>
 <br>
 
 Fixit Web provides Fixit users with business-critical web interfaces that are each a crucial part of the user's journey, like the Stripe-powered [CheckoutPage](/src/pages/CheckoutPage/). Each page contained in this project connects one part of the user onboarding funnel to another.
 
-### Table of Contents
-
-- [Table of Contents](#table-of-contents)
 - [☁️ Cloud Architecture](#️-cloud-architecture)
-  - [📨 End-User Delivery](#-end-user-delivery)
-- [👨‍💻 Front-End Development](#-front-end-development)
+  - [End-User Delivery](#end-user-delivery)
 - [🗺 Project Layout](#-project-layout)
-- [Create React App](#create-react-app)
+- [⚛️ Create React App](#️-create-react-app)
   - [Available Scripts](#available-scripts)
-- [Browserslist](#browserslist)
-- [Testing](#testing)
+- [🌐 Browserslist](#-browserslist)
+- [🧪 Testing](#-testing)
   - [Auto-Mocked Node Modules](#auto-mocked-node-modules)
 - [📝 License](#-license)
 - [💬 Contact](#-contact)
@@ -44,7 +44,7 @@ As with all Fixit cloud infrastructure, IaC files responsible for _defining_ and
 - [**fixit-cloud-modules**](https://github.com/Nerdware-LLC/fixit-cloud-modules) &nbsp; Terraform modules which _define_ Fixit Web's cloud.
 - [**fixit-cloud-live**](https://github.com/Nerdware-LLC/fixit-cloud-live) &nbsp;&nbsp;&nbsp; Terragrunt configs which _implement_ Fixit Web's cloud.
 
-#### 📨 End-User Delivery
+#### End-User Delivery
 
 Fixit Web is delivered to end users via the process outlined in the diagram below.
 
@@ -72,12 +72,6 @@ sequenceDiagram
 
 ---
 
-### 👨‍💻 Front-End Development
-
-Welcome to the team. Please review the info below to familiarize yourself with the project.
-
-> 💡 If you have any questions, please don't hesitate to ask.
-
 ### 🗺 Project Layout
 
 - [`__mocks__`](/__mocks__) &nbsp; Mock npm modules (these are automatically mocked in test files, [see here](#auto-mocked-node-modules)).
@@ -95,7 +89,7 @@ Welcome to the team. Please review the info below to familiarize yourself with t
   - [`src/types`](/src/types) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Prop-types objects.
   - [`src/utils`](/src/utils) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Helper functions for formatting, logging, etc.
 
-### Create React App
+### ⚛️ Create React App
 
 This project was bootstrapped with [Create React App v5](https://github.com/facebook/create-react-app/docs) using the "typescript" template.
 
@@ -125,7 +119,7 @@ In the project root directory, you can run:
   Due to the one-way nature of `eject`, the main branch will likely never be ejected.\
   However, this CRA-default npm script is retained for toying around with Webpack/Babel/ESLint/etc on throwaway branches.
 
-### Browserslist
+### 🌐 Browserslist
 
 Some of the [package.json "browserslist"](/package.json#"browserslist") elements were included as part of the _create-react-app_ template defaults, while others are required by [Material UI](https://mui.com/guides/migration-v4/#supported-browsers-and-node-versions) (note that these are not mutually exclusive).
 
@@ -152,7 +146,7 @@ The included Browserslist queries were sourced as follows -
 
 More info on Browserslist queries can be found [here](https://github.com/browserslist/browserslist).
 
-### Testing
+### 🧪 Testing
 
 #### Auto-Mocked Node Modules
 
@@ -172,22 +166,22 @@ See [LICENSE](/LICENSE) for more information.
 
 ### 💬 Contact
 
-Trevor Anderson - [@TeeRevTweets](https://twitter.com/teerevtweets) - [trevor@nerdware.cloud](mailto:trevor@nerdware.cloud)
+Trevor Anderson - [@TeeRevTweets](https://twitter.com/teerevtweets) - [Trevor@Nerdware.cloud](mailto:trevor@nerdware.cloud)
 
   <a href="https://www.youtube.com/channel/UCguSCK_j1obMVXvv-DUS3ng">
-    <img src="https://github.com/trevor-anderson/trevor-anderson/blob/main/assets/YouTube_icon_circle.svg" height="40" />
+    <img src=".github/assets/YouTube_icon_circle.svg" height="40" />
   </a>
   &nbsp;
   <a href="https://www.linkedin.com/in/trevor-anderson-3a3b0392/">
-    <img src="https://github.com/trevor-anderson/trevor-anderson/blob/main/assets/LinkedIn_icon_circle.svg" height="40" />
+    <img src=".github/assets/LinkedIn_icon_circle.svg" height="40" />
   </a>
   &nbsp;
   <a href="https://twitter.com/TeeRevTweets">
-    <img src="https://github.com/trevor-anderson/trevor-anderson/blob/main/assets/Twitter_icon_circle.svg" height="40" />
+    <img src=".github/assets/Twitter_icon_circle.svg" height="40" />
   </a>
   &nbsp;
   <a href="mailto:trevor@nerdware.cloud">
-    <img src="https://github.com/trevor-anderson/trevor-anderson/blob/main/assets/email_icon_circle.svg" height="40" />
+    <img src=".github/assets/email_icon_circle.svg" height="40" />
   </a>
   <br><br>
 
@@ -199,10 +193,8 @@ Trevor Anderson - [@TeeRevTweets](https://twitter.com/teerevtweets) - [trevor@ne
 
 <!-- LINKS -->
 
+[react-shield]: https://img.shields.io/badge/React-v18-61DAFB.svg?logo=react&logoColor=61DAFB&labelColor=gray
 [pre-commit-shield]: https://img.shields.io/badge/pre--commit-33A532.svg?logo=pre-commit&logoColor=F8B424&labelColor=gray
-[license-shield]: https://img.shields.io/badge/license-Proprietary-000080.svg?labelColor=gray
+[semantic-shield]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-E10098.svg
 [prettier-shield]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg
-
-<!-- TODO use below Semantic shield in README after SR is setup in project.
-[semantic-shield]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-E10079.svg
--->
+[license-shield]: https://img.shields.io/badge/license-Proprietary-000080.svg?labelColor=gray
