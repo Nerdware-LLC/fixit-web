@@ -37,4 +37,4 @@ class GitHubActionsJestReporter {
   }
 }
 
-module.exports = GithubActionsReporter;
+module.exports = GitHubActionsJestReporter;
