@@ -10,13 +10,17 @@ export const stripeService = {
   submitPaymentForSubscription: async ({
     selectedSubscription,
     promoCode,
-    paymentMethod_id
+    paymentMethodID
+  }: {
+    selectedSubscription: string;
+    promoCode: string;
+    paymentMethodID: string;
   }) => {
     logger.stripe("submitting payment for subscription...");
     return await apiService.post(STRIPE_ROUTES.SUBMIT_PAYMENT, {
       selectedSubscription,
       promoCode,
-      paymentMethod_id
+      paymentMethodID
     });
   },
   getConnectOnboardingLink: async () => {

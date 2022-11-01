@@ -6,7 +6,7 @@ axios.defaults.baseURL = ENV.API_BASE_URL;
 
 // Before each REQUEST goes out, do this
 axios.interceptors.request.use(
-  config => {
+  (config) => {
     config.timeout = 10000;
 
     const authToken = storage.getAuthToken();
@@ -14,7 +14,7 @@ axios.interceptors.request.use(
 
     return Promise.resolve(config);
   },
-  error => {
+  (error) => {
     return Promise.reject({
       message: "Failed to send network request.",
       status: error?.request?.status ?? "STATUS UNKNOWN"
@@ -24,11 +24,11 @@ axios.interceptors.request.use(
 
 // When each RESPONSE comes in, do this
 axios.interceptors.response.use(
-  response => {
+  (response) => {
     if (response?.data?.token) storage.setAuthToken(response.data.token);
     return Promise.resolve(response.data);
   },
-  error => {
+  (error) => {
     if (error.response.status === 401) storage.removeAuthToken();
     return Promise.reject({
       message: error.response.data.error,
