@@ -28,7 +28,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
-    "test:ci": "react-scripts test --ci --coverage --coverageDirectory='coverage' --reporters='default' --reporters='./.github/github_actions_reporter.js'",
+    "test:ci": "react-scripts test --ci --coverage --coverageDirectory='coverage' --reporters='default' --reporters='./.github/github_actions_reporter.cjs'",
     "test:update-snapshots": "react-scripts test --updateSnapshot",
     "eject": "react-scripts eject"
   },
