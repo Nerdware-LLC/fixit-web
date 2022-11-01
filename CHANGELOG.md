@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 ---
 
 
+## [1.1.2](https://github.com/Nerdware-LLC/fixit-web/compare/v1.1.1...v1.1.2) (2022-11-01)
+
+
+### Bug Fixes
+
+* **ci:** correct name of exported class ([e919001](https://github.com/Nerdware-LLC/fixit-web/commit/e91900104e4d4ca261da0bb2dbe00c7d357e4daf))
+* **packages:** convert 'react-test-renderer' from dev-dep to dep for CRA build chain ([bbec5d5](https://github.com/Nerdware-LLC/fixit-web/commit/bbec5d5847083f6f4c90a0fb7fde4053c3609116))
+
 ## [1.1.1](https://github.com/Nerdware-LLC/fixit-web/compare/v1.1.0...v1.1.1) (2022-11-01)
 
 
