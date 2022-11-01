@@ -6,14 +6,13 @@ import { StripeForm } from "../../components";
 import { stripeService } from "../../services";
 
 export const CheckoutForm = () => {
-  // prettier-ignore
   const { selectedSubscription, promoCode, handlePostSubmit } = useCheckoutContext();
 
-  const handleSubmit = async paymentMethod => {
+  const handleSubmit = async (paymentMethod) => {
     const { token } = await stripeService.submitPaymentForSubscription({
       selectedSubscription,
       promoCode,
-      paymentMethod_id: paymentMethod.id
+      paymentMethodID: paymentMethod.id
     });
     toast.success("Success! 👍 You will be redirected in just a moment.", {
       onClose: () => handlePostSubmit({ token })
