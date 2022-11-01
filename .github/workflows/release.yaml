@@ -1,0 +1,20 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Test
+    types:
+      - completed
+
+jobs:
+  release:
+    # if event_name is "workflow_dispatch", always run, else run if "Test" was successful.
+    if: |
+      ${{ github.event_name }} == 'workflow_dispatch' || (
+        ${{ github.event_name }} == 'workflow_run' && ${{ github.event.workflow_run.conclusion == 'success' }}
+      )
+    uses: Nerdware-LLC/reusable-action-workflows/.github/workflows/release.yaml@main
+    secrets:
+      SEMANTIC_RELEASE_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}

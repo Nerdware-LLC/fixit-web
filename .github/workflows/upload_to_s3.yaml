@@ -1,0 +1,47 @@
+name: Upload to S3
+
+on:
+  workflow_dispatch:
+  release:
+    types: ["published"]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build_and_upload:
+    runs-on: ubuntu-latest
+
+    # permissions required to use aws-actions/configure-aws-credentials@v1
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.OIDC_GITHUB_ROLE_ARN }}
+          aws-region: ${{ secrets.S3_BUCKET_REGION }}
+      - name: Build & Upload Prod
+        env:
+          NODE_ENV: production
+          SKIP_PREFLIGHT_CHECK: true
+          REACT_APP_SENTRY_DSN: ${{ secrets.REACT_APP_SENTRY_DSN }}
+          REACT_APP_STRIPE_PUBLISHABLE_KEY: ${{ secrets.REACT_APP_STRIPE_LIVE_PUBLISHABLE_KEY }}
+          REACT_APP_STRIPE_VIP_PROMO_CODE: ${{ secrets.REACT_APP_STRIPE_VIP_PROMO_CODE }}
+          REACT_APP_API_BASE_URL: https://gofixit.app
+          REACT_APP_ROUTER_PATH_BASE: /
+        run: |
+          npm ci --omit=dev
+          npm run build
+
+          aws s3 sync ./build s3://${{ secrets.S3_BUCKET_NAME }} \
+            --acl bucket-owner-full-control \
+            --sse AES256 \
+            --delete
