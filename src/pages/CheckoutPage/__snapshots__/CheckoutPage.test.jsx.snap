@@ -24,7 +24,7 @@ exports[`renders correctly 1`] = `
         }
       }
     >
-      Your subscription will begin as soon as
+      Your subscription will begin as soon as 
       your payment is submitted.
     </p>
     <ul
@@ -49,8 +49,8 @@ exports[`renders correctly 1`] = `
       <li>
         <span>
           You'll receive a confirmation email
-
-          with receipt
+           
+          with receipt 
           upon completion, as well as regular emails regarding account updates and other Fixit info.
         </span>
       </li>

@@ -13,7 +13,9 @@ repos:
       - id: check-executables-have-shebangs
       - id: check-yaml # Validate yaml file syntax
       - id: end-of-file-fixer # Ensure files end in newline char
+        exclude: .*\.snap$ # Don't modify Jest snapshots
       - id: trailing-whitespace # Trim superfluous whitespace from eol
+        exclude: .*\.snap$ # Don't modify Jest snapshots
         args: [--markdown-linebreak-ext=md]
 
       # Security
