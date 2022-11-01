@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 ---
 
 
+# [1.2.0](https://github.com/Nerdware-LLC/fixit-web/compare/v1.1.3...v1.2.0) (2022-11-01)
+
+
+### Bug Fixes
+
+* **axios:** downgrade axios to 'v0.27.2' to address CRA build-chain fail ([a7fc52a](https://github.com/Nerdware-LLC/fixit-web/commit/a7fc52ab4cceb5aad13844c6ffc92716cb78dffe))
+* **CheckoutPage:** change stripePaymentIntent_id to '...ID' ([79b24a0](https://github.com/Nerdware-LLC/fixit-web/commit/79b24a0deddd6df1b4cc299346d94f5a57281bfc))
+
+
+### Features
+
+* **ci:** change Test ROUTER_BASE_PATH to '/' ([bdb1fcc](https://github.com/Nerdware-LLC/fixit-web/commit/bdb1fcc8fcd01b4b84f4d1252c5ecaef5eb513a0))
+* **tests:** update several Jest snapshots ([417c91e](https://github.com/Nerdware-LLC/fixit-web/commit/417c91e05ffcabc8af272e45db0c918159d9fbf0))
+* **ts:** convert 'services' to Typescript ([7c87d5e](https://github.com/Nerdware-LLC/fixit-web/commit/7c87d5e3f0b31c9975904ec893aa75615b9a6083))
+
 ## [1.1.3](https://github.com/Nerdware-LLC/fixit-web/compare/v1.1.2...v1.1.3) (2022-11-01)
 
 
