@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 ---
 
 
+## [1.1.1](https://github.com/Nerdware-LLC/fixit-web/compare/v1.1.0...v1.1.1) (2022-11-01)
+
+
+### Bug Fixes
+
+* **ci:** convert custom GH Actions Jest reporter file to '.cjs', update npm script ([47ba10e](https://github.com/Nerdware-LLC/fixit-web/commit/47ba10eaa0e9a5ccb6f99c37a83c158f46bdb45f))
+
 # [1.1.0](https://github.com/Nerdware-LLC/fixit-web/compare/v1.0.0...v1.1.0) (2022-11-01)
 
 
