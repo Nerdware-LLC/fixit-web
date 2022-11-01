@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 ---
 
 
+## [1.2.2](https://github.com/Nerdware-LLC/fixit-web/compare/v1.2.1...v1.2.2) (2022-11-01)
+
+
+### Bug Fixes
+
+* **pre-commit:** ensure pre-commit doesnt modify snapshots ([0128938](https://github.com/Nerdware-LLC/fixit-web/commit/0128938e7594f8ff1f4eabe2a19d08c393a3b736))
+
 ## [1.2.1](https://github.com/Nerdware-LLC/fixit-web/compare/v1.2.0...v1.2.1) (2022-11-01)
 
 # [1.2.0](https://github.com/Nerdware-LLC/fixit-web/compare/v1.1.3...v1.2.0) (2022-11-01)
