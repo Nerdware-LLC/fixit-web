@@ -29,7 +29,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "test:update-snapshots": "npm run test -- --updateSnapshot",
-    "test:ci": "react-scripts test --ci --coverage --coverageDirectory='coverage' --reporters='default' --reporters='./.github/github_actions_reporter.cjs'",
+    "test:ci": "npm run test -- --ci --coverage --coverageDirectory='coverage' --reporters='default' --reporters='./.github/github_actions_reporter.cjs'",
     "eject": "react-scripts eject"
   },
   "dependencies": {
