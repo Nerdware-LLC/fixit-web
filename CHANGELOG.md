@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 ---
 
 
+## [1.2.1](https://github.com/Nerdware-LLC/fixit-web/compare/v1.2.0...v1.2.1) (2022-11-01)
+
 # [1.2.0](https://github.com/Nerdware-LLC/fixit-web/compare/v1.1.3...v1.2.0) (2022-11-01)
 
 
