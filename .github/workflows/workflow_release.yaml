@@ -1,0 +1,12 @@
+name: Release Workflow
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  release:
+    name: Release
+    uses: Nerdware-LLC/reusable-action-workflows/.github/workflows/release.yaml@main
+    secrets:
+      SEMANTIC_RELEASE_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}

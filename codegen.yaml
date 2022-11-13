@@ -1,0 +1,10 @@
+# Config file for GraphQL Code Generator (@graphql-codegen), which
+# generates TypeScript typings for GQL queries, mutations, etc.
+
+schema: "./fixit@current.graphql"
+documents: ["src/**/*.ts"]
+generates:
+  # Codegen output target file
+  ./src/graphql/types/:
+    preset: "client"
+    plugins: []
