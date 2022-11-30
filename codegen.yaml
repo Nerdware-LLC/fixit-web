@@ -5,6 +5,6 @@ schema: "./fixit@current.graphql"
 documents: ["src/**/*.ts"]
 generates:
   # Codegen output target file
-  ./src/graphql/types/:
+  ./src/types/graphql/:
     preset: "client"
     plugins: []
