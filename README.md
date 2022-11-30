@@ -78,15 +78,17 @@ sequenceDiagram
 - [`.github`](/.github) &nbsp; &nbsp;&nbsp; GitHub Actions and other GitHub-related files.
 - [`public`](/public) &nbsp; &nbsp; &nbsp;&nbsp; HTML, favicon, and other dist files.
 - [`src`](/src) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Source code root dir.
-  - [`src/__tests__`](/src/__tests__) &nbsp;&nbsp; 🃏 Jest integration and unit tests.
   - [`src/app`](/src/app) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Top-level app structure JSX.
   - [`src/components`](/src/components) &nbsp; Individual JSX components.
   - [`src/config`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Init logic and run-time env vars object.
+  - [`src/graphql`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+  - [`src/hooks`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
   - [`src/images`](/src/images) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; In-app image assets (included with build bundle).
-  - [`src/navigation`](/src/navigation) &nbsp; Routing-related JSX.
+  - [`src/layouts`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+  - [`src/navigation`](/src/navigation) &nbsp; Routers and other nav-related components.
   - [`src/pages`](/src/pages) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Application pages (nav targets).
   - [`src/services`](/src/services) &nbsp; &nbsp; &nbsp; HTTP handlers for the Fixit and Stripe APIs.
-  - [`src/types`](/src/types) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Prop-types objects.
+  - [`src/types`](/src/types) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; TypeScript types and custom prop-types.
   - [`src/utils`](/src/utils) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Helper functions for formatting, logging, etc.
 
 ### ⚛️ Create React App
@@ -101,6 +103,12 @@ In the project root directory, you can run:
   Open [http://localhost:3000](http://localhost:3000) to view it in the browser.\
   The page will reload if you make edits.\
   You will also see any errors in the console.
+
+- `npm run start:https` Runs the app in "HTTPS" mode (dev env only).\
+  This is necessary for testing certain components like the Stripe-powered CheckoutPage.
+
+- `npm run https:make-cert` Creates an SSL key and self-signed certificate.\
+  The certificate is required to run the `start:https` npm script.
 
 - `npm test` Launches the test runner, [Jest](https://jestjs.io/docs/getting-started).\
   If you'd like to run tests using the interactive "watch" mode, use `npm test -- --watchAll=true`.\
@@ -118,6 +126,8 @@ In the project root directory, you can run:
   **WARNING: this is a one-way operation. Once you `eject`, you can’t go back!**\
   Due to the one-way nature of `eject`, the main branch will likely never be ejected.\
   However, this CRA-default npm script is retained for toying around with Webpack/Babel/ESLint/etc on throwaway branches.
+
+<!-- TODO Add scripts: "rover:fetch", "gql:codegen", "gql:update-types" -->
 
 ### 🌐 Browserslist
 
