@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { logger } from "../../utils";
+import { logger } from "@utils";
 
 export const WebViewContext = createContext<{
   isAppWithinWebView: boolean;

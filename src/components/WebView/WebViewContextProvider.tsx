@@ -1,7 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { WebViewContext } from "./WebViewContext";
-import { logger, typeSafePropertyExists } from "../../utils";
+import { logger, typeSafePropertyExists } from "@utils";
 
+/**
+ * When Fixit is rendered as a webview by the Fixit mobile app, a property called
+ * `ReactNativeWebView` is attached to the global `window` object. This component
+ * provides a context which contains (1) a boolean indicator for whether the app
+ * is running within a mobile WebView, and (2) a function which when called sends
+ * data back to the mobile application IF isAppWithinWebView is true, and if false
+ * logs an error message in non-prod envs.
+ */
 export const WebViewContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAppWithinWebView] = useState(() => {
     return (
