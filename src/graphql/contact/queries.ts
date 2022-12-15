@@ -11,7 +11,7 @@ export const CONTACT = gql`
 `;
 
 export const MY_CONTACTS = gql`
-  query Contacts {
+  query MyContacts {
     myContacts {
       ...ContactFields
     }
