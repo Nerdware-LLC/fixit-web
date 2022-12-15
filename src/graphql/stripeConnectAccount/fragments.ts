@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const StripeConnectAccountFields = gql`
-  fragment StripeConnectAccountFields on StripeConnectAccount {
+  fragment StripeConnectAccountFields on UserStripeConnectAccount {
     id
     detailsSubmitted
     chargesEnabled
