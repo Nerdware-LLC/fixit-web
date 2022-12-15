@@ -1,10 +1,17 @@
-import { PageContainer, AppBar, TextExternalLink, AnchorLink } from "../../components";
+import { TextExternalLink, AnchorLink } from "@components";
+import { PageContainer } from "@layouts";
 
 export const PrivacyPolicyPage = () => {
   return (
-    <PageContainer>
-      <AppBar position="fixed" />
-      <div style={{ padding: "5rem 10rem", height: "auto", overflowY: "auto" }}>
+    <PageContainer
+      style={{
+        height: "auto",
+        width: "95vw",
+        overflowY: "auto",
+        overflowX: "hidden"
+      }}
+    >
+      <div style={{ padding: "3rem 10rem" }}>
         <h1 style={{ fontSize: "3rem", marginBottom: "0" }}>Privacy Policy</h1>
         <h4>Last updated January 01, 2022</h4>
         <p>
