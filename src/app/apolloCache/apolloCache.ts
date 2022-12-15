@@ -4,7 +4,6 @@ import { typePolicies } from "./typePolicies";
 export const apolloCache = new InMemoryCache({
   typePolicies,
   possibleTypes: {
-    FixitUser: ["Contact", "User"],
-    NewConnection: ["Contact", "Invite"]
+    FixitUser: ["Contact", "User"]
   }
 });
