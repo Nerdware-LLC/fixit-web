@@ -67,9 +67,9 @@ export class ListSettingsStore<T> {
 
   useSubToStore = () => {
     return {
-      enumFilters: !!this?.enumFilters ? this.enumFilters.useSubToStore() : {},
-      searchInput: !!this?.searchInput ? this.searchInput.useSubToStore() : "",
-      sortFactor: !!this?.sortFactor ? this.sortFactor.useSubToStore() : ""
+      enumFilters: this?.enumFilters ? this.enumFilters.useSubToStore() : {},
+      searchInput: this?.searchInput ? this.searchInput.useSubToStore() : "",
+      sortFactor: this?.sortFactor ? this.sortFactor.useSubToStore() : ""
     } as {
       enumFilters: Record<string, any>;
       searchInput: string;

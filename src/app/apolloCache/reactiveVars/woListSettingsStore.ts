@@ -1,6 +1,5 @@
 import { ListSettingsStore } from "./ListSettingsStore";
-// import { tokenFieldsStore } from "./tokenFieldsStore";
-import { sortBy } from "../../../utils";
+import { sortBy } from "@utils";
 
 export const woListSettingsStore = new ListSettingsStore({
   enumFieldFilters: {
@@ -20,16 +19,13 @@ export const woListSettingsStore = new ListSettingsStore({
     STATUS: (array) => sortBy.woStatus(array),
     // @ts-ignore
     ADDRESS: (array) => sortBy.address(array),
-    CONTACT: (array) => {
-      // FIXME
-
-      // if (!userContactsType) {
-      //   userContactsType = tokenFieldsStore.get().userContactsType;
-      // }
-      // const nestedKey = `${userContactsType.toLowerCase()}.profile.displayName`;
-      // return sortBy.getFnToSortObjectsByNestedKey(nestedKey)(array);
-
-      return array;
+    // @ts-ignore
+    CREATED_BY: (array) => {
+      return sortBy.getFnToSortObjectsByNestedKey("createdBy.profile.displayName")(array);
+    },
+    // @ts-ignore
+    ASSIGNED_TO: (array) => {
+      return sortBy.getFnToSortObjectsByNestedKey("assignedTo.profile.displayName")(array);
     },
     // @ts-ignore
     CATEGORY: (array) => sortBy.woCategory(array),

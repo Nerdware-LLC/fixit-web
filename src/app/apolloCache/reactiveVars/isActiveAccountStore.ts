@@ -1,12 +1,12 @@
 import moment from "moment";
 import { ReactiveStore } from "./ReactiveStore";
-import type { UserSubscription } from "../../../types";
+import type { UserSubscription } from "@types";
 
 export const isActiveAccountStore = new ReactiveStore<boolean>() as IsActiveAccountStore;
 
 isActiveAccountStore.setIsSubValid = ({ status, currentPeriodEnd }) => {
   isActiveAccountStore.set(
-    !!(moment().unix() >= moment(currentPeriodEnd).unix() && IS_VALID_SUB_STATUS?.[status] === true)
+    !!(moment(currentPeriodEnd).unix() >= moment().unix() && IS_VALID_SUB_STATUS?.[status] === true)
   );
 };
 
