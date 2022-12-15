@@ -1,15 +1,15 @@
 import { IndicatorContainer } from "./IndicatorContainer";
-import { useDialog } from "../Dialog";
-import { oneOfType, string, shape, func } from "../../types";
-import { getTypeSafeErr } from "../../utils";
+import { Dialog as DialogT, useDialog } from "../Dialog";
+import { oneOfType, string, shape, func } from "@types";
+import { getTypeSafeErr } from "@utils";
 
 export const Error = ({
   error,
   title = "Whoops!",
   onDismiss,
   ...props
-}: Omit<React.ComponentProps<typeof Dialog>, "isVisible" | "title" | "message"> & {
-  error: ErrorLike;
+}: Omit<React.ComponentProps<typeof DialogT>, "isVisible" | "title" | "message"> & {
+  error: unknown;
   title?: string;
   onDismiss?: Function;
 }) => {

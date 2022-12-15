@@ -1,6 +1,5 @@
-import React from "react";
 import styled from "@emotion/styled";
-import { element } from "../../types";
+import { element } from "@types";
 
 export const IndicatorContainer = ({ children }: { children: React.ReactNode }) => (
   <StyledIndicatorContainer>{children}</StyledIndicatorContainer>

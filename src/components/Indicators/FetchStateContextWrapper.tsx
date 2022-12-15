@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FetchStateContext } from "./FetchStateContext";
 import { Loading } from "./Loading";
 import { Error } from "./Error";
-import { func, any } from "../../types";
+import { func, any } from "@types";
 
 export const FetchStateContextWrapper = ({
   onDismissError,
