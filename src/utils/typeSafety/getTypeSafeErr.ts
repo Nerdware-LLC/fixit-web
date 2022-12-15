@@ -1,5 +1,5 @@
 export const getTypeSafeErr = (
-  err: ErrorLike,
+  err: unknown,
   fallBackErrMsg: string = "An unknown error occurred."
 ): Error => {
   return err instanceof Error
