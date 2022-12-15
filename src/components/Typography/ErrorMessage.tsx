@@ -1,8 +1,7 @@
-import React from "react";
 import { useTheme } from "@mui/material/styles";
 import styled from "@emotion/styled";
 import { Text } from "./Text";
-import { node, string } from "../../types";
+import { node, string } from "@types";
 
 export const ErrorMessage = ({
   error,
@@ -12,7 +11,7 @@ export const ErrorMessage = ({
   const { palette } = useTheme();
 
   return (
-    <StyledErrorBox style={{ visibility: !!error ? "visible" : "hidden" }} {...props}>
+    <StyledErrorBox style={{ visibility: error ? "visible" : "hidden" }} {...props}>
       <StyledErrorText style={{ color: palette.error.main }}>
         {children ?? error ?? ""}
       </StyledErrorText>

@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer";
 import { Text } from "./Text";
-import { ThemeProvider } from "../../app/ThemeProvider";
+import { ThemeProvider } from "@app/ThemeProvider";
 
 it("renders correctly", () => {
   // ThemeProvider is necessary to be able to access prop.theme in styled css.
