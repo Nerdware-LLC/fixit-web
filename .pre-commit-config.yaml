@@ -13,9 +13,9 @@ repos:
       - id: check-executables-have-shebangs
       - id: check-yaml # Validate yaml file syntax
       - id: end-of-file-fixer # Ensure files end in newline char
-        exclude: .*\.snap$ # Don't modify Jest snapshots
+        exclude: .*\.(snap|graphql)$ # Don't modify Jest snapshots nor GQL files
       - id: trailing-whitespace # Trim superfluous whitespace from eol
-        exclude: .*\.snap$ # Don't modify Jest snapshots
+        exclude: .*\.(snap|graphql)$ # Don't modify Jest snapshots nor GQL files
         args: [--markdown-linebreak-ext=md]
 
       # Security
