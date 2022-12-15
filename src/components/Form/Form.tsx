@@ -1,32 +1,30 @@
-import React from "react";
-import { Formik } from "formik";
+import { Formik, type FormikHelpers } from "formik";
 import { FormSubmitButton } from "./FormSubmitButton";
-import { object, any, func, bool } from "../../types";
-
-// Formik will throw if number of children > 1, hence the fragment.
 
 export const Form = ({
+  initialValues,
+  validationSchema,
   onSubmit,
-  submitButton = false,
   children,
   ...props
 }: Omit<React.ComponentProps<typeof Formik>, "onSubmit"> & {
-  onSubmit: Function;
-  submitButton?: boolean;
+  onSubmit: (
+    formValues: any,
+    formikHelpers?: FormikHelpers<typeof formValues>
+  ) => void | Promise<void>;
   children: React.ReactNode;
 }) => (
-  <Formik onSubmit={onSubmit as React.ComponentProps<typeof Formik>["onSubmit"]} {...props}>
+  <Formik
+    initialValues={initialValues}
+    validationSchema={validationSchema}
+    onSubmit={onSubmit}
+    {...props}
+  >
     <>
       {children}
-      {!!submitButton && <FormSubmitButton />}
+      {/* Formik will throw if number of children > 1, hence the fragment. */}
     </>
   </Formik>
 );
 
-Form.propTypes = {
-  initialValues: object.isRequired,
-  validationSchema: any.isRequired,
-  onSubmit: func.isRequired,
-  children: any.isRequired,
-  submitButton: bool
-};
+Form.SubmitButton = FormSubmitButton;
