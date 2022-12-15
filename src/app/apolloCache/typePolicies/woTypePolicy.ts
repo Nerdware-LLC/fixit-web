@@ -1,5 +1,5 @@
 import type { TypePolicies } from "@apollo/client/cache";
-import { prettifyStr } from "../../../utils";
+import { prettifyStr } from "@utils";
 
 export const woTypePolicy: TypePolicies = {
   WorkOrder: {
