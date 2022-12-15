@@ -35,25 +35,3 @@ export const WorkOrderFields = gql`
   }
   ${FixitUserFields}
 `;
-
-// Note: Using `InvoiceFields` fragment here results in circular dependency issue.
-export const WorkOrderWithInvoiceFields = gql`
-  fragment WorkOrderWIthInvoiceFields on WorkOrder {
-    ...WorkOrderFields
-    invoice {
-      id
-      createdBy {
-        ...FixitUserFields
-      }
-      assignedTo {
-        ...FixitUserFields
-      }
-      amount
-      status
-      stripePaymentIntentID
-      createdAt
-    }
-  }
-  ${WorkOrderFields}
-  ${FixitUserFields}
-`;
