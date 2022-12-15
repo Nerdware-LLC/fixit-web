@@ -1,13 +1,12 @@
 import { Outlet } from "react-router-dom";
 import styled from "@emotion/styled";
-import { PageContainer, AppBar } from "../components";
+import { PageContainer } from "./PageContainer";
 
 /**
  * Used by `LandingPage`, `RegisterPage`, and `LoginPage`.
  */
 const LandingAndAuthPagesLayout = () => (
-  <PageContainer style={{ height: "100vh", overflowY: "hidden" }}>
-    <AppBar />
+  <PageContainer>
     <StyledContentContainer>
       <Outlet />
     </StyledContentContainer>
@@ -18,11 +17,10 @@ const LandingAndAuthPagesLayout = () => (
 export default LandingAndAuthPagesLayout;
 
 const StyledContentContainer = styled.div`
-  padding: 12vh 30vw;
-  display: flex;
-  flex-grow: 1;
   height: 100%;
-  flex-direction: column;
-  justify-content: space-between;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
 `;
