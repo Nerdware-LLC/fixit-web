@@ -1,0 +1,1 @@
+export { PersonCircleExclamationIcon } from "./PersonCircleExclamationIcon";
