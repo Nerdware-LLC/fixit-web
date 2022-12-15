@@ -1,5 +1,5 @@
 import { httpService } from "./httpService";
-import type { User, EncodedAuthToken, WorkOrder, Invoice, Contact } from "../types";
+import type { User, EncodedAuthToken, WorkOrder, Invoice, Contact } from "@types";
 
 export const authService = {
   registerNewUser: async (
@@ -11,7 +11,7 @@ export const authService = {
     });
   },
   login: async (
-    userLoginArgs: Expand<Omit<RegisterNewUserArgs, "phone" | "profile">>
+    userLoginArgs: Omit<RegisterNewUserArgs, "phone" | "profile">
   ): Promise<AuthTokenAndPreFetchedUserItems> => {
     return await httpService.post("/api/auth/login", {
       ...userLoginArgs,
@@ -33,23 +33,20 @@ type AuthServiceCredentials = {
   googleAccessToken?: string;
 };
 
-type RegisterNewUserArgs = Expand<
-  Required<Pick<User, "email" | "phone" | "profile">> & AuthServiceCredentials
->;
+type RegisterNewUserArgs = Required<Pick<User, "email" | "phone" | "profile">> &
+  AuthServiceCredentials;
 
 type RegisterNewUserReturnValue = {
   token: EncodedAuthToken;
 };
 
-type AuthTokenAndPreFetchedUserItems = Expand<
-  RegisterNewUserReturnValue & {
-    userItems?: {
-      workOrders?: Array<WorkOrder>;
-      invoices?: Array<Invoice>;
-      contacts?: Array<Contact>;
-    };
-  }
->;
+type AuthTokenAndPreFetchedUserItems = RegisterNewUserReturnValue & {
+  userItems?: {
+    workOrders?: Array<WorkOrder>;
+    invoices?: Array<Invoice>;
+    contacts?: Array<Contact>;
+  };
+};
 
 export interface PreFetchedUserItems {
   workOrders?: Array<WorkOrder>;
