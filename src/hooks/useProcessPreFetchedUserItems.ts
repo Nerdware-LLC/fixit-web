@@ -1,8 +1,8 @@
 import { useApolloClient } from "@apollo/client/react/hooks";
-import { QUERIES } from "../graphql";
+import { QUERIES } from "@graphql";
 import type { StoreObject } from "@apollo/client/cache";
-import type { PreFetchedUserItems } from "../services";
-import type { AuthTokenPayload, WorkOrder, Invoice } from "../types";
+import type { PreFetchedUserItems } from "@services";
+import type { AuthTokenPayload, WorkOrder, Invoice } from "@types";
 
 /**
  * This hook simply returns a function which accepts pre-fetched "userItems"
@@ -19,14 +19,14 @@ export const useProcessPreFetchedUserItems = () => {
     ) => {
       // WORK ORDERS:
       if (Array.isArray(workOrders) && workOrders.length > 0) {
-        // WorkOrders array needs to be split into "createdByUser" and "assignedToUser"
+        // WorkOrders array needs to be split into "createdBy" and "assignedTo"
 
         const { createdByUser, assignedToUser } = workOrders.reduce(
           (accum, workOrder) => {
-            // Push into either createdByUser or assignedToUser
-            if (workOrder.createdByUserID === ownUserID) {
+            // Push into either createdBy or assignedTo
+            if (workOrder.createdBy.id === ownUserID) {
               accum.createdByUser.push({ __typename: "WorkOrder", ...workOrder });
-            } else if (workOrder.assignedToUserID === ownUserID) {
+            } else if (workOrder.assignedTo?.id === ownUserID) {
               accum.assignedToUser.push({ __typename: "WorkOrder", ...workOrder });
             } else {
               /* Users shouldn't ever receive WOs for which they're neither the "createdBy"
@@ -54,13 +54,13 @@ export const useProcessPreFetchedUserItems = () => {
 
       // INVOICES
       if (Array.isArray(invoices) && invoices.length > 0) {
-        // Invoices array needs to be split into "createdByUser" and "assignedToUser"
+        // Invoices array needs to be split into "createdBy" and "assignedTo"
         const { createdByUser, assignedToUser } = invoices.reduce(
           (accum, invoice) => {
-            // Push into either createdByUser or assignedToUser
-            if (invoice.createdByUserID === ownUserID) {
+            // Push into either createdBy or assignedTo
+            if (invoice.createdBy.id === ownUserID) {
               accum.createdByUser.push({ __typename: "Invoice", ...invoice });
-            } else if (invoice.assignedToUserID === ownUserID) {
+            } else if (invoice.assignedTo.id === ownUserID) {
               accum.assignedToUser.push({ __typename: "Invoice", ...invoice });
             } else {
               throw new PreFetchedItemError("Invoice", invoice);
@@ -98,8 +98,8 @@ export const useProcessPreFetchedUserItems = () => {
 };
 
 interface PreFetchedWorkOrdersReducerAccum {
-  createdByUser: Array<WorkOrder & StoreObject>;
-  assignedToUser: Array<WorkOrder & StoreObject>;
+  createdByUser: Array<StoreObject & WorkOrder>;
+  assignedToUser: Array<StoreObject & WorkOrder>;
 }
 
 interface PreFetchedInvoicesReducerAccum {

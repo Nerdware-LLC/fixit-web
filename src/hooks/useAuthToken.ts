@@ -1,26 +1,17 @@
 import jwtDecode from "jwt-decode";
 import { useApolloClient } from "@apollo/client/react/hooks";
-import { QUERIES } from "../graphql";
-import { storage } from "../utils/storage";
-import type { EncodedAuthToken, AuthTokenPayload } from "../types";
-import {
-  tokenFieldsStore,
-  isAuthenticatedStore,
-  isActiveAccountStore,
-  isConnectOnboardingNeededStore
-} from "../app/apolloCache";
+import { QUERIES } from "@graphql";
+import { storage } from "@utils/storage";
+import { isAuthenticatedStore, isActiveAccountStore, isConnectOnboardingNeededStore } from "../app";
+import type { EncodedAuthToken, AuthTokenPayload } from "@types";
 
 export const useAuthToken = () => {
   const client = useApolloClient();
 
   const processAuthToken = async (token: EncodedAuthToken): Promise<AuthTokenPayload> => {
-    console.debug(`[processAuthToken] token = ${JSON.stringify(token, null, 2)}`);
     storage.setAuthToken(token);
 
     const tokenPayload: AuthTokenPayload = jwtDecode(token);
-    console.debug(`[processAuthToken] tokenPayload = ${JSON.stringify(tokenPayload, null, 2)}`);
-
-    tokenFieldsStore.set(tokenPayload);
 
     // prettier-ignore
     const {
