@@ -1,7 +1,6 @@
-import React from "react";
 import MuiButton from "@mui/material/Button";
 import styled from "@emotion/styled";
-import { func, string, element } from "../../types";
+import { func, string, element } from "@types";
 
 // Docs: https://mui.com/components/buttons/
 
@@ -33,6 +32,7 @@ const StyledButton = styled(MuiButton)`
   vertical-align: middle;
   text-decoration: none;
   font-family: Roboto, sans-serif;
+  font-weight: bold;
   &:hover {
     cursor: pointer;
   }
