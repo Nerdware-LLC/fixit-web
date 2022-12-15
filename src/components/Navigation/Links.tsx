@@ -1,4 +1,5 @@
-import { useTheme } from "@mui/material/styles";
+import { Link as RRD_Link } from "react-router-dom";
+import { useTheme, styled } from "@mui/material/styles";
 
 export const TextExternalLink = ({
   href,
@@ -47,3 +48,7 @@ export const AnchorLink = ({
     </a>
   );
 };
+
+export const Link = styled(RRD_Link)(({ theme }) => ({
+  color: theme.palette.secondary.main
+}));
