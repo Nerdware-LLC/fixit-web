@@ -1,24 +1,26 @@
 import { ApolloProvider } from "@apollo/client/react/context";
 import { apolloClient } from "./apolloClient";
-import { AuthStateInitLayer } from "./AuthStateInitLayer";
 import { ThemeProvider } from "./ThemeProvider";
+import { LocalizationProvider } from "./LocalizationProvider";
 import { GlobalStyle } from "./GlobalStyle";
 import { ToastContainer } from "./ToastContainer";
-import { ErrorBoundary, WebViewContextProvider } from "../components";
-import { AppRouter } from "./AppRouter";
+import { AppRouter } from "@navigation";
+import { ErrorBoundary, PageLayoutContextProvider, WebViewContextProvider } from "@components";
 
 export const App = () => (
   <ApolloProvider client={apolloClient}>
-    <WebViewContextProvider>
-      <AuthStateInitLayer>
-        <ErrorBoundary>
+    <ErrorBoundary>
+      <PageLayoutContextProvider>
+        <WebViewContextProvider>
           <ThemeProvider>
-            <GlobalStyle />
-            <AppRouter />
-            <ToastContainer />
+            <LocalizationProvider>
+              <GlobalStyle />
+              <AppRouter />
+              <ToastContainer />
+            </LocalizationProvider>
           </ThemeProvider>
-        </ErrorBoundary>
-      </AuthStateInitLayer>
-    </WebViewContextProvider>
+        </WebViewContextProvider>
+      </PageLayoutContextProvider>
+    </ErrorBoundary>
   </ApolloProvider>
 );
