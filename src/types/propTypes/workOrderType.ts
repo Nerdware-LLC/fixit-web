@@ -3,7 +3,7 @@ import { idType } from "./idType";
 import { fixitUserType } from "./fixitUserType";
 import { checklistType } from "./workOrderChecklistType";
 import { dateType, dateTypeRequired } from "./dateType";
-import { WORK_ORDER_CONSTANTS } from "../WorkOrder.type";
+import { WORK_ORDER_CONSTANTS } from "../WorkOrder.types";
 
 // NOTE using exact for workOrderType kept erroneously throwing a warning about the createdAt prop/key
 export const workOrderType = shape({

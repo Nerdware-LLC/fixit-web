@@ -1,10 +1,11 @@
-import type { User } from "./User.type";
-import type { UserSubscription } from "./UserSubscription.type";
+import type { User } from "./User.types";
+import type { UserSubscription } from "./UserSubscription.types";
 
-export type AuthTokenPayload = Expand<{
+export type AuthTokenPayload = {
   id: User["id"];
   email: User["email"];
   phone: User["phone"];
+  profile: User["profile"];
   stripeCustomerID: User["stripeCustomerID"];
   stripeConnectAccount: Pick<
     NonNullable<User["stripeConnectAccount"]>,
@@ -15,6 +16,6 @@ export type AuthTokenPayload = Expand<{
     status: UserSubscription["status"];
     currentPeriodEnd: UserSubscription["currentPeriodEnd"];
   };
-}>;
+};
 
 export type EncodedAuthToken = string;

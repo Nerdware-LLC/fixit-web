@@ -1,19 +1,20 @@
-import type { WorkOrderChecklist } from "./WorkOrderChecklist.type";
+import type { User } from "./User.types";
+import type { WorkOrderChecklist } from "./WorkOrderChecklist.types";
 
 // prettier-ignore
 export const WORK_ORDER_CONSTANTS = {
   STATUSES: ["UNASSIGNED", "ASSIGNED", "IN_PROGRESS", "DEFERRED", "COMPLETE"],
   CATEGORIES: [null, "DRYWALL", "ELECTRICAL", "FLOORING", "GENERAL", "HVAC", "LANDSCAPING", "MASONRY", "PAINTING", "PAVING", "PEST", "PLUMBING", "ROOFING", "TRASH", "TURNOVER", "WINDOWS"],
   PRIORITIES: ["LOW", "NORMAL", "HIGH"]
-};
+} as const;
 
 ////////////////////////////////////////////////////////////////////////////////
 // TYPESCRIPT TYPES:
 
 export type WorkOrder = {
   id: string;
-  createdByUserID: string;
-  assignedToUserID?: string;
+  createdBy: User;
+  assignedTo?: User;
   location: Location;
   status: typeof WORK_ORDER_CONSTANTS.STATUSES[number];
   priority: typeof WORK_ORDER_CONSTANTS.PRIORITIES[number];

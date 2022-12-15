@@ -4,7 +4,7 @@ import { workOrderType } from "./workOrderType";
 import { fixitUserType } from "./fixitUserType";
 import { currencyType, currencyTypeRequired } from "./currencyType";
 import { dateType, dateTypeRequired } from "./dateType";
-import { INVOICE_CONSTANTS } from "../Invoice.type";
+import { INVOICE_CONSTANTS } from "../Invoice.types";
 
 export const invoiceType = shape({
   id: idType.isRequired,

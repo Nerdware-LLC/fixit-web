@@ -1,18 +1,21 @@
 import moment from "moment";
-import type { CustomPropTypesValidator } from "./_types";
+import type { Validator, Requireable } from "prop-types";
 
-export const dateType: CustomPropTypesValidator = (props, propName, componentName) => {
-  if (props[propName] !== "" && props[propName] !== null && !moment(props[propName]).isValid()) {
-    return new Error(
-      `Invalid prop '${propName}' supplied to component '${componentName}' (expected 'dateType'). Validation failed.`
-    );
-  }
+export const dateType: Validator<Date | undefined> = (props, propName, componentName) => {
+  return props[propName] !== "" && props[propName] !== null && !moment(props[propName]).isValid()
+    ? new Error(
+        `Invalid prop '${propName}' supplied to component '${componentName}' (expected 'dateType'). Validation failed.`
+      )
+    : null;
 };
 
-export const dateTypeRequired = ((props, propName, componentName) => {
-  if (!moment(props[propName]).isValid()) {
-    return new Error(
-      `Invalid prop '${propName}' supplied to component '${componentName}' (expected 'dateTypeRequired'). Validation failed.`
-    );
-  }
-}) as CustomPropTypesValidator<true>; // <-- prop-types adds "isRequired", so just silence the error for now.
+const _dateTypeRequired: Validator<Date> = (props, propName, componentName) => {
+  return !moment(props[propName]).isValid()
+    ? new Error(
+        `Invalid prop '${propName}' supplied to component '${componentName}' (expected 'dateTypeRequired'). Validation failed.`
+      )
+    : null;
+};
+
+// prop-types adds "isRequired", so just silence the error for now
+export const dateTypeRequired = _dateTypeRequired as Requireable<Validator<Date>>;
