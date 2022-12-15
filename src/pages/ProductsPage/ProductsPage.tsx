@@ -1,29 +1,33 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import Line from "@mui/material/Divider";
 import styled from "@emotion/styled";
 import { ProductInfoDisplay } from "./ProductInfoDisplay";
-import { PageContainer, AppBar, Title, TextExternalLink, StripeBadge } from "../../components";
-import { CONSTANTS, type UserSubscriptionPriceLabel } from "../../types";
+import { checkoutValuesStore } from "@app";
+import { Title, TextExternalLink, StripeBadge } from "@components";
+import { PageContainer } from "@layouts";
+import { CONSTANTS } from "@types";
+
+// TODO On ProductsPage, add links to /privacy and /ToS
 
 /**
  * **ProductsPage**
  * - Renders when path is "/products"
  */
 export const ProductsPage = () => {
-  const [selectedSub, setSelectedSub] = useState<UserSubscriptionPriceLabel>();
+  const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore();
   const { state: locationState } = useLocation();
 
   useEffect(() => {
     if (locationState?.isRedirect === true) {
-      toast("Please select a subscription", { type: "info" });
+      window.history.replaceState({}, document.title); // <-- clears window history state without re-render
+      toast.info("Please select a subscription", { toastId: "please-select-sub" });
     }
   }, [locationState]);
 
   return (
-    <PageContainer style={{ height: "100vh", overflowY: "hidden" }}>
-      <AppBar />
+    <PageContainer>
       <StyledContentContainer>
         <StyledHeaderContainer>
           <StyledPageHeader>Product Pricing</StyledPageHeader>
@@ -33,53 +37,42 @@ export const ProductsPage = () => {
             <ProductInfoDisplay
               key={`ProductInfoDisplay:${productLabel}`}
               label={productLabel}
-              onClick={() => setSelectedSub(productLabel)}
-              isSelected={selectedSub === productLabel}
+              onClick={() =>
+                checkoutValuesStore.setCheckoutValues({
+                  selectedSubscription: productLabel,
+                  promoCode: promoCode ?? null
+                })
+              }
+              isSelected={selectedSubscription === productLabel}
             />
           ))}
         </StyledPriceInfoDisplaysContainer>
-        <Line style={{ margin: "-1rem 0" }} />
+        <Line style={{ margin: "-1rem 0 -1.5rem 0" }} />
         <div
           style={{
-            paddingBottom: "1rem",
-            marginTop: "-1.75rem",
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "flex-start"
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column"
-              // backgroundColor: "blue"
-            }}
-          >
-            <StyledText style={{ fontWeight: "bold" }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <StyledText style={{ fontWeight: "bold", margin: "0" }}>
               Fixit uses <TextExternalLink linkText="Stripe" href="https://stripe.com/" /> to
               process your payments quickly and keep your personal and payment information secure.
               Millions of companies around the world trust Stripe to process payments for their
               users.
             </StyledText>
-            <StyledText>
+            <br />
+            <StyledText style={{ margin: "0" }}>
               For payments made with a credit card, Stripe charges a transaction fee of 2.9% + 30¢.
               Click{" "}
               <TextExternalLink linkText="here" href="https://stripe.com/pricing#pricing-details" />{" "}
               to learn more about Stripe transaction pricing.
             </StyledText>
           </div>
-          <div
-            style={{
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: "0 5rem"
-            }}
-          >
-            <StripeBadge style={{ height: "2.5rem" }} />
+          <div style={{ height: "100%", display: "flex", alignItems: "center" }}>
+            <StripeBadge style={{ height: "2.5rem", margin: "0 5rem" }} />
           </div>
         </div>
       </StyledContentContainer>
@@ -90,10 +83,10 @@ export const ProductsPage = () => {
 const StyledContentContainer = styled.div`
   height: 100%;
   padding: 0 15vw;
+  text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  text-align: center;
 `;
 
 const StyledHeaderContainer = styled.div`

@@ -1,11 +1,10 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import PaperSurface from "@mui/material/Paper";
 import { useTheme } from "@mui/material/styles";
 import styled from "@emotion/styled";
 import { ProductFeaturesList } from "./ProductFeaturesList";
-import { Button } from "../../components";
-import { oneOf } from "../../types";
+import { Button } from "@components";
+import { oneOf } from "@types";
 
 export const ProductInfoDisplay = ({
   label,
@@ -19,32 +18,23 @@ export const ProductInfoDisplay = ({
   const { palette } = useTheme();
   const nav = useNavigate();
 
-  const handleClickCheckout = () => {
-    nav("/checkout", {
-      state: {
-        sub: label,
-        promoCode: null
-      }
-    });
-  };
+  const handleClickCheckout = () => nav("/checkout");
 
   return (
     <StyledProductInfoBox
       onClick={onClick}
       style={{ ...(isSelected && { borderColor: palette.secondary.main }) }}
     >
-      <h1 style={{ margin: "0", padding: "0" }}>{PRICE_INFO[label].HEADER}</h1>
+      <h1 style={{ margin: "0", padding: "0", whiteSpace: "nowrap" }}>
+        {PRICE_INFO[label].HEADER}
+      </h1>
       <StyledPriceInfoRowBox>
-        <h1
-          style={{
-            color: palette.mode === "dark" ? "#85BB65" : palette.text.primary,
-            fontSize: "2.25rem",
-            margin: "0 0.35rem 0 0"
-          }}
+        <StylePriceLabel
+          style={{ color: palette.mode === "dark" ? "#85BB65" : palette.text.primary }}
         >
           {PRICE_INFO[label].PRICE}
-        </h1>
-        <div style={{ whiteSpace: "pre-line", width: "100%" }}>
+        </StylePriceLabel>
+        <StyledTextSpan>
           <p
             style={{
               textAlign: label === "TRIAL" ? "center" : "left",
@@ -54,7 +44,7 @@ export const ProductInfoDisplay = ({
           >
             {PRICE_INFO[label].DESCRIPTION}
           </p>
-        </div>
+        </StyledTextSpan>
       </StyledPriceInfoRowBox>
       <ProductFeaturesList />
       <>
@@ -72,7 +62,7 @@ const PRICE_INFO = {
   TRIAL: {
     HEADER: "Free Trial",
     PRICE: "FREE",
-    DESCRIPTION: "Try it FREE for 14 Days"
+    DESCRIPTION: "Try it FREE\nfor 14 Days"
   },
   MONTHLY: {
     HEADER: "Monthly",
@@ -99,6 +89,20 @@ const StyledProductInfoBox = styled(PaperSurface)`
   &:hover {
     cursor: pointer;
   }
+`;
+
+const StylePriceLabel = styled.h1`
+  font-size: 2.25rem;
+  line-height: 2.25rem;
+  margin: 0 0.35rem 0 0;
+`;
+
+const StyledTextSpan = styled.span`
+  width: 100%;
+  display: inline-block;
+  white-space: pre;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const StyledPriceInfoRowBox = styled.div`
