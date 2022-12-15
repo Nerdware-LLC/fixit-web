@@ -1,11 +1,3 @@
-schema {
-  query: Query
-  mutation: Mutation
-}
-"Custom DateTime scalar; pass a string or js date instance obj"
-scalar DateTime
-"Custom Email scalar; validates using regex"
-scalar Email
 type Query {
   _root: Boolean
   contact(contactID: ID!): Contact!
@@ -20,6 +12,7 @@ type Query {
   myWorkOrders: MyWorkOrdersQueryReturnType!
   searchUsers(rawPhoneContacts: [RawPhoneContactInput!]!): [PhoneContact]
 }
+
 type Mutation {
   _root: Boolean
   createContact(contactEmail: Email!): Contact!
@@ -34,10 +27,25 @@ type Mutation {
   cancelWorkOrder(workOrderID: ID!): CancelWorkOrderResponse!
   setWorkOrderStatusComplete(workOrderID: ID!): WorkOrder!
 }
+
+"""Custom DateTime scalar; pass a string or js date instance obj"""
+scalar DateTime
+
+"""Custom Email scalar; validates using regex"""
+scalar Email
+
 type DeleteMutationResponse {
   id: ID!
   wasDeleted: Boolean!
 }
+
+interface FixitUser {
+  id: ID!
+  email: Email!
+  phone: String!
+  profile: Profile
+}
+
 type Contact implements FixitUser {
   id: ID!
   email: Email!
@@ -45,6 +53,7 @@ type Contact implements FixitUser {
   profile: Profile!
   createdAt: DateTime!
 }
+
 type Invoice {
   id: ID!
   createdBy: FixitUser!
@@ -55,24 +64,46 @@ type Invoice {
   workOrder: WorkOrder
   createdAt: DateTime!
 }
+
+enum InvoiceStatus {
+  OPEN
+  CLOSED
+  DISPUTED
+}
+
 type MyInvoicesQueryReturnType {
   createdByUser: [Invoice!]!
   assignedToUser: [Invoice!]!
 }
+
+input InvoiceInput {
+  assignedToUserID: ID!
+  amount: Int!
+  workOrderID: ID
+}
+
 type Profile {
-  id: ID!
   displayName: String
   givenName: String
   familyName: String
   businessName: String
   photoUrl: String
 }
-type StripeConnectAccount {
+
+input ProfileInput {
+  givenName: String
+  familyName: String
+  businessName: String
+  photoUrl: String
+}
+
+type UserStripeConnectAccount {
   id: ID!
   detailsSubmitted: Boolean!
   chargesEnabled: Boolean!
   payoutsEnabled: Boolean!
 }
+
 type User implements FixitUser {
   id: ID!
   email: Email!
@@ -80,9 +111,10 @@ type User implements FixitUser {
   profile: Profile!
   stripeCustomerID: String!
   subscription: UserSubscription
-  stripeConnectAccount: StripeConnectAccount
+  stripeConnectAccount: UserStripeConnectAccount
   createdAt: DateTime!
 }
+
 type UserSubscription {
   id: ID!
   currentPeriodEnd: DateTime!
@@ -91,6 +123,17 @@ type UserSubscription {
   status: SubscriptionStatus!
   createdAt: DateTime!
 }
+
+enum SubscriptionStatus {
+  active
+  incomplete
+  incomplete_expired
+  trialing
+  past_due
+  canceled
+  unpaid
+}
+
 type WorkOrder {
   id: ID!
   createdBy: FixitUser!
@@ -107,68 +150,21 @@ type WorkOrder {
   scheduledDateTime: DateTime
   contractorNotes: String
   createdAt: DateTime!
-  invoice: Invoice
 }
-type ChecklistItem {
-  id: ID!
-  description: String!
-  isCompleted: Boolean!
-}
-type MyWorkOrdersQueryReturnType {
-  createdByUser: [WorkOrder!]!
-  assignedToUser: [WorkOrder!]!
-}
-type PhoneContact {
-  isUser: Boolean!
-  id: String!
-  name: String
-  phone: String
-  email: Email
-  givenName: String
-  familyName: String
-  businessName: String
-  photoUrl: String
-}
-interface FixitUser {
-  id: ID!
-  email: Email!
-  phone: String!
-  profile: Profile!
-  createdAt: DateTime!
-}
-interface WorkOrderLocation {
-  country: String
-  region: String
-  city: String
-  streetLine1: String
-  streetLine2: String
-}
-union CancelWorkOrderResponse = WorkOrder | DeleteMutationResponse
-enum InvoiceStatus {
-  OPEN
-  CLOSED
-  DISPUTED
-}
-enum SubscriptionStatus {
-  active
-  incomplete
-  incomplete_expired
-  trialing
-  past_due
-  canceled
-  unpaid
-}
+
 enum WorkOrderStatus {
   UNASSIGNED
   ASSIGNED
   CANCELLED
   COMPLETE
 }
+
 enum WorkOrderPriority {
   LOW
   NORMAL
   HIGH
 }
+
 enum WorkOrderCategory {
   DRYWALL
   ELECTRICAL
@@ -186,17 +182,26 @@ enum WorkOrderCategory {
   TURNOVER
   WINDOWS
 }
-input InvoiceInput {
-  assignedToUserID: ID!
-  amount: Int!
-  workOrderID: ID
+
+type WorkOrderLocation {
+  country: String
+  region: String!
+  city: String!
+  streetLine1: String!
+  streetLine2: String
 }
-input ProfileInput {
-  givenName: String
-  familyName: String
-  businessName: String
-  photoUrl: String
+
+type ChecklistItem {
+  id: ID!
+  description: String!
+  isCompleted: Boolean!
 }
+
+type MyWorkOrdersQueryReturnType {
+  createdByUser: [WorkOrder!]!
+  assignedToUser: [WorkOrder!]!
+}
+
 input CreateWorkOrderInput {
   assignedToUserID: ID
   priority: WorkOrderPriority
@@ -209,6 +214,7 @@ input CreateWorkOrderInput {
   entryContactPhone: String
   scheduledDateTime: DateTime
 }
+
 input CreateWorkOrderLocationInput {
   country: String
   region: String!
@@ -216,9 +222,11 @@ input CreateWorkOrderLocationInput {
   streetLine1: String!
   streetLine2: String
 }
+
 input CreateChecklistItemInput {
   description: String!
 }
+
 input UpdateWorkOrderInput {
   assignedToUserID: ID
   priority: WorkOrderPriority
@@ -231,6 +239,7 @@ input UpdateWorkOrderInput {
   entryContactPhone: String
   scheduledDateTime: DateTime
 }
+
 input UpdateWorkOrderLocationInput {
   country: String
   region: String
@@ -238,11 +247,27 @@ input UpdateWorkOrderLocationInput {
   streetLine1: String
   streetLine2: String
 }
+
 input UpdateChecklistItemInput {
   id: ID
   description: String!
   isCompleted: Boolean
 }
+
+union CancelWorkOrderResponse = WorkOrder | DeleteMutationResponse
+
+type PhoneContact {
+  isUser: Boolean!
+  id: String!
+  name: String
+  phone: String
+  email: Email
+  givenName: String
+  familyName: String
+  businessName: String
+  photoUrl: String
+}
+
 input RawPhoneContactInput {
   id: String!
   name: String
@@ -250,8 +275,3 @@ input RawPhoneContactInput {
   email: String
   photoUrl: String
 }
-"Exposes a URL that specifies the behavior of this scalar."
-directive @specifiedBy(
-    "The URL that specifies the behavior of this scalar."
-    url: String!
-  ) on SCALAR
