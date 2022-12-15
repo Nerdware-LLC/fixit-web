@@ -1,6 +1,6 @@
 import React from "react";
 import * as Sentry from "@sentry/react";
-import { logger } from "../../utils";
+import { logger } from "@utils";
 
 // NOTE: ErrorBoundary WON'T catch event-driven errors NOR async errors. So this will not work on, say, fetch state.
 
@@ -18,7 +18,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
     logger.error(
       `${error}
       ${errorInfo}`,
-      `Sentry.ErrorBoundary${!!this.props?.identifier ? `:${this.props.identifier}` : null}`
+      `Sentry.ErrorBoundary${this.props?.identifier ? `:${this.props.identifier}` : null}`
     );
   }
 
