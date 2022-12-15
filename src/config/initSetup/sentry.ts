@@ -1,13 +1,17 @@
 import * as Sentry from "@sentry/react";
-import { Integrations } from "@sentry/tracing";
+import { BrowserTracing } from "@sentry/tracing";
+import { logger } from "@utils";
 import { ENV } from "../env";
-import { logger } from "../../utils";
 
 Sentry.init({
   dsn: ENV.SENTRY_DSN,
-  integrations: [new Integrations.BrowserTracing()],
+  integrations: [
+    new BrowserTracing({
+      tracePropagationTargets: ["localhost", "staging.gofixit.app", "gofixit.app", /^\//]
+    })
+  ],
   tracesSampleRate: 1.0,
   debug: false
 });
 
-logger.debug("Sentry has been initialized.");
+logger.info("Sentry has been initialized.");
