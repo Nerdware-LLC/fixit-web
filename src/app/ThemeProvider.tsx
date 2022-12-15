@@ -1,9 +1,7 @@
-import React from "react";
 import MuiThemeProvider from "@mui/material/styles/ThemeProvider";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, type PaletteOptions } from "@mui/material/styles";
-import { themeStore } from ".";
-import { any } from "../types";
+import { themeStore } from "./apolloCache/reactiveVars";
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const theme = themeStore.useSubToStore();
@@ -17,8 +15,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 /**
- * `ThemeProvider` merges this theme object with the @mui/material
- * default theme:
+ * `ThemeProvider` merges this theme object with the @mui/material default theme:
  *
  * https://mui.com/material-ui/customization/default-theme/
  */
@@ -47,20 +44,17 @@ const THEMES = Object.fromEntries(
           main: "rgba(255, 115, 115, 0.87)"
         },
         info: {
-          main: "#5796D6" // AKA NOTIFICATION
+          main: "#5796D6"
         },
         text: {
           primary: themeModeName === "DARK" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)",
           secondary: themeModeName === "DARK" ? "#00FFDC" : "#625AFA",
-          disabled: "rgba(255, 255, 255, 0.38)",
-          hint: "rgba(255, 255, 255, 0.54)", // AKA PLACEHOLDER
-          labels: "#f7a44a" // desaturated Fixit orange (CUSTOM KEY)
-        } as any, // <-- Custom theme properties are fine.
+          disabled: "rgba(255, 255, 255, 0.38)"
+        },
         background: {
-          paper: themeModeName === "DARK" ? "#353535" : "#cccccc", // AKA SURFACE
-          default: themeModeName === "DARK" ? "#121212" : "#f6f6f6",
-          backdrop: "rgba(0, 0, 0, 0.5)" // (CUSTOM KEY)
-        } as any // <-- Custom theme properties are fine.
+          paper: themeModeName === "DARK" ? "#353535" : "#cccccc",
+          default: themeModeName === "DARK" ? "#121212" : "#f6f6f6"
+        }
       },
       typography: {
         fontFamily: '"Roboto", sans-serif'
@@ -68,7 +62,3 @@ const THEMES = Object.fromEntries(
     })
   ])
 );
-
-ThemeProvider.propTypes = {
-  children: any.isRequired
-};
