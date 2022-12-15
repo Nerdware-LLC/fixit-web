@@ -1,7 +1,7 @@
 import { logger } from "./logger";
 import { getTypeSafeErr } from "./typeSafety";
 
-const STORAGE_KEY_NAMES = ["authToken", "hasSeenIntro"] as const;
+const STORAGE_KEY_NAMES = ["authToken", "checkoutValues"] as const;
 
 export const storage = STORAGE_KEY_NAMES.reduce((accum, storageKeyName) => {
   const storageKey = `@${storageKeyName}`;
@@ -37,12 +37,10 @@ export const storage = STORAGE_KEY_NAMES.reduce((accum, storageKeyName) => {
 }, {} as StorageKeyMethods);
 
 // prettier-ignore
-type StorageKeyMethods = Expand<
-  {
-    [K in typeof STORAGE_KEY_NAMES[number] as `set${Capitalize<string & K>}`]: (input: unknown) => void;
-  } & {
-    [K in typeof STORAGE_KEY_NAMES[number] as `get${Capitalize<string & K>}`]: () => string | null | undefined;
-  } & {
-    [K in typeof STORAGE_KEY_NAMES[number] as `remove${Capitalize<string & K>}`]: () => void;
-  }
->;
+type StorageKeyMethods = {
+  [K in typeof STORAGE_KEY_NAMES[number] as `set${Capitalize<string & K>}`]: (input: unknown) => void;
+} & {
+  [K in typeof STORAGE_KEY_NAMES[number] as `get${Capitalize<string & K>}`]: () => string | null | undefined;
+} & {
+  [K in typeof STORAGE_KEY_NAMES[number] as `remove${Capitalize<string & K>}`]: () => void;
+};
