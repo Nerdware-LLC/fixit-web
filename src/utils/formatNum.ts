@@ -1,11 +1,7 @@
-const fmtNumAsStr = (num: number, opts: Intl.NumberFormatOptions) => {
-  return new Intl.NumberFormat("en-US", opts).format(num);
-};
-
-const currencyOpts = { style: "currency", currency: "USD" };
-const percentageOpts = { style: "percent" };
+const intlCurrencyFmt = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+const intlPercentageFmt = new Intl.NumberFormat("en-US", { style: "percent" });
 
 export const formatNum = {
-  toCurrencyStr: (num: number) => fmtNumAsStr(num, currencyOpts),
-  toPercentageStr: (num: number) => fmtNumAsStr(num, percentageOpts)
+  toCurrencyStr: (num: number) => intlCurrencyFmt.format(num),
+  toPercentageStr: (num: number) => intlPercentageFmt.format(num)
 };
