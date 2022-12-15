@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { useAuthService } from "../../hooks";
-import { Form, TextInput } from "../../components";
+import { useAuthService } from "@hooks";
+import { Form, TextInput, PasswordInput } from "@components";
 
 export const LoginForm = () => {
   const { login } = useAuthService();
@@ -9,7 +9,7 @@ export const LoginForm = () => {
 
   const onSubmit = async (credentials: Parameters<typeof login>[0]) => {
     const { success } = await login(credentials);
-    if (!!success) nav("/home");
+    if (success) nav("/home");
   };
 
   return (
@@ -17,10 +17,10 @@ export const LoginForm = () => {
       initialValues={LOGIN_FORM.INITIAL_VALUES}
       validationSchema={LOGIN_FORM.SCHEMA}
       onSubmit={onSubmit}
-      submitButton
     >
-      <TextInput id={"email"} />
-      <TextInput id={"password"} />
+      <TextInput id="email" />
+      <PasswordInput id="password" />
+      <Form.SubmitButton />
     </Form>
   );
 };
