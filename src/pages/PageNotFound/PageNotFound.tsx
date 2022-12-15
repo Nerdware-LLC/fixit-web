@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useWebViewContext, Title, Text, Button } from "../../components";
+import { useWebViewContext, Title, Text, Button } from "@components";
 
 // FIXME Update PageNotFound to work with regular Web pages
 
@@ -36,12 +36,11 @@ export const PageNotFound = () => {
 };
 
 const StyledPageNotFoundLayout = styled.div`
-  box-sizing: border-box;
   height: 100%;
+  padding: 30vh 15vw;
   text-align: left;
   display: flex;
   flex-direction: column;
-  padding: 30vh 15vw;
-  align-items: center;
   justify-content: space-around;
+  align-items: center;
 `;

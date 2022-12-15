@@ -1,7 +1,7 @@
 import renderer from "react-test-renderer";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { PageNotFound } from "./PageNotFound";
-import { ThemeProvider } from "../../app/ThemeProvider";
+import { ThemeProvider } from "@app/ThemeProvider";
 
 it("renders correctly", () => {
   expect(
