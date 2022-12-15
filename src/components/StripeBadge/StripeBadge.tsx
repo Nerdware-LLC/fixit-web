@@ -1,7 +1,6 @@
-import React from "react";
-import StripeBadgePurpleSVGsrc from "../../images/powered_by_Stripe_blurple.svg";
-import StripeBadgeBlackSVGsrc from "../../images/powered_by_Stripe_black.svg";
-import StripeBadgeWhiteSVGsrc from "../../images/powered_by_Stripe_white.svg";
+import StripeBadgePurpleSVGsrc from "@images/powered_by_Stripe_blurple.svg";
+import StripeBadgeBlackSVGsrc from "@images/powered_by_Stripe_black.svg";
+import StripeBadgeWhiteSVGsrc from "@images/powered_by_Stripe_white.svg";
 
 export const StripeBadge = ({
   color = "purple",
