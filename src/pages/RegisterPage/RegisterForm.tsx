@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Form, TextInput, FormSubmitButton } from "../../components";
-import { useAuthService } from "../../hooks";
+import { Form, TextInput, PasswordInput } from "@components";
+import { useAuthService } from "@hooks";
 
 export const RegisterForm = () => {
   const { registerNewUser } = useAuthService();
@@ -11,7 +11,7 @@ export const RegisterForm = () => {
   const handleSubmit = async (values: Parameters<typeof registerNewUser>[0]) => {
     const { success } = await registerNewUser(values);
 
-    if (!!success) {
+    if (success) {
       /* If the user registered AFTER selecting a subscription from the /products page,
       locationState will contain their selectedSub in locationState.sub, which needs to
       be provided to the checkout page. If that property does not yet exist, nav to the
@@ -31,10 +31,10 @@ export const RegisterForm = () => {
       validationSchema={REGISTER_FORM.SCHEMA}
       onSubmit={handleSubmit}
     >
-      <TextInput id={"phone"} />
-      <TextInput id={"email"} />
-      <TextInput id={"password"} />
-      <FormSubmitButton />
+      <TextInput id="phone" />
+      <TextInput id="email" />
+      <PasswordInput id="password" />
+      <Form.SubmitButton />
     </Form>
   );
 };
