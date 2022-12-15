@@ -13,9 +13,11 @@ repos:
       - id: check-executables-have-shebangs
       - id: check-yaml # Validate yaml file syntax
       - id: end-of-file-fixer # Ensure files end in newline char
-        exclude: .*\.(snap|graphql)$ # Don't modify Jest snapshots nor GQL files
+        exclude: src/(types/graphql/.*|.*\.snap)$ # Don't modify Jest snapshots nor codegen-made files
+        exclude_types: [graphql]
       - id: trailing-whitespace # Trim superfluous whitespace from eol
-        exclude: .*\.(snap|graphql)$ # Don't modify Jest snapshots nor GQL files
+        exclude: src/(types/graphql/.*|.*\.snap)$ # Don't modify Jest snapshots nor codegen-made files
+        exclude_types: [graphql]
         args: [--markdown-linebreak-ext=md]
 
       # Security
