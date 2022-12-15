@@ -1,8 +1,7 @@
-import React from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { Button } from "../Button";
 import { useFetchStateContext } from "../Indicators";
-import { string, bool } from "../../types";
+import { string, bool } from "@types";
 
 export const StripeFormSubmitButton = ({
   label,

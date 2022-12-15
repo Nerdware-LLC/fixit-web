@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { useElements, CardElement } from "@stripe/react-stripe-js";
 import { useFetchStateContext } from "../../Indicators";
 import { ErrorMessage } from "../../Typography";
-import { func } from "../../../types";
+import { func } from "@types";
 import type { StripeCardElementChangeEvent } from "@stripe/stripe-js";
 
 export const StripeCardInput = ({ setIsSubmitDisabled }: { setIsSubmitDisabled: Function }) => {

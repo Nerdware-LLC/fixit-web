@@ -7,7 +7,14 @@ jest.mock("./StripeFormChild", () => ({
 }));
 
 it("renders correctly", () => {
-  const tree = renderer.create(<StripeForm handleSubmit={jest.fn()} />).toJSON();
+  const tree = renderer
+    .create(
+      <StripeForm
+        handleSubmit={jest.fn()}
+        formSubmissionTermsText={"This is a mock value for `formSubmissionTermsText`."}
+      />
+    )
+    .toJSON();
 
   expect(tree).toMatchSnapshot();
 });

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "@emotion/styled";
 import { useStripeCardInput } from "./StripeCardInput";
 import { StripeFormSubmitButton } from "./StripeFormSubmitButton";
 import { useFetchStateContext } from "../Indicators";
-import { func, string } from "../../types";
-import { getTypeSafeErr } from "../../utils";
+import { func, string } from "@types";
+import { getTypeSafeErr } from "@utils";
 import type { PaymentMethod } from "@stripe/stripe-js";
 
 export const StripeFormChild = ({
@@ -49,15 +49,10 @@ export const StripeFormChild = ({
 };
 
 const StyledForm = styled.form`
-  box-sizing: border-box;
   width: 100%;
-  display: flex;
-  justify-self: flex-end;
 `;
 
-export const STRIPE_FORM_PROP_TYPES = {
+StripeFormChild.propTypes = {
   handleSubmit: func.isRequired,
   className: string
 };
-
-StripeFormChild.propTypes = STRIPE_FORM_PROP_TYPES;
