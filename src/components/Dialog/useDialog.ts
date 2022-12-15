@@ -7,5 +7,10 @@ export const useDialog = (initIsVisible = false) => {
   const openDialog = () => setIsDialogVisible(true);
   const closeDialog = () => setIsDialogVisible(false);
 
-  return { Dialog, isDialogVisible, openDialog, closeDialog };
+  return {
+    Dialog,
+    isDialogVisible,
+    openDialog,
+    closeDialog
+  };
 };
