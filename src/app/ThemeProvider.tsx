@@ -17,7 +17,8 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 /**
  * `ThemeProvider` merges this theme object with the @mui/material default theme:
  *
- * https://mui.com/material-ui/customization/default-theme/
+ * - https://mui.com/material-ui/customization/default-theme/
+ * - https://mui.com/material-ui/customization/dark-mode/
  */
 const THEMES = Object.fromEntries(
   ["DARK", "LIGHT"].map((themeModeName) => [
@@ -31,9 +32,9 @@ const THEMES = Object.fromEntries(
           dark: "#ac5a02"
         },
         secondary: {
-          light: themeModeName === "DARK" ? "#00FFDC" : "#625AFA",
-          main: themeModeName === "DARK" ? "#00FFDC" : "#625AFA",
-          dark: themeModeName === "DARK" ? "#00FFDC" : "#625AFA"
+          light: themeModeName === "DARK" ? "#a4fff3" : "#a19dff",
+          main: themeModeName === "DARK" ? "#00ffdc" : "#625afa",
+          dark: themeModeName === "DARK" ? "#00d6ba" : "#544dd6"
         },
         success: {
           light: "#33d373",
@@ -41,10 +42,14 @@ const THEMES = Object.fromEntries(
           dark: "#008c38"
         },
         error: {
-          main: "rgba(255, 115, 115, 0.87)"
+          light: "#e57373", // MUI default
+          main: "rgba(255, 115, 115, 0.87)",
+          dark: "#d32f2f" // MUI default
         },
         info: {
-          main: "#5796D6"
+          light: "#4fc3f7", // MUI default
+          main: "#5796D6",
+          dark: "#0288d1" // MUI default
         },
         text: {
           primary: themeModeName === "DARK" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)",
