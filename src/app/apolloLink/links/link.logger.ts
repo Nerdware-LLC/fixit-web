@@ -1,5 +1,5 @@
 import { ApolloLink } from "@apollo/client/link/core";
-import { logger } from "../../../utils";
+import { logger } from "@utils";
 
 // NOTE: maybe look into swapping this for apollo-link-logger
 // https://github.com/blackxored/apollo-link-logger
