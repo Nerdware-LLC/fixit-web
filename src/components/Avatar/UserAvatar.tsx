@@ -1,7 +1,6 @@
 import { useQuery } from "@apollo/client/react/hooks";
 import { Avatar } from "./Avatar";
-import { QUERIES } from "../../graphql";
-import React from "react";
+import { QUERIES } from "@graphql";
 
 /**
  * **UserAvatar** automatically fetches the user's `profile` which

@@ -1,8 +1,7 @@
-import React from "react";
 import MuiAvatar from "@mui/material/Avatar";
 import { styled } from "@mui/material/styles";
 import { Text } from "../Typography";
-import type { UserProfile } from "../../types";
+import type { UserProfile } from "@types";
 
 /**
  * **Avatar** type order of precedence:
@@ -18,7 +17,8 @@ export const Avatar = ({
   imageSrc,
   profile,
   withDisplayName = false,
-  styles
+  styles,
+  ...props
 }: {
   imageSrc?: string;
   profile?: UserProfile;
@@ -27,11 +27,12 @@ export const Avatar = ({
     avatar?: React.CSSProperties;
     displayName?: React.CSSProperties;
   };
-}) => {
+} & Omit<React.ComponentProps<typeof MuiAvatar>, "style">) => {
   const avatarProps = {
     alt: "User Avatar",
     style: styles?.avatar ?? {},
-    ...((!!imageSrc || !!profile?.photoUrl) && { src: imageSrc ?? profile?.photoUrl })
+    ...((!!imageSrc || !!profile?.photoUrl) && { src: imageSrc ?? profile?.photoUrl }),
+    ...props
   };
 
   const AvatarComp =
