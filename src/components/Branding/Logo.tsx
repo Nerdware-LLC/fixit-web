@@ -1,6 +1,5 @@
-import React from "react";
 import styled from "@emotion/styled";
-import logoSrc from "../../images/fixit-icon.png";
+import logoSrc from "@images/fixit-icon.png";
 
 export const Logo = ({ style = {} }: { style?: React.CSSProperties }) => (
   <StyledLogoImg src={logoSrc} style={style} />

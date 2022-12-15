@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "@emotion/styled";
 import { Logo } from "./Logo";
 import { Title } from "../Typography";
@@ -23,17 +22,15 @@ export const TitleLogo = ({
 const StyledTitleLogoContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-content: center;
+  justify-content: space-evenly;
   align-items: center;
   vertical-align: middle;
   &:hover {
-    cursor: ${(props) => (!!props.onClick ? "pointer" : "auto")};
+    cursor: ${(props) => (props.onClick ? "pointer" : "auto")};
   }
 `;
 
 const StyledTitle = styled(Title)`
   font-weight: bold;
   font-size: 4.75rem;
-  margin-left: 1.25rem;
 `;
