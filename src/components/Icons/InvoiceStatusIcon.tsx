@@ -12,12 +12,18 @@ export const InvoiceStatusIcon = ({
   status: Invoice["status"];
 } & React.ComponentProps<typeof StyledIconContainer>) => (
   <StyledIconContainer style={style} {...props}>
-    {STATUS_ICONS[status]}
+    {INV_STATUS_ICONS_STYLED[status]}
   </StyledIconContainer>
 );
 
-const STATUS_ICONS: Record<Invoice["status"], React.ReactNode> = {
+export const INV_STATUS_ICONS_STYLED: Record<Invoice["status"], React.ReactNode> = {
   OPEN: <FileInvoiceDollarIcon sx={{ fontSize: 28, marginLeft: "2px" }} />,
   CLOSED: <DollarCheckmarkIcon sx={{ fontSize: 34, margin: "1px 0 0 1.5px" }} />,
   DISPUTED: <ExclamationMarkIcon sx={{ fontSize: 34 }} />
+};
+
+export const INV_STATUS_ICONS: Record<Invoice["status"], React.ReactNode> = {
+  OPEN: <FileInvoiceDollarIcon />,
+  CLOSED: <DollarCheckmarkIcon />,
+  DISPUTED: <ExclamationMarkIcon />
 };

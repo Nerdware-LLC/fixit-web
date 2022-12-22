@@ -1,0 +1,1 @@
+export { TrowelBricksIcon } from "./TrowelBricksIcon";

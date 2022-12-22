@@ -14,11 +14,11 @@ export const WorkOrderStatusIcon = ({
   status: WorkOrder["status"];
 } & React.ComponentProps<typeof StyledIconContainer>) => (
   <StyledIconContainer style={style} {...props}>
-    {STATUS_ICONS[status]}
+    {WO_STATUS_ICONS[status]}
   </StyledIconContainer>
 );
 
-const STATUS_ICONS: Record<WorkOrder["status"], React.ReactNode> = {
+export const WO_STATUS_ICONS: Record<WorkOrder["status"], React.ReactNode> = {
   UNASSIGNED: <DocumentIcon sx={{ fontSize: 33, marginLeft: "1.5px" }} />,
   ASSIGNED: <EngineerCogsIcon sx={{ fontSize: 30, marginLeft: "1px" }} />,
   IN_PROGRESS: <ClockDottedOutlineIcon sx={{ fontSize: 35, marginTop: "1px" }} />,
