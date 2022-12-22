@@ -33,7 +33,7 @@ type AuthServiceCredentials = {
   googleAccessToken?: string;
 };
 
-type RegisterNewUserArgs = Required<Pick<User, "email" | "phone" | "profile">> &
+type RegisterNewUserArgs = Required<Pick<User, "handle" | "email" | "phone" | "profile">> &
   AuthServiceCredentials;
 
 type RegisterNewUserReturnValue = {

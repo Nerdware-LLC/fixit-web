@@ -24,26 +24,23 @@ export const RegisterPage = () => (
         <TitleLogo
           styles={{
             logo: { width: "8vw", marginRight: "1rem" },
+            title: { fontSize: "3.5rem" },
             container: { justifyContent: "center" }
           }}
         />
         <h1>User Registration</h1>
       </div>
-      <div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-            justifyItems: "space-evenly",
-            placeSelf: "center",
-            height: "35vh",
-            width: "25vw",
-            margin: "auto"
-          }}
-        >
-          <RegisterForm />
-        </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
+          placeSelf: "center",
+          width: "25vw",
+          margin: "auto"
+        }}
+      >
+        <RegisterForm />
       </div>
     </div>
   </FetchStateContextWrapper>

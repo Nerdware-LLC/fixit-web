@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 import { useNavigate, useLocation } from "react-router-dom";
+import InputAdornment from "@mui/material/InputAdornment";
 import { Form, TextInput, PasswordInput } from "@components";
 import { useAuthService } from "@hooks";
 
@@ -9,7 +10,8 @@ export const RegisterForm = () => {
   const nav = useNavigate();
 
   const handleSubmit = async (values: Parameters<typeof registerNewUser>[0]) => {
-    const { success } = await registerNewUser(values);
+    // Add "@" prefix to "handle"
+    const { success } = await registerNewUser({ ...values, handle: `@${values.handle}` });
 
     if (success) {
       /* If the user registered AFTER selecting a subscription from the /products page,
@@ -31,6 +33,12 @@ export const RegisterForm = () => {
       validationSchema={REGISTER_FORM.SCHEMA}
       onSubmit={handleSubmit}
     >
+      <TextInput
+        id="handle"
+        InputProps={{
+          startAdornment: <InputAdornment position="start">@</InputAdornment>
+        }}
+      />
       <TextInput id="phone" />
       <TextInput id="email" />
       <PasswordInput id="password" />
@@ -41,6 +49,7 @@ export const RegisterForm = () => {
 
 const REGISTER_FORM = {
   INITIAL_VALUES: {
+    handle: "",
     phone: "",
     email: "",
     password: "",
@@ -55,11 +64,15 @@ const REGISTER_FORM = {
   },
   SCHEMA: Yup.object().shape(
     {
+      handle: Yup.string()
+        .matches(
+          /^[a-zA-Z0-9_]{3,50}$/,
+          "Must be between 3-50 characters, and only contain letters, numbers, and underscores."
+        )
+        .required("Please choose a handle (this is how other users will identify you)"),
       phone: Yup.string()
         .matches(/^\d{10}$/, "Must be a valid phone number.")
-        .required(
-          "Please provide a phone number (this will help your contacts connect with you on Fixit)"
-        ),
+        .required("Please provide a phone number"),
       email: Yup.string()
         .email("Invalid email")
         .max(50, "Email must be fewer than 50 characters.")
