@@ -5,6 +5,7 @@ import type { UserStripeConnectAccount } from "./UserStripeConnectAccount.types"
 
 export type User = {
   id: string;
+  handle: string;
   email: string;
   phone: string;
   expoPushToken?: string;

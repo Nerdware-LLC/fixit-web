@@ -3,6 +3,7 @@ import type { UserSubscription } from "./UserSubscription.types";
 
 export type AuthTokenPayload = {
   id: User["id"];
+  handle: User["handle"];
   email: User["email"];
   phone: User["phone"];
   profile: User["profile"];

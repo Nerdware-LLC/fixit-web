@@ -16,8 +16,10 @@ export const useAuthToken = () => {
     // prettier-ignore
     const {
       id,
+      handle,
       email,
       phone,
+      profile,
       stripeCustomerID,
       stripeConnectAccount,
       subscription
@@ -37,8 +39,10 @@ export const useAuthToken = () => {
         user: {
           __typename: "User",
           id,
+          handle,
           email,
           phone,
+          profile,
           stripeCustomerID,
           stripeConnectAccount: {
             __typename: "StripeConnectAccount",

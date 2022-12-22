@@ -1,4 +1,4 @@
-import type { User } from "./User.types";
+import type { FixitUser } from "./FixitUser.types";
 import type { WorkOrderChecklist } from "./WorkOrderChecklist.types";
 
 // prettier-ignore
@@ -13,8 +13,8 @@ export const WORK_ORDER_CONSTANTS = {
 
 export type WorkOrder = {
   id: string;
-  createdBy: User;
-  assignedTo?: User;
+  createdBy: FixitUser;
+  assignedTo?: FixitUser;
   location: Location;
   status: typeof WORK_ORDER_CONSTANTS.STATUSES[number];
   priority: typeof WORK_ORDER_CONSTANTS.PRIORITIES[number];

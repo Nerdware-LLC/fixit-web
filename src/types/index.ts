@@ -12,6 +12,7 @@ export const CONSTANTS = {
 // Export all API types:
 export * from "./AuthToken.types";
 export * from "./Contact.types";
+export * from "./FixitUser.types";
 export * from "./Invoice.types";
 export * from "./User.types";
 export * from "./UserLogin.types";

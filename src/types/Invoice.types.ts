@@ -1,4 +1,4 @@
-import type { User } from "./User.types";
+import type { FixitUser } from "./FixitUser.types";
 
 export const INVOICE_CONSTANTS = {
   STATUSES: ["OPEN", "CLOSED", "DISPUTED"]
@@ -6,8 +6,8 @@ export const INVOICE_CONSTANTS = {
 
 export type Invoice = {
   id: string;
-  createdBy: User;
-  assignedTo: User;
+  createdBy: FixitUser;
+  assignedTo: FixitUser;
   amount: number;
   status: typeof INVOICE_CONSTANTS.STATUSES[number];
   stripePaymentIntentID?: string;
