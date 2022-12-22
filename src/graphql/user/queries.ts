@@ -1,20 +1,28 @@
 import { gql } from "@apollo/client";
-import { PrivateUserFields, AuthTokenFields } from "../user/fragments";
-
-export const USER_PRIVATE_FIELDS = gql`
-  query UserPrivateFields {
-    user {
-      ...PrivateUserFields
-    }
-  }
-  ${PrivateUserFields}
-`;
+import { ProfileFields } from "../profile/fragments";
+import { StripeConnectAccountFields } from "../stripeConnectAccount/fragments";
 
 export const USER_AUTH_TOKEN_FIELDS = gql`
   query UserAuthTokenFields {
     user {
-      ...AuthTokenFields
+      id
+      handle
+      email
+      phone
+      stripeCustomerID
+      profile {
+        ...ProfileFields
+      }
+      stripeConnectAccount {
+        ...StripeConnectAccountFields
+      }
+      subscription {
+        id
+        status
+        currentPeriodEnd
+      }
     }
   }
-  ${AuthTokenFields}
+  ${ProfileFields}
+  ${StripeConnectAccountFields}
 `;

@@ -1,25 +1,16 @@
 import { gql } from "@apollo/client";
-
-// export const RawPhoneContactFields = gql`
-//   fragment RawPhoneContactFields on RawPhoneContact {
-//     id
-//     name
-//     phone
-//     email
-//     photoUrl
-//   }
-// `;
+import { ProfileFields } from "../profile/fragments";
 
 export const PhoneContactFields = gql`
   fragment PhoneContactFields on PhoneContact {
     isUser
     id
-    name
+    handle
     phone
     email
-    givenName
-    familyName
-    businessName
-    photoUrl
+    profile {
+      ...ProfileFields
+    }
   }
+  ${ProfileFields}
 `;

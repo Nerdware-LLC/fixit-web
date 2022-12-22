@@ -10,11 +10,3 @@ export const UserSubscriptionFields = gql`
     createdAt
   }
 `;
-
-export const UserSubscriptionAuthTokenFields = gql`
-  fragment UserSubscriptionAuthTokenFields on UserSubscription {
-    id
-    status
-    currentPeriodEnd
-  }
-`;

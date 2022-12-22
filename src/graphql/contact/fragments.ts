@@ -4,12 +4,12 @@ import { ProfileFields } from "../profile/fragments";
 export const ContactFields = gql`
   fragment ContactFields on Contact {
     id
+    handle
     email
     phone
     profile {
       ...ProfileFields
     }
-    createdAt
   }
   ${ProfileFields}
 `;
