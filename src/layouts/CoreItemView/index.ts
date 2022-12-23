@@ -1,3 +1,3 @@
 export { CoreItemView } from "./CoreItemView";
-export { ItemDataDisplay } from "./ItemDataDisplay";
+export { ItemDetailsBox } from "./ItemDetailsBox";
 export { ItemDataLabel } from "./ItemDataLabel";
