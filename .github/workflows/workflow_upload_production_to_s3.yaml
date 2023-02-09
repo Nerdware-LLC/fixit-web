@@ -18,7 +18,8 @@ on:
 env:
   # Build env vars specific to prod env:
   NODE_ENV: production
-  REACT_APP_API_BASE_URL: https://gofixit.app/api
+  REACT_APP_API_BASE_URI: gofixit.app
+  REACT_APP_API_PROTOCOL: https
   REACT_APP_STRIPE_PUBLISHABLE_KEY: ${{ secrets.REACT_APP_STRIPE_LIVE_PUBLISHABLE_KEY }}
 
 jobs:

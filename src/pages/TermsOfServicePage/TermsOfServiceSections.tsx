@@ -1,0 +1,57 @@
+const ToS_SECTION_HEADERS = [
+  "AGREEMENT TO TERMS",
+  "INTELLECTUAL PROPERTY RIGHTS",
+  "USER REPRESENTATIONS",
+  "USER REGISTRATION",
+  "FEES AND PAYMENT",
+  "STRIPE SERVICES AGREEMENT",
+  "FREE TRIAL",
+  "CANCELLATION",
+  "PROHIBITED ACTIVITIES",
+  "USER GENERATED CONTRIBUTIONS",
+  "CONTRIBUTION LICENSE",
+  "MOBILE APPLICATION LICENSE",
+  "SOCIAL MEDIA",
+  "SUBMISSIONS",
+  "THIRD-PARTY WEBSITES AND CONTENT",
+  "U.S. GOVERNMENT RIGHTS",
+  "SITE MANAGEMENT",
+  "PRIVACY POLICY",
+  "COPYRIGHT INFRINGEMENTS",
+  "TERM AND TERMINATION",
+  "MODIFICATIONS AND INTERRUPTIONS",
+  "GOVERNING LAW",
+  "DISPUTE RESOLUTION",
+  "CORRECTIONS",
+  "DISCLAIMER",
+  "LIMITATIONS OF LIABILITY",
+  "INDEMNIFICATION",
+  "USER DATA",
+  "ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES",
+  "CALIFORNIA USERS AND RESIDENTS",
+  "MISCELLANEOUS",
+  "CONTACT US"
+] as const;
+
+export const ToS_SECTIONS = Object.fromEntries(
+  ToS_SECTION_HEADERS.map((header, index) => {
+    // Remove all non-alphanum chars from header for ID/anchor href
+    const ID = header.replace(/[^A-Z0-9]/gi, "-");
+
+    return [
+      header,
+      {
+        SECTION_NUM: index + 1,
+        ID,
+        HREF: `#${ID}`
+      }
+    ];
+  })
+) as Record<
+  typeof ToS_SECTION_HEADERS[number],
+  {
+    SECTION_NUM: number;
+    ID: string;
+    HREF: string;
+  }
+>;

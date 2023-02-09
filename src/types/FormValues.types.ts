@@ -17,6 +17,9 @@
  *
  * 5. Date-union types have `string` and `number` excluded.
  *    - `Date | number | string | undefined` becomes `Date | null`
+ *
+ * 6. Since inputs with `type: "numeric"` still output string values, `number` is
+ *    converted to `string`.
  */
 export type FormValues<T extends Record<string, any>, ExcludedFields extends keyof T = ""> = {
   [K in Exclude<keyof T, ExcludedFields>]-?: Date extends T[K]
@@ -40,6 +43,8 @@ type DistributiveFormPropertyConversions<T> = T extends undefined
   ? Date
   : T extends Record<string, any>
   ? FormValues<T>
+  : T extends number
+  ? string
   : T;
 
 export type NarrowDateValueTypes<T extends Record<string, any>> = {

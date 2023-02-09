@@ -4,11 +4,15 @@ import { useField } from "formik";
 import { ChecklistContainer } from "./ChecklistContainer";
 import { ChecklistLabelBar } from "./ChecklistLabelBar";
 import { ChecklistItem } from "./ChecklistItem";
-import type { WorkOrderFormChecklistItem } from "../../Form";
+import type { WorkOrderFormChecklistItem } from "../../formFieldHandlers";
 
-export const ChecklistInput = () => {
+export const ChecklistInput = ({
+  isInitiallyExpanded = false
+}: {
+  isInitiallyExpanded?: boolean;
+}) => {
   const [checklistField, , { setValue }] = useField("checklist");
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(isInitiallyExpanded);
   const [shouldAutoFocusLastItem, setShouldAutoFocusLastItem] = useState(false);
   const [nextIndex, setNextIndex] = useState<number>(checklistField.value?.length ?? 1);
 

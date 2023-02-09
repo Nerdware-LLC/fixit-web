@@ -1,7 +1,7 @@
 import StepConnector, { stepConnectorClasses } from "@mui/material/StepConnector";
 import { styled } from "@mui/material/styles";
 
-export const PrettyStepConnector = styled(StepConnector)<{ showerrorstyling: "yes" | "no" }>(
+export const PrettyStepConnector = styled(StepConnector)<{ showerrorstyling: "true" | "false" }>(
   ({ theme, showerrorstyling }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
       top: 23
@@ -14,7 +14,7 @@ export const PrettyStepConnector = styled(StepConnector)<{ showerrorstyling: "ye
     [`&.${stepConnectorClasses.active}`]: {
       [`& .${stepConnectorClasses.line}`]: {
         backgroundImage:
-          showerrorstyling === "no"
+          showerrorstyling === "false"
             ? `linear-gradient(95deg, ${theme.palette.primary.dark} 30%, ${theme.palette.primary.light})`
             : `linear-gradient(95deg, ${theme.palette.error.dark} 40%, ${theme.palette.error.light})`
       }
@@ -26,7 +26,7 @@ export const PrettyStepConnector = styled(StepConnector)<{ showerrorstyling: "ye
         theme.palette.mode === "dark" ? theme.palette.grey[700] : theme.palette.grey[400],
       borderRadius: 1
     },
-    ...(showerrorstyling === "yes" && {
+    ...(showerrorstyling === "true" && {
       backgroundImage: `linear-gradient(95deg, ${theme.palette.error.dark} 40%, ${theme.palette.error.light})`
     })
   })

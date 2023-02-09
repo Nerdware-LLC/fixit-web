@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
-import { useTheme } from "@mui/material/styles";
-import styled from "@emotion/styled";
+import { styled } from "@mui/material/styles";
 import { useElements, CardElement } from "@stripe/react-stripe-js";
+import { ErrorMessage } from "./ErrorMessage";
 import { useFetchStateContext } from "../../Indicators";
-import { ErrorMessage } from "../../Typography";
-import { func } from "@types";
 import type { StripeCardElementChangeEvent } from "@stripe/stripe-js";
 
 export const StripeCardInput = ({ setIsSubmitDisabled }: { setIsSubmitDisabled: Function }) => {
   const elements = useElements();
   const [cardError, setCardError] = useState<string | null>(null);
   const { error: fetchError } = useFetchStateContext();
-  const { palette } = useTheme();
 
   useEffect(() => {
     if (fetchError && elements) {
@@ -35,28 +32,20 @@ export const StripeCardInput = ({ setIsSubmitDisabled }: { setIsSubmitDisabled: 
 
   return (
     <CardInputContainer>
-      <StyledLabel htmlFor={"card-element"} style={{ color: palette.primary.main }}>
-        Credit or Debit Card
-      </StyledLabel>
+      <StyledLabel htmlFor="card-element">Credit or Debit Card</StyledLabel>
       <StyledCardElement
-        id={"card-element"}
-        options={CARD_ELEMENT_OPTIONS}
+        id="card-element"
         onChange={handleChange}
+        options={{
+          style: {
+            base: { fontSmoothing: "antialiased" },
+            invalid: { iconColor: "#fa755a" }
+          }
+        }}
       />
       <ErrorMessage error={cardError} />
     </CardInputContainer>
   );
-};
-
-const CARD_ELEMENT_OPTIONS = {
-  style: {
-    base: {
-      fontSmoothing: "antialiased"
-    },
-    invalid: {
-      iconColor: "#fa755a"
-    }
-  }
 };
 
 const StyledCardElement = styled(CardElement)`
@@ -91,18 +80,16 @@ const StyledCardElement = styled(CardElement)`
   }
 `;
 
-const StyledLabel = styled.label`
+// prettier-ignore
+const StyledLabel = styled("label")(({ theme }) => `
   font-size: 1rem;
   line-height: 1.25rem;
-`;
+  color: ${theme.palette.primary.main};
+`);
 
-const CardInputContainer = styled.div`
+const CardInputContainer = styled("div")`
   box-sizing: border-box;
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
 `;
-
-StripeCardInput.propTypes = {
-  setIsSubmitDisabled: func.isRequired
-};

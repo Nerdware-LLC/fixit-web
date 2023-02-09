@@ -1,14 +1,9 @@
 import { styled } from "@mui/material/styles";
-import { Form, TextInput, DatePicker } from "@components";
+import { Form, TextInput, AutocompleteContact, PhoneInput, DatePicker } from "@components";
 import { schema } from "./schema";
-import {
-  ChecklistInput,
-  LocationRegion,
-  SelectAssignee,
-  SelectCategory,
-  SelectPriority
-} from "./Inputs";
-import type { WorkOrder, FormValues } from "@types";
+import { ChecklistInput, LocationRegion, SelectCategory, SelectPriority } from "./Inputs";
+import type { WorkOrder } from "@types";
+import type { WorkOrderFormValues } from "./formFieldHandlers";
 
 // TODO Ensure there's a loading-wheel or some other kind of feedback onSubmit for create/update WO
 
@@ -25,11 +20,12 @@ export const WorkOrderForm = ({
     <Form initialValues={initialFormValues} validationSchema={schema} onSubmit={onSubmit}>
       <FormGridContainer>
         <GridBox style={{ gridArea: "top-left", justifyContent: "flex-start", padding: "1rem" }}>
-          <SelectAssignee
+          <AutocompleteContact
             id="assignedTo"
             label="Assign to Contact"
-            currentWorkOrderStatus={currentWorkOrderStatus}
-            styles={{ container: { marginBottom: "1.5rem" } }}
+            // assignedTo is disabled if WO status is IN_PROGRESS, DEFERRED, or COMPLETE
+            disabled={["IN_PROGRESS", "DEFERRED", "COMPLETE"].includes(currentWorkOrderStatus)}
+            style={{ marginBottom: "1.5rem" }}
           />
           <Row
             style={{
@@ -44,12 +40,7 @@ export const WorkOrderForm = ({
               label="Priority"
               styles={{ container: { width: "40%" } }}
             />
-            <SelectCategory
-              id="category"
-              label="Category"
-              fullWidth
-              styles={{ container: { width: "45%" } }}
-            />
+            <SelectCategory id="category" label="Category" fullWidth style={{ width: "45%" }} />
           </Row>
           <TextInput id="description" label="Description" multiline maxRows={3} />
         </GridBox>
@@ -69,7 +60,7 @@ export const WorkOrderForm = ({
             justifyContent: "flex-start"
           }}
         >
-          <ChecklistInput />
+          <ChecklistInput isInitiallyExpanded={(initialFormValues?.checklist?.length ?? 0) > 0} />
         </GridBox>
         <GridBox style={{ gridArea: "bottom-right", justifyContent: "flex-end" }}>
           <Row>
@@ -87,10 +78,9 @@ export const WorkOrderForm = ({
             />
           </Row>
           <Row>
-            <TextInput
+            <PhoneInput
               id="entryContactPhone"
               label="Entry Contact - Phone"
-              contentType="phone"
               style={{ width: "55%" }}
             />
             <DatePicker
@@ -116,14 +106,6 @@ export const WorkOrderForm = ({
     </Form>
   );
 };
-
-export type WorkOrderFormValues = FormValues<
-  WorkOrder,
-  "id" | "createdBy" | "status" | "contractorNotes" | "createdAt" | "updatedAt"
->;
-
-// Below type is used by ChecklistInput components
-export type WorkOrderFormChecklistItem = NonNullable<WorkOrderFormValues["checklist"]>[number];
 
 const FormGridContainer = styled("div")`
   height: 100%;

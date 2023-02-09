@@ -2,7 +2,12 @@ import { useQuery } from "@apollo/client/react/hooks";
 import { InvoicesListItem } from "./ListItem";
 import { Loading, Error } from "@components";
 import { QUERIES } from "@graphql";
-import { CoreItemsListView, InboxListVisToggleBtns, useInboxListVisToggleBtns } from "@layouts";
+import {
+  CoreItemsListView,
+  InboxListVisToggleBtns,
+  useInboxListVisToggleBtns,
+  type ListViewRenderItemFn
+} from "@layouts";
 import { MOCK_INVOICES } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
 
 export const InvoicesListView = () => {
@@ -29,7 +34,6 @@ export const InvoicesListView = () => {
         <InboxListVisToggleBtns
           listVisibility={listVisibility}
           onChange={handleChangeListVisibility}
-          style={{ marginLeft: "auto", marginRight: "2rem" }}
         />
       }
       lists={[
@@ -44,7 +48,9 @@ export const InvoicesListView = () => {
           items: MOCK_INVOICES.myInvoices.createdByUser as any
         }
       ]}
-      listItemComponent={<InvoicesListItem />}
+      renderItem={renderInvoicesListItem}
     />
   );
 };
+
+const renderInvoicesListItem: ListViewRenderItemFn = (props) => <InvoicesListItem {...props} />;

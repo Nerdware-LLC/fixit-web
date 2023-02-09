@@ -1,54 +1,47 @@
-import { Link as RRD_Link } from "react-router-dom";
-import { useTheme, styled } from "@mui/material/styles";
+import { Link as RRDomLink } from "react-router-dom";
+import { styled } from "@mui/material/styles";
 
-export const TextExternalLink = ({
-  href,
-  linkText,
-  children,
-  style = {},
-  ...props
-}: {
-  href: string;
-  linkText?: string;
-  children?: React.ReactNode;
-  style?: React.CSSProperties;
-} & React.ComponentPropsWithoutRef<"a">) => {
-  const { palette } = useTheme();
+export const Link = styled(RRDomLink)<LinkColor>(({ theme, themecolor = "secondary" }) => ({
+  color: theme.palette[themecolor].main
+}));
 
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      style={{ color: palette.secondary.main, ...style }}
-      {...props}
-    >
-      {linkText ?? children ?? href}
-    </a>
-  );
-};
+export const StyledAnchor = styled("a")<LinkColor>(({ theme, themecolor = "secondary" }) => ({
+  color: theme.palette[themecolor].main
+}));
 
 export const AnchorLink = ({
   href,
   linkText,
   children,
-  style = {},
   ...props
 }: {
   href: string;
   linkText?: string;
   children?: React.ReactNode;
-  style?: React.CSSProperties;
-} & React.ComponentPropsWithoutRef<"a">) => {
-  const { palette } = useTheme();
+} & React.ComponentPropsWithoutRef<typeof StyledAnchor>) => (
+  <StyledAnchor href={href} {...props}>
+    {linkText ?? children ?? href}
+  </StyledAnchor>
+);
 
-  return (
-    <a href={href} style={{ color: palette.secondary.main, ...style }} {...props}>
-      {linkText ?? children ?? href}
-    </a>
-  );
-};
+/**
+ * `<AnchorLink>`, with attributes `target="_blank"` and `rel="noreferrer"`.
+ */
+export const TextExternalLink = ({
+  href,
+  linkText,
+  children,
+  ...props
+}: {
+  href: string;
+  linkText?: string;
+  children?: React.ReactNode;
+} & React.ComponentPropsWithoutRef<typeof StyledAnchor>) => (
+  <StyledAnchor href={href} target="_blank" rel="noreferrer" {...props}>
+    {linkText ?? children ?? href}
+  </StyledAnchor>
+);
 
-export const Link = styled(RRD_Link)(({ theme }) => ({
-  color: theme.palette.secondary.main
-}));
+export interface LinkColor {
+  themecolor?: "primary" | "secondary" | "info";
+}

@@ -7,7 +7,8 @@ const DEFAULT_DATETIME_FORMATS = {
   date: "M/D/Y",
   shortDate: "MMM Do",
   longDate: "dddd, MMMM Do, Y",
-  time: "h:mm A"
+  time: "h:mm A",
+  dateAndTime: "MM/DD/Y h:mm a"
 };
 
 /**
@@ -24,6 +25,14 @@ export const getTime = (dateTime: MomentInput, format = DEFAULT_DATETIME_FORMATS
  */
 export const getDate = (dateTime: MomentInput, format = DEFAULT_DATETIME_FORMATS.date) => {
   return moment(dateTime).format(format);
+};
+
+/**
+ * Get a MomentJS-formatted dateTime string.
+ * - Format: `"M/D/Y h:mm a"`
+ */
+export const getDateAndTime = (dateTime: MomentInput) => {
+  return moment(dateTime).format(DEFAULT_DATETIME_FORMATS.dateAndTime);
 };
 
 /**

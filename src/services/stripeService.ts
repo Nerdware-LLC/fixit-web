@@ -1,5 +1,5 @@
 import { httpService } from "./httpService";
-import type { EncodedAuthToken } from "@types";
+import type { UserSubscriptionPriceLabel, EncodedAuthToken } from "@types";
 
 /**
  * Fixit API Stripe-Service Methods
@@ -22,7 +22,7 @@ export const stripeService = {
     promoCode,
     paymentMethodID
   }: {
-    selectedSubscription: string;
+    selectedSubscription: UserSubscriptionPriceLabel;
     paymentMethodID: string;
     promoCode?: string;
   }): Promise<{ token: EncodedAuthToken }> => {
@@ -47,6 +47,6 @@ export const stripeService = {
   }
 };
 
-type StripeServiceLinkResponse = {
+export type StripeServiceLinkResponse = {
   stripeLink: string;
 };

@@ -1,4 +1,5 @@
 import type { FixitUser } from "./FixitUser.types";
+import type { WorkOrder } from "./WorkOrder.types";
 
 export const INVOICE_CONSTANTS = {
   STATUSES: ["OPEN", "CLOSED", "DISPUTED"]
@@ -11,7 +12,7 @@ export type Invoice = {
   amount: number;
   status: typeof INVOICE_CONSTANTS.STATUSES[number];
   stripePaymentIntentID?: string;
-  workOrderID?: string;
+  workOrder?: WorkOrder;
   createdAt: Date;
   updatedAt: Date;
 };

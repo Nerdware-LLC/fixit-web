@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { isConnectOnboardingNeededStore } from "@cache";
 import { useStripeService } from "@hooks";
-import { useDialog } from "@components";
+import { Dialog } from "@components";
 
 /**
  * During the authentication process, `isConnectOnboardingNeededStore` will
@@ -56,7 +56,7 @@ export const StripeConnectOnboardingStateLayer = ({ children }: { children: Reac
 
   // Local/internal Dialog state vars (init isDialogVisible set to isConnectOnboardingNeeded)
   const [hasAlertedUser, setHasAlertedUser] = useState(false);
-  const { Dialog, isDialogVisible, closeDialog } = useDialog(isConnectOnboardingNeeded);
+  const { isDialogVisible, closeDialog } = Dialog.useDialog(isConnectOnboardingNeeded);
 
   const handleDialogAccept = async () => {
     closeDialog();

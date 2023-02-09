@@ -19,51 +19,59 @@ export const InvoiceProcessStepper = ({
     ? [...INVOICE_PROCESS_STEPS.SENDER]
     : [...INVOICE_PROCESS_STEPS.RECEIVER];
 
-  const activeStep = invoiceStatus === "OPEN" ? 1 : invoiceStatus === "DISPUTED" ? 2 : 3;
+  const activeStep = invoiceStatus === "OPEN" ? 1 : invoiceStatus === "DISPUTED" ? 1 : 3;
 
   // Handle Invoice status "DISPUTED" (recipient rejected payment request)
   if (invoiceStatus === "DISPUTED") {
-    steps[2] = isItemOwnedByUser ? INVOICE_DISPUTED_STEPS.SENDER : INVOICE_DISPUTED_STEPS.RECEIVER;
+    steps[1] = isItemOwnedByUser ? INVOICE_DISPUTED_STEPS.SENDER : INVOICE_DISPUTED_STEPS.RECEIVER;
   }
 
   return (
-    <Stepper
-      activeStep={activeStep}
-      connector={
-        <PrettyStepConnector showerrorstyling={invoiceStatus === "DISPUTED" ? "yes" : "no"} />
-      }
-      alternativeLabel
-    >
-      {steps.map(({ label, caption, description, showErrorStyling = false }, index) => (
-        <Step key={label}>
-          <PrettyStepLabel
-            StepIconComponent={PrettyStepIcon}
-            error={showErrorStyling}
-            optional={
-              index === activeStep && (
-                <Text variant="caption" color="gray">
-                  {caption}
-                </Text>
-              )
-            }
-          >
-            {label}
-          </PrettyStepLabel>
-          {index === activeStep && !!description && (
-            <Stack direction="row" alignItems="center" spacing={2} style={{ marginTop: "3rem" }}>
-              <InfoIcon style={{ display: "inline-flex" }} />
-              <Text>{description}</Text>
-            </Stack>
-          )}
-        </Step>
-      ))}
-    </Stepper>
+    <>
+      <Stepper
+        activeStep={activeStep}
+        connector={<PrettyStepConnector showerrorstyling={`${invoiceStatus === "DISPUTED"}`} />}
+        alternativeLabel
+      >
+        {steps.map(({ label, caption, showErrorStyling = false }, index) => (
+          <Step key={label}>
+            <PrettyStepLabel
+              StepIconComponent={PrettyStepIcon}
+              error={showErrorStyling}
+              style={{ whiteSpace: "nowrap" }}
+              optional={
+                index === activeStep && (
+                  <Text variant="caption" color="gray">
+                    {caption}
+                  </Text>
+                )
+              }
+            >
+              {label}
+              {index < activeStep && ` ✅`}
+            </PrettyStepLabel>
+          </Step>
+        ))}
+      </Stepper>
+      {steps[activeStep]?.description && (
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          spacing={2}
+          style={{ margin: "3rem 0 -1rem 0" }}
+        >
+          <InfoIcon style={{ display: "inline-flex" }} />
+          <Text>{steps[activeStep].description}</Text>
+        </Stack>
+      )}
+    </>
   );
 };
 
 const INVOICE_PROCESS_STEPS: Record<InvoiceParticipantLabel, Array<MuiStepInput>> = {
   SENDER: [
-    { label: "Submit Invoice", caption: "Status: OPEN" },
+    { label: "Invoice Submitted", caption: "Status: OPEN" },
     {
       label: "Awaiting Payment",
       caption: "Status: OPEN",
@@ -73,8 +81,12 @@ const INVOICE_PROCESS_STEPS: Record<InvoiceParticipantLabel, Array<MuiStepInput>
   ],
   RECEIVER: [
     { label: "Invoice Received", caption: "Status: OPEN" },
-    { label: "Pay Invoice", caption: "Status: OPEN" },
-    { label: "Payment Submitted", caption: "Status: CLOSED" }
+    {
+      label: "Pay Invoice",
+      caption: "Status: OPEN",
+      description: `Click "Pay Invoice" to submit payment.`
+    },
+    { label: "Invoice Closed", caption: "Status: CLOSED" }
   ]
 };
 
@@ -82,11 +94,13 @@ const INVOICE_DISPUTED_STEPS: Record<InvoiceParticipantLabel, MuiStepInput> = {
   SENDER: {
     label: "Recipient Declined Payment Request",
     caption: "Status: DISPUTED",
+    description: "Your payment request was denied.",
     showErrorStyling: true
   },
   RECEIVER: {
     label: "Payment Request Declined",
     caption: "Status: DISPUTED",
+    description: "You declined the payment request.",
     showErrorStyling: true
   }
 };

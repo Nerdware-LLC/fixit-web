@@ -9,7 +9,7 @@ export const Checklist = ({ checklist }: { checklist: WorkOrderChecklist }) => (
   <ChecklistContainer>
     <ChecklistLabelContainer>
       <ListIcon style={{ marginRight: "0.25rem" }} />
-      <Text>CHECKLIST</Text>
+      <Text>Checklist</Text>
     </ChecklistLabelContainer>
     <div style={{ width: "100%", padding: "0 1rem" }}>
       {/* TODO add quick-action buttons like "Mark All Complete" */}

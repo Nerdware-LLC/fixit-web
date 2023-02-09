@@ -22,11 +22,30 @@ export const WorkOrderCategoryIcon = ({
 }: {
   category: Extract<WorkOrder["category"], string>;
 } & React.ComponentProps<typeof SvgIcon>) => {
-  const CategoryIcon = () => WO_CATEGORY_ICONS[category];
+  const CategoryIcon = WO_CATEGORY_ICONS[category];
+
   return <CategoryIcon {...props} />;
 };
 
 export const WO_CATEGORY_ICONS = {
+  DRYWALL: RectanglesIcon,
+  ELECTRICAL: LightningBoltIcon,
+  FLOORING: LayersIcon,
+  GENERAL: HomeRepairServiceIcon,
+  HVAC: AirIcon,
+  LANDSCAPING: TreesIcon,
+  MASONRY: TrowelBricksIcon,
+  PAINTING: PaintRollerIcon,
+  PAVING: RoadIcon,
+  PEST: PestBugIcon,
+  PLUMBING: PlumbingIcon,
+  ROOFING: RoofingIcon,
+  TRASH: TrashCanIcon,
+  TURNOVER: ToolsIcon,
+  WINDOWS: WindowIcon
+};
+
+export const WO_CATEGORY_ICON_REACT_NODES = {
   DRYWALL: <RectanglesIcon />,
   ELECTRICAL: <LightningBoltIcon />,
   FLOORING: <LayersIcon />,

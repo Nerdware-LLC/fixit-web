@@ -1,20 +1,15 @@
 import { ReactiveStore } from "./ReactiveStore";
+import type { ThemeName } from "@app/ThemeProvider";
 
-export const themeStore = new ReactiveStore<ThemeName>("DARK") as ThemeStore;
+export const themeStore = new ReactiveStore<ThemeName>({
+  storageKey: "preferredTheme",
+  defaultValue: "DARK"
+}) as ThemeStore;
 
-themeStore.toggle = (currentTheme) => {
-  if (!currentTheme) currentTheme = themeStore.get() as ThemeName;
-  themeStore.set(OTHER_THEME[currentTheme]);
+themeStore.toggle = (currentTheme = themeStore.get()) => {
+  themeStore.set(currentTheme === "DARK" ? "LIGHT" : "DARK");
 };
-
-const OTHER_THEME = {
-  LIGHT: "DARK",
-  DARK: "LIGHT"
-};
-
-type ThemeName = "DARK" | "LIGHT";
 
 type ThemeStore = {
-  useSubToStore: () => ThemeName;
   toggle: (currentTheme?: ThemeName) => void;
 } & ReactiveStore<ThemeName>;

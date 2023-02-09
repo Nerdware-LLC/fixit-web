@@ -1,14 +1,12 @@
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
-import { useTheme } from "@mui/material/styles";
 import CheckmarkIcon from "@mui/icons-material/CheckCircle";
 import { StyledText } from "./SubCostDetails";
 import { checkoutValuesStore } from "@app";
 import { ENV } from "@config";
 
 export const PromoCodeInput = () => {
-  const { palette } = useTheme();
   // checkoutValuesStore: only updated upon valid promoCode entry
   const { promoCode, selectedSubscription } = checkoutValuesStore.useSubToStore();
   // TextField state: local value/touched/error/success
@@ -45,7 +43,7 @@ export const PromoCodeInput = () => {
         // IF VALID, update checkoutValuesStore
         setFieldState({ ...fieldState, success: true });
         // NOTE: "success" styling only shown for a brief moment w this setup
-        checkoutValuesStore.setCheckoutValues({
+        checkoutValuesStore.set({
           selectedSubscription,
           promoCode: fieldState.value
         });
@@ -81,10 +79,10 @@ export const PromoCodeInput = () => {
       error={!!(fieldState.touched && fieldState.error)}
       helperText={fieldState.touched && fieldState.error ? "Invalid promo code" : null}
       autoCapitalize="characters"
-      style={{
+      sx={{
         width: "100%",
-        backgroundColor: palette.background.paper,
-        ...(fieldState.success && { color: palette.success.main })
+        backgroundColor: ({ palette }) => palette.background.paper,
+        ...(fieldState.success && { color: ({ palette }) => palette.success.main })
       }}
     />
   );

@@ -1,116 +1,151 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import Line from "@mui/material/Divider";
-import styled from "@emotion/styled";
-import { ProductInfoDisplay } from "./ProductInfoDisplay";
-import { checkoutValuesStore } from "@app";
-import { Title, TextExternalLink, StripeBadge } from "@components";
-import { PageContainer } from "@layouts";
-import { CONSTANTS } from "@types";
-
-// TODO On ProductsPage, add links to /privacy and /ToS
+import { styled } from "@mui/material/styles";
+import Text from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import { usePageLayoutContext } from "@app";
+import { TextExternalLink, StripeBadge, LegalLinks } from "@components";
+import { ProductSelection } from "./ProductSelection";
 
 /**
  * **ProductsPage**
  * - Renders when path is "/products"
  */
 export const ProductsPage = () => {
-  const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore();
   const { state: locationState } = useLocation();
+  const { isMobilePageLayout } = usePageLayoutContext();
 
   useEffect(() => {
     if (locationState?.isRedirect === true) {
       window.history.replaceState({}, document.title); // <-- clears window history state without re-render
-      toast.info("Please select a subscription", { toastId: "please-select-sub" });
+
+      /* If a redirect comes from anywhere other than /register, show a
+      toast msg prompting user to select a sub. Redirects from /register
+      after successful user registration already show a toast msg prompting
+      user to select a sub, so no need to duplicate the msg here. */
+      if (locationState?.redirectedFrom !== "/register") {
+        toast.info("Please select a subscription", { toastId: "please-select-sub" });
+      }
     }
   }, [locationState]);
 
   return (
-    <PageContainer>
-      <StyledContentContainer>
-        <StyledHeaderContainer>
-          <StyledPageHeader>Product Pricing</StyledPageHeader>
-        </StyledHeaderContainer>
-        <StyledPriceInfoDisplaysContainer>
-          {CONSTANTS.USER_SUBSCRIPTION.PRICE_LABELS.map((productLabel) => (
-            <ProductInfoDisplay
-              key={`ProductInfoDisplay:${productLabel}`}
-              label={productLabel}
-              onClick={() =>
-                checkoutValuesStore.setCheckoutValues({
-                  selectedSubscription: productLabel,
-                  promoCode: promoCode ?? null
-                })
+    <ProductsPageContainer>
+      <Text
+        component="h1"
+        style={{
+          ...(isMobilePageLayout
+            ? {
+                padding: "2rem",
+                fontSize: "1.9rem"
               }
-              isSelected={selectedSubscription === productLabel}
-            />
-          ))}
-        </StyledPriceInfoDisplaysContainer>
-        <Line style={{ margin: "-1rem 0 -1.5rem 0" }} />
+            : {
+                padding: "3rem",
+                fontSize: "2rem"
+              }),
+          lineHeight: "2.2rem",
+          fontWeight: "bold",
+          whiteSpace: "nowrap"
+        }}
+      >
+        Subscription Pricing
+      </Text>
+      <ProductSelection isMobilePageLayout={isMobilePageLayout} />
+      <Divider
+        style={{
+          margin: isMobilePageLayout ? "1.75rem 0" : "3rem 0",
+          width: "clamp(15rem, 100%, 85rem)",
+          minWidth: "15rem"
+        }}
+      />
+      <div
+        style={{
+          ...(isMobilePageLayout ? { flexWrap: "wrap" } : { minWidth: "100%" }),
+          width: "100%",
+          maxWidth: "100dvh",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between"
+        }}
+      >
         <div
+          id="products-page-paragraphs-container"
           style={{
+            ...(isMobilePageLayout
+              ? { width: "100%" }
+              : {
+                  maxWidth: "60rem",
+                  width: "60%"
+                }),
+            flexGrow: 1,
+            flexShrink: 1,
             display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "flex-start"
+            flexDirection: "column"
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <StyledText style={{ fontWeight: "bold", margin: "0" }}>
-              Fixit uses <TextExternalLink linkText="Stripe" href="https://stripe.com/" /> to
-              process your payments quickly and keep your personal and payment information secure.
-              Millions of companies around the world trust Stripe to process payments for their
-              users.
-            </StyledText>
-            <br />
-            <StyledText style={{ margin: "0" }}>
-              For payments made with a credit card, Stripe charges a transaction fee of 2.9% + 30¢.
-              Click{" "}
-              <TextExternalLink linkText="here" href="https://stripe.com/pricing#pricing-details" />{" "}
-              to learn more about Stripe transaction pricing.
-            </StyledText>
-          </div>
-          <div style={{ height: "100%", display: "flex", alignItems: "center" }}>
+          <Text style={{ fontWeight: "bold" }}>
+            Fixit uses <TextExternalLink linkText="Stripe" href="https://stripe.com/" /> to process
+            your payments quickly and keep your personal and payment information secure. Millions of
+            companies around the world trust Stripe to process payments for their users.
+          </Text>
+          <br />
+          <Text>
+            For payments made with a credit card, Stripe charges a transaction fee of 2.9% + 30¢.
+            Click{" "}
+            <TextExternalLink linkText="here" href="https://stripe.com/pricing#pricing-details" />{" "}
+            to learn more about Stripe transaction pricing.
+          </Text>
+          <br />
+          <LegalLinks includeStripeBadge={isMobilePageLayout} />
+        </div>
+        {!isMobilePageLayout && (
+          <div
+            style={{
+              minWidth: "20rem",
+              width: "25%",
+              padding: "2.5rem 5rem",
+              flexGrow: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
             <StripeBadge style={{ height: "2.5rem", margin: "0 5rem" }} />
           </div>
-        </div>
-      </StyledContentContainer>
-    </PageContainer>
+        )}
+      </div>
+    </ProductsPageContainer>
   );
 };
 
-const StyledContentContainer = styled.div`
-  height: 100%;
-  padding: 0 15vw;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-`;
+const ProductsPageContainer = styled("div")(({ theme }) => ({
+  height: "100%",
+  minWidth: "15rem",
+  width: "100%",
+  maxWidth: "85rem",
+  margin: "0 auto",
+  padding: "0 clamp(2rem, 5%, 15vw)",
+  textAlign: "center",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
 
-const StyledHeaderContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+  "& #products-page-paragraphs-container": {
+    "& > .MuiTypography-root": {
+      fontSize: "1rem",
+      lineHeight: "1.65rem",
+      textAlign: "left",
+      margin: 0
+    },
 
-const StyledPageHeader = styled(Title)`
-  font-size: 2rem;
-  line-height: 0;
-  font-weight: bold;
-`;
-
-const StyledPriceInfoDisplaysContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-self: center;
-`;
-
-const StyledText = styled.p`
-  font-size: 1rem;
-  line-height: 1.75rem;
-  text-align: left;
-`;
+    "& div.legal-links-container": {
+      alignSelf: "center",
+      ...(theme.variables.isMobilePageLayout && { marginBottom: "2.5rem" })
+      /* Why the marginBottom on mobile? On desktop, the div that contains
+      StripeBadge pads the bottom, but on mobile StripeBadge "moves" to the
+      LegalLinks area and the div isn't rendered, hence the margin. */
+    }
+  }
+}));

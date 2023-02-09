@@ -1,0 +1,1 @@
+export { PenToSquareIcon } from "./PenToSquareIcon";

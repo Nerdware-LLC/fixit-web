@@ -1,10 +1,10 @@
 import { FormFieldHandlers } from "@utils";
-import type { WorkOrderChecklist } from "@types";
+import type { WorkOrder, FormValues, FixitUser, WorkOrderChecklist } from "@types";
 
-export const woFormFieldHandlers = new FormFieldHandlers({
+export const woFormFieldHandlers = new FormFieldHandlers<WorkOrderFormValues>({
   onUpdate: {
     createdBy: false,
-    assignedTo: (rawFieldValue) => rawFieldValue?.id,
+    assignedTo: (rawFieldValue?: FixitUser) => rawFieldValue?.id ?? null,
     status: false,
     checklist: (rawFieldValue?: WorkOrderChecklist) => {
       return (
@@ -41,3 +41,11 @@ export const woFormFieldHandlers = new FormFieldHandlers({
     }
   }
 });
+
+export type WorkOrderFormValues = FormValues<
+  WorkOrder,
+  "id" | "createdBy" | "status" | "contractorNotes" | "createdAt" | "updatedAt"
+>;
+
+// Below type is used by ChecklistInput components
+export type WorkOrderFormChecklistItem = NonNullable<WorkOrderFormValues["checklist"]>[number];

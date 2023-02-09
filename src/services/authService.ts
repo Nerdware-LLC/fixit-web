@@ -2,9 +2,7 @@ import { httpService } from "./httpService";
 import type { User, EncodedAuthToken, WorkOrder, Invoice, Contact } from "@types";
 
 export const authService = {
-  registerNewUser: async (
-    userRegArgs: RegisterNewUserArgs
-  ): Promise<RegisterNewUserReturnValue> => {
+  registerNewUser: async (userRegArgs: RegisterNewUserArgs): Promise<AuthServiceToken> => {
     return await httpService.post("/api/auth/register", {
       ...userRegArgs,
       type: discernLoginType(userRegArgs)
@@ -36,11 +34,11 @@ type AuthServiceCredentials = {
 type RegisterNewUserArgs = Required<Pick<User, "handle" | "email" | "phone" | "profile">> &
   AuthServiceCredentials;
 
-type RegisterNewUserReturnValue = {
+export type AuthServiceToken = {
   token: EncodedAuthToken;
 };
 
-type AuthTokenAndPreFetchedUserItems = RegisterNewUserReturnValue & {
+export type PreFetchedUserItems = {
   userItems?: {
     workOrders?: Array<WorkOrder>;
     invoices?: Array<Invoice>;
@@ -48,8 +46,4 @@ type AuthTokenAndPreFetchedUserItems = RegisterNewUserReturnValue & {
   };
 };
 
-export interface PreFetchedUserItems {
-  workOrders?: Array<WorkOrder>;
-  invoices?: Array<Invoice>;
-  contacts?: Array<Contact>;
-}
+type AuthTokenAndPreFetchedUserItems = AuthServiceToken & PreFetchedUserItems;

@@ -1,13 +1,12 @@
 import { useStripe, useElements } from "@stripe/react-stripe-js";
-import { Button } from "../Button";
-import { useFetchStateContext } from "../Indicators";
-import { string, bool } from "@types";
+import Button from "@mui/material/Button";
+import { useFetchStateContext } from "@components";
 
 export const StripeFormSubmitButton = ({
-  label,
+  label = "Subscribe",
   isSubmitDisabled,
   ...props
-}: Omit<React.ComponentProps<typeof Button>, "label"> & {
+}: React.ComponentProps<typeof Button> & {
   label?: string;
   isSubmitDisabled: boolean;
 }) => {
@@ -17,25 +16,18 @@ export const StripeFormSubmitButton = ({
 
   return (
     <Button
-      label={label ?? "Subscribe"}
       type="submit"
       disabled={!stripe || !elements || isLoading || isSubmitDisabled}
-      variant="contained"
       color="primary"
       size="large"
-      style={defaultStyle}
+      style={{
+        display: "flex",
+        justifySelf: "flex-end",
+        lineHeight: "1.75rem"
+      }}
       {...props}
-    />
+    >
+      {label}
+    </Button>
   );
-};
-
-const defaultStyle = {
-  display: "flex",
-  justifySelf: "flex-end",
-  lineHeight: "1.75rem"
-};
-
-StripeFormSubmitButton.propTypes = {
-  label: string,
-  isSubmitDisabled: bool.isRequired
 };

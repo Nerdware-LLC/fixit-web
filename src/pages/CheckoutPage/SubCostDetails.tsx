@@ -1,10 +1,9 @@
-import styled from "@emotion/styled";
-import { useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
+import Text from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { SwitchToAnnual } from "./SwitchToAnnual";
 import { PromoCodeInput } from "./PromoCodeInput";
-import { checkoutValuesStore } from "@app";
-import { Text } from "@components";
+import { checkoutValuesStore, type CheckoutValues } from "@app";
 import { ENV } from "@config";
 import { formatNum } from "@utils";
 import type { UserSubscriptionPriceLabel } from "@types";
@@ -18,8 +17,7 @@ import type { UserSubscriptionPriceLabel } from "@types";
  *   info to the server results a 400 response.`
  */
 export const SubCostDetails = () => {
-  const { selectedSubscription: sub, promoCode } = checkoutValuesStore.useSubToStore();
-  const { palette } = useTheme();
+  const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore() as CheckoutValues;
 
   const {
     label,
@@ -27,7 +25,7 @@ export const SubCostDetails = () => {
     billingPeriod = null,
     trialDays = null,
     afterTrial = null
-  } = SUB_DICT_DISPLAY_PARAMS[sub];
+  } = SUB_DICT_DISPLAY_PARAMS[selectedSubscription];
 
   const priceStr = formatNum.toCurrencyStr(price);
   const afterTrialPriceStr = afterTrial ? formatNum.toCurrencyStr(afterTrial.price) : null;
@@ -38,77 +36,100 @@ export const SubCostDetails = () => {
     ? getTotal_DISPLAY_ONLY(afterTrial.price, promoCode)
     : null;
 
-  const captionStyle = {
-    fontSize: "0.9rem",
-    color: palette.mode === "dark" ? palette.grey[400] : palette.grey[800]
-  };
-
   return (
-    <SubDetailsContainer>
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        whiteSpace: "nowrap"
+      }}
+    >
       <div>
         <StyledText>{label}</StyledText>
-        <StyledPriceInfoBox>
-          <h1 style={{ fontSize: "3rem", lineHeight: "3.25rem", margin: "0 0.5rem 0 0" }}>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            whiteSpace: "pre"
+          }}
+        >
+          <h1
+            style={{
+              fontSize: "clamp(2.5rem, 10vw, 3rem)",
+              lineHeight: "3.25rem",
+              margin: "0 0.5rem 0 0"
+            }}
+          >
             {billingPeriod ? priceStr : `${trialDays} days free`}
           </h1>
           {!!billingPeriod && (
-            <StyledTextSpan style={{ fontWeight: "normal", lineHeight: "1.35rem" }}>
+            <span
+              style={{
+                width: "100%",
+                display: "inline-block",
+                whiteSpace: "pre",
+                fontWeight: "normal",
+                lineHeight: "1.35rem"
+              }}
+            >
               {`per\n${billingPeriod}`}
-            </StyledTextSpan>
+            </span>
           )}
-        </StyledPriceInfoBox>
+        </div>
         {!!afterTrial && (
-          <StyledText style={{ ...captionStyle, margin: "0.1rem 0 0 0" }}>
+          <StyledText variant="caption" style={{ margin: "0.1rem 0 0 0" }}>
             Then {afterTrialPriceStr} per {afterTrial.billingPeriod}
           </StyledText>
         )}
       </div>
-      <StyledPriceSurface style={{ borderColor: palette.divider, marginTop: "1rem" }}>
-        <StyledPriceSurfaceRow>
-          <StyledText>Fixit Subscription</StyledText>
-          <StyledText style={{ textAlign: "right" }}>
+      <StyledPriceInfoContainer>
+        <PriceInfoRow>
+          <StyledText style={{ whiteSpace: "normal" }}>Fixit Subscription</StyledText>
+          <StyledText style={{ textAlign: "right", marginLeft: "1rem" }}>
             {billingPeriod ? `${priceStr} / ${billingPeriod}` : `${trialDays} days free`}
           </StyledText>
-        </StyledPriceSurfaceRow>
-        <StyledPriceSurfaceRow style={{ maxHeight: "1rem", alignItems: "flex-end" }}>
-          {!!billingPeriod && (
-            <StyledText style={captionStyle}>Billed {billingPeriod}ly</StyledText>
-          )}
+        </PriceInfoRow>
+        <PriceInfoRow style={{ maxHeight: "1rem", alignItems: "flex-end" }}>
+          {!!billingPeriod && <StyledText variant="caption">Billed {billingPeriod}ly</StyledText>}
           {!!afterTrial && (
-            <StyledText style={{ ...captionStyle, textAlign: "right" }}>
+            <StyledText variant="caption" style={{ textAlign: "right" }}>
               Then {afterTrialPriceStr} per {afterTrial.billingPeriod} after
             </StyledText>
           )}
-        </StyledPriceSurfaceRow>
-        <StyledPriceSurfaceRow style={{ backgroundColor: palette.divider }}>
+        </PriceInfoRow>
+        <PriceInfoRow sx={{ backgroundColor: ({ palette }) => palette.divider }}>
           <SwitchToAnnual />
-        </StyledPriceSurfaceRow>
-      </StyledPriceSurface>
-      <StyledPriceSurfaceRow>
+        </PriceInfoRow>
+      </StyledPriceInfoContainer>
+      <PriceInfoRow>
         <StyledText>Subtotal</StyledText>
         <StyledText>{priceStr}</StyledText>
-      </StyledPriceSurfaceRow>
+      </PriceInfoRow>
       <Divider />
-      <StyledPriceSurfaceRow>
+      <PriceInfoRow>
         <PromoCodeInput />
-      </StyledPriceSurfaceRow>
+      </PriceInfoRow>
       <Divider />
       {!!afterTrial && (
-        <StyledPriceSurfaceRow>
+        <PriceInfoRow>
           <StyledText>Total after trial</StyledText>
           <StyledText>{totalAfterTrial_DISPLAY_ONLY}</StyledText>
-        </StyledPriceSurfaceRow>
+        </PriceInfoRow>
       )}
-      <StyledPriceSurfaceRow>
+      <PriceInfoRow>
         <StyledText>Total due today</StyledText>
         <StyledText>{totalDueToday_DISPLAY_ONLY}</StyledText>
-      </StyledPriceSurfaceRow>
-    </SubDetailsContainer>
+      </PriceInfoRow>
+    </div>
   );
 };
 
 // NOTE: These values are for display purposes only - see above jsdoc for <SubCostDetails />.
-const SUB_DICT_DISPLAY_PARAMS: Record<
+export const SUB_DICT_DISPLAY_PARAMS: Record<
   UserSubscriptionPriceLabel,
   SubPlanPricingDisplayParams & {
     label: string;
@@ -121,18 +142,18 @@ const SUB_DICT_DISPLAY_PARAMS: Record<
     price: 0,
     trialDays: 14,
     afterTrial: {
-      price: 5,
+      price: 500,
       billingPeriod: "month"
     }
   },
   MONTHLY: {
     label: "Monthly Subscription",
-    price: 5,
+    price: 500,
     billingPeriod: "month"
   },
   ANNUAL: {
     label: "Annual Subscription",
-    price: 50,
+    price: 5000,
     billingPeriod: "year"
   }
 };
@@ -141,7 +162,7 @@ const SUB_DICT_DISPLAY_PARAMS: Record<
  * This calculates values for display purposes only.
  * - See above jsdoc for <SubCostDetails />.
  */
-const getTotal_DISPLAY_ONLY = (price: number, promoCode: string | null) => {
+export const getTotal_DISPLAY_ONLY = (price: number, promoCode: string | null) => {
   return formatNum.toCurrencyStr(
     typeof promoCode === "string" && (promoCode ?? "") in ENV.STRIPE.PROMO_CODES
       ? price - price * (ENV.STRIPE.PROMO_CODES[promoCode] / 100)
@@ -154,43 +175,25 @@ type SubPlanPricingDisplayParams = {
   billingPeriod?: "month" | "year";
 };
 
-const SubDetailsContainer = styled.div`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-`;
-
-const StyledTextSpan = styled.span`
-  width: 100%;
-  display: inline-block;
-  white-space: pre;
-`;
-
 // exported for use in PromoCodeInput
 export const StyledText = styled(Text)`
-  font-size: 1.15rem;
+  font-size: clamp(1rem, 4vw, 1.15rem);
   line-height: 1.5rem;
 `;
 
-const StyledPriceInfoBox = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  white-space: pre;
-`;
+const StyledPriceInfoContainer = styled("div")(({ theme }) => ({
+  width: "100%",
+  marginTop: "1rem",
+  display: "flex",
+  flexDirection: "column",
+  borderWidth: "1px",
+  borderStyle: "solid",
+  borderColor: theme.palette.divider,
+  borderRadius: "5px"
+}));
 
-const StyledPriceSurface = styled.div`
-  width: 100%;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledPriceSurfaceRow = styled.div`
+const PriceInfoRow = styled("div")`
+  position: relative;
   width: 100%;
   padding: 1rem;
   display: flex;

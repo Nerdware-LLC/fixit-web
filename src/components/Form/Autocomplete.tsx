@@ -29,7 +29,7 @@ export const Autocomplete = ({
 }: Omit<React.ComponentProps<typeof MuiAutocomplete>, "label" | "options" | "renderInput"> & {
   id: string;
   label?: React.ReactNode;
-  options: Array<AutocompleteOption>;
+  options: AutocompleteOptions;
   renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode;
 }) => {
   const [selectedOption, setSelectedOption] = useState<AutocompleteOption | null>(null);
@@ -68,4 +68,7 @@ export interface AutocompleteOption {
   id: string;
   label: string;
   group?: string;
+  [K: string]: any;
 }
+
+export type AutocompleteOptions = Array<AutocompleteOption>;

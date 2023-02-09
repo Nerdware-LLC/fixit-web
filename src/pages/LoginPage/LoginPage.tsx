@@ -1,20 +1,17 @@
 import { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 import { toast } from "react-toastify";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { AuthPageLayout } from "@layouts";
 import { LoginForm } from "./LoginForm";
-import { FetchStateContextWrapper, TitleLogo } from "@components";
-
-// TODO Adjust LoginPage layout for mobile
 
 /**
  * **LoginPage**
- * - `Outlet` of `LandingAndAuthPagesLayout`
+ * - Wrapped within `AuthPagesLayout` in RootAppRouter
  * - Renders when path is "/login"
  */
 export const LoginPage = () => {
   const { state: locationState } = useLocation();
-  const { palette } = useTheme();
 
   useEffect(() => {
     if (locationState?.isRedirect === true) {
@@ -26,46 +23,35 @@ export const LoginPage = () => {
   }, [locationState]);
 
   return (
-    <FetchStateContextWrapper>
-      <div
-        style={{
-          height: "100%",
-          width: "25vw",
-          display: "flex",
-          padding: "10vh 0",
-          flexDirection: "column",
-          justifyContent: "space-between"
-        }}
-      >
-        <div>
-          <TitleLogo
-            styles={{
-              logo: { width: "8vw", marginRight: "1rem" },
-              container: { justifyContent: "center" }
-            }}
-          />
-          <h1>User Login</h1>
-        </div>
-        <div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-evenly",
-              justifyItems: "space-evenly",
-              placeSelf: "center",
-              height: "40vh",
-              width: "25vw",
-              margin: "auto"
-            }}
-          >
-            <LoginForm />
-            <Link to="/register" style={{ color: palette.info.main }}>
-              Not an existing user? Click here to sign up now
-            </Link>
-          </div>
-        </div>
-      </div>
-    </FetchStateContextWrapper>
+    <AuthPageLayout
+      pageTitle="User Login"
+      sx={({ palette }) => ({
+        "& > div.auth-page-content-container": {
+          minHeight: "25vh",
+
+          "& > #login-page-signup-link-container": {
+            color: palette.info.main,
+            alignSelf: "center",
+            whiteSpace: "pre-line",
+            marginTop: "1.5rem",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+
+            '& a[href="/register"]': {
+              color: palette.info.main,
+              alignSelf: "center",
+              whiteSpace: "pre-line"
+            }
+          }
+        }
+      })}
+    >
+      <LoginForm />
+      <span id="login-page-signup-link-container">
+        <Link to="/register">Not an existing user? Sign up now </Link>
+        <ChevronRightIcon />
+      </span>
+    </AuthPageLayout>
   );
 };

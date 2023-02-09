@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ENV } from "@config";
-import { logger, storage } from "@utils";
+import { storage } from "@utils";
+// import { logger, storage } from "@utils";
 
 axios.defaults.baseURL = ENV.API_BASE_URL;
 
@@ -28,13 +29,13 @@ axios.interceptors.request.use(
 // When each RESPONSE comes in, do this
 axios.interceptors.response.use(
   (response) => {
-    logger.info(`HTTP Response = ${JSON.stringify(response, null, 2)}`);
+    // logger.info(`HTTP Response = ${JSON.stringify(response, null, 2)}`);
 
     if (response?.data?.token) storage.setAuthToken(response.data.token);
     return Promise.resolve(response.data);
   },
   (error) => {
-    logger.info(`HTTP ERROR = ${JSON.stringify(error, null, 2)}`);
+    // logger.info(`HTTP ERROR = ${JSON.stringify(error, null, 2)}`);
 
     if (error?.response?.status === 401) storage.removeAuthToken();
     return Promise.reject({

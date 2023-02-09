@@ -1,5 +1,6 @@
-import styled from "@emotion/styled";
-import { useWebViewContext, Title, Text, Button } from "@components";
+import Text from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { useWebViewContext } from "@app";
 
 // FIXME Update PageNotFound to work with regular Web pages
 
@@ -11,36 +12,26 @@ export const PageNotFound = () => {
   };
 
   return (
-    <StyledPageNotFoundLayout>
-      <Title>Whoops - this page doesn&apos;t seem to exist!</Title>
-      <Text>
-        <span role={"img"} aria-label={"x emoji"}>
-          ❌
-        </span>{" "}
-        404 - File or directory not found.
-      </Text>
+    <div
+      style={{
+        height: "100%",
+        padding: "30vh 15vw",
+        textAlign: "left",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-around",
+        alignItems: "center"
+      }}
+    >
+      <Text variant="h3">Whoops - this page doesn&apos;t seem to exist!</Text>
+      <Text>❌ 404 - File or directory not found.</Text>
       <Text>
         The resource you are looking for might have been removed, had its name changed, or is
         temporarily unavailable.
       </Text>
-      <Button
-        label={"Take Me Back to Civilization!"}
-        onClick={exitWebViewWithError}
-        style={{ alignSelf: "center", fontWeight: "bold" }}
-        variant={"contained"}
-        color={"primary"}
-        size={"large"}
-      />
-    </StyledPageNotFoundLayout>
+      <Button onClick={exitWebViewWithError} style={{ alignSelf: "center" }} size="large">
+        Take Me Back to Civilization!
+      </Button>
+    </div>
   );
 };
-
-const StyledPageNotFoundLayout = styled.div`
-  height: 100%;
-  padding: 30vh 15vw;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-`;

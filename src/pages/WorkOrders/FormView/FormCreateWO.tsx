@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client/react/hooks";
-import { useSuccessLottie } from "@components";
+import { useLottie } from "@components";
 import { MUTATIONS, FRAGMENTS } from "@graphql";
 import { logger } from "@utils";
-import { WorkOrderForm, type WorkOrderFormValues } from "./Form";
-import { woFormFieldHandlers } from "./formFieldHandlers";
+import { WorkOrderForm } from "./Form";
+import { woFormFieldHandlers, type WorkOrderFormValues } from "./formFieldHandlers";
 
 export const FormCreateWO = () => {
-  const { LottieView, playLottie } = useSuccessLottie();
+  const { LottieView, playLottie } = useLottie({ animation: "success-checkmark" });
   const nav = useNavigate();
 
   const [createWorkOrder] = useMutation(MUTATIONS.CREATE_WORK_ORDER, {
@@ -31,7 +31,9 @@ export const FormCreateWO = () => {
 
     // Ensure any ChecklistItems only have property "description" onCreate
     if (Array.isArray(workOrder.checklist)) {
-      workOrder.checklist = workOrder.checklist.map(({ description }) => ({ description }));
+      workOrder.checklist = workOrder.checklist.map(({ description }) => ({
+        description
+      })) as WorkOrderFormValues["checklist"];
     }
 
     // If no keys, then no need to run the mutation

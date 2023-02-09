@@ -9,13 +9,12 @@ export const TextInput = ({
   variant = "filled",
   style,
   ...props
-}: Omit<React.ComponentProps<typeof TextField>, "label"> & {
-  id: string;
-  label?: React.ReactNode;
-  contentType?: keyof typeof CONTENT_TYPE_PROPS;
-}) => {
+}: TextInputProps) => {
   const [field, meta] = useField(id);
   const { handleChange, handleBlur } = useFormikContext();
+
+  const formikChangeHandler = handleChange(id);
+  const formikBlurHandler = handleBlur(id);
 
   const placeholderText = placeholder
     ? placeholder
@@ -23,11 +22,9 @@ export const TextInput = ({
     ? label
     : id.toUpperCase();
 
-  // ContentType: try explicit "contentType" prop, else check if "id" matches a key.
+  // CONTENT TYPE PROPS: try explicit "contentType" prop, else check if "id" matches a key
   const contentTypeProps =
-    (contentType ?? id) in CONTENT_TYPE_PROPS
-      ? CONTENT_TYPE_PROPS[contentType ?? (id as keyof typeof CONTENT_TYPE_PROPS)]
-      : {};
+    CONTENT_TYPE_PROPS?.[contentType ?? (id as keyof typeof CONTENT_TYPE_PROPS)] ?? {};
 
   return (
     <TextField
@@ -35,13 +32,16 @@ export const TextInput = ({
       label={label ?? id.toUpperCase()}
       variant={variant}
       type={contentType ?? "text"}
-      placeholder={!(meta.touched && meta.error) ? placeholderText : undefined}
       value={field.value ?? ""}
-      onChange={handleChange(id)}
-      onBlur={handleBlur(id)}
+      onChange={formikChangeHandler}
+      onBlur={formikBlurHandler}
+      placeholder={!(meta.touched && meta.error) ? placeholderText : undefined}
       error={!!(meta.touched && meta.error)}
       helperText={meta.touched && !!meta?.error ? meta.error : " "}
       style={style}
+      FormHelperTextProps={{
+        style: { whiteSpace: "nowrap" }
+      }}
       {...contentTypeProps}
       {...props}
     />
@@ -49,12 +49,16 @@ export const TextInput = ({
 };
 
 const CONTENT_TYPE_PROPS = {
+  name: {
+    autoComplete: "name"
+  },
+  password: {
+    autoComplete: "password",
+    type: "password"
+  },
   address: {
     autoComplete: "street-address",
     type: "streetAddressLine1"
-  },
-  name: {
-    autoComplete: "name"
   },
   givenName: {
     autoComplete: "name",
@@ -74,9 +78,13 @@ const CONTENT_TYPE_PROPS = {
   phone: {
     autoComplete: "tel",
     type: "telephoneNumber"
-  },
-  password: {
-    autoComplete: "password",
-    type: "password"
   }
+};
+
+export type MuiTextFieldProps = React.ComponentProps<typeof TextField>;
+
+export type TextInputProps = Omit<MuiTextFieldProps, "label"> & {
+  id: string;
+  label?: React.ReactNode;
+  contentType?: keyof typeof CONTENT_TYPE_PROPS;
 };

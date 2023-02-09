@@ -1,52 +1,46 @@
-import { Text, usePageLayoutContext } from "@components";
+import Box from "@mui/material/Box";
+import Text from "@mui/material/Typography";
 
 export const IntroText = () => {
-  const { isMobilePageLayout } = usePageLayoutContext();
-
-  const styles = isMobilePageLayout ? layoutStyles.mobile : layoutStyles.desktop;
-
   return (
-    <div style={{ margin: "1.5rem 0" }}>
-      <Text variant="secondary" style={styles.tagline}>
-        Work Order Management Made Easy.
-      </Text>
+    <Box
+      sx={(theme) => ({
+        "& > span": {
+          "&:first-of-type > .MuiTypography-root": {
+            color: theme.palette.secondary.main,
+            fontSize: "clamp(2.8rem, 8vw, 5rem)",
+            lineHeight: "clamp(3rem, 7.75vw, 5.2rem)",
+            fontWeight: "bold"
+          },
+          "&:last-of-type": {
+            "& > .MuiTypography-root": {
+              fontSize: "clamp(1.1rem, 2vw, 1.5rem)",
+              lineHeight: "clamp(1.5rem, 2.15vw, 1.9rem)",
+              fontWeight: "100"
+            },
+            "& b": {
+              color: theme.palette.primary.main
+            }
+          }
+        }
+      })}
+    >
+      <span>
+        <Text>Getting paid for your work, made easy.</Text>
+      </span>
       <br />
-      <Text style={styles.text}>
-        People who need to get things done use <span style={{ color: "#f78103" }}>Fixit</span> to
-        keep in touch with contractors and customers, create work orders, submit invoices, and
-        manage payments - all in one place!
-      </Text>
-      <br />
-      <Text style={styles.text}>
-        Whether you&apos;re a homeowner planning your next kitchen renovation, or a general
-        contractor looking for a better way to submit invoices and get paid for your work,{" "}
-        <span style={{ color: "#f78103" }}>Fixit</span> makes it easy.
-      </Text>
-    </div>
+      <span>
+        <Text>
+          People who need to get things done use <b>Fixit</b> to keep in touch with customers and
+          contractors, create work orders, submit invoices, and manage payments — all in one place.
+        </Text>
+        <br />
+        <Text variant="caption">
+          Whether you&apos;re a homeowner planning your next kitchen renovation, or a general
+          contractor looking for a better way to submit invoices and get paid for your work,{" "}
+          <b>Fixit</b> makes it easy.
+        </Text>
+      </span>
+    </Box>
   );
-};
-
-const layoutStyles = {
-  desktop: {
-    tagline: {
-      fontWeight: "bold",
-      fontSize: "3rem",
-      lineHeight: "3.15rem"
-    },
-    text: {
-      fontSize: "1.5rem",
-      lineHeight: "1.65rem"
-    }
-  },
-  mobile: {
-    tagline: {
-      fontWeight: "bold",
-      fontSize: "1.85rem",
-      lineHeight: "2.2rem"
-    },
-    text: {
-      fontSize: "1.25rem",
-      lineHeight: "1.6rem"
-    }
-  }
 };

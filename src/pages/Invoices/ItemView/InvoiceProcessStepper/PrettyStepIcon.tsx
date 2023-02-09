@@ -1,19 +1,19 @@
 import { styled } from "@mui/material/styles";
-import { INV_STATUS_ICONS } from "@components";
+import { INV_STATUS_ICON_REACT_NODES } from "@components";
 import DollarSignIcon from "@mui/icons-material/AttachMoney";
 import AlertTriangleIcon from "@mui/icons-material/Warning";
 import type { StepIconProps } from "@mui/material/StepIcon";
 
 export const PrettyStepIcon = ({ icon, active, completed, className, error }: StepIconProps) => (
   <StyledPrettyStepIcon ownerState={{ completed, active, error }} className={className}>
-    {error === true ? ICONS.ERROR : ICONS[String(icon)]}
+    {error === true ? STEP_ICONS.ERROR : STEP_ICONS[String(icon)]}
   </StyledPrettyStepIcon>
 );
 
-const ICONS: { [index: string]: React.ReactElement } = {
-  1: INV_STATUS_ICONS.OPEN as any,
+const STEP_ICONS: { [index: string]: React.ReactNode } = {
+  1: INV_STATUS_ICON_REACT_NODES.OPEN,
   2: <DollarSignIcon />,
-  3: INV_STATUS_ICONS.CLOSED as any,
+  3: INV_STATUS_ICON_REACT_NODES.CLOSED,
   ERROR: <AlertTriangleIcon style={{ marginBottom: "0.2rem" }} />
 };
 

@@ -5,8 +5,6 @@ export const PaymentProtectedRoute = ({ children }: { children?: JSX.Element }) 
   const isUserAuthenticated = isAuthenticatedStore.useSubToStore();
   const isActivePaidAccount = isActiveAccountStore.useSubToStore();
 
-  // TODO if !isActivePaidAccount, add to nav state with their sub info
-
   // prettier-ignore
   return (
     !isUserAuthenticated

@@ -1,6 +1,7 @@
-import { useQuery } from "@apollo/client/react/hooks";
+// import { useQuery } from "@apollo/client/react/hooks";
+// import { QUERIES } from "@graphql";
 import { Avatar } from "./Avatar";
-import { QUERIES } from "@graphql";
+import { MOCK_USERS } from "@/__tests__/mockItems"; // FIXME rm this import of mock data
 
 /**
  * **UserAvatar** automatically fetches the user's `profile` which
@@ -10,8 +11,13 @@ import { QUERIES } from "@graphql";
  * If the query has already been performed by a parent component, use
  * `Avatar` instead so the cache isn't burdened by duplicate queries.
  */
-export const UserAvatar = ({ ...avatarProps }: React.ComponentProps<typeof Avatar>) => {
-  const { data } = useQuery(QUERIES.MY_PROFILE);
+export const UserAvatar = (props: React.ComponentProps<typeof Avatar>) => {
+  // const { data } = useQuery(QUERIES.MY_PROFILE);
 
-  return <Avatar profile={data?.myProfile} {...avatarProps} />;
+  return (
+    <Avatar
+      profile={MOCK_USERS?.Guy_McPerson?.profile} // FIXME data?.myProfile
+      {...props}
+    />
+  );
 };

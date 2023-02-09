@@ -20,6 +20,8 @@ export const AuthStateInitLayer = ({ children }: { children: React.ReactElement 
       const authToken = storage.getAuthToken();
       if (authToken) {
         const { success } = await refreshAuthToken();
+
+        // If auth token is good, nav to /home
         if (success) nav("/home");
       }
     })();

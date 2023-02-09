@@ -15,7 +15,7 @@ export const useProcessPreFetchedUserItems = () => {
   return {
     processPreFetchedUserItems: async (
       ownUserID: AuthTokenPayload["id"],
-      { workOrders, invoices, contacts }: PreFetchedUserItems
+      { workOrders, invoices, contacts }: Required<PreFetchedUserItems>["userItems"]
     ) => {
       // WORK ORDERS:
       if (Array.isArray(workOrders) && workOrders.length > 0) {

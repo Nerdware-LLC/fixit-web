@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client/react/hooks";
 import { ContactsListItem } from "./ListItem";
 import { Loading, Error } from "@components";
 import { QUERIES } from "@graphql";
-import { CoreItemsListView } from "@layouts";
+import { CoreItemsListView, type ListViewRenderItemFn } from "@layouts";
 import { MOCK_CONTACTS } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
 
 export const ContactsListView = () => {
@@ -24,15 +24,19 @@ export const ContactsListView = () => {
     <CoreItemsListView
       viewHeader="Contacts"
       viewBasePath="/home/contacts"
-      lists={[{ items: MOCK_CONTACTS.myContacts as any }]}
-      listItemComponent={<ContactsListItem />}
-      listComponentProps={{
-        style: {
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap"
+      lists={[{ items: Object.values(MOCK_CONTACTS) as any }]}
+      renderItem={renderContactsListItem}
+      sx={{
+        "& ul.core-items-list": {
+          width: "100%",
+          display: "grid",
+          gridGap: "0.5rem",
+          gridTemplateColumns: "repeat( auto-fit, minmax( 16rem, 1fr ))",
+          gridTemplateRows: "repeat( auto-fit, 1fr )"
         }
       }}
     />
   );
 };
+
+const renderContactsListItem: ListViewRenderItemFn = (props) => <ContactsListItem {...props} />;

@@ -1,7 +1,7 @@
-import * as Yup from "yup";
 import { useNavigate, useLocation } from "react-router-dom";
 import InputAdornment from "@mui/material/InputAdornment";
-import { Form, TextInput, PasswordInput } from "@components";
+import * as Yup from "yup";
+import { Form, TextInput, PhoneInput, PasswordInput } from "@components";
 import { useAuthService } from "@hooks";
 
 export const RegisterForm = () => {
@@ -22,7 +22,12 @@ export const RegisterForm = () => {
       if (!!locationState && Object.prototype.hasOwnProperty.call(locationState, "sub")) {
         nav("/checkout", { state: locationState });
       } else {
-        nav("/products", { state: { isRedirect: true } });
+        nav("/products", {
+          state: {
+            isRedirect: true,
+            redirectedFrom: "/register" // <-- ensures "select a sub" msg isn't shown twice
+          }
+        });
       }
     }
   };
@@ -39,7 +44,7 @@ export const RegisterForm = () => {
           startAdornment: <InputAdornment position="start">@</InputAdornment>
         }}
       />
-      <TextInput id="phone" />
+      <PhoneInput id="phone" />
       <TextInput id="email" />
       <PasswordInput id="password" />
       <Form.SubmitButton />

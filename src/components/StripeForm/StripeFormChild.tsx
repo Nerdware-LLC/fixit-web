@@ -1,9 +1,7 @@
 import { useState } from "react";
-import styled from "@emotion/styled";
 import { useStripeCardInput } from "./StripeCardInput";
 import { StripeFormSubmitButton } from "./StripeFormSubmitButton";
-import { useFetchStateContext } from "../Indicators";
-import { func, string } from "@types";
+import { useFetchStateContext } from "@components";
 import { getTypeSafeErr } from "@utils";
 import type { PaymentMethod } from "@stripe/stripe-js";
 
@@ -41,18 +39,9 @@ export const StripeFormChild = ({
   };
 
   return (
-    <StyledForm onSubmit={_handleSubmit} {...props}>
+    <form onSubmit={_handleSubmit} style={{ width: "100%" }} {...props}>
       <StripeCardInput setIsSubmitDisabled={setIsSubmitDisabled} />
       <StripeFormSubmitButton isSubmitDisabled={isSubmitDisabled} />
-    </StyledForm>
+    </form>
   );
-};
-
-const StyledForm = styled.form`
-  width: 100%;
-`;
-
-StripeFormChild.propTypes = {
-  handleSubmit: func.isRequired,
-  className: string
 };

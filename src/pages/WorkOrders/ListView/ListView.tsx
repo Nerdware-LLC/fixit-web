@@ -2,7 +2,12 @@ import { useQuery } from "@apollo/client/react/hooks";
 import { WorkOrdersListItem } from "./ListItem";
 import { Loading, Error } from "@components";
 import { QUERIES } from "@graphql";
-import { CoreItemsListView, InboxListVisToggleBtns, useInboxListVisToggleBtns } from "@layouts";
+import {
+  CoreItemsListView,
+  InboxListVisToggleBtns,
+  useInboxListVisToggleBtns,
+  type ListViewRenderItemFn
+} from "@layouts";
 import { MOCK_WORK_ORDERS } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
 
 export const WorkOrdersListView = () => {
@@ -21,6 +26,8 @@ export const WorkOrdersListView = () => {
   if (loading || networkStatus === 4) return <Loading />;
   if (error) return <Error error={error} />;
 
+  // const renderItem: ListViewRenderItemFn = (props) => <WorkOrdersListItem {...props} />;
+
   return (
     <CoreItemsListView
       viewHeader="Work Orders"
@@ -29,7 +36,6 @@ export const WorkOrdersListView = () => {
         <InboxListVisToggleBtns
           listVisibility={listVisibility}
           onChange={handleChangeListVisibility}
-          style={{ marginLeft: "auto", marginRight: "2rem" }}
         />
       }
       lists={[
@@ -44,7 +50,9 @@ export const WorkOrdersListView = () => {
           items: MOCK_WORK_ORDERS.myWorkOrders.createdByUser as any
         }
       ]}
-      listItemComponent={<WorkOrdersListItem />}
+      renderItem={renderWorkOrdersListItem}
     />
   );
 };
+
+const renderWorkOrdersListItem: ListViewRenderItemFn = (props) => <WorkOrdersListItem {...props} />;

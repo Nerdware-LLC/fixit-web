@@ -26,6 +26,8 @@
       "@pages/*": ["./src/pages/*"],
       "@services": ["./src/services"],
       "@services/*": ["./src/services/*"],
+      "@tests": ["./src/__tests__"],
+      "@tests/*": ["./src/__tests__/*"],
       "@types": ["./src/types"],
       "@types/*": ["./src/types/*"],
       "@utils": ["./src/utils"],

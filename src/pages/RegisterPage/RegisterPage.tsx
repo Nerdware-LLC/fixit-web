@@ -1,47 +1,49 @@
+import Text from "@mui/material/Typography";
+import { Link, TextExternalLink, LegalLinks } from "@components";
+import { AuthPageLayout } from "@layouts";
 import { RegisterForm } from "./RegisterForm";
-import { FetchStateContextWrapper, TitleLogo } from "@components";
-
-// TODO Adjust RegisterPage layout for mobile
 
 /**
  * **RegisterPage**
- * - `Outlet` of `LandingAndAuthPagesLayout`
+ * - Wrapped within `AuthPagesLayout` in RootAppRouter
  * - Renders when path is "/register"
+ * - See link below for info regarding the legal language required by Stripe:
+ *   https://stripe.com/docs/connect/updating-accounts#tos-acceptance
  */
-export const RegisterPage = () => (
-  <FetchStateContextWrapper>
-    <div
-      style={{
-        height: "100%",
-        width: "25vw",
-        display: "flex",
-        padding: "10vh 0",
-        flexDirection: "column",
-        justifyContent: "space-between"
+export const RegisterPage = () => {
+  return (
+    <AuthPageLayout
+      pageTitle="User Registration"
+      sx={{
+        "& > div.auth-page-content-container": {
+          minHeight: "40vh",
+
+          "& > #register-page-signup-legal-notice": {
+            marginTop: "1.5rem",
+            "& a": {
+              color: "info.main",
+              textDecoration: "none"
+            }
+          },
+
+          "& > div.legal-links-container": {
+            alignSelf: "center",
+            marginTop: "1rem",
+            marginLeft: "0.8rem"
+          }
+        }
       }}
     >
-      <div>
-        <TitleLogo
-          styles={{
-            logo: { width: "8vw", marginRight: "1rem" },
-            title: { fontSize: "3.5rem" },
-            container: { justifyContent: "center" }
-          }}
-        />
-        <h1>User Registration</h1>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-          placeSelf: "center",
-          width: "25vw",
-          margin: "auto"
-        }}
-      >
-        <RegisterForm />
-      </div>
-    </div>
-  </FetchStateContextWrapper>
-);
+      <RegisterForm />
+      <Text id="register-page-signup-legal-notice" variant="caption">
+        By registering your account, you agree to the Fixit <Link to="/ToS">Terms of Service</Link>{" "}
+        and the{" "}
+        <TextExternalLink href="https://stripe.com/connect-account/legal/full">
+          Stripe Connected Account Agreement
+        </TextExternalLink>
+        .
+      </Text>
+      <LegalLinks />
+    </AuthPageLayout>
+  );
+};

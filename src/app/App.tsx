@@ -1,11 +1,13 @@
 import { ApolloProvider } from "@apollo/client/react/context";
 import { apolloClient } from "./apolloClient";
+import { PageLayoutContextProvider } from "./PageLayoutContext";
+import { WebViewContextProvider } from "./WebViewContext";
 import { ThemeProvider } from "./ThemeProvider";
 import { LocalizationProvider } from "./LocalizationProvider";
 import { GlobalStyle } from "./GlobalStyle";
 import { ToastContainer } from "./ToastContainer";
-import { AppRouter } from "@navigation";
-import { ErrorBoundary, PageLayoutContextProvider, WebViewContextProvider } from "@components";
+import { RootAppRouter } from "@navigation";
+import { ErrorBoundary } from "@components";
 
 export const App = () => (
   <ApolloProvider client={apolloClient}>
@@ -15,7 +17,7 @@ export const App = () => (
           <ThemeProvider>
             <LocalizationProvider>
               <GlobalStyle />
-              <AppRouter />
+              <RootAppRouter />
               <ToastContainer />
             </LocalizationProvider>
           </ThemeProvider>

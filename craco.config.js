@@ -19,6 +19,7 @@ module.exports = {
       "@navigation": `${SRC_DIR}/navigation`,
       "@pages": `${SRC_DIR}/pages`,
       "@services": `${SRC_DIR}/services`,
+      "@tests": `${SRC_DIR}/__tests__`,
       "@types": `${SRC_DIR}/types`,
       "@utils": `${SRC_DIR}/utils`
     }

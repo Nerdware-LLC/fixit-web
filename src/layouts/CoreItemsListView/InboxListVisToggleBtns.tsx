@@ -1,31 +1,30 @@
+import { styled } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import type {
-  InboxListsVisibilityDict,
-  HandleChangeListVisibilityFn
-} from "./useInboxListVisToggleBtns";
+import { INBOX_LIST_NAMES, INBOX_LIST_VIS_KEY } from "./types";
+import type { InboxListsVisibilityDict, HandleChangeListVisibilityFn } from "./types";
+import React from "react";
 
 export const InboxListVisToggleBtns = ({
   listVisibility,
   onChange,
-  style = {}
+  ...toggleButtonGroupProps
 }: {
   listVisibility: InboxListsVisibilityDict;
   onChange: HandleChangeListVisibilityFn;
-  style?: React.CSSProperties;
-}) => {
+} & React.ComponentProps<typeof ToggleButtonGroup>) => {
   const visibleListNames = [
     ...(listVisibility.isInboxVisible ? ["Inbox"] : []),
     ...(listVisibility.isSentVisible ? ["Sent"] : [])
   ];
 
   return (
-    <ToggleButtonGroup
+    <StyledToggleButtonGroup
       value={visibleListNames}
       onChange={onChange}
       aria-label="list visibility toggle buttons"
-      style={style}
+      {...toggleButtonGroupProps}
     >
       {INBOX_LIST_NAMES.map((listName) => (
         <ToggleButton
@@ -33,7 +32,6 @@ export const InboxListVisToggleBtns = ({
           value={listName}
           aria-label={listName}
           size="small"
-          style={{ padding: "0.55rem 1rem 0.45rem 1rem" }}
         >
           <Tooltip
             arrow
@@ -49,12 +47,12 @@ export const InboxListVisToggleBtns = ({
           </Tooltip>
         </ToggleButton>
       ))}
-    </ToggleButtonGroup>
+    </StyledToggleButtonGroup>
   );
 };
 
-const INBOX_LIST_NAMES = ["Inbox", "Sent"] as const;
-const INBOX_LIST_VIS_KEY = {
-  Inbox: "isInboxVisible",
-  Sent: "isSentVisible"
-} as const;
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)({
+  "& > .MuiToggleButton-root": {
+    padding: "0.55rem 1rem 0.45rem 1rem"
+  }
+});

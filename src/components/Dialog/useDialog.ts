@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Dialog } from "./Dialog";
 
 export const useDialog = (initIsVisible = false) => {
   const [isDialogVisible, setIsDialogVisible] = useState(!!initIsVisible);
@@ -8,7 +7,6 @@ export const useDialog = (initIsVisible = false) => {
   const closeDialog = () => setIsDialogVisible(false);
 
   return {
-    Dialog,
     isDialogVisible,
     openDialog,
     closeDialog

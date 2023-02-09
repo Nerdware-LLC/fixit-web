@@ -1,13 +1,14 @@
 import { useEffect, useRef } from "react";
+import Text from "@mui/material/Typography";
 import Switch from "@mui/material/Switch";
 import Tooltip from "@mui/material/Tooltip";
 import Chip from "@mui/material/Chip";
-import { checkoutValuesStore } from "@app";
-import { Text } from "@components";
+import { usePageLayoutContext, checkoutValuesStore, type CheckoutValues } from "@app";
 
 export const SwitchToAnnual = () => {
-  const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore();
+  const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore() as CheckoutValues;
   const originalSelectedSubRef = useRef<typeof selectedSubscription | null>(null);
+  const { isMobilePageLayout } = usePageLayoutContext();
 
   useEffect(() => {
     if (originalSelectedSubRef.current === null) {
@@ -20,7 +21,7 @@ export const SwitchToAnnual = () => {
       originalSelectedSubRef.current = selectedSubscription;
     }
 
-    checkoutValuesStore.setCheckoutValues({
+    checkoutValuesStore.set({
       promoCode,
       selectedSubscription: ["TRIAL", "MONTHLY"].includes(selectedSubscription)
         ? "ANNUAL"
@@ -34,7 +35,8 @@ export const SwitchToAnnual = () => {
         style={{
           display: "flex",
           flexDirection: "row",
-          alignItems: "center"
+          alignItems: "center",
+          ...(isMobilePageLayout && { marginTop: "2rem" })
         }}
       >
         <Tooltip title={MSG_TO_USER}>
@@ -45,11 +47,33 @@ export const SwitchToAnnual = () => {
             {...(selectedSubscription === "ANNUAL" && { color: "success" })}
           />
         </Tooltip>
-        <Text>{MSG_TO_USER}</Text>
+        <Text
+          style={{
+            ...(isMobilePageLayout
+              ? {
+                  position: "absolute",
+                  top: "1rem",
+                  left: "1rem",
+                  whiteSpace: "nowrap"
+                }
+              : { whiteSpace: "normal" })
+          }}
+        >
+          {MSG_TO_USER}
+        </Text>
         <DiscountInfoChip />
       </div>
       {selectedSubscription !== "ANNUAL" && (
-        <Text style={{ textAlign: "right" }}>$50.00 / year</Text>
+        <Text
+          style={{
+            textAlign: "right",
+            marginLeft: "1rem",
+            whiteSpace: "nowrap",
+            ...(isMobilePageLayout && { marginTop: "2rem" })
+          }}
+        >
+          $50.00 / year
+        </Text>
       )}
     </>
   ) : (

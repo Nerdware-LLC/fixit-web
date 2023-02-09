@@ -1,4 +1,5 @@
 import { useLottie as useLottieReact, type LottieOptions } from "lottie-react";
+import { AVAILABLE_LOTTIE_ANIMATIONS } from "./availableLotties";
 
 /**
  * Lottie Animations Library: https://lottiefiles.com/featured
@@ -11,13 +12,25 @@ import { useLottie as useLottieReact, type LottieOptions } from "lottie-react";
  */
 export const useLottie = ({
   animation,
-  options = DEFAULT_LOTTIE_OPTS,
+  options = {},
   style = {}
 }: {
-  animation: unknown;
+  animation: keyof typeof AVAILABLE_LOTTIE_ANIMATIONS;
   options?: Omit<LottieOptions, "animationData"> & { duration?: number };
   style?: React.CSSProperties;
 }) => {
+  // Merge in animation-specific default options
+  options = {
+    ...AVAILABLE_LOTTIE_ANIMATIONS[animation].options,
+    ...options
+  };
+
+  // Merge in animation-specific default style
+  style = {
+    ...AVAILABLE_LOTTIE_ANIMATIONS[animation].style,
+    ...style
+  };
+
   // Some fields are renamed for better clarity
   const {
     View: LottieView,
@@ -28,8 +41,7 @@ export const useLottie = ({
     ...lottieFields
   } = useLottieReact(
     {
-      animationData: animation,
-      ...DEFAULT_LOTTIE_OPTS,
+      animationData: AVAILABLE_LOTTIE_ANIMATIONS[animation].animationData,
       ...options
     },
     style
@@ -54,9 +66,4 @@ export const useLottie = ({
     destroyLottie,
     ...lottieFields
   };
-};
-
-const DEFAULT_LOTTIE_OPTS = {
-  loop: false,
-  autoplay: false
 };

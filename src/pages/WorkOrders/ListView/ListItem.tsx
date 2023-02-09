@@ -1,75 +1,76 @@
 import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Text from "@mui/material/Typography";
+import ListItemText from "@mui/material/ListItemText";
 import { CoreListItemLayout } from "@layouts";
-import { WorkOrderStatusIcon } from "@components";
 import type { WorkOrder } from "@types";
 
 export const WorkOrdersListItem = ({
   parentListName,
   item,
-  onClick
+  onClick,
+  ...props
 }: {
   parentListName?: "Inbox" | "Sent";
   item?: WorkOrder;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
+  onClick?: React.ComponentProps<typeof CoreListItemLayout>["onClick"];
 }) => {
   if (!parentListName || !item || !onClick) return null;
 
   const isInboxList = parentListName === "Inbox";
-
-  const prettyCreatedAt = item.createdAt.toLocaleDateString("en-us", {
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-  });
+  const { createdBy, assignedTo, status, location, description, createdAt } = item;
+  const userToDisplay = isInboxList ? createdBy : assignedTo;
+  const prettyCreatedAt = createdAt.toLocaleDateString("en-us", { day: "numeric", month: "short" });
 
   return (
     <CoreListItemLayout
+      user={userToDisplay}
       onClick={onClick}
-      topRowComponents={
-        <>
-          <div style={styles.topLeftGrid}>
-            <span style={{ gridArea: "1 / 1", fontWeight: "bold" }}>
-              {isInboxList ? "FROM:" : "TO:"}
-            </span>
-            <span style={{ gridArea: "1 / 2" }}>
-              {isInboxList
-                ? item.createdBy.profile.displayName
-                : item?.assignedTo?.profile.displayName ?? ""}
-            </span>
-            <span style={{ gridArea: "2 / 1", fontWeight: "bold" }}>DATE:</span>
-            <span style={{ gridArea: "2 / 2" }}>{prettyCreatedAt}</span>
-          </div>
-          <span style={{ paddingTop: "1px" }}>{item.status.replace(/_/g, " ")}</span>
-          <WorkOrderStatusIcon
-            status={item.status as WorkOrder["status"]}
-            style={{ marginLeft: "0.5rem" }}
-          />
-        </>
-      }
-      bottomRowComponents={
-        <Box style={{ flexDirection: "column" }}>
-          {"location" in item && <div>{item.location.streetLine1}</div>}
-          {"description" in item && <div style={styles.description}>{item.description}</div>}
-        </Box>
-      }
-    />
+      itemID={item.id}
+      parentListName={parentListName}
+      {...props}
+    >
+      <StyledMiddleContentContainer>
+        {userToDisplay ? (
+          <Text>{userToDisplay.profile?.displayName ?? userToDisplay.handle}</Text>
+        ) : (
+          <Text color="text.disabled" fontStyle="italic">
+            - Unassigned -
+          </Text>
+        )}
+        <Text color="text.secondary">{location.streetLine1}</Text>
+        <Text color="text.secondary">{description}</Text>
+      </StyledMiddleContentContainer>
+      <ListItemText
+        style={{ minWidth: "5.5rem", margin: "0 0 0 0.5rem", textAlign: "right" }}
+        primary={
+          <Text variant="body2" style={{ lineHeight: "1.5rem" }}>
+            {prettyCreatedAt}
+          </Text>
+        }
+        secondary={
+          <Text variant="caption" color="gray" style={{ display: "block" }}>
+            {/* TODO try adding the WO-status-icon here */}
+            {status.replace(/_/g, " ")}
+          </Text>
+        }
+      />
+    </CoreListItemLayout>
   );
 };
 
-const Box = styled("div")`
-  width: 100%;
-  display: flex;
-`;
-
-const styles: Record<string, React.CSSProperties> = {
-  topLeftGrid: {
-    marginRight: "auto",
-    display: "grid",
-    gridTemplate: "auto auto / 3.5rem auto"
-  },
-  description: {
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis"
+const StyledMiddleContentContainer = styled(Box)(({ theme }) => ({
+  flexGrow: 0,
+  flexShrink: 1,
+  "& > .MuiTypography-root": {
+    "&:first-of-type": {
+      fontSize: "1.05rem",
+      lineHeight: "1.5rem"
+    },
+    "&:not(:first-of-type)": {
+      fontSize: "0.925rem",
+      lineHeight: "1.25rem",
+      color: theme.palette.text.secondary
+    }
   }
-};
+}));

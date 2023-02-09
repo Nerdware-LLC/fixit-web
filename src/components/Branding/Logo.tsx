@@ -1,13 +1,14 @@
-import styled from "@emotion/styled";
+import { styled } from "@mui/material/styles";
 import logoSrc from "@images/fixit-icon.png";
 
-export const Logo = ({ style = {} }: { style?: React.CSSProperties }) => (
-  <StyledLogoImg src={logoSrc} style={style} />
+export const Logo = (props: React.ComponentProps<typeof StyledLogoImg> = {}) => (
+  <StyledLogoImg src={logoSrc} className="fixit-logo" {...props} />
 );
 
-const StyledLogoImg = styled.img`
-  object-fit: contain;
-  max-height: 12rem;
-  align-self: center;
-  z-index: 100;
-`;
+const StyledLogoImg = styled("img")({
+  alignSelf: "center",
+  objectFit: "contain",
+  zIndex: 100,
+  maxHeight: "12rem",
+  borderRadius: "50%"
+});

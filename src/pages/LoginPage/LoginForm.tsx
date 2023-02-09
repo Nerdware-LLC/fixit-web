@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { useAuthService } from "@hooks";
 import { Form, TextInput, PasswordInput } from "@components";
+import { useAuthService } from "@hooks";
 
 export const LoginForm = () => {
   const { login } = useAuthService();

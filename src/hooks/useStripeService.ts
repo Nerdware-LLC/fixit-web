@@ -1,43 +1,32 @@
-import { useFetchStateContext } from "@components";
-import { getTypeSafeErr } from "@utils";
 import { stripeService } from "@services";
-import type { EncodedAuthToken } from "@types";
+import { useApiService } from "./useApiService";
 
 export const useStripeService = () => {
-  const { setIsLoading, setError } = useFetchStateContext();
-
-  const stripeFnTemplate = async <Fn extends (...args: any[]) => Promise<any>>(
-    asyncStripeFn: Fn,
-    args?: Parameters<Fn>[0]
-  ) => {
-    try {
-      setIsLoading(true);
-      const stripeSvcResponse = await asyncStripeFn(args);
-      setIsLoading(false);
-      return stripeSvcResponse;
-    } catch (error: ErrorLike) {
-      setIsLoading(false);
-      setError(getTypeSafeErr(error, "Some error occurred, please try again later.").message);
-    }
-  };
+  const { handleApiServiceRequest, checkApiResponse } = useApiService();
 
   return {
     submitPaymentForSubscription: async (
       paymentArgs: Parameters<typeof stripeService.submitPaymentForSubscription>[0]
-    ): Promise<{ token: EncodedAuthToken }> => {
-      return await stripeFnTemplate(stripeService.submitPaymentForSubscription, paymentArgs);
+    ): Promise<{ success: boolean }> => {
+      return await handleApiServiceRequest(
+        async () => stripeService.submitPaymentForSubscription(paymentArgs),
+        [checkApiResponse.forAuthToken]
+      );
     },
-    getCustomerPortalLink: async (): Promise<void> => {
-      const { stripeLink } = await stripeFnTemplate(stripeService.getCustomerPortalLink);
-      window.open(stripeLink);
+    getCustomerPortalLink: async () => {
+      await handleApiServiceRequest(stripeService.getCustomerPortalLink, [
+        checkApiResponse.forStripeLink
+      ]);
     },
-    getConnectOnboardingLink: async (): Promise<void> => {
-      const { stripeLink } = await stripeFnTemplate(stripeService.getConnectOnboardingLink);
-      window.open(stripeLink);
+    getConnectOnboardingLink: async () => {
+      await handleApiServiceRequest(stripeService.getConnectOnboardingLink, [
+        checkApiResponse.forStripeLink
+      ]);
     },
-    getConnectDashboardLink: async (): Promise<void> => {
-      const { stripeLink } = await stripeFnTemplate(stripeService.getConnectDashboardLink);
-      window.open(stripeLink);
+    getConnectDashboardLink: async () => {
+      await handleApiServiceRequest(stripeService.getConnectDashboardLink, [
+        checkApiResponse.forStripeLink
+      ]);
     }
   };
 };

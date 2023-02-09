@@ -1,11 +1,8 @@
 import { toast } from "react-toastify";
+import Button from "@mui/material/Button";
 import { useFormikContext } from "formik";
-import { Button } from "../Button";
 
-export const FormSubmitButton = ({
-  style = {},
-  ...props
-}: Omit<React.ComponentProps<typeof Button>, "label">) => {
+export const FormSubmitButton = ({ style = {}, ...props }: React.ComponentProps<typeof Button>) => {
   const { handleSubmit, isValid, isSubmitting, dirty, errors } = useFormikContext();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,11 +20,12 @@ export const FormSubmitButton = ({
 
   return (
     <Button
-      label="Submit"
       onClick={handleClick}
       disabled={isSubmitting}
-      style={{ lineHeight: "1.75rem", ...style }}
+      style={{ lineHeight: "2rem", ...style }}
       {...props}
-    />
+    >
+      Submit
+    </Button>
   );
 };

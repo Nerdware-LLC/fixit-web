@@ -1,30 +1,37 @@
-import { Formik, type FormikHelpers } from "formik";
+import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
+import { styled } from "@mui/material/styles";
 import { FormSubmitButton } from "./FormSubmitButton";
+import type { SxProps, Theme } from "@mui/material/styles";
 
 export const Form = ({
   initialValues,
   validationSchema,
   onSubmit,
+  sx,
   children,
-  ...props
-}: Omit<React.ComponentProps<typeof Formik>, "onSubmit"> & {
+  ...formikProps
+}: {
   onSubmit: (
     formValues: any,
     formikHelpers?: FormikHelpers<typeof formValues>
   ) => void | Promise<void>;
+  sx?: SxProps<Theme>;
   children: React.ReactNode;
-}) => (
+} & Omit<React.ComponentProps<typeof Formik>, "onSubmit">) => (
   <Formik
     initialValues={initialValues}
     validationSchema={validationSchema}
     onSubmit={onSubmit}
-    {...props}
+    {...formikProps}
   >
-    <>
-      {children}
-      {/* Formik will throw if number of children > 1, hence the fragment. */}
-    </>
+    <StyledFormikForm sx={sx}>{children}</StyledFormikForm>
   </Formik>
 );
+
+/**
+ * Mui-styled Formik <form> element which allows
+ * this <Form> component to take an `sx` prop.
+ */
+const StyledFormikForm = styled(FormikForm)({ all: "inherit" });
 
 Form.SubmitButton = FormSubmitButton;

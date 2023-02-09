@@ -4,7 +4,7 @@ import type { OnSubmitFieldMutationProcessorFn } from "./types";
 
 // TODO could add generic type param, run it thru `FormValues` generic, have methods use/return that.
 
-export class FormFieldHandlers {
+export class FormFieldHandlers<FormValues extends Record<string, any>> {
   private customFieldHandlers: {
     onUpdate: OnUpdateCallableFieldHandlers;
     onSubmit: OnSubmitFieldMutationProcessors;
@@ -50,9 +50,9 @@ export class FormFieldHandlers {
   /**
    * Obtains `initialValues` prop needed for UPDATE forms.
    */
-  getInitValuesForUpdate = (itemToBeUpdated: Record<string, any>) => {
+  getInitValuesForUpdate = (itemToBeUpdated: Record<string, any>): FormValues => {
     return Object.entries(itemToBeUpdated).reduce(
-      (updateFormFieldsAccum, [fieldKey, rawFieldValue]) => {
+      (updateFormFieldsAccum, [fieldKey, rawFieldValue]: [string & keyof FormValues, any]) => {
         // Skip immutable fields
         if (!this.immutableItemFieldNames.includes(fieldKey)) {
           // If a custom onUpdate field handler exists, use it, else use rawFieldValue
@@ -63,7 +63,7 @@ export class FormFieldHandlers {
         }
         return updateFormFieldsAccum;
       },
-      {} as Partial<typeof itemToBeUpdated>
+      {} as FormValues
     );
   };
 
@@ -72,12 +72,12 @@ export class FormFieldHandlers {
    * - Include this method in `handleSubmit` Form fns.
    */
   getFormFieldsForMutation = (
-    submittedFormValues: Record<string, any>,
-    existingItemInitialValues?: Record<string, any>
+    submittedFormValues: FormValues,
+    existingItemInitialValues?: Record<keyof FormValues, any>
   ) => {
     // Go thru each field in submittedFormValues
     return Object.entries(submittedFormValues).reduce(
-      (mutationFieldsAccum, [formKey, formValue]) => {
+      (mutationFieldsAccum, [formKey, formValue]: [string & keyof FormValues, any]) => {
         // Check for custom onSubmit field handler
         const onSubmitFieldMutationProcessor =
           this.customFieldHandlers.onSubmit?.[formKey] ??
@@ -92,7 +92,7 @@ export class FormFieldHandlers {
 
         return mutationFieldsAccum;
       },
-      {} as Partial<typeof submittedFormValues>
+      {} as FormValues
     );
   };
 }

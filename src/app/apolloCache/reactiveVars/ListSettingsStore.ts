@@ -6,8 +6,9 @@ export class ListSettingsStore<T> {
   private sortFactorsDict?: SortFactorsDict;
 
   enumFilters?: EnumFiltersStore<T>;
-  searchInput?: ReactiveStore<T>;
-  sortFactor?: SortFactorStore<T>;
+  searchInput?: any;
+  // searchInput?: ReactiveStore<T>;
+  sortFactor?: SortFactorStore<T & string>;
 
   constructor({
     enumFieldFilters,
@@ -46,7 +47,7 @@ export class ListSettingsStore<T> {
     }
 
     if (getSearchFilterFn) {
-      this.searchInput = new ReactiveStore("");
+      this.searchInput = new ReactiveStore({ valueOnInit: "" });
       this.getSearchFilterFn = (searchInputStr) => {
         const inputRegex = new RegExp(searchInputStr, "gi");
         return getSearchFilterFn(inputRegex);
@@ -56,9 +57,9 @@ export class ListSettingsStore<T> {
     // prettier-ignore
     if (sortFactors) {
       const sortFactorLabels = Object.keys(sortFactors);
-      this.sortFactor = new ReactiveStore(sortFactorLabels[0]) as SortFactorStore<T>;
+      this.sortFactor = new ReactiveStore<string>({ valueOnInit: sortFactorLabels[0] }) as any;
       this.sortFactorsDict = sortFactors;
-      this.sortFactor.INPUT_OPTIONS = sortFactorLabels.map(sortFactor => ({
+      (this.sortFactor as any).INPUT_OPTIONS = sortFactorLabels.map(sortFactor => ({
         id: sortFactor,
         label: sortFactor
       }));
@@ -98,7 +99,7 @@ export class ListSettingsStore<T> {
   };
 }
 
-type EnumFiltersStore<T> = ReactiveStore<T> & {
+type EnumFiltersStore<T> = ReactiveStore<T & string> & {
   // See ListFilterCheckboxFields for usage of INPUTS_CONFIG
   INPUTS_CONFIG: Record<string, Array<string>>;
 };
@@ -110,6 +111,6 @@ type GetSearchFilterFn = (str: string) => (...args: any[]) => boolean;
 // FIXME types for ListSettingsStore sortFactors is not right.
 type SortFactorsDict = Record<string, <T extends Array<any>>(array: T) => T>;
 // FIXME types for ListSettingsStore sortFactors is not right.
-type SortFactorStore<T> = ReactiveStore<T> & {
+type SortFactorStore<T extends string> = ReactiveStore<T> & {
   INPUT_OPTIONS: Array<{ id: string; label: string }>;
 };

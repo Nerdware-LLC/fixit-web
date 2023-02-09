@@ -1,64 +1,87 @@
-import MuiAvatar from "@mui/material/Avatar";
+import { forwardRef, useRef, type ForwardedRef } from "react";
 import { styled } from "@mui/material/styles";
-import { Text } from "../Typography";
+import MuiAvatar from "@mui/material/Avatar";
+import Text from "@mui/material/Typography";
 import type { UserProfile } from "@types";
 
 /**
- * **Avatar** type order of precedence:
+ * **Avatar** display is determined by the following order of precedence:
  *
  * 1. Image "src" from `imageSrc` or `photoUrl` if available
- * 2. User's initials if `givenName` and `familyName` are available
- * 3. Else use MUI's fallback generic avatar icon
- *
- * If `withDisplayName` is set to `true`, the avatar will be shown
- * with the user's display name shown below the avatar image.
+ * 2. The first char of one of the following User Profile properties:
+ *    1. `displayName`
+ *    2. `givenName`
+ *    3. `familyName`
+ * 3. The final fallback is MUI's generic avatar icon
  */
-export const Avatar = ({
-  imageSrc,
-  profile,
-  withDisplayName = false,
-  styles,
-  ...props
-}: {
-  imageSrc?: string;
-  profile?: UserProfile;
-  withDisplayName?: boolean;
-  styles?: {
-    avatar?: React.CSSProperties;
-    displayName?: React.CSSProperties;
-  };
-} & Omit<React.ComponentProps<typeof MuiAvatar>, "style">) => {
-  const avatarProps = {
-    alt: "User Avatar",
-    style: styles?.avatar ?? {},
-    ...((!!imageSrc || !!profile?.photoUrl) && { src: imageSrc ?? profile?.photoUrl }),
+export const Avatar = forwardRef<MaybeAvatarRef, AvatarProps>(function Avatar(
+  {
+    profile,
+    imageSrc,
+    showDisplayName = false,
+    containerProps = {},
+    avatarProps = {},
     ...props
-  };
+  }: {
+    profile?: UserProfile;
+    imageSrc?: string;
+    showDisplayName?: boolean;
+    containerProps?: Omit<React.ComponentProps<typeof AvatarContainer>, "style">;
+    avatarProps?: React.ComponentProps<typeof MuiAvatar>;
+  } & React.ComponentProps<typeof MuiAvatar>,
+  ref: ForwardedRef<MaybeAvatarRef>
+) {
+  // If parent does not forward a ref, use local fallback
+  const localRef = useRef<HTMLDivElement>(null);
+  const avatarRef = ref || localRef;
 
-  const AvatarComp =
-    !!avatarProps?.src || !(!!profile?.givenName && !!profile?.familyName) ? (
-      <StyledMuiAvatar {...avatarProps} />
-    ) : (
-      <StyledMuiAvatar {...avatarProps}>
-        {`${profile.givenName.charAt(0)}${profile.familyName.charAt(0)}`}
-      </StyledMuiAvatar>
-    );
-
-  return withDisplayName === true ? (
-    <>
-      {AvatarComp}
-      <Text style={{ margin: "0.25rem 0 0 0", ...(styles?.displayName ?? {}) }}>
-        {profile?.displayName ?? ""}
-      </Text>
-    </>
-  ) : (
-    AvatarComp
+  return (
+    <AvatarContainer className="avatar-container" {...containerProps}>
+      <MuiAvatar
+        ref={avatarRef}
+        alt={profile?.displayName ?? "User Avatar"}
+        src={imageSrc || profile?.photoUrl}
+        {...avatarProps}
+        {...props}
+      >
+        {
+          // The below char will be unused if an image src is available
+          [profile?.displayName, profile?.givenName, profile?.familyName]
+            .find((name) => !!name)
+            ?.charAt(0)
+        }
+      </MuiAvatar>
+      {showDisplayName && profile?.displayName && (
+        <Text className="avatar-display-name">{profile.displayName}</Text>
+      )}
+    </AvatarContainer>
   );
-};
+});
 
-const StyledMuiAvatar = styled(MuiAvatar)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.dark,
-  "&:hover": {
-    cursor: "pointer"
+const AvatarContainer = styled("div")(({ theme: { palette }, onClick }) => ({
+  height: "100%",
+  width: "100%",
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  "& > div.MuiAvatar-root": {
+    background: `-webkit-linear-gradient(135deg, ${palette.primary.dark} 30%, ${palette.primary.light})`,
+    "&:hover": {
+      cursor: onClick ? "pointer" : "auto"
+    }
+  },
+  "& > .MuiTypography-root": {
+    pointerEvents: "none",
+    marginLeft: "0.5rem"
   }
 }));
+
+type AvatarProps = {
+  profile?: UserProfile;
+  imageSrc?: string;
+  showDisplayName?: boolean;
+  containerProps?: React.ComponentProps<typeof AvatarContainer>;
+  avatarProps?: React.ComponentProps<typeof MuiAvatar>;
+} & React.ComponentProps<typeof MuiAvatar>;
+
+type MaybeAvatarRef = HTMLDivElement | null;

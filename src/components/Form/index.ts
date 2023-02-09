@@ -1,10 +1,12 @@
+export * from "./Autocomplete";
+export * from "./AutocompleteContact";
+export * from "./AutocompleteStates";
+export * from "./CurrencyInput";
+export * from "./DatePicker";
 export * from "./Form";
 export * from "./FormSubmitButton";
-
-export * from "./TextInput";
 export * from "./PasswordInput";
-export * from "./Autocomplete";
-export * from "./AutocompleteStates";
-export * from "./DatePicker";
+export * from "./PhoneInput";
 export * from "./Select";
 export * from "./Slider";
+export * from "./TextInput";

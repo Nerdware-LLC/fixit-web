@@ -1,29 +1,29 @@
 import { styled } from "@mui/material/styles";
+import ListItemText from "@mui/material/ListItemText";
+import Text from "@mui/material/Typography";
 import { CoreListItemLayout } from "@layouts";
-import { InvoiceStatusIcon, Link } from "@components";
+import { Link } from "@components";
 import { formatNum } from "@utils";
 import type { Invoice } from "@types";
 
 export const InvoicesListItem = ({
   parentListName,
   item,
-  onClick
+  onClick,
+  ...props
 }: {
   parentListName?: "Inbox" | "Sent";
   item?: Invoice;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
+  onClick?: React.ComponentProps<typeof CoreListItemLayout>["onClick"];
 }) => {
   if (!parentListName || !item || !onClick) return null;
 
   const isInboxList = parentListName === "Inbox";
+  const { createdBy, assignedTo, status, amount, workOrder, createdAt } = item;
+  const userToDisplay = isInboxList ? createdBy : assignedTo;
+  const prettyCreatedAt = createdAt.toLocaleDateString("en-us", { day: "numeric", month: "short" });
 
-  const prettyCreatedAt = item.createdAt.toLocaleDateString("en-us", {
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-  });
-
-  const handleClickDiv = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleClickDiv = (event: React.MouseEvent<HTMLDivElement & HTMLLIElement>) => {
     onClick(event);
   };
 
@@ -33,55 +33,70 @@ export const InvoicesListItem = ({
 
   return (
     <CoreListItemLayout
+      user={userToDisplay}
       onClick={handleClickDiv}
-      topRowComponents={
-        <>
-          <TopLeftGridBox>
-            <span style={{ gridArea: "1 / 1", fontWeight: "bold" }}>
-              {isInboxList ? "FROM:" : "TO:"}
-            </span>
-            <span style={{ gridArea: "1 / 2" }}>
-              {isInboxList
-                ? item.createdBy.profile.displayName
-                : item?.assignedTo?.profile.displayName ?? ""}
-            </span>
-            <span style={{ gridArea: "2 / 1", fontWeight: "bold" }}>DATE:</span>
-            <span style={{ gridArea: "2 / 2" }}>{prettyCreatedAt}</span>
-          </TopLeftGridBox>
-          <span style={{ paddingTop: "1px" }}>{item.status.replace(/_/g, " ")}</span>
-          <InvoiceStatusIcon
-            status={item.status as Invoice["status"]}
-            style={{ marginLeft: "0.5rem" }}
-          />
-        </>
-      }
-      bottomRowComponents={
-        <Box style={{ flexDirection: "row" }}>
-          <>
-            <span style={{ marginRight: "auto" }}>{formatNum.toCurrencyStr(item.amount)}</span>
-            {"workOrderID" in item && (
-              <Link
-                to={`/home/workorders/${item.workOrderID}`}
-                state={{ isItemOwnedByUser: isInboxList /* Invoice INBOX = WorkOrder SENT */ }}
-                onClick={handleClickWorkOrderLink}
-              >
-                View Work Order
-              </Link>
-            )}
-          </>
-        </Box>
-      }
-    />
+      itemID={item.id}
+      parentListName={parentListName}
+      {...props}
+    >
+      <ListItemText
+        style={{ margin: "6px 0" }}
+        primary={
+          <Text style={{ fontSize: "1.05rem" }}>
+            {userToDisplay.profile?.displayName ?? userToDisplay.handle}
+          </Text>
+        }
+        secondary={
+          workOrder?.id && (
+            <Link
+              to={`/home/workorders/${encodeURIComponent(workOrder.id)}`}
+              state={{ isItemOwnedByUser: isInboxList /* Invoice INBOX = WorkOrder SENT */ }}
+              onClick={handleClickWorkOrderLink}
+              style={{ fontSize: "0.925rem", lineHeight: "1.25rem" }}
+            >
+              View Work Order
+            </Link>
+          )
+        }
+      />
+      <StyledRightSideListItemTextContainer
+        width="5rem"
+        primary={
+          <Text
+            style={{
+              marginTop: "1px"
+            }}
+          >
+            {formatNum.toCurrencyStr(amount)}
+          </Text>
+        }
+      />
+      <StyledRightSideListItemTextContainer
+        width="4.75rem"
+        primary={<Text variant="body2">{prettyCreatedAt}</Text>}
+        secondary={
+          <Text variant="caption" color="gray" style={{ display: "block" }}>
+            {/* TODO try adding the INV-status-icon here */}
+            {status.replace(/_/g, " ")}
+          </Text>
+        }
+      />
+    </CoreListItemLayout>
   );
 };
 
-const Box = styled("div")`
-  width: 100%;
-  display: flex;
-`;
+const StyledRightSideListItemTextContainer = styled(ListItemText, {
+  shouldForwardProp: (propName) => propName !== "width"
+})<{ width: string }>(({ width }) => ({
+  // height: "3.25rem",
+  width,
+  minWidth: width,
+  maxWidth: width,
+  margin: "6px 0 6px 0.5rem",
+  textAlign: "right",
 
-const TopLeftGridBox = styled("div")`
-  margin-right: auto;
-  display: grid;
-  grid-template: auto auto / 3.5rem auto;
-`;
+  "& > p:first-of-type": {
+    marginTop: "1px",
+    lineHeight: "1.5rem"
+  }
+}));

@@ -1,36 +1,39 @@
-import styled from "@emotion/styled";
+import Text from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 import { Logo } from "./Logo";
-import { Title } from "../Typography";
 
 export const TitleLogo = ({
   onClick,
-  styles
+  ...containerProps
 }: {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
-  styles?: {
-    container?: React.CSSProperties & any;
-    logo?: React.CSSProperties & any;
-    title?: React.CSSProperties & any;
-  };
-}) => (
-  <StyledTitleLogoContainer onClick={onClick} style={styles?.container ?? {}}>
-    <Logo style={styles?.logo ?? {}} />
-    <StyledTitle style={styles?.title ?? {}}>Fixit</StyledTitle>
-  </StyledTitleLogoContainer>
+} & React.ComponentProps<typeof TitleLogoContainer>) => (
+  <TitleLogoContainer
+    className="title-logo title-logo-container"
+    onClick={onClick}
+    {...containerProps}
+  >
+    <Logo className="title-logo-img" />
+    <Text className="title-logo-text" variant="h1">
+      Fixit
+    </Text>
+  </TitleLogoContainer>
 );
 
-const StyledTitleLogoContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  vertical-align: middle;
-  &:hover {
-    cursor: ${(props) => (props.onClick ? "pointer" : "auto")};
+const TitleLogoContainer = styled("div")(({ onClick }) => ({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-evenly",
+  alignItems: "center",
+  verticalAlign: "middle",
+  ...(onClick && {
+    "&:hover": {
+      cursor: "pointer"
+    }
+  }),
+  "& > .title-logo-text": {
+    margin: 0,
+    fontSize: "3rem",
+    lineHeight: "1.5rem"
   }
-`;
-
-const StyledTitle = styled(Title)`
-  font-weight: bold;
-  font-size: 4.75rem;
-`;
+}));

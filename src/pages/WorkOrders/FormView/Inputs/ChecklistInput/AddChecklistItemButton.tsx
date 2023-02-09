@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import Text from "@mui/material/Typography";
 import PlusIcon from "@mui/icons-material/Add";
 import { useField, useFormikContext } from "formik";
-import type { WorkOrderFormChecklistItem } from "../../Form";
+import type { WorkOrderFormChecklistItem } from "../../formFieldHandlers";
 
 export const AddChecklistItemButton = ({ addChecklistItem }: { addChecklistItem: Function }) => {
   const [field, meta] = useField("checklist");
