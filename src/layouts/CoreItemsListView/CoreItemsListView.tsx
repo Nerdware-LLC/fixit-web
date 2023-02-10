@@ -116,7 +116,6 @@ const StyledCoreItemsListView = styled(CoreContentViewLayout)(({ theme }) => ({
   "& > div.core-content-view-scroll-container": {
     height: "calc(100% - 7rem)", // 7rem = 4rem (header-height) + 1rem (hr-mt) + 2rem (self-mt)
     margin: theme.variables.isMobilePageLayout ? "0 0 1rem 0" : "2rem 0",
-    padding: 0,
 
     "& > div.list-view-lists-container": {
       width: "100%",
