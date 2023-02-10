@@ -35,7 +35,6 @@ ChartJS.register(
 // elements
 ChartJS.defaults.elements.line.borderJoinStyle = "round";
 ChartJS.defaults.elements.line.tension = 0.05;
-ChartJS.defaults.elements.point.radius = 4;
 // font
 ChartJS.defaults.font.family = "Roboto, sans-serif";
 ChartJS.defaults.font.size = 14;

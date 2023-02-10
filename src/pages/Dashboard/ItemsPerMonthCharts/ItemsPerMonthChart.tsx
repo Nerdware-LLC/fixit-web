@@ -13,7 +13,7 @@ export const ItemsPerMonthChart = ({
   numAssignedToUserByLast12Months: Array<number>;
   yAxisMaximum: number;
 }) => {
-  const { palette } = useTheme();
+  const { palette, variables } = useTheme();
 
   const titleAndLegendFontColor = alpha(palette.text.primary, 0.75);
 
@@ -72,7 +72,7 @@ export const ItemsPerMonthChart = ({
           },
           subtitle: {
             display: true,
-            text: "Click below labels to show/hide data"
+            text: `${variables.isMobilePageLayout ? "Tap" : "Click"} labels to show/hide data`
           },
           legend: {
             labels: {
