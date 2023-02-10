@@ -1,4 +1,3 @@
-import { styled } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
@@ -20,7 +19,7 @@ export const InboxListVisToggleBtns = ({
   ];
 
   return (
-    <StyledToggleButtonGroup
+    <ToggleButtonGroup
       value={visibleListNames}
       onChange={onChange}
       aria-label="list visibility toggle buttons"
@@ -32,6 +31,7 @@ export const InboxListVisToggleBtns = ({
           value={listName}
           aria-label={listName}
           size="small"
+          style={{ padding: "0.55rem 1rem 0.45rem 1rem" }}
         >
           <Tooltip
             arrow
@@ -47,12 +47,6 @@ export const InboxListVisToggleBtns = ({
           </Tooltip>
         </ToggleButton>
       ))}
-    </StyledToggleButtonGroup>
+    </ToggleButtonGroup>
   );
 };
-
-const StyledToggleButtonGroup = styled(ToggleButtonGroup)({
-  "& > .MuiToggleButton-root": {
-    padding: "0.55rem 1rem 0.45rem 1rem"
-  }
-});
