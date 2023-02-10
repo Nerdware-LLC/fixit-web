@@ -53,6 +53,8 @@ const CoreContentViewContainer = styled(Box)(({ theme }) => ({
 
   [`& > div.${CLASS_NAMES.core_content_view_header_container}`]: {
     height: "6rem",
+    minHeight: "6rem",
+    maxHeight: "6rem",
     width: "100%",
     padding: "1rem 0",
     display: "flex",
@@ -74,7 +76,6 @@ const CoreContentViewContainer = styled(Box)(({ theme }) => ({
   [`& > div.${CLASS_NAMES.core_content_view_scroll_container}`]: {
     height: "100%",
     margin: theme.variables.isMobilePageLayout ? "1rem 0" : "2rem 0",
-    padding: "0 1rem 1rem 1rem",
     overflowX: "hidden",
     overflowY: "auto",
     display: "flex",
