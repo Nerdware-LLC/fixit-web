@@ -62,6 +62,9 @@ const DesktopAppBarMenuContainer = styled("div")(({ theme }) => ({
   },
 
   "& .MuiAvatar-root": {
-    marginLeft: "1.5rem"
+    marginLeft: "1.5rem",
+    "&:hover": {
+      cursor: "pointer !important"
+    }
   }
 }));

@@ -29,9 +29,10 @@ const StyledDarkModeIcon = styled(DarkModeIcon)`
 `;
 
 const StyledDarkModeSwitch = styled(Switch)(({ theme }) => ({
-  width: 65,
-  height: 34,
-  padding: 7,
+  width: "65px",
+  height: "34px",
+  padding: "7px",
+
   "& .MuiSwitch-switchBase": {
     padding: 2.5,
     transform: "translateX(6px)",
@@ -54,6 +55,7 @@ const StyledDarkModeSwitch = styled(Switch)(({ theme }) => ({
       }
     }
   },
+
   "& .MuiSwitch-track": {
     borderRadius: 10
   }

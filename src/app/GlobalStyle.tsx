@@ -6,6 +6,9 @@ export const GlobalStyle = () => {
   const { palette } = useTheme();
   const { isMobilePageLayout } = usePageLayoutContext();
 
+  const trackDefaultBackgroundColor =
+    palette.mode === "dark" ? palette.background.paper : alpha(palette.grey[400], 0.3);
+
   const scrollbarHideOnMobile = css`
     display: none;
     appearance: none;
@@ -21,13 +24,17 @@ export const GlobalStyle = () => {
         }
 
         *::-webkit-scrollbar-track {
-          background-color: ${palette.background.paper};
-          box-shadow: inset 0 0 0.1rem 0.5rem ${palette.background.paper};
+          background-color: ${trackDefaultBackgroundColor};
+          box-shadow: inset 0 0 0.1rem 0.5rem ${trackDefaultBackgroundColor};
         }
 
         *::-webkit-scrollbar-thumb {
           background-color: ${palette.divider};
           box-shadow: inset 0 0 0.05rem 0.05rem ${palette.divider};
+        }
+
+        *::-webkit-scrollbar-corner {
+          background-color: ${palette.background.default};
         }
 
         /* When scrollbar is a descendent of MuiPaper, change colors */
@@ -50,6 +57,10 @@ export const GlobalStyle = () => {
         *::-webkit-scrollbar-thumb {
           ${scrollbarHideOnMobile}
         }
+
+        *::-webkit-scrollbar-corner {
+          ${scrollbarHideOnMobile}
+        }
       `;
 
   return (
@@ -64,11 +75,22 @@ export const GlobalStyle = () => {
         }
 
         body {
+          min-height: 100vh;
+          width: 100%;
           margin: 0;
           padding: 0;
           font-family: Roboto, sans-serif;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
+        }
+
+        div#root {
+          height: 100dvh;
+          min-height: 100svh;
+          width: 100%;
+          overflow: hidden;
+          background-color: ${palette.background.default};
+          z-index: 1;
         }
 
         code {

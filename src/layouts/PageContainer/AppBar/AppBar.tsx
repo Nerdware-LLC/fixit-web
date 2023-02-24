@@ -68,8 +68,7 @@ const StyledMuiAppBar = styled(MuiAppBar)(({ theme }) => {
 
   return {
     ...sharedStyles,
-    width: "100dvw",
-    maxWidth: "100dvw",
+    width: "100%",
     borderWidth: "0 0 1px 0",
     borderStyle: "solid",
     borderColor: theme.palette.divider,
