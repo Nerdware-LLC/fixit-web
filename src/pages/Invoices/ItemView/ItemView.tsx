@@ -2,7 +2,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client/react/hooks";
 import { QUERIES } from "@graphql";
 import { Loading, Error } from "@components";
-import { CoreContentViewLayout } from "@layouts";
+import { CoreItemView } from "@layouts";
 import { InvoiceItemViewHeader } from "./ItemViewHeader";
 import { InvoiceItemViewContent } from "./ItemViewContent";
 import { MOCK_INVOICES } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
@@ -32,13 +32,13 @@ export const InvoiceItemView = () => {
   if (!MOCK_invoice) return null;
 
   return (
-    <CoreContentViewLayout
+    <CoreItemView
       headerLabel="Invoice"
       headerComponents={
         <InvoiceItemViewHeader invoice={MOCK_invoice} isItemOwnedByUser={isItemOwnedByUser} />
       }
     >
       <InvoiceItemViewContent invoice={MOCK_invoice} isItemOwnedByUser={isItemOwnedByUser} />
-    </CoreContentViewLayout>
+    </CoreItemView>
   );
 };

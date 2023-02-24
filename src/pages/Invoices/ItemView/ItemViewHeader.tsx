@@ -24,5 +24,5 @@ export const InvoiceItemViewHeader = ({
 
 const sharedProps: Partial<React.ComponentProps<typeof Button>> = {
   variant: "contained",
-  style: { height: "2.25rem", fontSize: "1rem" }
+  style: { height: "2rem", fontSize: "1rem" }
 };

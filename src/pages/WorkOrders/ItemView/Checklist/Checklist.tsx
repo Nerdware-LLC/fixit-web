@@ -11,7 +11,7 @@ export const Checklist = ({ checklist }: { checklist: WorkOrderChecklist }) => (
       <ListIcon style={{ marginRight: "0.25rem" }} />
       <Text>Checklist</Text>
     </ChecklistLabelContainer>
-    <div style={{ width: "100%", padding: "0 1rem" }}>
+    <div style={{ maxHeight: "20rem", width: "100%", padding: "0 1rem", overflowY: "scroll" }}>
       {/* TODO add quick-action buttons like "Mark All Complete" */}
       {checklist.map((item) => (
         <ChecklistItem key={`ChecklistItem:${item.id}]`} checklistItem={item} />

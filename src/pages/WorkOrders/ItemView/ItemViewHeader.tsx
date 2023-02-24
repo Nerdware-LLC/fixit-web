@@ -36,25 +36,24 @@ export const WorkOrderItemViewHeader = ({
   */
 
   return (
-    <Button
-      className="wo-item-view-header-mutation-button"
-      onClick={onClick}
-      startIcon={startIcon}
-      sx={{
-        height: "2rem",
-        width: "14rem",
-        paddingBottom: "0.16rem",
-        borderRadius: "1.5rem"
-
-        // height: "2.25rem",
-        // fontSize: "1rem",
-        // "& svg": {
-        //   marginRight: "0.2rem",
-        //   marginBottom: "0.2rem"
-        // }
-      }}
-    >
-      {buttonText}
-    </Button>
+    <>
+      <Button
+        className="wo-item-view-header-mutation-button"
+        onClick={onClick}
+        startIcon={startIcon}
+        sx={{
+          height: "2rem",
+          width: "14rem",
+          paddingBottom: "0.16rem",
+          borderRadius: "1.5rem",
+          "& svg": {
+            marginRight: "0.2rem",
+            marginBottom: "0.15rem"
+          }
+        }}
+      >
+        {buttonText}
+      </Button>
+    </>
   );
 };

@@ -15,7 +15,7 @@ export const PayInvoiceButton = ({
   invoice: Invoice;
 } & Partial<React.ComponentProps<typeof Button>>) => {
   const [payInvoice] = useMutation(MUTATIONS.PAY_INVOICE);
-  const { isDialogVisible, openDialog, closeDialog } = Dialog.useDialog();
+  const { isDialogVisible, openDialog, closeDialog } = Dialog.use();
 
   const handlePayInvoice = async () => {
     return await payInvoice({

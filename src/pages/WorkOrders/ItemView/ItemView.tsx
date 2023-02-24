@@ -2,7 +2,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client/react/hooks";
 import { QUERIES } from "@graphql";
 import { Loading, Error } from "@components";
-import { CoreContentViewLayout } from "@layouts";
+import { CoreItemView } from "@layouts";
 import { WorkOrderItemViewHeader } from "./ItemViewHeader";
 import { WorkOrderItemViewContent } from "./ItemViewContent";
 import { MOCK_WORK_ORDERS } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
@@ -32,13 +32,13 @@ export const WorkOrderItemView = () => {
   if (!MOCK_workOrder) return null;
 
   return (
-    <CoreContentViewLayout
+    <CoreItemView
       headerLabel="Work Order"
       headerComponents={
         <WorkOrderItemViewHeader workOrder={MOCK_workOrder} isItemOwnedByUser={isItemOwnedByUser} />
       }
     >
       <WorkOrderItemViewContent workOrder={MOCK_workOrder} isItemOwnedByUser={isItemOwnedByUser} />
-    </CoreContentViewLayout>
+    </CoreItemView>
   );
 };

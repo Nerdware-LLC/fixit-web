@@ -6,5 +6,6 @@ export * from "./HomePageLayout";
 export * from "./AuthPageLayout";
 export * from "./CoreContentViewLayout";
 export * from "./CoreItemsListView";
+export * from "./CoreItemView";
 export * from "./LegalPolicyPageLayout";
 export * from "./ProfileViewLayout";

@@ -3,7 +3,7 @@ import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import UpdateIcon from "@mui/icons-material/Update";
 import CalendarDateIcon from "@mui/icons-material/InsertInvitation";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import { Avatar, ContactAvatar, ItemEventsTimeline } from "@components";
+import { ContactAvatar, ItemEventsTimeline } from "@components";
 import type { WorkOrder } from "@types";
 
 export const WorkOrderTimeline = ({
@@ -31,11 +31,11 @@ export const WorkOrderTimeline = ({
       icon: <NoteAddIcon />,
       eventInfoContent: (
         <>
-          {isItemOwnedByUser ? (
-            <Avatar profile={createdBy.profile} />
-          ) : (
-            <ContactAvatar contact={createdBy} showDisplayName={false} />
-          )}
+          <ContactAvatar
+            contact={createdBy}
+            viewContactOnClick={!isItemOwnedByUser}
+            showDisplayName={false}
+          />
           <Text>Work Order created by {createdBy.profile.displayName}</Text>
         </>
       )
@@ -97,5 +97,15 @@ export const WorkOrderTimeline = ({
       : [])
   ];
 
-  return <ItemEventsTimeline events={workOrderEvents} />;
+  return (
+    <ItemEventsTimeline
+      events={workOrderEvents}
+      sx={{
+        "& .avatar-container": {
+          width: "auto",
+          marginRight: "0.75rem"
+        }
+      }}
+    />
+  );
 };

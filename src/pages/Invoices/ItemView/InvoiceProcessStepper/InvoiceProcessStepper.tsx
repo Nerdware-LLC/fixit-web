@@ -27,7 +27,7 @@ export const InvoiceProcessStepper = ({
   }
 
   return (
-    <>
+    <div style={{ width: "100%" }}>
       <Stepper
         activeStep={activeStep}
         connector={<PrettyStepConnector showerrorstyling={`${invoiceStatus === "DISPUTED"}`} />}
@@ -65,7 +65,7 @@ export const InvoiceProcessStepper = ({
           <Text>{steps[activeStep].description}</Text>
         </Stack>
       )}
-    </>
+    </div>
   );
 };
 
