@@ -4,128 +4,211 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
-import List from "@mui/material/List";
 import Text from "@mui/material/Typography";
 import PlusIcon from "@mui/icons-material/ControlPoint";
 import { CoreContentViewLayout } from "@layouts/CoreContentViewLayout";
+import { DataGrid, type GridEventListener, type GridRowParams } from "./DataGrid";
+import { VirtualizedMuiList } from "./VirtualizedMuiList";
+import { ListViewHeaderToggleButtons } from "./ListViewHeaderToggleButtons";
 import type { ListViewHeader, CoreItemsListConfig, ListViewRenderItemFn } from "./types";
 
+// TODO On mobile, mv "create-btn" somewhere
+// TODO on mobile, ensure DataGrid toolbar btns don't wrap
+
 /**
- * ListView layout component for WorkOrders, Invoices, and Contacts.
+ * Provides common styles/props/logic to all core-item list views.
+ *
  * - **_createItemFormPath_** is an optional prop with a default value of `[viewBasePath]/form`.
  */
 export const CoreItemsListView = ({
   viewHeader,
   viewBasePath,
   createItemFormPath = `${viewBasePath}/form`,
-  headerRowListControlComponents,
   lists,
   renderItem,
+  tableProps,
   ...containerProps
 }: {
   viewHeader: ListViewHeader;
   viewBasePath: string;
   createItemFormPath?: string;
-  headerRowListControlComponents?: React.ReactNode;
   lists: Array<CoreItemsListConfig>;
   renderItem: ListViewRenderItemFn;
-} & Omit<React.ComponentProps<typeof StyledCoreItemsListView>, "children">) => {
+  tableProps: React.ComponentProps<typeof DataGrid>;
+} & Omit<React.ComponentProps<typeof StyledCoreContentViewLayout>, "children" | "listOrTable">) => {
   const nav = useNavigate();
+  const { listOrTable, handleChangeListOrTable, listVisibility, handleChangeListVisibility } =
+    ListViewHeaderToggleButtons.use(lists.length);
 
   const handleClickCreateItem = () => nav(createItemFormPath);
 
-  const handleClickItem = (event: React.MouseEvent<HTMLDivElement & HTMLLIElement>) => {
-    const { itemId: itemID, parentListName } = event.currentTarget.dataset;
-
-    if (typeof itemID === "string" && typeof parentListName === "string") {
+  // prettier-ignore
+  const tryNavToItemView = ({ itemID, isItemOwnedByUser }: { itemID?: string; isItemOwnedByUser?: boolean; }) => {
+    if (typeof itemID === "string") {
       nav(`${viewBasePath}/${encodeURIComponent(itemID)}`, {
-        state: { isItemOwnedByUser: parentListName === "Sent" }
+        ...(typeof isItemOwnedByUser === "boolean" && {
+          state: { isItemOwnedByUser }
+        })
       });
     }
   };
 
-  const visibleLists = lists.filter((listParams) => listParams?.isListVisible !== false);
+  const handleClickDataGridRow: GridEventListener<"rowClick"> = ({ id, row }: GridRowParams) => {
+    tryNavToItemView({
+      itemID: id as string,
+      ...(!!row?.isItemOwnedByUser && { isItemOwnedByUser: row.isItemOwnedByUser })
+    });
+  };
+
+  const handleClickListItem = (event: React.MouseEvent<HTMLDivElement & HTMLLIElement>) => {
+    const { itemId: itemID, listName } = event.currentTarget.dataset;
+    tryNavToItemView({
+      itemID,
+      ...(!!listName && { isItemOwnedByUser: listName === "Sent" })
+    });
+  };
+
+  const numVisibleLists = listVisibility
+    ? Object.values(listVisibility).filter((isVisible) => isVisible).length
+    : 1;
 
   return (
-    <StyledCoreItemsListView
+    <StyledCoreContentViewLayout
       className="core-items-list-view-container"
       headerLabel={viewHeader}
       headerComponents={
-        <>
-          {headerRowListControlComponents}
+        <Box className="list-view-header-components-container">
+          <ListViewHeaderToggleButtons
+            listOrTable={listOrTable}
+            handleChangeListOrTable={handleChangeListOrTable}
+            listVisibility={listVisibility}
+            handleChangeListVisibility={handleChangeListVisibility}
+          />
           <Button
             onClick={handleClickCreateItem}
-            startIcon={<PlusIcon style={{ marginBottom: "0.12rem" }} />}
-            style={{
-              height: "2rem",
-              width: "14rem",
-              paddingBottom: "0.16rem",
-              borderRadius: "1.5rem"
-            }}
+            startIcon={<PlusIcon />}
+            className="list-view-create-item-button"
           >
             {`Create ${viewHeader.replace(/s$/, "")}`}
           </Button>
-        </>
+        </Box>
       }
       {...containerProps}
     >
-      <Box className="list-view-lists-container">
-        {visibleLists.map(({ listName, items }, index) => (
-          <React.Fragment key={`CoreItemsListView:list-Container${listName && `:${listName}`}`}>
+      <Box className="list-view-content-container">
+        <DataGrid
+          onRowClick={handleClickDataGridRow}
+          style={{ display: listOrTable === "TABLE" ? "flex" : "none" }}
+          componentsProps={{
+            toolbar: {
+              csvOptions: {
+                fileName: `Fixit_${viewHeader}_${new Date().toLocaleString()}`
+                  .replace(/\s/g, "_") // convert spaces to underscores
+                  .replace(/,/g, "") // rm the comma in toLocaleString output
+              }
+            }
+          }}
+          {...tableProps}
+        />
+        {lists.map(({ listName, items }, index) => (
+          <React.Fragment key={`lists-container${listName && `:${listName}`}`}>
             {index === 1 && (
               <Divider
                 className="list-view-lists-divider"
                 orientation="vertical"
                 variant="middle"
+                sx={(theme) => ({
+                  display:
+                    numVisibleLists < 2 ||
+                    theme.variables.isMobilePageLayout ||
+                    listOrTable === "TABLE"
+                      ? "none"
+                      : "block"
+                })}
               />
             )}
-            <Box className="list-view-list-container" {...containerProps}>
+            <Box
+              className="list-view-list-container"
+              sx={(theme) => ({
+                display:
+                  (listVisibility && (!listName || !listVisibility?.[listName])) ||
+                  (theme.variables.isMobilePageLayout && index > 0) ||
+                  listOrTable === "TABLE"
+                    ? "none"
+                    : "flex"
+              })}
+            >
               {!!listName && (
                 <Text variant="h6" component="h3" className="core-items-list-header">
                   {listName}
                 </Text>
               )}
-              <List className="core-items-list">
-                {items.map((item) =>
+              <VirtualizedMuiList
+                className="core-items-list"
+                totalCount={items.length}
+                itemContent={(index) =>
                   renderItem({
-                    key: `CoreItemsListView${listName && `:${listName}`}:${item.id}`,
-                    item,
-                    onClick: handleClickItem,
-                    ...(!!listName && { parentListName: listName })
+                    item: items[index],
+                    onClick: handleClickListItem,
+                    ...(!!listName && { listName })
                   })
-                )}
-              </List>
+                }
+              />
             </Box>
           </React.Fragment>
         ))}
       </Box>
-    </StyledCoreItemsListView>
+    </StyledCoreContentViewLayout>
   );
 };
 
-const StyledCoreItemsListView = styled(CoreContentViewLayout)(({ theme }) => ({
-  // styled applied to "core-content-view-container":
+const StyledCoreContentViewLayout = styled(CoreContentViewLayout)(({ theme }) => ({
+  height: "100%",
 
   // All ListView text doesn't wrap by default
   "& *": {
     whiteSpace: "nowrap"
   },
 
-  // Scroll container:
+  // LIST-VIEW HEADER CONTAINER:
 
-  "& > div.core-content-view-scroll-container": {
-    height: "calc(100% - 7rem)", // 7rem = 4rem (header-height) + 1rem (hr-mt) + 2rem (self-mt)
-    margin: theme.variables.isMobilePageLayout ? "0 0 1rem 0" : "2rem 0",
+  "& > .core-content-view-header-container > .list-view-header-components-container": {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "2rem",
+    // create item button:
+    "& > .list-view-create-item-button": {
+      height: "2rem",
+      width: "14rem",
+      paddingTop: "0.26rem",
+      paddingBottom: "0.2rem",
+      borderRadius: "1.5rem",
+      // startIcon:
+      "& svg": {
+        marginBottom: "0.12rem"
+      }
+    }
+  },
 
-    "& > div.list-view-lists-container": {
+  // CORE-CONTENT CHILDREN CONTAINER:
+
+  "& > .core-content-view-children-container": {
+    margin: theme.variables.isMobilePageLayout ? "0 !important" : "2rem 0 0 0 !important",
+
+    "& > .list-view-content-container": {
+      height: "100%",
       width: "100%",
       display: "flex",
       flexDirection: "row",
+      justifyContent: "space-between",
 
-      // This ensures in mobile view, only 1 list is ever shown
-      "&>*:not(:first-of-type)": {
-        display: theme.variables.isMobilePageLayout ? "none" : "block"
+      "& .MuiDataGrid-root": {
+        marginBottom: "1rem !important"
       },
+
+      // LIST ELEMENT STYLES:
 
       "& > hr.list-view-lists-divider": {
         height: "auto",
@@ -134,24 +217,15 @@ const StyledCoreItemsListView = styled(CoreContentViewLayout)(({ theme }) => ({
         margin: "0 clamp(0.5rem, 1.5%, 1rem)"
       },
 
-      "& > div.list-view-list-container": {
-        // These flexGrow and maxWidth values ensure lists always have correct width
+      "& > .list-view-list-container": {
         flexGrow: 1,
-        maxWidth: theme.variables.isMobilePageLayout ? "100%" : "48%",
-        "&:only-of-type": {
-          // prettier-ignore
-          maxWidth: theme.variables.isMobilePageLayout
-            ? "100%"
-            : "calc(96% + 2rem + 1px)" // ( 2 x 48% ) + hr-margin + hr-width
-        },
+        width: theme.variables.isMobilePageLayout ? "100%" : "50%",
+        flexDirection: "column",
 
         "& > .core-items-list-header": {
           paddingLeft: "1rem",
+          marginBottom: "0.5rem",
           backgroundColor: theme.palette.background.paper
-        },
-
-        "& > ul.core-items-list": {
-          padding: 0
         }
       }
     }

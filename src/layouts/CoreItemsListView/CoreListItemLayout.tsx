@@ -14,7 +14,7 @@ export const CoreListItemLayout = ({
   user,
   onClick,
   itemID,
-  parentListName,
+  listName,
   divider = true,
   children,
   ...containerProps
@@ -22,11 +22,11 @@ export const CoreListItemLayout = ({
   user?: FixitUser;
   onClick: React.MouseEventHandler<HTMLDivElement & HTMLLIElement>;
   itemID: string;
-  parentListName?: string;
+  listName?: string;
   divider?: boolean;
 } & React.ComponentProps<typeof ListItem>) => (
   <StyledListItem className="list-view-item-container" divider={divider} {...containerProps}>
-    <ListItemButton onClick={onClick} data-item-id={itemID} data-parent-list-name={parentListName}>
+    <ListItemButton onClick={onClick} data-item-id={itemID} data-list-name={listName}>
       <Box className="list-view-item-left-content-container">
         {user ? (
           <ListItemAvatar>
@@ -50,6 +50,7 @@ const StyledListItem = styled(ListItem)(({ theme: { palette, variables, breakpoi
 
   return {
     alignItems: "flex-start",
+    margin: 0,
     padding: 0,
     borderColor: alpha(palette.divider, palette.mode === "dark" ? 0.05 : 0.1),
 
