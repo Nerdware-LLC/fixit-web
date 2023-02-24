@@ -3,12 +3,14 @@ import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
 
 /**
+ * Provides a common layout for list, item, form, and contact/profile views.
+ *
  * classNames:
  *
  * - `"core-content-view-container"`
  * - `"core-content-view-header-container"`
  * - `"core-content-view-header-label"`
- * - `"core-content-view-scroll-container"`
+ * - `"core-content-view-children-container"`
  */
 export const CoreContentViewLayout = ({
   headerLabel,
@@ -29,7 +31,7 @@ export const CoreContentViewLayout = ({
       )}
       {headerComponents}
     </Box>
-    <Box className={CLASS_NAMES.core_content_view_scroll_container}>{children}</Box>
+    <Box className={CLASS_NAMES.core_content_view_children_container}>{children}</Box>
   </CoreContentViewContainer>
 );
 
@@ -37,14 +39,12 @@ const CLASS_NAMES = {
   core_content_view_container: "core-content-view-container",
   core_content_view_header_container: "core-content-view-header-container",
   core_content_view_header_label: "core-content-view-header-label",
-  core_content_view_scroll_container: "core-content-view-scroll-container"
+  core_content_view_children_container: "core-content-view-children-container"
 };
 
 const CoreContentViewContainer = styled(Box)(({ theme }) => ({
-  minHeight: "100%",
   height: "100%",
   width: "100%",
-  maxWidth: "100vw",
   padding: theme.variables.isMobilePageLayout ? "0 1.5rem" : "0 2rem",
   display: "flex",
   flexDirection: "column",
@@ -66,19 +66,15 @@ const CoreContentViewContainer = styled(Box)(({ theme }) => ({
     borderColor: theme.palette.divider,
 
     [`& > .${CLASS_NAMES.core_content_view_header_label}`]: {
-      flexGrow: 1,
       whiteSpace: "nowrap"
     }
   },
 
-  // Scroll container:
+  // Children container:
 
-  [`& > div.${CLASS_NAMES.core_content_view_scroll_container}`]: {
+  [`& > div.${CLASS_NAMES.core_content_view_children_container}`]: {
     height: "100%",
     margin: theme.variables.isMobilePageLayout ? "1rem 0" : "2rem 0",
-    overflowX: "hidden",
-    overflowY: "auto",
-    display: "flex",
-    flexDirection: "column"
+    overflow: "hidden"
   }
 }));
