@@ -23,12 +23,12 @@ export const PALETTES = Object.fromEntries(
           ? {
               light: "#a4fff3",
               main: "#00ffdc",
-              dark: "#00d6ba"
+              dark: "#00b3a4"
             }
           : {
               light: "#a19dff",
               main: "#625afa",
-              dark: "#544dd6"
+              dark: "#443dc2"
             },
       // --------------------------------------------------
       success:
