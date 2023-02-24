@@ -9,7 +9,7 @@ import { FetchStateContextWrapper, TitleLogo } from "@components";
  * HTML Classes:
  * - `"auth-page-layout-container"`
  * - `"auth-page-header"`
- *   - `"auth-page-header-title"`
+ * - `"auth-page-header-title"`
  * - `"auth-page-content-container"`
  */
 export const AuthPageLayout = ({
@@ -39,7 +39,6 @@ export const AuthPageLayout = ({
 const AuthPageLayoutContainer = styled("div")({
   height: "100%",
   width: "100%",
-  maxWidth: "100vw",
   overflowX: "hidden",
   display: "flex",
   flexDirection: "column",
