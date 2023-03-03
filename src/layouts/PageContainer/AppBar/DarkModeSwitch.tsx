@@ -1,7 +1,7 @@
 import Switch from "@mui/material/Switch";
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
-import DarkModeIcon from "@mui/icons-material/ModeNight";
+import DarkModeIcon from "@mui/icons-material/ModeNightSharp";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { themeStore } from "@app";
 
@@ -23,10 +23,10 @@ export const DarkModeSwitch = () => {
   );
 };
 
-const StyledDarkModeIcon = styled(DarkModeIcon)`
-  transform: rotateZ(140deg) translateX(3px);
-  color: ${({ theme }) => theme.palette.text.primary};
-`;
+const StyledDarkModeIcon = styled(DarkModeIcon)(({ theme }) => ({
+  transform: "rotateZ(140deg) translate(3px, 0.7px)",
+  color: theme.palette.text.primary
+}));
 
 const StyledDarkModeSwitch = styled(Switch)(({ theme }) => ({
   width: "65px",
