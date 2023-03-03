@@ -47,7 +47,12 @@ export const Dialog = ({
         message
       )}
     </DialogContent>
-    <DialogActions style={{ justifyContent: "space-evenly" }}>
+    <DialogActions
+      style={{
+        padding: "1rem 0.5rem",
+        justifyContent: "space-evenly"
+      }}
+    >
       {handleCancel && (
         <DialogButton onClick={handleCancel} variant="outlined">
           {cancelLabel}
@@ -58,4 +63,4 @@ export const Dialog = ({
   </MuiDialog>
 );
 
-Dialog.useDialog = useDialog;
+Dialog.use = useDialog;
