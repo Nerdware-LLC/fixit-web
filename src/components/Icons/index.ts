@@ -1,4 +1,5 @@
 // Font Awesome icons:
+export { AddressCardIcon } from "./AddressCardIcon";
 export { FileInvoiceDollarIcon } from "./FileInvoiceDollarIcon";
 export { PenToSquareIcon } from "./PenToSquareIcon";
 export { PersonCircleExclamationIcon } from "./PersonCircleExclamationIcon";
