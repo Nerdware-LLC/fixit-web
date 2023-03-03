@@ -1,5 +1,6 @@
 export * from "./Avatar";
 export * from "./Branding";
+export * from "./Buttons";
 export * from "./Charts";
 export * from "./Chips";
 export * from "./Containers";
