@@ -125,6 +125,7 @@ const ProductsPageContainer = styled("div")(({ theme }) => ({
   minWidth: "15rem",
   width: "100%",
   maxWidth: "85rem",
+  overflowY: theme.variables.isMobilePageLayout ? "auto" : "hidden",
   margin: "0 auto",
   padding: "0 clamp(2rem, 5%, 15vw)",
   textAlign: "center",
