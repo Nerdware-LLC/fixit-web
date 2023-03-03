@@ -18,19 +18,16 @@ export const HomePageLayout = () => {
 const StyledHomePageLayoutContainer = styled("div")(({ theme }) => ({
   ...(theme.variables.isMobilePageLayout
     ? {
-        minHeight: `calc(100% + ${NAV_BAR_SIZE.height})`,
-        width: "100%",
-        maxWidth: "100vw"
+        height: `calc(100% - ${NAV_BAR_SIZE.height})`,
+        width: "100%"
       }
     : {
         height: "100%",
         width: `calc(100% - ${DRAWER_WIDTH})`,
         marginLeft: "auto"
       }),
-  display: "flex",
-  flexDirection: "column",
-  overflowX: "clip",
-  overflowY: "auto",
+  maxWidth: "100vw",
+  overflow: "hidden",
 
   // If a screen is somehow under 300px, allow x-scroll
   "@media (max-width: 300px)": {

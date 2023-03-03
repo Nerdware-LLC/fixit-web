@@ -34,6 +34,10 @@ export const HomePageDrawerBtn = ({
         sx={{
           padding: "0.5rem 0.75rem 0.5rem 0.5rem",
           justifyContent: "center",
+          "&:hover": {
+            // hard-coded bc this was not manifesting in light mode
+            backgroundColor: "#303037"
+          },
           "& > .MuiListItemIcon-root": {
             padding: "1rem 1rem 1rem 0",
             justifyContent: "flex-end",

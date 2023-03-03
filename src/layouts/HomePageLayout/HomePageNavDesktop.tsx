@@ -6,9 +6,8 @@ import List from "@mui/material/List";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ToolsIcon from "@mui/icons-material/Construction";
 import ContactsIcon from "@mui/icons-material/Group";
-import IdBadgeIcon from "@mui/icons-material/Badge";
 import { THEMES } from "@app/ThemeProvider";
-import { TitleLogo, FileInvoiceDollarIcon } from "@components";
+import { TitleLogo, FileInvoiceDollarIcon, AddressCardIcon } from "@components";
 import { APP_BAR_HEIGHT } from "@layouts/PageContainer/AppBar";
 import { AccountDrawerBtn, ConnectDrawerBtn, NavDrawerBtn } from "./HomePageDrawerButtons";
 
@@ -27,7 +26,7 @@ export const HomePageNavDesktop = () => {
         <div className="drawer-bottom-buttons-container">
           <Divider />
           <AccountDrawerBtn label="Account" />
-          <NavDrawerBtn label="Profile" path="/home/profile" icon={<IdBadgeIcon />} />
+          <NavDrawerBtn label="Profile" path="/home/profile" icon={<AddressCardIcon />} />
           <ConnectDrawerBtn />
         </div>
       </List>
