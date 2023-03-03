@@ -15,5 +15,10 @@ export const COMPONENTS: Partial<Theme["components"]> = {
         paddingBottom: "0.15rem"
       }
     }
+  },
+  MuiBottomNavigationAction: {
+    defaultProps: {
+      showLabel: true
+    }
   }
 };
