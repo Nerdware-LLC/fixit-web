@@ -20,6 +20,7 @@ export const AppBarLogoBtn = () => {
       <Logo
         onClick={goToLanding}
         sx={(theme) => ({
+          imageRendering: "crisp-edges",
           height: theme.variables.isMobilePageLayout ? "3rem" : "2.5rem",
           objectFit: "contain",
           "&:hover": {
