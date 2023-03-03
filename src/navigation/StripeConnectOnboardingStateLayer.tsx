@@ -56,7 +56,7 @@ export const StripeConnectOnboardingStateLayer = ({ children }: { children: Reac
 
   // Local/internal Dialog state vars (init isDialogVisible set to isConnectOnboardingNeeded)
   const [hasAlertedUser, setHasAlertedUser] = useState(false);
-  const { isDialogVisible, closeDialog } = Dialog.useDialog(isConnectOnboardingNeeded);
+  const { isDialogVisible, closeDialog } = Dialog.use(isConnectOnboardingNeeded);
 
   const handleDialogAccept = async () => {
     closeDialog();
