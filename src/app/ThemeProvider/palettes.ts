@@ -87,7 +87,7 @@ export const PALETTES = Object.fromEntries(
         paletteName === "DARK"
           ? {
               primary: "#ffffff", //                    MUI default
-              secondary: "rgba(255, 255, 255, 0.7)", // MUI default
+              secondary: "rgba(175, 175, 175, 0.7)",
               disabled: "rgba(255, 255, 255, 0.5)", //  MUI default
               icon: "rgba(255, 255, 255, 0.5)" //       MUI default
             }
