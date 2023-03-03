@@ -60,7 +60,9 @@ export const DashboardPage = () => {
 };
 
 const DashboardContentContainer = styled("div")(({ theme }) => ({
-  padding: "1rem 0.75rem 0.75rem 0.75rem",
+  height: "100%",
+  padding: "0.75rem",
+  overflowY: "auto",
 
   [theme.breakpoints.up("xl")]: {
     minHeight: "100%"

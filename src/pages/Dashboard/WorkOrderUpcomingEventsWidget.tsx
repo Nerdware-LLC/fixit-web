@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { styled, alpha } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -10,11 +10,13 @@ import Text from "@mui/material/Typography";
 import EventIcon from "@mui/icons-material/Event";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import { useDashboardDataContext } from "./DashboardDataContext";
+import { SmallWidgetLayout } from "./SmallWidgetLayout";
 
 export const WorkOrderUpcomingEventsWidget = () => {
-  // prettier-ignore
-  const { widgetData: { WorkOrderUpcomingEvents } } = useDashboardDataContext();
   const nav = useNavigate();
+  const {
+    widgetData: { WorkOrderUpcomingEvents }
+  } = useDashboardDataContext();
 
   // prettier-ignore
   const sortedEvents = [
@@ -36,31 +38,7 @@ export const WorkOrderUpcomingEventsWidget = () => {
   ].sort((woA, woB) => (woA.eventDate.getTime() > woB.eventDate.getTime() ? 1 : -1));
 
   return (
-    <div
-      style={{
-        height: "100%",
-        width: "100%",
-        minWidth: "15rem"
-      }}
-    >
-      {/* WIDGET HEADER  */}
-
-      <div style={{ height: "15%", minHeight: "2.5rem" }}>
-        <Text
-          style={{
-            fontSize: "0.95rem",
-            fontWeight: "bold",
-            textAlign: "center",
-            whiteSpace: "nowrap"
-          }}
-          sx={{ color: ({ palette }) => alpha(palette.text.primary, 0.75) }}
-        >
-          Work Orders: Upcoming Events
-        </Text>
-      </div>
-
-      {/* WIDGET DATA CONTAINER */}
-
+    <SmallWidgetLayout header="Work Orders: Upcoming Events">
       <StyledListContainer className="wo-events-list-container">
         <List disablePadding>
           {sortedEvents.map(
@@ -97,13 +75,11 @@ export const WorkOrderUpcomingEventsWidget = () => {
           )}
         </List>
       </StyledListContainer>
-    </div>
+    </SmallWidgetLayout>
   );
 };
 
 const StyledListContainer = styled("div")(({ theme }) => ({
-  height: "85%",
-  width: "100%",
   display: "flex",
   flexDirection: "column",
   overflowY: "auto", // allow widget to scroll vertically
