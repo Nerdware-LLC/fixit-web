@@ -2,28 +2,22 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
-import Text from "@mui/material/Typography";
-import PlusIcon from "@mui/icons-material/ControlPoint";
+import { usePageLayoutContext } from "@app";
 import { CoreContentViewLayout } from "@layouts/CoreContentViewLayout";
 import { DataGrid, type GridEventListener, type GridRowParams } from "./DataGrid";
 import { VirtualizedMuiList } from "./VirtualizedMuiList";
 import { ListViewHeaderToggleButtons } from "./ListViewHeaderToggleButtons";
+import { CreateItemButton } from "./CreateItemButton";
+import { ListHeader, MobileListHeaderTabs, LIST_TABS_a11y_PROPS } from "./ListHeader";
 import type { ListViewHeader, CoreItemsListConfig, ListViewRenderItemFn } from "./types";
-
-// TODO On mobile, mv "create-btn" somewhere
-// TODO on mobile, ensure DataGrid toolbar btns don't wrap
 
 /**
  * Provides common styles/props/logic to all core-item list views.
- *
- * - **_createItemFormPath_** is an optional prop with a default value of `[viewBasePath]/form`.
  */
 export const CoreItemsListView = ({
   viewHeader,
   viewBasePath,
-  createItemFormPath = `${viewBasePath}/form`,
   lists,
   renderItem,
   tableProps,
@@ -31,16 +25,21 @@ export const CoreItemsListView = ({
 }: {
   viewHeader: ListViewHeader;
   viewBasePath: string;
-  createItemFormPath?: string;
   lists: Array<CoreItemsListConfig>;
   renderItem: ListViewRenderItemFn;
   tableProps: React.ComponentProps<typeof DataGrid>;
 } & Omit<React.ComponentProps<typeof StyledCoreContentViewLayout>, "children" | "listOrTable">) => {
   const nav = useNavigate();
-  const { listOrTable, handleChangeListOrTable, listVisibility, handleChangeListVisibility } =
-    ListViewHeaderToggleButtons.use(lists.length);
+  const { isMobilePageLayout } = usePageLayoutContext();
+  const {
+    listOrTable,
+    handleChangeListOrTable,
+    listVisibility,
+    handleChangeListVisibility,
+    toggleListVisibility
+  } = ListViewHeaderToggleButtons.use({ numLists: lists.length, isMobilePageLayout });
 
-  const handleClickCreateItem = () => nav(createItemFormPath);
+  const handleClickCreateItem = () => nav(`${viewBasePath}/form`);
 
   // prettier-ignore
   const tryNavToItemView = ({ itemID, isItemOwnedByUser }: { itemID?: string; isItemOwnedByUser?: boolean; }) => {
@@ -72,26 +71,28 @@ export const CoreItemsListView = ({
     ? Object.values(listVisibility).filter((isVisible) => isVisible).length
     : 1;
 
+  const showMobileListHeaderTabs =
+    isMobilePageLayout && lists.length > 1 && listVisibility && toggleListVisibility;
+
   return (
     <StyledCoreContentViewLayout
       className="core-items-list-view-container"
       headerLabel={viewHeader}
       headerComponents={
-        <Box className="list-view-header-components-container">
+        <>
           <ListViewHeaderToggleButtons
             listOrTable={listOrTable}
             handleChangeListOrTable={handleChangeListOrTable}
             listVisibility={listVisibility}
             handleChangeListVisibility={handleChangeListVisibility}
+            isMobilePageLayout={isMobilePageLayout}
           />
-          <Button
-            onClick={handleClickCreateItem}
-            startIcon={<PlusIcon />}
-            className="list-view-create-item-button"
-          >
-            {`Create ${viewHeader.replace(/s$/, "")}`}
-          </Button>
-        </Box>
+          <CreateItemButton
+            handleClickCreateItem={handleClickCreateItem}
+            viewHeader={viewHeader}
+            isMobilePageLayout={isMobilePageLayout}
+          />
+        </>
       }
       {...containerProps}
     >
@@ -99,9 +100,12 @@ export const CoreItemsListView = ({
         <DataGrid
           onRowClick={handleClickDataGridRow}
           style={{ display: listOrTable === "TABLE" ? "flex" : "none" }}
+          logLevel={false} // silences "invalid height/width" err msg caused by display: none
           componentsProps={{
             toolbar: {
               csvOptions: {
+                // TODO this sets the timestamp in the filename to when this RENDERS.
+                // See if we can generate the timestamp when PRINT is called instead.
                 fileName: `Fixit_${viewHeader}_${new Date().toLocaleString()}`
                   .replace(/\s/g, "_") // convert spaces to underscores
                   .replace(/,/g, "") // rm the comma in toLocaleString output
@@ -110,6 +114,12 @@ export const CoreItemsListView = ({
           }}
           {...tableProps}
         />
+        {showMobileListHeaderTabs && (
+          <MobileListHeaderTabs
+            listVisibility={listVisibility}
+            toggleListVisibility={toggleListVisibility}
+          />
+        )}
         {lists.map(({ listName, items }, index) => (
           <React.Fragment key={`lists-container${listName && `:${listName}`}`}>
             {index === 1 && (
@@ -117,32 +127,27 @@ export const CoreItemsListView = ({
                 className="list-view-lists-divider"
                 orientation="vertical"
                 variant="middle"
-                sx={(theme) => ({
+                style={{
                   display:
-                    numVisibleLists < 2 ||
-                    theme.variables.isMobilePageLayout ||
-                    listOrTable === "TABLE"
+                    numVisibleLists < 2 || isMobilePageLayout || listOrTable === "TABLE"
                       ? "none"
                       : "block"
-                })}
+                }}
               />
             )}
             <Box
               className="list-view-list-container"
-              sx={(theme) => ({
+              style={{
                 display:
                   (listVisibility && (!listName || !listVisibility?.[listName])) ||
-                  (theme.variables.isMobilePageLayout && index > 0) ||
                   listOrTable === "TABLE"
                     ? "none"
-                    : "flex"
-              })}
+                    : "flex",
+                // MobileListHeaderTabs uses position absolute, so add padding to account for its size
+                paddingTop: showMobileListHeaderTabs ? "3rem" : 0
+              }}
             >
-              {!!listName && (
-                <Text variant="h6" component="h3" className="core-items-list-header">
-                  {listName}
-                </Text>
-              )}
+              {listName && !showMobileListHeaderTabs && <ListHeader listName={listName} />}
               <VirtualizedMuiList
                 className="core-items-list"
                 totalCount={items.length}
@@ -153,6 +158,8 @@ export const CoreItemsListView = ({
                     ...(!!listName && { listName })
                   })
                 }
+                // a11y props for ListHeader mobile tabs:
+                {...(listName && isMobilePageLayout && LIST_TABS_a11y_PROPS[listName].TAB_PANEL)}
               />
             </Box>
           </React.Fragment>
@@ -163,71 +170,36 @@ export const CoreItemsListView = ({
 };
 
 const StyledCoreContentViewLayout = styled(CoreContentViewLayout)(({ theme }) => ({
-  height: "100%",
-
   // All ListView text doesn't wrap by default
   "& *": {
     whiteSpace: "nowrap"
   },
 
-  // LIST-VIEW HEADER CONTAINER:
+  // CONTENT CONTAINER:
 
-  "& > .core-content-view-header-container > .list-view-header-components-container": {
+  "& .list-view-content-container": {
+    position: "relative",
+    height: "100%",
+    width: "100%",
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-between",
-    gap: "2rem",
-    // create item button:
-    "& > .list-view-create-item-button": {
-      height: "2rem",
-      width: "14rem",
-      paddingTop: "0.26rem",
-      paddingBottom: "0.2rem",
-      borderRadius: "1.5rem",
-      // startIcon:
-      "& svg": {
-        marginBottom: "0.12rem"
-      }
-    }
-  },
 
-  // CORE-CONTENT CHILDREN CONTAINER:
+    "& .MuiDataGrid-root": {
+      marginBottom: "1rem !important"
+    },
 
-  "& > .core-content-view-children-container": {
-    margin: theme.variables.isMobilePageLayout ? "0 !important" : "2rem 0 0 0 !important",
+    "& > hr.list-view-lists-divider": {
+      height: "auto",
+      alignSelf: "stretch",
+      minWidth: "1px",
+      margin: "0 clamp(0.5rem, 1.5%, 1rem)"
+    },
 
-    "& > .list-view-content-container": {
-      height: "100%",
-      width: "100%",
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-
-      "& .MuiDataGrid-root": {
-        marginBottom: "1rem !important"
-      },
-
-      // LIST ELEMENT STYLES:
-
-      "& > hr.list-view-lists-divider": {
-        height: "auto",
-        alignSelf: "stretch",
-        minWidth: "1px",
-        margin: "0 clamp(0.5rem, 1.5%, 1rem)"
-      },
-
-      "& > .list-view-list-container": {
-        flexGrow: 1,
-        width: theme.variables.isMobilePageLayout ? "100%" : "50%",
-        flexDirection: "column",
-
-        "& > .core-items-list-header": {
-          paddingLeft: "1rem",
-          marginBottom: "0.5rem",
-          backgroundColor: theme.palette.background.paper
-        }
-      }
+    "& > .list-view-list-container": {
+      flexGrow: 1,
+      width: theme.variables.isMobilePageLayout ? "100%" : "50%",
+      flexDirection: "column"
     }
   }
 }));

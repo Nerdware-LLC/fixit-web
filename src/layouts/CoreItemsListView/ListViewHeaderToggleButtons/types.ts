@@ -6,6 +6,7 @@ export type ToggleButtonChangeHandler<T> = (
 export type ListOrTable = "LIST" | "TABLE";
 export type HandleChangeListOrTable = ToggleButtonChangeHandler<ListOrTable>;
 
-export type InboxListNames = "Inbox" | "Sent";
-export type ListVisibility = Record<InboxListNames, boolean>;
-export type HandleChangeListVisibility = ToggleButtonChangeHandler<Array<InboxListNames>>;
+export const INBOX_LIST_NAMES = ["Inbox", "Sent"] as const;
+export type InboxListName = typeof INBOX_LIST_NAMES[number];
+export type ListVisibility = Record<InboxListName, boolean>;
+export type HandleChangeListVisibility = ToggleButtonChangeHandler<Array<InboxListName>>;

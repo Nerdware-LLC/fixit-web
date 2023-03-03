@@ -22,12 +22,14 @@ export const ListViewHeaderToggleButtons = ({
   listOrTable,
   handleChangeListOrTable,
   listVisibility,
-  handleChangeListVisibility
+  handleChangeListVisibility,
+  isMobilePageLayout
 }: {
   listOrTable: ListOrTable;
   handleChangeListOrTable: HandleChangeListOrTable;
   listVisibility?: ListVisibility;
   handleChangeListVisibility?: HandleChangeListVisibility;
+  isMobilePageLayout: boolean;
 }) => {
   const slideContainerRef = useRef(null);
 
@@ -37,7 +39,7 @@ export const ListViewHeaderToggleButtons = ({
       className={listVisibility && listOrTable === "LIST" ? "show-expanded" : undefined}
       ref={slideContainerRef}
     >
-      {listVisibility && (
+      {!isMobilePageLayout && listVisibility && (
         <Slide in={listOrTable === "LIST"} direction="left" container={slideContainerRef.current}>
           <Box style={{ display: "flex", alignItems: "center", zIndex: 1 }}>
             <ToggleButtonGroup
@@ -77,7 +79,7 @@ export const ListViewHeaderToggleButtons = ({
                 <SendIcon />
               </ToggleButtonWithTooltip>
             </ToggleButtonGroup>
-            <Divider flexItem orientation="vertical" sx={{ mx: "0.3rem", my: "0.65rem" }} />
+            <Divider flexItem orientation="vertical" />
           </Box>
         </Slide>
       )}
@@ -111,45 +113,77 @@ export const ListViewHeaderToggleButtons = ({
 ListViewHeaderToggleButtons.use = useListViewHeaderToggleButtons;
 
 const ListViewHeaderToggleButtonsContainer = styled(Paper)(({ theme }) => ({
-  height: "3.1rem",
+  height: theme.variables.isMobilePageLayout ? "2.5rem" : "3.1rem",
   overflow: "hidden",
   zIndex: 1,
   padding: 0,
   borderRadius: "0.75rem",
   display: "flex",
-  alignItems: "center",
+  alignItems: "stretch",
   justifyContent: "flex-end",
-  ...(theme.palette.mode === "light" && {
-    border: `1px solid ${theme.palette.divider}`
-  }),
+  border: theme.palette.mode === "dark" ? "none !important" : `1px solid ${theme.palette.divider}`,
 
-  width: "6rem",
-  transition: "width 0.225s",
-  "&.show-expanded": {
-    width: "12.5rem"
-  },
+  width: theme.variables.isMobilePageLayout ? "4.845rem" : "5.94rem",
+
+  ...(!theme.variables.isMobilePageLayout && {
+    transition: "width 0.225s",
+    "&.show-expanded": {
+      width: "12.6rem"
+    }
+  }),
 
   // ToggleButtonGroup comps:
   "& .MuiToggleButtonGroup-root": {
+    position: "relative",
+    height: "100%",
+    ...(theme.variables.isMobilePageLayout
+      ? {
+          width: "4.8rem",
+          minWidth: "4.8rem",
+          maxWidth: "4.8rem"
+        }
+      : {
+          width: "5.94rem",
+          minWidth: "5.94rem",
+          maxWidth: "5.94rem"
+        }),
     opacity: 1,
+    zIndex: 1,
     backgroundColor: theme.palette.background.paper,
-    alignItems: "center",
-    justifyContent: "space-evenly",
+    border: "none !important",
     "& > button": {
-      height: "2.5rem",
-      width: "2.5rem",
-      marginTop: "0.3rem",
-      marginBottom: "0.3rem",
-      border: 0,
+      position: "absolute",
+      top: 0,
+      bottom: 0,
+      "&:first-of-type": { left: 0 },
+      "&:not(:first-of-type)": { right: 0 },
+      ...(theme.variables.isMobilePageLayout
+        ? {
+            height: "2rem",
+            width: "2rem",
+            minWidth: "2rem",
+            maxWidth: "2rem",
+            margin: "0.25rem"
+          }
+        : {
+            height: "2.499rem",
+            width: "2.5rem",
+            minWidth: "2.5rem",
+            maxWidth: "2.5rem",
+            margin: "0.3rem"
+          }),
+      border: "none !important",
       borderRadius: "0.5rem"
-    },
-    "& > button:first-of-type": {
-      marginLeft: "0.3rem !important",
-      marginRight: "0.15rem !important"
-    },
-    "& > button:not(:first-of-type)": {
-      marginLeft: "0.15rem !important",
-      marginRight: "0.3rem !important"
     }
+  },
+
+  "& .MuiDivider-root": {
+    ...(theme.variables.isMobilePageLayout
+      ? {
+          display: "none"
+        }
+      : {
+          margin: "0.65rem 0.3rem"
+        })
   }
 }));

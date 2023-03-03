@@ -25,5 +25,8 @@ const MUIComponents = {
         {children}
       </List>
     )
-  )
+  ),
+  /* This Footer simply adds a little padding to the bottom of the list comp
+  to ensure the last li isn't bordering the bottom of the browser window. */
+  Footer: () => <div style={{ minHeight: "1rem", width: "100%" }} />
 };
