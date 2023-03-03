@@ -22,13 +22,7 @@ export const Avatar = forwardRef<MaybeAvatarRef, AvatarProps>(function Avatar(
     containerProps = {},
     avatarProps = {},
     ...props
-  }: {
-    profile?: UserProfile;
-    imageSrc?: string;
-    showDisplayName?: boolean;
-    containerProps?: Omit<React.ComponentProps<typeof AvatarContainer>, "style">;
-    avatarProps?: React.ComponentProps<typeof MuiAvatar>;
-  } & React.ComponentProps<typeof MuiAvatar>,
+  }: AvatarProps,
   ref: ForwardedRef<MaybeAvatarRef>
 ) {
   // If parent does not forward a ref, use local fallback
@@ -64,7 +58,7 @@ const AvatarContainer = styled("div")(({ theme: { palette }, onClick }) => ({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-  "& > div.MuiAvatar-root": {
+  "& > .MuiAvatar-root": {
     background: `-webkit-linear-gradient(135deg, ${palette.primary.dark} 30%, ${palette.primary.light})`,
     "&:hover": {
       cursor: onClick ? "pointer" : "auto"

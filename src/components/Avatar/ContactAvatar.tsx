@@ -5,31 +5,43 @@ import type { UserProfile } from "@types";
 
 /**
  * Will display an Avatar along with the Contact's `displayName`
- * - onClick event handler will nav to `/home/contacts/:id`
- * - Can set `showDisplayName` = false if displayName is undesirable
+ * - If `viewContactOnClick` is not explicitly set to false, onClick event
+ *   handler will nav to `/home/contacts/:id`
+ *   > Typically, `viewContactOnClick` will be
+ *   > - `TRUE  if contact={item.assignedTo}`
+ *   > - `FALSE if contact={item.createdBy}`
+ * - Can set `showDisplayName` = false if displayName is undesirable.
  */
 export const ContactAvatar = ({
   contact,
+  viewContactOnClick = true,
   showDisplayName = true,
   ...avatarProps
 }: {
   contact: { id: string; handle: string; profile: UserProfile };
+  viewContactOnClick?: boolean;
   showDisplayName?: boolean;
 } & React.ComponentProps<typeof Avatar>) => {
   const nav = useNavigate();
 
-  const navToContactItemView = () => nav(`/home/contacts/${encodeURIComponent(contact?.id)}`);
-
-  const displayName = contact?.profile?.displayName ?? contact.handle;
+  const commonAvatarProps = {
+    profile: contact.profile,
+    showDisplayName,
+    ...avatarProps
+  };
 
   return (
-    <Tooltip title={`View contact: ${displayName}`}>
-      <Avatar
-        profile={contact.profile}
-        onClick={navToContactItemView}
-        showDisplayName={showDisplayName}
-        {...avatarProps}
-      />
-    </Tooltip>
+    <>
+      {viewContactOnClick ? (
+        <Tooltip title={`View contact: ${contact.profile?.displayName ?? contact.handle}`}>
+          <Avatar
+            onClick={() => nav(`/home/contacts/${encodeURIComponent(contact.id)}`)}
+            {...commonAvatarProps}
+          />
+        </Tooltip>
+      ) : (
+        <Avatar {...commonAvatarProps} />
+      )}
+    </>
   );
 };
