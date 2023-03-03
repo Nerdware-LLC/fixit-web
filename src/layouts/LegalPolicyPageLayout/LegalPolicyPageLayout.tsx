@@ -15,20 +15,7 @@ export const LegalPolicyPageLayout = ({
   children: React.ReactNode;
 }) => (
   <StyledLegalPolicyPageLayoutContainer>
-    <Text
-      variant="h2"
-      component="h1"
-      sx={
-        {
-          // TODO test if the responsive-font-size thing made this unnecessary:
-          //
-          // "@media (max-width: 500px)": {
-          //   fontSize: "2.5rem",
-          //   lineHeight: "2.5rem"
-          // }
-        }
-      }
-    >
+    <Text variant="h2" component="h1">
       {pageTitle}
     </Text>
     <Text variant="h4" component="h2">
@@ -39,15 +26,27 @@ export const LegalPolicyPageLayout = ({
 );
 
 const StyledLegalPolicyPageLayoutContainer = styled("div")({
-  padding: "1.5rem",
-  paddingBottom: "10rem",
-  "& a": {
-    textDecoration: "none"
-  },
+  height: "100%",
+  overflowY: "auto",
+  padding: "1rem 1.5rem 1.5rem 1.5rem",
+
   "@media (min-width: 500px)": {
     padding: "2rem"
   },
+
   "@media (min-width: 1000px)": {
     padding: "2rem clamp(2rem, 10%, 10rem)"
+  },
+
+  "& .MuiTypography-body1": {
+    margin: "1rem 0"
+  },
+
+  "& a": {
+    textDecoration: "none"
+  },
+
+  "& ul > li": {
+    listStyleType: "square"
   }
 });

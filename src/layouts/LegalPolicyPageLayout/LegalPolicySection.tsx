@@ -15,7 +15,7 @@ export const LegalPolicySection = ({
   children: React.ReactNode; // section content
 }) => (
   <div>
-    <Text id={headerID} variant="h4" component="h3">
+    <Text id={headerID} variant="h4" component="h3" style={{ margin: "1rem 0" }}>
       {sectionNumber}. {header}
     </Text>
     {children}
