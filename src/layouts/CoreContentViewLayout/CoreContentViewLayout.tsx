@@ -1,5 +1,6 @@
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
 import Text from "@mui/material/Typography";
 
 /**
@@ -31,6 +32,7 @@ export const CoreContentViewLayout = ({
       )}
       {headerComponents}
     </Box>
+    <Divider flexItem className={CLASS_NAMES.core_content_view_section_divider} />
     <Box className={CLASS_NAMES.core_content_view_children_container}>{children}</Box>
   </CoreContentViewContainer>
 );
@@ -39,6 +41,7 @@ const CLASS_NAMES = {
   core_content_view_container: "core-content-view-container",
   core_content_view_header_container: "core-content-view-header-container",
   core_content_view_header_label: "core-content-view-header-label",
+  core_content_view_section_divider: "core-content-view-section-divider",
   core_content_view_children_container: "core-content-view-children-container"
 };
 
@@ -51,30 +54,38 @@ const CoreContentViewContainer = styled(Box)(({ theme }) => ({
 
   // Header container:
 
-  [`& > div.${CLASS_NAMES.core_content_view_header_container}`]: {
-    height: "6rem",
-    minHeight: "6rem",
-    maxHeight: "6rem",
+  [`& > .${CLASS_NAMES.core_content_view_header_container}`]: {
+    ...(theme.variables.isMobilePageLayout
+      ? {
+          height: "4rem",
+          minHeight: "4rem",
+          gap: "1rem"
+        }
+      : {
+          height: "6rem",
+          minHeight: "6rem",
+          gap: "2rem"
+        }),
     width: "100%",
     padding: "1rem 0",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    borderWidth: "0 0 1px 0",
-    borderStyle: "solid",
-    borderColor: theme.palette.divider,
+    justifyContent: "flex-end",
 
     [`& > .${CLASS_NAMES.core_content_view_header_label}`]: {
-      whiteSpace: "nowrap"
+      whiteSpace: "nowrap",
+      marginRight: "auto"
     }
+  },
+
+  [`& > .${CLASS_NAMES.core_content_view_section_divider}`]: {
+    marginBottom: "1rem"
   },
 
   // Children container:
 
-  [`& > div.${CLASS_NAMES.core_content_view_children_container}`]: {
-    height: "100%",
-    margin: theme.variables.isMobilePageLayout ? "1rem 0" : "2rem 0",
-    overflow: "hidden"
+  [`& > .${CLASS_NAMES.core_content_view_children_container}`]: {
+    height: "100%"
   }
 }));
