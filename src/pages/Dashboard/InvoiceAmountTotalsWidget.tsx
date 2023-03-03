@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import InboxIcon from "@mui/icons-material/Inbox";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
 import SendIcon from "@mui/icons-material/Send";
 import { formatNum } from "@utils";
 import { useDashboardDataContext } from "./DashboardDataContext";
