@@ -14,7 +14,7 @@ export const Error = ({
   title?: string;
   onDismiss?: Function;
 } & Omit<React.ComponentProps<typeof Dialog>, "isVisible" | "title" | "message">) => {
-  const { isDialogVisible, closeDialog } = Dialog.useDialog(true);
+  const { isDialogVisible, closeDialog } = Dialog.use(true);
 
   const errorMsg = getTypeSafeErr(error).message;
 

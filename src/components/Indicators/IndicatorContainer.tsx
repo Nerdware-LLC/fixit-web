@@ -8,9 +8,10 @@ const StyledIndicatorContainer = styled("div")`
   position: fixed;
   top: 0;
   left: 0;
-  height: 100vh;
-  max-height: 100vh;
-  width: 100vw;
+  height: calc(100dvh - calc(100dvh - 100%));
+  max-height: 100dvh;
+  width: calc(100dvw - calc(100dvw - 100%));
+  max-width: 100dvw;
   display: flex;
   place-content: center;
   place-items: center;
