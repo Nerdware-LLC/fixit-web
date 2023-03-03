@@ -6,18 +6,18 @@ import { CoreListItemLayout } from "@layouts";
 import type { WorkOrder } from "@types";
 
 export const WorkOrdersListItem = ({
-  parentListName,
+  listName,
   item,
   onClick,
   ...props
 }: {
-  parentListName?: "Inbox" | "Sent";
+  listName?: "Inbox" | "Sent";
   item?: WorkOrder;
   onClick?: React.ComponentProps<typeof CoreListItemLayout>["onClick"];
 }) => {
-  if (!parentListName || !item || !onClick) return null;
+  if (!listName || !item || !onClick) return null;
 
-  const isInboxList = parentListName === "Inbox";
+  const isInboxList = listName === "Inbox";
   const { createdBy, assignedTo, status, location, description, createdAt } = item;
   const userToDisplay = isInboxList ? createdBy : assignedTo;
   const prettyCreatedAt = createdAt.toLocaleDateString("en-us", { day: "numeric", month: "short" });
@@ -27,7 +27,7 @@ export const WorkOrdersListItem = ({
       user={userToDisplay}
       onClick={onClick}
       itemID={item.id}
-      parentListName={parentListName}
+      listName={listName}
       {...props}
     >
       <StyledMiddleContentContainer>

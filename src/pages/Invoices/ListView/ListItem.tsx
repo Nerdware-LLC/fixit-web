@@ -7,18 +7,18 @@ import { formatNum } from "@utils";
 import type { Invoice } from "@types";
 
 export const InvoicesListItem = ({
-  parentListName,
+  listName,
   item,
   onClick,
   ...props
 }: {
-  parentListName?: "Inbox" | "Sent";
+  listName?: "Inbox" | "Sent";
   item?: Invoice;
   onClick?: React.ComponentProps<typeof CoreListItemLayout>["onClick"];
 }) => {
-  if (!parentListName || !item || !onClick) return null;
+  if (!listName || !item || !onClick) return null;
 
-  const isInboxList = parentListName === "Inbox";
+  const isInboxList = listName === "Inbox";
   const { createdBy, assignedTo, status, amount, workOrder, createdAt } = item;
   const userToDisplay = isInboxList ? createdBy : assignedTo;
   const prettyCreatedAt = createdAt.toLocaleDateString("en-us", { day: "numeric", month: "short" });
@@ -36,7 +36,7 @@ export const InvoicesListItem = ({
       user={userToDisplay}
       onClick={handleClickDiv}
       itemID={item.id}
-      parentListName={parentListName}
+      listName={listName}
       {...props}
     >
       <ListItemText
@@ -61,15 +61,7 @@ export const InvoicesListItem = ({
       />
       <StyledRightSideListItemTextContainer
         width="5rem"
-        primary={
-          <Text
-            style={{
-              marginTop: "1px"
-            }}
-          >
-            {formatNum.toCurrencyStr(amount)}
-          </Text>
-        }
+        primary={<Text style={{ marginTop: "1px" }}>{formatNum.toCurrencyStr(amount)}</Text>}
       />
       <StyledRightSideListItemTextContainer
         width="4.75rem"

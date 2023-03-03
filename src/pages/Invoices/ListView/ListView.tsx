@@ -1,13 +1,9 @@
 import { useQuery } from "@apollo/client/react/hooks";
-import { InvoicesListItem } from "./ListItem";
 import { Loading, Error } from "@components";
 import { QUERIES } from "@graphql";
-import {
-  CoreItemsListView,
-  InboxListVisToggleBtns,
-  useInboxListVisToggleBtns,
-  type ListViewRenderItemFn
-} from "@layouts";
+import { CoreItemsListView, type ListViewRenderItemFn } from "@layouts";
+import { InvoicesListItem } from "./ListItem";
+import { invoiceTableProps } from "./tableProps";
 import { MOCK_INVOICES } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
 
 export const InvoicesListView = () => {
@@ -16,7 +12,6 @@ export const InvoicesListView = () => {
     notifyOnNetworkStatusChange: true,
     skip: true // TODO <-- skip for now, turn off later
   });
-  const [listVisibility, handleChangeListVisibility] = useInboxListVisToggleBtns();
 
   // FIXME
   // const { createdByUser, assignedToUser } = invoiceListSettingsStore.useFilterAndSort(
@@ -30,25 +25,30 @@ export const InvoicesListView = () => {
     <CoreItemsListView
       viewHeader="Invoices"
       viewBasePath="/home/invoices"
-      headerRowListControlComponents={
-        <InboxListVisToggleBtns
-          listVisibility={listVisibility}
-          onChange={handleChangeListVisibility}
-        />
-      }
       lists={[
         {
           listName: "Inbox",
-          isListVisible: listVisibility.isInboxVisible,
           items: MOCK_INVOICES.myInvoices.assignedToUser as any
         },
         {
           listName: "Sent",
-          isListVisible: listVisibility.isSentVisible,
           items: MOCK_INVOICES.myInvoices.createdByUser as any
         }
       ]}
       renderItem={renderInvoicesListItem}
+      tableProps={{
+        ...invoiceTableProps,
+        rows: [
+          ...MOCK_INVOICES.myInvoices.createdByUser.map((inv) => ({
+            isItemOwnedByUser: true,
+            ...inv
+          })),
+          ...MOCK_INVOICES.myInvoices.assignedToUser.map((inv) => ({
+            isItemOwnedByUser: false,
+            ...inv
+          }))
+        ]
+      }}
     />
   );
 };

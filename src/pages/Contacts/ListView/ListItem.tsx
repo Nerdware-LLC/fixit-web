@@ -19,6 +19,19 @@ export const ContactsListItem = ({
       onClick={onClick}
       itemID={contact.id}
       divider={false}
+      sx={({ palette }) => ({
+        ...(palette.mode === "dark"
+          ? {
+              backgroundColor: palette.background.paper
+            }
+          : {
+              border: `2px solid ${palette.divider}`
+            }),
+        borderRadius: "0.5rem",
+        "& .MuiButtonBase-root": {
+          borderRadius: "0.5rem"
+        }
+      })}
       {...props}
     >
       <ListItemText

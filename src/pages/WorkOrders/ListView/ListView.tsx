@@ -1,13 +1,9 @@
 import { useQuery } from "@apollo/client/react/hooks";
-import { WorkOrdersListItem } from "./ListItem";
 import { Loading, Error } from "@components";
 import { QUERIES } from "@graphql";
-import {
-  CoreItemsListView,
-  InboxListVisToggleBtns,
-  useInboxListVisToggleBtns,
-  type ListViewRenderItemFn
-} from "@layouts";
+import { CoreItemsListView, type ListViewRenderItemFn } from "@layouts";
+import { WorkOrdersListItem } from "./ListItem";
+import { workOrderTableProps } from "./tableProps";
 import { MOCK_WORK_ORDERS } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
 
 export const WorkOrdersListView = () => {
@@ -16,7 +12,6 @@ export const WorkOrdersListView = () => {
     notifyOnNetworkStatusChange: true,
     skip: true // TODO <-- skip for now, turn off later
   });
-  const [listVisibility, handleChangeListVisibility] = useInboxListVisToggleBtns();
 
   // FIXME
   // const { createdByUser, assignedToUser } = woListSettingsStore.useFilterAndSort(
@@ -26,31 +21,34 @@ export const WorkOrdersListView = () => {
   if (loading || networkStatus === 4) return <Loading />;
   if (error) return <Error error={error} />;
 
-  // const renderItem: ListViewRenderItemFn = (props) => <WorkOrdersListItem {...props} />;
-
   return (
     <CoreItemsListView
       viewHeader="Work Orders"
       viewBasePath="/home/workorders"
-      headerRowListControlComponents={
-        <InboxListVisToggleBtns
-          listVisibility={listVisibility}
-          onChange={handleChangeListVisibility}
-        />
-      }
       lists={[
         {
           listName: "Inbox",
-          isListVisible: listVisibility.isInboxVisible,
           items: MOCK_WORK_ORDERS.myWorkOrders.assignedToUser as any
         },
         {
           listName: "Sent",
-          isListVisible: listVisibility.isSentVisible,
           items: MOCK_WORK_ORDERS.myWorkOrders.createdByUser as any
         }
       ]}
       renderItem={renderWorkOrdersListItem}
+      tableProps={{
+        ...workOrderTableProps,
+        rows: [
+          ...MOCK_WORK_ORDERS.myWorkOrders.createdByUser.map((wo) => ({
+            isItemOwnedByUser: true,
+            ...wo
+          })),
+          ...MOCK_WORK_ORDERS.myWorkOrders.assignedToUser.map((wo) => ({
+            isItemOwnedByUser: false,
+            ...wo
+          }))
+        ]
+      }}
     />
   );
 };

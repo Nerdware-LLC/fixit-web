@@ -1,8 +1,9 @@
 import { useQuery } from "@apollo/client/react/hooks";
-import { ContactsListItem } from "./ListItem";
 import { Loading, Error } from "@components";
 import { QUERIES } from "@graphql";
 import { CoreItemsListView, type ListViewRenderItemFn } from "@layouts";
+import { ContactsListItem } from "./ListItem";
+import { contactTableProps } from "./tableProps";
 import { MOCK_CONTACTS } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
 
 export const ContactsListView = () => {
@@ -26,11 +27,15 @@ export const ContactsListView = () => {
       viewBasePath="/home/contacts"
       lists={[{ items: Object.values(MOCK_CONTACTS) as any }]}
       renderItem={renderContactsListItem}
+      tableProps={{
+        ...contactTableProps,
+        rows: Object.values(MOCK_CONTACTS)
+      }}
       sx={{
-        "& ul.core-items-list": {
+        "& .MuiList-root": {
           width: "100%",
           display: "grid",
-          gridGap: "0.5rem",
+          gridGap: "1rem",
           gridTemplateColumns: "repeat( auto-fit, minmax( 16rem, 1fr ))",
           gridTemplateRows: "repeat( auto-fit, 1fr )"
         }
