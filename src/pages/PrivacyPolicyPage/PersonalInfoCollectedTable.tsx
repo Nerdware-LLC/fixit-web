@@ -94,10 +94,12 @@ export const PersonalInfoCollectedTable = () => (
 
 const PrivacyPolicyTable = styled("table")(({ theme }) => ({
   borderCollapse: "collapse",
+
   "& th,td": {
-    padding: "0.5rem",
+    padding: "0.75rem",
     border: `1px solid ${theme.palette.grey[700]}`
   },
+
   "& td:last-child": {
     textAlign: "center"
   }

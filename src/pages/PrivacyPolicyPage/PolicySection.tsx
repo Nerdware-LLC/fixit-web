@@ -1,3 +1,4 @@
+import Text from "@mui/material/Typography";
 import { LegalPolicySection } from "@layouts/LegalPolicyPageLayout";
 import { POLICY_ANCHOR_TARGETS } from "./PolicyAnchorTargets";
 
@@ -24,10 +25,10 @@ export const PolicySection = ({
 );
 
 export const InShort = ({ summary }: { summary: string }) => (
-  <p>
+  <Text>
     <i>
       <b>In Short: </b>
       {summary}
     </i>
-  </p>
+  </Text>
 );

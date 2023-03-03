@@ -1,7 +1,9 @@
+import Text from "@mui/material/Typography";
 import { TextExternalLink } from "@components";
 import { LegalPolicyPageLayout, PolicyToC } from "@layouts/LegalPolicyPageLayout";
 import { ToS_SECTIONS } from "./TermsOfServiceSections";
 import { PolicySection } from "./PolicySection";
+import React from "react";
 
 export const TermsOfServicePage = () => (
   <LegalPolicyPageLayout pageTitle="Terms of Service" lastUpdated="January 01, 2022">
@@ -10,7 +12,7 @@ export const TermsOfServicePage = () => (
     {/*   SECTION 1. AGREEMENT TO TERMS   */}
 
     <PolicySection header="AGREEMENT TO TERMS">
-      <p>
+      <Text>
         These Terms of Service constitute a legally binding agreement made between you, whether
         personally or on behalf of an entity (“you”) and Nerdware, LLC ("Company", “we”, “us”, or
         “our”), concerning your access to and use of the{" "}
@@ -21,8 +23,8 @@ export const TermsOfServicePage = () => (
         accessing the Site, you have read, understood, and agree to be bound by all of these Terms
         of Service. IF YOU DO NOT AGREE WITH ALL OF THESE TERMS OF SERVICE, THEN YOU ARE EXPRESSLY
         PROHIBITED FROM USING THE SITE AND YOU MUST DISCONTINUE USE IMMEDIATELY.
-      </p>
-      <p>
+      </Text>
+      <Text>
         Supplemental terms and conditions or documents that may be posted on the Site from time to
         time are hereby expressly incorporated herein by reference. We reserve the right, in our
         sole discretion, to make changes or modifications to these Terms of Service at any time and
@@ -32,26 +34,26 @@ export const TermsOfServicePage = () => (
         that you understand which Terms apply. You will be subject to, and will be deemed to have
         been made aware of and to have accepted, the changes in any revised Terms of Service by your
         continued use of the Site after the date such revised Terms of Service are posted.
-      </p>
-      <p>
+      </Text>
+      <Text>
         The information provided on the Site is not intended for distribution to or use by any
         person or entity in any jurisdiction or country where such distribution or use would be
         contrary to law or regulation or which would subject us to any registration requirement
         within such jurisdiction or country. Accordingly, those persons who choose to access the
         Site from other locations do so on their own initiative and are solely responsible for
         compliance with local laws, if and to the extent local laws are applicable.
-      </p>
+      </Text>
       <hr />
-      <p>
+      <Text>
         The Site is intended for users who are at least 18 years old. Persons under the age of 18
         are not permitted to use or register for the Site.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 2. INTELLECTUAL PROPERTY RIGHTS   */}
 
     <PolicySection header="INTELLECTUAL PROPERTY RIGHTS">
-      <p>
+      <Text>
         Unless otherwise indicated, the Site is our proprietary property and all source code,
         databases, functionality, software, website designs, audio, video, text, photographs, and
         graphics on the Site (collectively, the “Content”) and the trademarks, service marks, and
@@ -64,19 +66,19 @@ export const TermsOfServicePage = () => (
         republished, uploaded, posted, publicly displayed, encoded, translated, transmitted,
         distributed, sold, licensed, or otherwise exploited for any commercial purpose whatsoever,
         without our express prior written permission.
-      </p>
-      <p>
+      </Text>
+      <Text>
         Provided that you are eligible to use the Site, you are granted a limited license to access
         and use the Site and to download or print a copy of any portion of the Content to which you
         have properly gained access solely for your personal, non-commercial use. We reserve all
         rights not expressly granted to you in and to the Site, the Content and the Marks.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 3. USER REPRESENTATIONS   */}
 
     <PolicySection header="USER REPRESENTATIONS">
-      <p>
+      <Text>
         By using the Site, you represent and warrant that: (1) all registration information you
         submit will be true, accurate, current, and complete; (2) you will maintain the accuracy of
         such information and promptly update such registration information as necessary; (3) you
@@ -85,36 +87,36 @@ export const TermsOfServicePage = () => (
         automated or non-human means, whether through a bot, script or otherwise; (6) you will not
         use the Site for any illegal or unauthorized purpose; and (7) your use of the Site will not
         violate any applicable law or regulation.
-      </p>
-      <p>
+      </Text>
+      <Text>
         If you provide any information that is untrue, inaccurate, not current, or incomplete, we
         have the right to suspend or terminate your account and refuse any and all current or future
         use of the Site (or any portion thereof).
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 4. USER REGISTRATION   */}
 
     <PolicySection header="USER REGISTRATION">
-      <p>
+      <Text>
         You may be required to register with the Site. You agree to keep your password confidential
         and will be responsible for all use of your account and password. We reserve the right to
         remove, reclaim, or change a username you select if we determine, in our sole discretion,
         that such username is inappropriate, obscene, or otherwise objectionable.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 5. FEES AND PAYMENT   */}
 
     <PolicySection header="FEES AND PAYMENT">
-      <p>We accept the following forms of payment:</p>
+      <Text>We accept the following forms of payment:</Text>
       <ul>
         <li>Visa</li>
         <li>Mastercard</li>
         <li>American Express</li>
         <li>Discover</li>
       </ul>
-      <p>
+      <Text>
         You may be required to purchase or pay a fee to access some of our services. You agree to
         provide current, complete, and accurate purchase and account information for all purchases
         made via the Site. You further agree to promptly update account and payment information,
@@ -123,25 +125,25 @@ export const TermsOfServicePage = () => (
         account for purchases made via the Site. Sales tax will be added to the price of purchases
         as deemed required by us. We may change prices at any time. All payments shall be in U.S.
         dollars.
-      </p>
-      <p>
+      </Text>
+      <Text>
         You agree to pay all charges or fees at the prices then in effect for your purchases, and
         you authorize us to charge your chosen payment provider for any such amounts upon making
         your purchase. If your purchase is subject to recurring charges, then you consent to our
         charging your payment method on a recurring basis without requiring your prior approval for
         each recurring charge, until you notify us of your cancellation.
-      </p>
-      <p>
+      </Text>
+      <Text>
         We reserve the right to correct any errors or mistakes in pricing, even if we have already
         requested or received payment. We also reserve the right to refuse any order placed through
         the Site.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 6. STRIPE SERVICES AGREEMENT   */}
 
     <PolicySection header="STRIPE SERVICES AGREEMENT">
-      <p>
+      <Text>
         {/*
           The language in this paragraph is required by Stripe, see link below.
           https://stripe.com/docs/connect/updating-accounts#tos-acceptance
@@ -158,41 +160,41 @@ export const TermsOfServicePage = () => (
         payment processing services through Stripe, you agree to provide Fixit accurate and complete
         information about you and your business, and you authorize Fixit to share it and transaction
         information related to your use of the payment processing services provided by Stripe.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 7. FREE TRIAL   */}
 
     <PolicySection header="FREE TRIAL">
-      <p>
+      <Text>
         We offer a 14-day free trial to new users who register with the Site. You will automatically
         be charged unless you cancel your subscription before the last day of the free trial at the
         end of the free trial.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 8. CANCELLATION   */}
 
     <PolicySection header="CANCELLATION">
-      <p>
+      <Text>
         All purchases are non-refundable. You can cancel your subscription at any time by logging
         into your account. Your cancellation will take effect at the end of the current paid term.
-      </p>
-      <p>
+      </Text>
+      <Text>
         If you are unsatisfied with our services, please email us at trevor@nerdware.cloud or call
         us at +1 (614) 570-7555.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 9. PROHIBITED ACTIVITIES   */}
 
     <PolicySection header="PROHIBITED ACTIVITIES">
-      <p>
+      <Text>
         You may not access or use the Site for any purpose other than that for which we make the
         Site available. The Site may not be used in connection with any commercial endeavors except
         those that are specifically endorsed or approved by us.
-      </p>
-      <p>As a user of the Site, you agree not to:</p>
+      </Text>
+      <Text>As a user of the Site, you agree not to:</Text>
       <ul>
         <li>
           Systematically retrieve data or other content from the Site to create or compile, directly
@@ -283,7 +285,7 @@ export const TermsOfServicePage = () => (
     {/*   SECTION 10. USER GENERATED CONTRIBUTIONS   */}
 
     <PolicySection header="USER GENERATED CONTRIBUTIONS">
-      <p>
+      <Text>
         The Site may invite you to chat, contribute to, or participate in blogs, message boards,
         online forums, and other functionality, and may provide you with the opportunity to create,
         submit, post, display, transmit, perform, publish, distribute, or broadcast content and
@@ -293,7 +295,7 @@ export const TermsOfServicePage = () => (
         and through third-party websites. As such, any Contributions you transmit may be treated as
         non-confidential and non-proprietary. When you create or make available any Contributions,
         you thereby represent and warrant that:
-      </p>
+      </Text>
       <ul>
         <li>
           The creation, distribution, transmission, public display, or performance, and the
@@ -344,16 +346,16 @@ export const TermsOfServicePage = () => (
           provision of these Terms of Service, or any applicable law or regulation.
         </li>
       </ul>
-      <p>
+      <Text>
         Any use of the Site in violation of the foregoing violates these Terms of Service and may
         result in, among other things, termination or suspension of your rights to use the Site.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 11. CONTRIBUTION LICENSE   */}
 
     <PolicySection header="CONTRIBUTION LICENSE">
-      <p>
+      <Text>
         By posting your Contributions to any part of the Site or making Contributions accessible to
         the Site by linking your account from the Site to any of your social networking accounts,
         you automatically grant, and you represent and warrant that you have the right to grant, to
@@ -366,37 +368,37 @@ export const TermsOfServicePage = () => (
         incorporate into other works, such Contributions, and grant and authorize sublicenses of the
         foregoing. The use and distribution may occur in any media formats and through any media
         channels.
-      </p>
-      <p>
+      </Text>
+      <Text>
         This license will apply to any form, media, or technology now known or hereafter developed,
         and includes our use of your name, company name, and franchise name, as applicable, and any
         of the trademarks, service marks, trade names, logos, and personal and commercial images you
         provide. You waive all moral rights in your Contributions, and you warrant that moral rights
         have not otherwise been asserted in your Contributions.
-      </p>
-      <p>
+      </Text>
+      <Text>
         We do not assert any ownership over your Contributions. You retain full ownership of all of
         your Contributions and any intellectual property rights or other proprietary rights
         associated with your Contributions. We are not liable for any statements or representations
         in your Contributions provided by you in any area on the Site. You are solely responsible
         for your Contributions to the Site and you expressly agree to exonerate us from any and all
         responsibility and to refrain from any legal action against us regarding your Contributions.
-      </p>
-      <p>
+      </Text>
+      <Text>
         We have the right, in our sole and absolute discretion, (1) to edit, redact, or otherwise
         change any Contributions; (2) to re-categorize any Contributions to place them in more
         appropriate locations on the Site; and (3) to pre-screen or delete any Contributions at any
         time and for any reason, without notice. We have no obligation to monitor your
         Contributions.
-      </p>
-      <p></p>
+      </Text>
+      <Text></Text>
     </PolicySection>
 
     {/*   SECTION 12. MOBILE APPLICATION LICENSE   */}
 
     <PolicySection header="MOBILE APPLICATION LICENSE">
-      <h4>Use License</h4>
-      <p>
+      <SubsectionHeader>Use License</SubsectionHeader>
+      <Text>
         If you access the Site via a mobile application, then we grant you a revocable,
         non-exclusive, non-transferable, limited right to install and use the mobile application on
         wireless electronic devices owned or controlled by you, and to access and use the mobile
@@ -417,9 +419,9 @@ export const TermsOfServicePage = () => (
         e-mail; or (9) use any proprietary information or any of our interfaces or our other
         intellectual property in the design, development, manufacture, licensing, or distribution of
         any applications, accessories, or devices for use with the application.
-      </p>
-      <h4>Apple and Android Devices</h4>
-      <p>
+      </Text>
+      <SubsectionHeader>Apple and Android Devices</SubsectionHeader>
+      <Text>
         The following terms apply when you use a mobile application obtained from either the Apple
         Store or Google Play (each an “App Distributor”) to access the Site: (1) the license granted
         to you for our mobile application is limited to a non-transferable license to use the
@@ -447,13 +449,13 @@ export const TermsOfServicePage = () => (
         will be deemed to have accepted the right) to enforce the terms and conditions in this
         mobile application license contained in these Terms of Service against you as a third-party
         beneficiary thereof.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 13. SOCIAL MEDIA   */}
 
     <PolicySection header="SOCIAL MEDIA">
-      <p>
+      <Text>
         As part of the functionality of the Site, you may link your account with online accounts you
         have with third-party service providers (each such account, a “Third-Party Account”) by
         either: (1) providing your Third-Party Account login information through the Site; or (2)
@@ -489,13 +491,13 @@ export const TermsOfServicePage = () => (
         your account settings (if applicable). We will attempt to delete any information stored on
         our servers that was obtained through such Third-Party Account, except the username and
         profile picture that become associated with your account.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 14. SUBMISSIONS   */}
 
     <PolicySection header="SUBMISSIONS">
-      <p>
+      <Text>
         You acknowledge and agree that any questions, comments, suggestions, ideas, feedback, or
         other information regarding the Site ("Submissions") provided by you to us are
         non-confidential and shall become our sole property. We shall own exclusive rights,
@@ -506,13 +508,13 @@ export const TermsOfServicePage = () => (
         you have the right to submit such Submissions. You agree there shall be no recourse against
         us for any alleged or actual infringement or misappropriation of any proprietary right in
         your Submissions.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 15. THIRD-PARTY WEBSITES AND CONTENT   */}
 
     <PolicySection header="THIRD-PARTY WEBSITES AND CONTENT">
-      <p>
+      <Text>
         The Site may contain (or you may be sent via the Site) links to other websites ("Third-Party
         Websites") as well as articles, photographs, text, graphics, pictures, designs, music,
         sound, video, information, applications, software, and other content or items belonging to
@@ -537,13 +539,13 @@ export const TermsOfServicePage = () => (
         Additionally, you shall hold us harmless from any losses sustained by you or harm caused to
         you relating to or resulting in any way from any Third-Party Content or any contact with
         Third-Party Websites.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 16. US GOVERNMENT RIGHTS   */}
 
     <PolicySection header="U.S. GOVERNMENT RIGHTS">
-      <p>
+      <Text>
         Our services are “commercial items” as defined in Federal Acquisition Regulation (“FAR”)
         2.101. If our services are acquired by or on behalf of any agency not within the Department
         of Defense (“DOD”), our services are subject to the terms of these Terms of Service in
@@ -554,13 +556,13 @@ export const TermsOfServicePage = () => (
         to technical data acquired by the DOD. This U.S. Government Rights clause is in lieu of, and
         supersedes, any other FAR, DFARS, or other clause or provision that addresses government
         rights in computer software or technical data under these Terms of Service.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 17. SITE MANAGEMENT   */}
 
     <PolicySection header="SITE MANAGEMENT">
-      <p>
+      <Text>
         We reserve the right, but not the obligation, to: (1) monitor the Site for violations of
         these Terms of Service; (2) take appropriate legal action against anyone who, in our sole
         discretion, violates the law or these Terms of Service, including without limitation,
@@ -571,13 +573,13 @@ export const TermsOfServicePage = () => (
         otherwise disable all files and content that are excessive in size or are in any way
         burdensome to our systems; and (5) otherwise manage the Site in a manner designed to protect
         our rights and property and to facilitate the proper functioning of the Site.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 18. PRIVACY POLICY   */}
 
     <PolicySection header="PRIVACY POLICY">
-      <p>
+      <Text>
         We care about data privacy and security. Please review our Privacy Policy:{" "}
         <TextExternalLink href="https://gofixit.app/privacy" />. By using the Site, you agree to be
         bound by our Privacy Policy, which is incorporated into these Terms of Service. Please be
@@ -586,13 +588,13 @@ export const TermsOfServicePage = () => (
         or disclosure that differ from applicable laws in the United States, then through your
         continued use of the Site, you are transferring your data to the United States, and you
         agree to have your data transferred to and processed in the United States.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 19. COPYRIGHT INFRINGEMENTS   */}
 
     <PolicySection header="COPYRIGHT INFRINGEMENTS">
-      <p>
+      <Text>
         We respect the intellectual property rights of others. If you believe that any material
         available on or through the Site infringes upon any copyright you own or control, please
         immediately notify us using the contact information provided below (a “Notification”). A
@@ -601,13 +603,13 @@ export const TermsOfServicePage = () => (
         held liable for damages if you make material misrepresentations in a Notification. Thus, if
         you are not sure that material located on or linked to by the Site infringes your copyright,
         you should consider first contacting an attorney.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 20. TERM AND TERMINATION   */}
 
     <PolicySection header="TERM AND TERMINATION">
-      <p>
+      <Text>
         These Terms of Service shall remain in full force and effect while you use the Site. WITHOUT
         LIMITING ANY OTHER PROVISION OF THESE TERMS OF SERVICE, WE RESERVE THE RIGHT TO, IN OUR SOLE
         DISCRETION AND WITHOUT NOTICE OR LIABILITY, DENY ACCESS TO AND USE OF THE SITE (INCLUDING
@@ -621,20 +623,20 @@ export const TermsOfServicePage = () => (
         acting on behalf of the third party. In addition to terminating or suspending your account,
         we reserve the right to take appropriate legal action, including without limitation pursuing
         civil, criminal, and injunctive redress.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 21. MODIFICATIONS AND INTERRUPTIONS   */}
 
     <PolicySection header="MODIFICATIONS AND INTERRUPTIONS">
-      <p>
+      <Text>
         We reserve the right to change, modify, or remove the contents of the Site at any time or
         for any reason at our sole discretion without notice. However, we have no obligation to
         update any information on our Site. We also reserve the right to modify or discontinue all
         or part of the Site without notice at any time. We will not be liable to you or any third
         party for any modification, price change, suspension, or discontinuance of the Site.
-      </p>
-      <p>
+      </Text>
+      <Text>
         We cannot guarantee the Site will be available at all times. We may experience hardware,
         software, or other problems or need to perform maintenance related to the Site, resulting in
         interruptions, delays, or errors. We reserve the right to change, revise, update, suspend,
@@ -643,33 +645,33 @@ export const TermsOfServicePage = () => (
         caused by your inability to access or use the Site during any downtime or discontinuance of
         the Site. Nothing in these Terms of Service will be construed to obligate us to maintain and
         support the Site or to supply any corrections, updates, or releases in connection therewith.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 22. GOVERNING LAW   */}
 
     <PolicySection header="GOVERNING LAW">
-      <p>
+      <Text>
         These Terms of Service and your use of the Site are governed by and construed in accordance
         with the laws of the State of Ohio applicable to agreements made and to be entirely
         performed within the State of Ohio, without regard to its conflict of law principles.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 23. DISPUTE RESOLUTION   */}
 
     <PolicySection header="DISPUTE RESOLUTION">
-      <h4>Informal Negotiations</h4>
-      <p>
+      <SubsectionHeader>Informal Negotiations</SubsectionHeader>
+      <Text>
         To expedite resolution and control the cost of any dispute, controversy, or claim related to
         these Terms of Service (each "Dispute" and collectively, the “Disputes”) brought by either
         you or us (individually, a “Party” and collectively, the “Parties”), the Parties agree to
         first attempt to negotiate any Dispute (except those Disputes expressly provided below)
         informally for at least thirty (30) days before initiating arbitration. Such informal
         negotiations commence upon written notice from one Party to the other Party.
-      </p>
-      <h4>Binding Arbitration</h4>
-      <p>
+      </Text>
+      <SubsectionHeader>Binding Arbitration</SubsectionHeader>
+      <Text>
         If the Parties are unable to resolve a Dispute through informal negotiations, the Dispute
         (except those Disputes expressly excluded below) will be finally and exclusively resolved by
         binding arbitration. YOU UNDERSTAND THAT WITHOUT THIS PROVISION, YOU WOULD HAVE THE RIGHT TO
@@ -687,8 +689,8 @@ export const TermsOfServicePage = () => (
         provided herein, the Parties may litigate in court to compel arbitration, stay proceedings
         pending arbitration, or to confirm, modify, vacate, or enter judgment on the award entered
         by the arbitrator.
-      </p>
-      <p>
+      </Text>
+      <Text>
         If for any reason, a Dispute proceeds in court rather than arbitration, the Dispute shall be
         commenced or prosecuted in the state and federal courts located in Franklin, Ohio, and the
         Parties hereby consent to, and waive all defenses of lack of personal jurisdiction, and
@@ -696,8 +698,8 @@ export const TermsOfServicePage = () => (
         courts. Application of the United Nations Convention on Contracts for the International Sale
         of Goods and the Uniform Computer Information Transaction Act (UCITA) are excluded from
         these Terms of Service.
-      </p>
-      <p>
+      </Text>
+      <Text>
         In no event shall any Dispute brought by either Party related in any way to the Site be
         commenced more than one (1) years after the cause of action arose. If this provision is
         found to be illegal or unenforceable, then neither Party will elect to arbitrate any Dispute
@@ -705,18 +707,18 @@ export const TermsOfServicePage = () => (
         Dispute shall be decided by a court of competent jurisdiction within the courts listed for
         jurisdiction above, and the Parties agree to submit to the personal jurisdiction of that
         court.
-      </p>
-      <h4>Restrictions</h4>
-      <p>
+      </Text>
+      <SubsectionHeader>Restrictions</SubsectionHeader>
+      <Text>
         The Parties agree that any arbitration shall be limited to the Dispute between the Parties
         individually. To the full extent permitted by law, (a) no arbitration shall be joined with
         any other proceeding; (b) there is no right or authority for any Dispute to be arbitrated on
         a class-action basis or to utilize class action procedures; and (c) there is no right or
         authority for any Dispute to be brought in a purported representative capacity on behalf of
         the general public or any other persons.
-      </p>
-      <h4>Exceptions to Informal Negotiations and Arbitration</h4>
-      <p>
+      </Text>
+      <SubsectionHeader>Exceptions to Informal Negotiations and Arbitration</SubsectionHeader>
+      <Text>
         The Parties agree that the following Disputes are not subject to the above provisions
         concerning informal negotiations and binding arbitration: (a) any Disputes seeking to
         enforce or protect, or concerning the validity of, any of the intellectual property rights
@@ -727,24 +729,24 @@ export const TermsOfServicePage = () => (
         unenforceable and such Dispute shall be decided by a court of competent jurisdiction within
         the courts listed for jurisdiction above, and the Parties agree to submit to the personal
         jurisdiction of that court.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 24. CORRECTIONS   */}
 
     <PolicySection header="CORRECTIONS">
-      <p>
+      <Text>
         There may be information on the Site that contains typographical errors, inaccuracies, or
         omissions, including descriptions, pricing, availability, and various other information. We
         reserve the right to correct any errors, inaccuracies, or omissions and to change or update
         the information on the Site at any time, without prior notice.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 25. DISCLAIMER   */}
 
     <PolicySection header="DISCLAIMER">
-      <p>
+      <Text>
         THE SITE IS PROVIDED ON AN AS-IS AND AS-AVAILABLE BASIS. YOU AGREE THAT YOUR USE OF THE SITE
         AND OUR SERVICES WILL BE AT YOUR SOLE RISK. TO THE FULLEST EXTENT PERMITTED BY LAW, WE
         DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, IN CONNECTION WITH THE SITE AND YOUR USE
@@ -767,13 +769,13 @@ export const TermsOfServicePage = () => (
         AND ANY THIRD-PARTY PROVIDERS OF PRODUCTS OR SERVICES. AS WITH THE PURCHASE OF A PRODUCT OR
         SERVICE THROUGH ANY MEDIUM OR IN ANY ENVIRONMENT, YOU SHOULD USE YOUR BEST JUDGMENT AND
         EXERCISE CAUTION WHERE APPROPRIATE.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 26. LIMITATIONS OF LIABILITY   */}
 
     <PolicySection header="LIMITATIONS OF LIABILITY">
-      <p>
+      <Text>
         IN NO EVENT WILL WE OR OUR DIRECTORS, EMPLOYEES, OR AGENTS BE LIABLE TO YOU OR ANY THIRD
         PARTY FOR ANY DIRECT, INDIRECT, CONSEQUENTIAL, EXEMPLARY, INCIDENTAL, SPECIAL, OR PUNITIVE
         DAMAGES, INCLUDING LOST PROFIT, LOST REVENUE, LOSS OF DATA, OR OTHER DAMAGES ARISING FROM
@@ -785,13 +787,13 @@ export const TermsOfServicePage = () => (
         NOT ALLOW LIMITATIONS ON IMPLIED WARRANTIES OR THE EXCLUSION OR LIMITATION OF CERTAIN
         DAMAGES. IF THESE LAWS APPLY TO YOU, SOME OR ALL OF THE ABOVE DISCLAIMERS OR LIMITATIONS MAY
         NOT APPLY TO YOU, AND YOU MAY HAVE ADDITIONAL RIGHTS.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 27. INDEMNIFICATION   */}
 
     <PolicySection header="INDEMNIFICATION">
-      <p>
+      <Text>
         You agree to defend, indemnify, and hold us harmless, including our subsidiaries,
         affiliates, and all of our respective officers, agents, partners, and employees, from and
         against any loss, damage, liability, claim, or demand, including reasonable attorneys’ fees
@@ -805,13 +807,13 @@ export const TermsOfServicePage = () => (
         you agree to cooperate, at your expense, with our defense of such claims. We will use
         reasonable efforts to notify you of any such claim, action, or proceeding which is subject
         to this indemnification upon becoming aware of it.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 28. USER DATA   */}
 
     <PolicySection header="USER DATA">
-      <p>
+      <Text>
         We will maintain certain data that you transmit to the Site for the purpose of managing the
         performance of the Site, as well as data relating to your use of the Site. Although we
         perform regular routine backups of data, you are solely responsible for all data that you
@@ -819,13 +821,13 @@ export const TermsOfServicePage = () => (
         we shall have no liability to you for any loss or corruption of any such data, and you
         hereby waive any right of action against us arising from any such loss or corruption of such
         data.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 29. ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES   */}
 
     <PolicySection header="ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES">
-      <p>
+      <Text>
         Visiting the Site, sending us emails, and completing online forms constitute electronic
         communications. You consent to receive electronic communications, and you agree that all
         agreements, notices, disclosures, and other communications we provide to you electronically,
@@ -836,24 +838,24 @@ export const TermsOfServicePage = () => (
         under any statutes, regulations, rules, ordinances, or other laws in any jurisdiction which
         require an original signature or delivery or retention of non-electronic records, or to
         payments or the granting of credits by any means other than electronic means.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 30. CALIFORNIA USERS AND RESIDENTS   */}
 
     <PolicySection header="CALIFORNIA USERS AND RESIDENTS">
-      <p>
+      <Text>
         If any complaint with us is not satisfactorily resolved, you can contact the Complaint
         Assistance Unit of the Division of Consumer Services of the California Department of
         Consumer Affairs in writing at 1625 North Market Blvd., Suite N 112, Sacramento, California
         95834 or by telephone at (800) 952-5210 or (916) 445-1254.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 31. MISCELLANEOUS   */}
 
     <PolicySection header="MISCELLANEOUS">
-      <p>
+      <Text>
         These Terms of Service and any policies or operating rules posted by us on the Site or in
         respect to the Site constitute the entire agreement and understanding between you and us.
         Our failure to exercise or enforce any right or provision of these Terms of Service shall
@@ -869,16 +871,16 @@ export const TermsOfServicePage = () => (
         Terms of Service will not be construed against us by virtue of having drafted them. You
         hereby waive any and all defenses you may have based on the electronic form of these Terms
         of Service and the lack of signing by the parties hereto to execute these Terms of Service.
-      </p>
+      </Text>
     </PolicySection>
 
     {/*   SECTION 32. CONTACT US   */}
 
     <PolicySection header="CONTACT US">
-      <p>
+      <Text>
         In order to resolve a complaint regarding the Site or to receive further information
         regarding use of the Site, please contact us at:
-      </p>
+      </Text>
       <div
         style={{
           width: "100%",
@@ -896,4 +898,10 @@ export const TermsOfServicePage = () => (
       </div>
     </PolicySection>
   </LegalPolicyPageLayout>
+);
+
+const SubsectionHeader = ({ children }: { children: React.ReactNode }) => (
+  <Text variant="h5" component="h4" className="tos-subsection-header">
+    {children}
+  </Text>
 );
