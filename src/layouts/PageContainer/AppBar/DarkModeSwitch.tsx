@@ -1,6 +1,6 @@
+import { styled } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
 import Tooltip from "@mui/material/Tooltip";
-import { styled } from "@mui/material/styles";
 import DarkModeIcon from "@mui/icons-material/ModeNightSharp";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { themeStore } from "@app";
@@ -14,7 +14,7 @@ export const DarkModeSwitch = () => {
     <Tooltip title="Toggle dark mode">
       <StyledDarkModeSwitch
         checked={currentTheme === "DARK"}
-        checkedIcon={<StyledDarkModeIcon />}
+        checkedIcon={<DarkModeIcon id="dark-mode-icon" />}
         icon={<LightModeIcon />}
         onChange={handleChange}
         inputProps={{ "aria-label": "controlled" }}
@@ -23,18 +23,15 @@ export const DarkModeSwitch = () => {
   );
 };
 
-const StyledDarkModeIcon = styled(DarkModeIcon)(({ theme }) => ({
-  transform: "rotateZ(140deg) translate(3px, 0.7px)",
-  color: theme.palette.text.primary
-}));
-
 const StyledDarkModeSwitch = styled(Switch)(({ theme }) => ({
   width: "65px",
   height: "34px",
   padding: "7px",
 
-  "& .MuiSwitch-switchBase": {
-    padding: 2.5,
+  "& > .MuiSwitch-switchBase": {
+    height: "33px",
+    width: "33px",
+    padding: "2.5px",
     transform: "translateX(6px)",
     borderWidth: "2px",
     borderStyle: "solid",
@@ -53,6 +50,16 @@ const StyledDarkModeSwitch = styled(Switch)(({ theme }) => ({
         opacity: 1,
         backgroundColor: theme.palette.primary.main
       }
+    },
+
+    "& > #dark-mode-icon": {
+      position: "absolute",
+      top: "4px",
+      left: "1px",
+      height: "1.5rem",
+      width: "1.5rem",
+      color: theme.palette.text.primary,
+      transform: "rotateZ(140deg)"
     }
   },
 
