@@ -22,5 +22,5 @@ export const ProfilePage = () => {
   // const { profile } = MOCK_USERS.Guy_McPerson; // FIXME data.myProfile
   // const { displayName, givenName, familyName, businessName } = profile;
 
-  return <ProfileViewLayout headerLabel="Profile" {...MOCK_USERS.Guy_McPerson} />;
+  return <ProfileViewLayout {...MOCK_USERS.Guy_McPerson} />;
 };

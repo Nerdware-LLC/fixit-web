@@ -25,5 +25,5 @@ export const ContactItemView = () => {
 
   const MOCK_contact = Object.values(MOCK_CONTACTS).find((contact) => contact.id === id);
 
-  return <ProfileViewLayout headerLabel="Contact" {...(MOCK_contact as any)} />;
+  return <ProfileViewLayout {...(MOCK_contact as any)} />;
 };
