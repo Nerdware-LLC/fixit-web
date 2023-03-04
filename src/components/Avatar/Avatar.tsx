@@ -59,6 +59,7 @@ const AvatarContainer = styled("div")(({ theme: { palette }, onClick }) => ({
   flexDirection: "row",
   alignItems: "center",
   "& > .MuiAvatar-root": {
+    overflow: "hidden !important", // <-- ensure can't be overridden
     background: `-webkit-linear-gradient(135deg, ${palette.primary.dark} 30%, ${palette.primary.light})`,
     "&:hover": {
       cursor: onClick ? "pointer" : "auto"
