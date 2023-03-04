@@ -18,11 +18,7 @@ export const CoreContentViewLayout = ({
   headerComponents,
   children,
   ...containerProps
-}: {
-  headerLabel?: string;
-  headerComponents?: React.ReactNode;
-  children: React.ReactNode;
-} & React.ComponentProps<typeof CoreContentViewContainer>) => (
+}: CoreContentViewLayoutProps) => (
   <CoreContentViewContainer className={CLASS_NAMES.core_content_view_container} {...containerProps}>
     <Box className={CLASS_NAMES.core_content_view_header_container}>
       {headerLabel && (
@@ -79,6 +75,8 @@ const CoreContentViewContainer = styled(Box)(({ theme }) => ({
     }
   },
 
+  // Divider:
+
   [`& > .${CLASS_NAMES.core_content_view_section_divider}`]: {
     marginBottom: "1rem"
   },
@@ -89,3 +87,9 @@ const CoreContentViewContainer = styled(Box)(({ theme }) => ({
     height: "100%"
   }
 }));
+
+export type CoreContentViewLayoutProps = {
+  headerLabel?: string;
+  headerComponents?: React.ReactNode;
+  children: React.ReactNode;
+} & React.ComponentProps<typeof CoreContentViewContainer>;

@@ -1,1 +1,1 @@
-export { CoreContentViewLayout } from "./CoreContentViewLayout";
+export * from "./CoreContentViewLayout";
