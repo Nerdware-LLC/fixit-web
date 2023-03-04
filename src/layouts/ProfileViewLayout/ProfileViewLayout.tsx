@@ -1,98 +1,72 @@
 import { styled } from "@mui/material/styles";
-import Text from "@mui/material/Typography";
-import PhoneIcon from "@mui/icons-material/Phone";
-import EmailIcon from "@mui/icons-material/Email";
-import PersonIcon from "@mui/icons-material/Person";
-import StorefrontIcon from "@mui/icons-material/Storefront";
-import { Avatar, ItemDetailsBox } from "@components";
-import { CoreContentViewLayout } from "@layouts";
-import { prettifyStr } from "@utils";
+import { XscrollContainer } from "@components";
+import { CoreContentViewLayout, type CoreContentViewLayoutProps } from "@layouts";
+import { ProfileViewHeader } from "./ProfileViewHeader";
+import { UserProfileDetails } from "./UserProfileDetails";
 import type { FixitUser } from "@types";
 
 export const ProfileViewLayout = ({
-  headerLabel,
   handle,
   email,
   phone,
-  profile
-}: { headerLabel: string } & FixitUser) => {
-  const { displayName, givenName, familyName, businessName } = profile;
-
-  const profileDisplayName =
-    displayName ||
-    `${givenName || "-"}${(givenName && familyName && " ") ?? ""}${familyName ?? ""}`;
-
-  return (
-    <StyledCoreContentView
-      headerComponents={
-        <>
-          <Avatar
-            profile={profile}
-            containerProps={{
-              sx: {
-                width: "initial",
-                "& > .MuiAvatar-root": {
-                  height: "5rem",
-                  width: "5rem"
-                }
-              }
-            }}
-          />
-          <Text variant="h6">{handle}</Text>
-          <Text variant="h6">{profile.displayName}</Text>
-        </>
-      }
-    >
-      <ItemDetailsBox label="Name" icon={<PersonIcon />}>
-        {profileDisplayName}
-      </ItemDetailsBox>
-      <ItemDetailsBox label="Business Name" icon={<StorefrontIcon />}>
-        {businessName || "-"}
-      </ItemDetailsBox>
-      <ItemDetailsBox label="Phone" icon={<PhoneIcon />}>
-        {prettifyStr.phone(phone)}
-      </ItemDetailsBox>
-      <ItemDetailsBox label="Email" icon={<EmailIcon />}>
-        {email}
-      </ItemDetailsBox>
-    </StyledCoreContentView>
-  );
-};
+  profile,
+  headerComponents,
+  children
+}: ProfileViewLayoutProps) => (
+  <StyledCoreContentView
+    headerComponents={
+      <>
+        <ProfileViewHeader profile={profile} handle={handle} />
+        {headerComponents}
+      </>
+    }
+  >
+    <XscrollContainer>
+      <UserProfileDetails email={email} phone={phone} profile={profile} />
+    </XscrollContainer>
+    {children}
+  </StyledCoreContentView>
+);
 
 const StyledCoreContentView = styled(CoreContentViewLayout)(({ theme }) => ({
   // styles applied to "core-content-view-container"
-  "& > div.core-content-view-header-container": {
-    height: "12rem",
-    padding: "1rem 12.5vw",
-    flexDirection: "column",
-    justifyContent: "center",
-    textAlign: "center"
+  padding: theme.variables.isMobilePageLayout ? "0" : "0 2rem",
+  overflow: "hidden",
+  "& *": {
+    whiteSpace: "nowrap"
   },
-  "& > div.core-content-view-scroll-container": {
-    display: "grid",
-    gridTemplateRows: "repeat( auto-fit, 8rem )",
+
+  // CoreContent: HEADER and CONTENT containers shared styles
+  "& > .core-content-view-header-container,.core-content-view-children-container": {
+    width: "auto",
+    maxWidth: "100%",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: theme.variables.isMobilePageLayout ? "center" : "flex-start"
+  },
+
+  // HEADER:
+
+  "& > .core-content-view-header-container": {
     ...(theme.variables.isMobilePageLayout
       ? {
-          gridTemplateColumns: "1fr",
-          gridGap: "0.5rem",
-          marginTop: 0
+          height: "11rem",
+          minHeight: "11rem"
         }
       : {
-          gridTemplateColumns: "1fr 1fr",
-          gridGap: "2rem",
-          padding: "1rem 10vw"
+          height: "9rem",
+          minHeight: "9rem"
         })
   },
-  "& .MuiTypography-root": {
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis"
-  },
-  "& .item-details-box-container": {
-    width: "100%",
-    margin: "1rem 0 0 0",
-    "& .MuiTypography-root": {
-      fontWeight: "normal !important"
-    }
+
+  // Divider:
+  "& > .core-content-view-section-divider": {
+    margin: theme.variables.isMobilePageLayout ? "0 1rem 2rem 1rem" : "0 0 2rem 0"
   }
 }));
+
+export type ProfileViewLayoutProps = Pick<FixitUser, "handle" | "email" | "phone" | "profile"> & {
+  headerComponents?: CoreContentViewLayoutProps["headerComponents"];
+  children?: React.ReactNode;
+};
