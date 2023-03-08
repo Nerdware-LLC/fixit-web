@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export const ToastContainer = () => (
   <ReactToastContainer
-    limit={2} // excess msgs are queued
+    limit={1} // excess msgs are queued
     position={"top-center"}
     autoClose={3000}
     hideProgressBar={false}
