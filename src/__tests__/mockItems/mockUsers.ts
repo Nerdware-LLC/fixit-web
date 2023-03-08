@@ -112,6 +112,7 @@ export const MOCK_USERS = Object.fromEntries(
       handle: "@user_person",
       email: "person@user.com",
       profile: {
+        businessName: "Guy McPerson",
         givenName: "Guy",
         familyName: "McPerson",
         photoUrl: "https://freesvg.org/img/Linux-Avatar.png"
@@ -122,6 +123,7 @@ export const MOCK_USERS = Object.fromEntries(
       handle: "@linda_mcContractorLongName_jones_smith",
       email: "linda_mcContractorLongName_jones_smith@foo.com",
       profile: {
+        businessName: "Linda McContractorLongName-Jones-Smith",
         givenName: "Linda",
         familyName: "McContractorLongName-Jones-Smith",
         photoUrl:
@@ -133,6 +135,7 @@ export const MOCK_USERS = Object.fromEntries(
       handle: "@aloy_mcInvoicer",
       email: "mech_hunter@gmail.com",
       profile: {
+        businessName: "Aloy McInvoicer",
         givenName: "Aloy",
         familyName: "McInvoicer",
         photoUrl:
@@ -144,6 +147,7 @@ export const MOCK_USERS = Object.fromEntries(
       handle: "@walt_mcWorkOrder",
       email: "arrow_in_the_knee@foo.biz",
       profile: {
+        businessName: "Walt McWorkOrder",
         givenName: "Walt",
         familyName: "McWorkOrder",
         photoUrl:
@@ -155,6 +159,7 @@ export const MOCK_USERS = Object.fromEntries(
       handle: "@rick",
       email: "rick@portals.gov",
       profile: {
+        businessName: "Rick Sanchez",
         givenName: "Rick",
         familyName: "Sanchez",
         photoUrl:
