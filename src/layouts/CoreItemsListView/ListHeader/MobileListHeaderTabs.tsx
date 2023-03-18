@@ -5,7 +5,7 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import SendIcon from "@mui/icons-material/Send";
 import { ListHeaderContainer } from "./ListHeaderContainer";
 import { INBOX_LIST_NAMES } from "../ListViewHeaderToggleButtons";
-import { LIST_TABS_a11y_PROPS } from "./a11yProps";
+import { listViewTabA11yProps, listViewTabsWrapperA11yProps } from "./tabA11yProps";
 import type { ListVisibility } from "../ListViewHeaderToggleButtons";
 
 export const MobileListHeaderTabs = ({
@@ -19,10 +19,7 @@ export const MobileListHeaderTabs = ({
     <StyledTabs
       value={listVisibility.Inbox === true ? 0 : 1}
       onChange={toggleListVisibility}
-      textColor="inherit"
-      indicatorColor="secondary"
-      aria-label="Inbox and Sent list view tabs"
-      scrollButtons={false}
+      {...listViewTabsWrapperA11yProps}
     >
       {INBOX_LIST_NAMES.map((listName) => (
         <Tab
@@ -30,7 +27,7 @@ export const MobileListHeaderTabs = ({
           label={listName}
           icon={listName === "Inbox" ? <InboxIcon /> : <SendIcon />}
           iconPosition="start"
-          {...LIST_TABS_a11y_PROPS[listName].TAB}
+          {...listViewTabA11yProps[listName]}
         />
       ))}
     </StyledTabs>
@@ -52,7 +49,6 @@ const StyledTabs = styled(Tabs)({
       maxHeight: "2rem",
       minWidth: "33%",
       padding: "0.4rem 0 0 0",
-      textTransform: "none",
 
       "&:first-of-type": {
         marginLeft: "0.5rem",
