@@ -1,5 +1,4 @@
 import { styled } from "@mui/material/styles";
-import React from "react";
 
 /**
  * A div which allows horizontal scrolling, with preferred styles.
@@ -24,10 +23,11 @@ export const StyledXscrollContainer = styled("div")({
   "&::before, &::after": {
     content: '" "',
     display: "inline-block",
+    width: "1rem",
     minWidth: "1rem"
   },
 
   "& > div": {
-    width: "auto"
+    flexGrow: 1
   }
 });
