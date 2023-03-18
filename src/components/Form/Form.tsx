@@ -7,6 +7,7 @@ export const Form = ({
   initialValues,
   validationSchema,
   onSubmit,
+  style,
   sx,
   children,
   ...formikProps
@@ -16,6 +17,7 @@ export const Form = ({
     formikHelpers?: FormikHelpers<typeof formValues>
   ) => void | Promise<void>;
   sx?: SxProps<Theme>;
+  style?: React.CSSProperties;
   children: React.ReactNode;
 } & Omit<React.ComponentProps<typeof Formik>, "onSubmit">) => (
   <Formik
@@ -24,14 +26,15 @@ export const Form = ({
     onSubmit={onSubmit}
     {...formikProps}
   >
-    <StyledFormikForm sx={sx}>{children}</StyledFormikForm>
+    <StyledFormikForm sx={sx} style={style}>
+      {children}
+    </StyledFormikForm>
   </Formik>
 );
 
 /**
- * Mui-styled Formik <form> element which allows
- * this <Form> component to take an `sx` prop.
+ * Mui-styled Formik <form> element which allows this <Form> component to take an `sx` prop.
  */
-const StyledFormikForm = styled(FormikForm)({ all: "inherit" });
+const StyledFormikForm = styled(FormikForm)({});
 
 Form.SubmitButton = FormSubmitButton;
