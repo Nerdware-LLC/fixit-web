@@ -1,30 +1,28 @@
 import { useQuery } from "@apollo/client/react/hooks";
 import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
-import { Autocomplete, Avatar, type AutocompleteOption } from "@components";
+import { AutoComplete, Avatar } from "@components";
 import { QUERIES } from "@graphql/queries";
+import type { AutoCompleteProps, AutoCompleteOption } from "./AutoComplete";
 import type { Contact } from "@types";
 import { MOCK_CONTACTS } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
 
 /**
- * AutocompleteContact
+ * AutoCompleteContact
  * - Uses `MyContacts` GQL query with "cache-only" fetch policy
  * - Uses MUI Autocomplete input
  */
-export const AutocompleteContact = ({
+export const AutoCompleteContact = ({
   label,
   emptySelectionOption = { id: "", label: "Unassigned" },
   ...props
-}: { emptySelectionOption?: AutocompleteOption } & Omit<
-  React.ComponentProps<typeof Autocomplete>,
-  "options"
->) => {
+}: AutoCompleteContactProps) => {
   const { data, loading } = useQuery(QUERIES.MY_CONTACTS, {
     fetchPolicy: "cache-only",
     skip: true // FIXME
   });
 
-  const contactOptions: AutocompleteContactOptions = [
+  const contactOptions: AutoCompleteContactOptions = [
     emptySelectionOption,
     // FIXME rm below
     ...Object.values(MOCK_CONTACTS).map((contact) => ({
@@ -35,18 +33,18 @@ export const AutocompleteContact = ({
 
   if (!loading && data && Array.isArray(data?.myContacts) && data.myContacts.length > 0) {
     contactOptions.concat(
-      data.myContacts.reduce((accum: AutocompleteContactOptions, contact: Contact) => {
+      data.myContacts.reduce((accum: AutoCompleteContactOptions, contact: Contact) => {
         return [...accum, { ...contact, label: contact.profile?.displayName || contact.handle }];
       }, [])
     );
   }
 
   return (
-    <Autocomplete
+    <AutoComplete
       options={contactOptions}
       label={label}
       renderOption={(props, option) => {
-        const { profile = null } = option as AutocompleteContactOption;
+        const { profile = null } = option as AutoCompleteContactOption;
 
         return (
           <Box component="li" style={{ height: profile ? "3.5rem" : "3rem" }} {...props}>
@@ -63,5 +61,10 @@ export const AutocompleteContact = ({
   );
 };
 
-type AutocompleteContactOption = AutocompleteOption & Partial<Contact>;
-type AutocompleteContactOptions = Array<AutocompleteContactOption>;
+export type AutoCompleteContactProps = { emptySelectionOption?: AutoCompleteOption } & Omit<
+  AutoCompleteProps,
+  "options"
+>;
+
+export type AutoCompleteContactOption = AutoCompleteOption & Partial<Contact>;
+export type AutoCompleteContactOptions = Array<AutoCompleteContactOption>;

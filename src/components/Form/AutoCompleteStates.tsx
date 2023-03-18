@@ -1,18 +1,17 @@
-import { Autocomplete, type AutocompleteOption } from "./Autocomplete";
+import { AutoComplete, type AutoCompleteOption } from "./AutoComplete";
 
-export const AutocompleteStates = ({
-  id,
-  ...props
-}: Omit<React.ComponentProps<typeof Autocomplete>, "options"> & {
-  id: string;
-}) => (
-  <Autocomplete
+export const AutoCompleteStates = ({ id, ...props }: AutoCompleteStatesProps) => (
+  <AutoComplete
     id={id}
     options={US_STATES_AND_TERRITORIES}
-    groupBy={(option) => (option as AutocompleteOption).group as string}
+    groupBy={(option) => (option as AutoCompleteOption).group as string}
     {...props}
   />
 );
+
+export type AutoCompleteStatesProps = Omit<React.ComponentProps<typeof AutoComplete>, "options"> & {
+  id: string;
+};
 
 const US_STATES_AND_TERRITORIES = [
   "Alabama",
