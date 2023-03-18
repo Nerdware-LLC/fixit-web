@@ -1,5 +1,7 @@
-import TextField from "@mui/material/TextField";
 import { useField, useFormikContext } from "formik";
+import { grid as muiGridSxProps, type GridProps } from "@mui/system";
+import { styled } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
 
 export const TextInput = ({
   id,
@@ -27,7 +29,7 @@ export const TextInput = ({
     CONTENT_TYPE_PROPS?.[contentType ?? (id as keyof typeof CONTENT_TYPE_PROPS)] ?? {};
 
   return (
-    <TextField
+    <StyledTextField
       id={id}
       label={label ?? id.toUpperCase()}
       variant={variant}
@@ -81,9 +83,11 @@ const CONTENT_TYPE_PROPS = {
   }
 };
 
-export type MuiTextFieldProps = React.ComponentProps<typeof TextField>;
+const StyledTextField = styled(TextField, {
+  shouldForwardProp: (propName) => !(propName as string).startsWith("grid")
+})<GridProps>(muiGridSxProps);
 
-export type TextInputProps = Omit<MuiTextFieldProps, "label"> & {
+export type TextInputProps = Omit<React.ComponentProps<typeof StyledTextField>, "label"> & {
   id: string;
   label?: React.ReactNode;
   contentType?: keyof typeof CONTENT_TYPE_PROPS;

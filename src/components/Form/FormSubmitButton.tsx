@@ -1,8 +1,10 @@
 import { toast } from "react-toastify";
-import Button from "@mui/material/Button";
 import { useFormikContext } from "formik";
+import { grid as muiGridSxProps, type GridProps } from "@mui/system";
+import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
 
-export const FormSubmitButton = ({ style = {}, ...props }: React.ComponentProps<typeof Button>) => {
+export const FormSubmitButton = (props: React.ComponentProps<typeof StyledButton>) => {
   const { handleSubmit, isValid, isSubmitting, dirty, errors } = useFormikContext();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -19,13 +21,20 @@ export const FormSubmitButton = ({ style = {}, ...props }: React.ComponentProps<
   };
 
   return (
-    <Button
+    <StyledButton
       onClick={handleClick}
       disabled={isSubmitting}
-      style={{ lineHeight: "2rem", ...style }}
+      className="form-submit-button"
       {...props}
     >
       Submit
-    </Button>
+    </StyledButton>
   );
 };
+
+const StyledButton = styled(Button, {
+  shouldForwardProp: (propName) => !(propName as string).startsWith("grid")
+})<GridProps>({
+  lineHeight: "2rem",
+  ...muiGridSxProps
+});
