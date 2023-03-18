@@ -10,8 +10,9 @@ export const PageLayoutContextProvider = ({ children }: { children: React.ReactN
 
   useEffect(() => {
     const handleWindowResize = () => {
-      setIsMobileUserAgent(testIsMobileUserAgent());
-      setShouldUseMobileLayout(isMobileUserAgent || window.innerWidth < window.innerHeight);
+      const newIsMobileUserAgentValue = testIsMobileUserAgent();
+      setIsMobileUserAgent(newIsMobileUserAgentValue);
+      setShouldUseMobileLayout(newIsMobileUserAgentValue || window.innerWidth < window.innerHeight);
     };
 
     window.addEventListener("resize", handleWindowResize);
