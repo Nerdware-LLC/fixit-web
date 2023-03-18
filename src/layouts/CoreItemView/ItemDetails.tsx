@@ -3,6 +3,8 @@ import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
 import { ItemDetailsLabel } from "./ItemDetailsLabel";
 
+// TODO Create a separate ItemDetailsGroup component
+
 /**
  * Displays one or more item properties.
  * - Can be nested for grouping related properties together.
@@ -25,14 +27,7 @@ export const ItemDetails = ({
   children,
   emptyFallback = <Text>--</Text>,
   ...containerProps // any remaining props are passed to the containing div
-}: {
-  header?: React.ReactNode;
-  label?: string;
-  labelVariant?: React.ComponentProps<typeof ItemDetailsLabel>["variant"];
-  labelIcon?: React.ComponentProps<typeof ItemDetailsLabel>["icon"];
-  children?: React.ReactNode;
-  emptyFallback?: React.ReactNode;
-} & React.ComponentProps<typeof ItemDetailsContainer>) => (
+}: ItemDetailsProps) => (
   <ItemDetailsContainer className="item-details item-details-container" {...containerProps}>
     {(header || label) && (
       <div className="item-details-header">
@@ -52,8 +47,7 @@ export const ItemDetails = ({
 );
 
 const ItemDetailsContainer = styled(Box)(({ theme }) => ({
-  border: `2px solid ${theme.palette.divider}`,
-  borderRadius: "0.35rem",
+  maxWidth: "100%",
 
   "& *": {
     overflow: "hidden",
@@ -63,17 +57,17 @@ const ItemDetailsContainer = styled(Box)(({ theme }) => ({
   // HEADER:
 
   "& > .item-details-header": {
+    height: "auto",
     width: "100%",
-    padding: "1rem",
+    padding: 0,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: "0 0 2px 0",
-    borderStyle: "solid",
-    borderColor: theme.palette.divider,
 
-    "& .MuiTypography-root": {
-      color: theme.palette.text.primary
+    "& > .item-details-label": {
+      color: theme.palette.text.primary,
+      marginTop: 0,
+      opacity: "0.7"
     },
 
     "& > svg:first-of-type": {
@@ -84,34 +78,17 @@ const ItemDetailsContainer = styled(Box)(({ theme }) => ({
   // CONTENT:
 
   "& > .item-details-content": {
-    padding: "1.25rem",
     display: "flex",
     flexDirection: "column",
     gap: "2rem"
-  },
-
-  /* NESTED ItemDetails:
-      - may be placed within HEADER or CONTENT
-      - no borders
-      - no padding
-      - label opacity set to 0.7, no margin-top
-      - header height set to auto
-  */
-  "& > .item-details-header, .item-details-content": {
-    "& div.item-details-container": {
-      border: "none",
-      "& > div.item-details-header": {
-        height: "auto",
-        padding: "0",
-        border: "none",
-        "& > .item-details-label": {
-          marginTop: 0,
-          opacity: "0.7"
-        }
-      },
-      "& > div.item-details-content": {
-        padding: "0"
-      }
-    }
   }
 }));
+
+export type ItemDetailsProps = {
+  header?: React.ReactNode;
+  label?: string;
+  labelVariant?: React.ComponentProps<typeof ItemDetailsLabel>["variant"];
+  labelIcon?: React.ComponentProps<typeof ItemDetailsLabel>["icon"];
+  children?: React.ReactNode;
+  emptyFallback?: React.ReactNode;
+} & React.ComponentProps<typeof ItemDetailsContainer>;

@@ -23,13 +23,9 @@ export const CoreItemView = ({
   </StyledCoreContentViewLayout>
 );
 
-const StyledCoreContentViewLayout = styled(CoreContentViewLayout)(({ theme }) => ({
+const StyledCoreContentViewLayout = styled(CoreContentViewLayout)({
   "& .core-content-view-children-container": {
-    overflowY: "auto !important",
-    // child of scroll container:
-    "& > div": {
-      alignSelf: "center",
-      width: theme.variables.isMobilePageLayout ? "100%" : "calc(100% - 2rem)" // <-- -2rem helps view to always look centered, with OR without scrollbar
-    }
+    overflowX: "hidden",
+    overflowY: "auto"
   }
-}));
+});

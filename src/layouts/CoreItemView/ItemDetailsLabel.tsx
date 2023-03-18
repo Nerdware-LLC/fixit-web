@@ -4,6 +4,7 @@ export const ItemDetailsLabel = ({
   icon,
   variant = "h6",
   style = {},
+  sx = {},
   children,
   ...props
 }: { icon?: React.ReactNode } & React.ComponentProps<typeof Text>) => (
@@ -16,13 +17,16 @@ export const ItemDetailsLabel = ({
         margin: "0.25rem 0",
         fontSize: "0.9rem",
         lineHeight: "1rem",
-        fontWeight: "200",
         textTransform: "uppercase",
-        overflowX: "hidden",
+        overflow: "hidden",
         whiteSpace: "nowrap",
         textOverflow: "ellipsis",
         ...style
       }}
+      sx={({ palette }) => ({
+        fontWeight: palette.mode === "dark" ? 200 : "normal",
+        ...(sx as any)
+      })}
       {...props}
     >
       {children}
