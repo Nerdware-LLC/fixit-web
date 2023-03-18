@@ -1,7 +1,8 @@
 import React from "react";
 import { IMaskInput } from "react-imask";
 import { REGIONAL_PHONE_FORMATS } from "./regionalPhoneFormats";
-import type { TextInputProps, MuiTextFieldProps } from "../TextInput";
+import type { TextFieldProps } from "@mui/material/TextField";
+import type { TextInputProps } from "../TextInput";
 
 // prettier-ignore
 export const PhoneMask = React.forwardRef<PhoneMaskRef, PhoneMaskProps>(
@@ -19,4 +20,4 @@ export const PhoneMask = React.forwardRef<PhoneMaskRef, PhoneMaskProps>(
 );
 
 type PhoneMaskRef = React.Ref<React.ReactElement> | undefined;
-type PhoneMaskProps = TextInputProps & { onChange: Pick<MuiTextFieldProps, "onChange"> };
+type PhoneMaskProps = TextInputProps & { onChange: Pick<TextFieldProps, "onChange"> };
