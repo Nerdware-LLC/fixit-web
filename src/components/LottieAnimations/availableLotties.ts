@@ -23,6 +23,9 @@ export const AVAILABLE_LOTTIE_ANIMATIONS = {
       ...DEFAULT_LOTTIE_OPTS,
       duration: 1300
     },
-    style: DEFAULT_LOTTIE_STYLES.centerScreen
+    style: {
+      pointerEvents: "none",
+      ...DEFAULT_LOTTIE_STYLES.centerScreen
+    }
   }
 } as const;
