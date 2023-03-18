@@ -44,7 +44,7 @@ const CLASS_NAMES = {
 const CoreContentViewContainer = styled(Box)(({ theme }) => ({
   height: "100%",
   width: "100%",
-  padding: theme.variables.isMobilePageLayout ? "0 1.5rem" : "0 2rem",
+  overflow: "hidden",
   display: "flex",
   flexDirection: "column",
 
@@ -55,19 +55,22 @@ const CoreContentViewContainer = styled(Box)(({ theme }) => ({
       ? {
           height: "4rem",
           minHeight: "4rem",
-          gap: "1rem"
+          gap: "1rem",
+          padding: "1rem",
+          justifyContent: "center"
         }
       : {
           height: "6rem",
           minHeight: "6rem",
-          gap: "2rem"
+          gap: "2rem",
+          padding: "1rem 2rem",
+          justifyContent: "flex-start"
         }),
-    width: "100%",
-    padding: "1rem 0",
+    width: "auto",
+    maxWidth: "100%",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-end",
 
     [`& > .${CLASS_NAMES.core_content_view_header_label}`]: {
       whiteSpace: "nowrap",
@@ -78,13 +81,17 @@ const CoreContentViewContainer = styled(Box)(({ theme }) => ({
   // Divider:
 
   [`& > .${CLASS_NAMES.core_content_view_section_divider}`]: {
-    marginBottom: "1rem"
+    width: theme.variables.isMobilePageLayout ? "calc(100% - 2rem)" : "calc(100% - 4rem)",
+    alignSelf: "center"
   },
 
   // Children container:
 
   [`& > .${CLASS_NAMES.core_content_view_children_container}`]: {
-    height: "100%"
+    height: "100%",
+    width: "auto",
+    maxWidth: "100%",
+    padding: theme.variables.isMobilePageLayout ? "1rem" : "1rem 2rem"
   }
 }));
 
