@@ -1,16 +1,16 @@
 import { useField, useFormikContext } from "formik";
 import { grid as muiGridSxProps, type GridProps } from "@mui/system";
 import { styled } from "@mui/material/styles";
-import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DateTimePicker as MuiDateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
 
-export const DatePicker = ({
+export const DateTimePicker = ({
   id,
   label,
   style = {},
   renderInput = (params: TextFieldProps) => <TextField style={style} {...params} />,
   ...props
-}: DatePickerProps) => {
+}: DateTimePickerProps) => {
   const [field] = useField(id);
   const { setFieldValue } = useFormikContext();
 
@@ -19,7 +19,7 @@ export const DatePicker = ({
   };
 
   return (
-    <StyledMuiDatePicker
+    <StyledMuiDateTimePicker
       label={label}
       value={field.value}
       onChange={handleChange}
@@ -29,14 +29,17 @@ export const DatePicker = ({
   );
 };
 
-const StyledMuiDatePicker = styled(MuiDatePicker, {
+const StyledMuiDateTimePicker = styled(MuiDateTimePicker, {
   shouldForwardProp: (propName) => !(propName as string).startsWith("grid")
 })<GridProps>(muiGridSxProps);
 
-export type DatePickerProps = {
+export type DateTimePickerProps = {
   id: string;
   style?: React.CSSProperties;
   renderInput?: (
     params: TextFieldProps
   ) => React.ReactElement<any, string | React.JSXElementConstructor<any>>;
-} & Omit<React.ComponentProps<typeof StyledMuiDatePicker>, "value" | "onChange" | "renderInput">;
+} & Omit<
+  React.ComponentProps<typeof StyledMuiDateTimePicker>,
+  "value" | "onChange" | "renderInput"
+>;
