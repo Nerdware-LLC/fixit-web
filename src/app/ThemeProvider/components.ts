@@ -20,5 +20,19 @@ export const COMPONENTS: Partial<Theme["components"]> = {
     defaultProps: {
       showLabel: true
     }
+  },
+  MuiTabs: {
+    defaultProps: {
+      textColor: "inherit",
+      indicatorColor: "secondary",
+      scrollButtons: false
+    }
+  },
+  MuiTab: {
+    styleOverrides: {
+      root: {
+        textTransform: "none" // overrides "uppercase"
+      }
+    }
   }
 };
