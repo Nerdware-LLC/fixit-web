@@ -14,4 +14,5 @@ export * from "./LottieAnimations";
 export * from "./Navigation";
 export * from "./StripeBadge";
 export * from "./StripeForm";
+export * from "./Tabs";
 export * from "./Transitions";
