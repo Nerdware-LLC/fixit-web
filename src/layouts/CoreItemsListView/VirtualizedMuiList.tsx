@@ -7,7 +7,7 @@ import List from "@mui/material/List";
  * - https://virtuoso.dev/
  */
 export const VirtualizedMuiList = (props: React.ComponentProps<typeof VirtuosoVirtualizedList>) => {
-  return <VirtuosoVirtualizedList components={MUIComponents} draggable {...props} />;
+  return <VirtuosoVirtualizedList components={MUIComponents} {...props} />;
 };
 
 const MUIComponents = {
