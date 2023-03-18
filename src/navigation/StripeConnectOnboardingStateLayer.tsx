@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Text from "@mui/material/Typography";
+import AnnouncementIcon from "@mui/icons-material/Announcement";
 import { isConnectOnboardingNeededStore } from "@cache";
 import { useStripeService } from "@hooks";
 import { Dialog } from "@components";
@@ -76,16 +79,38 @@ export const StripeConnectOnboardingStateLayer = ({ children }: { children: Reac
         <Dialog
           isVisible={isDialogVisible}
           title="Start Getting Paid Today!"
-          // prettier-ignore
-          message={[
-            "Complete your account setup to start sending and receiving payments. If you'd like to do this later - no problem! You can always manage your payment settings in the account menu.",
-            "Note: you won't be able to send or receive invoices until your account setup is complete."
-          ].join('\n\n')}
           handleAccept={handleDialogAccept}
           handleCancel={handleDialogCancel}
           acceptLabel="Complete Setup"
           cancelLabel="I'll do this later"
-        />
+        >
+          <Box
+            sx={{
+              "& .MuiTypography-root": {
+                lineHeight: "1.35rem"
+              },
+              "& > div": {
+                marginTop: "1rem",
+                display: "flex",
+                "& > svg": {
+                  marginRight: "0.5rem"
+                }
+              }
+            }}
+          >
+            <Text>
+              Complete your account setup to start sending and receiving payments. If you'd like to
+              do this later - no problem! You can always manage your payment settings in the account
+              menu.
+            </Text>
+            <div>
+              <AnnouncementIcon />
+              <Text>
+                You won't be able to send or receive invoices until your account setup is complete.
+              </Text>
+            </div>
+          </Box>
+        </Dialog>
       )}
     </>
   );
