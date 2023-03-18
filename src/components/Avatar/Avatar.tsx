@@ -19,6 +19,7 @@ export const Avatar = forwardRef<MaybeAvatarRef, AvatarProps>(function Avatar(
     profile,
     imageSrc,
     showDisplayName = false,
+    onClick,
     containerProps = {},
     avatarProps = {},
     ...props
@@ -30,11 +31,12 @@ export const Avatar = forwardRef<MaybeAvatarRef, AvatarProps>(function Avatar(
   const avatarRef = ref || localRef;
 
   return (
-    <AvatarContainer className="avatar-container" {...containerProps}>
+    <AvatarContainer className="avatar-container" isClickable={!!onClick} {...containerProps}>
       <MuiAvatar
         ref={avatarRef}
         alt={profile?.displayName ?? "User Avatar"}
         src={imageSrc || profile?.photoUrl}
+        onClick={onClick}
         {...avatarProps}
         {...props}
       >
@@ -52,17 +54,20 @@ export const Avatar = forwardRef<MaybeAvatarRef, AvatarProps>(function Avatar(
   );
 });
 
-const AvatarContainer = styled("div")(({ theme: { palette }, onClick }) => ({
+const AvatarContainer = styled("div", {
+  shouldForwardProp: (propName) => propName !== "isClickable"
+})<{ isClickable: boolean }>(({ theme: { palette }, isClickable }) => ({
   height: "100%",
   width: "100%",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
+
   "& > .MuiAvatar-root": {
     overflow: "hidden !important", // <-- ensure can't be overridden
     background: `-webkit-linear-gradient(135deg, ${palette.primary.dark} 30%, ${palette.primary.light})`,
     "&:hover": {
-      cursor: onClick ? "pointer" : "auto"
+      cursor: isClickable ? "pointer" : "auto"
     }
   },
   "& > .MuiTypography-root": {
@@ -75,7 +80,7 @@ type AvatarProps = {
   profile?: UserProfile;
   imageSrc?: string;
   showDisplayName?: boolean;
-  containerProps?: React.ComponentProps<typeof AvatarContainer>;
+  containerProps?: Omit<React.ComponentProps<typeof AvatarContainer>, "isClickable">;
   avatarProps?: React.ComponentProps<typeof MuiAvatar>;
 } & React.ComponentProps<typeof MuiAvatar>;
 
