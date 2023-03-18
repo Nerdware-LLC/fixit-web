@@ -13,11 +13,6 @@ export const WorkOrdersListView = () => {
     skip: true // TODO <-- skip for now, turn off later
   });
 
-  // FIXME
-  // const { createdByUser, assignedToUser } = woListSettingsStore.useFilterAndSort(
-  //   data?.myWorkOrders ?? []
-  // );
-
   if (loading || networkStatus === 4) return <Loading />;
   if (error) return <Error error={error} />;
 

@@ -1,8 +1,5 @@
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
-import ListItemText from "@mui/material/ListItemText";
-import { CoreListItemLayout } from "@layouts";
+import { CoreListItemLayout, type CoreListItemLayoutProps } from "@layouts";
 import type { WorkOrder } from "@types";
 
 export const WorkOrdersListItem = ({
@@ -13,14 +10,16 @@ export const WorkOrdersListItem = ({
 }: {
   listName?: "Inbox" | "Sent";
   item?: WorkOrder;
-  onClick?: React.ComponentProps<typeof CoreListItemLayout>["onClick"];
+  onClick?: CoreListItemLayoutProps["onClick"];
 }) => {
   if (!listName || !item || !onClick) return null;
 
   const isInboxList = listName === "Inbox";
   const { createdBy, assignedTo, status, location, description, createdAt } = item;
   const userToDisplay = isInboxList ? createdBy : assignedTo;
+
   const prettyCreatedAt = createdAt.toLocaleDateString("en-us", { day: "numeric", month: "short" });
+  const prettyStatus = status.replace(/_/g, " ");
 
   return (
     <CoreListItemLayout
@@ -30,7 +29,7 @@ export const WorkOrdersListItem = ({
       listName={listName}
       {...props}
     >
-      <StyledMiddleContentContainer>
+      <div>
         {userToDisplay ? (
           <Text>{userToDisplay.profile?.displayName ?? userToDisplay.handle}</Text>
         ) : (
@@ -38,39 +37,17 @@ export const WorkOrdersListItem = ({
             - Unassigned -
           </Text>
         )}
-        <Text color="text.secondary">{location.streetLine1}</Text>
-        <Text color="text.secondary">{description}</Text>
-      </StyledMiddleContentContainer>
-      <ListItemText
-        style={{ minWidth: "5.5rem", margin: "0 0 0 0.5rem", textAlign: "right" }}
-        primary={
-          <Text variant="body2" style={{ lineHeight: "1.5rem" }}>
-            {prettyCreatedAt}
-          </Text>
-        }
-        secondary={
-          <Text variant="caption" color="gray" style={{ display: "block" }}>
-            {/* TODO try adding the WO-status-icon here */}
-            {status.replace(/_/g, " ")}
-          </Text>
-        }
-      />
+        <Text>{location.streetLine1}</Text>
+        <Text>{description}</Text>
+      </div>
+      <div>
+        <Text className="list-item-created-at" variant="body2">
+          {prettyCreatedAt}
+        </Text>
+        <Text className="list-item-status" variant="caption" component="p">
+          {prettyStatus}
+        </Text>
+      </div>
     </CoreListItemLayout>
   );
 };
-
-const StyledMiddleContentContainer = styled(Box)(({ theme }) => ({
-  flexGrow: 0,
-  flexShrink: 1,
-  "& > .MuiTypography-root": {
-    "&:first-of-type": {
-      fontSize: "1.05rem",
-      lineHeight: "1.5rem"
-    },
-    "&:not(:first-of-type)": {
-      fontSize: "0.925rem",
-      lineHeight: "1.25rem",
-      color: theme.palette.text.secondary
-    }
-  }
-}));
