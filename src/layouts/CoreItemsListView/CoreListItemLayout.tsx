@@ -1,9 +1,7 @@
 import React from "react";
 import { styled, alpha } from "@mui/material/styles";
-import ListItem from "@mui/material/ListItem";
+import ListItem, { type ListItemProps } from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
@@ -18,100 +16,189 @@ export const CoreListItemLayout = ({
   divider = true,
   children,
   ...containerProps
-}: {
-  user?: FixitUser;
-  onClick: React.MouseEventHandler<HTMLDivElement & HTMLLIElement>;
-  itemID: string;
-  listName?: string;
-  divider?: boolean;
-} & React.ComponentProps<typeof ListItem>) => (
+}: CoreListItemLayoutProps) => (
   <StyledListItem className="list-view-item-container" divider={divider} {...containerProps}>
     <ListItemButton onClick={onClick} data-item-id={itemID} data-list-name={listName}>
-      <Box className="list-view-item-left-content-container">
-        {user ? (
-          <ListItemAvatar>
-            <Avatar alt={user.profile?.displayName ?? "User avatar"} src={user.profile?.photoUrl}>
-              {user.profile?.displayName?.charAt(0)}
-            </Avatar>
-          </ListItemAvatar>
-        ) : (
-          <ListItemIcon>
-            <PersonOffIcon />
-          </ListItemIcon>
-        )}
-      </Box>
+      <div className="list-view-item-left-content-container">
+        <div className="list-view-item-left-content-circle">
+          <Avatar
+            src={user?.profile?.photoUrl}
+            alt={
+              user
+                ? user.profile?.displayName ?? "User avatar"
+                : "Icon indicating an unassigned item"
+            }
+          >
+            {user?.profile?.displayName?.charAt(0) ?? <PersonOffIcon />}
+          </Avatar>
+        </div>
+      </div>
       <Box className="list-view-item-children-content-container">{children}</Box>
     </ListItemButton>
   </StyledListItem>
 );
 
-const StyledListItem = styled(ListItem)(({ theme: { palette, variables, breakpoints } }) => {
-  const listViewItemLeftContentContainerSize = variables.isMobilePageLayout ? "3rem" : "3.75rem";
+const StyledListItem = styled(ListItem)(({ theme: { palette, variables, breakpoints } }) => ({
+  alignItems: "flex-start",
+  margin: 0,
+  padding: 0,
+  borderColor: alpha(palette.divider, palette.mode === "dark" ? 0.05 : 0.1),
 
-  return {
-    alignItems: "flex-start",
-    margin: 0,
-    padding: 0,
-    borderColor: alpha(palette.divider, palette.mode === "dark" ? 0.05 : 0.1),
+  "& *": {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
+  },
 
-    "& *": {
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis"
-    },
+  "& > .MuiListItemButton-root": {
+    height: "100%",
+    padding: "0.5rem 0",
+    [breakpoints.up("sm")]: { padding: "0.5rem 1rem" },
 
-    "& > .MuiListItemButton-root": {
-      padding: "0.5rem 0",
-      [breakpoints.up("sm")]: { padding: "0.5rem 1rem" },
+    "& > .list-view-item-left-content-container": {
+      ...(variables.isMobilePageLayout
+        ? {
+            height: "3rem",
+            minHeight: "3rem",
+            maxHeight: "3rem",
+            width: "3rem",
+            minWidth: "3rem",
+            maxWidth: "3rem"
+          }
+        : {
+            height: "3.75rem",
+            minHeight: "3.75rem",
+            maxHeight: "3.75rem",
+            width: "3.75rem",
+            minWidth: "3.75rem",
+            maxWidth: "3.75rem"
+          }),
+      marginRight: "1rem",
+      padding: "3px",
+      display: "flex",
+      placeItems: "center",
+      placeContent: "center",
 
-      "& > div.list-view-item-left-content-container": {
-        marginRight: "1rem",
-        height: listViewItemLeftContentContainerSize,
-        minWidth: listViewItemLeftContentContainerSize,
-        width: listViewItemLeftContentContainerSize,
-        padding: "3px",
-        display: "flex",
-        placeItems: "center",
-        placeContent: "center",
+      // Styles for all descendant divs (circle-container and the MuiAvatar-root)
+      "& div": {
+        height: "100%",
+        minHeight: "100%",
+        maxHeight: "100%",
+        width: "100%",
+        minWidth: "100%",
+        maxWidth: "100%",
         borderRadius: "50%",
-        backgroundImage: `linear-gradient(135deg, ${palette.info.dark} 15%, ${palette.info.light})`,
-
-        // All div descendants are cicular flexboxes with centered content
-        "& div": {
-          display: "flex",
-          placeItems: "center",
-          placeContent: "center",
-          textAlign: "center",
-          verticalAlign: "middle",
-          borderRadius: "50%",
-          color: THEMES.DARK.palette.text.primary,
-          backgroundImage: `linear-gradient(135deg, ${THEMES.DARK.palette.background.default} 20%, ${THEMES.DARK.palette.background.paper})`
-        },
-
-        // Set child divs' height + width to slightly less than list-view-item-left-content-container
-        "& *:not(svg)": {
-          display: "flex",
-          placeItems: "center",
-          placeContent: "center",
-          height: "100%",
-          width: "100%",
-          minHeight: "100%",
-          maxHeight: "100%",
-          minWidth: "100%",
-          maxWidth: "100%",
-          fontSize: "2rem", // <-- for letter avatars
-          borderRadius: "50%",
-          objectFit: "cover"
-        }
+        placeItems: "center",
+        placeContent: "center"
       },
 
-      "& > div.list-view-item-children-content-container": {
-        height: "100%",
-        flexGrow: 1,
+      // Styles for all descendants (divs, img, svg)
+      "& *": {
+        alignSelf: "center",
+        verticalAlign: "middle",
+        textAlign: "center",
+        overflow: "clip",
+        overflowClipMargin: 0
+      },
+
+      "& > .list-view-item-left-content-circle": {
+        display: "inline-flex",
+        padding: "2px",
+        backgroundImage: `linear-gradient(135deg, ${palette.info.dark} 15%, ${palette.info.light})`,
+
+        "& > .MuiAvatar-root": {
+          display: "inline",
+          backgroundImage: `linear-gradient(135deg, ${THEMES.DARK.palette.background.default} 20%, ${THEMES.DARK.palette.background.paper})`,
+          // styles for letter and icon avatars:
+          color: THEMES.DARK.palette.text.primary,
+          lineHeight: "calc(100% + 1.25rem)",
+          ...(!variables.isMobilePageLayout && {
+            fontSize: "2rem"
+          }),
+
+          "& > img, svg": {
+            display: "inline-block",
+            height: "100%",
+            marginBottom: "0.5rem",
+            "&:not(img)": {
+              marginLeft: "5%"
+            }
+          }
+        }
+      }
+    },
+
+    // Container for other list item sections provided as children:
+
+    "& > .list-view-item-children-content-container": {
+      height: "100%",
+      flexGrow: 1,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+
+      // All child div sections: flex columns
+      "& > div": {
         display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between"
+        flexDirection: "column",
+        justifyContent: "space-between",
+
+        // Default styles for text children:
+        "& > .MuiTypography-root": {
+          lineHeight: "1.25rem",
+
+          "&:first-of-type": {
+            fontSize: "1rem"
+          },
+          "&:not(:first-of-type)": {
+            fontSize: "0.925rem"
+          },
+          "&:last-of-type:not(:first-of-type)": {
+            color: palette.text.secondary
+          },
+          "&.list-item-created-at": {
+            fontSize: "0.875rem"
+          },
+          "&.list-item-status": {
+            fontSize: "0.75rem"
+          }
+        },
+
+        // Some list items may contain links, apply same size styles (won't be first-children)
+        "& a": {
+          fontSize: "0.925rem",
+          lineHeight: "1.25rem",
+          // Hide any list-item links on mobile
+          ...(variables.isMobilePageLayout && {
+            display: "none"
+          })
+        },
+
+        // Styles for only-child div sections
+        "&:only-child": {
+          // If there's only 1 section, make its text a little larger
+          "& > .MuiTypography-root": {
+            "&:first-of-type": {
+              fontSize: "1.05rem"
+            }
+          }
+        },
+
+        // Styles for non-first div sections
+        "&:not(:first-of-type)": {
+          minWidth: "4.75rem",
+          textAlign: "right",
+          marginLeft: "0.5rem"
+        }
       }
     }
-  };
-});
+  }
+}));
+
+export type CoreListItemLayoutProps = {
+  user?: FixitUser;
+  onClick: React.MouseEventHandler<HTMLDivElement & HTMLLIElement>;
+  itemID: string;
+  listName?: string;
+  divider?: boolean;
+} & ListItemProps;

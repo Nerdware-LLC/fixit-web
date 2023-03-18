@@ -9,8 +9,10 @@ import { DataGrid, type GridEventListener, type GridRowParams } from "./DataGrid
 import { VirtualizedMuiList } from "./VirtualizedMuiList";
 import { ListViewHeaderToggleButtons } from "./ListViewHeaderToggleButtons";
 import { CreateItemButton } from "./CreateItemButton";
-import { ListHeader, MobileListHeaderTabs, LIST_TABS_a11y_PROPS } from "./ListHeader";
+import { ListHeader, MobileListHeaderTabs, listViewTabPanelA11yProps } from "./ListHeader";
 import type { ListViewHeader, CoreItemsListConfig, ListViewRenderItemFn } from "./types";
+
+// TODO Store List/Table view prefs in local storage
 
 /**
  * Provides common styles/props/logic to all core-item list views.
@@ -22,13 +24,7 @@ export const CoreItemsListView = ({
   renderItem,
   tableProps,
   ...containerProps
-}: {
-  viewHeader: ListViewHeader;
-  viewBasePath: string;
-  lists: Array<CoreItemsListConfig>;
-  renderItem: ListViewRenderItemFn;
-  tableProps: React.ComponentProps<typeof DataGrid>;
-} & Omit<React.ComponentProps<typeof StyledCoreContentViewLayout>, "children" | "listOrTable">) => {
+}: CoreItemsListViewProps) => {
   const nav = useNavigate();
   const { isMobilePageLayout } = usePageLayoutContext();
   const {
@@ -45,9 +41,9 @@ export const CoreItemsListView = ({
   const tryNavToItemView = ({ itemID, isItemOwnedByUser }: { itemID?: string; isItemOwnedByUser?: boolean; }) => {
     if (typeof itemID === "string") {
       nav(`${viewBasePath}/${encodeURIComponent(itemID)}`, {
-        ...(typeof isItemOwnedByUser === "boolean" && {
-          state: { isItemOwnedByUser }
-        })
+        state: {
+          isItemOwnedByUser: typeof isItemOwnedByUser === "boolean" && isItemOwnedByUser === true
+        }
       });
     }
   };
@@ -72,7 +68,11 @@ export const CoreItemsListView = ({
     : 1;
 
   const showMobileListHeaderTabs =
-    isMobilePageLayout && lists.length > 1 && listVisibility && toggleListVisibility;
+    listOrTable === "LIST" &&
+    isMobilePageLayout &&
+    lists.length > 1 &&
+    listVisibility &&
+    toggleListVisibility;
 
   return (
     <StyledCoreContentViewLayout
@@ -159,7 +159,7 @@ export const CoreItemsListView = ({
                   })
                 }
                 // a11y props for ListHeader mobile tabs:
-                {...(listName && isMobilePageLayout && LIST_TABS_a11y_PROPS[listName].TAB_PANEL)}
+                {...(listName && isMobilePageLayout && listViewTabPanelA11yProps[listName])}
               />
             </Box>
           </React.Fragment>
@@ -170,7 +170,11 @@ export const CoreItemsListView = ({
 };
 
 const StyledCoreContentViewLayout = styled(CoreContentViewLayout)(({ theme }) => ({
-  // All ListView text doesn't wrap by default
+  // styles applied to "core-content-view-container"
+  "& .core-content-view-children-container": {
+    paddingBottom: 0
+  },
+
   "& *": {
     whiteSpace: "nowrap"
   },
@@ -203,3 +207,11 @@ const StyledCoreContentViewLayout = styled(CoreContentViewLayout)(({ theme }) =>
     }
   }
 }));
+
+export type CoreItemsListViewProps = {
+  viewHeader: ListViewHeader;
+  viewBasePath: string;
+  lists: Array<CoreItemsListConfig>;
+  renderItem: ListViewRenderItemFn;
+  tableProps: React.ComponentProps<typeof DataGrid>;
+} & Omit<React.ComponentProps<typeof StyledCoreContentViewLayout>, "children" | "listOrTable">;
