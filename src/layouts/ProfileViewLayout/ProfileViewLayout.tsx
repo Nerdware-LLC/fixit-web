@@ -30,20 +30,20 @@ export const ProfileViewLayout = ({
 
 const StyledCoreContentView = styled(CoreContentViewLayout)(({ theme }) => ({
   // styles applied to "core-content-view-container"
-  padding: theme.variables.isMobilePageLayout ? "0" : "0 2rem",
-  overflow: "hidden",
   "& *": {
     whiteSpace: "nowrap"
   },
 
   // CoreContent: HEADER and CONTENT containers shared styles
   "& > .core-content-view-header-container,.core-content-view-children-container": {
-    width: "auto",
-    maxWidth: "100%",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: theme.variables.isMobilePageLayout ? "center" : "flex-start"
+    ...(theme.variables.isMobilePageLayout && {
+      justifyContent: "center",
+      paddingLeft: 0,
+      paddingRight: 0
+    })
   },
 
   // HEADER:
@@ -62,7 +62,7 @@ const StyledCoreContentView = styled(CoreContentViewLayout)(({ theme }) => ({
 
   // Divider:
   "& > .core-content-view-section-divider": {
-    margin: theme.variables.isMobilePageLayout ? "0 1rem 2rem 1rem" : "0 0 2rem 0"
+    marginBottom: "2rem"
   }
 }));
 

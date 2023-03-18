@@ -13,7 +13,7 @@ import type { FixitUser } from "@types";
 export const UserProfileDetails = ({
   email,
   phone,
-  profile: { givenName, familyName, businessName }
+  profile: { givenName = "", familyName = "", businessName = "" }
 }: Pick<FixitUser, "email" | "phone" | "profile">) => (
   <UserProfileDetailsContainer className="profile-view-user-profile-details">
     <ItemDetails label="Name" labelIcon={<PersonIcon />}>
