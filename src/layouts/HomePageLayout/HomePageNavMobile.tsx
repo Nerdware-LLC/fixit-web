@@ -67,7 +67,13 @@ const StyledBottomNavBar = styled(BottomNavigation)(({ theme }) => ({
   borderWidth: "1px 0 0 0",
   borderStyle: "solid",
   borderColor: theme.palette.divider,
-  boxShadow: `0 0.5rem 1rem 1rem ${theme.palette.background.default}`,
+  boxShadow:
+    theme.palette.mode === "dark"
+      ? `0 3px 8px 8px rgba(0,0,0,0.5)`
+      : // light mode boxShadow is the same as Mui `boxShadow: 3` (not sure why, but using the integer didn't work here)
+        `0 -3px 3px -2px rgba(0,0,0,0.2), 0 -3px 4px 0 rgba(0,0,0,0.14), 0 -1px 8px 0 rgba(0,0,0,0.12)`,
+  zIndex: 10, // <-- ensures the box-shadow appears above other elements
+
   ...NAV_BAR_SIZE,
   "& + #homepage-mobile-nav-tabs-fixed-position-offset": NAV_BAR_SIZE,
 
