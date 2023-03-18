@@ -1,4 +1,5 @@
-import MuiDialog from "@mui/material/Dialog";
+import { styled } from "@mui/material/styles";
+import MuiDialog, { type DialogProps } from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -14,6 +15,7 @@ export const Dialog = ({
   isVisible,
   title,
   message,
+  children,
   handleAccept,
   handleCancel,
   acceptLabel = "OK",
@@ -22,13 +24,14 @@ export const Dialog = ({
 }: {
   isVisible: boolean;
   title: React.ReactNode;
-  message: React.ReactNode;
+  message?: React.ReactNode;
+  children?: React.ReactNode;
   handleAccept?: React.MouseEventHandler<HTMLButtonElement>;
   handleCancel?: React.MouseEventHandler<HTMLButtonElement>;
   acceptLabel?: React.ReactNode;
   cancelLabel?: React.ReactNode;
-} & Omit<React.ComponentProps<typeof MuiDialog>, "open">) => (
-  <MuiDialog
+} & Omit<DialogProps, "open">) => (
+  <StyledDialog
     open={isVisible}
     onClose={handleCancel}
     aria-labelledby="dialog-title"
@@ -37,22 +40,19 @@ export const Dialog = ({
     fullWidth
     {...containerProps}
   >
-    <DialogTitle color="secondary">{title}</DialogTitle>
-    <DialogContent dividers>
+    <DialogTitle id="dialog-title" color="secondary">
+      {title}
+    </DialogTitle>
+    <DialogContent id="dialog-message" dividers>
       {typeof message === "string" ? (
         <DialogContentText color="action" style={{ whiteSpace: "pre-line" }}>
           {message}
         </DialogContentText>
       ) : (
-        message
+        message ?? children
       )}
     </DialogContent>
-    <DialogActions
-      style={{
-        padding: "1rem 0.5rem",
-        justifyContent: "space-evenly"
-      }}
-    >
+    <DialogActions>
       {handleCancel && (
         <DialogButton onClick={handleCancel} variant="outlined">
           {cancelLabel}
@@ -60,7 +60,23 @@ export const Dialog = ({
       )}
       <DialogButton onClick={handleAccept}>{acceptLabel}</DialogButton>
     </DialogActions>
-  </MuiDialog>
+  </StyledDialog>
 );
 
 Dialog.use = useDialog;
+
+const StyledDialog = styled(MuiDialog)(({ theme }) => ({
+  "& > .MuiBackdrop-root": {
+    backdropFilter: "blur( 5px )"
+  },
+
+  "& .MuiDialogActions-root": {
+    padding: "1rem",
+    gap: "1rem",
+    justifyContent: theme.variables.isMobilePageLayout ? "space-evenly" : "flex-end",
+
+    "& > button": {
+      margin: "0 !important"
+    }
+  }
+}));
