@@ -35,21 +35,19 @@ export const ItemEventsTimeline = ({
         ).split(" ");
 
         return (
-          <React.Fragment key={`timeline:${timestamp.toString()}`}>
-            <div className="timeline-event-container">
-              <IconCircleContainer
-                iconHighlight={iconHighlight}
-                className="item-event-icon-container"
-              >
-                {icon}
-              </IconCircleContainer>
-              <div className="item-event-timestamp-container">
-                <Text>{date}</Text>
-                <Text>{`${time} ${amOrPm}`}</Text>
-              </div>
-              <div className="item-event-description">{eventInfoContent}</div>
+          <div className="timeline-event-container" key={`timeline:${timestamp.toString()}`}>
+            <IconCircleContainer
+              iconHighlight={iconHighlight}
+              className="item-event-icon-container"
+            >
+              {icon}
+            </IconCircleContainer>
+            <div className="item-event-timestamp-container">
+              <Text>{date}</Text>
+              <Text>{`${time} ${amOrPm}`}</Text>
             </div>
-          </React.Fragment>
+            <div className="item-event-description">{eventInfoContent}</div>
+          </div>
         );
       })}
     </StyledItemEventsTimeline>
@@ -61,26 +59,20 @@ const StyledItemEventsTimeline = styled("div")(({ theme }) => ({
   "& .timeline-event-container": {
     display: "flex",
     alignItems: "center",
+    padding: "0.625rem 0",
 
     // Event timestamp container
     "& > .item-event-timestamp-container": {
-      width: "30%",
-      minWidth: "10.5rem",
-      margin: "0 1rem",
+      width: "10.5rem",
+      margin: "0 1.5rem 0 1rem",
+      flexShrink: 0,
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
+      justifyContent: "space-between",
 
       "& > .MuiTypography-root": {
-        whiteSpace: "nowrap",
-        flexShrink: 0,
-        "&:first-of-type": {
-          width: "5.5rem"
-        },
-        "&:last-of-type": {
-          width: "5rem",
-          textAlign: "right"
-        }
+        whiteSpace: "nowrap"
       }
     },
 
@@ -88,15 +80,22 @@ const StyledItemEventsTimeline = styled("div")(({ theme }) => ({
     "& > .item-event-description": {
       display: "flex",
       alignItems: "center",
-      width: "60%",
-      whiteSpace: "nowrap"
+      whiteSpace: "nowrap",
+
+      "& .avatar-container": {
+        width: "auto",
+        flexShrink: 0,
+        marginRight: "0.75rem"
+      }
     },
 
     "&:not(:last-of-type)": {
-      marginBottom: "1.25rem",
+      borderBottom: `1px solid ${theme.palette.divider}`,
       overflow: "visible",
+
       "& > .item-event-icon-container": {
         overflow: "visible",
+
         "&::after": {
           content: '""',
           position: "absolute",
@@ -128,7 +127,6 @@ const IconCircleContainer = styled("div", {
     width: "2.5rem",
     minWidth: "2.5rem",
     height: "2.5rem",
-    margin: "0 1rem",
     display: "inline-flex",
     placeContent: "center",
     placeItems: "center",
