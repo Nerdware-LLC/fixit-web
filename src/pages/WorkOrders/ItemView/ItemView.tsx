@@ -37,6 +37,21 @@ export const WorkOrderItemView = () => {
       headerComponents={
         <WorkOrderItemViewHeader workOrder={MOCK_workOrder} isItemOwnedByUser={isItemOwnedByUser} />
       }
+      sx={(theme) => ({
+        "& .core-content-view-header-container": {
+          ...(theme.variables.isMobilePageLayout && {
+            boxShadow: theme.palette.mode === "dark" ? `0 -3px 8px 8px rgba(0,0,0,0.35)` : 3,
+            zIndex: 10 // <-- ensures the box-shadow appears above other elements
+          })
+        },
+        "& .core-content-view-section-divider": {
+          display: "none"
+        },
+        "& .core-content-view-children-container": {
+          padding: 0,
+          overflowY: "auto"
+        }
+      })}
     >
       <WorkOrderItemViewContent workOrder={MOCK_workOrder} isItemOwnedByUser={isItemOwnedByUser} />
     </CoreItemView>

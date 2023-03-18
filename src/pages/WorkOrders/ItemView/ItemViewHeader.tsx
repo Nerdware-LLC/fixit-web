@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
+import { usePageLayoutContext } from "@app";
 import { PenToSquareIcon, FileInvoiceDollarIcon } from "@components";
 import type { WorkOrder } from "@types";
 
@@ -11,6 +12,7 @@ export const WorkOrderItemViewHeader = ({
   isItemOwnedByUser: boolean;
 }) => {
   const nav = useNavigate();
+  const { isMobilePageLayout } = usePageLayoutContext();
 
   const {
     onClick,
@@ -20,7 +22,7 @@ export const WorkOrderItemViewHeader = ({
     ? {
         onClick: () => nav("/home/workorders/form", { state: { workOrder } }),
         startIcon: <PenToSquareIcon />,
-        buttonText: "Update Work Order"
+        buttonText: isMobilePageLayout ? "Edit" : "Update Work Order"
       }
     : {
         onClick: () => nav("/home/invoices/form", { state: { workOrderToInvoice: workOrder } }),
@@ -29,6 +31,13 @@ export const WorkOrderItemViewHeader = ({
       };
 
   /*
+    TODO Maybe convert the button/buttons into a single "Actions" button.
+      - If there's only 1 action, show that action as a standalone button
+      - If +1, show "Actions", which opens a modal with opts
+
+    TODO See https://mui.com/material-ui/react-button-group/#split-button
+         for a great example of an idea for an "Actions" btn.
+
     TODO Add WO ItemView buttons for assignee:
       - `Update Status`
       - `Update Checklist`
@@ -41,11 +50,15 @@ export const WorkOrderItemViewHeader = ({
         className="wo-item-view-header-mutation-button"
         onClick={onClick}
         startIcon={startIcon}
-        sx={{
+        style={{
           height: "2rem",
-          width: "14rem",
           paddingBottom: "0.16rem",
           borderRadius: "1.5rem",
+          ...(isMobilePageLayout && {
+            fontSize: "1rem"
+          })
+        }}
+        sx={{
           "& svg": {
             marginRight: "0.2rem",
             marginBottom: "0.15rem"

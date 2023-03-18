@@ -38,7 +38,7 @@ const StyledChecklistContainer = styled("div")<{ isExpanded: boolean }>(
           padding: "1rem",
           alignItems: "center",
           justifyContent: "center",
-          "&: hover": {
+          "&:hover": {
             cursor: "pointer",
             backgroundColor: theme.palette.action.hover
           }

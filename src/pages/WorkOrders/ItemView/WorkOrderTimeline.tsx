@@ -97,15 +97,5 @@ export const WorkOrderTimeline = ({
       : [])
   ];
 
-  return (
-    <ItemEventsTimeline
-      events={workOrderEvents}
-      sx={{
-        "& .avatar-container": {
-          width: "auto",
-          marginRight: "0.75rem"
-        }
-      }}
-    />
-  );
+  return <ItemEventsTimeline events={workOrderEvents} />;
 };
