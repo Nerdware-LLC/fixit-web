@@ -1,4 +1,4 @@
-import Chip from "@mui/material/Chip";
+import Chip, { type ChipProps } from "@mui/material/Chip";
 import { WO_CATEGORY_ICON_REACT_NODES } from "../Icons";
 import type { WorkOrder } from "@types";
 
@@ -10,6 +10,6 @@ export const WorkOrderCategoryChip = ({
   ...props
 }: {
   category: Extract<WorkOrder["category"], string>;
-} & Omit<React.ComponentProps<typeof Chip>, "avatar" | "icon">) => (
+} & Omit<ChipProps, "avatar" | "icon">) => (
   <Chip label={category} icon={WO_CATEGORY_ICON_REACT_NODES[category]} {...props} />
 );

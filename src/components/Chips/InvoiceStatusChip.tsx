@@ -1,4 +1,4 @@
-import Chip from "@mui/material/Chip";
+import Chip, { type ChipProps } from "@mui/material/Chip";
 import { INV_STATUS_ICON_REACT_NODES } from "../Icons";
 import type { Invoice } from "@types";
 
@@ -10,7 +10,7 @@ export const InvoiceStatusChip = ({
   ...props
 }: {
   status: Extract<Invoice["status"], string>;
-} & Omit<React.ComponentProps<typeof Chip>, "avatar" | "icon">) => (
+} & Omit<ChipProps, "avatar" | "icon">) => (
   <Chip
     label={status}
     icon={INV_STATUS_ICON_REACT_NODES[status] as React.ReactElement}

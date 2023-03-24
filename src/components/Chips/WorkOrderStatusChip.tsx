@@ -1,4 +1,4 @@
-import Chip from "@mui/material/Chip";
+import Chip, { type ChipProps } from "@mui/material/Chip";
 import { WO_STATUS_ICON_REACT_NODES } from "../Icons";
 import type { SxProps } from "@mui/material/styles";
 import type { WorkOrder } from "@types";
@@ -11,7 +11,7 @@ export const WorkOrderStatusChip = ({
   ...props
 }: {
   status: Extract<WorkOrder["status"], string>;
-} & Omit<React.ComponentProps<typeof Chip>, "avatar" | "icon">) => (
+} & Omit<ChipProps, "avatar" | "icon">) => (
   <Chip
     label={status.replace(/_/g, " ")}
     icon={WO_STATUS_ICON_REACT_NODES[status] as React.ReactElement}
