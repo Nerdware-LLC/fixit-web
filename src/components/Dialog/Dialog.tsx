@@ -45,9 +45,7 @@ export const Dialog = ({
     </DialogTitle>
     <DialogContent id="dialog-message" dividers>
       {typeof message === "string" ? (
-        <DialogContentText color="action" style={{ whiteSpace: "pre-line" }}>
-          {message}
-        </DialogContentText>
+        <DialogContentText color="action">{message}</DialogContentText>
       ) : (
         message ?? children
       )}
