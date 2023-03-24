@@ -1,4 +1,5 @@
-import Text from "@mui/material/Typography";
+import Text, { type TypographyProps } from "@mui/material/Typography";
+import { itemDetailsClassNames as classNames } from "./classNames";
 
 export const ItemDetailsLabel = ({
   icon,
@@ -7,11 +8,11 @@ export const ItemDetailsLabel = ({
   sx = {},
   children,
   ...props
-}: { icon?: React.ReactNode } & React.ComponentProps<typeof Text>) => (
+}: ItemDetailsLabelProps) => (
   <>
     {icon}
     <Text
-      className="item-details-label"
+      className={classNames.label}
       variant={variant}
       style={{
         margin: "0.25rem 0",
@@ -33,3 +34,5 @@ export const ItemDetailsLabel = ({
     </Text>
   </>
 );
+
+export type ItemDetailsLabelProps = { icon?: React.ReactNode } & TypographyProps;

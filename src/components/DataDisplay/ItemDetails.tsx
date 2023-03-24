@@ -1,9 +1,8 @@
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
-import { ItemDetailsLabel } from "./ItemDetailsLabel";
-
-// TODO Create a separate ItemDetailsGroup component
+import { ItemDetailsLabel, type ItemDetailsLabelProps } from "./ItemDetailsLabel";
+import { itemDetailsClassNames as classNames } from "./classNames";
 
 /**
  * Displays one or more item properties.
@@ -20,27 +19,30 @@ import { ItemDetailsLabel } from "./ItemDetailsLabel";
  * > _**Note:** `emptyFallback` defaults to `<Text>--</Text>`_
  */
 export const ItemDetails = ({
-  header,
   label,
-  labelVariant,
   labelIcon,
+  labelVariant,
+  headerComponents,
   children,
   emptyFallback = <Text>--</Text>,
   ...containerProps // any remaining props are passed to the containing div
 }: ItemDetailsProps) => (
-  <ItemDetailsContainer className="item-details item-details-container" {...containerProps}>
-    {(header || label) && (
-      <div className="item-details-header">
+  <ItemDetailsContainer
+    className={`${classNames.itemDetails} ${classNames.container}`}
+    {...containerProps}
+  >
+    {(label || headerComponents) && (
+      <div className={classNames.header}>
         {label && (
           <>
             {labelIcon}
             <ItemDetailsLabel variant={labelVariant}>{label}</ItemDetailsLabel>
           </>
         )}
-        {header}
+        {headerComponents}
       </div>
     )}
-    <div className="item-details-content">
+    <div className={classNames.content}>
       {typeof children === "string" ? <Text>{children || "--"}</Text> : children ?? emptyFallback}
     </div>
   </ItemDetailsContainer>
@@ -56,7 +58,7 @@ const ItemDetailsContainer = styled(Box)(({ theme }) => ({
 
   // HEADER:
 
-  "& > .item-details-header": {
+  [`& > .${classNames.header}`]: {
     height: "auto",
     width: "100%",
     padding: 0,
@@ -64,7 +66,7 @@ const ItemDetailsContainer = styled(Box)(({ theme }) => ({
     flexDirection: "row",
     alignItems: "center",
 
-    "& > .item-details-label": {
+    [`& > .${classNames.label}`]: {
       color: theme.palette.text.primary,
       marginTop: 0,
       opacity: "0.7"
@@ -73,22 +75,14 @@ const ItemDetailsContainer = styled(Box)(({ theme }) => ({
     "& > svg:first-of-type": {
       marginRight: "0.75rem"
     }
-  },
-
-  // CONTENT:
-
-  "& > .item-details-content": {
-    display: "flex",
-    flexDirection: "column",
-    gap: "2rem"
   }
 }));
 
 export type ItemDetailsProps = {
-  header?: React.ReactNode;
   label?: string;
-  labelVariant?: React.ComponentProps<typeof ItemDetailsLabel>["variant"];
-  labelIcon?: React.ComponentProps<typeof ItemDetailsLabel>["icon"];
+  labelIcon?: ItemDetailsLabelProps["icon"];
+  labelVariant?: ItemDetailsLabelProps["variant"];
+  headerComponents?: React.ReactNode;
   children?: React.ReactNode;
   emptyFallback?: React.ReactNode;
 } & React.ComponentProps<typeof ItemDetailsContainer>;

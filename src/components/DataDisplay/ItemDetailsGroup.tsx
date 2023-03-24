@@ -3,36 +3,37 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Text from "@mui/material/Typography";
 import { ItemDetailsLabel } from "./ItemDetailsLabel";
+import { itemDetailsClassNames as classNames } from "./classNames";
 import type { ItemDetailsProps } from "./ItemDetails";
 
 /**
  * Displays one or more ItemDetails components as a group.
  */
 export const ItemDetailsGroup = ({
-  header,
   label,
-  labelVariant,
   labelIcon,
+  labelVariant,
+  headerComponents,
   children,
   emptyFallback = <Text>--</Text>,
   ...containerProps // any remaining props are passed to the containing div
 }: ItemDetailsProps) => (
   <ItemDetailsGroupContainer
-    className="item-details-group item-details-group-container"
+    className={`${classNames.itemDetailsGroup} ${classNames.groupContainer}`}
     {...containerProps}
   >
-    {(header || label) && (
-      <Paper className="item-details-group-header" elevation={0}>
+    {(label || headerComponents) && (
+      <Paper className={classNames.groupHeader} elevation={0}>
         {label && (
           <>
             {labelIcon}
             <ItemDetailsLabel variant={labelVariant}>{label}</ItemDetailsLabel>
           </>
         )}
-        {header}
+        {headerComponents}
       </Paper>
     )}
-    <div className="item-details-group-content">
+    <div className={classNames.groupContent}>
       {typeof children === "string" ? <Text>{children || "--"}</Text> : children ?? emptyFallback}
     </div>
   </ItemDetailsGroupContainer>
@@ -51,19 +52,20 @@ const ItemDetailsGroupContainer = styled(Box)(({ theme }) => ({
 
   // HEADER:
 
-  "& > .item-details-group-header": {
+  [`& > .${classNames.groupHeader}`]: {
     width: "100%",
     padding: "1rem",
     overflow: "hidden",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    textDecoration: "none",
     borderWidth: "0 0 1px 0",
     borderStyle: "solid",
     borderColor: alpha(theme.palette.divider, 0.05),
     borderRadius: "0.35rem 0.35rem 0 0",
 
-    "& > .MuiTypography-root": {
+    [`& > .${classNames.label}`]: {
       color: theme.palette.text.primary
     },
 
@@ -74,7 +76,7 @@ const ItemDetailsGroupContainer = styled(Box)(({ theme }) => ({
 
   // CONTENT:
 
-  "& > .item-details-group-content": {
+  [`& > .${classNames.groupContent}`]: {
     position: "relative",
     zIndex: 1,
     padding: "1.25rem",
