@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import { StripeBadge } from "@components";
+import { Link } from "./Link";
 
 /**
  * Legal links:
@@ -22,8 +22,8 @@ export const LegalLinks = ({
   ...containerProps
 }: {
   includeStripeBadge?: boolean;
-} & React.ComponentProps<typeof LegalLinksContainer>) => (
-  <LegalLinksContainer className="legal-links-container" {...containerProps}>
+} & React.ComponentProps<typeof StyledLegalLinksContainer>) => (
+  <StyledLegalLinksContainer className="legal-links-container" {...containerProps}>
     {includeStripeBadge && (
       <>
         <Tooltip title="View Stripe Connected Account Agreement">
@@ -45,10 +45,10 @@ export const LegalLinks = ({
     <Tooltip title="Fixit Privacy Policy">
       <Link to="/privacy">Privacy</Link>
     </Tooltip>
-  </LegalLinksContainer>
+  </StyledLegalLinksContainer>
 );
 
-const LegalLinksContainer = styled("div")(({ theme: { palette } }) => ({
+const StyledLegalLinksContainer = styled("div")(({ theme: { palette } }) => ({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
