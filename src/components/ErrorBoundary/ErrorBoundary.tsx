@@ -2,10 +2,15 @@ import React from "react";
 import * as Sentry from "@sentry/react";
 import { logger } from "@utils";
 
-// NOTE: ErrorBoundary WON'T catch event-driven errors NOR async errors. So this will not work on, say, fetch state.
-
-export class ErrorBoundary extends React.Component<Props, State> {
-  public state: State = {
+/**
+ * A reusable error-boundary with `Sentry` and logging integrations.
+ *
+ * **NOTE:** ErrorBoundary WON'T catch the following:
+ * - Event-driven errors
+ * - Uncaught promise rejections
+ */
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  public state: ErrorBoundaryState = {
     error: null,
     hasError: false
   };
@@ -23,20 +28,22 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   public render() {
+    const { showDialog = true, ...props } = this.props;
+
     return (
-      <Sentry.ErrorBoundary showDialog {...this.props}>
+      <Sentry.ErrorBoundary showDialog={showDialog} {...props}>
         {this.props.children}
       </Sentry.ErrorBoundary>
     );
   }
 }
 
-interface Props {
+export type ErrorBoundaryProps = React.ComponentProps<typeof Sentry.ErrorBoundary> & {
   identifier?: string;
   children?: React.ReactNode;
-}
+};
 
-interface State {
+interface ErrorBoundaryState {
   error: Error | string | null;
   hasError: boolean;
 }
