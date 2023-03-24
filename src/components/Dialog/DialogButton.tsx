@@ -1,8 +1,7 @@
 import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import React from "react";
+import Button, { type ButtonProps } from "@mui/material/Button";
 
-export const DialogButton = (buttonProps: React.ComponentProps<typeof StyledDialogButton>) => (
+export const DialogButton = (buttonProps: ButtonProps) => (
   <StyledDialogButton className="dialog-button" {...buttonProps}></StyledDialogButton>
 );
 
