@@ -6,7 +6,7 @@ import { styled } from "@mui/material/styles";
 export const ShimmerBox = ({
   children,
   ...props
-}: { children: React.ReactNode } & React.ComponentPropsWithoutRef<"div">) => (
+}: React.ComponentProps<typeof StyledShimmerBox>) => (
   <StyledShimmerBox className="shimmer-box shimmer-box-bg" {...props}>
     <div className="shimmer-box shimmer-box-child">{children}</div>
   </StyledShimmerBox>
