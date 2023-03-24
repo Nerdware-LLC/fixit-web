@@ -1,6 +1,6 @@
 // import { useQuery } from "@apollo/client/react/hooks";
 // import { QUERIES } from "@graphql";
-import { Avatar } from "./Avatar";
+import { Avatar, type AvatarProps } from "./Avatar";
 import { MOCK_USERS } from "@/__tests__/mockItems"; // FIXME rm this import of mock data
 
 /**
@@ -11,7 +11,7 @@ import { MOCK_USERS } from "@/__tests__/mockItems"; // FIXME rm this import of m
  * If the query has already been performed by a parent component, use
  * `Avatar` instead so the cache isn't burdened by duplicate queries.
  */
-export const UserAvatar = (props: React.ComponentProps<typeof Avatar>) => {
+export const UserAvatar = (props: AvatarProps) => {
   // const { data } = useQuery(QUERIES.MY_PROFILE);
 
   return (

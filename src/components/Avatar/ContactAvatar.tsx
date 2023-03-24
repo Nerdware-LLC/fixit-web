@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
-import { Avatar } from "./Avatar";
+import { Avatar, type AvatarProps } from "./Avatar";
 import type { UserProfile } from "@types";
 
 /**
@@ -21,7 +21,7 @@ export const ContactAvatar = ({
   contact: { id: string; handle: string; profile: UserProfile };
   viewContactOnClick?: boolean;
   showDisplayName?: boolean;
-} & React.ComponentProps<typeof Avatar>) => {
+} & AvatarProps) => {
   const nav = useNavigate();
 
   const commonAvatarProps = {

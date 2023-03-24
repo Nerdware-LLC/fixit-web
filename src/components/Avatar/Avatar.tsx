@@ -1,6 +1,6 @@
 import { forwardRef, useRef, type ForwardedRef } from "react";
 import { styled } from "@mui/material/styles";
-import MuiAvatar from "@mui/material/Avatar";
+import MuiAvatar, { type AvatarProps as MuiAvatarProps } from "@mui/material/Avatar";
 import Text from "@mui/material/Typography";
 import type { UserProfile } from "@types";
 
@@ -19,7 +19,6 @@ export const Avatar = forwardRef<MaybeAvatarRef, AvatarProps>(function Avatar(
     profile,
     imageSrc,
     showDisplayName = false,
-    onClick,
     containerProps = {},
     avatarProps = {},
     ...props
@@ -31,12 +30,11 @@ export const Avatar = forwardRef<MaybeAvatarRef, AvatarProps>(function Avatar(
   const avatarRef = ref || localRef;
 
   return (
-    <AvatarContainer className="avatar-container" isClickable={!!onClick} {...containerProps}>
+    <AvatarContainer className="avatar-container" {...containerProps}>
       <MuiAvatar
         ref={avatarRef}
-        alt={profile?.displayName ?? "User Avatar"}
+        alt={profile?.displayName}
         src={imageSrc || profile?.photoUrl}
-        onClick={onClick}
         {...avatarProps}
         {...props}
       >
@@ -54,34 +52,28 @@ export const Avatar = forwardRef<MaybeAvatarRef, AvatarProps>(function Avatar(
   );
 });
 
-const AvatarContainer = styled("div", {
-  shouldForwardProp: (propName) => propName !== "isClickable"
-})<{ isClickable: boolean }>(({ theme: { palette }, isClickable }) => ({
-  height: "100%",
-  width: "100%",
+const AvatarContainer = styled("div")({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
 
-  "& > .MuiAvatar-root": {
-    overflow: "hidden !important", // <-- ensure can't be overridden
-    background: `-webkit-linear-gradient(135deg, ${palette.primary.dark} 30%, ${palette.primary.light})`,
-    "&:hover": {
-      cursor: isClickable ? "pointer" : "auto"
-    }
-  },
-  "& > .MuiTypography-root": {
-    pointerEvents: "none",
-    marginLeft: "0.5rem"
+  "& > .avatar-display-name": {
+    maxHeight: "2.5rem", // height of the MuiAvatar
+    marginLeft: "0.5rem",
+    lineHeight: "1.25rem", // half the height of the avatar, allows for 2 lines
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    WebkitLineClamp: 2,
+    pointerEvents: "none"
   }
-}));
+});
 
-type AvatarProps = {
+export type AvatarProps = {
   profile?: UserProfile;
   imageSrc?: string;
   showDisplayName?: boolean;
-  containerProps?: Omit<React.ComponentProps<typeof AvatarContainer>, "isClickable">;
-  avatarProps?: React.ComponentProps<typeof MuiAvatar>;
-} & React.ComponentProps<typeof MuiAvatar>;
+  containerProps?: React.ComponentProps<typeof AvatarContainer>;
+  avatarProps?: MuiAvatarProps;
+} & MuiAvatarProps;
 
 type MaybeAvatarRef = HTMLDivElement | null;
