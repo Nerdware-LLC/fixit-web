@@ -1,1 +1,0 @@
-export { FileInvoiceDollarIcon } from "./FileInvoiceDollarIcon";

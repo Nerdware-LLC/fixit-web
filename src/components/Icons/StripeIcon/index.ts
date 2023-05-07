@@ -1,1 +1,0 @@
-export { StripeIcon } from "./StripeIcon";
