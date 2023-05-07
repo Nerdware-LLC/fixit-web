@@ -4,7 +4,7 @@ import {
   errorLink,
   getAuthTokenLink,
   //   loggerLink,
-  retryLink
+  retryLink,
 } from "./links";
 
 // TODO add apollo-link-rest and delete httpService & authService
@@ -14,7 +14,7 @@ export const apolloLink = ApolloLink.from([
   getAuthTokenLink,
   retryLink,
   errorLink,
-  apiHttpLink
+  apiHttpLink,
 ]);
 
 /*

@@ -6,7 +6,7 @@ export const retryLink = new RetryLink({
   delay: {
     initial: 300,
     max: Infinity,
-    jitter: true
+    jitter: true,
   },
   attempts: {
     max: 5,
@@ -19,6 +19,6 @@ export const retryLink = new RetryLink({
       )
         ? false
         : true;
-    }
-  }
+    },
+  },
 });

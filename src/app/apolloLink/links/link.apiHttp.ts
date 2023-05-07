@@ -1,6 +1,5 @@
 import { HttpLink } from "@apollo/client/link/http";
-import { ENV } from "@config";
 
 export const apiHttpLink = new HttpLink({
-  uri: `${ENV.API_BASE_URL}/api`
+  uri: `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_BASE_URI}/api`,
 });

@@ -1,8 +1,11 @@
-import { onError } from "@apollo/client/link/error";
 import { toast } from "react-toastify";
+import { onError } from "@apollo/client/link/error";
 import stripAnsi from "strip-ansi";
-import { logger, storage } from "@utils";
-import { isAuthenticatedStore, isActiveAccountStore, isConnectOnboardingNeededStore } from "@cache";
+import { isActiveAccountStore } from "@cache/isActiveAccountStore";
+import { isAuthenticatedStore } from "@cache/isAuthenticatedStore";
+import { isConnectOnboardingNeededStore } from "@cache/isConnectOnboardingNeededStore";
+import { logger } from "@utils/logger";
+import { storage } from "@utils/storage";
 import type { GraphQLErrorExtensions } from "graphql";
 
 export const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -21,7 +24,7 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
         [
           "[GraphQL Error]",
           `Status Code: ${stripAnsi(error.extensions.code as any)}`,
-          `Message:     ${stripAnsi(error.message)}`
+          `Message:     ${stripAnsi(error.message)}`,
         ].join("\n\t")
       );
 
@@ -40,7 +43,7 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
     // If !!networkError but no statusCode, show network error msg
     if (!statusCode) {
       toast.error("A network error occurred - please check your connection and try again.", {
-        toastId: "network-error"
+        toastId: "network-error",
       });
     } else {
       // If !!statusCode, run the code's associated handler
@@ -60,7 +63,7 @@ const handle400 = (extensions?: GraphQLErrorExtensions) => {
     extensions && Array.isArray(extensions?.invalidArgs) && extensions.invalidArgs.length > 0
       ? [
           "Invalid values were provided for the fields listed below - please upade your input and try again.",
-          ...extensions.invalidArgs
+          ...extensions.invalidArgs,
         ].join("\n\t • ")
       : "Invalid input provided - please upade your input and try again.";
 
@@ -69,12 +72,12 @@ const handle400 = (extensions?: GraphQLErrorExtensions) => {
 
 const handle401 = () => {
   // Token is expired. Delete token, reset cache.
-  storage.removeAuthToken();
+  storage.authToken.remove();
   isAuthenticatedStore.set(false);
   isActiveAccountStore.set(false);
   isConnectOnboardingNeededStore.set(false);
   toast.info("Login has expired - please sign in again.", {
-    toastId: "unauthenticated-please-login-again"
+    toastId: "unauthenticated-please-login-again",
   });
   // Nav to login page (window-API used since Apollo operates outside of the RRD router context)
   window.location.replace(`${window.location.origin}/login`);
@@ -82,6 +85,6 @@ const handle401 = () => {
 
 const handle500orUnknown = () => {
   toast.error("Whoops! An unexpected error occurred - please try again later.", {
-    toastId: "unexpected-error-try-again-later"
+    toastId: "unexpected-error-try-again-later",
   });
 };
