@@ -4,6 +4,6 @@ import { apolloCache } from "./apolloCache";
 export const persistCacheAsync = async () => {
   await persistCache({
     cache: apolloCache,
-    storage: localStorage
+    storage: localStorage,
   });
 };

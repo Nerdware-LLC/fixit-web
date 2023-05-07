@@ -1,9 +1,11 @@
 import { InMemoryCache } from "@apollo/client/cache";
-import { typePolicies } from "./typePolicies";
+import { queryTypePolicies } from "./typePolicies";
 
 export const apolloCache = new InMemoryCache({
-  typePolicies,
+  typePolicies: {
+    ...queryTypePolicies,
+  },
   possibleTypes: {
-    FixitUser: ["Contact", "User"]
-  }
+    FixitUser: ["Contact", "User"],
+  },
 });
