@@ -78,15 +78,14 @@ sequenceDiagram
 - [`.github`](/.github) &nbsp; &nbsp;&nbsp; GitHub Actions and other GitHub-related files.
 - [`public`](/public) &nbsp; &nbsp; &nbsp;&nbsp; HTML, favicon, and other dist files.
 - [`src`](/src) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Source code root dir.
-  - [`src/app`](/src/app) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Top-level app structure JSX.
+  - [`src/app`](/src/app) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; High-level app features and structure.
   - [`src/components`](/src/components) &nbsp; Individual JSX components.
-  - [`src/config`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Init logic and run-time env vars object.
   - [`src/graphql`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
   - [`src/hooks`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
   - [`src/images`](/src/images) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; In-app image assets (included with build bundle).
   - [`src/layouts`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
-  - [`src/navigation`](/src/navigation) &nbsp; Routers and other nav-related components.
   - [`src/pages`](/src/pages) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Application pages (nav targets).
+  - [`src/routers`](/src/routers) &nbsp; Routers and other nav-related components.
   - [`src/services`](/src/services) &nbsp; &nbsp; &nbsp; HTTP handlers for the Fixit and Stripe APIs.
   - [`src/types`](/src/types) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; TypeScript types and custom prop-types.
   - [`src/utils`](/src/utils) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Helper functions for formatting, logging, etc.
