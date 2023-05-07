@@ -1,9 +1,9 @@
 import Text from "@mui/material/Typography";
-import { TextExternalLink } from "@components";
-import { LegalPolicyPageLayout, PolicyToC } from "@layouts/LegalPolicyPageLayout";
-import { ToS_SECTIONS } from "./TermsOfServiceSections";
+import { Anchor } from "@components/Navigation/Anchor";
+import { LegalPolicyPageLayout } from "@layouts/LegalPolicyPageLayout";
+import { PolicyToC } from "@layouts/LegalPolicyPageLayout/PolicyToC";
 import { PolicySection } from "./PolicySection";
-import React from "react";
+import { ToS_SECTIONS } from "./TermsOfServiceSections";
 
 export const TermsOfServicePage = () => (
   <LegalPolicyPageLayout pageTitle="Terms of Service" lastUpdated="January 01, 2022">
@@ -15,14 +15,14 @@ export const TermsOfServicePage = () => (
       <Text>
         These Terms of Service constitute a legally binding agreement made between you, whether
         personally or on behalf of an entity (“you”) and Nerdware, LLC ("Company", “we”, “us”, or
-        “our”), concerning your access to and use of the{" "}
-        <TextExternalLink href="https://gofixit.app" /> website as well as any other media form,
-        media channel, mobile website or mobile application related, linked, or otherwise connected
-        thereto (collectively, the “Site”). We are registered in Ohio, United States and have our
-        registered office at 4694 Cemetery Road, #398, Hilliard, OH 43026. You agree that by
-        accessing the Site, you have read, understood, and agree to be bound by all of these Terms
-        of Service. IF YOU DO NOT AGREE WITH ALL OF THESE TERMS OF SERVICE, THEN YOU ARE EXPRESSLY
-        PROHIBITED FROM USING THE SITE AND YOU MUST DISCONTINUE USE IMMEDIATELY.
+        “our”), concerning your access to and use of the <Anchor href="https://gofixit.app" />{" "}
+        website as well as any other media form, media channel, mobile website or mobile application
+        related, linked, or otherwise connected thereto (collectively, the “Site”). We are
+        registered in Ohio, United States and have our registered office at 4694 Cemetery Road,
+        #398, Hilliard, OH 43026. You agree that by accessing the Site, you have read, understood,
+        and agree to be bound by all of these Terms of Service. IF YOU DO NOT AGREE WITH ALL OF
+        THESE TERMS OF SERVICE, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SITE AND YOU MUST
+        DISCONTINUE USE IMMEDIATELY.
       </Text>
       <Text>
         Supplemental terms and conditions or documents that may be posted on the Site from time to
@@ -148,18 +148,18 @@ export const TermsOfServicePage = () => (
           The language in this paragraph is required by Stripe, see link below.
           https://stripe.com/docs/connect/updating-accounts#tos-acceptance
         */}
-        Payment processing services for users on Fixit are provided by Stripe and are subject to the
-        <TextExternalLink href="https://stripe.com/connect-account/legal/full">
+        Payment processing services for users on Fixit are provided by Stripe and are subject to the{" "}
+        <Anchor href="https://stripe.com/connect-account/legal/full">
           Stripe Connected Account Agreement
-        </TextExternalLink>
+        </Anchor>
         , which includes the{" "}
-        <TextExternalLink href="https://stripe.com/legal">Stripe Terms of Service</TextExternalLink>{" "}
-        (collectively, the “Stripe Services Agreement”). By agreeing to these terms, or continuing
-        to operate as a user on Fixit, you agree to be bound by the Stripe Services Agreement, as
-        the same may be modified by Stripe from time to time. As a condition of Fixit enabling
-        payment processing services through Stripe, you agree to provide Fixit accurate and complete
-        information about you and your business, and you authorize Fixit to share it and transaction
-        information related to your use of the payment processing services provided by Stripe.
+        <Anchor href="https://stripe.com/legal">Stripe Terms of Service</Anchor> (collectively, the
+        “Stripe Services Agreement”). By agreeing to these terms, or continuing to operate as a user
+        on Fixit, you agree to be bound by the Stripe Services Agreement, as the same may be
+        modified by Stripe from time to time. As a condition of Fixit enabling payment processing
+        services through Stripe, you agree to provide Fixit accurate and complete information about
+        you and your business, and you authorize Fixit to share it and transaction information
+        related to your use of the payment processing services provided by Stripe.
       </Text>
     </PolicySection>
 
@@ -412,8 +412,8 @@ export const TermsOfServicePage = () => (
         copyright or trademark) posted by us or the licensors of the application; (5) use the
         application for any revenue generating endeavor, commercial enterprise, or other purpose for
         which it is not designed or intended; (6) make the application available over a network or
-        other environment permitting access or use by multiple devices or users at the same time;(7)
-        use the application for creating a product, service, or software that is, directly or
+        other environment permitting access or use by multiple devices or users at the same time;
+        (7) use the application for creating a product, service, or software that is, directly or
         indirectly, competitive with or in any way a substitute for the application; (8) use the
         application to send automated queries to any website or to send any unsolicited commercial
         e-mail; or (9) use any proprietary information or any of our interfaces or our other
@@ -581,13 +581,13 @@ export const TermsOfServicePage = () => (
     <PolicySection header="PRIVACY POLICY">
       <Text>
         We care about data privacy and security. Please review our Privacy Policy:{" "}
-        <TextExternalLink href="https://gofixit.app/privacy" />. By using the Site, you agree to be
-        bound by our Privacy Policy, which is incorporated into these Terms of Service. Please be
-        advised the Site is hosted in the United States. If you access the Site from any other
-        region of the world with laws or other requirements governing personal data collection, use,
-        or disclosure that differ from applicable laws in the United States, then through your
-        continued use of the Site, you are transferring your data to the United States, and you
-        agree to have your data transferred to and processed in the United States.
+        <Anchor href="https://gofixit.app/privacy" />. By using the Site, you agree to be bound by
+        our Privacy Policy, which is incorporated into these Terms of Service. Please be advised the
+        Site is hosted in the United States. If you access the Site from any other region of the
+        world with laws or other requirements governing personal data collection, use, or disclosure
+        that differ from applicable laws in the United States, then through your continued use of
+        the Site, you are transferring your data to the United States, and you agree to have your
+        data transferred to and processed in the United States.
       </Text>
     </PolicySection>
 
@@ -886,7 +886,7 @@ export const TermsOfServicePage = () => (
           width: "100%",
           paddingLeft: "4rem",
           display: "flex",
-          flexDirection: "column"
+          flexDirection: "column",
         }}
       >
         <b>Nerdware, LLC</b>

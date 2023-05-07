@@ -1,32 +1,41 @@
-import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "@components";
-import { getDateAndTime, formatNum } from "@utils";
-import type { Invoice } from "@types";
+import { ContactAvatar } from "@components/Avatar/ContactAvatar";
+import { Link } from "@components/Navigation/Link";
+import { getDateAndTime } from "@utils/dateTime";
+import { formatNum } from "@utils/formatNum";
+import type { Invoice } from "@graphql/types";
+import type { DataGridProps, GridColDef } from "@mui/x-data-grid";
 
 type ColumnFieldKeys = "listName" | keyof Invoice;
-type ColumnConfig = React.ComponentProps<typeof DataGrid>["columns"][number];
 
 const COLUMNS = Object.fromEntries(
   Object.entries(
     {
       listName: {
         headerName: "Sent/Received",
-        valueGetter: ({ row }) => (row.isItemOwnedByUser === true ? "Sent" : "Received"),
+        valueGetter: ({ row: inv }) => (inv.isItemOwnedByUser === true ? "Sent" : "Received"),
         minWidth: 115,
         headerAlign: "left",
-        align: "center"
+        align: "center",
       },
       createdBy: {
         headerName: "Created By",
-        valueGetter: ({ row }) => row.createdBy.profile?.displayName || row.createdBy.handle,
+        valueGetter: ({ row: inv }) => inv.createdBy.profile?.displayName || inv.createdBy.handle,
+        valueFormatter: ({ value }) => value, // <-- necessary for export/print on cols with renderCell
+        renderCell: ({ row: inv }) => (
+          <ContactAvatar contact={inv.createdBy as any} viewContactOnClick={false} />
+        ),
         flex: 1,
-        minWidth: 175
+        minWidth: 175,
       },
       assignedTo: {
         headerName: "Assigned To",
-        valueGetter: ({ row }) => row.assignedTo.profile?.displayName || row.assignedTo.handle,
+        valueGetter: ({ row: inv }) => inv.assignedTo.profile?.displayName || inv.assignedTo.handle,
+        valueFormatter: ({ value }) => value, // <-- necessary for export/print on cols with renderCell
+        renderCell: ({ row: inv }) => (
+          <ContactAvatar contact={inv.assignedTo as any} viewContactOnClick={false} />
+        ),
         flex: 1,
-        minWidth: 175
+        minWidth: 175,
       },
       amount: {
         headerName: "Amount",
@@ -34,63 +43,61 @@ const COLUMNS = Object.fromEntries(
         flex: 0.5,
         minWidth: 100,
         headerAlign: "right",
-        align: "right"
+        align: "right",
       },
       status: {
         headerName: "Status",
         flex: 0.5,
         minWidth: 115,
         headerAlign: "center",
-        align: "center"
+        align: "center",
       },
       workOrder: {
         headerName: "Work Order",
         flex: 0.5,
         align: "center",
         headerAlign: "center",
-        valueGetter: ({ row }) => row?.workOrder?.id,
+        valueGetter: ({ row: inv }) => inv?.workOrder?.id,
         valueFormatter: ({ value }) => value, // <-- necessary for export/print on cols with renderCell
-        renderCell: ({ value: workOrderID, row }) =>
+        renderCell: ({ value: workOrderID, row: inv }) =>
           workOrderID && (
             <Link
               to={`/home/workorders/${encodeURIComponent(workOrderID)}`}
+              state={{ isItemOwnedByUser: !inv.isItemOwnedByUser }} // WO ownership is always the inverse of INV ownership
               onClick={(event: React.MouseEvent<HTMLAnchorElement>) => event.stopPropagation()}
-              state={{
-                isItemOwnedByUser: row.isItemOwnedByUser // Invoice INBOX = WorkOrder SENT
-              }}
-              style={{ fontSize: "0.925rem", lineHeight: "1.25rem" }}
+              style={{ fontSize: "0.875rem", lineHeight: "1.25rem" }}
             >
               View Work Order
             </Link>
-          )
+          ),
       },
       createdAt: {
         headerName: "Created",
         type: "dateTime",
         valueFormatter: ({ value }) => getDateAndTime(value),
-        flex: 1
+        flex: 1,
       },
       updatedAt: {
         headerName: "Last Updated",
         type: "dateTime",
         valueFormatter: ({ value }) => getDateAndTime(value),
-        flex: 1
-      }
-    } as Record<ColumnFieldKeys, Partial<ColumnConfig>>
+        flex: 1,
+      },
+    } as Record<ColumnFieldKeys, Partial<GridColDef>>
     // Map each column entry to an object with "field" and some defaults:
-  ).map(([columnFieldKey, columnConfig]) => [
+  ).map(([columnFieldKey, GridColDef]) => [
     columnFieldKey,
     {
       field: columnFieldKey,
       type: "string",
       editable: false,
-      minWidth: columnConfig.type === "date" ? 100 : columnConfig.type === "dateTime" ? 160 : 150,
+      minWidth: GridColDef.type === "date" ? 100 : GridColDef.type === "dateTime" ? 160 : 150,
       maxWidth: 600,
-      ...columnConfig // <-- explicit configs override above defaults
-    }
+      ...GridColDef, // <-- explicit configs override above defaults
+    },
   ])
-) as Record<ColumnFieldKeys, ColumnConfig>;
+) as Record<ColumnFieldKeys, GridColDef>;
 
-export const invoiceTableProps: Omit<React.ComponentProps<typeof DataGrid>, "rows"> = {
-  columns: Object.values(COLUMNS)
+export const invoiceTableProps: Omit<DataGridProps, "rows"> = {
+  columns: Object.values(COLUMNS),
 };

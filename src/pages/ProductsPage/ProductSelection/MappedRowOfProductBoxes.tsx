@@ -1,7 +1,6 @@
-import { checkoutValuesStore } from "@app";
-import { PRICE_INFO } from "./productPricingInfo";
+import { checkoutValuesStore, type StoredCheckoutValues } from "@cache/checkoutValuesStore";
 import { ProductInfoBox } from "./ProductInfoBox";
-import type { StoredCheckoutValues } from "@app";
+import { PRICE_INFO } from "./productPricingInfo";
 import type { UserSubscriptionPriceLabel } from "@types";
 
 const PRICE_INFO_ENTRIES = Object.entries(PRICE_INFO) as Array<
@@ -21,26 +20,24 @@ const PRICE_INFO_ENTRIES = Object.entries(PRICE_INFO) as Array<
  */
 export const MappedRowOfProductBoxes = ({
   selectedSubscription,
-  promoCode
-}: StoredCheckoutValues) => {
-  return (
-    <>
-      {PRICE_INFO_ENTRIES.map(([priceLabel, { PRICE_NAME, PRICE_AMOUNT, PRICE_DESCRIPTION }]) => (
-        <ProductInfoBox
-          key={`ProductInfoDisplay:${priceLabel}`}
-          priceName={PRICE_NAME}
-          priceAmount={PRICE_AMOUNT}
-          priceDescription={PRICE_DESCRIPTION}
-          showMostPopularBadge={priceLabel === "ANNUAL"}
-          isSelected={selectedSubscription === priceLabel}
-          handleClickProduct={() =>
-            checkoutValuesStore.set({
-              selectedSubscription: priceLabel,
-              promoCode: promoCode ?? null
-            })
-          }
-        />
-      ))}
-    </>
-  );
-};
+  promoCode,
+}: StoredCheckoutValues) => (
+  <>
+    {PRICE_INFO_ENTRIES.map(([priceLabel, { PRICE_NAME, PRICE_AMOUNT, PRICE_DESCRIPTION }]) => (
+      <ProductInfoBox
+        key={`ProductInfoDisplay:${priceLabel}`}
+        priceName={PRICE_NAME}
+        priceAmount={PRICE_AMOUNT}
+        priceDescription={PRICE_DESCRIPTION}
+        showMostPopularBadge={priceLabel === "ANNUAL"}
+        isSelected={selectedSubscription === priceLabel}
+        handleClickProduct={() =>
+          checkoutValuesStore.set({
+            selectedSubscription: priceLabel,
+            promoCode: promoCode ?? null,
+          })
+        }
+      />
+    ))}
+  </>
+);

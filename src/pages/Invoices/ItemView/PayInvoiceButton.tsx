@@ -1,19 +1,20 @@
 import { toast } from "react-toastify";
-import Button from "@mui/material/Button";
+import { useMutation } from "@apollo/client/react/hooks";
+import Box from "@mui/material/Box";
+import Button, { type ButtonProps } from "@mui/material/Button";
 import Text from "@mui/material/Typography";
 import PayIcon from "@mui/icons-material/Paid";
-import { useMutation } from "@apollo/client/react/hooks";
-import { MUTATIONS } from "@graphql";
-import { Dialog, ContactAvatar } from "@components";
-import { prettifyStr } from "@utils";
-import type { Invoice } from "@types";
+import { ContactAvatar } from "@components/Avatar/ContactAvatar";
+import { Dialog } from "@components/Dialog";
+import { MUTATIONS } from "@graphql/mutations";
+import { prettifyStr } from "@utils/prettifyStr";
+import type { Invoice } from "@graphql/types";
 
 export const PayInvoiceButton = ({
   invoice,
+  label = "Pay Invoice",
   ...props
-}: {
-  invoice: Invoice;
-} & Partial<React.ComponentProps<typeof Button>>) => {
+}: PayInvoiceButtonProps) => {
   const [payInvoice] = useMutation(MUTATIONS.PAY_INVOICE);
   const { isDialogVisible, openDialog, closeDialog } = Dialog.use();
 
@@ -21,101 +22,101 @@ export const PayInvoiceButton = ({
     return await payInvoice({
       variables: { invoiceID: invoice.id },
       onCompleted: () =>
-        toast.success("Payment successfully submitted 👍", { toastId: "payment-success" })
+        toast.success("Payment successfully submitted 👍", { toastId: "payment-success" }),
     });
   };
 
   return (
     <>
-      <Button startIcon={<PayIcon />} onClick={openDialog} {...props}>
-        Pay Invoice
+      <Button
+        onClick={openDialog}
+        startIcon={<PayIcon />}
+        sx={{
+          height: "2rem",
+          maxHeight: "2rem",
+          padding: "calc(0.5rem + 1px) 1rem calc(0.5rem - 1px) 1rem",
+          whiteSpace: "nowrap",
+          "& > .MuiButton-startIcon": {
+            position: "relative",
+            top: "-1px",
+            marginRight: "0.375rem",
+          },
+        }}
+        {...props}
+      >
+        {label}
       </Button>
       {isDialogVisible && (
         <Dialog
           isVisible={isDialogVisible}
-          title="Confirm Payment:"
+          title="Confirm Payment"
           acceptLabel="SUBMIT PAYMENT"
+          // TODO include info about when the payment will be completed and whatnot
           handleAccept={handlePayInvoice}
           handleCancel={closeDialog}
-          message={
-            <div
-              style={{
-                padding: "0 2rem 0 1rem",
-                display: "grid",
-                gridTemplate: "2fr 1fr / 1fr 2fr",
-                columnGap: "2rem"
-              }}
-            >
-              <div
-                style={{
-                  gridArea: "1 / 1",
-                  display: "flex",
+        >
+          <Box
+            sx={{
+              padding: "0 2rem 0 1rem",
+              display: "grid",
+              gridTemplate: "2fr 1fr / 1fr 2fr",
+              gap: "1rem 2rem", // row col
+
+              "& > div": {
+                // All direct-child divs are flex rows
+                display: "flex",
+                alignItems: "center",
+
+                // All text, font size 1.5rem
+                "& .MuiTypography-root": {
+                  fontSize: "1.5rem",
+                },
+
+                // LEFT COL
+                "&.pay-inv-dialog-left-col": {
                   justifyContent: "flex-end",
-                  alignItems: "center",
-                  marginBottom: "1rem"
-                }}
-              >
-                <Text style={{ float: "right", fontSize: "1.5rem" }}>Recipient:</Text>
-              </div>
+                  "& > .MuiTypography-root": {
+                    float: "right",
+                  },
+                },
 
-              <div
-                style={{
-                  gridArea: "1 / 2",
-                  display: "flex",
+                // RIGHT COL
+                "&.pay-inv-dialog-right-col": {
                   justifyContent: "flex-start",
-                  alignItems: "center",
-                  marginBottom: "1rem"
-                }}
-              >
-                <ContactAvatar
-                  contact={invoice.createdBy}
-                  containerProps={{
-                    sx: {
-                      "& > .MuiAvatar-root": {
-                        height: "3rem",
-                        width: "3rem"
-                      },
-                      "& > .MuiTypography-root": {
-                        fontSize: "1.5rem",
-                        whiteSpace: "nowrap"
-                      }
-                    }
-                  }}
-                />
-              </div>
+                  "& .MuiAvatar-root": {
+                    height: "3rem",
+                    width: "3rem",
+                  },
+                },
 
-              <div
-                style={{
-                  gridArea: "2 / 1",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                  marginBottom: "1rem"
-                }}
-              >
-                <Text style={{ float: "right", fontSize: "1.5rem" }}>Amount:</Text>
-              </div>
-
-              <div
-                style={{
-                  gridArea: "2 / 2",
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                  marginBottom: "1rem"
-                }}
-              >
-                <Text style={{ fontSize: "1.5rem" }}>{prettifyStr.currency(invoice.amount)}</Text>
-              </div>
+                // GRID AREAS
+                "&:first-of-type": { gridArea: "1 / 1" },
+                "&:nth-of-type(2)": { gridArea: "1 / 2" },
+                "&:nth-of-type(3)": { gridArea: "2 / 1" },
+                "&:last-of-type": { gridArea: "2 / 2" },
+              },
+            }}
+          >
+            <div className="pay-inv-dialog-left-col">
+              <Text>Recipient:</Text>
             </div>
-          }
-          style={{
-            // these styles are applied to the Dialog container
-            width: "clamp(35rem, 50vw, 50vw)",
-            margin: "auto"
-          }}
-        />
+            <div className="pay-inv-dialog-right-col">
+              <ContactAvatar contact={invoice.createdBy} />
+            </div>
+            <div className="pay-inv-dialog-left-col">
+              <Text>Amount:</Text>
+            </div>
+            <div className="pay-inv-dialog-right-col">
+              <Text>{prettifyStr.currency(invoice.amount)}</Text>
+            </div>
+          </Box>
+        </Dialog>
       )}
     </>
   );
 };
+
+export type PayInvoiceButtonProps = { invoice: Invoice; label?: string } & Omit<
+  ButtonProps,
+  "onClick" | "startIcon"
+>;

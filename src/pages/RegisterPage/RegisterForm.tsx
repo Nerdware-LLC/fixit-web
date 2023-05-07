@@ -1,15 +1,26 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { object as yupObject, string } from "yup";
 import InputAdornment from "@mui/material/InputAdornment";
-import * as Yup from "yup";
-import { Form, TextInput, PhoneInput, PasswordInput } from "@components";
-import { useAuthService } from "@hooks";
+import { Form } from "@components/Form";
+import { PasswordInput } from "@components/Form/PasswordInput";
+import { PhoneInput } from "@components/Form/PhoneInput";
+import { TextInput } from "@components/Form/TextInput";
+import { useAuthService } from "@hooks/useAuthService";
+import type { RegisterNewUserParams } from "@services/authService";
+
+const toastWelcomeMsg = (additionalInfo?: string) => {
+  toast.success(`Welcome to Fixit${additionalInfo ? ` - ${additionalInfo}` : "!"}`, {
+    toastId: "registerNewUser-success",
+  });
+};
 
 export const RegisterForm = () => {
   const { registerNewUser } = useAuthService();
   const { state: locationState } = useLocation();
   const nav = useNavigate();
 
-  const handleSubmit = async (values: Parameters<typeof registerNewUser>[0]) => {
+  const handleSubmit = async (values: RegisterNewUserParams) => {
     // Add "@" prefix to "handle"
     const { success } = await registerNewUser({ ...values, handle: `@${values.handle}` });
 
@@ -20,13 +31,17 @@ export const RegisterForm = () => {
       products page so they can make their selection.  */
 
       if (!!locationState && Object.prototype.hasOwnProperty.call(locationState, "sub")) {
+        toastWelcomeMsg();
+
         nav("/checkout", { state: locationState });
       } else {
+        toastWelcomeMsg("please select a subscription to get started");
+
         nav("/products", {
           state: {
             isRedirect: true,
-            redirectedFrom: "/register" // <-- ensures "select a sub" msg isn't shown twice
-          }
+            redirectedFrom: "/register", // <-- ensures "select a sub" msg isn't shown twice
+          },
         });
       }
     }
@@ -37,16 +52,17 @@ export const RegisterForm = () => {
       initialValues={REGISTER_FORM.INITIAL_VALUES}
       validationSchema={REGISTER_FORM.SCHEMA}
       onSubmit={handleSubmit}
+      sx={{ all: "inherit" }}
     >
       <TextInput
         id="handle"
         InputProps={{
-          startAdornment: <InputAdornment position="start">@</InputAdornment>
+          startAdornment: <InputAdornment position="start">@</InputAdornment>,
         }}
       />
       <PhoneInput id="phone" />
-      <TextInput id="email" />
-      <PasswordInput id="password" />
+      <TextInput id="email" type="email" autoComplete="email" />
+      <PasswordInput id="password" autoComplete="new-password" />
       <Form.SubmitButton />
     </Form>
   );
@@ -64,52 +80,53 @@ const REGISTER_FORM = {
       givenName: "",
       familyName: "",
       businessName: "",
-      photoUrl: ""
-    }
+      photoUrl: "",
+    },
   },
-  SCHEMA: Yup.object().shape(
+  SCHEMA: yupObject().shape(
     {
-      handle: Yup.string()
+      handle: string()
         .matches(
-          /^[a-zA-Z0-9_]{3,50}$/,
-          "Must be between 3-50 characters, and only contain letters, numbers, and underscores."
+          /^[a-z0-9_]{3,50}$/i,
+          "Must be between 3-50 characters, and only contain letters, numbers, and underscores"
         )
         .required("Please choose a handle (this is how other users will identify you)"),
-      phone: Yup.string()
-        .matches(/^\d{10}$/, "Must be a valid phone number.")
+      phone: string()
+        .matches(/^\(\d{3}\) \d{3}-\d{4}$/, "Must be a valid US phone number")
         .required("Please provide a phone number"),
-      email: Yup.string()
+      email: string()
         .email("Invalid email")
-        .max(50, "Email must be fewer than 50 characters.")
+        .max(50, "Email must be fewer than 50 characters")
         .required("Please provide an email"),
-      password: Yup.string().when(["googleID", "googleAccessToken"], {
+      password: string().when(["googleID", "googleAccessToken"], {
         is: (googleID?: string, googleAccessToken?: string) => !googleID && !googleAccessToken,
-        then: Yup.string()
-          .min(6, "Must be at least 6 characters long")
-          .max(45, "Must be fewer than 45 characters long")
-          .required("Please enter a password"),
-        otherwise: Yup.string()
+        then: () =>
+          string()
+            .min(6, "Must be at least 6 characters long")
+            .max(45, "Must be fewer than 45 characters long")
+            .required("Please enter a password"),
+        otherwise: () => string(),
       }),
-      googleAccessToken: Yup.string().when("password", {
+      googleAccessToken: string().when("password", {
         is: "",
-        then: Yup.string().required(),
-        otherwise: Yup.string()
+        then: () => string().required(),
+        otherwise: () => string(),
       }),
-      googleID: Yup.string().when("password", {
+      googleID: string().when("password", {
         is: "",
-        then: Yup.string().required(),
-        otherwise: Yup.string()
+        then: () => string().required(),
+        otherwise: () => string(),
       }),
-      profile: Yup.object({
-        givenName: Yup.string().max(50).notRequired(),
-        familyName: Yup.string().max(50).notRequired(),
-        businessName: Yup.string().max(50).notRequired(),
-        photoUrl: Yup.string().url().max(255).notRequired()
-      }).defined()
+      profile: yupObject({
+        givenName: string().max(50).notRequired(),
+        familyName: string().max(50).notRequired(),
+        businessName: string().max(50).notRequired(),
+        photoUrl: string().url().max(255).notRequired(),
+      }).defined(),
     },
     [
       ["password", "googleID"],
-      ["password", "googleAccessToken"]
+      ["password", "googleAccessToken"],
     ]
-  )
+  ),
 };

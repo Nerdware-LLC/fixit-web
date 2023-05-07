@@ -1,13 +1,13 @@
-import { checkoutValuesStore, type CheckoutValues } from "@app";
-import { StripeForm } from "@components";
-import { useStripeService } from "@hooks";
+import { checkoutValuesStore, type CheckoutValues } from "@cache/checkoutValuesStore";
+import { StripeForm } from "@components/StripeForm";
+import { useStripeService } from "@hooks/useStripeService";
 import type { PaymentMethod } from "@stripe/stripe-js";
 
 /**
  * Displays a form with a Stripe card input.
  */
 export const CheckoutForm = ({
-  onCompleteCheckout
+  onCompleteCheckout,
 }: {
   onCompleteCheckout: (success: boolean) => Promise<void>;
 }) => {
@@ -18,7 +18,7 @@ export const CheckoutForm = ({
     const { success } = await submitPaymentForSubscription({
       selectedSubscription,
       paymentMethodID: paymentMethod.id,
-      ...(!!promoCode && { promoCode })
+      ...(!!promoCode && { promoCode }),
     });
 
     await onCompleteCheckout(success);
@@ -31,7 +31,7 @@ export const CheckoutForm = ({
         padding: "1rem 0",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "flex-end"
+        justifyContent: "flex-end",
       }}
     />
   );

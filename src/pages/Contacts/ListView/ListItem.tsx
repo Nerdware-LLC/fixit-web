@@ -1,7 +1,11 @@
+import { styled } from "@mui/material/styles";
 import ListItemText from "@mui/material/ListItemText";
 import Text from "@mui/material/Typography";
-import { CoreListItemLayout } from "@layouts";
-import type { Contact } from "@types";
+import {
+  CoreListItemLayout,
+  type CoreListItemLayoutProps,
+} from "@layouts/CoreItemsListView/CoreListItemLayout";
+import type { Contact } from "@graphql/types";
 
 export const ContactsListItem = ({
   item: contact,
@@ -9,41 +13,35 @@ export const ContactsListItem = ({
   ...props
 }: {
   item?: Contact;
-  onClick?: React.ComponentProps<typeof CoreListItemLayout>["onClick"];
+  onClick?: CoreListItemLayoutProps["onClick"];
 }) => {
   if (!contact || !onClick) return null;
 
   return (
-    <CoreListItemLayout
+    <StyledCoreListItemLayout
       user={contact}
       onClick={onClick}
       itemID={contact.id}
       divider={false}
-      sx={({ palette }) => ({
-        ...(palette.mode === "dark"
-          ? {
-              backgroundColor: palette.background.paper
-            }
-          : {
-              border: `2px solid ${palette.divider}`
-            }),
-        borderRadius: "0.5rem",
-        "& .MuiButtonBase-root": {
-          borderRadius: "0.5rem"
-        }
-      })}
       {...props}
     >
       <ListItemText
-        primary={
-          <Text fontSize="1.05rem">{contact.profile?.displayName ?? `User ${contact.handle}`}</Text>
-        }
-        secondary={
-          <Text fontSize="0.925rem" color="text.secondary">
-            {contact.handle}
-          </Text>
-        }
+        primary={<Text>{contact.handle}</Text>}
+        secondary={<Text>{contact.profile?.displayName ?? `User ${contact.handle}`}</Text>}
       />
-    </CoreListItemLayout>
+    </StyledCoreListItemLayout>
   );
 };
+
+const StyledCoreListItemLayout = styled(CoreListItemLayout)(({ theme: { palette } }) => ({
+  borderRadius: "0.5rem",
+
+  ...(palette.mode === "dark"
+    ? { backgroundColor: palette.background.paper }
+    : { border: `2px solid ${palette.divider}` }),
+
+  "& .MuiButtonBase-root": {
+    padding: "0.5rem 1rem !important",
+    borderRadius: "0.5rem",
+  },
+}));

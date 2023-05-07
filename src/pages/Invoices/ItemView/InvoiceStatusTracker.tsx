@@ -1,15 +1,15 @@
 import Text from "@mui/material/Typography";
 import DollarSignIcon from "@mui/icons-material/AttachMoney";
-import { usePageLayoutContext } from "@app";
-import { getDateAndTime } from "@utils";
-import { Stepper, type StepperProps, type StepperStepConfig } from "@components";
-import { INV_STATUS_ICON_REACT_NODES } from "@components/Icons";
+import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
+import { INV_STATUS_ICON_REACT_NODES } from "@components/Icons/InvoiceStatusIcon";
+import { Stepper, type StepperProps, type StepperStepConfig } from "@components/Stepper";
+import { getDateAndTime } from "@utils/dateTime";
 import { PayInvoiceButton } from "./PayInvoiceButton";
-import type { Invoice } from "@types";
+import type { Invoice } from "@graphql/types";
 
 export const InvoiceStatusTracker = ({
   invoice,
-  isItemOwnedByUser
+  isItemOwnedByUser,
 }: {
   invoice: Invoice;
   isItemOwnedByUser: boolean;
@@ -24,7 +24,7 @@ export const InvoiceStatusTracker = ({
     // Step 1: Invoice created
     {
       ...statusStepConstants.INVOICE_CREATED,
-      caption: getDateAndTime(invoice.createdAt)
+      caption: getDateAndTime(invoice.createdAt),
     },
 
     // Step 2: OPEN/DISPUTED
@@ -35,7 +35,7 @@ export const InvoiceStatusTracker = ({
             ...(isItemOwnedByUser
               ? {
                   label: "Awaiting Payment",
-                  caption: `Status: OPEN\nUpdated: ${getDateAndTime(invoice.updatedAt)}`
+                  caption: `Status: OPEN\nUpdated: ${getDateAndTime(invoice.updatedAt)}`,
                 }
               : {
                   caption: "Status: OPEN",
@@ -47,19 +47,19 @@ export const InvoiceStatusTracker = ({
                         variant="outlined"
                         sx={{
                           "& .MuiButton-startIcon": {
-                            display: "none"
-                          }
+                            display: "none",
+                          },
                         }}
                       />
-                    )
-                  }
-                })
-          })
+                    ),
+                  },
+                }),
+          }),
         }
       : {
           ...statusStepConstants.DISPUTED,
           caption: `Status: DISPUTED\nUpdated: ${getDateAndTime(invoice.updatedAt)}`,
-          showErrorStyling: true
+          showErrorStyling: true,
         },
 
     // Step 3: Invoice closed
@@ -68,9 +68,9 @@ export const InvoiceStatusTracker = ({
       ...(invoice.status === "CLOSED" && {
         /* TODO Once Invoice has paymentDate/paidDate/paidInFullDate/closedDate
         or whatever, change below caption to use that value instead.  */
-        caption: getDateAndTime(invoice.updatedAt)
-      })
-    }
+        caption: getDateAndTime(invoice.updatedAt),
+      }),
+    },
   ];
 
   return (
@@ -86,16 +86,16 @@ const STATUS_STEP_LABEL_PROPS = Object.fromEntries(
   Object.entries({
     INVOICE_CREATED: INV_STATUS_ICON_REACT_NODES.OPEN,
     OPEN: <DollarSignIcon />,
-    CLOSED: INV_STATUS_ICON_REACT_NODES.CLOSED
+    CLOSED: INV_STATUS_ICON_REACT_NODES.CLOSED,
   }).map(([stepName, stepIconNode]) => [
     stepName,
     {
       stepLabelProps: {
         StepIconProps: {
-          icon: stepIconNode
-        }
-      }
-    }
+          icon: stepIconNode,
+        },
+      },
+    },
   ])
 ) as Record<InvoiceStatusTrackerStepNames, Pick<StepperStepConfig, "stepLabelProps">>;
 
@@ -106,32 +106,32 @@ const INVOICE_STATUS_STEP_CONSTANTS: Record<
   SENDER: {
     INVOICE_CREATED: {
       label: "Invoice Submitted",
-      ...STATUS_STEP_LABEL_PROPS.INVOICE_CREATED
+      ...STATUS_STEP_LABEL_PROPS.INVOICE_CREATED,
     },
     OPEN: {
       label: "Invoice Payment",
       content: {
-        description: "You will be notified when payment has been submitted."
+        description: "You will be notified when payment has been submitted.",
       },
-      ...STATUS_STEP_LABEL_PROPS.OPEN
+      ...STATUS_STEP_LABEL_PROPS.OPEN,
     },
     DISPUTED: {
       label: "Recipient Declined Payment Request",
       content: {
-        description: "Your payment request was denied."
+        description: "Your payment request was denied.",
         /* TODO Add more text, and maybe a link to more info or an action btn to contact the
         user who disputed/rejected their payment request; something to offer recourse.  */
-      }
+      },
     },
     CLOSED: {
       label: "Payment Received",
-      ...STATUS_STEP_LABEL_PROPS.CLOSED
-    }
+      ...STATUS_STEP_LABEL_PROPS.CLOSED,
+    },
   },
   RECEIVER: {
     INVOICE_CREATED: {
       label: "Invoice Received",
-      ...STATUS_STEP_LABEL_PROPS.INVOICE_CREATED
+      ...STATUS_STEP_LABEL_PROPS.INVOICE_CREATED,
     },
     OPEN: {
       label: "Invoice is Payable",
@@ -140,27 +140,27 @@ const INVOICE_STATUS_STEP_CONSTANTS: Record<
           <Text
             sx={({ palette }) => ({
               "& > span": {
-                color: palette.mode === "dark" ? palette.primary.light : palette.primary.main
-              }
+                color: palette.mode === "dark" ? palette.primary.light : palette.primary.main,
+              },
             })}
           >
             Click <span>Pay Invoice</span> to submit payment.
           </Text>
-        )
+        ),
       },
-      ...STATUS_STEP_LABEL_PROPS.OPEN
+      ...STATUS_STEP_LABEL_PROPS.OPEN,
     },
     DISPUTED: {
       label: "Payment Request Declined",
       content: {
-        description: "You declined the payment request."
-      }
+        description: "You declined the payment request.",
+      },
     },
     CLOSED: {
       label: "Invoice Closed",
-      ...STATUS_STEP_LABEL_PROPS.CLOSED
-    }
-  }
+      ...STATUS_STEP_LABEL_PROPS.CLOSED,
+    },
+  },
 };
 
 type InvoiceStatusTrackerStepNames = "INVOICE_CREATED" | Invoice["status"];

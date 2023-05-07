@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import { workOrdersStatusCountDataParser, invoicesStatusCountDataParser } from "./itemDataParsers";
+import type { WorkOrder, Invoice } from "@graphql/types";
 import type { ItemStatusCounter } from "./ItemDataParserClasses";
-import type { WorkOrder, Invoice } from "@types";
 
 export const DashboardDataContext = createContext<{
   widgetData: {
@@ -30,34 +30,34 @@ export const DashboardDataContext = createContext<{
   widgetData: {
     WorkOrdersByStatusCounter: {
       createdByUser: workOrdersStatusCountDataParser.initialDataAccum.STATUS_COUNTS as any,
-      assignedToUser: workOrdersStatusCountDataParser.initialDataAccum.STATUS_COUNTS as any
+      assignedToUser: workOrdersStatusCountDataParser.initialDataAccum.STATUS_COUNTS as any,
     },
     InvoicesByStatusCounter: {
       createdByUser: invoicesStatusCountDataParser.initialDataAccum.STATUS_COUNTS as any,
-      assignedToUser: invoicesStatusCountDataParser.initialDataAccum.STATUS_COUNTS as any
+      assignedToUser: invoicesStatusCountDataParser.initialDataAccum.STATUS_COUNTS as any,
     },
     WorkOrdersPerMonthChart: {
       createdByUser: [],
-      assignedToUser: []
+      assignedToUser: [],
     },
     InvoicesPerMonthChart: {
       createdByUser: [],
-      assignedToUser: []
+      assignedToUser: [],
     },
     WorkOrderUpcomingEvents: {
       createdByUser: [],
-      assignedToUser: []
+      assignedToUser: [],
     },
     OpenInvoiceAmountTotals: {
       RECEIVABLE: { TOTAL: 0, AVERAGE: 0 },
-      PAYABLE: { TOTAL: 0, AVERAGE: 0 }
-    }
+      PAYABLE: { TOTAL: 0, AVERAGE: 0 },
+    },
   },
   widgetConfigs: {
     ItemsPerMonthCharts: {
-      yAxisMaximum: 10 // <-- arbitrary default
-    }
-  }
+      yAxisMaximum: 10, // <-- arbitrary default
+    },
+  },
 });
 
 export const useDashboardDataContext = () => useContext(DashboardDataContext);

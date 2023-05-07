@@ -1,6 +1,6 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import { ItemDataParser } from "./ItemDataParser";
-import type { WorkOrder, Invoice } from "@types";
+import type { WorkOrder, Invoice } from "@graphql/types";
 
 export class ItemsPerMonthCountDataParser<
   TItem extends WorkOrder | Invoice
@@ -17,7 +17,11 @@ export class ItemsPerMonthCountDataParser<
     if (this._monthLabels.length !== 12) {
       let monthLabels: MonthLabels = [];
 
-      for (let iterMoment = moment(); monthLabels.length < 12; iterMoment.subtract(1, "month")) {
+      for (
+        let iterMoment = dayjs();
+        monthLabels.length < 12;
+        iterMoment = iterMoment.subtract(1, "month")
+      ) {
         monthLabels.push(iterMoment.format("MMM 'YY"));
       }
 
@@ -29,14 +33,14 @@ export class ItemsPerMonthCountDataParser<
 
   constructor(
     monthLabels: Array<MonthLabel> = ItemsPerMonthCountDataParser.monthLabels,
-    maxItemAgeMoment: moment.Moment = moment().subtract(1, "year") // default: 1 year ago
+    maxItemAgeMoment: dayjs.Dayjs = dayjs().subtract(1, "year") // default: 1 year ago
   ) {
     super({
       initialDataAccum: {
-        MONTH_COUNTS: Object.fromEntries(monthLabels.map((month) => [month, 0]))
+        MONTH_COUNTS: Object.fromEntries(monthLabels.map((month) => [month, 0])),
       },
       dataAccumUpdater: (dataReducerAccum, item) => {
-        const createdAtMoment = moment(item.createdAt);
+        const createdAtMoment = dayjs(item.createdAt);
         // If `createdAt` is older than 1 year, don't include in MONTH_COUNTS
         if (createdAtMoment.isAfter(maxItemAgeMoment, "month")) {
           // The MomentJS "MMM 'YY" format matches the short-names in the accum
@@ -45,7 +49,7 @@ export class ItemsPerMonthCountDataParser<
         }
 
         return dataReducerAccum;
-      }
+      },
     });
   }
 }

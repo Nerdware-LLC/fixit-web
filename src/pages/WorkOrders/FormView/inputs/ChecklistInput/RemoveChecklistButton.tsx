@@ -1,9 +1,11 @@
 import { useField } from "formik";
+import { dialogContentClasses } from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import Text from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Dialog } from "@components";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import { Dialog } from "@components/Dialog";
+import { checklistInputClassNames as classNames } from "./classNames";
 
 export const RemoveChecklistButton = () => {
   const [{ value: checklist }, { initialValue }, { setValue, setTouched }] = useField("checklist");
@@ -27,20 +29,17 @@ export const RemoveChecklistButton = () => {
         arrow
         PopperProps={{
           sx: {
-            "& > .MuiTooltip-tooltip": {
+            [`& > .${tooltipClasses.tooltip}`]: {
               backgroundColor: "rgb(97,97,97)", // rm's the usual 0.92 alpha from tooltip bg
-              paddingBottom: "1px" // better spacing and text alignment
-            }
-          }
+              paddingBottom: "1px", // better spacing and text alignment
+            },
+          },
         }}
       >
         <IconButton
           onClick={handleClickRemove}
-          color="secondary"
           aria-label="remove checklist"
-          style={{
-            transform: "translateX(5px)"
-          }}
+          className={classNames.removeChecklistButton}
         >
           <DeleteIcon />
         </IconButton>
@@ -52,12 +51,12 @@ export const RemoveChecklistButton = () => {
           handleAccept={resetChecklist as React.MouseEventHandler<HTMLButtonElement>}
           handleCancel={closeDialog}
           sx={{
-            "& .MuiDialogContent-root": {
+            [`& .${dialogContentClasses.root}`]: {
               "& em": {
                 fontWeight: "bold",
-                fontStyle: "normal"
-              }
-            }
+                fontStyle: "normal",
+              },
+            },
           }}
         >
           {initialValue === null ? (

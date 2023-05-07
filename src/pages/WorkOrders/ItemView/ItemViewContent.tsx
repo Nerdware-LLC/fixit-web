@@ -1,26 +1,33 @@
 import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import Tab, { tabClasses } from "@mui/material/Tab";
+import Tabs, { tabsClasses } from "@mui/material/Tabs";
 import CalendarIcon from "@mui/icons-material/CalendarToday";
+import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import PersonIcon from "@mui/icons-material/Person";
-import { TabPanel, ContactAvatar, XscrollContainer } from "@components";
-import { WorkOrderCategoryChip, WorkOrderStatusChip } from "@components/Chips";
-import { ItemDetails, ItemDetailsGroup } from "@layouts/CoreItemView";
-import { getDate, prettifyStr } from "@utils";
-import { WO_ITEM_VIEW_TABS } from "./tabConfigs";
-import { LocationDetails } from "./LocationDetails";
-import { WorkOrderTimeline } from "./WorkOrderTimeline";
+import { ContactAvatar } from "@components/Avatar/ContactAvatar";
+import { WorkOrderCategoryChip } from "@components/Chips/WorkOrderCategoryChip";
+import { WorkOrderStatusChip } from "@components/Chips/WorkOrderStatusChip";
+import {
+  XscrollContainer,
+  xScrollContainerClassNames,
+} from "@components/Containers/XscrollContainer";
+import { ItemDetails } from "@components/DataDisplay/ItemDetails";
+import { ItemDetailsGroup } from "@components/DataDisplay/ItemDetailsGroup";
+import { LocationDetails } from "@components/DataDisplay/LocationDetails";
+import { itemDetailsClassNames } from "@components/DataDisplay/classNames";
+import { TabPanel, tabPabelClassNames } from "@components/Tabs";
+import { getDate } from "@utils/dateTime";
+import { prettifyStr } from "@utils/prettifyStr";
 import { Checklist } from "./Checklist";
-import type { WorkOrder } from "@types";
+import { WorkOrderTimeline } from "./WorkOrderTimeline";
+import { WO_ITEM_VIEW_TABS } from "./tabConfigs";
+import type { WorkOrder, ChecklistItem } from "@graphql/types";
 
 export const WorkOrderItemViewContent = ({
   workOrder,
-  isItemOwnedByUser
-}: {
-  workOrder: WorkOrder;
-  isItemOwnedByUser: boolean;
-}) => {
+  isItemOwnedByUser,
+}: WorkOrderItemViewContentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
@@ -32,7 +39,7 @@ export const WorkOrderItemViewContent = ({
     description, checklist, entryContact, entryContactPhone, contractorNotes } = workOrder;
 
   return (
-    <WorkOrderItemViewContentContainer>
+    <StyledDiv>
       <Tabs
         value={activeTabIndex}
         onChange={handleChangeTab}
@@ -54,8 +61,14 @@ export const WorkOrderItemViewContent = ({
         isActive={activeTabIndex === WO_ITEM_VIEW_TABS.ACTIVE_INDICES["Work Order"]}
       >
         <XscrollContainer>
-          <div className="wo-item-view-workorder-tabpanel-top-section-grid-container">
-            <LocationDetails gridArea="location" location={location} />
+          <div id={workOrderItemViewContentElementIDs.workOrderTabPanelGridContainer}>
+            <ItemDetailsGroup gridArea="location" label="Address" labelIcon={<MapsHomeWorkIcon />}>
+              <LocationDetails
+                location={location}
+                locationTextProps={{ variant: "h4" }}
+                showLabel={false}
+              />
+            </ItemDetailsGroup>
             <ItemDetails gridArea="createdAt" label="Created">
               {getDate(createdAt)}
             </ItemDetails>
@@ -91,12 +104,16 @@ export const WorkOrderItemViewContent = ({
         tab="Description"
         isActive={activeTabIndex === WO_ITEM_VIEW_TABS.ACTIVE_INDICES["Description"]}
       >
-        <ItemDetails label="Description">{description}</ItemDetails>
-        {
-          // the <Checklist /> comp has a built-in "label", hence this ternary:
-          checklist ? <Checklist checklist={checklist} /> : <ItemDetails label="Checklist" />
-        }
-        <div className="wo-item-view-description-tabpanel-bottom-layout">
+        <div id={workOrderItemViewContentElementIDs.descriptionTabPanelGridContainer}>
+          <ItemDetails label="Description">{description}</ItemDetails>
+          {
+            // the <Checklist /> comp has a built-in "label", hence this ternary:
+            Array.isArray(checklist) ? (
+              <Checklist checklist={checklist as Array<ChecklistItem>} />
+            ) : (
+              <ItemDetails label="Checklist" />
+            )
+          }
           <ItemDetails label="Notes">{contractorNotes}</ItemDetails>
           <ItemDetailsGroup label="Entry Contact" labelIcon={<PersonIcon />}>
             <ItemDetails label="Name">{entryContact}</ItemDetails>
@@ -104,12 +121,17 @@ export const WorkOrderItemViewContent = ({
           </ItemDetailsGroup>
         </div>
       </TabPanel>
-    </WorkOrderItemViewContentContainer>
+    </StyledDiv>
   );
 };
 
-const WorkOrderItemViewContentContainer = styled("div")(({ theme }) => ({
-  "& .MuiTabs-root": {
+export const workOrderItemViewContentElementIDs = {
+  workOrderTabPanelGridContainer: "wo-item-view-wo-tabpanel-grid-container",
+  descriptionTabPanelGridContainer: "wo-item-view-description-tabpanel-grid-container",
+};
+
+const StyledDiv = styled("div")(({ theme }) => ({
+  [`& .${tabsClasses.root}`]: {
     margin: "0 2rem",
     borderWidth: "0 0 1px 0",
     borderStyle: "solid",
@@ -119,89 +141,147 @@ const WorkOrderItemViewContentContainer = styled("div")(({ theme }) => ({
       width: "calc( 100% - 2rem )",
       margin: "0 1rem",
 
-      "& .MuiTabs-flexContainer": {
+      [`& .${tabsClasses.flexContainer}`]: {
         justifyContent: "space-around",
 
-        "& > .MuiTab-root": {
+        [`& > .${tabClasses.root}`]: {
           width: "45%",
-          padding: "0.3rem 0 0 0"
-        }
-      }
-    })
+          padding: "0.3rem 0 0 0",
+        },
+      },
+    }),
   },
 
   // TabPanel containers:
 
-  "& > .tab-panel": {
+  [`& > .${tabPabelClassNames.root}`]: {
     padding: "1.5rem 0",
     display: "flex",
     flexDirection: "column",
-    gap: "2rem",
+    gap: theme.variables.isMobilePageLayout ? "2rem" : "2rem 3rem",
 
-    // TAB: Summary
+    // TAB: WorkOrder
+
     "&[aria-labelledby=WorkOrder-tab]": {
       // X-scroll container:
-      "& > .x-scroll-container": {
+      [`& > .${xScrollContainerClassNames.root}`]: {
         "&::before, &::after": {
-          width: theme.variables.isMobilePageLayout ? "1rem" : "2rem"
+          ...(theme.variables.isMobilePageLayout
+            ? { width: "1rem", minWidth: "1rem" }
+            : { width: "2rem", minWidth: "2rem" }),
         },
         // top-section grid layout container:
-        "& > .wo-item-view-workorder-tabpanel-top-section-grid-container": {
+        [`& > #${workOrderItemViewContentElementIDs.workOrderTabPanelGridContainer}`]: {
           display: "grid",
-          gap: theme.variables.isMobilePageLayout ? "1rem 1.5rem" : "1.5rem",
+          gap: "1rem 1.5rem",
+          gridAutoRows: "min-content",
           gridTemplateColumns: "1fr min-content",
-          // For viewports under 600px wide:
-          gridTemplateRows: "auto repeat( 3, min-content )",
           gridTemplateAreas: `
-            "location location"
-            "createdAt status"
-            "createdBy priority"
-            "assignedTo category"`,
+            "location    location"
+            "createdAt   status"
+            "createdBy   priority"
+            "assignedTo  category"`,
           // For viewports over 600px wide:
           [theme.breakpoints.up("sm")]: {
+            gap: "2rem 3rem",
+            gridTemplateColumns: "minmax(min-content,2.5fr) minmax(0,1fr) minmax(0,1fr)",
             gridTemplateAreas: `
-              "location createdAt"
-              "location status"
-              "createdBy priority"
-              "assignedTo category"`
-          }
-        }
+              "location  status      createdAt"
+              "location  assignedTo  createdBy"
+              "location  priority    category"`,
+          },
+          // For viewports over 1200px wide:
+          [theme.breakpoints.up("lg")]: {
+            gridTemplateColumns:
+              "minmax(min-content,2fr) minmax(0,0.5fr) minmax(0,1fr) minmax(0,1fr)",
+            gridTemplateAreas: `
+              "location  .  status      createdAt"
+              "location  .  assignedTo  createdBy"
+              "location  .  priority    category"`,
+          },
+
+          // LOCATION IDG:
+          [`& > .${itemDetailsClassNames.groupContainer}`]: {
+            minWidth: "min-content",
+            maxWidth: "max-content",
+
+            [`& > .${itemDetailsClassNames.groupContent}`]: {
+              height: "calc(100% - 57px)",
+              justifyContent: "center",
+              padding: "1rem",
+              [theme.breakpoints.up("sm")]: {
+                padding: "2rem",
+              },
+
+              // LocationDetails content div:
+              [`& .${itemDetailsClassNames.locationDetails} > .${itemDetailsClassNames.content}`]: {
+                [`& > .${itemDetailsClassNames.locationDetailsAddressText}`]: {
+                  ...(theme.variables.isMobilePageLayout
+                    ? { fontSize: "1.5rem", lineHeight: "1.55rem" }
+                    : { fontSize: "1.75rem", lineHeight: "1.8rem" }),
+                },
+              },
+            },
+          },
+        },
       },
       // timeline ItemDetailsGroup
-      "& > .item-details-group:last-of-type": {
-        padding: theme.variables.isMobilePageLayout ? "0 1rem" : "0 2rem",
+      [`& > .${itemDetailsClassNames.groupContainer}:last-of-type`]: {
+        margin: theme.variables.isMobilePageLayout ? "0 1rem" : "0 2rem",
 
-        "& > .item-details-group-content": {
+        [`& > .${itemDetailsClassNames.groupContent}`]: {
           padding: "0.1rem 0",
           backgroundColor: theme.palette.background.paper,
           "& *": {
-            borderColor: alpha(theme.palette.divider, 0.05)
-          }
-        }
-      }
+            borderColor: alpha(theme.palette.divider, 0.05),
+          },
+        },
+      },
     },
 
     // TAB: Description
+
     "&[aria-labelledby=Description-tab]": {
       padding: theme.variables.isMobilePageLayout ? "1.5rem 1rem" : "1.5rem 2rem",
 
-      "& > div": {
-        "&.wo-item-view-description-tabpanel-bottom-layout": {
-          display: "flex",
-          gap: "2rem",
-          flexDirection: theme.variables.isMobilePageLayout ? "column" : "row",
-
-          "& > div": {
-            ...(!theme.variables.isMobilePageLayout && {
-              width: "50%"
-            })
+      [`& #${workOrderItemViewContentElementIDs.descriptionTabPanelGridContainer}`]: {
+        display: "grid",
+        gridAutoRows: "min-content",
+        gridAutoColumns: "1fr",
+        gap: "2rem",
+        gridTemplateAreas: `
+          "description"
+          "checklist"
+          "notes"
+          "entry"`,
+        // For viewports over 600px wide:
+        [theme.breakpoints.up("sm")]: {
+          gap: "3rem",
+          gridTemplateAreas: `
+            "description  checklist"
+            "notes        entry"`,
+        },
+        "& > div": {
+          // CHILDREN
+          "&:nth-of-type(1)": {
+            gridArea: "description",
           },
-
-          "& > .item-details-group": {
-            backgroundColor: theme.palette.background.paper
-          }
-        }
-      }
-    }
-  }
+          "&:nth-of-type(2)": {
+            gridArea: "checklist",
+          },
+          "&:nth-of-type(3)": {
+            gridArea: "notes",
+          },
+          "&:nth-of-type(4)": {
+            gridArea: "entry",
+          },
+        },
+      },
+    },
+  },
 }));
+
+export type WorkOrderItemViewContentProps = {
+  workOrder: WorkOrder;
+  isItemOwnedByUser: boolean;
+};

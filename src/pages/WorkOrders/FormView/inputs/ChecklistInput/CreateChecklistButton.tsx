@@ -1,6 +1,6 @@
 import { useFormikContext } from "formik";
 import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
+import Button, { buttonClasses } from "@mui/material/Button";
 import PlusIcon from "@mui/icons-material/Add";
 
 export const CreateChecklistButton = () => {
@@ -15,7 +15,7 @@ export const CreateChecklistButton = () => {
       onClick={handleCreateChecklist}
       startIcon={<PlusIcon />}
       variant="text"
-      color="secondary"
+      color="primary"
     >
       Create Checklist
     </StyledButton>
@@ -26,18 +26,19 @@ const StyledButton = styled(Button)(({ theme }) => ({
   ...(theme.variables.isMobilePageLayout
     ? {
         height: "3rem",
-        width: "100%"
+        width: "100%",
       }
     : {
-        height: "3.5rem",
-        width: "12rem"
+        height: "2.5rem",
+        width: "12rem",
       }),
   justifyContent: "flex-start",
   fontWeight: theme.palette.mode === "dark" ? 300 : 400,
   whiteSpace: "nowrap",
   textOverflow: "ellipsis", // <-- shouldn't ever overflow, but just in case
+  textTransform: "none",
 
-  "& > .MuiButton-startIcon": {
-    margin: "0 0.35rem 1px 0"
-  }
+  [`& > .${buttonClasses.startIcon}`]: {
+    margin: "0 0.35rem 1px 0",
+  },
 }));

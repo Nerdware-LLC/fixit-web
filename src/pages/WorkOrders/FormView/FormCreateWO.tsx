@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client/react/hooks";
-import { useLottie } from "@components";
-import { MUTATIONS, FRAGMENTS } from "@graphql";
-import { logger } from "@utils";
+import { useLottie } from "@components/LottieAnimations";
+import { MUTATIONS } from "@graphql/mutations";
+import { QUERIES } from "@graphql/queries";
+import { logger } from "@utils/logger";
 import { WorkOrderForm } from "./Form";
 import { woFormFieldHandlers, type WorkOrderFormValues } from "./formFieldHandlers";
 
@@ -11,19 +12,16 @@ export const FormCreateWO = () => {
   const nav = useNavigate();
 
   const [createWorkOrder] = useMutation(MUTATIONS.CREATE_WORK_ORDER, {
-    update(cache, { data: { createWorkOrder } }) {
-      cache.modify({
-        fields: {
-          workOrders(existingWOs = []) {
-            const newWorkOrderRef = cache.writeFragment({
-              data: createWorkOrder,
-              fragment: FRAGMENTS.WorkOrderFields
-            });
-            return [...existingWOs, newWorkOrderRef];
-          }
-        }
-      });
-    }
+    update(cache, { data }) {
+      if (data?.createWorkOrder) {
+        cache.updateQuery({ query: QUERIES.MY_WORK_ORDERS }, (cacheData) => ({
+          myWorkOrders: {
+            assignedToUser: cacheData?.myWorkOrders.assignedToUser ?? [],
+            createdByUser: [...(cacheData?.myWorkOrders.createdByUser ?? []), data.createWorkOrder],
+          },
+        }));
+      }
+    },
   });
 
   const handleSubmit = async (formValues: WorkOrderFormValues) => {
@@ -32,7 +30,7 @@ export const FormCreateWO = () => {
     // Ensure any ChecklistItems only have property "description" onCreate
     if (Array.isArray(workOrder.checklist)) {
       workOrder.checklist = workOrder.checklist.map(({ description }) => ({
-        description
+        description,
       })) as WorkOrderFormValues["checklist"];
     }
 
@@ -40,8 +38,8 @@ export const FormCreateWO = () => {
     if (Object.keys(workOrder).length >= 1) {
       await createWorkOrder({
         variables: {
-          workOrder
-        }
+          workOrder,
+        },
       }).catch((err) => logger.error(err));
     }
 
@@ -54,7 +52,6 @@ export const FormCreateWO = () => {
     <>
       <WorkOrderForm
         onSubmit={handleSubmit}
-        currentWorkOrderStatus="UNASSIGNED"
         initialFormValues={{
           assignedTo: null,
           location: {
@@ -62,7 +59,7 @@ export const FormCreateWO = () => {
             region: "",
             city: "",
             streetLine1: "",
-            streetLine2: null
+            streetLine2: null,
           },
           category: null,
           description: null,
@@ -71,7 +68,7 @@ export const FormCreateWO = () => {
           entryContact: null,
           entryContactPhone: null,
           dueDate: null,
-          scheduledDateTime: null
+          scheduledDateTime: null,
         }}
       />
       {LottieView}

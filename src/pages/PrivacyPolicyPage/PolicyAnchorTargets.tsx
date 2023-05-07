@@ -1,4 +1,4 @@
-import { AnchorLink } from "@components";
+import { Anchor } from "@components/Navigation/Anchor";
 
 const POLICY_ANCHOR_TARGET_CONFIGS = {
   HEADERS: [
@@ -14,14 +14,14 @@ const POLICY_ANCHOR_TARGET_CONFIGS = {
     "DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?",
     "DO WE MAKE UPDATES TO THIS NOTICE?",
     "HOW CAN YOU CONTACT US ABOUT THIS NOTICE?",
-    "HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?"
+    "HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?",
   ],
   SUBHEADERS: [
     "personal-info-provided-by-you", //     section 1
     "info-collected-from-other-sources", // section 1
     "list-of-personal-info-use-reasons", // section 2
-    "when-is-personal-info-shared" //       section 3
-  ]
+    "when-is-personal-info-shared", //       section 3
+  ],
 } as const;
 
 export const POLICY_ANCHOR_TARGETS = Object.fromEntries(
@@ -38,19 +38,19 @@ export const POLICY_ANCHOR_TARGETS = Object.fromEntries(
             ID,
             HREF,
             getLink: (linkText?: string) => (
-              <AnchorLink href={HREF}>
+              <Anchor href={HREF}>
                 {linkText || (targetType === "HEADERS" ? rawTextNodeOrIDstr : "here")}
-              </AnchorLink>
+              </Anchor>
             ),
-            ...(targetType === "HEADERS" && { SECTION_NUM: index + 1 })
-          }
+            ...(targetType === "HEADERS" && { SECTION_NUM: index + 1 }),
+          },
         ];
       })
-    )
+    ),
   ])
 ) as {
   [TargetType in keyof typeof POLICY_ANCHOR_TARGET_CONFIGS]: Record<
-    typeof POLICY_ANCHOR_TARGET_CONFIGS[TargetType][number],
+    (typeof POLICY_ANCHOR_TARGET_CONFIGS)[TargetType][number],
     {
       ID: string;
       HREF: string;

@@ -1,7 +1,7 @@
-import renderer from "react-test-renderer";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
-import { MobileWebviewStripeBridge } from "./MobileWebviewStripeBridge";
+import renderer from "react-test-renderer";
 import { ThemeProvider } from "@app/ThemeProvider";
+import { MobileWebviewStripeBridge } from "./MobileWebviewStripeBridge";
 
 it("renders correctly", () => {
   expect(

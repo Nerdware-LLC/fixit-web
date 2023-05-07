@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client/react/hooks";
+import { useLottie } from "@components/LottieAnimations";
 import { MUTATIONS } from "@graphql/mutations";
-import { useLottie } from "@components";
-import { logger } from "@utils";
+import { logger } from "@utils/logger";
 import { WorkOrderForm } from "./Form";
 import { woFormFieldHandlers, type WorkOrderFormValues } from "./formFieldHandlers";
-import type { WorkOrder } from "@types";
+import type { WorkOrder } from "@graphql/types";
 
-export const FormUpdateWO = ({ workOrder: existingWorkOrder }: { workOrder: WorkOrder }) => {
+export const FormUpdateWO = ({ existingWorkOrder }: { existingWorkOrder: WorkOrder }) => {
   const { LottieView, playLottie } = useLottie({ animation: "success-checkmark" });
   const nav = useNavigate();
   const [updateWorkOrder] = useMutation(MUTATIONS.UPDATE_WORK_ORDER);
@@ -22,8 +22,8 @@ export const FormUpdateWO = ({ workOrder: existingWorkOrder }: { workOrder: Work
       await updateWorkOrder({
         variables: {
           workOrderID: existingWorkOrder.id,
-          workOrder: woChangedFields
-        }
+          workOrder: woChangedFields,
+        },
       }).catch((err) => logger.error(err));
     }
 
@@ -35,9 +35,9 @@ export const FormUpdateWO = ({ workOrder: existingWorkOrder }: { workOrder: Work
   return (
     <>
       <WorkOrderForm
-        onSubmit={handleSubmit}
-        currentWorkOrderStatus={existingWorkOrder.status}
         initialFormValues={initialValues as WorkOrderFormValues}
+        onSubmit={handleSubmit}
+        existingWorkOrder={existingWorkOrder}
       />
       {LottieView}
     </>

@@ -30,7 +30,7 @@ const ToS_SECTION_HEADERS = [
   "ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES",
   "CALIFORNIA USERS AND RESIDENTS",
   "MISCELLANEOUS",
-  "CONTACT US"
+  "CONTACT US",
 ] as const;
 
 export const ToS_SECTIONS = Object.fromEntries(
@@ -43,12 +43,12 @@ export const ToS_SECTIONS = Object.fromEntries(
       {
         SECTION_NUM: index + 1,
         ID,
-        HREF: `#${ID}`
-      }
+        HREF: `#${ID}`,
+      },
     ];
   })
 ) as Record<
-  typeof ToS_SECTION_HEADERS[number],
+  (typeof ToS_SECTION_HEADERS)[number],
   {
     SECTION_NUM: number;
     ID: string;

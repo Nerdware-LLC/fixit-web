@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client/react/hooks";
-import { useLottie } from "@components";
-import { MUTATIONS, FRAGMENTS } from "@graphql";
-import { logger } from "@utils";
+import { useLottie } from "@components/LottieAnimations";
+import { MUTATIONS } from "@graphql/mutations";
+import { QUERIES } from "@graphql/queries";
+import { logger } from "@utils/logger";
 import { InvoiceForm } from "./Form";
 import { invoiceFormFieldHandlers, type InvoiceFormValues } from "./formFieldHandlers";
-import type { WorkOrder } from "@types";
+import type { WorkOrder } from "@graphql/types";
 
 /**
  * - Prop `workOrderToInvoice` represents a WO to attach to the Invoice. Note
@@ -14,7 +15,7 @@ import type { WorkOrder } from "@types";
  *   can only be cancelled/deleted.
  */
 export const FormCreateInvoice = ({
-  workOrderToInvoice = null
+  workOrderToInvoice = null,
 }: {
   workOrderToInvoice?: WorkOrder | null;
 }) => {
@@ -22,19 +23,16 @@ export const FormCreateInvoice = ({
   const nav = useNavigate();
 
   const [createInvoice] = useMutation(MUTATIONS.CREATE_INVOICE, {
-    update(cache, { data: { createInvoice } }) {
-      cache.modify({
-        fields: {
-          invoices(existingInvoices = []) {
-            const newInvoiceRef = cache.writeFragment({
-              data: createInvoice,
-              fragment: FRAGMENTS.InvoiceWithWorkOrderFields
-            });
-            return [...existingInvoices, newInvoiceRef];
-          }
-        }
-      });
-    }
+    update(cache, { data }) {
+      if (data?.createInvoice) {
+        cache.updateQuery({ query: QUERIES.MY_INVOICES }, (cacheData) => ({
+          myInvoices: {
+            assignedToUser: cacheData?.myInvoices.assignedToUser ?? [],
+            createdByUser: [...(cacheData?.myInvoices.createdByUser ?? []), data.createInvoice],
+          },
+        }));
+      }
+    },
   });
 
   const handleSubmit = async (formValues: InvoiceFormValues) => {
@@ -44,8 +42,8 @@ export const FormCreateInvoice = ({
     if (Object.keys(invoice).length >= 1) {
       await createInvoice({
         variables: {
-          invoice
-        }
+          invoice,
+        },
       }).catch((err) => logger.error(err));
     }
 
@@ -61,7 +59,7 @@ export const FormCreateInvoice = ({
         initialFormValues={{
           assignedTo: workOrderToInvoice?.createdBy?.id ?? "",
           workOrder: workOrderToInvoice?.id ?? null,
-          amount: ""
+          amount: "",
         }}
       />
       {LottieView}

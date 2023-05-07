@@ -1,22 +1,21 @@
 import { useQuery } from "@apollo/client/react/hooks";
-import { Loading, Error } from "@components";
-import { QUERIES } from "@graphql";
-import { CoreItemsListView, type ListViewRenderItemFn } from "@layouts";
+import { CreateItemButton } from "@components/Buttons/CreateItemButton";
+import { EmptyListFallback, type EmptyListFallbackProps } from "@components/HelpInfo";
+import { FileInvoiceDollarIcon } from "@components/Icons/FileInvoiceDollarIcon";
+import { Error } from "@components/Indicators/Error";
+import { Loading } from "@components/Indicators/Loading";
+import { QUERIES } from "@graphql/queries";
+import { CoreItemsListView, type ListViewRenderItemFn } from "@layouts/CoreItemsListView";
 import { InvoicesListItem } from "./ListItem";
 import { invoiceTableProps } from "./tableProps";
-import { MOCK_INVOICES } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
 
 export const InvoicesListView = () => {
+  // TODO impl refetch for InvoicesListView
   // eslint-disable-next-line
   const { data, loading, error, refetch, networkStatus } = useQuery(QUERIES.MY_INVOICES, {
     notifyOnNetworkStatusChange: true,
-    skip: true // TODO <-- skip for now, turn off later
+    fetchPolicy: "cache-only", // FIXME rm cache-only fetch policy from InvoicesListView
   });
-
-  // FIXME
-  // const { createdByUser, assignedToUser } = invoiceListSettingsStore.useFilterAndSort(
-  //   data?.myInvoices ?? []
-  // );
 
   if (loading || networkStatus === 4) return <Loading />;
   if (error) return <Error error={error} />;
@@ -25,32 +24,68 @@ export const InvoicesListView = () => {
     <CoreItemsListView
       viewHeader="Invoices"
       viewBasePath="/home/invoices"
+      renderItem={renderInvoicesListItem}
+      headerComponents={
+        <CreateItemButton createItemFormPath="/home/invoices/form" buttonText="Create Invoice" />
+      }
       lists={[
         {
           listName: "Inbox",
-          items: MOCK_INVOICES.myInvoices.assignedToUser as any
+          items: data?.myInvoices.assignedToUser ?? [],
+          emptyListFallback: (
+            <InvoicesEmptyListFallback
+              text="Your Invoice Inbox is Empty"
+              tooltip="Invoices you receive from others will appear here"
+            />
+          ),
         },
         {
           listName: "Sent",
-          items: MOCK_INVOICES.myInvoices.createdByUser as any
-        }
+          items: data?.myInvoices.createdByUser ?? [],
+          emptyListFallback: (
+            <InvoicesEmptyListFallback
+              text="Your List of Sent Invoices is Empty"
+              tooltip="Invoices you send to others will appear here"
+            />
+          ),
+        },
       ]}
-      renderItem={renderInvoicesListItem}
       tableProps={{
         ...invoiceTableProps,
         rows: [
-          ...MOCK_INVOICES.myInvoices.createdByUser.map((inv) => ({
+          ...(data?.myInvoices.createdByUser.map((inv) => ({
             isItemOwnedByUser: true,
-            ...inv
-          })),
-          ...MOCK_INVOICES.myInvoices.assignedToUser.map((inv) => ({
+            ...inv,
+          })) ?? []),
+          ...(data?.myInvoices.assignedToUser.map((inv) => ({
             isItemOwnedByUser: false,
-            ...inv
-          }))
-        ]
+            ...inv,
+          })) ?? []),
+        ],
+        noRowsOverlayProps: {
+          backgroundIcon: <FileInvoiceDollarIcon />,
+          // TODO add children here
+        },
       }}
+      sx={(theme) => ({
+        "& a": {
+          color: `${theme.palette.secondary.main} !important`, // "View Work Order" links
+        },
+      })}
     />
   );
 };
+
+const InvoicesEmptyListFallback = ({
+  backgroundIcon = <FileInvoiceDollarIcon />,
+  ...props
+}: Partial<EmptyListFallbackProps>) => (
+  <EmptyListFallback
+    backgroundIcon={backgroundIcon}
+    style={{ height: "50%", whiteSpace: "normal", marginTop: "6rem" }}
+    // TODO move above styles to CoreItemsListView (must only apply in dual-list views)
+    {...props}
+  />
+);
 
 const renderInvoicesListItem: ListViewRenderItemFn = (props) => <InvoicesListItem {...props} />;

@@ -1,8 +1,18 @@
 import { styled } from "@mui/material/styles";
-import { Form, TextInput, AutocompleteContact, PhoneInput, DatePicker } from "@components";
+import { Form } from "@components/Form";
+import { AutoCompleteContact } from "@components/Form/AutoCompleteContact";
+import { DatePicker } from "@components/Form/DatePicker";
+import { DateTimePicker } from "@components/Form/DateTimePicker";
+import { PhoneInput } from "@components/Form/PhoneInput";
+import { TextInput } from "@components/Form/TextInput";
+import {
+  ChecklistInput,
+  LocationRegion,
+  AutoCompleteWorkOrderCategory,
+  SelectPriority,
+} from "./inputs";
 import { schema } from "./schema";
-import { ChecklistInput, LocationRegion, SelectCategory, SelectPriority } from "./Inputs";
-import type { WorkOrder } from "@types";
+import type { WorkOrder } from "@graphql/types";
 import type { WorkOrderFormValues } from "./formFieldHandlers";
 
 // TODO Ensure there's a loading-wheel or some other kind of feedback onSubmit for create/update WO
@@ -10,143 +20,203 @@ import type { WorkOrderFormValues } from "./formFieldHandlers";
 export const WorkOrderForm = ({
   initialFormValues,
   onSubmit,
-  currentWorkOrderStatus
-}: {
+  existingWorkOrder,
+}: WorkOrderFormProps) => (
+  <Form
+    initialValues={initialFormValues}
+    validationSchema={schema}
+    onSubmit={onSubmit}
+    style={{ height: "100%", width: "100%" }}
+  >
+    <StyledDiv>
+      <div id={workOrderFormElementIDs.detailsGridArea}>
+        <AutoCompleteContact
+          id="assignedTo"
+          label="Assign to Contact"
+          disabled={
+            // assignedTo is disabled if WO status is IN_PROGRESS, DEFERRED, or COMPLETE
+            existingWorkOrder &&
+            ["IN_PROGRESS", "DEFERRED", "COMPLETE"].includes(existingWorkOrder?.status)
+          }
+        />
+        <div className={workOrderFormClassNames.detailsRow}>
+          <SelectPriority id="priority" label="Priority" />
+          <AutoCompleteWorkOrderCategory id="category" label="Category" fullWidth />
+        </div>
+        <TextInput id="description" label="Description" multiline maxRows={3} />
+        <ChecklistInput />
+      </div>
+
+      <fieldset id={workOrderFormElementIDs.locationGridArea}>
+        <legend>Location</legend>
+        <TextInput id='location["country"]' label="Country" />
+        <LocationRegion id='location["region"]' />
+        <TextInput id='location["city"]' label="City" />
+        <TextInput id='location["streetLine1"]' label="Street Address" />
+        <TextInput id='location["streetLine2"]' label="Street Address 2" />
+      </fieldset>
+
+      <div id={workOrderFormElementIDs.entryAndDatesGridArea}>
+        <TextInput id="entryContact" label="Entry Contact - Name" gridArea="entry-name" />
+        <DatePicker id="dueDate" label="Due Date" format="MM/DD/YYYY" gridArea="due-date" />
+        <PhoneInput id="entryContactPhone" label="Entry Contact - Phone" gridArea="entry-phone" />
+        <DateTimePicker
+          id="scheduledDateTime"
+          label="Scheduled Date/Time"
+          gridArea="scheduled-date"
+        />
+      </div>
+
+      <Form.ControlButtons gridArea="form-btns" />
+    </StyledDiv>
+  </Form>
+);
+
+export const workOrderFormElementIDs = {
+  detailsGridArea: "wo-form-details-grid-area",
+  locationGridArea: "wo-form-location-grid-area",
+  entryAndDatesGridArea: "wo-form-entry-and-dates-grid-area",
+};
+
+export const workOrderFormClassNames = {
+  detailsRow: "wo-form-details-row",
+};
+
+const StyledDiv = styled("div")(({ theme }) => {
+  const containerHeight = "calc(100% - 1rem)";
+
+  return {
+    height: containerHeight,
+    minHeight: containerHeight,
+    maxHeight: containerHeight,
+    width: "100%",
+
+    // ensure padding/margin at bottom isn't collapsed:
+    "&::after": {
+      content: '" "',
+      display: "block",
+      height: "1rem",
+      width: "100%",
+    },
+
+    display: "grid",
+    gridAutoRows: "min-content",
+    gridAutoColumns: "1fr",
+    ...(theme.variables.isMobilePageLayout
+      ? {
+          gap: "1.5rem",
+          gridTemplateAreas: `
+            "location"
+            "details"
+            "entry-and-dates"
+            "form-btns"`,
+        }
+      : {
+          gap: "2rem",
+          gridTemplateRows: "1fr min-content min-content",
+          gridTemplateAreas: `
+            "details     location"
+            "details     entry-and-dates"
+            "form-btns   ."`,
+        }),
+
+    // GRID AREA: details
+    [`& > #${workOrderFormElementIDs.detailsGridArea}`]: {
+      gridArea: "details",
+      display: "flex",
+      flexDirection: "column",
+      gap: "inherit",
+      // assignedTo
+      "& > div:first-of-type": {
+        marginTop: "0.5rem",
+      },
+      // priority + category
+      [`& > .${workOrderFormClassNames.detailsRow}`]: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: "inherit",
+        // wrap to col on mobile
+        ...(theme.variables.isMobilePageLayout && {
+          flexWrap: "wrap",
+        }),
+        // priority
+        "& > div:first-of-type": {
+          minWidth: "12rem",
+          ...(theme.variables.isMobilePageLayout && {
+            minWidth: "66%",
+            margin: "-1rem auto 1rem auto",
+          }),
+        },
+      },
+      // checklist
+      "& > *:last-child": {
+        marginTop: "-1rem",
+        ...(theme.variables.isMobilePageLayout && {
+          marginBottom: "0.5rem",
+        }),
+      },
+    },
+
+    // GRID AREA: location
+    [`& > #${workOrderFormElementIDs.locationGridArea}`]: {
+      gridArea: "location",
+      height: "100%",
+      width: "100%",
+      ...(theme.variables.isMobilePageLayout
+        ? {
+            padding: "1rem 1rem 0 1rem",
+            gap: "0.5rem",
+          }
+        : {
+            padding: "0.35rem 1rem 0 1rem",
+          }),
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-around",
+      borderWidth: "1px",
+      borderStyle: "solid",
+      borderRadius: "0.7rem",
+      borderColor: theme.palette.divider,
+    },
+
+    [`& > #${workOrderFormElementIDs.entryAndDatesGridArea}`]: {
+      gridArea: "entry-and-dates",
+      display: "grid",
+      gap: "inherit",
+      gridAutoRows: "min-content",
+      gridAutoColumns: "1fr",
+      gridTemplateAreas: theme.variables.isMobilePageLayout
+        ? `
+          "entry-name"
+          "entry-phone"
+          "due-date"
+          "scheduled-date"`
+        : `
+          "entry-name   due-date"
+          "entry-phone  scheduled-date"`,
+
+      /* All Mui helperText is given position absolute so it doesn't mess
+      up the even layout. On mobile, each input is given a little margin
+      to space them out a bit.  */
+      "& > div": {
+        position: "relative",
+        ...(theme.variables.isMobilePageLayout && {
+          marginBottom: "0.5rem",
+        }),
+        "& > .MuiFormHelperText-root": {
+          position: "absolute",
+          bottom: "-24.56px",
+          // bottom: 0 - (lineHeight(1.66rem) × 16px/rem) + marginTop(3px) - borderWidth(1px) = -24.56px
+        },
+      },
+    },
+  };
+});
+
+export type WorkOrderFormProps = {
   initialFormValues: WorkOrderFormValues;
   onSubmit: (submittedFormValues: WorkOrderFormValues) => Promise<void>;
-  currentWorkOrderStatus: WorkOrder["status"];
-}) => {
-  return (
-    <Form initialValues={initialFormValues} validationSchema={schema} onSubmit={onSubmit}>
-      <FormGridContainer>
-        <GridBox style={{ gridArea: "top-left", justifyContent: "flex-start", padding: "1rem" }}>
-          <AutocompleteContact
-            id="assignedTo"
-            label="Assign to Contact"
-            // assignedTo is disabled if WO status is IN_PROGRESS, DEFERRED, or COMPLETE
-            disabled={["IN_PROGRESS", "DEFERRED", "COMPLETE"].includes(currentWorkOrderStatus)}
-            style={{ marginBottom: "1.5rem" }}
-          />
-          <Row
-            style={{
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: "1.5rem",
-              paddingLeft: "0.75rem"
-            }}
-          >
-            <SelectPriority
-              id="priority"
-              label="Priority"
-              styles={{ container: { width: "40%" } }}
-            />
-            <SelectCategory id="category" label="Category" fullWidth style={{ width: "45%" }} />
-          </Row>
-          <TextInput id="description" label="Description" multiline maxRows={3} />
-        </GridBox>
-        <GridBoxFieldset style={{ gridArea: "top-right" }}>
-          <legend>Location</legend>
-          <TextInput id='location["country"]' label="Country" />
-          <LocationRegion id='location["region"]' />
-          <TextInput id='location["city"]' label="City" />
-          <TextInput id='location["streetLine1"]' label="Street Address" />
-          <TextInput id='location["streetLine2"]' label="Street Address 2" />
-        </GridBoxFieldset>
-        <GridBox
-          style={{
-            gridArea: "bottom-left",
-            padding: "1rem",
-            paddingTop: "2rem",
-            justifyContent: "flex-start"
-          }}
-        >
-          <ChecklistInput isInitiallyExpanded={(initialFormValues?.checklist?.length ?? 0) > 0} />
-        </GridBox>
-        <GridBox style={{ gridArea: "bottom-right", justifyContent: "flex-end" }}>
-          <Row>
-            <TextInput
-              id="entryContact"
-              label="Entry Contact - Name"
-              contentType="name"
-              style={{ width: "55%" }}
-            />
-            <DatePicker
-              id="dueDate"
-              label="Due Date"
-              inputFormat="MM/DD/YYYY"
-              style={{ width: "40%" }}
-            />
-          </Row>
-          <Row>
-            <PhoneInput
-              id="entryContactPhone"
-              label="Entry Contact - Phone"
-              style={{ width: "55%" }}
-            />
-            <DatePicker
-              id="scheduledDateTime"
-              label="Scheduled Date/Time"
-              useDateTime
-              style={{ width: "40%" }}
-            />
-          </Row>
-        </GridBox>
-        <GridBox
-          style={{
-            gridArea: "submit-btn",
-            padding: "0 1rem",
-            display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "center"
-          }}
-        >
-          <Form.SubmitButton style={{ paddingLeft: "1.5rem", paddingRight: "1.5rem" }} />
-        </GridBox>
-      </FormGridContainer>
-    </Form>
-  );
+  existingWorkOrder?: WorkOrder;
 };
-
-const FormGridContainer = styled("div")`
-  height: 100%;
-  width: 100%;
-  display: grid;
-  grid-template:
-    "top-left top-right"
-    "bottom-left top-right"
-    "bottom-left bottom-right"
-    "submit-btn submit-btn";
-  grid-template-rows: 35% 30% 25% 10%;
-  grid-template-colums: 1fr 1fr;
-  grid-column-gap: 1rem;
-`;
-
-const styles: Record<string, React.CSSProperties> = {
-  gridAreaBoxes: {
-    height: "100%",
-    width: "100%",
-    minWidth: "30vw", // prevents the left-col from expanding onOpen Checklist
-    padding: "0 1rem",
-    display: "flex",
-    flex: "0 1 auto",
-    flexDirection: "column",
-    justifyContent: "space-evenly"
-  }
-};
-
-const GridBox = styled("div")(() => ({ ...styles.gridAreaBoxes }));
-
-const Row = styled("div")(() => ({
-  width: "100%",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "space-between"
-}));
-
-const GridBoxFieldset = styled("fieldset")(({ theme }) => ({
-  ...styles.gridAreaBoxes,
-  borderWidth: "1px",
-  borderStyle: "solid",
-  borderRadius: "1rem",
-  borderColor: theme.palette.divider
-}));

@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client/react/hooks";
-import { QUERIES } from "@graphql";
-import { Loading, Error } from "@components";
-import { ProfileViewLayout } from "@layouts";
-import { MOCK_CONTACTS } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
+import { Error } from "@components/Indicators/Error";
+import { Loading } from "@components/Indicators/Loading";
+import { QUERIES } from "@graphql/queries";
+import { ProfileViewLayout } from "@layouts/ProfileViewLayout";
 
 /* TODO Add to ContactItemView:
 
@@ -15,15 +15,16 @@ import { MOCK_CONTACTS } from "@/__tests__/mockItems"; // FIXME rm import, use o
 export const ContactItemView = () => {
   const { id } = useParams();
 
-  const { loading, error, networkStatus } = useQuery(QUERIES.CONTACT, {
-    variables: { contactID: id },
-    skip: true
+  const { data, loading, error, networkStatus } = useQuery(QUERIES.CONTACT, {
+    variables: { contactID: id ?? "" },
+    skip: !id,
   });
 
-  if (loading || networkStatus === 4) return <Loading />;
-  if (error) return <Error error={error} />;
-
-  const MOCK_contact = Object.values(MOCK_CONTACTS).find((contact) => contact.id === id);
-
-  return <ProfileViewLayout {...(MOCK_contact as any)} />;
+  return loading || networkStatus === 4 || !data?.contact ? (
+    <Loading />
+  ) : error ? (
+    <Error error={error} />
+  ) : (
+    <ProfileViewLayout {...data.contact} />
+  );
 };

@@ -2,10 +2,12 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { styled } from "@mui/material/styles";
-import Text from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import { usePageLayoutContext } from "@app";
-import { TextExternalLink, StripeBadge, LegalLinks } from "@components";
+import Divider, { dividerClasses } from "@mui/material/Divider";
+import Text, { typographyClasses } from "@mui/material/Typography";
+import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
+import { Anchor } from "@components/Navigation/Anchor";
+import { LegalLinks, legalLinksClassNames } from "@components/Navigation/LegalLinks";
+import { StripeBadge, stripeBadgeClassNames } from "@components/StripeBadge";
 import { ProductSelection } from "./ProductSelection";
 
 /**
@@ -32,92 +34,37 @@ export const ProductsPage = () => {
 
   return (
     <ProductsPageContainer>
-      <Text
-        component="h1"
-        style={{
-          ...(isMobilePageLayout
-            ? {
-                padding: "2rem",
-                fontSize: "1.9rem"
-              }
-            : {
-                padding: "3rem",
-                fontSize: "2rem"
-              }),
-          lineHeight: "2.2rem",
-          fontWeight: "bold",
-          whiteSpace: "nowrap"
-        }}
-      >
-        Subscription Pricing
-      </Text>
+      <Text component="h1">Subscription Pricing</Text>
       <ProductSelection isMobilePageLayout={isMobilePageLayout} />
-      <Divider
-        style={{
-          margin: isMobilePageLayout ? "1.75rem 0" : "3rem 0",
-          width: "clamp(15rem, 100%, 85rem)",
-          minWidth: "15rem"
-        }}
-      />
-      <div
-        style={{
-          ...(isMobilePageLayout ? { flexWrap: "wrap" } : { minWidth: "100%" }),
-          width: "100%",
-          maxWidth: "100dvh",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between"
-        }}
-      >
-        <div
-          id="products-page-paragraphs-container"
-          style={{
-            ...(isMobilePageLayout
-              ? { width: "100%" }
-              : {
-                  maxWidth: "60rem",
-                  width: "60%"
-                }),
-            flexGrow: 1,
-            flexShrink: 1,
-            display: "flex",
-            flexDirection: "column"
-          }}
-        >
+      <Divider />
+      <div>
+        <div id={productsPageElementIDs.paragraphsContainer}>
           <Text style={{ fontWeight: "bold" }}>
-            Fixit uses <TextExternalLink linkText="Stripe" href="https://stripe.com/" /> to process
-            your payments quickly and keep your personal and payment information secure. Millions of
-            companies around the world trust Stripe to process payments for their users.
+            Fixit uses <Anchor href="https://stripe.com/">Stripe</Anchor> to process your payments
+            quickly and keep your personal and payment information secure. Millions of companies
+            around the world trust Stripe to process payments for their users.
           </Text>
           <br />
           <Text>
             For payments made with a credit card, Stripe charges a transaction fee of 2.9% + 30¢.
-            Click{" "}
-            <TextExternalLink linkText="here" href="https://stripe.com/pricing#pricing-details" />{" "}
-            to learn more about Stripe transaction pricing.
+            Click <Anchor href="https://stripe.com/pricing#pricing-details">here</Anchor> to learn
+            more about Stripe transaction pricing.
           </Text>
           <br />
           <LegalLinks includeStripeBadge={isMobilePageLayout} />
         </div>
         {!isMobilePageLayout && (
-          <div
-            style={{
-              minWidth: "20rem",
-              width: "25%",
-              padding: "2.5rem 5rem",
-              flexGrow: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            <StripeBadge style={{ height: "2.5rem", margin: "0 5rem" }} />
+          <div>
+            <StripeBadge />
           </div>
         )}
       </div>
     </ProductsPageContainer>
   );
+};
+
+export const productsPageElementIDs = {
+  paragraphsContainer: "products-page-paragraphs-container",
 };
 
 const ProductsPageContainer = styled("div")(({ theme }) => ({
@@ -133,20 +80,75 @@ const ProductsPageContainer = styled("div")(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
 
-  "& #products-page-paragraphs-container": {
-    "& > .MuiTypography-root": {
-      fontSize: "1rem",
-      lineHeight: "1.65rem",
-      textAlign: "left",
-      margin: 0
+  [`& > h1.${typographyClasses.root}`]: {
+    ...(theme.variables.isMobilePageLayout
+      ? {
+          padding: "2rem",
+          fontSize: "1.9rem",
+        }
+      : {
+          padding: "3rem",
+          fontSize: "2rem",
+        }),
+    lineHeight: "2.2rem",
+    fontWeight: "bold",
+    whiteSpace: "nowrap",
+  },
+
+  [`& > .${dividerClasses.root}`]: {
+    margin: theme.variables.isMobilePageLayout ? "1.75rem 0" : "3rem 0",
+    width: "clamp(15rem, 100%, 85rem)",
+    minWidth: "15rem",
+  },
+
+  "& > div:last-of-type": {
+    ...(theme.variables.isMobilePageLayout ? { flexWrap: "wrap" } : { minWidth: "100%" }),
+    width: "100%",
+    maxWidth: "100dvh",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+
+    [`& > #${productsPageElementIDs.paragraphsContainer}`]: {
+      ...(theme.variables.isMobilePageLayout
+        ? { width: "100%" }
+        : { width: "60%", maxWidth: "60rem" }),
+      flexGrow: 1,
+      flexShrink: 1,
+      display: "flex",
+      flexDirection: "column",
+
+      [`& > .${typographyClasses.root}`]: {
+        fontSize: "1rem",
+        lineHeight: "1.65rem",
+        textAlign: "left",
+        margin: 0,
+      },
+
+      [`& .${legalLinksClassNames.container}`]: {
+        alignSelf: "center",
+        ...(theme.variables.isMobilePageLayout && { marginBottom: "2.5rem" }),
+        /* Why the marginBottom on mobile? On desktop, the div that contains
+        StripeBadge pads the bottom, but on mobile StripeBadge "moves" to the
+        LegalLinks area and the div isn't rendered, hence the margin. */
+      },
     },
 
-    "& div.legal-links-container": {
-      alignSelf: "center",
-      ...(theme.variables.isMobilePageLayout && { marginBottom: "2.5rem" })
-      /* Why the marginBottom on mobile? On desktop, the div that contains
-      StripeBadge pads the bottom, but on mobile StripeBadge "moves" to the
-      LegalLinks area and the div isn't rendered, hence the margin. */
-    }
-  }
+    // The div around StripeBadge (on desktop only):
+    "& > div:nth-of-type(2)": {
+      minWidth: "20rem",
+      width: "25%",
+      padding: "2.5rem 5rem",
+      flexGrow: 1,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+
+      [`& .${stripeBadgeClassNames.anchor},.${stripeBadgeClassNames.img}`]: {
+        height: "2.5rem",
+        margin: "0 5rem",
+      },
+    },
+  },
 }));

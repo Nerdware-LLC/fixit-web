@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client/react/hooks";
-import { MUTATIONS } from "@graphql";
-import { useLottie } from "@components";
+import { useLottie } from "@components/LottieAnimations";
+import { MUTATIONS } from "@graphql/mutations";
 import { InvoiceForm } from "./Form";
 import { invoiceFormFieldHandlers, type InvoiceFormValues } from "./formFieldHandlers";
-import type { Invoice } from "@types";
+import type { Invoice } from "@graphql/types";
 
 export const FormUpdateInvoice = ({ invoice: existingInvoice }: { invoice: Invoice }) => {
   const { LottieView, playLottie } = useLottie({ animation: "success-checkmark" });
@@ -24,8 +24,8 @@ export const FormUpdateInvoice = ({ invoice: existingInvoice }: { invoice: Invoi
       await updateInvoice({
         variables: {
           invoiceID: existingInvoice.id,
-          amount: invoiceChangedFields.amount
-        }
+          amount: invoiceChangedFields.amount,
+        },
       });
     }
 

@@ -1,10 +1,10 @@
-import { INV_STATUS_ICON_REACT_NODES } from "@components";
+import { INV_STATUS_ICON_REACT_NODES } from "@components/Icons/InvoiceStatusIcon";
 import { StatusCountWidget } from "./StatusCountWidget";
 import { useDashboardDataContext } from "../DashboardDataContext";
 
 export const InvoicesByStatusCounter = () => {
   const {
-    widgetData: { InvoicesByStatusCounter }
+    widgetData: { InvoicesByStatusCounter },
   } = useDashboardDataContext();
 
   const { createdByUser, assignedToUser } = InvoicesByStatusCounter;

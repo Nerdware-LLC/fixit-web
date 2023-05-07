@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { AuthPageLayout } from "@layouts";
+import { AuthPageLayout, authPageLayoutClassNames } from "@layouts/AuthPageLayout";
 import { LoginForm } from "./LoginForm";
 
 /**
@@ -26,10 +26,10 @@ export const LoginPage = () => {
     <AuthPageLayout
       pageTitle="User Login"
       sx={({ palette }) => ({
-        "& > div.auth-page-content-container": {
+        [`& > .${authPageLayoutClassNames.childrenContainer}`]: {
           minHeight: "25vh",
 
-          "& > #login-page-signup-link-container": {
+          [`& > #${loginPageElementIDs.signupLinkContainer}`]: {
             color: palette.info.main,
             alignSelf: "center",
             whiteSpace: "pre-line",
@@ -41,17 +41,21 @@ export const LoginPage = () => {
             '& a[href="/register"]': {
               color: palette.info.main,
               alignSelf: "center",
-              whiteSpace: "pre-line"
-            }
-          }
-        }
+              whiteSpace: "pre-line",
+            },
+          },
+        },
       })}
     >
       <LoginForm />
-      <span id="login-page-signup-link-container">
+      <span id={loginPageElementIDs.signupLinkContainer}>
         <Link to="/register">Not an existing user? Sign up now </Link>
         <ChevronRightIcon />
       </span>
     </AuthPageLayout>
   );
+};
+
+export const loginPageElementIDs = {
+  signupLinkContainer: "login-page-signup-link-container",
 };

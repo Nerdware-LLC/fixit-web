@@ -1,14 +1,12 @@
 import { useField } from "formik";
-import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import DeleteIcon from "@mui/icons-material/Delete";
+import InputAdornment from "@mui/material/InputAdornment";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import XDeleteIcon from "@mui/icons-material/HighlightOff";
 
 export const DeleteChecklistItemButton = ({
-  checklistItemIndex
-}: {
-  checklistItemIndex: number;
-}) => {
+  checklistItemIndex,
+}: DeleteChecklistItemButtonProps) => {
   const [{ value: checklistFieldValue }, , { setValue }] = useField("checklist");
 
   const deleteChecklistItem: React.MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -23,11 +21,10 @@ export const DeleteChecklistItemButton = ({
         arrow
         PopperProps={{
           sx: {
-            "& > .MuiTooltip-tooltip": {
+            [`& > .${tooltipClasses.tooltip}`]: {
               backgroundColor: "rgb(97,97,97)", // rm's the usual 0.92 alpha from tooltip bg
-              paddingBottom: "1px" // better spacing and text alignment
-            }
-          }
+            },
+          },
         }}
       >
         <IconButton
@@ -36,9 +33,13 @@ export const DeleteChecklistItemButton = ({
           edge="end"
           aria-label="delete"
         >
-          <DeleteIcon />
+          <XDeleteIcon />
         </IconButton>
       </Tooltip>
     </InputAdornment>
   );
+};
+
+export type DeleteChecklistItemButtonProps = {
+  checklistItemIndex: number;
 };

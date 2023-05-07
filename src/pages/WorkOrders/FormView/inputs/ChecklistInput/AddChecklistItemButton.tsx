@@ -1,5 +1,5 @@
 import { useField } from "formik";
-import Button from "@mui/material/Button";
+import Button, { buttonClasses } from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import PlusIcon from "@mui/icons-material/Add";
 
@@ -17,12 +17,12 @@ export const AddChecklistItemButton = () => {
       disabled={!!meta.error}
       startIcon={<PlusIcon />}
       size="small"
-      color="secondary"
+      variant="outlined"
       aria-label="add checklist item"
       sx={{
-        "& .MuiButton-startIcon": {
-          margin: "0 0.35rem 0.1rem 0"
-        }
+        [`& > .${buttonClasses.startIcon}`]: {
+          margin: "0 0.35rem 0.135rem 0",
+        },
       }}
     >
       Add Item
@@ -33,17 +33,7 @@ export const AddChecklistItemButton = () => {
   return meta.error ? (
     ButtonComp
   ) : (
-    <Tooltip
-      title="Add checklist item"
-      arrow
-      PopperProps={{
-        sx: {
-          "& > .MuiTooltip-tooltip": {
-            paddingBottom: "1px" // better spacing and text alignment
-          }
-        }
-      }}
-    >
+    <Tooltip title="Add checklist item" arrow>
       {ButtonComp}
     </Tooltip>
   );

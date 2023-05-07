@@ -1,98 +1,109 @@
-import Text from "@mui/material/Typography";
-import InputAdornment from "@mui/material/InputAdornment";
+import { styled } from "@mui/material/styles";
 import PersonIcon from "@mui/icons-material/Person";
-import {
-  Form,
-  CurrencyInput,
-  AutocompleteContact,
-  ContactAvatar,
-  Link,
-  FileInvoiceDollarIcon,
-  ItemDetailsBox
-} from "@components";
+import { avatarClassNames } from "@components/Avatar";
+import { ContactAvatar } from "@components/Avatar/ContactAvatar";
+import { itemDetailsClassNames } from "@components/DataDisplay";
+import { ItemDetailsGroup } from "@components/DataDisplay/ItemDetailsGroup";
+import { Form, formClassNames } from "@components/Form";
+import { AutoCompleteContact } from "@components/Form/AutoCompleteContact";
+import { FormInvoiceWorkOrderInfo, invWorkOrderInfoClassNames } from "./FormInvoiceWorkOrderInfo";
+import { InvoiceWorkOrderInput, InvoiceAmountInput } from "./inputs";
 import { schema } from "./schema";
-import { InfoHowToAttachWO } from "./InfoHowToAttachWO";
-import type { Invoice } from "@types";
+import type { Invoice } from "@graphql/types";
 import type { InvoiceFormValues } from "./formFieldHandlers";
 
 export const InvoiceForm = ({
   initialFormValues,
   onSubmit,
-  existingInvoice
+  existingInvoice,
 }: {
   initialFormValues: InvoiceFormValues;
   onSubmit: (submittedFormValues: InvoiceFormValues) => Promise<void>;
   existingInvoice?: Invoice; // <-- indicates UPDATE operation
 }) => (
-  <Form initialValues={initialFormValues} validationSchema={schema} onSubmit={onSubmit}>
-    <div
-      style={{
-        width: "clamp(30rem, 40%, 50rem)",
-        padding: "1rem 2rem",
-        display: "flex",
-        flexDirection: "column"
-      }}
-    >
+  <Form
+    initialValues={initialFormValues}
+    validationSchema={schema}
+    onSubmit={onSubmit}
+    style={{ height: "100%" }}
+  >
+    <StyledDiv>
       {/* INVOICE: assignedTo */}
 
-      <div style={{ marginBottom: "2rem" }}>
-        {!existingInvoice ? (
-          <AutocompleteContact id="assignedTo" label="Assign to Contact" />
-        ) : (
-          <ItemDetailsBox label="Recipient" icon={<PersonIcon />}>
-            <ContactAvatar contact={existingInvoice.assignedTo} style={{ marginRight: "1rem" }} />
-          </ItemDetailsBox>
-        )}
-      </div>
+      {!existingInvoice ? (
+        // TODO Have AutoCompleteContact should show Avatar after selection
+        <AutoCompleteContact
+          id="assignedTo"
+          label="To"
+          gridArea="assign-to"
+          isValueNullable={false}
+          disabled={!!existingInvoice}
+        />
+      ) : (
+        <ItemDetailsGroup label="To" labelIcon={<PersonIcon />} gridArea="assign-to">
+          <ContactAvatar contact={existingInvoice.assignedTo} />
+        </ItemDetailsGroup>
+      )}
 
       {/* INVOICE: workOrder */}
 
-      <ItemDetailsBox
-        label="Work Order"
-        icon={<FileInvoiceDollarIcon />}
-        sx={{
-          // styles applied to "item-details-box-container"
-          marginBottom: "2rem",
-          "& > div.item-details-box-content-container": {
-            flexDirection: "column"
-          }
-        }}
-      >
-        {initialFormValues.workOrder ? (
-          <Link
-            to={`/home/workorders/${initialFormValues.workOrder}`}
-            state={{ isItemOwnedByUser: false }}
-            // NOTE re above: WO ownership will always be the inverse of INV ownership
-          >
-            View Work Order
-          </Link>
-        ) : (
-          <>
-            <Text style={{ marginBottom: "1rem" }}>- None -</Text>
-            <InfoHowToAttachWO />
-          </>
-        )}
-      </ItemDetailsBox>
+      <InvoiceWorkOrderInput id="workOrder" label="Work Order" gridArea="select-wo" />
+      <FormInvoiceWorkOrderInfo gridArea="work-order" />
 
       {/* INVOICE: amount */}
 
-      <CurrencyInput
-        id="amount"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Text style={{ fontSize: "3.5rem" }}>$</Text>
-            </InputAdornment>
-          ),
-          style: { fontSize: "3rem", paddingTop: "1rem", height: "8rem" }
-        }}
-        // TODO See if the below style-related props can't be combined into 1 `sx` here.
-        InputLabelProps={{ style: { fontSize: "1.5rem" } }}
-        FormHelperTextProps={{ style: { whiteSpace: "nowrap", alignSelf: "center" } }}
-        // above HelperText style looks better w long err msg
-        style={{ marginBottom: "1rem" }}
-      />
-      <Form.SubmitButton />
-    </div>
+      <InvoiceAmountInput id="amount" gridArea="amount" />
+
+      <Form.ControlButtons gridArea="form-btns" />
+    </StyledDiv>
   </Form>
 );
+
+const StyledDiv = styled("div")(({ theme }) => ({
+  width: "auto",
+  alignSelf: "center",
+  display: "grid",
+  ...(theme.variables.isMobilePageLayout
+    ? {
+        height: "100%",
+        padding: "0.5rem 0",
+        gap: "0", // m-b is used instead
+        gridTemplateRows: "repeat(4,min-content) 1fr",
+        gridTemplateColumns: "1fr",
+        gridTemplateAreas: `
+          "assign-to"
+          "select-wo"
+          "work-order"
+          "amount"
+          "form-btns"`,
+      }
+    : {
+        padding: "1rem 0",
+        gap: "2rem 6rem",
+        gridTemplateRows: "repeat(3,min-content) 1fr",
+        gridTemplateColumns: "minmax(20rem,1fr) minmax(0,2fr)",
+        gridTemplateAreas: `
+          "assign-to  work-order"
+          "select-wo  work-order"
+          "amount     work-order"
+          "form-btns  work-order"`,
+      }),
+
+  [`& > div:not(.${invWorkOrderInfoClassNames.root}):not(.${formClassNames.controlButtonsContainer})`]:
+    {
+      ...(theme.variables.isMobilePageLayout && {
+        marginBottom: "1rem",
+      }),
+    },
+
+  // INVOICE: assignedTo IDG (only visible during UPDATE, not CREATE)
+  [`& .${itemDetailsClassNames.groupContent} .${avatarClassNames.muiAvatar.root}`]: {
+    marginRight: "0.25rem",
+  },
+
+  // FORM-CONTROL BUTTONS CONTAINER
+
+  [`& .${formClassNames.controlButtonsContainer}`]: {
+    alignSelf: "end",
+  },
+}));

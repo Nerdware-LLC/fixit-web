@@ -1,9 +1,10 @@
 import Text from "@mui/material/Typography";
-import { AnchorLink, TextExternalLink } from "@components";
-import { LegalPolicyPageLayout, PolicyToC } from "@layouts";
+import { Anchor } from "@components/Navigation/Anchor";
+import { LegalPolicyPageLayout } from "@layouts/LegalPolicyPageLayout";
+import { PolicyToC } from "@layouts/LegalPolicyPageLayout/PolicyToC";
+import { PersonalInfoCollectedTable } from "./PersonalInfoCollectedTable";
 import { POLICY_ANCHOR_TARGETS } from "./PolicyAnchorTargets";
 import { PolicySection, InShort } from "./PolicySection";
-import { PersonalInfoCollectedTable } from "./PersonalInfoCollectedTable";
 
 export const PrivacyPolicyPage = () => (
   <LegalPolicyPageLayout pageTitle="Privacy Policy" lastUpdated="January 01, 2022">
@@ -14,8 +15,8 @@ export const PrivacyPolicyPage = () => (
     </Text>
     <ul>
       <li>
-        Visit our website at <TextExternalLink href="https://gofixit.app" />, or any website of ours
-        that links to this privacy notice
+        Visit our website at <Anchor href="https://gofixit.app" />, or any website of ours that
+        links to this privacy notice
       </li>
       <li>
         Download and use our mobile application (Fixit), or any other application of ours that links
@@ -37,7 +38,7 @@ export const PrivacyPolicyPage = () => (
       This summary provides key points from our privacy notice, but you can find out more details
       about any of these topics by clicking the link following each key point or by using our table
       of contents below to find the section you are looking for. You can also click{" "}
-      <AnchorLink href="#toc" linkText="here" /> to go directly to our table of contents.
+      <Anchor href="#toc">here</Anchor> to go directly to our table of contents.
     </Text>
     <Text>
       <b>What personal information do we process?</b> When you visit, use, or navigate our Services,
@@ -88,13 +89,13 @@ export const PrivacyPolicyPage = () => (
     </Text>
     <Text>
       <b>How do you exercise your rights?</b> The easiest way to exercise your rights is by filling
-      out our data subject request form available here:{" "}
-      <TextExternalLink href="https://gofixit.app/home" />, or by contacting us. We will consider
-      and act upon any request in accordance with applicable data protection laws.
+      out our data subject request form available here: <Anchor href="https://gofixit.app/home" />,
+      or by contacting us. We will consider and act upon any request in accordance with applicable
+      data protection laws.
     </Text>
     <Text>
       Want to learn more about what Nerdware, LLC does with any information we collect? Click{" "}
-      <AnchorLink href="#toc" linkText="here" /> to review the notice in full.
+      <Anchor href="#toc">here</Anchor> to review the notice in full.
     </Text>
 
     {/*   TABLE OF CONTENTS   */}
@@ -141,7 +142,7 @@ export const PrivacyPolicyPage = () => (
         <b>Payment Data.</b> We may collect data necessary to process your payment if you make
         purchases, such as your payment instrument number, and the security code associated with
         your payment instrument. All payment data is stored by Stripe. You may find their privacy
-        notice link(s) here: <TextExternalLink href="https://stripe.com/privacy" />.
+        notice link(s) here: <Anchor href="https://stripe.com/privacy" />.
       </Text>
       <Text>
         <b>Social Media Login Data.</b> We may provide you with the option to register with us using
@@ -372,13 +373,12 @@ export const PrivacyPolicyPage = () => (
         If you are located in the EEA or UK and you believe we are unlawfully processing your
         personal information, you also have the right to complain to your local data protection
         supervisory authority. You can find their contact details here:{" "}
-        <TextExternalLink href="https://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.html" />
+        <Anchor href="https://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.html" />
         .
       </Text>
       <Text>
         If you are located in Switzerland, the contact details for the data protection authorities
-        are available here:{" "}
-        <TextExternalLink href="https://www.edoeb.admin.ch/edoeb/en/home.html" />.
+        are available here: <Anchor href="https://www.edoeb.admin.ch/edoeb/en/home.html" />.
       </Text>
       <Text>
         Withdrawing your consent: If we are relying on your consent to process your personal
@@ -626,7 +626,7 @@ export const PrivacyPolicyPage = () => (
         Based on the applicable laws of your country, you may have the right to request access to
         the personal information we collect from you, change that information, or delete it. To
         request to review, update, or delete your personal information, please visit:{" "}
-        <TextExternalLink href="https://gofixit.app/home" />.
+        <Anchor href="https://gofixit.app/home" />.
       </Text>
     </PolicySection>
   </LegalPolicyPageLayout>

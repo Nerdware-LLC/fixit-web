@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
-import { usePageLayoutContext } from "@app";
-import { PenToSquareIcon, FileInvoiceDollarIcon } from "@components";
-import type { WorkOrder } from "@types";
+import Button, { type ButtonProps } from "@mui/material/Button";
+import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
+import { FileInvoiceDollarIcon } from "@components/Icons/FileInvoiceDollarIcon";
+import { PenToSquareIcon } from "@components/Icons/PenToSquareIcon";
+import type { WorkOrder } from "@graphql/types";
 
 export const WorkOrderItemViewHeader = ({
   workOrder,
-  isItemOwnedByUser
+  isItemOwnedByUser,
 }: {
   workOrder: WorkOrder;
   isItemOwnedByUser: boolean;
@@ -14,20 +15,16 @@ export const WorkOrderItemViewHeader = ({
   const nav = useNavigate();
   const { isMobilePageLayout } = usePageLayoutContext();
 
-  const {
-    onClick,
-    startIcon,
-    buttonText
-  }: React.ComponentProps<typeof Button> & { buttonText: string } = isItemOwnedByUser
+  const { onClick, startIcon, buttonText }: ButtonProps & { buttonText: string } = isItemOwnedByUser
     ? {
         onClick: () => nav("/home/workorders/form", { state: { workOrder } }),
         startIcon: <PenToSquareIcon />,
-        buttonText: isMobilePageLayout ? "Edit" : "Update Work Order"
+        buttonText: isMobilePageLayout ? "Edit" : "Update Work Order",
       }
     : {
         onClick: () => nav("/home/invoices/form", { state: { workOrderToInvoice: workOrder } }),
         startIcon: <FileInvoiceDollarIcon />,
-        buttonText: "Create Invoice"
+        buttonText: "Create Invoice",
       };
 
   /*
@@ -55,14 +52,14 @@ export const WorkOrderItemViewHeader = ({
           paddingBottom: "0.16rem",
           borderRadius: "1.5rem",
           ...(isMobilePageLayout && {
-            fontSize: "1rem"
-          })
+            fontSize: "1rem",
+          }),
         }}
         sx={{
           "& svg": {
             marginRight: "0.2rem",
-            marginBottom: "0.15rem"
-          }
+            marginBottom: "0.15rem",
+          },
         }}
       >
         {buttonText}

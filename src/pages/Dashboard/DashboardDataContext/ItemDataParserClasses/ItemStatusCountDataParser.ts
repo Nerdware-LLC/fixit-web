@@ -1,5 +1,5 @@
 import { ItemDataParser } from "./ItemDataParser";
-import type { WorkOrder, Invoice } from "@types";
+import type { WorkOrder, Invoice } from "@graphql/types";
 
 export class ItemStatusCountDataParser<
   TItem extends WorkOrder | Invoice
@@ -9,13 +9,13 @@ export class ItemStatusCountDataParser<
       initialDataAccum: {
         STATUS_COUNTS: Object.fromEntries(
           itemStatuses.map((status) => [status, 0])
-        ) as ItemStatusCounter<TItem>
+        ) as ItemStatusCounter<TItem>,
       },
       dataAccumUpdater: (dataReducerAccum, item) => {
         // TS not inferring the status relationship here, hence the `as ...` type cast
         dataReducerAccum.STATUS_COUNTS[item.status] += 1;
         return dataReducerAccum;
-      }
+      },
     });
   }
 }

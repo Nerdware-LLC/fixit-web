@@ -1,11 +1,13 @@
 import { styled } from "@mui/material/styles";
-import Text from "@mui/material/Typography";
+import { chipClasses as muiChipClasses } from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
-import { SwitchToAnnual } from "./SwitchToAnnual";
+import Text, { typographyClasses } from "@mui/material/Typography";
+import { checkoutValuesStore, type CheckoutValues } from "@cache/checkoutValuesStore";
+import { formatNum } from "@utils/formatNum";
 import { PromoCodeInput } from "./PromoCodeInput";
-import { checkoutValuesStore, type CheckoutValues } from "@app";
-import { ENV } from "@config";
-import { formatNum } from "@utils";
+import { SwitchToAnnual } from "./SwitchToAnnual";
+import { checkoutPageClassNames } from "./classNames";
+import { PROMO_CODES } from "./promoCodes";
 import type { UserSubscriptionPriceLabel } from "@types";
 
 /**
@@ -24,7 +26,7 @@ export const SubCostDetails = () => {
     price,
     billingPeriod = null,
     trialDays = null,
-    afterTrial = null
+    afterTrial = null,
   } = SUB_DICT_DISPLAY_PARAMS[selectedSubscription];
 
   const priceStr = formatNum.toCurrencyStr(price);
@@ -37,94 +39,72 @@ export const SubCostDetails = () => {
     : null;
 
   return (
-    <div
-      style={{
-        height: "100%",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        whiteSpace: "nowrap"
-      }}
-    >
-      <div>
-        <StyledText>{label}</StyledText>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            whiteSpace: "pre"
-          }}
-        >
-          <h1
-            style={{
-              fontSize: "clamp(2.5rem, 10vw, 3rem)",
-              lineHeight: "3.25rem",
-              margin: "0 0.5rem 0 0"
-            }}
-          >
+    <StyledDiv className={checkoutPageClassNames.subCostDetails.container}>
+      <div className={checkoutPageClassNames.subCostDetails.priceLabelContainer}>
+        <Text className={checkoutPageClassNames.baseText}>{label}</Text>
+        <div>
+          <Text /* TODO check how this looks, was converted from an h1 */>
             {billingPeriod ? priceStr : `${trialDays} days free`}
-          </h1>
-          {!!billingPeriod && (
-            <span
-              style={{
-                width: "100%",
-                display: "inline-block",
-                whiteSpace: "pre",
-                fontWeight: "normal",
-                lineHeight: "1.35rem"
-              }}
-            >
-              {`per\n${billingPeriod}`}
-            </span>
-          )}
+          </Text>
+          {!!billingPeriod && <span>{`per\n${billingPeriod}`}</span>}
         </div>
         {!!afterTrial && (
-          <StyledText variant="caption" style={{ margin: "0.1rem 0 0 0" }}>
+          <Text variant="caption" className={checkoutPageClassNames.baseText}>
             Then {afterTrialPriceStr} per {afterTrial.billingPeriod}
-          </StyledText>
+          </Text>
         )}
       </div>
-      <StyledPriceInfoContainer>
-        <PriceInfoRow>
-          <StyledText style={{ whiteSpace: "normal" }}>Fixit Subscription</StyledText>
-          <StyledText style={{ textAlign: "right", marginLeft: "1rem" }}>
+      <div className={checkoutPageClassNames.subCostDetails.priceInfoColumn}>
+        <div className={checkoutPageClassNames.subCostDetails.priceInfoRow}>
+          <Text className={checkoutPageClassNames.baseText} style={{ whiteSpace: "normal" }}>
+            Fixit Subscription
+          </Text>
+          <Text
+            className={checkoutPageClassNames.baseText}
+            style={{ textAlign: "right", marginLeft: "1rem" }}
+          >
             {billingPeriod ? `${priceStr} / ${billingPeriod}` : `${trialDays} days free`}
-          </StyledText>
-        </PriceInfoRow>
-        <PriceInfoRow style={{ maxHeight: "1rem", alignItems: "flex-end" }}>
-          {!!billingPeriod && <StyledText variant="caption">Billed {billingPeriod}ly</StyledText>}
-          {!!afterTrial && (
-            <StyledText variant="caption" style={{ textAlign: "right" }}>
-              Then {afterTrialPriceStr} per {afterTrial.billingPeriod} after
-            </StyledText>
+          </Text>
+        </div>
+        <div
+          className={checkoutPageClassNames.subCostDetails.priceInfoRow}
+          style={{ maxHeight: "1rem", alignItems: "flex-end" }}
+        >
+          {!!billingPeriod && (
+            <Text variant="caption" className={checkoutPageClassNames.baseText}>
+              Billed {billingPeriod}ly
+            </Text>
           )}
-        </PriceInfoRow>
-        <PriceInfoRow sx={{ backgroundColor: ({ palette }) => palette.divider }}>
-          <SwitchToAnnual />
-        </PriceInfoRow>
-      </StyledPriceInfoContainer>
-      <PriceInfoRow>
-        <StyledText>Subtotal</StyledText>
-        <StyledText>{priceStr}</StyledText>
-      </PriceInfoRow>
+          {!!afterTrial && (
+            <Text
+              variant="caption"
+              className={checkoutPageClassNames.baseText}
+              style={{ textAlign: "right" }}
+            >
+              Then {afterTrialPriceStr} per {afterTrial.billingPeriod} after
+            </Text>
+          )}
+        </div>
+        <SwitchToAnnual />
+      </div>
+      <div className={checkoutPageClassNames.subCostDetails.priceInfoRow}>
+        <Text className={checkoutPageClassNames.baseText}>Subtotal</Text>
+        <Text className={checkoutPageClassNames.baseText}>{priceStr}</Text>
+      </div>
       <Divider />
-      <PriceInfoRow>
-        <PromoCodeInput />
-      </PriceInfoRow>
+      <PromoCodeInput />
       <Divider />
       {!!afterTrial && (
-        <PriceInfoRow>
-          <StyledText>Total after trial</StyledText>
-          <StyledText>{totalAfterTrial_DISPLAY_ONLY}</StyledText>
-        </PriceInfoRow>
+        <div className={checkoutPageClassNames.subCostDetails.priceInfoRow}>
+          <Text className={checkoutPageClassNames.baseText}>Total after trial</Text>
+          <Text className={checkoutPageClassNames.baseText}>{totalAfterTrial_DISPLAY_ONLY}</Text>
+        </div>
       )}
-      <PriceInfoRow>
-        <StyledText>Total due today</StyledText>
-        <StyledText>{totalDueToday_DISPLAY_ONLY}</StyledText>
-      </PriceInfoRow>
-    </div>
+      <div className={checkoutPageClassNames.subCostDetails.priceInfoRow}>
+        <Text className={checkoutPageClassNames.baseText}>Total due today</Text>
+        <Text className={checkoutPageClassNames.baseText}>{totalDueToday_DISPLAY_ONLY}</Text>
+      </div>
+    </StyledDiv>
   );
 };
 
@@ -143,19 +123,19 @@ export const SUB_DICT_DISPLAY_PARAMS: Record<
     trialDays: 14,
     afterTrial: {
       price: 500,
-      billingPeriod: "month"
-    }
+      billingPeriod: "month",
+    },
   },
   MONTHLY: {
     label: "Monthly Subscription",
     price: 500,
-    billingPeriod: "month"
+    billingPeriod: "month",
   },
   ANNUAL: {
     label: "Annual Subscription",
     price: 5000,
-    billingPeriod: "year"
-  }
+    billingPeriod: "year",
+  },
 };
 
 /**
@@ -164,40 +144,76 @@ export const SUB_DICT_DISPLAY_PARAMS: Record<
  */
 export const getTotal_DISPLAY_ONLY = (price: number, promoCode: string | null) => {
   return formatNum.toCurrencyStr(
-    typeof promoCode === "string" && (promoCode ?? "") in ENV.STRIPE.PROMO_CODES
-      ? price - price * (ENV.STRIPE.PROMO_CODES[promoCode] / 100)
+    typeof promoCode === "string" && (promoCode ?? "") in PROMO_CODES
+      ? price - price * (PROMO_CODES[promoCode] / 100)
       : price
   );
 };
+
+const StyledDiv = styled("div")(({ theme }) => ({
+  height: "100%",
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  whiteSpace: "nowrap",
+
+  [`& .${checkoutPageClassNames.subCostDetails.priceInfoColumn}`]: {
+    width: "100%",
+    marginTop: "1rem",
+    display: "flex",
+    flexDirection: "column",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: theme.palette.divider,
+    borderRadius: "5px",
+  },
+
+  [`& .${checkoutPageClassNames.subCostDetails.priceInfoRow}`]: {
+    position: "relative",
+    width: "100%",
+    padding: "1rem",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+
+  [`& .${muiChipClasses.root}`]: {
+    marginLeft: "1rem",
+    fontWeight: "bold",
+    borderRadius: "3px",
+  },
+
+  [`& > .${checkoutPageClassNames.subCostDetails.priceLabelContainer}`]: {
+    "& > div:first-of-type": {
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      whiteSpace: "pre",
+
+      [`& > .${typographyClasses.root}:first-of-type`]: {
+        fontSize: "clamp(2.5rem, 10vw, 3rem)",
+        lineHeight: "3.25rem",
+        margin: "0 0.5rem 0 0",
+      },
+
+      "& > span:first-of-type": {
+        width: "100%",
+        display: "inline-block",
+        whiteSpace: "pre",
+        fontWeight: "normal",
+        lineHeight: "1.35rem",
+      },
+
+      [`& > .${typographyClasses.root}.${typographyClasses.caption}`]: {
+        margin: "0.1rem 0 0 0",
+      },
+    },
+  },
+}));
 
 type SubPlanPricingDisplayParams = {
   price: number;
   billingPeriod?: "month" | "year";
 };
-
-// exported for use in PromoCodeInput
-export const StyledText = styled(Text)`
-  font-size: clamp(1rem, 4vw, 1.15rem);
-  line-height: 1.5rem;
-`;
-
-const StyledPriceInfoContainer = styled("div")(({ theme }) => ({
-  width: "100%",
-  marginTop: "1rem",
-  display: "flex",
-  flexDirection: "column",
-  borderWidth: "1px",
-  borderStyle: "solid",
-  borderColor: theme.palette.divider,
-  borderRadius: "5px"
-}));
-
-const PriceInfoRow = styled("div")`
-  position: relative;
-  width: 100%;
-  padding: 1rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;

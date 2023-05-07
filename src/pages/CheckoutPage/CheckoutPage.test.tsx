@@ -1,7 +1,7 @@
-import renderer from "react-test-renderer";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
-import { CheckoutPage } from "./CheckoutPage";
+import renderer from "react-test-renderer";
 import { ThemeProvider } from "@app/ThemeProvider";
+import { CheckoutPage } from "./CheckoutPage";
 
 it("renders correctly", () => {
   expect(
@@ -10,7 +10,7 @@ it("renders correctly", () => {
         <ThemeProvider>
           <MemoryRouter
             initialEntries={[
-              "/checkout?token=TEST_TOKEN_VALUE&sub=annual&promoCode=TEST_PROMO_CODE"
+              "/checkout?token=TEST_TOKEN_VALUE&sub=annual&promoCode=TEST_PROMO_CODE",
             ]}
           >
             <Routes>

@@ -1,8 +1,5 @@
-import { useQuery } from "@apollo/client/react/hooks";
-import { Loading, Error } from "@components";
-import { ProfileViewLayout } from "@layouts";
-import { QUERIES } from "@graphql";
-import { MOCK_USERS } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
+import { authenticatedUserStore } from "@cache/authenticatedUserStore";
+import { ProfileViewLayout } from "@layouts/ProfileViewLayout";
 
 /* TODO Add to ProfilePage:
 
@@ -11,16 +8,7 @@ import { MOCK_USERS } from "@/__tests__/mockItems"; // FIXME rm import, use only
 */
 
 export const ProfilePage = () => {
-  // eslint-disable-next-line
-  const { data, loading, error, refetch, networkStatus } = useQuery(QUERIES.MY_PROFILE, {
-    notifyOnNetworkStatusChange: true
-  });
+  const user = authenticatedUserStore.useSubToStore();
 
-  if (loading || networkStatus === 4) return <Loading />;
-  if (error) return <Error error={error} />;
-
-  // const { profile } = MOCK_USERS.Guy_McPerson; // FIXME data.myProfile
-  // const { displayName, givenName, familyName, businessName } = profile;
-
-  return <ProfileViewLayout {...MOCK_USERS.Guy_McPerson} />;
+  return <ProfileViewLayout {...user} />;
 };

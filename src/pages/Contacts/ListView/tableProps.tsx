@@ -1,10 +1,9 @@
-import { DataGrid } from "@mui/x-data-grid";
-import { ContactAvatar } from "@components";
-import { prettifyStr } from "@utils";
-import type { Contact } from "@types";
+import { ContactAvatar } from "@components/Avatar/ContactAvatar";
+import { prettifyStr } from "@utils/prettifyStr";
+import type { Contact } from "@graphql/types";
+import type { DataGridProps, GridColDef } from "@mui/x-data-grid";
 
 type ColumnFieldKeys = "contact" | keyof Contact;
-type ColumnConfig = React.ComponentProps<typeof DataGrid>["columns"][number];
 
 const COLUMNS = Object.fromEntries(
   Object.entries(
@@ -15,13 +14,13 @@ const COLUMNS = Object.fromEntries(
         valueFormatter: ({ value }) => value, // <-- necessary for export/print on cols with renderCell
         renderCell: ({ row: contact }) => (
           <ContactAvatar contact={contact as any} viewContactOnClick={false} />
-        )
+        ),
       },
       handle: {
-        headerName: "Handle"
+        headerName: "Handle",
       },
       email: {
-        headerName: "Email"
+        headerName: "Email",
       },
       phone: {
         headerName: "Phone",
@@ -29,24 +28,24 @@ const COLUMNS = Object.fromEntries(
         valueParser: (value) => prettifyStr.phone(value),
         minWidth: 125,
         headerAlign: "center",
-        align: "center"
-      }
-    } as Record<ColumnFieldKeys, Partial<ColumnConfig>>
+        align: "center",
+      },
+    } as Record<ColumnFieldKeys, Partial<GridColDef>>
     // Map each column entry to an object with "field" and some defaults:
-  ).map(([columnFieldKey, columnConfig]) => [
+  ).map(([columnFieldKey, GridColDef]) => [
     columnFieldKey,
     {
       field: columnFieldKey,
       type: "string",
       editable: false,
       flex: 1,
-      minWidth: columnConfig.type === "date" ? 100 : columnConfig.type === "dateTime" ? 160 : 150,
+      minWidth: GridColDef.type === "date" ? 100 : GridColDef.type === "dateTime" ? 160 : 150,
       maxWidth: 600,
-      ...columnConfig // <-- explicit configs override above defaults
-    }
+      ...GridColDef, // <-- explicit configs override above defaults
+    },
   ])
-) as Record<ColumnFieldKeys, ColumnConfig>;
+) as Record<ColumnFieldKeys, GridColDef>;
 
-export const contactTableProps: Omit<React.ComponentProps<typeof DataGrid>, "rows"> = {
-  columns: Object.values(COLUMNS)
+export const contactTableProps: Omit<DataGridProps, "rows"> = {
+  columns: Object.values(COLUMNS),
 };

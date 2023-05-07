@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { usePageLayoutContext } from "@app";
+import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
 
 /**
  * A canvas background inspired by https://stripe.com/
@@ -93,10 +93,10 @@ export const CanvasGradientBG = () => {
           right: 0,
           zIndex: 0,
           height: "100vh",
-          width: "100vw",
+          width: "100%",
           clipPath: !isMobilePageLayout
             ? "polygon(0 0, 100% 0, 100% 18%, 0 50%)"
-            : "polygon(0 0, 100% 0, 100% 15%, 0 22%)"
+            : "polygon(0 0, 100% 0, 100% 15%, 0 22%)",
         } as any
       }
     />

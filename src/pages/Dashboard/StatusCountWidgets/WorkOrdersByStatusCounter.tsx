@@ -1,10 +1,10 @@
-import { WO_STATUS_ICON_REACT_NODES } from "@components";
+import { WO_STATUS_ICON_REACT_NODES } from "@components/Icons/WorkOrderStatusIcon";
 import { StatusCountWidget } from "./StatusCountWidget";
 import { useDashboardDataContext } from "../DashboardDataContext";
 
 export const WorkOrdersByStatusCounter = () => {
   const {
-    widgetData: { WorkOrdersByStatusCounter }
+    widgetData: { WorkOrdersByStatusCounter },
   } = useDashboardDataContext();
 
   const { createdByUser, assignedToUser } = WorkOrdersByStatusCounter;

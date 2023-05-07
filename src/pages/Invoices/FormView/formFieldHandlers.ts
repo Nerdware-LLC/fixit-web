@@ -1,14 +1,19 @@
-import { FormFieldHandlers, formatNum, formatCurrencyStrToInt } from "@utils";
-import type { Invoice, FormValues } from "@types";
+import { formatCurrencyStrToInt } from "@utils/currency";
+import { FormFieldHandlers, type FormValues } from "@utils/formUtils";
+import { formatNum } from "@utils/formatNum";
+import type { Invoice } from "@graphql/types";
 
-export const invoiceFormFieldHandlers = new FormFieldHandlers<InvoiceFormValues>({
+export const invoiceFormFieldHandlers = new FormFieldHandlers<
+  InvoiceFormValues,
+  InvoiceFormValuesForMutation
+>({
   onUpdate: {
     createdBy: false,
     assignedTo: false,
     amount: (rawFieldValue: number) => formatNum.toCurrencyStr(rawFieldValue).slice(1), // slice to rm "$" starting char
     status: false,
     stripePaymentIntentID: false,
-    workOrder: false
+    workOrder: false,
   },
   onSubmit: {
     amount: (formValue, existingValue) => {
@@ -16,13 +21,17 @@ export const invoiceFormFieldHandlers = new FormFieldHandlers<InvoiceFormValues>
 
       return {
         wasChanged: formValueAsInteger !== existingValue,
-        value: formValueAsInteger
+        value: formValueAsInteger,
       };
-    }
-  }
+    },
+  },
 });
 
 export type InvoiceFormValues = FormValues<
   Invoice,
   "id" | "createdBy" | "status" | "stripePaymentIntentID" | "createdAt" | "updatedAt"
 >;
+
+export type InvoiceFormValuesForMutation = Omit<InvoiceFormValues, "amount"> & {
+  amount: number;
+};

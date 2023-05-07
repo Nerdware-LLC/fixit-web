@@ -1,44 +1,46 @@
 import { useParams, useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client/react/hooks";
-import { QUERIES } from "@graphql";
-import { Loading, Error } from "@components";
-import { CoreItemView } from "@layouts";
-import { InvoiceItemViewHeader } from "./ItemViewHeader";
+import { Error } from "@components/Indicators/Error";
+import { Loading } from "@components/Indicators/Loading";
+import { QUERIES } from "@graphql/queries";
+import { coreContentViewLayoutClassNames } from "@layouts/CoreContentViewLayout/classNames";
+import { CoreItemView } from "@layouts/CoreItemView";
 import { InvoiceItemViewContent } from "./ItemViewContent";
-import { MOCK_INVOICES } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
+import { InvoiceItemViewHeader } from "./ItemViewHeader";
 
 export const InvoiceItemView = () => {
   const { id } = useParams();
   // Get isItemOwnedByUser state-param provided by CoreItemsList component
   const {
-    state: { isItemOwnedByUser }
+    state: { isItemOwnedByUser },
   } = useLocation();
 
-  const { loading, error, networkStatus } = useQuery(QUERIES.INVOICE, {
-    // TODO fetchPolicy: cache only?
-    variables: { invoiceID: id },
+  const { data, loading, error, networkStatus } = useQuery(QUERIES.INVOICE, {
+    variables: { invoiceID: id ?? "" },
     notifyOnNetworkStatusChange: true,
-    skip: true // TODO turn this off later
+    fetchPolicy: "cache-only",
+    skip: !id,
   });
 
-  if (loading || networkStatus === 4) return <Loading />;
-  if (error) return <Error error={error} />;
-
-  const MOCK_invoice = [
-    ...MOCK_INVOICES.myInvoices.createdByUser,
-    ...MOCK_INVOICES.myInvoices.assignedToUser
-  ].find((inv) => inv.id === id);
-
-  if (!MOCK_invoice) return null;
-
-  return (
+  return loading || networkStatus === 4 || !data?.invoice ? (
+    <Loading />
+  ) : error ? (
+    <Error error={error} />
+  ) : (
     <CoreItemView
       headerLabel="Invoice"
       headerComponents={
-        <InvoiceItemViewHeader invoice={MOCK_invoice} isItemOwnedByUser={isItemOwnedByUser} />
+        <InvoiceItemViewHeader invoice={data?.invoice} isItemOwnedByUser={isItemOwnedByUser} />
       }
+      sx={(theme) => ({
+        [`& .${coreContentViewLayoutClassNames.childrenContainer}`]: {
+          ...(!theme.variables.isMobilePageLayout && {
+            padding: "2rem",
+          }),
+        },
+      })}
     >
-      <InvoiceItemViewContent invoice={MOCK_invoice} isItemOwnedByUser={isItemOwnedByUser} />
+      <InvoiceItemViewContent invoice={data.invoice} isItemOwnedByUser={isItemOwnedByUser} />
     </CoreItemView>
   );
 };

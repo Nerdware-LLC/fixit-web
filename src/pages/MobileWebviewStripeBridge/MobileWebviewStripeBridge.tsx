@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { useWebViewContext } from "@app";
-import { Loading } from "@components";
+import { useWebViewContext } from "@app/WebViewContext/useWebViewContext";
+import { Loading } from "@components/Indicators/Loading";
 
 // TODO Once mobile app is ready, have a Route or some other comp render this where appropriate.
 

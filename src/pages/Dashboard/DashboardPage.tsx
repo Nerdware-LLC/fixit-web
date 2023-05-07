@@ -1,29 +1,32 @@
 import { styled } from "@mui/material/styles";
-import Text from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
+import Text, { typographyClasses } from "@mui/material/Typography";
 import { DashboardDataContextProvider } from "./DashboardDataContext";
-import { WorkOrdersByStatusCounter, InvoicesByStatusCounter } from "./StatusCountWidgets";
-import { WorkOrdersPerMonthChart, InvoicesPerMonthChart } from "./ItemsPerMonthCharts";
-import { WorkOrderUpcomingEventsWidget } from "./WorkOrderUpcomingEventsWidget";
+import { DashboardWidgetContainer } from "./DashboardWidgetContainer";
 import { InvoiceAmountTotalsWidget } from "./InvoiceAmountTotalsWidget";
+import { WorkOrdersPerMonthChart, InvoicesPerMonthChart } from "./ItemsPerMonthCharts";
+import { WorkOrdersByStatusCounter, InvoicesByStatusCounter } from "./StatusCountWidgets";
+import { WorkOrderUpcomingEventsWidget } from "./WorkOrderUpcomingEventsWidget";
+import { dashboardPageClassNames } from "./classNames";
+
+// TODO Idea for new widget: count number of overdue work orders, and/or how many are due/scheduled in x days
+// TODO Idea for new widget/page: CALENDAR VIEW, for due/scheduled dates
+// TODO Idea for new widget/page: Colored layout of WOs, highlighted by priority
 
 export const DashboardPage = () => {
   return (
     <DashboardDataContextProvider>
-      <DashboardContentContainer className="dashboard-view">
+      <StyledDiv className={dashboardPageClassNames.root}>
         {/* TOP ROW VIEW HEADER */}
 
-        <Text variant="h4" component="h1">
-          Dashboard
-        </Text>
+        <Text variant="h1">Dashboard</Text>
 
         {/* WIDGETS AREA: flex row of WorkOrder-widgets then Invoice-widgets */}
 
-        <div className="dashboard-widgets-area">
+        <div className={dashboardPageClassNames.widgetsArea}>
           {/* Work Order Widgets */}
 
-          <div className="dashboard-widgets-group">
-            <div className="dashboard-widgets-subgroup">
+          <div className={dashboardPageClassNames.widgetsGroup}>
+            <div className={dashboardPageClassNames.widgetsSubGroup}>
               <DashboardWidgetContainer size="small">
                 <WorkOrdersByStatusCounter />
               </DashboardWidgetContainer>
@@ -39,8 +42,8 @@ export const DashboardPage = () => {
 
           {/* Invoice Widgets */}
 
-          <div className="dashboard-widgets-group">
-            <div className="dashboard-widgets-subgroup">
+          <div className={dashboardPageClassNames.widgetsGroup}>
+            <div className={dashboardPageClassNames.widgetsSubGroup}>
               <DashboardWidgetContainer size="small">
                 <InvoicesByStatusCounter />
               </DashboardWidgetContainer>
@@ -54,104 +57,88 @@ export const DashboardPage = () => {
             </DashboardWidgetContainer>
           </div>
         </div>
-      </DashboardContentContainer>
+      </StyledDiv>
     </DashboardDataContextProvider>
   );
 };
 
-const DashboardContentContainer = styled("div")(({ theme }) => ({
-  height: "100%",
-  padding: "0.75rem",
-  overflowY: "auto",
+const StyledDiv = styled("div")(({ theme }) => {
+  const viewPadding = "0.75rem";
 
-  [theme.breakpoints.up("xl")]: {
-    minHeight: "100%"
-  },
+  const headerHeight = "2rem";
+  const headerBottomMargin = "0.5rem";
 
-  // "Dashboard" header styles
-  "& > .MuiTypography-root": {
-    paddingLeft: "0.75rem",
-    lineHeight: "2.75rem"
-  },
+  return {
+    height: "100%",
+    padding: viewPadding,
+    overflowY: "auto",
 
-  /* The widgets' layout is defined by three levels of nested containers:
+    // "Dashboard" header styles
+    [`& > h1.${typographyClasses.root}`]: {
+      fontSize: "2rem",
+      lineHeight: headerHeight,
+      margin: `${viewPadding} 0 ${headerBottomMargin} ${viewPadding}`,
+    },
+
+    /* The widgets' layout is defined by three levels of nested containers:
 
     1. widgets-area       col < 1200px < row   Contains two widget groups, 1 for WOs, 1 for INVs.
     2. widgets-group      col                  Contains 1 large widget and 2 small ones.
     3. widgets-subgroup   col < 600px < row    Container for 2 small widgets' layout.
   */
 
-  "& > div.dashboard-widgets-area": {
-    minHeight: "calc(100% - 2.75rem)",
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-
-    [theme.breakpoints.up("xl")]: {
-      height: "calc(100% - 2.75rem)",
-      flexDirection: "row"
-    },
-
-    "& > div.dashboard-widgets-group": {
-      height: "50%",
+    [`& > .${dashboardPageClassNames.widgetsArea}`]: {
+      minHeight: `calc( 100% - (${viewPadding} * 2 + ${headerHeight}))`,
       width: "100%",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "space-between",
 
       [theme.breakpoints.up("xl")]: {
-        height: "100%",
-        width: "50%"
+        height: `calc( 100% - (${viewPadding} * 2 + ${headerHeight}))`,
+        flexDirection: "row",
       },
 
-      // LARGE widgets:
-
-      "& > div.widget-size-large": {
-        height: "27rem"
-      },
-
-      // Subgroups:
-
-      "& > div.dashboard-widgets-subgroup": {
+      [`& > .${dashboardPageClassNames.widgetsGroup}`]: {
+        height: "50%",
+        width: "100%",
         display: "flex",
         flexDirection: "column",
+        justifyContent: "space-between",
 
-        [theme.breakpoints.up(700)]: {
-          flexDirection: "row",
-          flexGrow: 1,
-          alignItems: "center"
+        [theme.breakpoints.up("xl")]: {
+          height: "100%",
+          width: "50%",
         },
 
-        // SMALL widgets:
+        // LARGE widgets:
 
-        "& > div.widget-size-small": {
-          height: "20rem",
+        [`& > .${dashboardPageClassNames.widgetLarge}`]: {
+          height: "27rem",
+        },
+
+        // Subgroups:
+
+        [`& > .${dashboardPageClassNames.widgetsSubGroup}`]: {
+          display: "flex",
+          flexDirection: "column",
 
           [theme.breakpoints.up(700)]: {
-            width: "calc(50% - 1.5rem)"
-          }
-        }
-      }
-    }
-  }
-}));
+            flexDirection: "row",
+            flexGrow: 1,
+            alignItems: "center",
+          },
 
-const DashboardWidgetContainer = ({
-  size,
-  children
-}: {
-  size: "small" | "large";
-  children: React.ReactNode;
-} & React.ComponentProps<typeof Paper>) => (
-  <Paper
-    elevation={0}
-    className={["dashboard-widget-container", `widget-size-${size}`].join(" ")}
-    style={{
-      margin: "0.75rem",
-      padding: "1rem",
-      minWidth: "18rem"
-    }}
-  >
-    {children}
-  </Paper>
-);
+          // SMALL widgets:
+
+          [`& > .${dashboardPageClassNames.widgetSmall}`]: {
+            height: "20rem",
+
+            [theme.breakpoints.up(700)]: {
+              width: "calc( 50% - 1.5rem )",
+            },
+          },
+        },
+      },
+    },
+  };
+});

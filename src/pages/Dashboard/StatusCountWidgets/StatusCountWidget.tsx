@@ -1,64 +1,61 @@
 import { styled, alpha } from "@mui/material/styles";
-import Text from "@mui/material/Typography";
+import Text, { typographyClasses } from "@mui/material/Typography";
+import { INVOICE_STATUSES } from "@/types/Invoice";
+import { WORK_ORDER_STATUSES } from "@/types/WorkOrder";
 import { SmallWidgetLayout } from "../SmallWidgetLayout";
-import type { WorkOrder, Invoice } from "@types";
-
-// TODO Ensure status-count numbers print like 1,000 instead of 1000
+import { dashboardPageClassNames as classNames } from "../classNames";
+import type { WorkOrderStatus, InvoiceStatus } from "@graphql/types";
 
 export const StatusCountWidget = <
-  Label extends "Work Orders" | "Invoices",
-  T extends WorkOrder | Invoice = Label extends "Work Orders" ? WorkOrder : Invoice
+  CoreItemTypeName extends "Work Orders" | "Invoices",
+  CoreItemStatus extends WorkOrderStatus | InvoiceStatus = CoreItemTypeName extends "Work Orders"
+    ? WorkOrderStatus
+    : InvoiceStatus
 >({
   itemTypeLabel,
   statusIcons,
-  statuses = Object.keys(statusIcons) as ReadonlyArray<T["status"]>,
   numCreatedByUserByStatus,
-  numAssignedToUserByStatus
-}: {
-  itemTypeLabel: Label;
-  statusIcons: Record<T["status"], React.ReactNode>;
-  statuses?: ReadonlyArray<T["status"]>; // <-- can provide to force a specific order
-  numCreatedByUserByStatus: Record<T["status"], number>;
-  numAssignedToUserByStatus: Record<T["status"], number>;
-}) => (
-  <SmallWidgetLayout header={`${itemTypeLabel}: Status Overview`}>
-    <StatusRowsContainer>
+  numAssignedToUserByStatus,
+  orderedStatuses = itemTypeLabel === "Work Orders"
+    ? WORK_ORDER_STATUSES
+    : (INVOICE_STATUSES as any), // <-- ignore the "could be instantiated with a different sub-type" error
+}: StatusCountWidgetProps<CoreItemTypeName, CoreItemStatus>) => (
+  <SmallWidgetLayout header={`${itemTypeLabel} by Status`}>
+    <StyledDiv>
       {/* HEADER ROW */}
 
-      <div className="dashboard-status-widget-row dashboard-status-widget-header-row">
-        <Text className="dashboard-status-widget-middle-col" style={{ flexGrow: 1 }}>
+      <div className={`${classNames.statusWidgetRow} ${classNames.statusWidgetHeaderRow}`}>
+        <Text className={classNames.statusWidgetMiddleCol} style={{ flexGrow: 1 }}>
           Sent
         </Text>
-        <Text className="dashboard-status-widget-right-col">Received</Text>
+        <Text className={classNames.statusWidgetRightCol}>Received</Text>
       </div>
 
       {/* STATUS ROWS */}
 
-      {statuses.map((status) => (
-        <div className="dashboard-status-widget-row" key={`StatusCountWidget:${status}`}>
+      {orderedStatuses.map((status) => (
+        <div className={classNames.statusWidgetRow} key={`StatusCountWidget:${status}`}>
           {/* COL 1 - STATUS ICON+LABEL */}
 
-          <div className="dashboard-status-widget-left-col">
+          <div className={classNames.statusWidgetLeftCol}>
             {statusIcons[status]}
             <Text style={{ marginTop: "0.1rem" }}>{prettifyStatus(status)}</Text>
           </div>
 
           {/* COL 2 - NUMBER SENT */}
 
-          <div className="dashboard-status-widget-middle-col">
-            <Text>{numCreatedByUserByStatus[status as keyof typeof numCreatedByUserByStatus]}</Text>
+          <div className={classNames.statusWidgetMiddleCol}>
+            <Text>{numCreatedByUserByStatus[status].toLocaleString()}</Text>
           </div>
 
           {/* COL 3 - NUMBER RECEIVED */}
 
-          <div className="dashboard-status-widget-right-col">
-            <Text>
-              {numAssignedToUserByStatus[status as keyof typeof numAssignedToUserByStatus]}
-            </Text>
+          <div className={classNames.statusWidgetRightCol}>
+            <Text>{numAssignedToUserByStatus[status].toLocaleString()}</Text>
           </div>
         </div>
       ))}
-    </StatusRowsContainer>
+    </StyledDiv>
   </SmallWidgetLayout>
 );
 
@@ -69,13 +66,13 @@ const prettifyStatus = (status: string) => {
     .join(" ");
 };
 
-const StatusRowsContainer = styled("div")(({ theme }) => ({
+const StyledDiv = styled("div")(({ theme }) => ({
   padding: "0 1rem",
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
 
-  "& > .dashboard-status-widget-row": {
+  [`& > .${classNames.statusWidgetRow}`]: {
     width: "100%",
     display: "flex",
     flexDirection: "row",
@@ -83,28 +80,30 @@ const StatusRowsContainer = styled("div")(({ theme }) => ({
     flexWrap: "nowrap",
 
     // Header row
-    "&.dashboard-status-widget-header-row": {
+    [`&.${classNames.statusWidgetHeaderRow}`]: {
       justifyContent: "flex-end",
       paddingBottom: "0.25rem",
-      "& .MuiTypography-root": {
+
+      [`& .${typographyClasses.root}`]: {
         fontSize: "1rem",
         fontWeight: "normal",
-        color: theme.palette.secondary.main
-      }
+        color: theme.palette.secondary.main,
+      },
     },
 
     // Other status rows:
-    "&:not(.dashboard-status-widget-header-row)": {
+    [`&:not(.${classNames.statusWidgetHeaderRow})`]: {
       justifyContent: "space-between",
       flexGrow: 1,
       borderWidth: "1px 0 0 0",
       borderStyle: "solid",
       borderColor: theme.palette.divider,
-      "& .MuiTypography-root": {
+
+      [`& .${typographyClasses.root}`]: {
         fontSize: "1.2rem",
         fontWeight: "bold",
-        marginTop: "0.2rem"
-      }
+        marginTop: "0.2rem",
+      },
     },
 
     // "status rows" child columns: left / middle / right
@@ -118,25 +117,38 @@ const StatusRowsContainer = styled("div")(({ theme }) => ({
       alignItems: "center",
 
       // left col
-      "&.dashboard-status-widget-left-col": {
+      [`&.${classNames.statusWidgetLeftCol}`]: {
         minWidth: "3rem",
         flexGrow: 1,
         "& svg": {
-          marginRight: "0.75rem"
+          marginRight: "0.75rem",
         },
-        "& .MuiTypography-root": {
+        [`& .${typographyClasses.root}`]: {
           fontSize: "1rem",
-          fontWeight: "normal"
-        }
+          fontWeight: "normal",
+        },
       },
 
       // middle and right columns
-      "&.dashboard-status-widget-middle-col, &.dashboard-status-widget-right-col": {
+      [`&.${classNames.statusWidgetMiddleCol}, &.${classNames.statusWidgetRightCol}`]: {
         minWidth: "5rem",
         width: "20%",
         textAlign: "right",
-        justifyContent: "flex-end"
-      }
-    }
-  }
+        justifyContent: "flex-end",
+      },
+    },
+  },
 }));
+
+export type StatusCountWidgetProps<
+  CoreItemTypeName extends "Work Orders" | "Invoices",
+  CoreItemStatus extends WorkOrderStatus | InvoiceStatus = CoreItemTypeName extends "Work Orders"
+    ? WorkOrderStatus
+    : InvoiceStatus
+> = {
+  itemTypeLabel: CoreItemTypeName;
+  statusIcons: Record<CoreItemStatus, React.ReactNode>;
+  numCreatedByUserByStatus: Record<CoreItemStatus, number>;
+  numAssignedToUserByStatus: Record<CoreItemStatus, number>;
+  orderedStatuses?: Array<CoreItemStatus> | ReadonlyArray<CoreItemStatus>; // <-- can provide to force a specific order
+};

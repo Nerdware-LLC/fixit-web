@@ -1,23 +1,27 @@
-import { FormFieldHandlers } from "@utils";
-import type { WorkOrder, FormValues, FixitUser, WorkOrderChecklist } from "@types";
+import { FormFieldHandlers, type FormValues } from "@utils/formUtils";
+import type { WorkOrder, FixitUser, ChecklistItem } from "@graphql/types";
 
 export const woFormFieldHandlers = new FormFieldHandlers<WorkOrderFormValues>({
   onUpdate: {
     createdBy: false,
     assignedTo: (rawFieldValue?: FixitUser) => rawFieldValue?.id ?? null,
     status: false,
-    checklist: (rawFieldValue?: WorkOrderChecklist) => {
+    checklist: (rawFieldValue?: WorkOrder["checklist"]) => {
+      const filteredChecklist =
+        (rawFieldValue?.filter((checklistItem) => !!checklistItem) as ChecklistItem[] | null) ??
+        null;
+
       return (
-        rawFieldValue?.map(({ id, description, isCompleted }, index) => ({
+        filteredChecklist?.map(({ id, description, isCompleted }, index) => ({
           id,
           description,
           isCompleted,
-          [Symbol("localIndex")]: index
+          [Symbol("localIndex")]: index,
         })) ?? null
       );
     },
     entryContactPhone: (rawFieldValue) => rawFieldValue?.replace(/\D+/g, "") ?? null,
-    contractorNotes: false
+    contractorNotes: false,
   },
   onSubmit: {
     checklist: (formValue, existingValue) => {
@@ -38,8 +42,8 @@ export const woFormFieldHandlers = new FormFieldHandlers<WorkOrderFormValues>({
     },
     scheduledDateTime: (formValue, existingValue) => {
       return FormFieldHandlers.wasDateTimeChanged(formValue, existingValue, "minute");
-    }
-  }
+    },
+  },
 });
 
 export type WorkOrderFormValues = FormValues<

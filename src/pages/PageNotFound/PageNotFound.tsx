@@ -1,6 +1,6 @@
-import Text from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useWebViewContext } from "@app";
+import Text from "@mui/material/Typography";
+import { useWebViewContext } from "@app/WebViewContext/useWebViewContext";
 
 // FIXME Update PageNotFound to work with regular Web pages
 
@@ -20,7 +20,7 @@ export const PageNotFound = () => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
       <Text variant="h3">Whoops - this page doesn&apos;t seem to exist!</Text>

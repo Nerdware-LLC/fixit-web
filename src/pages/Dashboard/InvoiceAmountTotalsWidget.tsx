@@ -1,20 +1,20 @@
+import React from "react";
 import Box from "@mui/material/Box";
-import Text from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
+import Text from "@mui/material/Typography";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import SendIcon from "@mui/icons-material/Send";
-import { formatNum } from "@utils";
+import { formatNum } from "@utils/formatNum";
 import { useDashboardDataContext } from "./DashboardDataContext";
 import { SmallWidgetLayout } from "./SmallWidgetLayout";
-import React from "react";
 
 // TODO Add btns which open Invoices table with filters: status=OPEN,listName=Inbox|Sent
 
 export const InvoiceAmountTotalsWidget = () => {
   const {
     widgetData: {
-      OpenInvoiceAmountTotals: { RECEIVABLE, PAYABLE }
-    }
+      OpenInvoiceAmountTotals: { RECEIVABLE, PAYABLE },
+    },
   } = useDashboardDataContext();
 
   return (
@@ -23,7 +23,7 @@ export const InvoiceAmountTotalsWidget = () => {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-evenly"
+          justifyContent: "space-evenly",
         }}
       >
         {/* LEFT COLUMN */}
@@ -57,7 +57,7 @@ const ColumnOfInvoiceStats = ({
   caption,
   icon,
   total,
-  average
+  average,
 }: {
   header: "Receivable" | "Payable";
   caption: string;
@@ -72,7 +72,7 @@ const ColumnOfInvoiceStats = ({
       width: "calc(50% - 1rem)",
       display: "flex",
       flexDirection: "column",
-      alignItems: "center"
+      alignItems: "center",
     }}
   >
     <Text color="secondary">{header}</Text>
@@ -82,13 +82,13 @@ const ColumnOfInvoiceStats = ({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
       }}
       sx={{
         "& svg": {
           fontSize: "1.25rem",
-          opacity: 0.4
-        }
+          opacity: 0.4,
+        },
       }}
     >
       {icon}
@@ -108,7 +108,7 @@ const ColumnOfInvoiceStats = ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "space-evenly"
+        justifyContent: "space-evenly",
       }}
     >
       <InvoiceStat label="Total" amount={total} />
@@ -128,7 +128,7 @@ const InvoiceStat = ({ label, amount }: { label: "Total" | "Average"; amount: nu
       flexDirection: "row",
       flexWrap: "wrap",
       alignItems: "center",
-      justifyContent: "flex-end"
+      justifyContent: "flex-end",
     }}
   >
     <Text
@@ -136,7 +136,7 @@ const InvoiceStat = ({ label, amount }: { label: "Total" | "Average"; amount: nu
         fontSize: "0.925rem",
         fontWeight: "100",
         lineHeight: "1.1rem",
-        opacity: 0.8
+        opacity: 0.8,
       }}
     >
       {label}
@@ -151,10 +151,10 @@ const InvoiceStat = ({ label, amount }: { label: "Total" | "Average"; amount: nu
         fontWeight: "bold",
         lineHeight: "1.5rem",
         marginLeft: "auto",
-        textAlign: "right"
+        textAlign: "right",
       }}
     >
-      {formatNum.toCurrencyStr(amount).slice(0, -3)}
+      $ {formatNum.toCurrencyStr(amount).slice(1, -3) || 0}
     </Text>
   </Box>
 );

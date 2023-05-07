@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Text from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
+import Text from "@mui/material/Typography";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { checkoutValuesStore, type CheckoutValues } from "@app";
+import { checkoutValuesStore, type CheckoutValues } from "@cache/checkoutValuesStore";
 import { SUB_DICT_DISPLAY_PARAMS, getTotal_DISPLAY_ONLY } from "./SubCostDetails";
 
 export const PaymentConfirmationInfo = () => {
@@ -29,13 +29,13 @@ export const PaymentConfirmationInfo = () => {
       sx={(theme) => ({
         ...(!theme.variables.isMobilePageLayout && {
           height: "100%",
-          padding: "15% 0"
+          padding: "15% 0",
         }),
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         textAlign: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
       })}
     >
       <CheckCircleOutlineIcon color="success" style={{ fontSize: "8rem" }} />
@@ -55,7 +55,7 @@ export const PaymentConfirmationInfo = () => {
         style={{
           display: "flex",
           flexDirection: "row",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <Text style={{ marginRight: "0.75rem" }}>You will be redirected momentarily</Text>
@@ -78,12 +78,12 @@ const ReceiptShapedContainer = styled("div")(({ theme: { palette } }) => ({
   position: "relative",
   color: alpha(palette.text.primary, 0.75),
 
-  "&:after": {
+  "&::after": {
     background: `url( "${[
       "data:image/svg+xml,",
       "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50' %3E",
       `%3Cpolyline points='0 45 25 30 50 45' style='fill:transparent%3Bstroke:${palette.divider}%3Bstroke-width:3' /%3E`,
-      "%3C/svg%3E"
+      "%3C/svg%3E",
     ].join("")}" )`,
     backgroundPosition: "bottom",
     backgroundRepeat: "repeat-x",
@@ -94,13 +94,13 @@ const ReceiptShapedContainer = styled("div")(({ theme: { palette } }) => ({
     left: 0,
     right: 0,
     width: "100%",
-    height: "100%"
-  }
+    height: "100%",
+  },
 }));
 
 // Places leading dots before child text node in Mui Text element
 const LeadingDotsContainer = styled("span")(({ theme }) => ({
   maxWidth: "65%",
   color: alpha(theme.palette.text.primary, 0.5),
-  overflowX: "clip"
+  overflowX: "clip",
 }));

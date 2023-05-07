@@ -1,11 +1,13 @@
-import { UpdateInvoiceButton } from "./UpdateInvoiceButton";
 import { PayInvoiceButton } from "./PayInvoiceButton";
-import type Button from "@mui/material/Button";
-import type { Invoice } from "@types";
+import { UpdateInvoiceButton } from "./UpdateInvoiceButton";
+import type { Invoice } from "@graphql/types";
+import type { ButtonProps } from "@mui/material/Button";
+
+// TODO Additional buttons/actions: CANCEL/DELETE invoice
 
 export const InvoiceItemViewHeader = ({
   invoice,
-  isItemOwnedByUser
+  isItemOwnedByUser,
 }: {
   invoice: Invoice;
   isItemOwnedByUser: boolean;
@@ -22,7 +24,7 @@ export const InvoiceItemViewHeader = ({
   );
 };
 
-const sharedProps: Partial<React.ComponentProps<typeof Button>> = {
+const sharedProps: Pick<ButtonProps, "variant" | "style"> = {
   variant: "contained",
-  style: { height: "2rem", fontSize: "1rem" }
+  style: { height: "2rem", fontSize: "1rem", borderRadius: "1.5rem" },
 };

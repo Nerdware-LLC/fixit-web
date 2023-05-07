@@ -1,8 +1,8 @@
+import type { WorkOrder, Invoice } from "@graphql/types";
 import type { ItemDataParser } from "./ItemDataParserClasses";
-import type { WorkOrder, Invoice } from "@types";
 
 /**
- * The purpose of this function is to provide functions which can be used to reduce
+ * The purpose of this class is to provide functions which can be used to reduce
  * arrays of items like WorkOrders and Invoices in a manner that ensures all
  * dashboard-widget data is collected with just ONE loop-iteration per render.
  *
@@ -16,7 +16,7 @@ import type { WorkOrder, Invoice } from "@types";
  * with an `Array.reduce()` signature which parses array items and updates its data
  * points in the data accumulator.
  *
- * // TODO update this jsdoc to reflect usage with ItemDataParser, conversion from class-->fn
+ * // TODO update this jsdoc to reflect usage with ItemDataParser classes
  */
 export class ItemsDataReducer<TItem extends WorkOrder | Invoice> {
   initialDataAccum: Record<string, Record<string, any>>;
@@ -24,17 +24,19 @@ export class ItemsDataReducer<TItem extends WorkOrder | Invoice> {
 
   constructor(arrayOfItemDataParsers: Array<InstanceType<typeof ItemDataParser<TItem>>>) {
     /* Combine all initialDataAccum objects into a single accum obj,
-  and push all dataAccumUpdater functions into a single array.  */
+    and push all dataAccumUpdater functions into a single array.  */
 
     const { combinedInitialDataAccum, arrayOfDataAccumUpdaterFns } = arrayOfItemDataParsers.reduce<{
-      combinedInitialDataAccum: Merge<typeof arrayOfItemDataParsers[number]["initialDataAccum"]>;
-      arrayOfDataAccumUpdaterFns: Array<typeof arrayOfItemDataParsers[number]["dataAccumUpdater"]>;
+      combinedInitialDataAccum: Merge<(typeof arrayOfItemDataParsers)[number]["initialDataAccum"]>;
+      arrayOfDataAccumUpdaterFns: Array<
+        (typeof arrayOfItemDataParsers)[number]["dataAccumUpdater"]
+      >;
     }>(
       (accum, itemDataParser) => {
         // Update combinedInitialDataAccum
         accum.combinedInitialDataAccum = {
           ...accum.combinedInitialDataAccum,
-          ...itemDataParser.initialDataAccum
+          ...itemDataParser.initialDataAccum,
         };
 
         // Update arrayOfDataAccumUpdaterFns
@@ -48,7 +50,7 @@ export class ItemsDataReducer<TItem extends WorkOrder | Invoice> {
     this.initialDataAccum = { ...combinedInitialDataAccum };
     this.reduceItems = (
       arrayOfItems: Array<TItem>
-    ): Merge<typeof arrayOfItemDataParsers[number]["initialDataAccum"]> => {
+    ): Merge<(typeof arrayOfItemDataParsers)[number]["initialDataAccum"]> => {
       // To ensure returned object isn't referencing an existing obj, make a new data accum
       const newDataAccum = Object.fromEntries(
         Object.entries(this.initialDataAccum).map(([dataParserKey, dataParserValuesObj]) => [
@@ -56,9 +58,9 @@ export class ItemsDataReducer<TItem extends WorkOrder | Invoice> {
           Object.fromEntries(
             Object.entries(dataParserValuesObj).map(([key, value]) => [
               key,
-              typeof value === "number" ? 0 : Array.isArray(value) ? [] : {}
+              typeof value === "number" ? 0 : Array.isArray(value) ? [] : {},
             ])
-          )
+          ),
         ])
       );
       // Call reduce with init accum set to `newDataAccum`

@@ -1,19 +1,16 @@
 import { useField, useFormikContext } from "formik";
 import { styled } from "@mui/material/styles";
+import { formControlClasses } from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import { DeleteChecklistItemButton } from "./DeleteChecklistItemButton";
+import { ToggleCompleteButton } from "./ToggleCompleteButton";
 
 export const ChecklistItemInput = ({
   checklistItemIndex,
   formikFieldID = `checklist[${checklistItemIndex}]["description"]`,
   autoFocus,
-  enableDelete
-}: {
-  checklistItemIndex: number;
-  formikFieldID?: string;
-  autoFocus: boolean;
-  enableDelete: boolean;
-}) => {
+  enableDelete,
+}: ChecklistItemInputProps) => {
   const [{ value: descriptionValue }, meta, { setValue, setTouched }] = useField(formikFieldID);
   const { validateField } = useFormikContext();
 
@@ -28,7 +25,7 @@ export const ChecklistItemInput = ({
   };
 
   return (
-    <StyledListItem>
+    <StyledLI>
       <TextField
         label={meta.error ?? null}
         placeholder="Description"
@@ -39,22 +36,30 @@ export const ChecklistItemInput = ({
         autoFocus={autoFocus}
         size="small"
         fullWidth
-        {...(enableDelete && {
-          InputProps: {
-            endAdornment: <DeleteChecklistItemButton checklistItemIndex={checklistItemIndex} />
-          }
-        })}
+        InputProps={{
+          startAdornment: <ToggleCompleteButton checklistItemIndex={checklistItemIndex} />,
+          ...(enableDelete && {
+            endAdornment: <DeleteChecklistItemButton checklistItemIndex={checklistItemIndex} />,
+          }),
+        }}
       />
-    </StyledListItem>
+    </StyledLI>
   );
 };
 
-const StyledListItem = styled("div")(({ theme: { palette } }) => ({
+const StyledLI = styled("li")(({ theme: { palette } }) => ({
   width: "100%",
   margin: "0 0 3px 0",
   padding: "3px 0",
 
-  "& > .MuiFormControl-root": {
-    backgroundColor: palette.mode === "dark" ? "#272727" : "#ededed"
-  }
+  [`& > .${formControlClasses.root}`]: {
+    backgroundColor: palette.mode === "dark" ? "#272727" : "#ededed",
+  },
 }));
+
+export type ChecklistItemInputProps = {
+  checklistItemIndex: number;
+  formikFieldID?: string;
+  autoFocus: boolean;
+  enableDelete: boolean;
+};

@@ -1,58 +1,38 @@
-import * as Yup from "yup";
-import { CONSTANTS } from "@types";
+import { object as yupObject, string, array, bool, date } from "yup";
+import { yupCommonSchema } from "@utils/formUtils/yupCommonSchema";
+import { WORK_ORDER_CATEGORIES, WORK_ORDER_PRIORITIES } from "@/types/WorkOrder";
 
-const { CATEGORIES, PRIORITIES } = CONSTANTS.WORK_ORDER;
+const NON_NULL_WO_CATEGORIES = WORK_ORDER_CATEGORIES.filter(
+  (c) => typeof c === "string"
+) as string[];
 
-export const schema = Yup.object({
-  assignedTo: Yup.string().nullable(),
-  location: Yup.object({
-    country: Yup.string()
-      .min(3, "Must be at least 3 characters long.")
-      .max(255, "Must be fewer than 255 characters long.")
-      .default("USA"),
-    region: Yup.string()
-      .min(3, "Must be at least 3 characters long.")
-      .max(255, "Must be fewer than 255 characters long.")
-      .required("Required"),
-    city: Yup.string()
-      .min(3, "Must be at least 3 characters long.")
-      .max(255, "Must be fewer than 255 characters long.")
-      .required("Required"),
-    streetLine1: Yup.string()
-      .min(3, "Must be at least 3 characters long.")
-      .max(255, "Must be fewer than 255 characters long.")
-      .required("Required"),
-    streetLine2: Yup.string()
-      .min(3, "Must be at least 3 characters long.")
-      .max(255, "Must be fewer than 255 characters long.")
-      .nullable()
+export const schema = yupObject({
+  assignedTo: string().nullable(),
+  location: yupObject({
+    country: yupCommonSchema.string.min3Max250.default("USA"),
+    region: yupCommonSchema.string.min3Max250.required("Required"),
+    city: yupCommonSchema.string.min3Max250.required("Required"),
+    streetLine1: yupCommonSchema.string.min3Max250.required("Required"),
+    streetLine2: yupCommonSchema.string.min3Max250.nullable(),
   }).required("Required"),
-  category: Yup.string()
-    .oneOf([...CATEGORIES])
-    .nullable(),
-  description: Yup.string()
-    .min(3, "Must be at least 3 characters long.")
-    .max(255, "Must be fewer than 255 characters long.")
+  category: string().oneOf(NON_NULL_WO_CATEGORIES).nullable(),
+  description: yupCommonSchema.string.min3Max250
     .nullable()
-    .required("Required"),
-  checklist: Yup.array(
-    Yup.object({
-      id: Yup.number().nullable(),
-      localIndex: Yup.number(),
-      description: Yup.string()
-        .min(1, "Must be at least 1 character")
-        .max(255, "Must be fewer than 255 characters")
-        .nullable(),
-      isCompleted: Yup.bool()
+    .required("Please provide a description"),
+  checklist: array(
+    yupObject({
+      id: string().nullable(),
+      description: yupCommonSchema.string.max250
+        .nullable()
+        .required("Please provide a description"),
+      isCompleted: bool(),
     })
   ).nullable(),
-  priority: Yup.string()
-    .oneOf([...PRIORITIES])
-    .required(),
-  entryContact: Yup.string().max(50).nullable(),
-  entryContactPhone: Yup.string()
+  priority: string().oneOf(WORK_ORDER_PRIORITIES).required(),
+  entryContact: string().max(50, "Must be fewer than 50 characters").nullable(),
+  entryContactPhone: string()
     .matches(/^\d{10}$/, "Must be a valid phone number")
     .nullable(),
-  dueDate: Yup.date().nullable(),
-  scheduledDateTime: Yup.date().nullable()
+  dueDate: date().nullable(),
+  scheduledDateTime: date().nullable(),
 });

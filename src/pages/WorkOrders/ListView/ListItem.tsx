@@ -1,17 +1,17 @@
 import Text from "@mui/material/Typography";
-import { CoreListItemLayout, type CoreListItemLayoutProps } from "@layouts";
-import type { WorkOrder } from "@types";
+import {
+  CoreListItemLayout,
+  type CoreListItemLayoutProps,
+} from "@layouts/CoreItemsListView/CoreListItemLayout";
+import { coreListItemLayoutClassNames } from "@layouts/CoreItemsListView/classNames";
+import type { WorkOrder } from "@graphql/types";
 
 export const WorkOrdersListItem = ({
   listName,
   item,
   onClick,
   ...props
-}: {
-  listName?: "Inbox" | "Sent";
-  item?: WorkOrder;
-  onClick?: CoreListItemLayoutProps["onClick"];
-}) => {
+}: WorkOrdersListItemProps) => {
   if (!listName || !item || !onClick) return null;
 
   const isInboxList = listName === "Inbox";
@@ -23,7 +23,7 @@ export const WorkOrdersListItem = ({
 
   return (
     <CoreListItemLayout
-      user={userToDisplay}
+      user={userToDisplay ?? undefined}
       onClick={onClick}
       itemID={item.id}
       listName={listName}
@@ -40,14 +40,20 @@ export const WorkOrdersListItem = ({
         <Text>{location.streetLine1}</Text>
         <Text>{description}</Text>
       </div>
-      <div>
-        <Text className="list-item-created-at" variant="body2">
+      <div style={{ minWidth: "4.75rem" }}>
+        <Text className={coreListItemLayoutClassNames.createdAtText} variant="body2">
           {prettyCreatedAt}
         </Text>
-        <Text className="list-item-status" variant="caption" component="p">
+        <Text className={coreListItemLayoutClassNames.statusText} variant="caption" component="p">
           {prettyStatus}
         </Text>
       </div>
     </CoreListItemLayout>
   );
+};
+
+export type WorkOrdersListItemProps = {
+  listName?: "Inbox" | "Sent";
+  item?: WorkOrder;
+  onClick?: CoreListItemLayoutProps["onClick"];
 };

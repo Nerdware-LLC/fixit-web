@@ -1,10 +1,9 @@
-import * as Yup from "yup";
+import { object as yupObject, string } from "yup";
 
-export const schema = Yup.object({
-  assignedTo: Yup.string().required("Please select a recipient"),
-  workOrder: Yup.string().nullable(),
-  // TODO How will "amount" be stored in Form state? String w decimal ...? Check how CurrencyInput does it.
-  amount: Yup.string()
-    .matches(/^\d+(\.\d{2})?$/, "Please enter a valid amount (for example: 100 or 100.00)")
-    .required("Required")
+export const schema = yupObject({
+  assignedTo: string().required("Please select a recipient"),
+  workOrder: string().nullable(),
+  amount: string()
+    .matches(/^[1-9]+(\.\d{0,2})?$/, "Please enter a valid invoice amount")
+    .required("Required"),
 });

@@ -1,14 +1,15 @@
 import Text from "@mui/material/Typography";
+import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
+import CalendarDateIcon from "@mui/icons-material/InsertInvitation";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import UpdateIcon from "@mui/icons-material/Update";
-import CalendarDateIcon from "@mui/icons-material/InsertInvitation";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import { ContactAvatar, ItemEventsTimeline } from "@components";
-import type { WorkOrder } from "@types";
+import { ContactAvatar } from "@components/Avatar/ContactAvatar";
+import { ItemEventsTimeline } from "@components/ItemEventsTimeline";
+import type { WorkOrder } from "@graphql/types";
 
 export const WorkOrderTimeline = ({
   workOrder: { createdBy, status, createdAt, updatedAt, dueDate, scheduledDateTime },
-  isItemOwnedByUser
+  isItemOwnedByUser,
 }: {
   workOrder: WorkOrder;
   isItemOwnedByUser: boolean;
@@ -38,12 +39,12 @@ export const WorkOrderTimeline = ({
           />
           <Text>Work Order created by {createdBy.profile.displayName}</Text>
         </>
-      )
+      ),
     },
     {
       timestamp: updatedAt,
       icon: <UpdateIcon />,
-      eventInfoContent: <Text>Most recent update</Text>
+      eventInfoContent: <Text>Most recent update</Text>,
     },
     // Check dueDate
     ...(dueDateDateObj instanceof Date
@@ -54,20 +55,20 @@ export const WorkOrderTimeline = ({
             ...(status === "COMPLETE"
               ? {
                   // if WO is COMPLETE, no special event formatting
-                  eventInfoContent: <Text>Due date</Text>
+                  eventInfoContent: <Text>Due date</Text>,
                 }
               : dueDateDateObj.getTime() > Date.now()
               ? {
                   // if dueDate has passed, show red "error" event style
                   iconHighlight: "red",
-                  eventInfoContent: <Text>Due date (PAST DUE)</Text>
+                  eventInfoContent: <Text>Due date (PAST DUE)</Text>,
                 }
               : {
                   // else show yellow "warning" event style
                   iconHighlight: "yellow",
-                  eventInfoContent: <Text>Due date</Text>
-                })
-          }
+                  eventInfoContent: <Text>Due date</Text>,
+                }),
+          },
         ]
       : []),
     // Check scheduledDateTime
@@ -79,22 +80,22 @@ export const WorkOrderTimeline = ({
             ...(status === "COMPLETE"
               ? {
                   // if WO is COMPLETE, no special event formatting
-                  eventInfoContent: <Text>Scheduled arrival</Text>
+                  eventInfoContent: <Text>Scheduled arrival</Text>,
                 }
               : scheduledDateTimeObj.getTime() > Date.now()
               ? {
                   // if scheduledDateTime has passed, show red "error" event style
                   iconHighlight: "red",
-                  eventInfoContent: <Text>Scheduled arrival (MISSED APPOINTMENT)</Text>
+                  eventInfoContent: <Text>Scheduled arrival (MISSED APPOINTMENT)</Text>,
                 }
               : {
                   // else show yellow "warning" event style
                   iconHighlight: "yellow",
-                  eventInfoContent: <Text>Scheduled arrival</Text>
-                })
-          }
+                  eventInfoContent: <Text>Scheduled arrival</Text>,
+                }),
+          },
         ]
-      : [])
+      : []),
   ];
 
   return <ItemEventsTimeline events={workOrderEvents} />;

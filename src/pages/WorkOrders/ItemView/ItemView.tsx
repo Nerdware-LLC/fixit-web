@@ -1,59 +1,61 @@
 import { useParams, useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client/react/hooks";
-import { QUERIES } from "@graphql";
-import { Loading, Error } from "@components";
-import { CoreItemView } from "@layouts";
-import { WorkOrderItemViewHeader } from "./ItemViewHeader";
+import { Error } from "@components/Indicators/Error";
+import { Loading } from "@components/Indicators/Loading";
+import { QUERIES } from "@graphql/queries";
+import { coreContentViewLayoutClassNames } from "@layouts/CoreContentViewLayout/classNames";
+import { CoreItemView } from "@layouts/CoreItemView";
 import { WorkOrderItemViewContent } from "./ItemViewContent";
-import { MOCK_WORK_ORDERS } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
+import { WorkOrderItemViewHeader } from "./ItemViewHeader";
 
 export const WorkOrderItemView = () => {
   const { id } = useParams();
   // Get isItemOwnedByUser state-param provided by CoreItemsList component
   const {
-    state: { isItemOwnedByUser }
+    state: { isItemOwnedByUser },
   } = useLocation();
 
-  const { loading, error, networkStatus } = useQuery(QUERIES.WORK_ORDER, {
-    // TODO fetchPolicy: cache only?
-    variables: { workOrderID: id },
+  const { data, loading, error, networkStatus } = useQuery(QUERIES.WORK_ORDER, {
+    variables: { workOrderID: id || "" },
     notifyOnNetworkStatusChange: true,
-    skip: true // TODO turn this off later
+    fetchPolicy: "cache-only",
+    skip: !id,
   });
 
-  if (loading || networkStatus === 4) return <Loading />;
-  if (error) return <Error error={error} />;
-
-  const MOCK_workOrder = [
-    ...MOCK_WORK_ORDERS.myWorkOrders.createdByUser,
-    ...MOCK_WORK_ORDERS.myWorkOrders.assignedToUser
-  ].find((wo) => wo.id === id);
-
-  if (!MOCK_workOrder) return null;
-
-  return (
+  return loading || networkStatus === 4 || !data?.workOrder ? (
+    <Loading />
+  ) : error ? (
+    <Error error={error} />
+  ) : (
     <CoreItemView
       headerLabel="Work Order"
       headerComponents={
-        <WorkOrderItemViewHeader workOrder={MOCK_workOrder} isItemOwnedByUser={isItemOwnedByUser} />
+        <WorkOrderItemViewHeader workOrder={data.workOrder} isItemOwnedByUser={isItemOwnedByUser} />
       }
       sx={(theme) => ({
-        "& .core-content-view-header-container": {
-          ...(theme.variables.isMobilePageLayout && {
-            boxShadow: theme.palette.mode === "dark" ? `0 -3px 8px 8px rgba(0,0,0,0.35)` : 3,
-            zIndex: 10 // <-- ensures the box-shadow appears above other elements
-          })
+        [`& .${coreContentViewLayoutClassNames.headerContainer}`]: {
+          ...(theme.variables.isMobilePageLayout
+            ? {
+                boxShadow: theme.palette.mode === "dark" ? `0 -3px 8px 8px rgba(0,0,0,0.35)` : 3,
+                zIndex: 10, // <-- ensures the box-shadow appears above other elements
+              }
+            : {
+                // On desktop, the header is shrunk to bring the tabs up a bit
+                height: "5.5rem",
+                minHeight: "5.5rem",
+                paddingBottom: "0.5rem",
+              }),
         },
-        "& .core-content-view-section-divider": {
-          display: "none"
+        [`& .${coreContentViewLayoutClassNames.sectionDivider}`]: {
+          display: "none",
         },
-        "& .core-content-view-children-container": {
+        [`& .${coreContentViewLayoutClassNames.childrenContainer}`]: {
           padding: 0,
-          overflowY: "auto"
-        }
+          overflowY: "auto",
+        },
       })}
     >
-      <WorkOrderItemViewContent workOrder={MOCK_workOrder} isItemOwnedByUser={isItemOwnedByUser} />
+      <WorkOrderItemViewContent workOrder={data.workOrder} isItemOwnedByUser={isItemOwnedByUser} />
     </CoreItemView>
   );
 };

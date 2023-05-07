@@ -1,5 +1,8 @@
-import type { WorkOrder, Invoice } from "@types";
+import type { WorkOrder, Invoice } from "@graphql/types";
 
+/**
+ * // TODO Add jsdoc to ItemDataParser in @pages/Dashboard/DashboardDataContext/itemDataParsers.ts
+ */
 export class ItemDataParser<TItem extends WorkOrder | Invoice> {
   initialDataAccum: ItemDataAccum;
   dataAccumUpdater: <TDataAccum extends ItemDataAccum>(
@@ -9,7 +12,7 @@ export class ItemDataParser<TItem extends WorkOrder | Invoice> {
 
   constructor({
     initialDataAccum,
-    dataAccumUpdater
+    dataAccumUpdater,
   }: {
     initialDataAccum: ItemDataAccum;
     dataAccumUpdater: <TDataAccum extends ItemDataAccum>(
