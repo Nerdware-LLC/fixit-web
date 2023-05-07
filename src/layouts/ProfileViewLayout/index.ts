@@ -1,1 +1,1 @@
-export { ProfileViewLayout } from "./ProfileViewLayout";
+export * from "./ProfileViewLayout";

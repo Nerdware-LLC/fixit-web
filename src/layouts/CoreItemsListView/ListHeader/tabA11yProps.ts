@@ -1,4 +1,4 @@
-import { getTabA11yProps } from "@components";
+import { getTabA11yProps } from "@components/Tabs/tabA11yProps";
 import { INBOX_LIST_NAMES } from "../ListViewHeaderToggleButtons";
 
 /**
@@ -9,8 +9,8 @@ import { INBOX_LIST_NAMES } from "../ListViewHeaderToggleButtons";
 export const {
   tabProps: listViewTabA11yProps,
   tabPanelProps: listViewTabPanelA11yProps,
-  tabsWrapperProps: listViewTabsWrapperA11yProps
+  tabsWrapperProps: listViewTabsWrapperA11yProps,
 } = getTabA11yProps({
   tabLabels: INBOX_LIST_NAMES,
-  tabsWrapperLabel: "Inbox and Sent list view tabs"
+  tabsWrapperLabel: "Inbox and Sent list view tabs",
 });

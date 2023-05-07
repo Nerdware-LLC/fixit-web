@@ -12,6 +12,6 @@ export const useListOrTable = ({ isMobilePageLayout }: { isMobilePageLayout: boo
 
   return {
     listOrTable,
-    handleChangeListOrTable
+    handleChangeListOrTable,
   };
 };

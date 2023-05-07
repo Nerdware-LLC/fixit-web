@@ -1,1 +1,1 @@
-export { DesktopAppBarMenu } from "./DesktopAppBarMenu";
+export * from "./DesktopAppBarMenu";

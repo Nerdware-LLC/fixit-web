@@ -1,11 +1,14 @@
 import { styled } from "@mui/material/styles";
-import PhoneIcon from "@mui/icons-material/Phone";
+import { svgIconClasses } from "@mui/material/SvgIcon";
+import { typographyClasses } from "@mui/material/Typography";
 import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
+import PhoneIcon from "@mui/icons-material/Phone";
 import StorefrontIcon from "@mui/icons-material/Storefront";
-import { ItemDetails } from "@layouts";
-import { prettifyStr } from "@utils";
-import type { FixitUser } from "@types";
+import { ItemDetails } from "@components/DataDisplay/ItemDetails";
+import { itemDetailsClassNames } from "@components/DataDisplay/classNames";
+import { prettifyStr } from "@utils/prettifyStr";
+import type { FixitUser } from "@graphql/types";
 
 /**
  * // TODO Introduce controls to allow users to show/hide their profile info
@@ -13,9 +16,9 @@ import type { FixitUser } from "@types";
 export const UserProfileDetails = ({
   email,
   phone,
-  profile: { givenName = "", familyName = "", businessName = "" }
-}: Pick<FixitUser, "email" | "phone" | "profile">) => (
-  <UserProfileDetailsContainer className="profile-view-user-profile-details">
+  profile: { givenName = "", familyName = "", businessName = "" },
+}: UserProfileDetailsProps) => (
+  <UserProfileDetailsContainer>
     <ItemDetails label="Name" labelIcon={<PersonIcon />}>
       {`${givenName}${givenName && familyName && ` ${familyName}`}`}
     </ItemDetails>
@@ -32,7 +35,7 @@ export const UserProfileDetails = ({
 );
 
 const UserProfileDetailsContainer = styled("div")(({ theme }) => ({
-  "& > .item-details-container": {
+  [`& > .${itemDetailsClassNames.container}`]: {
     width: "100%",
     display: "flex",
     flexDirection: theme.variables.isMobilePageLayout ? "column" : "row",
@@ -47,41 +50,43 @@ const UserProfileDetailsContainer = styled("div")(({ theme }) => ({
       padding: "0",
 
       // ItemDetails: all text
-      "& .MuiTypography-root": {
+      [`& .${typographyClasses.root}`]: {
         overflow: "visible !important",
         ...(theme.variables.isMobilePageLayout && {
           fontSize: "0.9rem !important",
-          lineHeight: "1rem !important"
-        })
+          lineHeight: "1rem !important",
+        }),
       },
 
       // ItemDetails: header
-      "&.item-details-header": {
+      [`&.${itemDetailsClassNames.header}`]: {
         ...(theme.variables.isMobilePageLayout
           ? {
               width: "8rem",
               minWidth: "8rem",
-              maxWidth: "8rem"
+              maxWidth: "8rem",
             }
           : {
               width: "10rem",
               minWidth: "10rem",
-              maxWidth: "10rem"
+              maxWidth: "10rem",
             }),
         border: "none",
         // ItemDetails: header icons
-        "& .MuiSvgIcon-root": {
+        [`& .${svgIconClasses.root}`]: {
           height: "1.5rem",
-          width: "1.5rem"
-        }
+          width: "1.5rem",
+        },
       },
 
       // ItemDetails: content
-      "&.item-details-content": {
+      [`&.${itemDetailsClassNames.content}`]: {
         ...(theme.variables.isMobilePageLayout && {
-          margin: "0.35rem 0 0 2.25rem"
-        })
-      }
-    }
-  }
+          margin: "0.35rem 0 0 2.25rem",
+        }),
+      },
+    },
+  },
 }));
+
+export type UserProfileDetailsProps = Pick<FixitUser, "email" | "phone" | "profile">;

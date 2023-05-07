@@ -1,9 +1,9 @@
 import { styled } from "@mui/material/styles";
-import Switch from "@mui/material/Switch";
+import Switch, { switchClasses } from "@mui/material/Switch";
 import Tooltip from "@mui/material/Tooltip";
-import DarkModeIcon from "@mui/icons-material/ModeNightSharp";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import { themeStore } from "@app";
+import DarkModeIcon from "@mui/icons-material/ModeNightSharp";
+import { themeStore } from "@cache/themeStore";
 
 export const DarkModeSwitch = () => {
   const currentTheme = themeStore.useSubToStore();
@@ -12,9 +12,9 @@ export const DarkModeSwitch = () => {
 
   return (
     <Tooltip title="Toggle dark mode">
-      <StyledDarkModeSwitch
+      <StyledSwitch
         checked={currentTheme === "DARK"}
-        checkedIcon={<DarkModeIcon id="dark-mode-icon" />}
+        checkedIcon={<DarkModeIcon id={darkModeSwitchElementIDs.darkModeIcon} />}
         icon={<LightModeIcon />}
         onChange={handleChange}
         inputProps={{ "aria-label": "controlled" }}
@@ -23,12 +23,16 @@ export const DarkModeSwitch = () => {
   );
 };
 
-const StyledDarkModeSwitch = styled(Switch)(({ theme }) => ({
+export const darkModeSwitchElementIDs = {
+  darkModeIcon: "dark-mode-icon",
+};
+
+const StyledSwitch = styled(Switch)(({ theme }) => ({
   width: "65px",
   height: "34px",
   padding: "7px",
 
-  "& > .MuiSwitch-switchBase": {
+  [`& > .${switchClasses.switchBase}`]: {
     height: "33px",
     width: "33px",
     padding: "2.5px",
@@ -40,30 +44,30 @@ const StyledDarkModeSwitch = styled(Switch)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     "&:hover": {
       opacity: 1,
-      backgroundColor: theme.palette.primary.dark
+      backgroundColor: theme.palette.primary.dark,
     },
-    "&.Mui-checked": {
+    [`&.${switchClasses.checked}`]: {
       opacity: 1,
       transform: "translateX(30px)",
       backgroundColor: theme.palette.primary.dark,
       "&:hover": {
         opacity: 1,
-        backgroundColor: theme.palette.primary.main
-      }
+        backgroundColor: theme.palette.primary.main,
+      },
     },
 
-    "& > #dark-mode-icon": {
+    [`& > #${darkModeSwitchElementIDs.darkModeIcon}`]: {
       position: "absolute",
       top: "4px",
       left: "1px",
       height: "1.5rem",
       width: "1.5rem",
       color: theme.palette.text.primary,
-      transform: "rotateZ(140deg)"
-    }
+      transform: "rotateZ(140deg)",
+    },
   },
 
-  "& .MuiSwitch-track": {
-    borderRadius: 10
-  }
+  [`& .${switchClasses.track}`]: {
+    borderRadius: 10,
+  },
 }));

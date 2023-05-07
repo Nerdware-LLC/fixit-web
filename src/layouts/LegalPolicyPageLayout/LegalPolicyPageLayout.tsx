@@ -8,7 +8,7 @@ import Text from "@mui/material/Typography";
 export const LegalPolicyPageLayout = ({
   pageTitle,
   lastUpdated,
-  children
+  children,
 }: {
   pageTitle: string;
   lastUpdated: string; // e.g., "January 01, 2022"
@@ -31,22 +31,22 @@ const StyledLegalPolicyPageLayoutContainer = styled("div")({
   padding: "1rem 1.5rem 1.5rem 1.5rem",
 
   "@media (min-width: 500px)": {
-    padding: "2rem"
+    padding: "2rem",
   },
 
   "@media (min-width: 1000px)": {
-    padding: "2rem clamp(2rem, 10%, 10rem)"
+    padding: "2rem clamp(2rem, 10%, 10rem)",
   },
 
   "& .MuiTypography-body1": {
-    margin: "1rem 0"
+    margin: "1rem 0",
   },
 
   "& a": {
-    textDecoration: "none"
+    textDecoration: "none",
   },
 
   "& ul > li": {
-    listStyleType: "square"
-  }
+    listStyleType: "square",
+  },
 });

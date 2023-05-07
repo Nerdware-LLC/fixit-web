@@ -1,8 +1,12 @@
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { isActiveAccountStore, isAuthenticatedStore, isConnectOnboardingNeededStore } from "@app";
-import { useAuthService, useStripeService } from "@hooks";
+import { isActiveAccountStore } from "@cache/isActiveAccountStore";
+import { isAuthenticatedStore } from "@cache/isAuthenticatedStore";
+import { isConnectOnboardingNeededStore } from "@cache/isConnectOnboardingNeededStore";
+import { useAuthService } from "@hooks/useAuthService";
+import { useStripeService } from "@hooks/useStripeService";
 
 /**
  * This hook returns an object which contains menu options and user-state
@@ -42,17 +46,22 @@ export const useAppBarMenuConfigs = () => {
       isUserAuthenticated !== true
         ? {
             ...MENU_OPTION_CONFIGS.AUTH.LOGIN,
-            handleSelectOption: () => nav(MENU_OPTION_CONFIGS.AUTH.LOGIN.path)
+            handleSelectOption: () => nav(MENU_OPTION_CONFIGS.AUTH.LOGIN.path),
           }
         : {
             ...MENU_OPTION_CONFIGS.AUTH.LOGOUT,
-            handleSelectOption: async () => await logout().then(() => nav("/"))
+            handleSelectOption: async () => {
+              await logout().then(() => {
+                toast("👋 See ya later!", { toastId: "logout" });
+                nav("/");
+              });
+            },
           },
     menuOptionConfigs: [
       ...(isUserAuthenticated !== true
         ? MENU_OPTION_CONFIGS.LANDING_PAGE.map((menuConfig) => ({
             ...menuConfig,
-            handleSelectOption: () => nav(menuConfig.path)
+            handleSelectOption: () => nav(menuConfig.path),
           }))
         : [
             ...(isAccountActive !== true
@@ -61,32 +70,32 @@ export const useAppBarMenuConfigs = () => {
                   {
                     label: "Select a Subscription",
                     path: "/products",
-                    handleSelectOption: () => nav("/products")
-                  }
+                    handleSelectOption: () => nav("/products"),
+                  },
                 ]
               : [
                   // Active subscription opts
                   {
                     label: "Account",
-                    handleSelectOption: async () => await getCustomerPortalLink()
+                    handleSelectOption: async () => await getCustomerPortalLink(),
                   },
                   {
                     label: "Profile",
                     path: "/home/profile",
-                    handleSelectOption: () => nav("/home/profile")
+                    handleSelectOption: () => nav("/home/profile"),
                   },
                   isConnectOnboardingNeeded === true
                     ? {
                         label: "Setup Stripe Payments",
-                        handleSelectOption: async () => await getConnectOnboardingLink()
+                        handleSelectOption: async () => await getConnectOnboardingLink(),
                       }
                     : {
                         label: "Stripe Connect Dashboard",
-                        handleSelectOption: async () => await getConnectDashboardLink()
-                      }
-                ])
-          ])
-    ]
+                        handleSelectOption: async () => await getConnectDashboardLink(),
+                      },
+                ]),
+          ]),
+    ],
   };
 };
 
@@ -103,12 +112,12 @@ const _MENU_AUTH_OPTION_CONFIGS = {
   LOGIN: {
     label: "Login",
     icon: <LoginIcon />,
-    path: "/login"
+    path: "/login",
   } as Required<MenuAuthOptionConfig>,
   LOGOUT: {
     label: "Logout",
-    icon: <LogoutIcon />
-  } as MenuAuthOptionConfig
+    icon: <LogoutIcon />,
+  } as MenuAuthOptionConfig,
 } as const;
 
 export const MENU_OPTION_CONFIGS = {
@@ -117,21 +126,21 @@ export const MENU_OPTION_CONFIGS = {
     {
       label: "Pricing",
       path: "/products",
-      tooltip: "See pricing for Fixit products"
+      tooltip: "See pricing for Fixit products",
     },
     {
       label: "Privacy",
       path: "/privacy",
-      tooltip: "View our privacy policy"
+      tooltip: "View our privacy policy",
     },
     {
       ..._MENU_AUTH_OPTION_CONFIGS.LOGIN,
-      tooltip: "User login"
+      tooltip: "User login",
     },
     {
       label: "Create Account",
       path: "/register",
-      tooltip: "Create an account"
-    }
-  ]
+      tooltip: "Create an account",
+    },
+  ],
 } as const;

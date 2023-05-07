@@ -1,27 +1,31 @@
 import { Outlet } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import { AppBar, APP_BAR_HEIGHT } from "./AppBar";
+import { AppBar } from "./AppBar";
 
 /**
  * Responsive page-layout container with mobile/desktop AppBar.
  */
 export const PageContainer = () => (
-  <StyledPageContainer className="page-container">
+  <StyledPageContainer id={pageContainerElementIDs.root}>
     <AppBar />
-    <div className="page-content-container">
+    <div id={pageContainerElementIDs.rrdOutletContainer}>
       <Outlet />
     </div>
   </StyledPageContainer>
 );
 
-const StyledPageContainer = styled("div")(({ theme }) => {
-  const appBarHeight = theme.variables.isMobilePageLayout
-    ? APP_BAR_HEIGHT.MOBILE
-    : APP_BAR_HEIGHT.DESKTOP;
+export const pageContainerElementIDs = {
+  root: "page-container-root",
+  rrdOutletContainer: "page-container-rrd-outlet-container",
+};
 
-  const contentContainerHeight = `calc(100% - ${appBarHeight})`;
+const StyledPageContainer = styled("div")(({ theme }) => {
+  const appBarHeight = theme.variables.isMobilePageLayout ? "5rem" : "3rem";
+  const contentContainerHeight = `calc( 100% - ${appBarHeight} )`;
 
   return {
+    "--app-bar-height": appBarHeight,
+
     height: "100%",
     maxHeight: "100dvh",
     width: "100%",
@@ -30,13 +34,13 @@ const StyledPageContainer = styled("div")(({ theme }) => {
     zIndex: 1,
     backgroundColor: theme.palette.background.default,
 
-    "& > div.page-content-container": {
+    [`& > #${pageContainerElementIDs.rrdOutletContainer}`]: {
       height: contentContainerHeight,
       minHeight: contentContainerHeight,
       maxHeight: contentContainerHeight,
       width: "100%",
       maxWidth: "100dvw",
-      overflow: "hidden"
-    }
+      overflow: "hidden",
+    },
   };
 });

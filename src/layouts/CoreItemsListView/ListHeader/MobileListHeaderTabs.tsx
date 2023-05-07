@@ -1,20 +1,17 @@
 import { styled } from "@mui/material/styles";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import Tab, { tabClasses } from "@mui/material/Tab";
+import Tabs, { tabsClasses } from "@mui/material/Tabs";
 import InboxIcon from "@mui/icons-material/Inbox";
 import SendIcon from "@mui/icons-material/Send";
 import { ListHeaderContainer } from "./ListHeaderContainer";
-import { INBOX_LIST_NAMES } from "../ListViewHeaderToggleButtons";
 import { listViewTabA11yProps, listViewTabsWrapperA11yProps } from "./tabA11yProps";
+import { INBOX_LIST_NAMES } from "../ListViewHeaderToggleButtons";
 import type { ListVisibility } from "../ListViewHeaderToggleButtons";
 
 export const MobileListHeaderTabs = ({
   listVisibility,
-  toggleListVisibility
-}: {
-  listVisibility: ListVisibility;
-  toggleListVisibility: () => void;
-}) => (
+  toggleListVisibility,
+}: MobileListHeaderTabsProps) => (
   <ListHeaderContainer containsMobileListHeaderTabs>
     <StyledTabs
       value={listVisibility.Inbox === true ? 0 : 1}
@@ -40,10 +37,10 @@ const StyledTabs = styled(Tabs)({
   maxHeight: "100%",
   width: "100%",
 
-  "& .MuiTabs-flexContainer": {
+  [`& .${tabsClasses.flexContainer}`]: {
     justifyContent: "space-evenly",
 
-    "& > .MuiTab-root": {
+    [`& > .${tabClasses.root}`]: {
       height: "2rem",
       minHeight: "2rem",
       maxHeight: "2rem",
@@ -52,21 +49,26 @@ const StyledTabs = styled(Tabs)({
 
       "&:first-of-type": {
         marginLeft: "0.5rem",
-        marginRight: "auto"
+        marginRight: "auto",
       },
       "&:not(:first-of-type)": {
         marginLeft: "auto",
-        marginRight: "0.5rem"
+        marginRight: "0.5rem",
       },
 
-      "&:not(.Mui-selected)": {
-        opacity: 0.5
+      [`&:not(.${tabClasses.selected})`]: {
+        opacity: 0.5,
       },
 
       "& > svg": {
         fontSize: "1.25rem",
-        marginLeft: "-0.1rem"
-      }
-    }
-  }
+        marginLeft: "-0.1rem",
+      },
+    },
+  },
 });
+
+export type MobileListHeaderTabsProps = {
+  listVisibility: ListVisibility;
+  toggleListVisibility: () => void;
+};

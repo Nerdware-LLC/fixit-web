@@ -16,18 +16,18 @@ import type { ListVisibility, HandleChangeListVisibility, InboxListName } from "
 export const useListVisibility = ({
   Inbox: initIsInboxVisible,
   Sent: initIsSentVisible,
-  isMobilePageLayout
+  isMobilePageLayout,
 }: Partial<ListVisibility & { isMobilePageLayout: boolean }> = {}) => {
   const [listVisibility, dispatch] = useReducer(
     listVisibilityReducer,
     isMobilePageLayout
       ? {
           Inbox: initIsSentVisible !== true,
-          Sent: initIsSentVisible === true
+          Sent: initIsSentVisible === true,
         }
       : {
           Inbox: initIsInboxVisible ?? true,
-          Sent: initIsSentVisible ?? true
+          Sent: initIsSentVisible ?? true,
         }
   );
 
@@ -46,7 +46,7 @@ export const useListVisibility = ({
   return {
     listVisibility,
     handleChangeListVisibility,
-    toggleListVisibility
+    toggleListVisibility,
   };
 };
 
@@ -59,16 +59,16 @@ const listVisibilityReducer = (
   state: ListVisibility,
   {
     type,
-    newVisibleListNames
+    newVisibleListNames,
   }: { type: "TOGGLE" | "UPDATE"; newVisibleListNames?: Array<InboxListName> }
 ) => {
   return type === "UPDATE" && newVisibleListNames && newVisibleListNames.length > 0
     ? newVisibleListNames.reduce((accum, listName) => ({ ...accum, [listName]: true }), {
         Inbox: false,
-        Sent: false
+        Sent: false,
       })
     : {
         Inbox: !state.Inbox,
-        Sent: state.Inbox
+        Sent: state.Inbox,
       };
 };

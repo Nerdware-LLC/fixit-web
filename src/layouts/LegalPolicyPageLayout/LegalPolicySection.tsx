@@ -7,7 +7,7 @@ export const LegalPolicySection = ({
   sectionNumber,
   header,
   headerID = header.replace(/[^A-Z0-9]/gi, "-"), // by default, just rm all non-alphanum chars from header str
-  children
+  children,
 }: {
   sectionNumber: number;
   header: string;

@@ -1,42 +1,36 @@
 import { styled } from "@mui/material/styles";
 import Text from "@mui/material/Typography";
-import { usePageLayoutContext } from "@app";
-import { FetchStateContextWrapper, TitleLogo } from "@components";
+import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
+import { TitleLogo, titleLogoClassNames } from "@components/Branding/TitleLogo";
+import { FetchStateContextWrapper } from "@components/Indicators/FetchStateContextWrapper";
+import { authPageLayoutClassNames as classNames } from "./classNames";
 
 /**
  * Layout used by `RegisterPage` and `LoginPage`.
- *
- * HTML Classes:
- * - `"auth-page-layout-container"`
- * - `"auth-page-header"`
- * - `"auth-page-header-title"`
- * - `"auth-page-content-container"`
  */
 export const AuthPageLayout = ({
   pageTitle,
   children,
   ...containerProps // rest props go to AuthPageLayoutContainer
-}: {
-  pageTitle: string;
-} & React.ComponentProps<typeof AuthPageLayoutContainer>) => {
+}: AuthPageLayoutProps) => {
   const { isMobilePageLayout } = usePageLayoutContext();
 
   return (
     <FetchStateContextWrapper>
-      <AuthPageLayoutContainer className="auth-page-layout-container" {...containerProps}>
-        <div className="auth-page-header">
+      <StyledDiv className={classNames.root} {...containerProps}>
+        <div className={classNames.header}>
           {!isMobilePageLayout && <TitleLogo />}
-          <Text variant="h1" className="auth-page-header-title">
+          <Text variant="h1" className={classNames.headerTitle}>
             {pageTitle}
           </Text>
         </div>
-        <div className="auth-page-content-container">{children}</div>
-      </AuthPageLayoutContainer>
+        <div className={classNames.childrenContainer}>{children}</div>
+      </StyledDiv>
     </FetchStateContextWrapper>
   );
 };
 
-const AuthPageLayoutContainer = styled("div")({
+const StyledDiv = styled("div")({
   height: "100%",
   width: "100%",
   overflowX: "hidden",
@@ -45,37 +39,39 @@ const AuthPageLayoutContainer = styled("div")({
   alignItems: "center",
   textAlign: "center",
 
-  "& > div.auth-page-header": {
+  [`& > .${classNames.header}`]: {
     margin: "clamp(2rem, 10%, 5rem) 0",
 
-    "& > div.title-logo-container": {
+    [`& > .${titleLogoClassNames.container}`]: {
       justifyContent: "center",
       marginBottom: "1.5rem",
-      "& > .title-logo-img": {
+      [`& > .${titleLogoClassNames.logoImg}`]: {
         width: "7.5rem",
         marginRight: "1rem",
         background: "white",
-        clipPath: "circle(49%)"
+        clipPath: "circle(49%)",
       },
-      "& > .title-logo-text": {
-        fontSize: "3.5rem"
-      }
+      [`& > .${titleLogoClassNames.logoText}`]: {
+        fontSize: "3.5rem",
+      },
     },
 
-    "& > .auth-page-header-title": {
+    [`& > .${classNames.headerTitle}`]: {
       fontSize: "2.25rem",
-      fontWeight: 500
-    }
+      fontWeight: 500,
+    },
   },
 
-  "& > div.auth-page-content-container": {
+  [`& > .${classNames.childrenContainer}`]: {
     width: "clamp(18rem, 35vw, 26rem)",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-evenly",
 
     "& button": {
-      borderRadius: "1.5rem"
-    }
-  }
+      borderRadius: "1.5rem",
+    },
+  },
 });
+
+export type AuthPageLayoutProps = { pageTitle: string } & React.ComponentProps<typeof StyledDiv>;

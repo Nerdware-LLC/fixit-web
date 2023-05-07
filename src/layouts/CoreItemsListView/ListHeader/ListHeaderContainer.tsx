@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 
 export const ListHeaderContainer = styled("div", {
-  shouldForwardProp: (propName) => propName !== "containsMobileListHeaderTabs"
+  shouldForwardProp: (propName) => propName !== "containsMobileListHeaderTabs",
 })<{ containsMobileListHeaderTabs?: boolean }>(
   ({ theme, containsMobileListHeaderTabs = false }) => ({
     ...(containsMobileListHeaderTabs
@@ -13,12 +13,12 @@ export const ListHeaderContainer = styled("div", {
           position: "absolute",
           top: 0,
           left: 0,
-          right: 0
+          right: 0,
         }
       : {
           height: "2rem",
           minHeight: "2rem",
-          maxHeight: "2rem"
+          maxHeight: "2rem",
         }),
     paddingTop: "0.1rem",
     marginBottom: "0.5rem",
@@ -26,6 +26,8 @@ export const ListHeaderContainer = styled("div", {
     backgroundColor: theme.palette.background.paper,
     display: "flex",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   })
 );
+
+export type ListHeaderContainerProps = React.ComponentProps<typeof ListHeaderContainer>;

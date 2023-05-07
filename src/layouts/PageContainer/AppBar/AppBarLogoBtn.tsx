@@ -1,46 +1,53 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import Text from "@mui/material/Typography";
-import { Logo } from "@components";
+import { styled } from "@mui/material/styles";
+import Text, { typographyClasses } from "@mui/material/Typography";
+import { isAuthenticatedStore } from "@cache/isAuthenticatedStore";
+import { Logo, logoClassNames } from "@components/Branding/Logo";
 
 export const AppBarLogoBtn = () => {
-  const { pathname } = useLocation();
   const nav = useNavigate();
+  const isAuthenticated = isAuthenticatedStore.useSubToStore();
+  const { pathname } = useLocation();
 
-  const goToLanding = () => nav("/");
+  const goToLanding = () => nav(isAuthenticated ? "/home" : "/");
 
   return (
-    <div
-      id="appbar-logo-container"
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center"
+    <StyledDiv
+      // LandingPage canvas-gradient-bg is light, so use dark text there
+      sx={{
+        ...(pathname === "/" && {
+          color: "InfoText",
+          fontWeight: "bold",
+        }),
       }}
     >
-      <Logo
-        onClick={goToLanding}
-        sx={(theme) => ({
-          imageRendering: "crisp-edges",
-          height: theme.variables.isMobilePageLayout ? "3rem" : "2.5rem",
-          objectFit: "contain",
-          "&:hover": {
-            cursor: "pointer"
-          }
-        })}
-      />
-      <Text
-        sx={(theme) => ({
-          // Don't show the name in the logo on desktop
-          visibility: theme.variables.isMobilePageLayout ? "visible" : "hidden",
-          // LandingPage canvas-gradient-bg is light, so use dark text there
-          ...(pathname === "/" && { color: "InfoText" }),
-          margin: "0 auto 0 0.5rem",
-          fontSize: "1.5rem",
-          fontWeight: "bold"
-        })}
-      >
-        Fixit
-      </Text>
-    </div>
+      <Logo onClick={goToLanding} />
+      <Text>Fixit</Text>
+    </StyledDiv>
   );
 };
+
+const StyledDiv = styled("div")(({ theme: { variables } }) => ({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+
+  [`& .${logoClassNames.root}`]: {
+    imageRendering: "crisp-edges",
+    height: variables.isMobilePageLayout ? "3rem" : "2.5rem",
+    objectFit: "contain",
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+
+  [`& .${typographyClasses.root}`]: {
+    // Don't show the name in the logo on desktop
+    visibility: variables.isMobilePageLayout ? "visible" : "hidden",
+    margin: "0 auto 0 0.5rem",
+    fontSize: "1.5rem",
+    // LandingPage canvas-gradient-bg is light, so use dark text there (set by parent)
+    color: "inherit",
+    fontWeight: "inherit",
+  },
+}));

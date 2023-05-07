@@ -1,36 +1,25 @@
 import { useRef } from "react";
 import { styled } from "@mui/material/styles";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import Paper from "@mui/material/Paper";
-import Divider from "@mui/material/Divider";
-import Slide from "@mui/material/Slide";
 import Box from "@mui/material/Box";
-import TableViewSharpIcon from "@mui/icons-material/TableViewSharp";
-import ListIcon from "@mui/icons-material/List";
+import Divider, { dividerClasses } from "@mui/material/Divider";
+import Paper from "@mui/material/Paper";
+import Slide from "@mui/material/Slide";
+import ToggleButtonGroup, { toggleButtonGroupClasses } from "@mui/material/ToggleButtonGroup";
 import InboxIcon from "@mui/icons-material/Inbox";
+import ListIcon from "@mui/icons-material/List";
 import SendIcon from "@mui/icons-material/Send";
-import { ToggleButtonWithTooltip } from "@components";
+import TableViewSharpIcon from "@mui/icons-material/TableViewSharp";
+import { ToggleButtonWithTooltip } from "@components/Buttons/ToggleButtonWithTooltip";
 import { useListViewHeaderToggleButtons } from "./useListViewHeaderToggleButtons";
-import type {
-  ListOrTable,
-  HandleChangeListOrTable,
-  ListVisibility,
-  HandleChangeListVisibility
-} from "./types";
+import type { ListViewHeaderToggleButtonsProps } from "./types";
 
 export const ListViewHeaderToggleButtons = ({
   listOrTable,
   handleChangeListOrTable,
   listVisibility,
   handleChangeListVisibility,
-  isMobilePageLayout
-}: {
-  listOrTable: ListOrTable;
-  handleChangeListOrTable: HandleChangeListOrTable;
-  listVisibility?: ListVisibility;
-  handleChangeListVisibility?: HandleChangeListVisibility;
-  isMobilePageLayout: boolean;
-}) => {
+  isMobilePageLayout,
+}: ListViewHeaderToggleButtonsProps) => {
   const slideContainerRef = useRef(null);
 
   return (
@@ -45,7 +34,7 @@ export const ListViewHeaderToggleButtons = ({
             <ToggleButtonGroup
               value={[
                 ...(listVisibility.Inbox === true ? ["Inbox"] : []),
-                ...(listVisibility.Sent === true ? ["Sent"] : [])
+                ...(listVisibility.Sent === true ? ["Sent"] : []),
               ]}
               onChange={handleChangeListVisibility}
               aria-label="list visibility toggle buttons"
@@ -59,7 +48,7 @@ export const ListViewHeaderToggleButtons = ({
                       ? "Show Inbox"
                       : listVisibility.Sent === true
                       ? "Hide Inbox"
-                      : "Switch lists"
+                      : "Switch lists",
                 }}
               >
                 <InboxIcon />
@@ -73,7 +62,7 @@ export const ListViewHeaderToggleButtons = ({
                       ? "Show Sent"
                       : listVisibility.Inbox === true
                       ? "Hide Sent"
-                      : "Switch lists"
+                      : "Switch lists",
                 }}
               >
                 <SendIcon />
@@ -128,24 +117,24 @@ const ListViewHeaderToggleButtonsContainer = styled(Paper)(({ theme }) => ({
   ...(!theme.variables.isMobilePageLayout && {
     transition: "width 0.225s",
     "&.show-expanded": {
-      width: "12.6rem"
-    }
+      width: "12.6rem",
+    },
   }),
 
   // ToggleButtonGroup comps:
-  "& .MuiToggleButtonGroup-root": {
+  [`& .${toggleButtonGroupClasses.root}`]: {
     position: "relative",
     height: "100%",
     ...(theme.variables.isMobilePageLayout
       ? {
           width: "4.8rem",
           minWidth: "4.8rem",
-          maxWidth: "4.8rem"
+          maxWidth: "4.8rem",
         }
       : {
           width: "5.94rem",
           minWidth: "5.94rem",
-          maxWidth: "5.94rem"
+          maxWidth: "5.94rem",
         }),
     opacity: 1,
     zIndex: 1,
@@ -163,27 +152,27 @@ const ListViewHeaderToggleButtonsContainer = styled(Paper)(({ theme }) => ({
             width: "2rem",
             minWidth: "2rem",
             maxWidth: "2rem",
-            margin: "0.25rem"
+            margin: "0.25rem",
           }
         : {
             height: "2.499rem",
             width: "2.5rem",
             minWidth: "2.5rem",
             maxWidth: "2.5rem",
-            margin: "0.3rem"
+            margin: "0.3rem",
           }),
       border: "none !important",
-      borderRadius: "0.5rem"
-    }
+      borderRadius: "0.5rem",
+    },
   },
 
-  "& .MuiDivider-root": {
+  [`& .${dividerClasses.root}`]: {
     ...(theme.variables.isMobilePageLayout
       ? {
-          display: "none"
+          display: "none",
         }
       : {
-          margin: "0.65rem 0.3rem"
-        })
-  }
+          margin: "0.65rem 0.3rem",
+        }),
+  },
 }));

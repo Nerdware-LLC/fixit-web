@@ -14,6 +14,6 @@ export const useHomePageNav = (path: string) => {
 
   return {
     handleClick,
-    isActive
+    isActive,
   };
 };

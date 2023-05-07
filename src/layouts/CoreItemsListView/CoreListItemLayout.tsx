@@ -1,12 +1,11 @@
-import React from "react";
 import { styled, alpha } from "@mui/material/styles";
-import ListItem, { type ListItemProps } from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import Avatar from "@mui/material/Avatar";
+import Avatar, { avatarClasses as muiAvatarClasses } from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
+import ListItem, { type ListItemProps } from "@mui/material/ListItem";
+import ListItemButton, { listItemButtonClasses } from "@mui/material/ListItemButton";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
-import { THEMES } from "@app/ThemeProvider";
-import type { FixitUser } from "@types";
+import { coreListItemLayoutClassNames as classNames } from "./classNames";
+import type { FixitUser } from "@graphql/types";
 
 export const CoreListItemLayout = ({
   user,
@@ -17,23 +16,20 @@ export const CoreListItemLayout = ({
   children,
   ...containerProps
 }: CoreListItemLayoutProps) => (
-  <StyledListItem className="list-view-item-container" divider={divider} {...containerProps}>
+  <StyledListItem className={classNames.root} divider={divider} {...containerProps}>
     <ListItemButton onClick={onClick} data-item-id={itemID} data-list-name={listName}>
-      <div className="list-view-item-left-content-container">
-        <div className="list-view-item-left-content-circle">
-          <Avatar
-            src={user?.profile?.photoUrl}
-            alt={
-              user
-                ? user.profile?.displayName ?? "User avatar"
-                : "Icon indicating an unassigned item"
-            }
-          >
-            {user?.profile?.displayName?.charAt(0) ?? <PersonOffIcon />}
-          </Avatar>
-        </div>
+      <div className={classNames.leftContentContainer}>
+        <Avatar
+          src={user?.profile?.photoUrl ?? undefined}
+          className={classNames.avatar}
+          alt={
+            user ? user.profile?.displayName ?? "User avatar" : "Icon indicating an unassigned item"
+          }
+        >
+          {user?.profile?.displayName?.charAt(0) ?? <PersonOffIcon />}
+        </Avatar>
       </div>
-      <Box className="list-view-item-children-content-container">{children}</Box>
+      <Box className={classNames.childrenContentContainer}>{children}</Box>
     </ListItemButton>
   </StyledListItem>
 );
@@ -47,15 +43,15 @@ const StyledListItem = styled(ListItem)(({ theme: { palette, variables, breakpoi
   "& *": {
     whiteSpace: "nowrap",
     overflow: "hidden",
-    textOverflow: "ellipsis"
+    textOverflow: "ellipsis",
   },
 
-  "& > .MuiListItemButton-root": {
+  [`& > .${listItemButtonClasses.root}`]: {
     height: "100%",
     padding: "0.5rem 0",
     [breakpoints.up("sm")]: { padding: "0.5rem 1rem" },
 
-    "& > .list-view-item-left-content-container": {
+    [`& > .${classNames.leftContentContainer}`]: {
       ...(variables.isMobilePageLayout
         ? {
             height: "3rem",
@@ -63,7 +59,8 @@ const StyledListItem = styled(ListItem)(({ theme: { palette, variables, breakpoi
             maxHeight: "3rem",
             width: "3rem",
             minWidth: "3rem",
-            maxWidth: "3rem"
+            maxWidth: "3rem",
+            marginRight: "0.75rem",
           }
         : {
             height: "3.75rem",
@@ -71,66 +68,34 @@ const StyledListItem = styled(ListItem)(({ theme: { palette, variables, breakpoi
             maxHeight: "3.75rem",
             width: "3.75rem",
             minWidth: "3.75rem",
-            maxWidth: "3.75rem"
+            maxWidth: "3.75rem",
+            padding: "3px",
+            marginRight: "1rem",
           }),
-      marginRight: "1rem",
-      padding: "3px",
       display: "flex",
       placeItems: "center",
       placeContent: "center",
 
-      // Styles for all descendant divs (circle-container and the MuiAvatar-root)
-      "& div": {
+      [`& > .${muiAvatarClasses.root}`]: {
         height: "100%",
-        minHeight: "100%",
-        maxHeight: "100%",
         width: "100%",
-        minWidth: "100%",
-        maxWidth: "100%",
-        borderRadius: "50%",
-        placeItems: "center",
-        placeContent: "center"
-      },
-
-      // Styles for all descendants (divs, img, svg)
-      "& *": {
-        alignSelf: "center",
-        verticalAlign: "middle",
-        textAlign: "center",
-        overflow: "clip",
-        overflowClipMargin: 0
-      },
-
-      "& > .list-view-item-left-content-circle": {
-        display: "inline-flex",
-        padding: "2px",
-        backgroundImage: `linear-gradient(135deg, ${palette.info.dark} 15%, ${palette.info.light})`,
-
-        "& > .MuiAvatar-root": {
-          display: "inline",
-          backgroundImage: `linear-gradient(135deg, ${THEMES.DARK.palette.background.default} 20%, ${THEMES.DARK.palette.background.paper})`,
-          // styles for letter and icon avatars:
-          color: THEMES.DARK.palette.text.primary,
-          lineHeight: "calc(100% + 1.25rem)",
-          ...(!variables.isMobilePageLayout && {
-            fontSize: "2rem"
-          }),
-
-          "& > img, svg": {
-            display: "inline-block",
-            height: "100%",
-            marginBottom: "0.5rem",
-            "&:not(img)": {
-              marginLeft: "5%"
+        ...(variables.isMobilePageLayout
+          ? {
+              fontSize: "1.75rem",
             }
-          }
-        }
-      }
+          : {
+              fontSize: "2rem",
+              lineHeight: "3.4rem",
+            }),
+        "& svg[data-testid=PersonOffIcon]": {
+          transform: "translateX(1px)",
+        },
+      },
     },
 
     // Container for other list item sections provided as children:
 
-    "& > .list-view-item-children-content-container": {
+    [`& > .${classNames.childrenContentContainer}`]: {
       height: "100%",
       flexGrow: 1,
       display: "flex",
@@ -148,20 +113,20 @@ const StyledListItem = styled(ListItem)(({ theme: { palette, variables, breakpoi
           lineHeight: "1.25rem",
 
           "&:first-of-type": {
-            fontSize: "1rem"
+            fontSize: "1rem",
           },
           "&:not(:first-of-type)": {
-            fontSize: "0.925rem"
+            fontSize: "0.925rem",
           },
           "&:last-of-type:not(:first-of-type)": {
-            color: palette.text.secondary
+            color: palette.text.secondary,
           },
-          "&.list-item-created-at": {
-            fontSize: "0.875rem"
+          [`&.${classNames.createdAtText}`]: {
+            fontSize: "0.875rem",
           },
-          "&.list-item-status": {
-            fontSize: "0.75rem"
-          }
+          [`&.${classNames.statusText}`]: {
+            fontSize: "0.75rem",
+          },
         },
 
         // Some list items may contain links, apply same size styles (won't be first-children)
@@ -170,8 +135,8 @@ const StyledListItem = styled(ListItem)(({ theme: { palette, variables, breakpoi
           lineHeight: "1.25rem",
           // Hide any list-item links on mobile
           ...(variables.isMobilePageLayout && {
-            display: "none"
-          })
+            display: "none",
+          }),
         },
 
         // Styles for only-child div sections
@@ -179,20 +144,20 @@ const StyledListItem = styled(ListItem)(({ theme: { palette, variables, breakpoi
           // If there's only 1 section, make its text a little larger
           "& > .MuiTypography-root": {
             "&:first-of-type": {
-              fontSize: "1.05rem"
-            }
-          }
+              fontSize: "1.05rem",
+            },
+          },
         },
 
         // Styles for non-first div sections
         "&:not(:first-of-type)": {
-          minWidth: "4.75rem",
+          marginLeft: "0.5rem",
           textAlign: "right",
-          marginLeft: "0.5rem"
-        }
-      }
-    }
-  }
+          alignItems: "flex-end",
+        },
+      },
+    },
+  },
 }));
 
 export type CoreListItemLayoutProps = {

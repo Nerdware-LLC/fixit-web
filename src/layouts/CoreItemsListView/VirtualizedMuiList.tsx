@@ -1,21 +1,17 @@
 import React, { type ForwardedRef } from "react";
-import { Virtuoso as VirtuosoVirtualizedList } from "react-virtuoso";
-import List from "@mui/material/List";
+import { Virtuoso as VirtuosoVirtualizedList, type VirtuosoProps } from "react-virtuoso";
+import List, { type ListProps } from "@mui/material/List";
 
 /**
- * Docs:
- * - https://virtuoso.dev/
+ * Docs: https://virtuoso.dev/
  */
-export const VirtualizedMuiList = (props: React.ComponentProps<typeof VirtuosoVirtualizedList>) => {
+export const VirtualizedMuiList = (props: VirtuosoProps<unknown, unknown>) => {
   return <VirtuosoVirtualizedList components={MUIComponents} {...props} />;
 };
 
 const MUIComponents = {
-  List: React.forwardRef<HTMLDivElement, React.ComponentProps<typeof List>>(
-    (
-      { children, style = {}, ...props }: React.ComponentProps<typeof List>,
-      listRef: ForwardedRef<HTMLDivElement>
-    ) => (
+  List: React.forwardRef<HTMLDivElement, ListProps>(
+    ({ children, style = {}, ...props }: ListProps, listRef: ForwardedRef<HTMLDivElement>) => (
       <List
         component="div"
         ref={listRef}
@@ -28,5 +24,5 @@ const MUIComponents = {
   ),
   /* This Footer simply adds a little padding to the bottom of the list comp
   to ensure the last li isn't bordering the bottom of the browser window. */
-  Footer: () => <div style={{ minHeight: "1rem", width: "100%" }} />
+  Footer: () => <div style={{ minHeight: "1rem", width: "100%" }} />,
 };

@@ -3,16 +3,16 @@ import { useListVisibility } from "./useListVisibility";
 
 export const useListViewHeaderToggleButtons = ({
   numLists = 1,
-  isMobilePageLayout
+  isMobilePageLayout,
 }: {
   numLists: number;
   isMobilePageLayout: boolean;
 }) => {
   const { listOrTable, handleChangeListOrTable } = useListOrTable({
-    isMobilePageLayout
+    isMobilePageLayout,
   });
   const { listVisibility, handleChangeListVisibility, toggleListVisibility } = useListVisibility({
-    isMobilePageLayout
+    isMobilePageLayout,
   });
 
   return {
@@ -21,7 +21,7 @@ export const useListViewHeaderToggleButtons = ({
     ...(numLists > 1 && {
       listVisibility,
       handleChangeListVisibility,
-      toggleListVisibility
-    })
+      toggleListVisibility,
+    }),
   };
 };

@@ -1,12 +1,12 @@
-import ListItem from "@mui/material/ListItem";
+import ListItem, { type ListItemProps } from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
+import ListItemText, { listItemTextClasses } from "@mui/material/ListItemText";
 import AccountIcon from "@mui/icons-material/AccountCircle";
 import { THEMES } from "@app/ThemeProvider";
-import { useStripeService } from "@hooks";
-import { isConnectOnboardingNeededStore } from "@cache";
-import { StripeIcon } from "@components";
+import { isConnectOnboardingNeededStore } from "@cache/isConnectOnboardingNeededStore";
+import { StripeIcon } from "@components/Icons/StripeIcon";
+import { useStripeService } from "@hooks/useStripeService";
 import { useHomePageNav } from "./useHomePageNav";
 
 /**
@@ -18,12 +18,7 @@ export const HomePageDrawerBtn = ({
   icon,
   isActive = false,
   ...props
-}: {
-  onClick: React.MouseEventHandler<HTMLDivElement>;
-  label: string;
-  icon: React.ReactNode;
-  isActive?: boolean;
-} & React.ComponentProps<typeof ListItem>) => {
+}: HomePageDrawerBtnProps) => {
   const color = isActive ? THEMES.DARK.palette.secondary.main : THEMES.DARK.palette.text.primary;
 
   return (
@@ -36,17 +31,17 @@ export const HomePageDrawerBtn = ({
           justifyContent: "center",
           "&:hover": {
             // hard-coded bc this was not manifesting in light mode
-            backgroundColor: "#303037"
+            backgroundColor: "#303037",
           },
-          "& > .MuiListItemIcon-root": {
+          [`& > .${listItemIconClasses.root}`]: {
             padding: "1rem 1rem 1rem 0",
             justifyContent: "flex-end",
-            color
+            color,
           },
-          "& > .MuiListItemText-root": {
+          [`& > .${listItemTextClasses.root}`]: {
             whiteSpace: "nowrap",
-            color
-          }
+            color,
+          },
         }}
       >
         <ListItemIcon>{icon}</ListItemIcon>
@@ -56,13 +51,18 @@ export const HomePageDrawerBtn = ({
   );
 };
 
+export type HomePageDrawerBtnProps = {
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+  label: string;
+  icon: React.ReactNode;
+  isActive?: boolean;
+} & ListItemProps;
+
 /**
  * A `HomePageDrawerBtn` which calls `getCustomerPortalLink` to allow
  * users to manage their Fixit account.
  */
-export const AccountDrawerBtn = (
-  props: Omit<React.ComponentProps<typeof HomePageDrawerBtn>, "onClick" | "icon">
-) => {
+export const AccountDrawerBtn = (props: Omit<HomePageDrawerBtnProps, "onClick" | "icon">) => {
   const { getCustomerPortalLink } = useStripeService();
 
   const handleClick = async () => await getCustomerPortalLink();
@@ -101,9 +101,7 @@ export const ConnectDrawerBtn = () => {
 export const NavDrawerBtn = ({
   path,
   ...props
-}: {
-  path: string;
-} & Omit<React.ComponentProps<typeof HomePageDrawerBtn>, "onClick">) => {
+}: { path: string } & Omit<HomePageDrawerBtnProps, "onClick">) => {
   const { handleClick, isActive } = useHomePageNav(path);
 
   return <HomePageDrawerBtn onClick={handleClick} isActive={isActive} {...props} />;

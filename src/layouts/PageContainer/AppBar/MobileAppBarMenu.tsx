@@ -1,17 +1,20 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import Text from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
+import Button, { buttonClasses } from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
+import { paperClasses } from "@mui/material/Paper";
+import Text from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { UserAvatar } from "@components";
-import { useAppBarMenuConfigs, type MenuOption } from "./useAppBarMenuConfigs";
+import CloseIcon from "@mui/icons-material/Close";
+import MenuIcon from "@mui/icons-material/Menu";
+import { UserAvatar } from "@components/Avatar/UserAvatar";
+import { MobileModalContentBox } from "@components/Modal/MobileModalContentBox";
 import { DarkModeSwitch } from "./DarkModeSwitch";
+import { useAppBarMenuConfigs, type MenuOption } from "./useAppBarMenuConfigs";
 
 export const MobileAppBarMenu = () => {
+  const { pathname } = useLocation();
   const { isAccountActive, authOptionConfig, menuOptionConfigs } = useAppBarMenuConfigs();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,45 +32,53 @@ export const MobileAppBarMenu = () => {
   return (
     <>
       {isModalOpen ? (
-        <IconButton onClick={handleClose} sx={{ bgcolor: "rgba(50,50,50,0.4)" }}>
-          <CloseIcon sx={{ color: "ButtonText" }} />
+        <IconButton
+          onClick={handleClose}
+          style={{
+            color: "rgb(150,150,150)",
+            backgroundColor: "rgba(150,150,150,0.16)",
+          }}
+        >
+          <CloseIcon />
         </IconButton>
       ) : isAccountActive === true ? (
-        <UserAvatar onClick={handleOpen} sx={{ marginLeft: "auto" }} />
+        <UserAvatar onClick={handleOpen} style={{ marginLeft: "auto" }} />
       ) : (
         <IconButton onClick={handleOpen}>
-          <MenuIcon color="primary" />
+          <MenuIcon
+            name="app-bar-menu-button"
+            aria-label="app bar menu button"
+            sx={{
+              /* Currently, LandingPage puts this btn against a light-ish bg,
+              which makes the primary.main color hard to see. Since PageContainer
+              uses the react-router-dom Outlet pattern, LandingPage doesn't have
+              a way to pass style/sx props to parent PageContainer. So, for now,
+              this comp must depend on location.pathname to determine whether or
+              not to use primary.main color.  */
+              color: pathname !== "/" ? "primary.main" : "rgba(0,0,0,0.75)",
+            }}
+          />
         </IconButton>
       )}
-      <Modal open={isModalOpen} onClose={handleClose}>
-        <ModalMenuContainer>
-          {menuOptions.map(({ label, handleClick }) => (
-            <div
-              key={`MobileMenu:Btn:${label}`}
-              className="mobile-menu-btn-box"
-              onClick={handleClick}
-            >
-              <Text>{label}</Text>
-              <ChevronRightIcon />
-            </div>
-          ))}
-          <div className="mobile-menu-btn-box">
-            Toggle Dark Mode
-            <DarkModeSwitch />
-          </div>
-          <Button
-            onClick={menuAuthOption.handleClick}
-            startIcon={menuAuthOption.icon}
-            style={{
-              width: "calc(100% - 4rem)",
-              alignSelf: "center",
-              margin: "auto 0 2rem 0"
-            }}
+      <StyledMobileModalContentBox open={isModalOpen} onClose={handleClose}>
+        {menuOptions.map(({ label, handleClick }) => (
+          <div
+            key={`MobileMenu:Btn:${label}`}
+            className={mobileAppBarMenuClassNames.mobileMenuBtnBox}
+            onClick={handleClick}
           >
-            {menuAuthOption.label}
-          </Button>
-        </ModalMenuContainer>
-      </Modal>
+            <Text>{label}</Text>
+            <ChevronRightIcon />
+          </div>
+        ))}
+        <div className={mobileAppBarMenuClassNames.mobileMenuBtnBox}>
+          Toggle Dark Mode
+          <DarkModeSwitch />
+        </div>
+        <Button onClick={menuAuthOption.handleClick} startIcon={menuAuthOption.icon}>
+          {menuAuthOption.label}
+        </Button>
+      </StyledMobileModalContentBox>
     </>
   );
 };
@@ -90,39 +101,39 @@ const getModalOptClickHandler = <T extends MenuOption>(
     : () => {
         setIsModalOpen(false);
         modalMenuOpt.handleSelectOption();
-      }
+      },
 });
 
-const ModalMenuContainer = styled("div")(({ theme }) => ({
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  zIndex: 100,
-  height: "85vh",
-  width: "75vw",
-  transform: "translate(-50%, -50%)",
-  backgroundColor: theme.palette.background.paper,
-  border: "2px solid #000",
-  borderRadius: "0.35rem",
-  boxShadow: "24",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "flex-start",
+export const mobileAppBarMenuClassNames = {
+  mobileMenuBtnBox: "mobile-menu-btn-box",
+};
 
-  "& > div.mobile-menu-btn-box": {
-    height: "3.25rem",
-    width: "100%",
-    padding: "2rem",
-    borderStyle: "solid",
-    borderWidth: "0 0 1px 0",
-    borderColor: theme.palette.divider,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    "&:hover": {
-      cursor: "pointer",
-      backgroundColor: theme.palette.action.hover
-    }
-  }
+const StyledMobileModalContentBox = styled(MobileModalContentBox)(({ theme }) => ({
+  [`& > .${paperClasses.root}`]: {
+    height: "85dvh",
+    width: "80dvw",
+
+    [`& .${mobileAppBarMenuClassNames.mobileMenuBtnBox}`]: {
+      height: "3.25rem",
+      width: "100%",
+      padding: "2rem",
+      borderStyle: "solid",
+      borderWidth: "0 0 1px 0",
+      borderColor: theme.palette.divider,
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      "&:hover": {
+        cursor: "pointer",
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+
+    [`& .${buttonClasses.root}`]: {
+      width: "calc(100% - 4rem)",
+      alignSelf: "center",
+      margin: "auto 0 2rem 0",
+    },
+  },
 }));
