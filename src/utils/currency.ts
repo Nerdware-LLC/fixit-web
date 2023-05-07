@@ -1,5 +1,5 @@
 export const isValidCurrencyInput = (input: string) => {
-  return /^\d+(\.\d{2})?$/.test(input);
+  return /^[1-9]+(\.\d{2})?$/.test(input);
 };
 
 export const formatCurrencyStrToInt = (currencyAmountStr: string) => {
