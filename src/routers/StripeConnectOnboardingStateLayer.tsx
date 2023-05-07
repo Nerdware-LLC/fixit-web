@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Box from "@mui/material/Box";
-import Text from "@mui/material/Typography";
+import Text, { typographyClasses } from "@mui/material/Typography";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
-import { isConnectOnboardingNeededStore } from "@cache";
-import { useStripeService } from "@hooks";
-import { Dialog } from "@components";
+import { isConnectOnboardingNeededStore } from "@cache/isConnectOnboardingNeededStore";
+import { Dialog } from "@components/Dialog";
+import { useStripeService } from "@hooks/useStripeService";
 
 /**
  * During the authentication process, `isConnectOnboardingNeededStore` will
@@ -33,7 +33,9 @@ import { Dialog } from "@components";
  *       param of "?connect-refresh" (e.g., "/home/workorders?connect-refresh"),
  *       at which time a new link must be obtained from the Fixit API.
  */
-export const StripeConnectOnboardingStateLayer = ({ children }: { children: React.ReactNode }) => {
+export const StripeConnectOnboardingStateLayer = ({
+  children,
+}: StripeConnectOnboardingStateLayerProps) => {
   const isConnectOnboardingNeeded = isConnectOnboardingNeededStore.useSubToStore();
   const [searchParams, setSearchParams] = useSearchParams();
   const { getConnectOnboardingLink } = useStripeService();
@@ -86,16 +88,16 @@ export const StripeConnectOnboardingStateLayer = ({ children }: { children: Reac
         >
           <Box
             sx={{
-              "& .MuiTypography-root": {
-                lineHeight: "1.35rem"
+              [`& .${typographyClasses.root}`]: {
+                lineHeight: "1.35rem",
               },
               "& > div": {
                 marginTop: "1rem",
                 display: "flex",
                 "& > svg": {
-                  marginRight: "0.5rem"
-                }
-              }
+                  marginRight: "0.5rem",
+                },
+              },
             }}
           >
             <Text>
@@ -115,3 +117,5 @@ export const StripeConnectOnboardingStateLayer = ({ children }: { children: Reac
     </>
   );
 };
+
+export type StripeConnectOnboardingStateLayerProps = { children: React.ReactNode };

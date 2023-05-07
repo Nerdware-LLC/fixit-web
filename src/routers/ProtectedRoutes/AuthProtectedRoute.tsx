@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { isAuthenticatedStore } from "@app";
+import { isAuthenticatedStore } from "@cache/isAuthenticatedStore";
 
-export const AuthProtectedRoute = ({ children }: { children?: JSX.Element }) => {
+export const AuthProtectedRoute = ({ children }: AuthProtectedRouteProps) => {
   const isUserAuthenticated = isAuthenticatedStore.useSubToStore();
 
   return !isUserAuthenticated ? (
@@ -10,3 +10,5 @@ export const AuthProtectedRoute = ({ children }: { children?: JSX.Element }) => 
     children ?? <Outlet />
   );
 };
+
+export type AuthProtectedRouteProps = { children?: JSX.Element };

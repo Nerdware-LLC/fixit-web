@@ -1,7 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { isAuthenticatedStore, isActiveAccountStore } from "@app";
+import { isActiveAccountStore } from "@cache/isActiveAccountStore";
+import { isAuthenticatedStore } from "@cache/isAuthenticatedStore";
 
-export const PaymentProtectedRoute = ({ children }: { children?: JSX.Element }) => {
+export const PaymentProtectedRoute = ({ children }: PaymentProtectedRouteProps) => {
   const isUserAuthenticated = isAuthenticatedStore.useSubToStore();
   const isActivePaidAccount = isActiveAccountStore.useSubToStore();
 
@@ -14,3 +15,5 @@ export const PaymentProtectedRoute = ({ children }: { children?: JSX.Element }) 
     : children ?? <Outlet />
   );
 };
+
+export type PaymentProtectedRouteProps = { children?: JSX.Element };

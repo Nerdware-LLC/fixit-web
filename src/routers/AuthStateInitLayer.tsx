@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthService } from "@hooks";
-import { storage } from "@utils";
+import { useAuthService } from "@hooks/useAuthService";
+import { storage } from "@utils/storage";
 
 /**
  * This component checks the AuthToken when first rendered,
@@ -10,14 +10,14 @@ import { storage } from "@utils";
  * Since navigation is involved, this component must reside
  * within BrowserRouter in the component tree.
  */
-export const AuthStateInitLayer = ({ children }: { children: React.ReactElement }) => {
+export const AuthStateInitLayer = ({ children }: AuthStateInitLayerProps) => {
   const { refreshAuthToken } = useAuthService();
   const nav = useNavigate();
 
   // INITIALIZE STATE: AuthToken
   useEffect(() => {
     (async () => {
-      const authToken = storage.getAuthToken();
+      const authToken = storage.authToken.get();
       if (authToken) {
         const { success } = await refreshAuthToken();
 
@@ -30,3 +30,5 @@ export const AuthStateInitLayer = ({ children }: { children: React.ReactElement 
 
   return children;
 };
+
+export type AuthStateInitLayerProps = { children: React.ReactElement };
