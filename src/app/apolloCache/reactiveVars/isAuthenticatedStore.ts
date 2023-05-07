@@ -1,3 +1,5 @@
 import { ReactiveStore } from "./ReactiveStore";
 
-export const isAuthenticatedStore = new ReactiveStore<boolean>();
+export const isAuthenticatedStore = new ReactiveStore<boolean>({
+  defaultValue: false,
+});

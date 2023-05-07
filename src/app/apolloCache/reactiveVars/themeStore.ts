@@ -1,15 +1,13 @@
 import { ReactiveStore } from "./ReactiveStore";
 import type { ThemeName } from "@app/ThemeProvider";
 
-export const themeStore = new ReactiveStore<ThemeName>({
+class ThemeStore extends ReactiveStore<ThemeName> {
+  toggle(currentTheme?: ThemeName) {
+    this.set(currentTheme === "DARK" ? "LIGHT" : "DARK");
+  }
+}
+
+export const themeStore = new ThemeStore({
   storageKey: "preferredTheme",
-  defaultValue: "DARK"
-}) as ThemeStore;
-
-themeStore.toggle = (currentTheme = themeStore.get()) => {
-  themeStore.set(currentTheme === "DARK" ? "LIGHT" : "DARK");
-};
-
-type ThemeStore = {
-  toggle: (currentTheme?: ThemeName) => void;
-} & ReactiveStore<ThemeName>;
+  defaultValue: "DARK",
+});

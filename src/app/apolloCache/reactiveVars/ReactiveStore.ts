@@ -1,63 +1,94 @@
 import { makeVar, type ReactiveVar } from "@apollo/client/cache";
 import { useReactiveVar } from "@apollo/client/react/hooks";
-import { storage } from "@utils";
+import deepMerge from "lodash.merge";
+import { storage, type LocalStorageWrapperKey } from "@utils/storage";
+import type { PartialDeep } from "type-fest";
 
 /**
  * A handy wrapper around apollo's reactive-var functionality.
  *
- * - `storageKey` Provide a localStorage key to add persistence functionality.
- * - `valueOnInit` The value stored in the reactive-var upon initialization, or a
- *   function which when called returns an initial store value.
- * - `valueOnReset` The value the reactive-var will be set to when the `reset()`
- *   method is called. If not provided, this defaults to `valueOnInit`.
+ * @param storageKey - Provide a localStorage key to add persistence functionality.
+ * @param defaultValue - The value the reactive-var will be set to upon initialization.
+ * @param valueOnInit - The value stored in the reactive-var upon initialization.
+ * @param valueOnReset - The value the reactive-var will be set to when `reset` is called.
  */
-export class ReactiveStore<T extends string | number | boolean | Record<string, any> | Array<any>> {
-  private reactiveVar: ReactiveVar<T>;
-
-  get: () => T;
-  set: (newValue?: T) => T;
-  useSubToStore: () => T;
-  reset: () => void;
-  clear: () => void;
+export class ReactiveStore<T extends ReactiveStoreValueType> {
+  protected reactiveVar: ReactiveVar<T>;
+  protected storageKey: LocalStorageWrapperKey | undefined;
+  protected valueOnReset: T;
 
   constructor({
-    storageKey,
     defaultValue,
-    valueOnInit = storageKey
-      ? (storage[storageKey].get() as T | null) ?? defaultValue
-      : defaultValue,
-    valueOnReset = valueOnInit
+    storageKey,
+    valueOnInit,
+    valueOnReset,
   }: {
-    storageKey?: typeof storage.KEYS[number];
     defaultValue?: T;
+    storageKey?: LocalStorageWrapperKey;
     valueOnInit?: T;
     valueOnReset?: T;
   } = {}) {
-    this.reactiveVar = makeVar(valueOnInit) as ReactiveVar<T>;
+    valueOnInit ??= storageKey ? (storage[storageKey].get() as T) : (defaultValue as T);
+    valueOnReset ??= valueOnInit;
 
-    // Read-methods are the same regardless of persistence functionality:
-    this.get = () => this.reactiveVar();
-    this.useSubToStore = () => useReactiveVar(this.reactiveVar); // eslint-disable-line react-hooks/rules-of-hooks
+    this.reactiveVar = makeVar(valueOnInit);
+    this.storageKey = storageKey;
+    this.valueOnReset = valueOnReset;
+  }
 
-    // If persistence is desired, a localStorage write-op is added to set:
-    this.set = !storageKey
-      ? (newValue?: T) => this.reactiveVar(newValue)
-      : (newValue?: T) => {
-          storage[storageKey].set(newValue);
-          return this.reactiveVar(newValue);
-        };
+  /**
+   * Returns the current value of the reactive-var.
+   */
+  get() {
+    return this.reactiveVar();
+  }
 
-    // reset uses this.set to write valueOnReset:
-    this.reset = () => {
-      this.set(valueOnReset);
-    };
+  /**
+   * Calls `useReactiveVar` to subscribe to reactive-var changes.
+   */
+  useSubToStore() {
+    return useReactiveVar(this.reactiveVar); // eslint-disable-line react-hooks/rules-of-hooks
+  }
 
-    // clear = reset, and for persisted values the K/V is also rm'd from localStorage
-    this.clear = !storageKey
-      ? this.reset
-      : () => {
-          this.reset();
-          storage[storageKey].remove();
-        };
+  /**
+   * Set a new value for the reactive-var. If a `storageKey` was provided, the
+   * value is also updated in localStorage.
+   */
+  set(newValue?: T) {
+    if (this.storageKey) storage[this.storageKey].set(newValue);
+    return this.reactiveVar(newValue);
+  }
+
+  /**
+   * Deep-merges the provided value with the current value of the reactive-var.
+   * If a `storageKey` was provided, the value is also updated in localStorage.
+   */
+  mergeUpdate(partialNewValue?: PartialDeep<T>) {
+    const newValue = deepMerge(this.reactiveVar(), partialNewValue);
+    return this.set(newValue);
+  }
+
+  /**
+   * Resets the reactive-var to the value provided in the constructor's `valueOnReset` param.
+   * > `valueOnReset` defaults to `valueOnInit` if not provided.
+   */
+  reset() {
+    return this.set(this.valueOnReset);
+  }
+
+  /**
+   * Clears the reactive-var. If a `storageKey` was provided, the K/V is also rm'd from localStorage.
+   */
+  clear() {
+    if (this.storageKey) storage[this.storageKey].remove();
+    return this.reset();
   }
 }
+
+export type ReactiveStoreValueType =
+  | string
+  | number
+  | boolean
+  | Record<string, any>
+  | Array<ReactiveStoreValueType>
+  | null;

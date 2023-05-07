@@ -1,30 +1,31 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import { ReactiveStore } from "./ReactiveStore";
-import type { UserSubscription } from "@types";
+import type { UserSubscription } from "@graphql/types";
 
-export const isActiveAccountStore = new ReactiveStore<boolean>() as IsActiveAccountStore;
+class IsActiveAccountStore extends ReactiveStore<boolean> {
+  private static IS_VALID_SUB_STATUS = {
+    // ACTIVE ACCOUNT STATUSES
+    active: true,
+    trialing: true,
+    // PAYMENT REQUIRED STATUSES
+    incomplete: false,
+    incomplete_expired: false,
+    past_due: false,
+    canceled: false,
+    unpaid: false,
+  };
 
-isActiveAccountStore.setIsSubValid = ({ status, currentPeriodEnd }) => {
-  isActiveAccountStore.set(
-    !!(moment(currentPeriodEnd).unix() >= moment().unix() && IS_VALID_SUB_STATUS?.[status] === true)
-  );
-};
-
-const IS_VALID_SUB_STATUS = {
-  // ACTIVE ACCOUNT STATUSES
-  active: true,
-  trialing: true,
-  // PAYMENT REQUIRED STATUSES
-  incomplete: false,
-  incomplete_expired: false,
-  past_due: false,
-  canceled: false,
-  unpaid: false
-};
-
-type IsActiveAccountStore = {
-  setIsSubValid: ({
+  setIsSubValid({
     status,
-    currentPeriodEnd
-  }: Pick<UserSubscription, "status" | "currentPeriodEnd">) => void;
-} & ReactiveStore<boolean>;
+    currentPeriodEnd,
+  }: Pick<UserSubscription, "status" | "currentPeriodEnd">): void {
+    this.set(
+      !!(
+        dayjs(currentPeriodEnd).unix() >= dayjs().unix() &&
+        IsActiveAccountStore.IS_VALID_SUB_STATUS?.[status] === true
+      )
+    );
+  }
+}
+
+export const isActiveAccountStore = new IsActiveAccountStore();

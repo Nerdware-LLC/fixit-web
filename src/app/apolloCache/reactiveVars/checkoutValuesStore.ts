@@ -3,7 +3,7 @@ import type { UserSubscriptionPriceLabel } from "@types";
 
 export const checkoutValuesStore = new ReactiveStore<StoredCheckoutValues>({
   storageKey: "checkoutValues",
-  defaultValue: { selectedSubscription: null, promoCode: null }
+  defaultValue: { selectedSubscription: null, promoCode: null },
 });
 
 /**
