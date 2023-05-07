@@ -1,17 +1,18 @@
-import { AutoComplete, type AutoCompleteOption } from "./AutoComplete";
+import { AutoComplete, type AutoCompleteProps, type AutoCompleteOption } from "./AutoComplete";
 
-export const AutoCompleteStates = ({ id, ...props }: AutoCompleteStatesProps) => (
+export const AutoCompleteStates = (props: AutoCompleteStatesProps) => (
   <AutoComplete
-    id={id}
     options={US_STATES_AND_TERRITORIES}
-    groupBy={(option) => (option as AutoCompleteOption).group as string}
+    groupBy={(option) => option.group}
+    autoSelect
     {...props}
   />
 );
 
-export type AutoCompleteStatesProps = Omit<React.ComponentProps<typeof AutoComplete>, "options"> & {
-  id: string;
-};
+export type AutoCompleteStatesProps = Omit<
+  AutoCompleteProps<AutoCompleteOption & { group: string }>,
+  "options" | "groupBy" | "autoSelect"
+>;
 
 const US_STATES_AND_TERRITORIES = [
   "Alabama",
@@ -64,7 +65,7 @@ const US_STATES_AND_TERRITORIES = [
   "Washington",
   "West Virginia",
   "Wisconsin",
-  "Wyoming"
+  "Wyoming",
 ]
   .map((placeName) => ({ id: placeName, label: placeName, group: "States" }))
   .concat(

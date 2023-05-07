@@ -1,30 +1,22 @@
-import { toast } from "react-toastify";
 import { useFormikContext } from "formik";
-import { grid as muiGridSxProps, type GridProps } from "@mui/system";
+import { grid as muiGridSxProps, type GridProps as MuiGrisSxProps } from "@mui/system";
 import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
+import Button, { type ButtonProps } from "@mui/material/Button";
+import { formClassNames } from "./classNames";
 
-export const FormSubmitButton = (props: React.ComponentProps<typeof StyledButton>) => {
-  const { handleSubmit, isValid, isSubmitting, dirty, errors } = useFormikContext();
+export const FormSubmitButton = (props: FormSubmitButtonProps) => {
+  const { handleSubmit, isSubmitting } = useFormikContext();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
-    if (!dirty)
-      toast.error("Please fill out all required fields", { toastId: "required-fields-error" });
-    else if (!isValid)
-      toast.error(
-        `Please review your entries, the input for "${Object.keys(errors)[0]}" is invalid.`,
-        { toastId: "invalid-input-error" }
-      );
-    else if (!isSubmitting) handleSubmit();
+    handleSubmit();
   };
 
   return (
     <StyledButton
       onClick={handleClick}
       disabled={isSubmitting}
-      className="form-submit-button"
+      className={formClassNames.submitButton}
       {...props}
     >
       Submit
@@ -33,8 +25,10 @@ export const FormSubmitButton = (props: React.ComponentProps<typeof StyledButton
 };
 
 const StyledButton = styled(Button, {
-  shouldForwardProp: (propName) => !(propName as string).startsWith("grid")
-})<GridProps>({
+  shouldForwardProp: (propName: string) => !propName.startsWith("grid"),
+})<MuiGrisSxProps>({
   lineHeight: "2rem",
-  ...muiGridSxProps
+  ...muiGridSxProps,
 });
+
+export type FormSubmitButtonProps = Omit<ButtonProps & MuiGrisSxProps, "onClick" | "disabled">;

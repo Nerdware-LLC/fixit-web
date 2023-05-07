@@ -1,5 +1,5 @@
 import { useField, useFormikContext } from "formik";
-import Button from "@mui/material/Button";
+import Button, { type ButtonProps } from "@mui/material/Button";
 
 /**
  * // FIXME FileInput not yet implemented
@@ -11,10 +11,7 @@ export const FileInput = ({
   variant = "contained",
   style,
   ...props
-}: Omit<React.ComponentProps<typeof Button>, "label"> & {
-  id: string;
-  label: string;
-}) => {
+}: FileInputProps) => {
   const [field, meta] = useField(id);
   const { handleChange, handleBlur } = useFormikContext();
 
@@ -25,3 +22,8 @@ export const FileInput = ({
     </Button>
   );
 };
+
+export type FileInputProps = {
+  id: string;
+  label: string;
+} & Omit<ButtonProps, "label">;

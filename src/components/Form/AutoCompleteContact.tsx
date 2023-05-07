@@ -1,11 +1,10 @@
 import { useQuery } from "@apollo/client/react/hooks";
 import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
-import { AutoComplete, Avatar } from "@components";
+import { Avatar } from "@components/Avatar";
 import { QUERIES } from "@graphql/queries";
-import type { AutoCompleteProps, AutoCompleteOption } from "./AutoComplete";
-import type { Contact } from "@types";
-import { MOCK_CONTACTS } from "@/__tests__/mockItems"; // FIXME rm import, use only in test files
+import { AutoComplete, type AutoCompleteProps } from "./AutoComplete";
+import type { Profile, Contact } from "@graphql/types";
 
 /**
  * AutoCompleteContact
@@ -13,58 +12,78 @@ import { MOCK_CONTACTS } from "@/__tests__/mockItems"; // FIXME rm import, use o
  * - Uses MUI Autocomplete input
  */
 export const AutoCompleteContact = ({
-  label,
-  emptySelectionOption = { id: "", label: "Unassigned" },
+  reduceContacts = (contacts) => contacts as Contact[],
+  emptySelectionOption,
   ...props
 }: AutoCompleteContactProps) => {
   const { data, loading } = useQuery(QUERIES.MY_CONTACTS, {
-    fetchPolicy: "cache-only",
-    skip: true // FIXME
+    fetchPolicy: "cache-only", // For this input, only pull from cache
   });
 
-  const contactOptions: AutoCompleteContactOptions = [
-    emptySelectionOption,
-    // FIXME rm below
-    ...Object.values(MOCK_CONTACTS).map((contact) => ({
-      ...contact,
-      label: contact.profile?.displayName || contact.handle
-    }))
-  ];
+  const contactOptions: AutoCompleteContactOptions = [];
 
-  if (!loading && data && Array.isArray(data?.myContacts) && data.myContacts.length > 0) {
-    contactOptions.concat(
-      data.myContacts.reduce((accum: AutoCompleteContactOptions, contact: Contact) => {
-        return [...accum, { ...contact, label: contact.profile?.displayName || contact.handle }];
-      }, [])
-    );
+  if (
+    !loading &&
+    data?.myContacts &&
+    Array.isArray(data.myContacts) &&
+    data.myContacts.length > 0
+  ) {
+    contactOptions.concat(reduceContacts(data.myContacts));
   }
+
+  const renderOptionFallback =
+    emptySelectionOption && "label" in emptySelectionOption
+      ? `- ${emptySelectionOption.label} -`
+      : "--";
+
+  const handleRenderOption = (
+    props: React.HTMLAttributes<HTMLLIElement>,
+    { profile }: AutoCompleteContactOption
+  ) => (
+    <AutoCompleteContactOptionListItem
+      profile={profile as Contact["profile"]} // GqlProfileType allows optional fields to be null, causing type conflicts
+      renderFallback={renderOptionFallback}
+      style={{ height: profile ? "3.5rem" : "3rem" }}
+      {...props}
+    />
+  );
+
+  const handleGetOptionLabel = ({ profile, handle }: AutoCompleteContactOption) =>
+    `${profile?.displayName || handle}`;
 
   return (
     <AutoComplete
       options={contactOptions}
-      label={label}
-      renderOption={(props, option) => {
-        const { profile = null } = option as AutoCompleteContactOption;
-
-        return (
-          <Box component="li" style={{ height: profile ? "3.5rem" : "3rem" }} {...props}>
-            {profile ? (
-              <Avatar profile={profile} showDisplayName={true} style={{ marginRight: "1rem" }} />
-            ) : (
-              <Text fontWeight="bold">- {emptySelectionOption.label} -</Text>
-            )}
-          </Box>
-        );
-      }}
+      renderOption={handleRenderOption}
+      getOptionLabel={handleGetOptionLabel}
       {...props}
     />
   );
 };
 
-export type AutoCompleteContactProps = { emptySelectionOption?: AutoCompleteOption } & Omit<
-  AutoCompleteProps,
-  "options"
+const AutoCompleteContactOptionListItem = ({
+  profile,
+  renderFallback = "--",
+  ...props
+}: {
+  profile?: Profile;
+  renderFallback?: React.ReactNode;
+} & React.HTMLAttributes<HTMLLIElement>) => (
+  <Box component="li" {...props}>
+    {profile ? (
+      <Avatar profile={profile} showDisplayName style={{ marginRight: "0.25rem" }} />
+    ) : (
+      <Text fontWeight="bold">{renderFallback}</Text>
+    )}
+  </Box>
+);
+
+export type AutoCompleteContactProps = {
+  reduceContacts?: (contacts: Array<AutoCompleteContactOption>) => AutoCompleteContactOptions;
+} & Omit<
+  AutoCompleteProps<AutoCompleteContactOption>,
+  "options" | "renderOption" | "getOptionLabel"
 >;
 
-export type AutoCompleteContactOption = AutoCompleteOption & Partial<Contact>;
+export type AutoCompleteContactOption = Contact;
 export type AutoCompleteContactOptions = Array<AutoCompleteContactOption>;

@@ -1,45 +1,48 @@
-import { useField, useFormikContext } from "formik";
-import { grid as muiGridSxProps, type GridProps } from "@mui/system";
-import { styled } from "@mui/material/styles";
-import { DateTimePicker as MuiDateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import TextField, { type TextFieldProps } from "@mui/material/TextField";
+import {
+  StyledDateTimePicker,
+  type StyledDateTimePickerProps,
+} from "@components/Inputs/StyledDateTimePicker";
+import { formClassNames } from "./classNames";
+import { useFormikFieldProps } from "./useFormikFieldProps";
+import type { TextFieldProps } from "@mui/material/TextField";
 
-export const DateTimePicker = ({
+export const DateTimePicker = <TDate extends Date | string | number | null = Date>({
   id,
-  label,
-  style = {},
-  renderInput = (params: TextFieldProps) => <TextField style={style} {...params} />,
+  variant: explicitVariant,
+  style,
+  slotProps = {},
   ...props
-}: DateTimePickerProps) => {
-  const [field] = useField(id);
-  const { setFieldValue } = useFormikContext();
+}: DateTimePickerProps<TDate>) => {
+  const [{ value: fieldValue, onChange: handleFieldValueChange, variant }] =
+    useFormikFieldProps<TDate>({
+      id,
+      variant: explicitVariant,
+    });
 
-  const handleChange = (value: unknown, keyboardInputValue?: string | undefined) => {
-    setFieldValue(id, value);
+  const handleChange = (value: TDate | null) => {
+    handleFieldValueChange(value);
   };
 
   return (
-    <StyledMuiDateTimePicker
-      label={label}
-      value={field.value}
+    <StyledDateTimePicker<TDate>
+      value={fieldValue}
       onChange={handleChange}
-      renderInput={renderInput}
+      className={formClassNames.dateTimeInput}
+      slotProps={{
+        textField: {
+          variant,
+          style,
+          ...(slotProps?.textField ?? {}),
+        },
+        ...slotProps,
+      }}
       {...props}
     />
   );
 };
 
-const StyledMuiDateTimePicker = styled(MuiDateTimePicker, {
-  shouldForwardProp: (propName) => !(propName as string).startsWith("grid")
-})<GridProps>(muiGridSxProps);
-
-export type DateTimePickerProps = {
+export type DateTimePickerProps<TDate extends Date | string | number | null> = {
   id: string;
+  variant?: TextFieldProps["variant"];
   style?: React.CSSProperties;
-  renderInput?: (
-    params: TextFieldProps
-  ) => React.ReactElement<any, string | React.JSXElementConstructor<any>>;
-} & Omit<
-  React.ComponentProps<typeof StyledMuiDateTimePicker>,
-  "value" | "onChange" | "renderInput"
->;
+} & Omit<StyledDateTimePickerProps<TDate>, "value" | "onChange">;

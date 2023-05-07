@@ -1,9 +1,10 @@
 import { useFormikContext } from "formik";
-import { grid as muiGridSxProps, type GridProps } from "@mui/system";
+import { grid as muiGridSxProps, type GridProps as MuiGridSxProps } from "@mui/system";
 import { styled } from "@mui/material/styles";
-import MuiSlider from "@mui/material/Slider";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
+import MuiSlider, { sliderClasses, type SliderProps as MuiSliderProps } from "@mui/material/Slider";
+import { formClassNames } from "./classNames";
 
 /**
  * MUI Slider with Formik hooks
@@ -34,46 +35,54 @@ export const Slider = ({
   const labelID = `Slider:InputLabel:${id}`;
 
   return (
-    <Box className="slider-container" style={style} sx={sx}>
-      <InputLabel id={labelID} className="slider-input-label">
+    <Box className={formClassNames.sliderInputContainer} style={style} sx={sx}>
+      <InputLabel id={labelID} className={formClassNames.sliderInputLabel}>
         {label}
       </InputLabel>
       <StyledMuiSlider
         id={id}
         onChange={handleChange}
         aria-labelledby={labelID}
-        className="slider-input"
+        className={formClassNames.sliderInput}
         {...props}
       />
     </Box>
   );
 };
 
+/**
+ * Mui Slider with default styles and grid sx props. Usage example:
+ *
+ * ```
+ * <StyledMuiSlider gridArea="top-left" {...otherProps} />
+ * ```
+ */
 const StyledMuiSlider = styled(MuiSlider, {
-  shouldForwardProp: (propName) => !(propName as string).startsWith("grid")
-})<GridProps>(({ theme }) => ({
-  color: theme.palette.primary.dark,
+  shouldForwardProp: (propName: string) => !propName.startsWith("grid"),
+})<MuiGridSxProps>(({ theme }) => ({
   height: "10px",
   marginBottom: "0.5rem",
+  color: theme.palette.primary.dark,
 
-  "& .MuiSlider-track": {
-    border: "none"
+  [`& .${sliderClasses.track}`]: {
+    border: "none",
   },
 
-  "& .MuiSlider-thumb": {
+  [`& .${sliderClasses.thumb}`]: {
     height: "1.5rem",
     width: "1.5rem",
     backgroundColor: theme.palette.primary.main,
     border: "2px solid currentColor",
-    "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
-      boxShadow: "inherit"
+
+    [`&:focus, &:hover, &.${sliderClasses.active}, &.${sliderClasses.focusVisible}`]: {
+      boxShadow: "inherit",
     },
     "&:before": {
-      display: "none"
-    }
+      display: "none",
+    },
   },
 
-  "& .MuiSlider-valueLabel": {
+  [`& .${sliderClasses.valueLabel}`]: {
     lineHeight: 1.2,
     fontSize: 12,
     background: "unset",
@@ -85,27 +94,27 @@ const StyledMuiSlider = styled(MuiSlider, {
     transformOrigin: "bottom left",
     transform: "translate(50%, -100%) rotate(-45deg) scale(0)",
     "&::before": {
-      display: "none"
+      display: "none",
     },
-    "&.MuiSlider-valueLabelOpen": {
-      transform: "translate(50%, -100%) rotate(-45deg) scale(1)"
+    [`&.${sliderClasses.valueLabelOpen}`]: {
+      transform: "translate(50%, -100%) rotate(-45deg) scale(1)",
     },
     "& > *": {
-      transform: "rotate(45deg)"
-    }
+      transform: "rotate(45deg)",
+    },
   },
 
-  "& .MuiSlider-markLabel": {
+  [`& .${sliderClasses.markLabel}`]: {
     marginTop: "3px",
     color: theme.palette.text.primary,
-    fontWeight: "light"
+    fontWeight: "light",
   },
 
-  ...muiGridSxProps
+  ...muiGridSxProps,
 }));
 
-export type SliderProps = {
+export type SliderProps = MuiSliderProps & {
   id: string;
   label: string;
   getFieldValue?: (value: number | Array<number>) => any;
-} & React.ComponentProps<typeof StyledMuiSlider>;
+} & MuiGridSxProps;
