@@ -1,7 +1,6 @@
-import { gql } from "@apollo/client";
-import { FixitUserFields } from "../fixitUser/fragments";
+import { gql } from "@graphql/__codegen__";
 
-export const WorkOrderFields = gql`
+export const WorkOrderFields = gql(`
   fragment WorkOrderFields on WorkOrder {
     id
     createdBy {
@@ -32,6 +31,6 @@ export const WorkOrderFields = gql`
     scheduledDateTime
     contractorNotes
     createdAt
+    updatedAt
   }
-  ${FixitUserFields}
-`;
+`);

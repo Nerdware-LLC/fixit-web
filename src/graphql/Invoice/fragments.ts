@@ -1,8 +1,6 @@
-import { gql } from "@apollo/client";
-import { FixitUserFields } from "../fixitUser/fragments";
-import { WorkOrderFields } from "../workOrder/fragments";
+import { gql } from "@graphql/__codegen__";
 
-export const InvoiceFields = gql`
+export const InvoiceFields = gql(`
   fragment InvoiceFields on Invoice {
     id
     createdBy {
@@ -15,17 +13,15 @@ export const InvoiceFields = gql`
     status
     stripePaymentIntentID
     createdAt
+    updatedAt
   }
-  ${FixitUserFields}
-`;
+`);
 
-export const InvoiceWithWorkOrderFields = gql`
+export const InvoiceWithWorkOrderFields = gql(`
   fragment InvoiceWithWorkOrderFields on Invoice {
     ...InvoiceFields
     workOrder {
       ...WorkOrderFields
     }
   }
-  ${InvoiceFields}
-  ${WorkOrderFields}
-`;
+`);

@@ -1,10 +1,10 @@
-import { gql } from "@apollo/client";
+import { gql } from "@graphql/__codegen__";
 
-export const StripeConnectAccountFields = gql`
+export const StripeConnectAccountFields = gql(`
   fragment StripeConnectAccountFields on UserStripeConnectAccount {
     id
     detailsSubmitted
     chargesEnabled
     payoutsEnabled
   }
-`;
+`);

@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client";
+import { gql } from "@graphql/__codegen__";
 
-export const ProfileFields = gql`
+export const ProfileFields = gql(`
   fragment ProfileFields on Profile {
     displayName
     givenName
@@ -8,4 +8,4 @@ export const ProfileFields = gql`
     businessName
     photoUrl
   }
-`;
+`);

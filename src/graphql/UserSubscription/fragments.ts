@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client";
+import { gql } from "@graphql/__codegen__";
 
-export const UserSubscriptionFields = gql`
+export const UserSubscriptionFields = gql(`
   fragment UserSubscriptionFields on UserSubscription {
     id
     status
@@ -9,4 +9,4 @@ export const UserSubscriptionFields = gql`
     priceID
     createdAt
   }
-`;
+`);
