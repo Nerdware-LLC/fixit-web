@@ -1,13 +1,13 @@
-import "./config/initSetup";
-import React from "react";
+import "./initSentry";
+import { StrictMode as ReactStrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { App } from "./app";
+import { App } from "@app/App";
 import { reportWebVitals } from "./reportWebVitals";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  <ReactStrictMode>
     <App />
-  </React.StrictMode>
+  </ReactStrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
