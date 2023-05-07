@@ -1,68 +1,72 @@
 import React, { useMemo } from "react";
-import moment from "moment";
-import { styled, type PaletteColor } from "@mui/material/styles";
-import Text from "@mui/material/Typography";
-import { getDateAndTime } from "@utils";
+import dayjs from "dayjs";
+import { styled } from "@mui/material/styles";
+import Text, { typographyClasses } from "@mui/material/Typography";
+import { avatarClassNames } from "@components/Avatar";
+import { getDateAndTime } from "@utils/dateTime";
+import { ItemEventIcon, type IconHighlightStyle } from "./ItemEventIcon";
 
 /**
  * Timeline display for events related to WorkOrders, Invoices, Contacts, etc.
  * - Events are sorted so OLDER events appear above NEWER events.
  * - All event timestamps are formatted into "M/D/Y h:mm a".
  */
-export const ItemEventsTimeline = ({
-  events,
-  ...containerProps
-}: {
-  events: Array<
-    {
-      timestamp: Date;
-      icon: React.ReactNode;
-      eventInfoContent: React.ReactNode;
-    } & IconHighlightStyle
-  >;
-} & React.ComponentProps<typeof StyledItemEventsTimeline>) => {
+export const ItemEventsTimeline = ({ events, ...containerProps }: ItemEventsTimelineProps) => {
   const sortedEvents = useMemo(() => {
     return events.sort(({ timestamp: A }, { timestamp: B }) => {
-      return moment(A).isBefore(B, "second") ? -1 : moment(A).isSame(B, "second") ? 0 : 1;
+      return dayjs(A).isBefore(B, "second") ? -1 : dayjs(A).isSame(B, "second") ? 0 : 1;
     });
   }, [events]);
 
   return (
-    <StyledItemEventsTimeline className="item-events-timeline" {...containerProps}>
-      {sortedEvents.map(({ timestamp, icon, iconHighlight, eventInfoContent }, index) => {
+    <StyledDiv className={itemEventsTimelineClassNames.root} {...containerProps}>
+      {sortedEvents.map(({ timestamp, icon, iconHighlight, eventInfoContent }) => {
         const [date, time, amOrPm] = (
           timestamp instanceof Date ? getDateAndTime(timestamp) : timestamp
         ).split(" ");
 
         return (
-          <div className="timeline-event-container" key={`timeline:${timestamp.toString()}`}>
-            <IconCircleContainer
+          <div
+            key={`timeline:${timestamp.toString()}`}
+            className={itemEventsTimelineClassNames.eventRoot}
+          >
+            <ItemEventIcon
               iconHighlight={iconHighlight}
-              className="item-event-icon-container"
+              className={itemEventsTimelineClassNames.eventIconContainer}
             >
               {icon}
-            </IconCircleContainer>
-            <div className="item-event-timestamp-container">
+            </ItemEventIcon>
+            <div className={itemEventsTimelineClassNames.eventTimestampContainer}>
               <Text>{date}</Text>
               <Text>{`${time} ${amOrPm}`}</Text>
             </div>
-            <div className="item-event-description">{eventInfoContent}</div>
+            <div className={itemEventsTimelineClassNames.eventDescriptionContainer}>
+              {eventInfoContent}
+            </div>
           </div>
         );
       })}
-    </StyledItemEventsTimeline>
+    </StyledDiv>
   );
 };
 
-const StyledItemEventsTimeline = styled("div")(({ theme }) => ({
-  // Outer event container div AND inner content container div
-  "& .timeline-event-container": {
+export const itemEventsTimelineClassNames = {
+  root: "item-events-timeline-root",
+  eventRoot: "item-events-timeline-event-root",
+  eventIconContainer: "item-events-timeline-event-icon-container",
+  eventTimestampContainer: "item-events-timeline-event-timestamp-container",
+  eventDescriptionContainer: "item-events-timeline-event-description-container",
+};
+
+const StyledDiv = styled("div")(({ theme }) => ({
+  [`& .${itemEventsTimelineClassNames.eventRoot}`]: {
     display: "flex",
     alignItems: "center",
     padding: "0.625rem 0",
 
-    // Event timestamp container
-    "& > .item-event-timestamp-container": {
+    // EVENT TIMESTAMP CONTAINER
+
+    [`& > .${itemEventsTimelineClassNames.eventTimestampContainer}`]: {
       width: "10.5rem",
       margin: "0 1.5rem 0 1rem",
       flexShrink: 0,
@@ -71,29 +75,30 @@ const StyledItemEventsTimeline = styled("div")(({ theme }) => ({
       alignItems: "center",
       justifyContent: "space-between",
 
-      "& > .MuiTypography-root": {
-        whiteSpace: "nowrap"
-      }
+      [`& > .${typographyClasses.root}`]: {
+        whiteSpace: "nowrap",
+      },
     },
 
-    // Inner description container div
-    "& > .item-event-description": {
+    // EVENT DESCRIPTION CONTAINER
+
+    [`& > .${itemEventsTimelineClassNames.eventDescriptionContainer}`]: {
       display: "flex",
       alignItems: "center",
       whiteSpace: "nowrap",
 
-      "& .avatar-container": {
+      [`& .${avatarClassNames.root}`]: {
         width: "auto",
         flexShrink: 0,
-        marginRight: "0.75rem"
-      }
+        marginRight: "0.75rem",
+      },
     },
 
     "&:not(:last-of-type)": {
       borderBottom: `1px solid ${theme.palette.divider}`,
       overflow: "visible",
 
-      "& > .item-event-icon-container": {
+      [`& > .${itemEventsTimelineClassNames.eventIconContainer}`]: {
         overflow: "visible",
 
         "&::after": {
@@ -104,44 +109,19 @@ const StyledItemEventsTimeline = styled("div")(({ theme }) => ({
           display: "block",
           height: "1.25rem",
           width: "3px",
-          backgroundColor: theme.palette.info.main
-        }
-      }
-    }
-  }
+          backgroundColor: theme.palette.info.main,
+        },
+      },
+    },
+  },
 }));
 
-const IconCircleContainer = styled("div", {
-  shouldForwardProp: (propName) => propName !== "iconHighlight" && propName !== "iconColorBase"
-})<IconHighlightStyle & { iconColorBase?: PaletteColor }>(
-  ({
-    theme: { palette },
-    iconHighlight = "blue",
-    iconColorBase = iconHighlight === "blue" // default blue
-      ? palette.info
-      : iconHighlight === "yellow"
-      ? palette.warning
-      : palette.error // else it's red
-  }) => ({
-    position: "relative",
-    width: "2.5rem",
-    minWidth: "2.5rem",
-    height: "2.5rem",
-    display: "inline-flex",
-    placeContent: "center",
-    placeItems: "center",
-    borderRadius: "50%",
-    background: `linear-gradient(135deg, ${iconColorBase.dark} 40%, ${iconColorBase.light})`,
-    overflow: "visible",
-    "& svg": {
-      // Nudge these icons a little to the right
-      "&[data-testid=NoteAddIcon], &[data-testid=UpdateIcon]": {
-        marginLeft: "0.1rem"
-      }
-    }
-  })
-);
-
-interface IconHighlightStyle {
-  iconHighlight?: string | "blue" | "yellow" | "red";
-}
+export type ItemEventsTimelineProps = {
+  events: Array<
+    {
+      timestamp: Date;
+      icon: React.ReactNode;
+      eventInfoContent: React.ReactNode;
+    } & IconHighlightStyle
+  >;
+} & React.ComponentProps<typeof StyledDiv>;

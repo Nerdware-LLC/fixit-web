@@ -1,1 +1,1 @@
-export { ItemEventsTimeline } from "./ItemEventsTimeline";
+export * from "./ItemEventsTimeline";
