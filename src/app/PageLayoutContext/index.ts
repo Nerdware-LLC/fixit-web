@@ -1,2 +1,3 @@
 export * from "./PageLayoutContext";
-export { PageLayoutContextProvider } from "./PageLayoutContextProvider";
+export * from "./PageLayoutContextProvider";
+export * from "./usePageLayoutContext";
