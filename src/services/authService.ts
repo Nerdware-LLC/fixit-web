@@ -1,24 +1,23 @@
 import { httpService } from "./httpService";
-import type { User, EncodedAuthToken, WorkOrder, Invoice, Contact } from "@types";
+import type { User, WorkOrder, Invoice, Contact } from "@graphql/types";
+import type { EncodedAuthToken } from "@types";
 
 export const authService = {
-  registerNewUser: async (userRegArgs: RegisterNewUserArgs): Promise<AuthServiceToken> => {
+  registerNewUser: async (userRegArgs: RegisterNewUserParams): Promise<AuthServiceToken> => {
     return await httpService.post("/api/auth/register", {
       ...userRegArgs,
-      type: discernLoginType(userRegArgs)
+      type: discernLoginType(userRegArgs),
     });
   },
-  login: async (
-    userLoginArgs: Omit<RegisterNewUserArgs, "phone" | "profile">
-  ): Promise<AuthTokenAndPreFetchedUserItems> => {
+  login: async (userLoginArgs: LoginParams): Promise<AuthTokenAndPreFetchedUserItems> => {
     return await httpService.post("/api/auth/login", {
       ...userLoginArgs,
-      type: discernLoginType(userLoginArgs)
+      type: discernLoginType(userLoginArgs),
     });
   },
   refreshAuthToken: async (): Promise<AuthTokenAndPreFetchedUserItems> => {
     return await httpService.post("/api/auth/token");
-  }
+  },
 };
 
 const discernLoginType = (userCreds: AuthServiceCredentials): "LOCAL" | "GOOGLE_OAUTH" => {
@@ -31,8 +30,10 @@ type AuthServiceCredentials = {
   googleAccessToken?: string;
 };
 
-type RegisterNewUserArgs = Required<Pick<User, "handle" | "email" | "phone" | "profile">> &
+export type RegisterNewUserParams = Required<Pick<User, "handle" | "email" | "phone" | "profile">> &
   AuthServiceCredentials;
+
+export type LoginParams = Omit<RegisterNewUserParams, "phone" | "profile">;
 
 export type AuthServiceToken = {
   token: EncodedAuthToken;

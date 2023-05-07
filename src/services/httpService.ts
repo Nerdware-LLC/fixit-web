@@ -1,16 +1,15 @@
 import axios from "axios";
-import { ENV } from "@config";
-import { storage } from "@utils";
-// import { logger, storage } from "@utils";
+import { logger } from "@utils/logger";
+import { storage } from "@utils/storage";
 
-axios.defaults.baseURL = ENV.API_BASE_URL;
+axios.defaults.baseURL = `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_BASE_URI}`;
 
 // Before each REQUEST goes out, do this
 axios.interceptors.request.use(
   (config) => {
     config.timeout = 10000;
 
-    const authToken = storage.getAuthToken();
+    const authToken = storage.authToken.get();
 
     if (authToken) {
       config.headers = { Authorization: `Bearer ${authToken}` };
@@ -21,7 +20,7 @@ axios.interceptors.request.use(
   (error) => {
     return Promise.reject({
       message: "Failed to send network request.",
-      status: error?.request?.status ?? "STATUS UNKNOWN"
+      status: error?.request?.status ?? "STATUS UNKNOWN",
     });
   }
 );
@@ -29,24 +28,21 @@ axios.interceptors.request.use(
 // When each RESPONSE comes in, do this
 axios.interceptors.response.use(
   (response) => {
-    // logger.info(`HTTP Response = ${JSON.stringify(response, null, 2)}`);
-
-    if (response?.data?.token) storage.setAuthToken(response.data.token);
+    if (response?.data?.token) storage.authToken.set(response.data.token);
     return Promise.resolve(response.data);
   },
   (error) => {
-    // logger.info(`HTTP ERROR = ${JSON.stringify(error, null, 2)}`);
+    logger.error(`ERROR: ${JSON.stringify(error, null, 2)}`, "HTTP_SERVICE");
 
-    if (error?.response?.status === 401) storage.removeAuthToken();
+    if (error?.response?.status === 401) storage.authToken.remove();
     return Promise.reject({
-      message:
-        error?.response?.data?.error ?? "An unexpected error occurred - please try again later.",
-      status: error?.response?.status ?? 400
+      message: error?.response?.data?.error ?? "An unexpected error occurred - please try again later.", // prettier-ignore
+      status: error?.response?.status ?? 400,
     });
   }
 );
 
 export const httpService = {
   get: axios.get,
-  post: axios.post
+  post: axios.post,
 };
