@@ -1,10 +1,30 @@
+######################################################################
 # Config file for GraphQL Code Generator (@graphql-codegen), which
 # generates TypeScript typings for GQL queries, mutations, etc.
+#---------------------------------------------------------------------
+# Codegen Docs
+# - https://graphql-code-generator.com/docs/getting-started/codegen-config
+# - https://the-guild.dev/graphql/codegen/docs/config-reference/codegen-config#other-ways-to-provide-configuration
+# Client Preset Docs
+# - https://the-guild.dev/graphql/codegen/plugins/presets/preset-client
+######################################################################
 
 schema: "./fixit@current.graphql"
 documents: ["src/**/*.ts"]
+ignoreNoDocuments: true
 generates:
   # Codegen output target file
-  ./src/types/graphql/:
+  ./src/graphql/__codegen__/:
     preset: "client"
     plugins: []
+
+    # Preset configs
+    presetConfig:
+      gqlTagName: "gql"
+      fragmentMasking: false
+
+    # Plugin configs
+    config:
+      useTypeImports: true
+      skipTypename: true
+      enumsAsTypes: true
