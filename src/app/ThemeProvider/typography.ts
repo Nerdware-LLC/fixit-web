@@ -1,7 +1,7 @@
 import type { Theme } from "@mui/material/styles";
 
 const FONT_FAMILY = {
-  fontFamily: '"Roboto", sans-serif'
+  fontFamily: '"Roboto", sans-serif',
 };
 
 /**
@@ -28,19 +28,19 @@ export const TYPOGRAPHY: Partial<Theme["typography"]> = {
   ...FONT_FAMILY,
   h1: {
     ...FONT_FAMILY,
-    fontSize: "4rem"
+    fontSize: "4rem",
   },
   h2: {
     ...FONT_FAMILY,
-    fontSize: "3rem"
+    fontSize: "3rem",
   },
   h3: {
     ...FONT_FAMILY,
-    fontSize: "2.5rem"
+    fontSize: "2.5rem",
   },
   h4: {
     ...FONT_FAMILY,
-    fontSize: "2rem"
+    fontSize: "2rem",
   },
   h5: FONT_FAMILY,
   h6: FONT_FAMILY,
@@ -53,6 +53,6 @@ export const TYPOGRAPHY: Partial<Theme["typography"]> = {
   button: {
     ...FONT_FAMILY,
     fontSize: "1rem",
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 };

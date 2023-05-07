@@ -10,12 +10,12 @@ export const COMPONENTS: Partial<Theme["components"]> = {
   MuiAppBar: {
     styleOverrides: {
       root: {
-        zIndex: 998
+        zIndex: 998,
         /* Default MuiAppBar z-index is 1100; it's lowered here to prevent
         all AppBars from rendering on top of the Sentry.ErrorBoundary dialog
         component which has a z-index of 999.  */
-      }
-    }
+      },
+    },
   },
 
   ////////////////////////////////////////////////////////////
@@ -23,7 +23,7 @@ export const COMPONENTS: Partial<Theme["components"]> = {
 
   MuiAvatar: {
     defaultProps: {
-      alt: "Fixit user avatar"
+      alt: "Fixit user avatar",
     },
     styleOverrides: {
       root: ({ ownerState, theme: { palette } }) => ({
@@ -35,20 +35,20 @@ export const COMPONENTS: Partial<Theme["components"]> = {
         ...(palette.mode === "dark"
           ? {
               backgroundImage: `linear-gradient(135deg, ${palette.background.default} 20%, ${palette.background.paper})`,
-              border: `1px solid ${palette.divider}`
+              border: `1px solid ${palette.divider}`,
             }
           : {
-              backgroundImage: `linear-gradient(135deg, ${palette.primary.dark} 5%, ${palette.primary.light})`
+              backgroundImage: `linear-gradient(135deg, ${palette.primary.dark} 5%, ${palette.primary.light})`,
             }),
 
         "&:hover": {
           ...(!!ownerState?.onClick && {
             cursor: "pointer",
-            opacity: 0.7
-          })
-        }
-      })
-    }
+            opacity: 0.7,
+          }),
+        },
+      }),
+    },
   },
 
   ////////////////////////////////////////////////////////////
@@ -56,15 +56,15 @@ export const COMPONENTS: Partial<Theme["components"]> = {
 
   MuiButton: {
     defaultProps: {
-      variant: "contained"
+      variant: "contained",
     },
     styleOverrides: {
       root: {
         // Roboto font not centering vertically, bump down slightly in buttons:
         paddingTop: "0.35rem",
-        paddingBottom: "0.15rem"
-      }
-    }
+        paddingBottom: "0.15rem",
+      },
+    },
   },
 
   ////////////////////////////////////////////////////////////
@@ -72,8 +72,8 @@ export const COMPONENTS: Partial<Theme["components"]> = {
 
   MuiBottomNavigationAction: {
     defaultProps: {
-      showLabel: true
-    }
+      showLabel: true,
+    },
   },
 
   ////////////////////////////////////////////////////////////
@@ -82,9 +82,20 @@ export const COMPONENTS: Partial<Theme["components"]> = {
   MuiChip: {
     styleOverrides: {
       root: {
-        maxWidth: "min-content"
-      }
-    }
+        maxWidth: "min-content",
+      },
+    },
+  },
+
+  ////////////////////////////////////////////////////////////
+  // Modal
+
+  MuiModal: {
+    styleOverrides: {
+      backdrop: {
+        backdropFilter: "blur(1.5px)",
+      },
+    },
   },
 
   ////////////////////////////////////////////////////////////
@@ -94,14 +105,28 @@ export const COMPONENTS: Partial<Theme["components"]> = {
     defaultProps: {
       textColor: "inherit",
       indicatorColor: "secondary",
-      scrollButtons: false
-    }
+      scrollButtons: false,
+    },
   },
   MuiTab: {
     styleOverrides: {
       root: {
-        textTransform: "none" // overrides "uppercase"
-      }
-    }
-  }
+        textTransform: "none", // overrides "uppercase"
+      },
+    },
+  },
+
+  ////////////////////////////////////////////////////////////
+  // Tooltip
+
+  MuiTooltip: {
+    styleOverrides: {
+      tooltip: {
+        fontSize: "0.75rem", //  default is 11px (0.6875 rem)
+        paddingBottom: "1px", // better spacing and text alignment
+      },
+    },
+  },
+
+  ////////////////////////////////////////////////////////////
 };

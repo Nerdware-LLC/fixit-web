@@ -1,8 +1,8 @@
 import { createTheme, responsiveFontSizes, type Theme } from "@mui/material/styles";
-import { PALETTES, PALETTE_NAMES } from "./palettes";
+import { PAGE_LAYOUT_CONTEXT_DEFAULT_VALUES } from "@app/PageLayoutContext/PageLayoutContext";
 import { COMPONENTS } from "./components";
+import { PALETTES, PALETTE_NAMES } from "./palettes";
 import { TYPOGRAPHY } from "./typography";
-import { PAGE_LAYOUT_CONTEXT_DEFAULT_VALUES } from "@app/PageLayoutContext";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import type {} from "@mui/x-date-pickers/themeAugmentation";
 
@@ -38,7 +38,7 @@ declare module "@mui/material/styles" {
 /**
  * Each theme, DARK and LIGHT, has a unique palette.
  */
-export type ThemeName = typeof PALETTE_NAMES[number];
+export type ThemeName = (typeof PALETTE_NAMES)[number];
 
 /**
  * `createTheme` merges theme inputs with the Mui default theme:
@@ -60,9 +60,9 @@ export const THEMES = Object.fromEntries(
         typography: TYPOGRAPHY,
         variables: {
           // Set both to true by default (ThemeProvider subs to PageLayout context)
-          ...PAGE_LAYOUT_CONTEXT_DEFAULT_VALUES
-        }
+          ...PAGE_LAYOUT_CONTEXT_DEFAULT_VALUES,
+        },
       })
-    )
+    ),
   ])
 ) as Record<ThemeName, Theme>;
