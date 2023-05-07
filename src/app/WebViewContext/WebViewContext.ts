@@ -1,5 +1,5 @@
-import { createContext, useContext } from "react";
-import { logger } from "@utils";
+import { createContext } from "react";
+import { logger } from "@utils/logger";
 
 export const WebViewContext = createContext<{
   isAppWithinWebView: boolean;
@@ -13,7 +13,5 @@ export const WebViewContext = createContext<{
       `Method "window.ReactNativeWebView.postMessage" was called with the initial-context placeholder function.
       INTENDED MESSAGE: ${message}`
     );
-  }
+  },
 });
-
-export const useWebViewContext = () => useContext(WebViewContext);

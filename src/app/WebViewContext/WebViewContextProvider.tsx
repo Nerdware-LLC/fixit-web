@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { logger } from "@utils/logger";
+import { typeSafePropertyExists } from "@utils/typeSafety";
 import { WebViewContext } from "./WebViewContext";
-import { logger, typeSafePropertyExists } from "@utils";
 
 /**
  * When Fixit is rendered as a webview by the Fixit mobile app, a property called
@@ -10,7 +11,7 @@ import { logger, typeSafePropertyExists } from "@utils";
  * data back to the mobile application IF isAppWithinWebView is true, and if false
  * logs an error message in non-prod envs.
  */
-export const WebViewContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const WebViewContextProvider = ({ children }: WebViewContextProviderProps) => {
   const [isAppWithinWebView] = useState(() => {
     return (
       typeSafePropertyExists(window, "ReactNativeWebView") &&
@@ -40,3 +41,5 @@ export const WebViewContextProvider = ({ children }: { children: React.ReactNode
     </WebViewContext.Provider>
   );
 };
+
+export type WebViewContextProviderProps = { children: React.ReactNode };
