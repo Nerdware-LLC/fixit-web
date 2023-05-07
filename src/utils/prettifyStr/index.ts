@@ -11,5 +11,5 @@ export const prettifyStr = {
   phone: prettifyPhoneNum,
   currency: prettifyCurrency,
   snakeCase: snakeCase.prettifySnakeCaseAndCapFirstLetters,
-  snakeCaseToCamel: snakeCase.convertSnakeCaseToCamel
+  snakeCaseToCamel: snakeCase.convertSnakeCaseToCamel,
 };
