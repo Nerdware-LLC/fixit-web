@@ -1,33 +1,44 @@
-import { Line } from "react-chartjs-2";
+import { Suspense, lazy } from "react";
+import Box, { type BoxProps } from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import type { ChartData, ChartOptions } from "chart.js";
+
+// prettier-ignore
+const Line = lazy(() => import(/* webpackChunkName: "ChartJS-LineChart" */ "./chartJS.registerLineChart"));
 
 export const LineChart = ({
   data,
   height = "100%",
   width = "100%",
   options = {},
-  containerStyle = {}, // TODO replace containerStyle prop with sx/styled
+  sx,
   ...props
 }: LineChartProps) => (
-  <div
-    className="line-chart-container"
+  <Box
+    className={lineChartClassNames.container}
+    sx={sx}
     style={{
       height: "100%",
       width: "100%",
       display: "flex",
       alignItems: "space-around",
       justifyContent: "space-around",
-      ...containerStyle
     }}
   >
-    <Line data={data} height={height} width={width} options={options} {...props} />
-  </div>
+    <Suspense fallback={<CircularProgress />}>
+      <Line data={data} height={height} width={width} options={options} {...props} />
+    </Suspense>
+  </Box>
 );
+
+export const lineChartClassNames = {
+  container: "line-chart-container",
+};
 
 export type LineChartProps = {
   data: ChartData<"line">;
   height?: string;
   width?: string;
   options?: ChartOptions<"line">;
-  containerStyle?: React.ComponentPropsWithoutRef<"div">["style"];
-} & Omit<React.ComponentProps<typeof Line>, "data" | "options" | "height" | "width">;
+} & BoxProps &
+  Omit<React.ComponentProps<typeof Line>, "data" | "options" | "height" | "width">;
