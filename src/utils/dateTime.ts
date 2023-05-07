@@ -1,54 +1,51 @@
-import moment from "moment";
-import type { MomentInput, unitOfTime } from "moment";
-
-// NOTE: These fns are currently not exported from utils/ (only used in utils/formUtils atm)
+import dayjs, { type ConfigType as DayJsInputType, type UnitType } from "dayjs";
 
 const DEFAULT_DATETIME_FORMATS = {
-  date: "M/D/Y",
+  date: "M/D/YY",
   shortDate: "MMM Do",
-  longDate: "dddd, MMMM Do, Y",
+  longDate: "dddd, MMMM Do, YYYY",
   time: "h:mm A",
-  dateAndTime: "M/D/Y h:mm a"
+  dateAndTime: "M/D/YY h:mm a",
 };
 
 /**
- * Get a MomentJS-formatted dateTime string.
+ * Get a DayJS-formatted dateTime string.
  * - Default format: `"h:mm A"`
  */
-export const getTime = (dateTime: MomentInput, format = DEFAULT_DATETIME_FORMATS.time) => {
-  return moment(dateTime).format(format);
+export const getTime = (dateTime: DayJsInputType, format = DEFAULT_DATETIME_FORMATS.time) => {
+  return dayjs(dateTime).format(format);
 };
 
 /**
- * Get a MomentJS-formatted dateTime string.
+ * Get a DayJS-formatted dateTime string.
  * - Default format: `"M/D/Y"`
  */
-export const getDate = (dateTime: MomentInput, format = DEFAULT_DATETIME_FORMATS.date) => {
-  return moment(dateTime).format(format);
+export const getDate = (dateTime: DayJsInputType, format = DEFAULT_DATETIME_FORMATS.date) => {
+  return dayjs(dateTime).format(format);
 };
 
 /**
- * Get a MomentJS-formatted dateTime string.
+ * Get a DayJS-formatted dateTime string.
  * - Default format: `"M/D/Y h:mm a"`
  */
 export const getDateAndTime = (
-  dateTime: MomentInput,
+  dateTime: DayJsInputType,
   format = DEFAULT_DATETIME_FORMATS.dateAndTime
 ) => {
-  return moment(dateTime).format(format);
+  return dayjs(dateTime).format(format);
 };
 
 /**
- * Compares two moment-inputs and returns a boolean indicating whether or not
+ * Compares two dayjs-inputs and returns a boolean indicating whether or not
  * they represent the same date and time.
  * - granularity default: `"day"`
  */
 export const areSameDateTimes = (
-  dateTime1: MomentInput,
-  dateTime2: MomentInput,
-  granularity: unitOfTime.StartOf = "day"
+  dateTime1: DayJsInputType,
+  dateTime2: DayJsInputType,
+  granularity: UnitType = "day"
 ) => {
-  return moment(dateTime1).isValid() && moment(dateTime2).isValid()
-    ? moment(dateTime1).isSame(dateTime2, granularity)
+  return dayjs(dateTime1).isValid() && dayjs(dateTime2).isValid()
+    ? dayjs(dateTime1).isSame(dateTime2, granularity)
     : false;
 };
