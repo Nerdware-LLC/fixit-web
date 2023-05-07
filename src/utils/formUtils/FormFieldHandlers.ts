@@ -4,7 +4,10 @@ import type { OnSubmitFieldMutationProcessorFn } from "./types";
 
 // TODO could add generic type param, run it thru `FormValues` generic, have methods use/return that.
 
-export class FormFieldHandlers<FormValues extends Record<string, any>> {
+export class FormFieldHandlers<
+  FormValues extends Record<string, any>,
+  ValuesForMutation extends Record<string, any> = FormValues
+> {
   private customFieldHandlers: {
     onUpdate: OnUpdateCallableFieldHandlers;
     onSubmit: OnSubmitFieldMutationProcessors;
@@ -14,7 +17,7 @@ export class FormFieldHandlers<FormValues extends Record<string, any>> {
     // These properties are always immutable:
     "__typename",
     "id",
-    "createdAt"
+    "createdAt",
   ];
 
   // METHODS USED BY onSubmit:
@@ -27,14 +30,14 @@ export class FormFieldHandlers<FormValues extends Record<string, any>> {
 
   constructor({
     onUpdate = {},
-    onSubmit = {}
+    onSubmit = {},
   }: {
     onUpdate?: OnUpdateFieldHandlers;
     onSubmit?: OnSubmitFieldMutationProcessors;
   } = {}) {
     this.customFieldHandlers = {
       onUpdate: {},
-      onSubmit
+      onSubmit,
     };
 
     Object.entries(onUpdate).forEach(([key, onUpdateFieldHandler]) => {
@@ -92,7 +95,7 @@ export class FormFieldHandlers<FormValues extends Record<string, any>> {
 
         return mutationFieldsAccum;
       },
-      {} as FormValues
+      {} as ValuesForMutation
     );
   };
 }

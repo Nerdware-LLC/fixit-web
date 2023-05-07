@@ -1,17 +1,17 @@
-import { areSameDateTimes } from "../dateTime";
-import type { MomentInput, unitOfTime } from "moment";
+import { areSameDateTimes } from "@utils/dateTime";
+import type { ConfigType as DayJsInputType, UnitType } from "dayjs";
 import type {
   OnSubmitFieldMutationProcessorFn,
-  OnSubmitFieldMutationProcessorFnReturn
+  OnSubmitFieldMutationProcessorFnReturn,
 } from "./types";
 
 /**
  * MutationDetectorFn for dateTime field values.
  */
-export const wasDateTimeChanged: OnSubmitFieldMutationProcessorFn<MomentInput> = (
-  newDateTime: MomentInput | null,
-  existingDateTime: MomentInput | null,
-  granularity: unitOfTime.StartOf = "day"
+export const wasDateTimeChanged: OnSubmitFieldMutationProcessorFn<DayJsInputType> = (
+  newDateTime: DayJsInputType | null,
+  existingDateTime: DayJsInputType | null,
+  granularity: UnitType = "day"
 ): OnSubmitFieldMutationProcessorFnReturn => {
   const wasChanged =
     !(newDateTime === null && existingDateTime === null) &&
@@ -21,7 +21,7 @@ export const wasDateTimeChanged: OnSubmitFieldMutationProcessorFn<MomentInput> =
     wasChanged,
     ...(wasChanged && {
       mutationType: newDateTime ? "UPDATE" : "DELETE",
-      value: newDateTime
-    })
+      value: newDateTime,
+    }),
   };
 };

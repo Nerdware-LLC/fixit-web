@@ -1,7 +1,7 @@
 import isDeepEqual from "lodash.isequal";
 import type {
   OnSubmitFieldMutationProcessorFn,
-  OnSubmitFieldMutationProcessorFnReturn
+  OnSubmitFieldMutationProcessorFnReturn,
 } from "./types";
 
 /**
