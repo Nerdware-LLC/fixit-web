@@ -1,102 +1,87 @@
 import { faker } from "@faker-js/faker";
-import { makeFake, tryToGetItemAgeInDays } from "./_common";
-import { MOCK_USERS } from "./mockUsers";
+import { makeFake } from "@tests/utils/makeFake";
+import { randomIntBetween } from "@tests/utils/random";
+import { tryToGetItemAgeInDays } from "@tests/utils/tryToGetItemAgeInDays";
+import {
+  WORK_ORDER_STATUSES,
+  WORK_ORDER_CATEGORIES,
+  WORK_ORDER_PRIORITIES,
+} from "@/types/WorkOrder";
 import { getRandomContact } from "./mockContacts";
-import { CONSTANTS } from "@types";
-import { randomIntBetween } from "@utils";
-import type { WorkOrder } from "@types";
+import { MOCK_USERS } from "./mockUsers";
+import type { MyWorkOrdersQueryReturnType, WorkOrder } from "@graphql/types";
 
-// Relational item properties are required
-type CreateMockWorkOrderRequiredArgs = "createdBy" | "assignedTo";
-
-const createMockWorkOrder = (
-  {
-    createdBy,
-    assignedTo,
-    ...overrides
-  }: Pick<WorkOrder, CreateMockWorkOrderRequiredArgs> & //       <-- these WO properties' types are not modified
-    Omit<Partial<WorkOrder>, CreateMockWorkOrderRequiredArgs> // <-- remaining WO properties are made optional
-): WorkOrder => {
+const createMockWorkOrder = ({
+  createdBy,
+  assignedTo = null,
+}: Pick<WorkOrder, "createdBy" | "assignedTo">): WorkOrder & { __typename: "WorkOrder" } => {
   // Ensure WO is not older than the createdBy User account; place WO max age at 365 days (any older and it won't show on DashboardPage)
-  const woCreatedAt =
-    overrides?.createdAt ??
-    faker.date.recent(
-      Math.min(
-        365,
-        tryToGetItemAgeInDays(createdBy) ?? 365 // <-- how many days old User account is
-      )
-    );
+  const woCreatedAt = faker.date.recent(
+    Math.min(
+      365,
+      tryToGetItemAgeInDays(createdBy) ?? 365 // <-- how many days old User account is
+    )
+  );
 
-  const workOrderID =
-    overrides?.id ?? `WO#${createdBy.id}#${Math.floor(woCreatedAt.getTime() / 1000)}`;
+  const workOrderID = `WO#${createdBy.id}#${Math.floor(woCreatedAt.getTime() / 1000)}`;
 
   return {
+    __typename: "WorkOrder",
+
     id: workOrderID,
     createdBy,
     assignedTo,
 
     location: {
-      country: faker.helpers.maybe(() => "USA"),
+      country: faker.helpers.maybe(() => "USA") ?? null,
       region: faker.address.state(),
       city: faker.address.city(),
       streetLine1: faker.address.streetAddress(),
-      streetLine2: faker.helpers.maybe(() => faker.address.secondaryAddress()),
-      // merge possible location override values
-      ...(overrides?.location && overrides.location)
+      streetLine2: faker.helpers.maybe(() => faker.address.secondaryAddress()) ?? null,
     },
 
     // If `assignedTo` was not provided, ensure `status` is "UNASSIGNED", else filter it out.
-    status:
-      overrides?.status ?? assignedTo
-        ? faker.helpers.arrayElement(
-            CONSTANTS.WORK_ORDER.STATUSES.filter((status) => status !== "UNASSIGNED")
-          )
-        : "UNASSIGNED",
+    status: assignedTo
+      ? faker.helpers.arrayElement(WORK_ORDER_STATUSES.filter((status) => status !== "UNASSIGNED"))
+      : "UNASSIGNED",
 
-    priority: overrides?.priority ?? faker.helpers.arrayElement(CONSTANTS.WORK_ORDER.PRIORITIES),
+    priority: faker.helpers.arrayElement(WORK_ORDER_PRIORITIES),
 
-    category:
-      overrides?.category ??
-      faker.helpers.maybe(() => faker.helpers.arrayElement(CONSTANTS.WORK_ORDER.CATEGORIES)),
+    category: faker.helpers.maybe(() => faker.helpers.arrayElement(WORK_ORDER_CATEGORIES)) ?? null,
 
-    description: overrides?.description ?? makeFake.textUpTo255chars(),
+    description: makeFake.textUpTo255chars(),
 
     checklist:
-      overrides?.checklist ??
-      faker.helpers.maybe(() => {
+      faker.helpers.maybe(() =>
         /* Checklist array length is determined by Math.random, which returns a number
         between 0-1 which is then multiplied by 50, resulting in 0-50 Checklist Items.*/
-        return [...Array(Math.floor(Math.random() * 50))].map(() => {
-          const checklistItemCreatedAt = faker.date.between(woCreatedAt, new Date());
-          return {
-            // prettier-ignore
-            id: `${workOrderID}#CHECKLIST_ITEM#${Math.floor(checklistItemCreatedAt.getTime() / 1000)}`,
-            description: makeFake.textUpTo255chars(),
-            isCompleted: faker.datatype.boolean()
-          };
-        });
-      }),
+        [...Array(Math.floor(Math.random() * 50))].map(() => ({
+          // prettier-ignore
+          id: `${workOrderID}#CHECKLIST_ITEM#${Math.floor(faker.date.between(woCreatedAt, new Date()).getTime() / 1000)}`,
+          description: makeFake.textUpToNumChars(250),
+          isCompleted: faker.datatype.boolean(),
+        }))
+      ) ?? null,
 
-    entryContact: overrides?.entryContact ?? faker.helpers.maybe(() => faker.name.fullName()),
+    entryContact: faker.helpers.maybe(() => faker.name.fullName()) ?? null,
 
-    entryContactPhone: overrides?.entryContactPhone ?? faker.helpers.maybe(() => makeFake.phone()),
+    entryContactPhone: faker.helpers.maybe(() => makeFake.phone()) ?? null,
 
     // date between 60 days ago ("overdue"), and 60 days ahead
     dueDate:
-      overrides?.dueDate ??
-      faker.helpers.maybe(() => faker.date.between(faker.date.recent(60), faker.date.soon(60))),
+      faker.helpers.maybe(() => faker.date.between(faker.date.recent(60), faker.date.soon(60))) ??
+      null,
 
     // date between 60 days ago ("overdue"), and 60 days ahead
     scheduledDateTime:
-      overrides?.scheduledDateTime ??
-      faker.helpers.maybe(() => faker.date.between(faker.date.recent(60), faker.date.soon(60))),
+      faker.helpers.maybe(() => faker.date.between(faker.date.recent(60), faker.date.soon(60))) ??
+      null,
 
-    contractorNotes:
-      overrides?.contractorNotes ?? faker.helpers.maybe(() => makeFake.textUpTo255chars()),
+    contractorNotes: faker.helpers.maybe(() => makeFake.textUpTo255chars()) ?? null,
 
     createdAt: woCreatedAt,
 
-    updatedAt: overrides?.updatedAt ?? faker.date.between(woCreatedAt, new Date())
+    updatedAt: faker.date.between(woCreatedAt, new Date()),
   };
 };
 
@@ -112,7 +97,7 @@ export const MOCK_WORK_ORDERS = {
       createMockWorkOrder({
         createdBy: MOCK_USERS.Guy_McPerson,
         // Assign 90% of WOs to random mock contact
-        assignedTo: faker.helpers.maybe(() => getRandomContact(), { probability: 0.9 })
+        assignedTo: faker.helpers.maybe(() => getRandomContact(), { probability: 0.9 }),
       })
     ),
     // Between 20-50 work orders assigned to user "Guy McPerson":
@@ -120,10 +105,10 @@ export const MOCK_WORK_ORDERS = {
       createMockWorkOrder({
         // Created by random mock contact
         createdBy: getRandomContact(),
-        assignedTo: MOCK_USERS.Guy_McPerson
+        assignedTo: MOCK_USERS.Guy_McPerson,
       })
-    )
-  }
+    ),
+  },
 } as {
-  myWorkOrders: Record<"createdByUser" | "assignedToUser", Array<WorkOrder>>;
+  myWorkOrders: MyWorkOrdersQueryReturnType;
 };

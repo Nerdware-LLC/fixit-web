@@ -1,51 +1,43 @@
 import { faker } from "@faker-js/faker";
-import { tryToGetItemAgeInDays } from "./_common";
-import { MOCK_USERS } from "./mockUsers";
+import { randomIntBetween, tryToGetItemAgeInDays } from "@tests/utils";
+import { INVOICE_STATUSES } from "@/types/Invoice";
 import { getRandomContact } from "./mockContacts";
+import { MOCK_USERS } from "./mockUsers";
 import { MOCK_WORK_ORDERS } from "./mockWorkOrders";
-import { CONSTANTS } from "@types";
-import { randomIntBetween } from "@utils";
-import type { Invoice, FixitUser } from "@types";
+import type { Invoice, FixitUser, MyInvoicesQueryReturnType } from "@graphql/types";
 
-// Relational item properties are required
-type CreateMockInvoiceRequiredArgs = "createdBy" | "assignedTo" | "workOrder";
-
-const createMockInvoice = (
-  {
-    createdBy,
-    assignedTo,
-    workOrder,
-    ...overrides
-  }: Pick<Invoice, CreateMockInvoiceRequiredArgs> & //       <-- these INV properties' types are not modified
-    Omit<Partial<Invoice>, CreateMockInvoiceRequiredArgs> // <-- remaining INV  properties are made optional
-): Invoice => {
+const createMockInvoice = ({
+  createdBy,
+  assignedTo,
+  workOrder = null,
+}: Pick<Invoice, "createdBy" | "assignedTo" | "workOrder">): Invoice & {
+  __typename: "Invoice";
+} => {
   // Ensure INV is not older than the createdBy User account; place INV max age at 365 days (any older and it won't show on DashboardPage)
-  const invCreatedAt =
-    overrides?.createdAt ??
-    faker.date.recent(
-      Math.min(
-        365,
-        tryToGetItemAgeInDays(createdBy) ?? 365 // <-- how many days old User account is
-      )
-    );
+  const invCreatedAt = faker.date.recent(
+    Math.min(
+      365,
+      tryToGetItemAgeInDays(createdBy) ?? 365 // <-- how many days old User account is
+    )
+  );
 
   /* status will be OPEN, CLOSED, or DISPUTED. Most IRL invoices will be either OPEN
   or CLOSED, however, so to ensure DISPUTED is not over-represented in the mock data,
   we have faker pick a "random" status from an array which only includes DISPUTED 20%
   of the time.  */
-  const invoiceStatus =
-    overrides?.status ??
-    (faker.helpers.arrayElement(
-      [
-        // Include all status values except for DISPUTED:
-        ...CONSTANTS.INVOICE.STATUSES.filter((status) => status !== "DISPUTED"),
-        // faker.helpers.maybe will return either DISPUTED or undefined
-        faker.helpers.maybe(() => "DISPUTED", { probability: 0.2 })
-      ].filter((el) => !!el) // <-- filters out undefined, if present
-    ) as Invoice["status"]); // <-- TS not recognizing undefined filtered out of arrayElement
+  const invoiceStatus = faker.helpers.arrayElement(
+    [
+      // Include all status values except for DISPUTED:
+      ...INVOICE_STATUSES.filter((status) => status !== "DISPUTED"),
+      // faker.helpers.maybe will return either DISPUTED or undefined
+      faker.helpers.maybe(() => "DISPUTED", { probability: 0.2 }),
+    ].filter((el) => !!el) // <-- filters out undefined, if present
+  ) as Invoice["status"]; // <-- TS not recognizing undefined filtered out of arrayElement
 
   return {
-    id: overrides?.id ?? `INV#${createdBy.id}#${Math.floor(invCreatedAt.getTime() / 1000)}`,
+    __typename: "Invoice",
+
+    id: `INV#${createdBy.id}#${Math.floor(invCreatedAt.getTime() / 1000)}`,
     createdBy,
     assignedTo,
     status: invoiceStatus,
@@ -58,37 +50,31 @@ const createMockInvoice = (
     from above and/or below the target range. This way, unusually large and small
     amounts can be included in the mock data without being over-represented. Note
     that 5% was chosen arbitrarily and can be tweaked as needed.  */
-    amount:
-      overrides?.amount ??
-      (faker.helpers.arrayElement(
-        [
-          // lower bound range, 1-9999 ($0.01 - $99.99)
-          faker.helpers.maybe(() => randomIntBetween(1, 9999), { probability: 0.05 }), // 5%
-          // target range, 10000-100000 ($100.00 - $1,000.00)
-          randomIntBetween(10000, 100000),
-          // upper bound range, 100001-10000000 ($1,000.01 - $100,000.00)
-          faker.helpers.maybe(() => randomIntBetween(100001, 10000000), { probability: 0.05 }) // 5%
-        ].filter((el) => !!el) // <-- removes any undefined values
-      ) as Invoice["amount"]), // <-- TS not recognizing undefined filtered out of arrayElement
+    amount: faker.helpers.arrayElement(
+      [
+        // lower bound range, 1-9999 ($0.01 - $99.99)
+        faker.helpers.maybe(() => randomIntBetween(1, 9999), { probability: 0.05 }), // 5%
+        // target range, 10000-100000 ($100.00 - $1,000.00)
+        randomIntBetween(10000, 100000),
+        // upper bound range, 100001-10000000 ($1,000.01 - $100,000.00)
+        faker.helpers.maybe(() => randomIntBetween(100001, 10000000), { probability: 0.05 }), // 5%
+      ].filter((el) => !!el) // <-- removes any undefined values
+    ) as Invoice["amount"], // <-- TS not recognizing undefined filtered out of arrayElement
 
     /* stripePaymentIntentID is dependent upon the Invoice's status:
-      - If status is "OPEN", stripePaymentIntentID will be undefined.
-      - If status is "CLOSED", stripePaymentIntent will be defined.
-      - If status is "DISPUTED", stripePaymentIntentID can be either defined or undefined,
-        depending on the reason for the Invoice becoming DISPUTED.
+      - If status is "OPEN", stripePaymentIntentID will be null.
+      - If status is "CLOSED", stripePaymentIntent will always be defined.
+      - If status is "DISPUTED", stripePaymentIntentID can be either defined or null,
+        depending on the reason for the Invoice becoming DISPUTED (probability used below is 50%)
     */
-    ...(invoiceStatus !== "OPEN" && {
-      stripePaymentIntentID: faker.helpers.maybe(() => `pi_${faker.random.alphaNumeric(15)}`, {
-        probability:
-          invoiceStatus === "CLOSED"
-            ? 1 //   CLOSED:   always defined
-            : 0.5 // DISPUTED: 50/50 defined/undefined
-      })
-    }),
+    stripePaymentIntentID:
+      // prettier-ignore
+      faker.helpers.maybe(() => `pi_${faker.random.alphaNumeric(15)}`, { probability: invoiceStatus === "CLOSED" ? 1 : 0.5, })
+      ?? null,
 
     workOrder,
     createdAt: invCreatedAt,
-    updatedAt: overrides?.updatedAt ?? faker.date.between(invCreatedAt, new Date())
+    updatedAt: faker.date.between(invCreatedAt, new Date()),
   };
 };
 
@@ -105,11 +91,11 @@ const createMockInvoice = (
  * used to define the `createdBy`/`assignedTo` relationships - one of which is
  * always "Guy McPerson" - a WO with the appropriate values should be available
  * for the vast majority of mock invoices. In the event that no such corresponding
- * WO is found to exist, however, `Invoice.workOrder` will be undefined.
+ * WO is found to exist, however, `Invoice.workOrder` will be null.
  */
 const findWorkOrderWithInverseUserRoles = ({
   invoiceCreatedBy,
-  invoiceAssignedTo
+  invoiceAssignedTo,
 }: {
   invoiceCreatedBy: FixitUser;
   invoiceAssignedTo: FixitUser;
@@ -151,9 +137,9 @@ export const MOCK_INVOICES = {
           // Attempt to find a suitable corresponding WorkOrder:
           findWorkOrderWithInverseUserRoles({
             invoiceCreatedBy: MOCK_USERS.Guy_McPerson,
-            invoiceAssignedTo
+            invoiceAssignedTo,
           })
-        )
+        ),
       });
     }),
     // Between 20-50 invoices assigned to user "Guy McPerson":
@@ -168,12 +154,12 @@ export const MOCK_INVOICES = {
           // Attempt to find a suitable corresponding WorkOrder:
           findWorkOrderWithInverseUserRoles({
             invoiceCreatedBy,
-            invoiceAssignedTo: MOCK_USERS.Guy_McPerson
+            invoiceAssignedTo: MOCK_USERS.Guy_McPerson,
           })
-        )
+        ),
       });
-    })
-  }
+    }),
+  },
 } as {
-  myInvoices: Record<"createdByUser" | "assignedToUser", Array<Invoice>>;
+  myInvoices: MyInvoicesQueryReturnType;
 };

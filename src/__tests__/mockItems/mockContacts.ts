@@ -1,15 +1,28 @@
 import { faker } from "@faker-js/faker";
-import { makeFake } from "./_common";
+import { makeFake } from "@tests/utils";
 import { MOCK_USERS } from "./mockUsers";
-import type { Contact } from "@types";
+import type { Contact } from "@graphql/types";
 
-const createMockContact = (overrides: Partial<Contact> & { userID?: string } = {}): Contact => {
+const createMockContact = (
+  overrides: Partial<Contact> & { userID?: string } = {}
+): Contact & { __typename: "Contact" } => {
+  const handle = makeFake.userHandle(overrides);
+  const createdAt = overrides?.createdAt ?? faker.date.recent(365);
+
   return {
-    id: overrides?.id ?? `CONTACT#${overrides?.userID ?? makeFake.userID()}`,
-    handle: makeFake.userHandle(overrides),
+    __typename: "Contact",
+
+    id: overrides?.id
+      ? overrides.id
+      : overrides?.userID
+      ? `CONTACT#${overrides.userID}`
+      : `CONTACT#${makeFake.userID()}`,
+    handle,
     email: makeFake.email(overrides),
     phone: makeFake.phone(overrides),
-    profile: makeFake.userProfile(overrides)
+    profile: makeFake.userProfile(overrides, handle),
+    createdAt,
+    updatedAt: overrides?.updatedAt ?? faker.date.between(createdAt, new Date()),
   };
 };
 
@@ -26,10 +39,15 @@ const createMockContact = (overrides: Partial<Contact> & { userID?: string } = {
  * | Walt McWorkOrder                       | Sends and receives WOs + INVs with Guy McP   |
  * | Rick Sanchez                           | Sends and receives WOs + INVs with Guy McP   |
  */
-export const MOCK_CONTACTS = Object.entries(MOCK_USERS).reduce((accum, [nameKey, user]) => {
-  // filter out "Guy McPerson", the default dev/test user, convert the rest to contacts
-  return nameKey === "Guy_McPerson" ? accum : { ...accum, [nameKey]: createMockContact(user) };
-}, {}) as {
+export const MOCK_CONTACTS = Object.entries(MOCK_USERS).reduce(
+  (accum, [nameKey, { id: userID, ...user }]) => {
+    // filter out "Guy McPerson", the default dev/test user, convert the rest to contacts
+    return nameKey === "Guy_McPerson"
+      ? accum
+      : { ...accum, [nameKey]: createMockContact({ userID, ...user }) };
+  },
+  {}
+) as {
   // this type cast provides certain known keys on MOCK_CONTACTS in intellisense
   Linda_McContractorLongName_Jones_Smith: Contact;
   Aloy_McInvoicer: Contact;
@@ -46,6 +64,6 @@ export const getRandomContact = () => {
     MOCK_CONTACTS.Linda_McContractorLongName_Jones_Smith,
     MOCK_CONTACTS.Aloy_McInvoicer,
     MOCK_CONTACTS.Walt_McWorkOrder,
-    MOCK_CONTACTS.Rick_Sanchez
+    MOCK_CONTACTS.Rick_Sanchez,
   ]);
 };
