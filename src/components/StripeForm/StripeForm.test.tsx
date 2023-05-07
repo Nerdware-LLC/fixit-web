@@ -3,7 +3,7 @@ import { StripeForm } from "./StripeForm";
 
 jest.mock("./StripeFormChild", () => ({
   __esModule: true,
-  StripeFormChild: () => <span>Mock_StripeFormChild</span>
+  StripeFormChild: () => <span>Mock_StripeFormChild</span>,
 }));
 
 it("renders correctly", () => {
