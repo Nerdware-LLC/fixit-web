@@ -1,63 +1,58 @@
 import { logger } from "./logger";
 import { getTypeSafeErr } from "./typeSafety";
+import type { Simplify } from "type-fest";
 
-const STORAGE_KEYS = ["authToken", "checkoutValues", "preferredTheme"] as const;
+export const _STORAGE_KEYS = ["authToken", "checkoutValues", "preferredTheme"] as const;
+
+export type LocalStorageWrapperKeysArray = typeof _STORAGE_KEYS;
+export type LocalStorageWrapperKey = LocalStorageWrapperKeysArray[number];
+export type LocalStorageUtil = Simplify<
+  { KEYS: LocalStorageWrapperKeysArray } & {
+    [K in LocalStorageWrapperKey as K]: LocalStorageValueManager;
+  }
+>;
+
+export class LocalStorageValueManager {
+  protected storageKey: LocalStorageWrapperKey;
+
+  constructor(storageKey: LocalStorageWrapperKey) {
+    this.storageKey = storageKey;
+  }
+
+  get(): string | null {
+    return localStorage.getItem(this.storageKey);
+  }
+
+  set(value: unknown): void {
+    try {
+      const valueToStore = typeof value === "string" ? value : JSON.stringify(value);
+      localStorage.setItem(this.storageKey, valueToStore);
+    } catch (err) {
+      // prettier-ignore
+      logger.error(getTypeSafeErr(err), `[LocalStorageWrapper] Failed to set value "${value}" for key ${this.storageKey}.`);
+    }
+  }
+
+  setDefaultIfEmpty(defaultValue: unknown): void {
+    const currentlyStoredValue = this.get();
+    if (currentlyStoredValue === null) this.set(defaultValue);
+  }
+
+  remove(): void {
+    localStorage.removeItem(this.storageKey);
+  }
+}
 
 /**
- * For each key managed by the `storage` util, the key is made available on the
- * storage object along with localStorage wrappers, `set()`, `get()`, and
- * `remove()`, along with shorthand equivalent methods:
- * ```ts
- * storage.myStorageKey.set("foo");
- * storage.myStorageKey.get(); // returns "foo"
- * storage.myStorageKey.remove();
- * // The above method calls are equivalent to their pre-existing counterparts:
- * storage.setMyStorageKey("foo");
- * storage.getMyStorageKey(); // returns "foo"
- * storage.removeMyStorageKey();
- * ```
+ * A handy wrapper around the LocalStorage API.
+ *
+ * For each localStorage key used in this app, the key is made available on the
+ * storage object along with localStorage wrapper methods.
  */
-export const storage = STORAGE_KEYS.reduce(
-  (accum, storageKey) => {
-    accum[storageKey] = {
-      set: (input: unknown) => {
-        try {
-          const valueToStore = typeof input === "string" ? input : JSON.stringify(input);
-          return localStorage.setItem(storageKey, valueToStore);
-        } catch (err) {
-          logger.error(getTypeSafeErr(err), `utils.storage.set${capKey}`);
-        }
-      },
-      get: () => localStorage.getItem(storageKey),
-      remove: () => localStorage.removeItem(storageKey)
-    };
-
-    // prettier-ignore
-    const capKey = `${storageKey.charAt(0).toUpperCase()}${storageKey.slice(1)}` as Capitalize<typeof storageKey>;
-
-    accum[`set${capKey}`] = accum[storageKey].set;
-    accum[`get${capKey}`] = accum[storageKey].get;
-    accum[`remove${capKey}`] = accum[storageKey].remove;
-
-    return accum;
-  },
-  { KEYS: STORAGE_KEYS } as StorageManager
+export const storage = _STORAGE_KEYS.reduce(
+  (acc, storageKey) => ({
+    ...acc,
+    [storageKey]: new LocalStorageValueManager(storageKey),
+  }),
+  { KEYS: _STORAGE_KEYS } as LocalStorageUtil
 );
-
-type StorageManager = {
-  KEYS: typeof STORAGE_KEYS;
-} & {
-  [K in typeof STORAGE_KEYS[number] as K]: StorageKeyMethods;
-} & {
-  [K in typeof STORAGE_KEYS[number] as `set${Capitalize<string & K>}`]: (input: unknown) => void;
-} & {
-  [K in typeof STORAGE_KEYS[number] as `get${Capitalize<string & K>}`]: () => string | null;
-} & {
-  [K in typeof STORAGE_KEYS[number] as `remove${Capitalize<string & K>}`]: () => void;
-};
-
-type StorageKeyMethods = {
-  set: (input: unknown) => void;
-  get: () => string | null;
-  remove: () => void;
-};
