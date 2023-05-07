@@ -1,8 +1,11 @@
-import { forwardRef, useRef, type ForwardedRef } from "react";
+import { forwardRef } from "react";
 import { styled } from "@mui/material/styles";
-import MuiAvatar, { type AvatarProps as MuiAvatarProps } from "@mui/material/Avatar";
+import MuiAvatar from "@mui/material/Avatar";
 import Text from "@mui/material/Typography";
-import type { UserProfile } from "@types";
+import { useMaybeRef, type MaybeRef } from "@hooks/useMaybeRef";
+import { avatarClassNames } from "./classNames";
+import type { Profile } from "@graphql/types";
+import type { AvatarProps as MuiAvatarProps } from "@mui/material/Avatar";
 
 /**
  * **Avatar** display is determined by the following order of precedence:
@@ -14,66 +17,55 @@ import type { UserProfile } from "@types";
  *    3. `familyName`
  * 3. The final fallback is MUI's generic avatar icon
  */
-export const Avatar = forwardRef<MaybeAvatarRef, AvatarProps>(function Avatar(
-  {
-    profile,
-    imageSrc,
-    showDisplayName = false,
-    containerProps = {},
-    avatarProps = {},
-    ...props
-  }: AvatarProps,
-  ref: ForwardedRef<MaybeAvatarRef>
+export const Avatar = forwardRef<MaybeRef<HTMLDivElement>, AvatarProps>(function Avatar(
+  { profile, imageSrc, showDisplayName = false, containerProps = {}, avatarProps = {}, ...props },
+  fwdRef
 ) {
-  // If parent does not forward a ref, use local fallback
-  const localRef = useRef<HTMLDivElement>(null);
-  const avatarRef = ref || localRef;
+  const avatarRef = useMaybeRef(fwdRef);
 
   return (
-    <AvatarContainer className="avatar-container" {...containerProps}>
+    <StyledDiv className={avatarClassNames.root} {...containerProps}>
       <MuiAvatar
         ref={avatarRef}
         alt={profile?.displayName}
-        src={imageSrc || profile?.photoUrl}
+        src={imageSrc || profile?.photoUrl || undefined}
         {...avatarProps}
         {...props}
       >
         {
           // The below char will be unused if an image src is available
-          [profile?.displayName, profile?.givenName, profile?.familyName]
+          [profile?.businessName, profile?.givenName, profile?.familyName]
             .find((name) => !!name)
             ?.charAt(0)
         }
       </MuiAvatar>
       {showDisplayName && profile?.displayName && (
-        <Text className="avatar-display-name">{profile.displayName}</Text>
+        <Text className={avatarClassNames.displayName}>{profile.displayName}</Text>
       )}
-    </AvatarContainer>
+    </StyledDiv>
   );
 });
 
-const AvatarContainer = styled("div")({
+const StyledDiv = styled("div")({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
 
-  "& > .avatar-display-name": {
+  [`& > .${avatarClassNames.displayName}`]: {
     maxHeight: "2.5rem", // height of the MuiAvatar
     marginLeft: "0.5rem",
     lineHeight: "1.25rem", // half the height of the avatar, allows for 2 lines
     overflow: "hidden",
     textOverflow: "ellipsis",
     WebkitLineClamp: 2,
-    pointerEvents: "none"
-  }
+    pointerEvents: "none",
+  },
 });
 
 export type AvatarProps = {
-  profile?: UserProfile;
+  profile?: Profile;
   imageSrc?: string;
   showDisplayName?: boolean;
-  containerProps?: React.ComponentProps<typeof AvatarContainer>;
+  containerProps?: React.ComponentProps<typeof StyledDiv>;
   avatarProps?: MuiAvatarProps;
 } & MuiAvatarProps;
-
-type MaybeAvatarRef = HTMLDivElement | null;

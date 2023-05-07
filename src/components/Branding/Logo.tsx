@@ -1,14 +1,20 @@
 import { styled } from "@mui/material/styles";
-import logoSrc from "@images/fixit-icon.png";
+import logoSrc from "@images/fixit-icon.webp";
 
-export const Logo = (props: React.ComponentProps<typeof StyledLogoImg> = {}) => (
-  <StyledLogoImg src={logoSrc} className="fixit-logo" {...props} />
+export const Logo = ({ alt = "Fixit logo", ...props }: LogoProps = {}) => (
+  <StyledImg src={logoSrc} className={logoClassNames.root} alt={alt} {...props} />
 );
 
-const StyledLogoImg = styled("img")({
+export const logoClassNames = {
+  root: "fixit-logo",
+};
+
+const StyledImg = styled("img")({
   alignSelf: "center",
   objectFit: "contain",
   zIndex: 100,
   maxHeight: "12rem",
-  borderRadius: "50%"
+  borderRadius: "50%",
 });
+
+export type LogoProps = React.ComponentProps<typeof StyledImg>;

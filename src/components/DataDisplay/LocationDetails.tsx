@@ -1,16 +1,18 @@
 import { styled } from "@mui/material/styles";
-import Text, { type TypographyProps } from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import MapMarkerIcon from "@mui/icons-material/Place";
+import Text, { type TypographyProps } from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Anchor } from "@components";
-import { ItemDetails, type ItemDetailsProps } from "./ItemDetails";
+import MapMarkerIcon from "@mui/icons-material/Place";
+import { Anchor } from "@components/Navigation/Anchor";
+import { ItemDetails } from "./ItemDetails";
 import { itemDetailsClassNames as classNames } from "./classNames";
-import type { Location } from "@types";
+import type { Location } from "@graphql/types";
+import type { ItemDetailsProps } from "./types";
 
 export const LocationDetails = ({
   location,
   locationTextProps = {},
+  showLabel = true,
   ...itemDetailsProps
 }: LocationDetailsProps) => {
   const { streetLine1, streetLine2, city, region, country } = location || {};
@@ -26,7 +28,11 @@ export const LocationDetails = ({
   const mapLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addressStr)}`
 
   return (
-    <StyledItemDetails label="Address" className={classNames.locationDetails} {...itemDetailsProps}>
+    <StyledItemDetails
+      label={showLabel ? "Address" : undefined}
+      className={classNames.locationDetails}
+      {...itemDetailsProps}
+    >
       {location && (
         <>
           <Text className={classNames.locationDetailsAddressText} {...locationTextProps}>
@@ -62,7 +68,7 @@ const StyledItemDetails = styled(ItemDetails)(({ theme }) => ({
   "& *": {
     maxWidth: "inherit",
     overflow: "inherit",
-    textOverflow: "inherit"
+    textOverflow: "inherit",
   },
 
   [`& > .${classNames.content}`]: {
@@ -73,8 +79,8 @@ const StyledItemDetails = styled(ItemDetails)(({ theme }) => ({
 
       "& > span": {
         display: "inline-block", // ensures spans have width so region will wrap below city if necessary
-        whiteSpace: "pre" // preserve \n\s and nowrap
-      }
+        whiteSpace: "pre", // preserve \n\s and nowrap
+      },
     },
 
     // map anchor:
@@ -96,19 +102,20 @@ const StyledItemDetails = styled(ItemDetails)(({ theme }) => ({
         color: theme.palette.secondary.main,
         fontSize: "1.5rem",
         opacity: "0.35",
-        marginRight: "0.25rem"
+        marginRight: "0.25rem",
       },
 
       // ChevronRightIcon
       "& > svg:last-of-type": {
         fontSize: "1rem",
-        marginTop: "1px"
-      }
-    }
-  }
+        marginTop: "1px",
+      },
+    },
+  },
 }));
 
 export type LocationDetailsProps = {
   location?: Location;
   locationTextProps?: TypographyProps;
+  showLabel?: boolean;
 } & ItemDetailsProps;

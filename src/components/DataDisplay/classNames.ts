@@ -13,5 +13,5 @@ export const itemDetailsClassNames = {
 
   locationDetails: "location-details",
   locationDetailsAddressText: "location-details-address-text",
-  locationDetailsMapAnchor: "location-details-map-anchor"
+  locationDetailsMapAnchor: "location-details-map-anchor",
 };

@@ -1,38 +1,31 @@
-import Text, { type TypographyProps } from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+import Text from "@mui/material/Typography";
 import { itemDetailsClassNames as classNames } from "./classNames";
+import type { ItemDetailsLabelProps } from "./types";
 
 export const ItemDetailsLabel = ({
   icon,
   variant = "h6",
-  style = {},
-  sx = {},
   children,
   ...props
 }: ItemDetailsLabelProps) => (
   <>
     {icon}
-    <Text
-      className={classNames.label}
-      variant={variant}
-      style={{
-        margin: "0.25rem 0",
-        fontSize: "0.9rem",
-        lineHeight: "1rem",
-        textTransform: "uppercase",
-        overflow: "hidden",
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis",
-        ...style
-      }}
-      sx={({ palette }) => ({
-        fontWeight: palette.mode === "dark" ? 200 : "normal",
-        ...(sx as any)
-      })}
-      {...props}
-    >
+    <StyledText className={classNames.label} variant={variant} {...props}>
       {children}
-    </Text>
+    </StyledText>
   </>
 );
 
-export type ItemDetailsLabelProps = { icon?: React.ReactNode } & TypographyProps;
+const StyledText = styled(Text)(({ theme }) => ({
+  [`&.${classNames.label}`]: {
+    margin: "0.25rem 0",
+    fontSize: "0.9rem",
+    fontWeight: theme.palette.mode === "dark" ? 200 : "normal",
+    lineHeight: "1rem",
+    textTransform: "uppercase",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+  },
+}));

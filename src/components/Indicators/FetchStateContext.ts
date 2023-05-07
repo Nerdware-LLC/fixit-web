@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext } from "react";
 
 export const FetchStateContext = createContext<{
   isLoading: boolean;
@@ -9,7 +9,5 @@ export const FetchStateContext = createContext<{
   isLoading: false,
   setIsLoading: () => {},
   error: null,
-  setError: () => {}
+  setError: () => {},
 });
-
-export const useFetchStateContext = () => useContext(FetchStateContext);

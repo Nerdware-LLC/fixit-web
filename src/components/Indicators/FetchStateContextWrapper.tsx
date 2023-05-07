@@ -1,16 +1,12 @@
 import { useState } from "react";
+import { Error } from "./Error";
 import { FetchStateContext } from "./FetchStateContext";
 import { Loading } from "./Loading";
-import { Error } from "./Error";
-import { func, any } from "@types";
 
 export const FetchStateContextWrapper = ({
   onDismissError,
-  children
-}: {
-  onDismissError?: Function;
-  children: React.ReactNode;
-}) => {
+  children,
+}: FetchStateContextWrapperProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | string | null>(null);
 
@@ -28,7 +24,7 @@ export const FetchStateContextWrapper = ({
   );
 };
 
-FetchStateContextWrapper.propTypes = {
-  onDismissError: func,
-  children: any.isRequired
+export type FetchStateContextWrapperProps = {
+  onDismissError?: () => any;
+  children: React.ReactNode;
 };

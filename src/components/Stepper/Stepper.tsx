@@ -1,11 +1,11 @@
 import { styled } from "@mui/material/styles";
-import MuiStepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
+import StepLabel from "@mui/material/StepLabel";
+import MuiStepper from "@mui/material/Stepper";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { StepIconContainer } from "./StepIconContainer";
 import { StepContentContainer } from "./StepContentContainer";
+import { StepIconContainer } from "./StepIconContainer";
 import { stepperClassNames as classNames } from "./classNames";
 import type { StepperProps } from "./types";
 
@@ -22,7 +22,7 @@ export const Stepper = ({
   StepIconComponent = StepIconContainer,
   ...stepperProps
 }: StepperProps) => (
-  <StyledStepperContainer className={classNames.stepperContainer}>
+  <StyledDiv className={classNames.stepperContainer}>
     <MuiStepper
       activeStep={activeStepIndex}
       orientation={useVerticalOrientation ? "vertical" : "horizontal"}
@@ -37,7 +37,7 @@ export const Stepper = ({
             showErrorStyling = false,
             content = {},
             stepProps = {},
-            stepLabelProps = {}
+            stepLabelProps = {},
           },
           index
         ) => (
@@ -75,22 +75,22 @@ export const Stepper = ({
         useVerticalOrientation={false}
       />
     )}
-  </StyledStepperContainer>
+  </StyledDiv>
 );
 
-const StyledStepperContainer = styled("div")(({ theme: { palette, variables } }) => {
+const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
   // Layout-dependent padding/margin values:
   const { iconContainerSize, iconContainerMarginRight, stepCaptionMarginLeft } =
     variables.isMobilePageLayout
       ? {
           iconContainerSize: "2.25rem",
           iconContainerMarginRight: "0.5rem",
-          stepCaptionMarginLeft: "1rem"
+          stepCaptionMarginLeft: "1rem",
         }
       : {
           iconContainerSize: "3rem",
           iconContainerMarginRight: "0.75rem",
-          stepCaptionMarginLeft: 0
+          stepCaptionMarginLeft: 0,
         };
 
   // Light/Dark mode-dependent values:
@@ -118,7 +118,7 @@ const StyledStepperContainer = styled("div")(({ theme: { palette, variables } })
       [`& > .${classNames.step.root}`]: {
         // Set a min-width for steps in horizontal layout
         [`&.${classNames.step.horizontal}`]: {
-          minWidth: "max(15rem, fit-content)"
+          minWidth: "max(15rem, fit-content)",
         },
 
         /* The below css provides a small connector extension above+below/left+right of
@@ -135,20 +135,20 @@ const StyledStepperContainer = styled("div")(({ theme: { palette, variables } })
               zIndex: -1,
               content: '""',
               display: "inline-block",
-              alignSelf: "center"
-            }
+              alignSelf: "center",
+            },
           },
           [`&.${classNames.step.vertical} .${classNames.stepLabel.iconContainer}::after`]: {
             left: `calc( ${iconContainerSize} / 2 )`,
             height: "calc(100% + 3rem)",
-            borderLeft: `1px solid ${connectorColor}`
+            borderLeft: `1px solid ${connectorColor}`,
           },
           [`&.${classNames.step.horizontal} .${classNames.stepLabel.iconContainer}::after`]: {
             top: `calc( ${iconContainerSize} / 2 )`,
             left: "-50%",
             width: "calc(100% + 6rem)",
-            borderBottom: `1px solid ${connectorColor}`
-          }
+            borderBottom: `1px solid ${connectorColor}`,
+          },
         },
 
         // STEP LABELS
@@ -157,18 +157,18 @@ const StyledStepperContainer = styled("div")(({ theme: { palette, variables } })
           padding: 0,
 
           [`&.${classNames.stepLabel.horizontal}`]: {
-            minWidth: "10rem"
+            minWidth: "10rem",
           },
 
           [`& > .${classNames.stepLabel.iconContainer}`]: {
             width: iconContainerSize,
-            height: iconContainerSize
+            height: iconContainerSize,
           },
 
           // On VERTICAL, the iconContainer's padding is replaced with margin
           [`&.${classNames.stepLabel.vertical} > .${classNames.stepLabel.iconContainer}`]: {
             padding: 0,
-            marginRight: iconContainerMarginRight
+            marginRight: iconContainerMarginRight,
           },
 
           [`& > .${classNames.stepLabel.labelContainer}`]: {
@@ -182,21 +182,21 @@ const StyledStepperContainer = styled("div")(({ theme: { palette, variables } })
 
               // If it's not the active step, add some opacity
               [`&:not(.${classNames.stepLabel.active})`]: {
-                opacity: 0.75
+                opacity: 0.75,
               },
 
               [`&.${classNames.stepLabel.active}`]: { color: palette.primary.main },
               [`&.${classNames.stepLabel.disabled}`]: { color: palette.text.disabled },
-              [`&.${classNames.stepLabel.error}`]: { color: palette.error.main }
+              [`&.${classNames.stepLabel.error}`]: { color: palette.error.main },
             },
 
             // The optional Step text (not MuiStepLabel-label is used in case a non-caption ReactNode is provided)
             [`& > .${typographyClasses.root}:not(.${classNames.stepLabel.label})`]: {
               marginLeft: stepCaptionMarginLeft,
               lineHeight: "1rem",
-              whiteSpace: "pre"
-            }
-          }
+              whiteSpace: "pre",
+            },
+          },
         },
 
         // MUI STEP CONTENT - VERTICAL (MuiStepContentWrapper not used in HORIZONTAL, it errors if you do)
@@ -206,9 +206,9 @@ const StyledStepperContainer = styled("div")(({ theme: { palette, variables } })
           left-padding pushes content's text rightward to appear in line with the label.  */
           marginLeft: `calc( ${iconContainerSize} / 2 )`,
           paddingLeft: `calc( ${iconContainerSize} / 2 + ${iconContainerMarginRight} + ${stepCaptionMarginLeft} )`, // lines up w caption
-          paddingRight: 0
-        }
-      }
+          paddingRight: 0,
+        },
+      },
     },
 
     // StepContentContainer
@@ -223,9 +223,9 @@ const StyledStepperContainer = styled("div")(({ theme: { palette, variables } })
         [`& .${classNames.stepContent.descriptionContainer}`]: {
           padding: "0.5rem 0",
           "& > svg[data-testid=InfoIcon]": {
-            display: "none" // rm the InfoIcon on vert
-          }
-        }
+            display: "none", // rm the InfoIcon on vert
+          },
+        },
       },
 
       // StepContentContainer - HORIZONTAL
@@ -234,9 +234,9 @@ const StyledStepperContainer = styled("div")(({ theme: { palette, variables } })
         paddingTop: "1.25rem", // matches ItemDetailsGroup padding-bottom
         [`& .${classNames.stepContent.descriptionContainer}`]: {
           [`& .${typographyClasses.root}`]: {
-            whiteSpace: "nowrap"
-          }
-        }
+            whiteSpace: "nowrap",
+          },
+        },
       },
 
       [`& .${classNames.stepContent.descriptionContainer}`]: {
@@ -246,15 +246,15 @@ const StyledStepperContainer = styled("div")(({ theme: { palette, variables } })
 
         [`& .${typographyClasses.root}`]: {
           fontSize: "1rem",
-          lineHeight: "1.25rem"
-        }
+          lineHeight: "1.25rem",
+        },
       },
 
       [`& > .${classNames.stepContent.actionButtonsContainer}`]: {
         display: "flex",
         alignItems: "center",
-        gap: "0.5rem"
-      }
+        gap: "0.5rem",
+      },
     },
 
     // STEP CONNECTORS (on mobile, SC's are children of Stepper; on desktop, SC's are children of the STEPS due to AltLabel)
@@ -262,13 +262,13 @@ const StyledStepperContainer = styled("div")(({ theme: { palette, variables } })
       // VERTICAL
       [`&.${classNames.stepConnector.vertical}`]: {
         // No AltLabel on vert, so marginLeft is used to center the line
-        marginLeft: `calc( ${iconContainerSize} / 2 )`
+        marginLeft: `calc( ${iconContainerSize} / 2 )`,
       },
       // HORIZONTAL
       [`&.${classNames.stepConnector.horizontal}`]: {
         // AltLabel is used here, so these are abs' positioned and TOP is used
-        top: `calc( ${iconContainerSize} / 2 )`
-      }
-    }
+        top: `calc( ${iconContainerSize} / 2 )`,
+      },
+    },
   };
 });

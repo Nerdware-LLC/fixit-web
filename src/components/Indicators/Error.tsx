@@ -1,19 +1,10 @@
 import { styled } from "@mui/material/styles";
+import { dialogTitleClasses } from "@mui/material/DialogTitle";
+import { Dialog, type DialogProps } from "@components/Dialog";
+import { getTypeSafeErr } from "@utils/typeSafety";
 import { IndicatorContainer } from "./IndicatorContainer";
-import { Dialog } from "@components/Dialog";
-import { oneOfType, string, shape, func } from "@/types/propTypes";
-import { getTypeSafeErr } from "@utils";
 
-export const Error = ({
-  error,
-  title = "Whoops!",
-  onDismiss,
-  ...dialogProps
-}: {
-  error: unknown;
-  title?: string;
-  onDismiss?: Function;
-} & Omit<React.ComponentProps<typeof Dialog>, "isVisible" | "title" | "message">) => {
+export const Error = ({ error, title = "Whoops!", onDismiss, ...dialogProps }: ErrorProps) => {
   const { isDialogVisible, closeDialog } = Dialog.use(true);
 
   const errorMsg = getTypeSafeErr(error).message;
@@ -41,14 +32,14 @@ export const Error = ({
 };
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
-  "& > .MuiDialogTitle-root": {
+  [`& > .${dialogTitleClasses.root}`]: {
     color: theme.palette.error.main,
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 }));
 
-Error.propTypes = {
-  title: string,
-  error: oneOfType([string, shape({ message: string })]).isRequired,
-  onDismiss: func
-};
+export type ErrorProps = {
+  error: unknown;
+  title?: string;
+  onDismiss?: () => any;
+} & Omit<DialogProps, "isVisible" | "title" | "message">;

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import { Avatar, type AvatarProps } from "./Avatar";
-import type { UserProfile } from "@types";
+import type { Profile } from "@graphql/types";
 
 /**
  * Will display an Avatar along with the Contact's `displayName`
@@ -17,17 +17,13 @@ export const ContactAvatar = ({
   viewContactOnClick = true,
   showDisplayName = true,
   ...avatarProps
-}: {
-  contact: { id: string; handle: string; profile: UserProfile };
-  viewContactOnClick?: boolean;
-  showDisplayName?: boolean;
-} & AvatarProps) => {
+}: ContactAvatarProps) => {
   const nav = useNavigate();
 
   const commonAvatarProps = {
     profile: contact.profile,
     showDisplayName,
-    ...avatarProps
+    ...avatarProps,
   };
 
   return (
@@ -45,3 +41,9 @@ export const ContactAvatar = ({
     </>
   );
 };
+
+export type ContactAvatarProps = {
+  contact: { id: string; handle: string; profile: Profile };
+  viewContactOnClick?: boolean;
+  showDisplayName?: boolean;
+} & AvatarProps;

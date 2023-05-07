@@ -1,20 +1,20 @@
-import StripeBadgePurpleSVGsrc from "@images/powered_by_Stripe_blurple.svg";
-import StripeBadgeBlackSVGsrc from "@images/powered_by_Stripe_black.svg";
-import StripeBadgeWhiteSVGsrc from "@images/powered_by_Stripe_white.svg";
+import StripeBadgeSVG from "@images/powered_by_Stripe_purple.svg";
 
 export const StripeBadge = ({
-  color = "purple",
   href = "https://stripe.com/",
   style,
   ...props
-}: React.ComponentPropsWithoutRef<"img"> & {
-  color?: "purple" | "black" | "white";
-  href?: string;
-}) => (
-  <a href={href} className="stripe-logo-anchor" target="_blank" rel="noreferrer" style={style}>
+}: StripeBadgeProps) => (
+  <a
+    href={href}
+    className={`${stripeBadgeClassNames.root} ${stripeBadgeClassNames.anchor}`}
+    target="_blank"
+    rel="noreferrer"
+    style={style}
+  >
     <img
-      src={STRIPE_SVGs_BY_COLOR[color]}
-      className="stripe-logo-img"
+      src={StripeBadgeSVG}
+      className={stripeBadgeClassNames.img}
       alt="Stripe Badge"
       style={style}
       {...props}
@@ -22,8 +22,12 @@ export const StripeBadge = ({
   </a>
 );
 
-const STRIPE_SVGs_BY_COLOR = {
-  purple: StripeBadgePurpleSVGsrc,
-  black: StripeBadgeBlackSVGsrc,
-  white: StripeBadgeWhiteSVGsrc
+export const stripeBadgeClassNames = {
+  root: "stripe-badge-root",
+  anchor: "stripe-logo-anchor",
+  img: "stripe-logo-img",
 };
+
+export type StripeBadgeProps = {
+  href?: string;
+} & React.ComponentPropsWithoutRef<"img">;

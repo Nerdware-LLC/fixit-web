@@ -1,8 +1,7 @@
-import { forwardRef, type ForwardedRef } from "react";
+import { forwardRef } from "react";
 import { styled } from "@mui/material/styles";
-import { useMaybeAnchorRef } from "./useMaybeAnchorRef";
+import { useMaybeRef, type MaybeRef } from "@hooks/useMaybeRef";
 import { defaultLinkStyles } from "./styles";
-import type { MaybeAnchorRef } from "./types";
 
 /**
  * A styled anchor element with ref forwarding.
@@ -11,11 +10,11 @@ import type { MaybeAnchorRef } from "./types";
  *   and `rel="noreferrer"` are set automatically, and the `textDecoration` style
  *   defaults to "underline".
  */
-export const Anchor = forwardRef<MaybeAnchorRef, AnchorProps>(function Anchor(
-  { href, children, ...props }: AnchorProps,
-  ref: ForwardedRef<MaybeAnchorRef>
+export const Anchor = forwardRef<MaybeRef<HTMLAnchorElement>, AnchorProps>(function Anchor(
+  { href, children, ...props },
+  ref
 ) {
-  const anchorRef = useMaybeAnchorRef(ref);
+  const anchorRef = useMaybeRef(ref);
 
   const isExternalUrl = href && href.startsWith("http") && !href.includes("gofixit.app");
 
@@ -25,7 +24,7 @@ export const Anchor = forwardRef<MaybeAnchorRef, AnchorProps>(function Anchor(
       href={href}
       {...(isExternalUrl && {
         target: "_blank",
-        rel: "noreferrer"
+        rel: "noreferrer",
       })}
       {...props} // allow rest props to override above attrs set via `isExternal` condition
     >

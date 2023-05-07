@@ -3,6 +3,6 @@ import { IndicatorContainer } from "./IndicatorContainer";
 
 export const Loading = () => (
   <IndicatorContainer>
-    <CircularProgress color={"primary"} size={"7rem"} thickness={4.5} />
+    <CircularProgress color="primary" size="7rem" thickness={4.5} />
   </IndicatorContainer>
 );

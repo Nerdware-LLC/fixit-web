@@ -9,6 +9,6 @@ export const useDialog = (initIsVisible = false) => {
   return {
     isDialogVisible,
     openDialog,
-    closeDialog
+    closeDialog,
   };
 };

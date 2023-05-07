@@ -10,25 +10,17 @@ import { AVAILABLE_LOTTIE_ANIMATIONS } from "./availableLotties";
  *   can be awaited; the Promise will resolve after the specified duration in
  *   milliseconds.
  */
-export const useLottie = ({
-  animation,
-  options = {},
-  style = {}
-}: {
-  animation: keyof typeof AVAILABLE_LOTTIE_ANIMATIONS;
-  options?: Omit<LottieOptions, "animationData"> & { duration?: number };
-  style?: React.CSSProperties;
-}) => {
+export const useLottie = ({ animation, options = {}, style = {} }: UseLottieArgs) => {
   // Merge in animation-specific default options
   options = {
     ...AVAILABLE_LOTTIE_ANIMATIONS[animation].options,
-    ...options
+    ...options,
   };
 
   // Merge in animation-specific default style
   style = {
     ...AVAILABLE_LOTTIE_ANIMATIONS[animation].style,
-    ...style
+    ...style,
   };
 
   // Some fields are renamed for better clarity
@@ -42,7 +34,7 @@ export const useLottie = ({
   } = useLottieReact(
     {
       animationData: AVAILABLE_LOTTIE_ANIMATIONS[animation].animationData,
-      ...options
+      ...options,
     },
     style
   );
@@ -64,6 +56,12 @@ export const useLottie = ({
     pauseLottie,
     stopLottie,
     destroyLottie,
-    ...lottieFields
+    ...lottieFields,
   };
+};
+
+export type UseLottieArgs = {
+  animation: keyof typeof AVAILABLE_LOTTIE_ANIMATIONS;
+  options?: Omit<LottieOptions, "animationData"> & { duration?: number };
+  style?: React.CSSProperties;
 };

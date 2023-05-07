@@ -1,6 +1,6 @@
-import type { StepperProps as MuiStepperProps } from "@mui/material/Stepper";
 import type { StepProps } from "@mui/material/Step";
 import type { StepLabelProps } from "@mui/material/StepLabel";
+import type { StepperProps as MuiStepperProps } from "@mui/material/Stepper";
 
 // STEPPER:
 

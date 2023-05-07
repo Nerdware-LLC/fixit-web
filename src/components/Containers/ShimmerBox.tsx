@@ -3,18 +3,20 @@ import { styled } from "@mui/material/styles";
 /**
  * A box with a silver shimmer/shine animation effect.
  */
-export const ShimmerBox = ({
-  children,
-  ...props
-}: React.ComponentProps<typeof StyledShimmerBox>) => (
-  <StyledShimmerBox className="shimmer-box shimmer-box-bg" {...props}>
-    <div className="shimmer-box shimmer-box-child">{children}</div>
-  </StyledShimmerBox>
+export const ShimmerBox = ({ children, ...props }: ShimmerBoxProps) => (
+  <StyledDiv className={shimmerBoxClassNames.root} {...props}>
+    <div className={shimmerBoxClassNames.childContainer}>{children}</div>
+  </StyledDiv>
 );
+
+export const shimmerBoxClassNames = {
+  root: "shimmer-box-root",
+  childContainer: "shimmer-box-child-container",
+};
 
 /* This div ensures the animated mask in StyledShimmerBox reveals a
 silver background. Without this, the "shimmer" is dark in dark-mode.*/
-const StyledShimmerBox = styled("div")(({ theme }) => ({
+const StyledDiv = styled("div")(({ theme }) => ({
   height: "1.75rem",
   width: "6.5rem",
 
@@ -25,7 +27,7 @@ const StyledShimmerBox = styled("div")(({ theme }) => ({
   justifyContent: "center",
   alignItems: "center",
 
-  "& > div.shimmer-box-child": {
+  [`& > .${shimmerBoxClassNames.childContainer}`]: {
     height: "1.75rem",
     width: "6.5rem",
     backgroundColor: `${theme.palette.grey[800]}`,
@@ -39,7 +41,9 @@ const StyledShimmerBox = styled("div")(({ theme }) => ({
     animation: "shimmer 2.5s infinite",
 
     "@keyframes shimmer": {
-      "100%": { WebkitMaskPosition: "left" }
-    }
-  }
+      "100%": { WebkitMaskPosition: "left" },
+    },
+  },
 }));
+
+export type ShimmerBoxProps = React.ComponentProps<typeof StyledDiv>;

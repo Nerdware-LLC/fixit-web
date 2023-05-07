@@ -1,9 +1,8 @@
-import { forwardRef, type ForwardedRef } from "react";
+import { forwardRef } from "react";
 import Text from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { useMaybeRef, type MaybeRef } from "@hooks/useMaybeRef";
 import { Link, type LinkProps } from "./Link";
-import { useMaybeAnchorRef } from "./useMaybeAnchorRef";
-import type { MaybeAnchorRef } from "./types";
 
 /**
  * A react-router-dom Link to a WorkOrder with ref forwarding.
@@ -14,12 +13,12 @@ import type { MaybeAnchorRef } from "./types";
  * - If `state` is provided, it's merged with the default state object set
  *   using the `isWorkOrderOwnedByUser` prop.
  */
-export const LinkToWorkOrder = forwardRef<MaybeAnchorRef, LinkToWorkOrderProps>(
+export const LinkToWorkOrder = forwardRef<MaybeRef<HTMLAnchorElement>, LinkToWorkOrderProps>(
   function LinkToWorkOrder(
-    { workOrderID, isWorkOrderOwnedByUser, state = {}, children, ...props }: LinkToWorkOrderProps,
-    ref: ForwardedRef<MaybeAnchorRef>
+    { workOrderID, isWorkOrderOwnedByUser, state = {}, children, ...props },
+    ref
   ) {
-    const anchorRef = useMaybeAnchorRef(ref);
+    const anchorRef = useMaybeRef(ref);
 
     return (
       <Link
@@ -27,7 +26,7 @@ export const LinkToWorkOrder = forwardRef<MaybeAnchorRef, LinkToWorkOrderProps>(
         to={`/home/workorders/${encodeURIComponent(workOrderID)}`}
         state={{ isItemOwnedByUser: isWorkOrderOwnedByUser, ...state }}
         sx={(theme) => ({
-          color: theme.palette.secondary.main
+          color: theme.palette.secondary.main,
         })}
         {...props}
       >

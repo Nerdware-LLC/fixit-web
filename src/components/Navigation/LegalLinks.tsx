@@ -1,8 +1,8 @@
 import { styled, alpha } from "@mui/material/styles";
-import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import { StripeBadge } from "@components";
+import Divider, { dividerClasses } from "@mui/material/Divider";
+import Tooltip from "@mui/material/Tooltip";
+import { StripeBadge, stripeBadgeClassNames } from "@components/StripeBadge";
 import { Link } from "./Link";
 
 /**
@@ -17,17 +17,12 @@ import { Link } from "./Link";
  * When provided, the anchor wrapping the StripeBadge will have an href linking to
  * the Stripe Connected Account Agreement page, rather than Stripe's landing page.
  */
-export const LegalLinks = ({
-  includeStripeBadge = false,
-  ...containerProps
-}: {
-  includeStripeBadge?: boolean;
-} & React.ComponentProps<typeof StyledLegalLinksContainer>) => (
-  <StyledLegalLinksContainer className="legal-links-container" {...containerProps}>
+export const LegalLinks = ({ includeStripeBadge = false, ...containerProps }: LegalLinksProps) => (
+  <StyledDiv className={legalLinksClassNames.container} {...containerProps}>
     {includeStripeBadge && (
       <>
         <Tooltip title="View Stripe Connected Account Agreement">
-          <Box className="stripe-badge-container">
+          <Box className={legalLinksClassNames.stripeBadgeContainer}>
             <StripeBadge href="https://stripe.com/connect-account/legal/full" />
           </Box>
         </Tooltip>
@@ -45,35 +40,44 @@ export const LegalLinks = ({
     <Tooltip title="Fixit Privacy Policy">
       <Link to="/privacy">Privacy</Link>
     </Tooltip>
-  </StyledLegalLinksContainer>
+  </StyledDiv>
 );
 
-const StyledLegalLinksContainer = styled("div")(({ theme: { palette } }) => ({
+export const legalLinksClassNames = {
+  container: "legal-links-container",
+  stripeBadgeContainer: "legal-links-stripe-badge-container",
+};
+
+const StyledDiv = styled("div")(({ theme: { palette } }) => ({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "space-evenly",
   verticalAlign: "middle",
 
-  "& > div.stripe-badge-container": {
+  [`& > .${legalLinksClassNames.stripeBadgeContainer}`]: {
     height: "2rem",
     margin: "0 0.5rem",
-    "& img.stripe-logo-img": {
-      height: "100%"
-    }
+    [`& .${stripeBadgeClassNames.img}`]: {
+      height: "100%",
+    },
   },
 
-  "& .MuiDivider-root": {
+  [`& .${dividerClasses.root}`]: {
     height: "1.5rem",
     width: "0.1px",
     marginTop: 0,
     marginBottom: 0,
-    backgroundColor: alpha(palette.mode === "dark" ? palette.grey[600] : palette.grey[800], 0.5)
+    backgroundColor: alpha(palette.mode === "dark" ? palette.grey[600] : palette.grey[800], 0.5),
   },
 
   '& > a[href="/ToS"],a[href="/privacy"]': {
     color: palette.mode === "dark" ? palette.grey[500] : palette.grey[700],
     textDecorationStyle: "dotted",
-    margin: "0 0.5rem"
-  }
+    margin: "0 0.5rem",
+  },
 }));
+
+export type LegalLinksProps = {
+  includeStripeBadge?: boolean;
+} & React.ComponentProps<typeof StyledDiv>;

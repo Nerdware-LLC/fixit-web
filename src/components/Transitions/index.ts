@@ -1,1 +1,1 @@
-export { SlideTransition } from "./SlideTransition";
+export * from "./SlideTransition";

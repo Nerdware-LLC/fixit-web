@@ -1,8 +1,9 @@
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
-import { ItemDetailsLabel, type ItemDetailsLabelProps } from "./ItemDetailsLabel";
+import { ItemDetailsLabel } from "./ItemDetailsLabel";
 import { itemDetailsClassNames as classNames } from "./classNames";
+import type { ItemDetailsProps } from "./types";
 
 /**
  * Displays one or more item properties.
@@ -27,10 +28,7 @@ export const ItemDetails = ({
   emptyFallback = <Text>--</Text>,
   ...containerProps // any remaining props are passed to the containing div
 }: ItemDetailsProps) => (
-  <ItemDetailsContainer
-    className={`${classNames.itemDetails} ${classNames.container}`}
-    {...containerProps}
-  >
+  <StyledBox className={`${classNames.itemDetails} ${classNames.container}`} {...containerProps}>
     {(label || headerComponents) && (
       <div className={classNames.header}>
         {label && (
@@ -45,15 +43,15 @@ export const ItemDetails = ({
     <div className={classNames.content}>
       {typeof children === "string" ? <Text>{children || "--"}</Text> : children ?? emptyFallback}
     </div>
-  </ItemDetailsContainer>
+  </StyledBox>
 );
 
-const ItemDetailsContainer = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   maxWidth: "100%",
 
   "& *": {
     overflow: "hidden",
-    textOverflow: "ellipsis"
+    textOverflow: "ellipsis",
   },
 
   // HEADER:
@@ -68,21 +66,11 @@ const ItemDetailsContainer = styled(Box)(({ theme }) => ({
 
     [`& > .${classNames.label}`]: {
       color: theme.palette.text.primary,
-      marginTop: 0,
-      opacity: "0.7"
+      opacity: "0.7",
     },
 
     "& > svg:first-of-type": {
-      marginRight: "0.75rem"
-    }
-  }
+      marginRight: "0.75rem",
+    },
+  },
 }));
-
-export type ItemDetailsProps = {
-  label?: string;
-  labelIcon?: ItemDetailsLabelProps["icon"];
-  labelVariant?: ItemDetailsLabelProps["variant"];
-  headerComponents?: React.ReactNode;
-  children?: React.ReactNode;
-  emptyFallback?: React.ReactNode;
-} & React.ComponentProps<typeof ItemDetailsContainer>;

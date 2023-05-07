@@ -14,31 +14,26 @@ export const TabPanel = ({
   isActive,
   children,
   ...props
-}: {
-  tab?: string;
-  id?: string;
-  "aria-labelledby"?: string;
-  isActive: boolean;
-} & BoxProps) => {
+}: TabPanelProps) => {
   const tabNameNoSpaces = tab?.replace(/\s/g, "");
 
   return (
     <Box
-      className="tab-panel"
+      className={tabPabelClassNames.root}
       role="tabpanel"
       hidden={!isActive}
       sx={{
         // This allows TabPanels to use display flex if need be
-        ...(!isActive && { display: "none !important" })
+        ...(!isActive && { display: "none !important" }),
       }}
       {...(tabNameNoSpaces
         ? {
             id: `${tabNameNoSpaces}-tabpanel`,
-            "aria-labelledby": `${tabNameNoSpaces}-tab`
+            "aria-labelledby": `${tabNameNoSpaces}-tab`,
           }
         : {
             id: id?.replace(/\s/g, ""),
-            "aria-labelledby": ariaLabelledBy?.replace(/\s/g, "")
+            "aria-labelledby": ariaLabelledBy?.replace(/\s/g, ""),
           })}
       {...props}
     >
@@ -46,3 +41,14 @@ export const TabPanel = ({
     </Box>
   );
 };
+
+export const tabPabelClassNames = {
+  root: "tab-panel",
+};
+
+export type TabPanelProps = {
+  tab?: string;
+  id?: string;
+  "aria-labelledby"?: string;
+  isActive: boolean;
+} & BoxProps;

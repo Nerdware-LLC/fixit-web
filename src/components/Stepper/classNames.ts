@@ -1,8 +1,8 @@
-import { stepperClasses } from "@mui/material/Stepper";
 import { stepClasses } from "@mui/material/Step";
-import { stepLabelClasses } from "@mui/material/StepLabel";
-import { stepContentClasses } from "@mui/material/StepContent";
 import { stepConnectorClasses } from "@mui/material/StepConnector";
+import { stepContentClasses } from "@mui/material/StepContent";
+import { stepLabelClasses } from "@mui/material/StepLabel";
+import { stepperClasses } from "@mui/material/Stepper";
 
 /**
  * Stepper classNames object with both custom and Mui-provided classNames.
@@ -18,7 +18,7 @@ export const stepperClassNames = {
     horizontal: "step-content-horizontal",
     vertical: "step-content-vertical",
     descriptionContainer: "step-description-container",
-    actionButtonsContainer: "step-actions-buttons-container"
+    actionButtonsContainer: "step-actions-buttons-container",
   },
-  stepConnector: { ...stepConnectorClasses }
+  stepConnector: { ...stepConnectorClasses },
 };

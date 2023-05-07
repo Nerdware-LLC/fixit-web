@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 import Text from "@mui/material/Typography";
 import { ItemDetailsLabel } from "./ItemDetailsLabel";
 import { itemDetailsClassNames as classNames } from "./classNames";
-import type { ItemDetailsProps } from "./ItemDetails";
+import type { ItemDetailsProps } from "./types";
 
 /**
  * Displays one or more ItemDetails components as a group.
@@ -18,7 +18,7 @@ export const ItemDetailsGroup = ({
   emptyFallback = <Text>--</Text>,
   ...containerProps // any remaining props are passed to the containing div
 }: ItemDetailsProps) => (
-  <ItemDetailsGroupContainer
+  <StyledBox
     className={`${classNames.itemDetailsGroup} ${classNames.groupContainer}`}
     {...containerProps}
   >
@@ -36,18 +36,18 @@ export const ItemDetailsGroup = ({
     <div className={classNames.groupContent}>
       {typeof children === "string" ? <Text>{children || "--"}</Text> : children ?? emptyFallback}
     </div>
-  </ItemDetailsGroupContainer>
+  </StyledBox>
 );
 
-const ItemDetailsGroupContainer = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   ...(theme.palette.mode === "light" && {
-    border: `2px solid ${theme.palette.divider}`
+    border: `2px solid ${theme.palette.divider}`,
   }),
   borderRadius: "0.35rem",
   overflow: "hidden",
 
   "& *": {
-    textOverflow: "ellipsis"
+    textOverflow: "ellipsis",
   },
 
   // HEADER:
@@ -66,12 +66,12 @@ const ItemDetailsGroupContainer = styled(Box)(({ theme }) => ({
     borderRadius: "0.35rem 0.35rem 0 0",
 
     [`& > .${classNames.label}`]: {
-      color: theme.palette.text.primary
+      color: theme.palette.text.primary,
     },
 
     "& > svg:first-of-type": {
-      marginRight: "0.75rem"
-    }
+      marginRight: "0.75rem",
+    },
   },
 
   // CONTENT:
@@ -84,6 +84,7 @@ const ItemDetailsGroupContainer = styled(Box)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     gap: "1.5rem 2rem",
+    backgroundColor: theme.palette.background.paper,
 
     "&::before": {
       content: '""',
@@ -98,7 +99,7 @@ const ItemDetailsGroupContainer = styled(Box)(({ theme }) => ({
       boxShadow:
         theme.palette.mode === "dark"
           ? "inset 0 1px 5px 1px rgba(0,0,0,0.2)"
-          : "inset 0 1px 5px 0 rgba(0,0,0,0.05)"
-    }
-  }
+          : "inset 0 1px 5px 0 rgba(0,0,0,0.05)",
+    },
+  },
 }));

@@ -7,13 +7,13 @@ export const DEFAULT_LOTTIE_STYLES: Record<string, React.CSSProperties> = {
     left: "50%",
     height: "20vh",
     marginTop: "-10vh",
-    marginLeft: "-10vh"
-  }
+    marginLeft: "-10vh",
+  },
 };
 
 export const DEFAULT_LOTTIE_OPTS = {
   loop: false,
-  autoplay: false
+  autoplay: false,
 };
 
 export const AVAILABLE_LOTTIE_ANIMATIONS = {
@@ -21,11 +21,11 @@ export const AVAILABLE_LOTTIE_ANIMATIONS = {
     animationData: successLottieJSON,
     options: {
       ...DEFAULT_LOTTIE_OPTS,
-      duration: 1300
+      duration: 1300,
     },
     style: {
       pointerEvents: "none",
-      ...DEFAULT_LOTTIE_STYLES.centerScreen
-    }
-  }
+      ...DEFAULT_LOTTIE_STYLES.centerScreen,
+    },
+  },
 } as const;

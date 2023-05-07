@@ -1,3 +1,3 @@
-export { Avatar } from "./Avatar";
-export { ContactAvatar } from "./ContactAvatar";
-export { UserAvatar } from "./UserAvatar";
+export * from "./Avatar";
+export * from "./ContactAvatar";
+export * from "./classNames";

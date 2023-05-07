@@ -10,7 +10,7 @@ import type { StepperStepContentProps } from "./types";
  */
 export const StepContentContainer = ({
   content: { description, stepActionButtons },
-  useVerticalOrientation
+  useVerticalOrientation,
 }: StepperStepContentProps) => {
   const orientationClassName = useVerticalOrientation
     ? classNames.stepContent.vertical

@@ -1,6 +1,6 @@
 import React from "react";
 import * as Sentry from "@sentry/react";
-import { logger } from "@utils";
+import { logger } from "@utils/logger";
 
 /**
  * A reusable error-boundary with `Sentry` and logging integrations.
@@ -10,16 +10,16 @@ import { logger } from "@utils";
  * - Uncaught promise rejections
  */
 export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  public state: ErrorBoundaryState = {
+  public override state: ErrorBoundaryState = {
     error: null,
-    hasError: false
+    hasError: false,
   };
 
   public static getDerivedStateFromError(error: Error) {
     return { hasError: true };
   }
 
-  public componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  public override componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     logger.error(
       `${error}
       ${errorInfo}`,
@@ -27,7 +27,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     );
   }
 
-  public render() {
+  public override render() {
     const { showDialog = true, ...props } = this.props;
 
     return (

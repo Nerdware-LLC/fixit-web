@@ -1,2 +1,2 @@
-export { useLottie } from "./useLottie";
 export * from "./availableLotties";
+export * from "./useLottie";

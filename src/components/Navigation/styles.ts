@@ -5,7 +5,7 @@ import type { Theme } from "@mui/material/styles";
  */
 export const defaultLinkStyles = ({
   theme,
-  themecolor = "info"
+  themecolor = "info",
 }: {
   theme: Theme;
   themecolor?: "primary" | "secondary" | "info";
@@ -14,5 +14,5 @@ export const defaultLinkStyles = ({
   textDecoration: "none",
   display: "inline-flex",
   alignItems: "center",
-  verticalAlign: "middle"
+  verticalAlign: "middle",
 });

@@ -1,5 +1,4 @@
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-import { StripeCardInput } from "./StripeCardInput";
 
 export const useStripeCardInput = () => {
   const stripe = useStripe();
@@ -12,7 +11,7 @@ export const useStripeCardInput = () => {
       if (cardElement) {
         const { error, paymentMethod } = await stripe.createPaymentMethod({
           type: "card",
-          card: cardElement
+          card: cardElement,
         });
 
         if (error) throw error;
@@ -21,5 +20,5 @@ export const useStripeCardInput = () => {
     }
   };
 
-  return { StripeCardInput, getPaymentMethod };
+  return { getPaymentMethod };
 };

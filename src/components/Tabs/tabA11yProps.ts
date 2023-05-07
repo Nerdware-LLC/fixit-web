@@ -40,7 +40,7 @@ type GetTabA11yPropsFnReturnType<T extends TabLabels> = {
 
 export const getTabA11yProps = <T extends TabLabels>({
   tabLabels,
-  tabsWrapperLabel
+  tabsWrapperLabel,
 }: {
   tabLabels: T;
   tabsWrapperLabel: string;
@@ -54,25 +54,25 @@ export const getTabA11yProps = <T extends TabLabels>({
           ...accum.tabProps,
           [tabLabel]: {
             id: `${tabLabelNoSpaces}-tab`,
-            "aria-controls": `${tabLabelNoSpaces}-tabpanel`
-          }
+            "aria-controls": `${tabLabelNoSpaces}-tabpanel`,
+          },
         },
         tabPanelProps: {
           ...accum.tabPanelProps,
           [tabLabel]: {
             id: `${tabLabelNoSpaces}-tabpanel`,
             "aria-labelledby": `${tabLabelNoSpaces}-tab`,
-            role: "tabpanel"
-          }
-        }
+            role: "tabpanel",
+          },
+        },
       };
     },
     {
       tabProps: {},
-      tabPanelProps: {}
+      tabPanelProps: {},
     } as Pick<GetTabA11yPropsFnReturnType<T>, "tabProps" | "tabPanelProps">
   ),
   tabsWrapperProps: {
-    "aria-label": tabsWrapperLabel
-  }
+    "aria-label": tabsWrapperLabel,
+  },
 });

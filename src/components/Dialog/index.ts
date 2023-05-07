@@ -1,2 +1,2 @@
-export { Dialog } from "./Dialog";
-export { useDialog } from "./useDialog";
+export * from "./Dialog";
+export * from "./useDialog";

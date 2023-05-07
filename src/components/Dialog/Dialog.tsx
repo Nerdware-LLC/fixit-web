@@ -1,11 +1,12 @@
 import { styled } from "@mui/material/styles";
-import MuiDialog, { type DialogProps } from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
+import { backdropClasses } from "@mui/material/Backdrop";
+import Button, { buttonClasses } from "@mui/material/Button";
+import MuiDialog, { type DialogProps as MuiDialogProps } from "@mui/material/Dialog";
+import DialogActions, { dialogActionsClasses } from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
+import DialogTitle from "@mui/material/DialogTitle";
 import { SlideTransition } from "@components/Transitions/SlideTransition";
-import { DialogButton } from "./DialogButton";
 import { useDialog } from "./useDialog";
 
 /**
@@ -21,29 +22,20 @@ export const Dialog = ({
   acceptLabel = "OK",
   cancelLabel = "CANCEL",
   ...containerProps
-}: {
-  isVisible: boolean;
-  title: React.ReactNode;
-  message?: React.ReactNode;
-  children?: React.ReactNode;
-  handleAccept?: React.MouseEventHandler<HTMLButtonElement>;
-  handleCancel?: React.MouseEventHandler<HTMLButtonElement>;
-  acceptLabel?: React.ReactNode;
-  cancelLabel?: React.ReactNode;
-} & Omit<DialogProps, "open">) => (
-  <StyledDialog
+}: DialogProps) => (
+  <StyledMuiDialog
     open={isVisible}
     onClose={handleCancel}
-    aria-labelledby="dialog-title"
-    aria-describedby="dialog-message"
+    aria-labelledby={dialogElementIDs.title}
+    aria-describedby={dialogElementIDs.message}
     TransitionComponent={SlideTransition}
     fullWidth
     {...containerProps}
   >
-    <DialogTitle id="dialog-title" color="secondary">
+    <DialogTitle id={dialogElementIDs.title} color="secondary">
       {title}
     </DialogTitle>
-    <DialogContent id="dialog-message" dividers>
+    <DialogContent id={dialogElementIDs.message} dividers>
       {typeof message === "string" ? (
         <DialogContentText color="action">{message}</DialogContentText>
       ) : (
@@ -52,29 +44,65 @@ export const Dialog = ({
     </DialogContent>
     <DialogActions>
       {handleCancel && (
-        <DialogButton onClick={handleCancel} variant="outlined">
+        <Button onClick={handleCancel} variant="outlined">
           {cancelLabel}
-        </DialogButton>
+        </Button>
       )}
-      <DialogButton onClick={handleAccept}>{acceptLabel}</DialogButton>
+      <Button onClick={handleAccept}>{acceptLabel}</Button>
     </DialogActions>
-  </StyledDialog>
+  </StyledMuiDialog>
 );
 
 Dialog.use = useDialog;
 
-const StyledDialog = styled(MuiDialog)(({ theme }) => ({
-  "& > .MuiBackdrop-root": {
-    backdropFilter: "blur( 5px )"
+export const dialogElementIDs = {
+  title: "dialog-title",
+  message: "dialog-message",
+};
+
+const StyledMuiDialog = styled(MuiDialog)(({ theme }) => ({
+  [`& > .${backdropClasses.root}`]: {
+    backdropFilter: "blur( 5px )",
   },
 
-  "& .MuiDialogActions-root": {
+  [`& .${dialogActionsClasses.root}`]: {
     padding: "1rem",
     gap: "1rem",
     justifyContent: theme.variables.isMobilePageLayout ? "space-evenly" : "flex-end",
 
-    "& > button": {
-      margin: "0 !important"
-    }
-  }
+    [`& > .${buttonClasses.root}`]: {
+      height: "2.5rem",
+      minWidth: "5.5rem",
+      margin: "0 !important",
+      padding: "0.75rem",
+      paddingBottom: "0.5rem",
+      fontSize: "1rem",
+      lineHeight: "1rem",
+      fontWeight: "bold !important",
+
+      "@media (max-width: 550px)": {
+        maxWidth: "40%",
+        fontWeight: 500,
+        whiteSpace: "pre-line",
+      },
+
+      "@media (max-width: 375px)": {
+        height: "3.5rem",
+        padding: 0,
+        paddingTop: "0.25rem",
+        fontSize: "0.9rem",
+      },
+    },
+  },
 }));
+
+export type DialogProps = {
+  isVisible: boolean;
+  title: React.ReactNode;
+  message?: React.ReactNode;
+  children?: React.ReactNode;
+  handleAccept?: React.MouseEventHandler<HTMLButtonElement>;
+  handleCancel?: React.MouseEventHandler<HTMLButtonElement>;
+  acceptLabel?: React.ReactNode;
+  cancelLabel?: React.ReactNode;
+} & Omit<MuiDialogProps, "open">;

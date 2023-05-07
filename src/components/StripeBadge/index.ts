@@ -1,1 +1,1 @@
-export { StripeBadge } from "./StripeBadge";
+export * from "./StripeBadge";
