@@ -7,5 +7,5 @@ export const logger = {
   info: getLogFnFromTemplate("INFO"),
   error: getLogFnFromTemplate("ERROR"),
   gql: getLogFnFromTemplate("GQL"),
-  gqlError: getLogFnFromTemplate("GQL-ERROR")
+  gqlError: getLogFnFromTemplate("GQL-ERROR"),
 };
