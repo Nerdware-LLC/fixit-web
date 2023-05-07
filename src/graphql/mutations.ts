@@ -1,11 +1,13 @@
-import * as contactMutations from "./contact/mutations";
-import * as invoiceMutations from "./invoice/mutations";
-import * as profileMutations from "./profile/mutations";
-import * as workOrderMutations from "./workOrder/mutations";
+import * as contactMutations from "./Contact/mutations";
+import * as inviteMutations from "./Invite/mutations";
+import * as invoiceMutations from "./Invoice/mutations";
+import * as profileMutations from "./Profile/mutations";
+import * as workOrderMutations from "./WorkOrder/mutations";
 
 export const MUTATIONS = {
   ...contactMutations,
+  ...inviteMutations,
   ...invoiceMutations,
   ...profileMutations,
-  ...workOrderMutations
+  ...workOrderMutations,
 };

@@ -1,21 +1,19 @@
-import * as contactFragments from "./contact/fragments";
-import * as fixitUserFragments from "./fixitUser/fragments";
-import * as invoiceFragments from "./invoice/fragments";
-import * as phoneContactFragments from "./phoneContact/fragments";
-import * as profileFragments from "./profile/fragments";
-import * as stripeConnectAccountFragments from "./stripeConnectAccount/fragments";
-import * as userFragments from "./user/fragments";
-import * as userSubscriptionFragments from "./userSubscription/fragments";
-import * as workOrderFragments from "./workOrder/fragments";
+import * as contactFragments from "./Contact/fragments";
+import * as fixitUserFragments from "./FixitUser/fragments";
+import * as invoiceFragments from "./Invoice/fragments";
+import * as profileFragments from "./Profile/fragments";
+import * as stripeConnectAccountFragments from "./StripeConnectAccount/fragments";
+import * as userFragments from "./User/fragments";
+import * as userSubscriptionFragments from "./UserSubscription/fragments";
+import * as workOrderFragments from "./WorkOrder/fragments";
 
 export const FRAGMENTS = {
   ...contactFragments,
   ...fixitUserFragments,
   ...invoiceFragments,
-  ...phoneContactFragments,
   ...profileFragments,
   ...stripeConnectAccountFragments,
   ...userFragments,
   ...userSubscriptionFragments,
-  ...workOrderFragments
+  ...workOrderFragments,
 };
