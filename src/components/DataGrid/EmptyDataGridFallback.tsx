@@ -27,7 +27,6 @@ export const EmptyDataGridFallback = ({
 );
 
 const StyledText = styled(Text)(({ theme: { palette } }) => ({
-  // fontSize: "0.95rem", // TODO what's the default tooltip fontSize? (a bit too small maybe)
   lineHeight: "1.25rem",
 
   "& > b": {
