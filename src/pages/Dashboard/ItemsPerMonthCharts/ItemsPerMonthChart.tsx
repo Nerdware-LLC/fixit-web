@@ -61,7 +61,10 @@ export const ItemsPerMonthChart = ({
             axis: "y",
             type: "linear",
             suggestedMin: 0,
-            max: yAxisMaximum + 1, // + 1 adds a little extra space at the top
+            max: Math.max(
+              yAxisMaximum + 1, // + 1 adds a little extra space at the top
+              6 // anything less than 6 causes the tick-labels to render as decimals
+            ),
             ...scalesSharedConfigs,
           },
         },
