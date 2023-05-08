@@ -16,7 +16,7 @@ export const DevModeTools = ({
   children,
   label = "Open Dev Mode Tools",
   ...buttonProps
-}: { label?: React.ReactNode } & Omit<ButtonProps, "id" | "onClick">) => {
+}: DevModeToolsProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const client = useApolloClient();
 
@@ -197,3 +197,5 @@ const StyledPaper = styled(Paper)({
     },
   },
 });
+
+export type DevModeToolsProps = { label?: React.ReactNode } & Omit<ButtonProps, "id" | "onClick">;
