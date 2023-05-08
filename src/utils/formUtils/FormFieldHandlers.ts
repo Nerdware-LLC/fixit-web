@@ -2,8 +2,6 @@ import { wasArrayChanged } from "./wasArrayChanged";
 import { wasDateTimeChanged } from "./wasDateTimeChanged";
 import type { OnSubmitFieldMutationProcessorFn } from "./types";
 
-// TODO could add generic type param, run it thru `FormValues` generic, have methods use/return that.
-
 export class FormFieldHandlers<
   FormValues extends Record<string, any>,
   ValuesForMutation extends Record<string, any> = FormValues
