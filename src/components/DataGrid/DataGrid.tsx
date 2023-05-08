@@ -184,7 +184,7 @@ const StyledMuiDataGrid = styled(MuiDataGrid)(({ theme: { palette, variables } }
         // Avatar comps in cells (using our custom className):
         [`& .${avatarClassNames.root}`]: {
           "& .MuiTypography-root": {
-            fontSize: "0.875rem", // TODO this will effect initial-char avatars AND displayName - is that ok?
+            fontSize: "0.875rem",
           },
         },
       },
