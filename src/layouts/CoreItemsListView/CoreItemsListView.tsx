@@ -120,8 +120,6 @@ export const CoreItemsListView = ({
           slotProps={{
             toolbar: {
               csvOptions: {
-                // TODO this sets the timestamp in the filename to when this RENDERS.
-                // See if we can generate the timestamp when PRINT is called instead.
                 fileName: `Fixit_${viewHeader}_${new Date().toLocaleString()}`
                   .replace(/\s/g, "_") // convert spaces to underscores
                   .replace(/,/g, ""), // rm the comma in toLocaleString output
