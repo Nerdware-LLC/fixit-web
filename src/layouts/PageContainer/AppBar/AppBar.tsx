@@ -76,6 +76,7 @@ const StyledMuiAppBar = styled(MuiAppBar)(({ theme }) => {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    gap: "1.5rem",
     borderWidth: "0 0 1px 0",
     borderStyle: "solid",
     borderColor: theme.palette.divider,

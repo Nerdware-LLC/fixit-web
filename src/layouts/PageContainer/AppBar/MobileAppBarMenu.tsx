@@ -42,7 +42,7 @@ export const MobileAppBarMenu = () => {
           <CloseIcon />
         </IconButton>
       ) : isAccountActive === true ? (
-        <UserAvatar onClick={handleOpen} style={{ marginLeft: "auto" }} />
+        <UserAvatar onClick={handleOpen} />
       ) : (
         <IconButton onClick={handleOpen}>
           <MenuIcon
@@ -63,7 +63,7 @@ export const MobileAppBarMenu = () => {
       <StyledMobileModalContentBox open={isModalOpen} onClose={handleClose}>
         {menuOptions.map(({ label, handleClick }) => (
           <div
-            key={`MobileMenu:Btn:${label}`}
+            key={label}
             className={mobileAppBarMenuClassNames.mobileMenuBtnBox}
             onClick={handleClick}
           >

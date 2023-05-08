@@ -50,20 +50,19 @@ export const desktopAppBarMenuClassNames = {
 };
 
 const StyledDiv = styled("div")(({ theme }) => ({
-  position: "relative",
+  position: "relative", // so descendents can abs-position from here
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-  padding: "1px 1rem 0 1rem",
+  gap: "inherit",
+  paddingTop: "1px",
 
   [`& > .${desktopAppBarMenuClassNames.rrdLinksContainer}`]: {
     display: "flex",
-    marginRight: "0.5rem",
+    gap: "inherit",
 
     [`& .${desktopAppBarMenuClassNames.rrdLink}`]: {
-      margin: "0 0.75rem",
-      padding: "0.75rem",
-      paddingTop: "0.8rem",
+      padding: "0.8rem 0.75rem 0.75rem 0.75rem",
       color: theme.palette.text.primary,
       fontSize: "0.9rem",
       fontWeight: "bold",
@@ -74,10 +73,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
     },
   },
 
-  [`& .${avatarClasses.root}`]: {
-    marginLeft: "1.5rem",
-    "&:hover": {
-      cursor: "pointer !important",
-    },
+  [`& .${avatarClasses.root}:hover`]: {
+    cursor: "pointer !important",
   },
 }));
