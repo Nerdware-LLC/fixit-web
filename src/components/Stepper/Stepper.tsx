@@ -112,8 +112,6 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
           - AltLabel IS used, so StepConnectors are direct children of the Steps, and siblings of StepLabel-roots.
       */
 
-      // TODO replace isMobilePageLayout with VERTICAL/HORIZONTAL selectors
-
       // STEPS
       [`& > .${classNames.step.root}`]: {
         // Set a min-width for steps in horizontal layout
