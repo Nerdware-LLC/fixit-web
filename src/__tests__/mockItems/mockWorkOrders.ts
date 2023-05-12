@@ -16,12 +16,12 @@ const createMockWorkOrder = ({
   assignedTo = null,
 }: Pick<WorkOrder, "createdBy" | "assignedTo">): WorkOrder & { __typename: "WorkOrder" } => {
   // Ensure WO is not older than the createdBy User account; place WO max age at 365 days (any older and it won't show on DashboardPage)
-  const woCreatedAt = faker.date.recent(
-    Math.min(
+  const woCreatedAt = faker.date.recent({
+    days: Math.min(
       365,
       tryToGetItemAgeInDays(createdBy) ?? 365 // <-- how many days old User account is
-    )
-  );
+    ),
+  });
 
   const workOrderID = `WO#${createdBy.id}#${Math.floor(woCreatedAt.getTime() / 1000)}`;
 
@@ -34,10 +34,10 @@ const createMockWorkOrder = ({
 
     location: {
       country: faker.helpers.maybe(() => "USA") ?? null,
-      region: faker.address.state(),
-      city: faker.address.city(),
-      streetLine1: faker.address.streetAddress(),
-      streetLine2: faker.helpers.maybe(() => faker.address.secondaryAddress()) ?? null,
+      region: faker.location.state(),
+      city: faker.location.city(),
+      streetLine1: faker.location.streetAddress(),
+      streetLine2: faker.helpers.maybe(() => faker.location.secondaryAddress()) ?? null,
     },
 
     // If `assignedTo` was not provided, ensure `status` is "UNASSIGNED", else filter it out.
@@ -57,31 +57,39 @@ const createMockWorkOrder = ({
         between 0-1 which is then multiplied by 50, resulting in 0-50 Checklist Items.*/
         [...Array(Math.floor(Math.random() * 50))].map(() => ({
           // prettier-ignore
-          id: `${workOrderID}#CHECKLIST_ITEM#${Math.floor(faker.date.between(woCreatedAt, new Date()).getTime() / 1000)}`,
+          id: `${workOrderID}#CHECKLIST_ITEM#${Math.floor(faker.date.between({ from: woCreatedAt, to: new Date() }).getTime() / 1000)}`,
           description: makeFake.textUpToNumChars(250),
           isCompleted: faker.datatype.boolean(),
         }))
       ) ?? null,
 
-    entryContact: faker.helpers.maybe(() => faker.name.fullName()) ?? null,
+    entryContact: faker.helpers.maybe(() => faker.person.fullName()) ?? null,
 
     entryContactPhone: faker.helpers.maybe(() => makeFake.phone()) ?? null,
 
     // date between 60 days ago ("overdue"), and 60 days ahead
     dueDate:
-      faker.helpers.maybe(() => faker.date.between(faker.date.recent(60), faker.date.soon(60))) ??
-      null,
+      faker.helpers.maybe(() =>
+        faker.date.between({
+          from: faker.date.recent({ days: 60 }),
+          to: faker.date.soon({ days: 60 }),
+        })
+      ) ?? null,
 
     // date between 60 days ago ("overdue"), and 60 days ahead
     scheduledDateTime:
-      faker.helpers.maybe(() => faker.date.between(faker.date.recent(60), faker.date.soon(60))) ??
-      null,
+      faker.helpers.maybe(() =>
+        faker.date.between({
+          from: faker.date.recent({ days: 60 }),
+          to: faker.date.soon({ days: 60 }),
+        })
+      ) ?? null,
 
     contractorNotes: faker.helpers.maybe(() => makeFake.textUpTo255chars()) ?? null,
 
     createdAt: woCreatedAt,
 
-    updatedAt: faker.date.between(woCreatedAt, new Date()),
+    updatedAt: faker.date.between({ from: woCreatedAt, to: new Date() }),
   };
 };
 

@@ -14,12 +14,12 @@ const createMockInvoice = ({
   __typename: "Invoice";
 } => {
   // Ensure INV is not older than the createdBy User account; place INV max age at 365 days (any older and it won't show on DashboardPage)
-  const invCreatedAt = faker.date.recent(
-    Math.min(
+  const invCreatedAt = faker.date.recent({
+    days: Math.min(
       365,
       tryToGetItemAgeInDays(createdBy) ?? 365 // <-- how many days old User account is
-    )
-  );
+    ),
+  });
 
   /* status will be OPEN, CLOSED, or DISPUTED. Most IRL invoices will be either OPEN
   or CLOSED, however, so to ensure DISPUTED is not over-represented in the mock data,
@@ -69,12 +69,12 @@ const createMockInvoice = ({
     */
     stripePaymentIntentID:
       // prettier-ignore
-      faker.helpers.maybe(() => `pi_${faker.random.alphaNumeric(15)}`, { probability: invoiceStatus === "CLOSED" ? 1 : 0.5, })
+      faker.helpers.maybe(() => `pi_${faker.string.alphanumeric(15)}`, { probability: invoiceStatus === "CLOSED" ? 1 : 0.5, })
       ?? null,
 
     workOrder,
     createdAt: invCreatedAt,
-    updatedAt: faker.date.between(invCreatedAt, new Date()),
+    updatedAt: faker.date.between({ from: invCreatedAt, to: new Date() }),
   };
 };
 

@@ -6,7 +6,7 @@ import type { User } from "@graphql/types";
 const createMockUser = (overrides: Partial<User> = {}): User & { __typename: "User" } => {
   const userID = makeFake.userID(overrides);
   const handle = makeFake.userHandle(overrides);
-  const userCreatedAt = overrides?.createdAt ?? faker.date.past(3);
+  const userCreatedAt = overrides?.createdAt ?? faker.date.past({ years: 3 });
 
   return {
     __typename: "User",
@@ -18,22 +18,22 @@ const createMockUser = (overrides: Partial<User> = {}): User & { __typename: "Us
 
     expoPushToken:
       overrides?.expoPushToken ??
-      faker.helpers.maybe(() => `expo-${faker.random.alphaNumeric(10)}`),
+      faker.helpers.maybe(() => `expo-${faker.string.alphanumeric(10)}`),
 
     profile: makeFake.userProfile(overrides, handle),
 
-    stripeCustomerID: overrides?.stripeCustomerID ?? `customer_${faker.random.alphaNumeric(10)}`,
+    stripeCustomerID: overrides?.stripeCustomerID ?? `customer_${faker.string.alphanumeric(10)}`,
 
     stripeConnectAccount: faker.helpers.maybe(
       () => ({
-        id: `account_${faker.random.alphaNumeric(12)}`,
+        id: `account_${faker.string.alphanumeric(12)}`,
         detailsSubmitted: faker.datatype.boolean(),
         chargesEnabled: faker.datatype.boolean(),
         payoutsEnabled: faker.datatype.boolean(),
         // if User.createdAt is defined, use same value here
         ...(userCreatedAt && {
           createdAt: userCreatedAt,
-          updatedAt: faker.date.recent(150), // within 150 days
+          updatedAt: faker.date.recent({ days: 150 }),
         }),
         // merge possible SCA override values
         ...(overrides?.stripeConnectAccount && overrides.stripeConnectAccount),
@@ -48,17 +48,17 @@ const createMockUser = (overrides: Partial<User> = {}): User & { __typename: "Us
         this value is converted to a unix timestamp for the Sub ID.  */
         const subCreatedAt = faker.helpers.arrayElement([
           ...(userCreatedAt ? [userCreatedAt] : []),
-          faker.date.soon(365, userCreatedAt), // userCreatedAt = faker ref date
+          faker.date.soon({ days: 365, refDate: userCreatedAt }),
         ]);
 
         return {
           id: `SUBSCRIPTION#${userID}#${Math.floor(subCreatedAt.getTime() / 1000)}`,
-          currentPeriodEnd: faker.date.soon(150),
-          productID: `product_${faker.random.alphaNumeric(10)}`,
-          priceID: `price_${faker.random.alphaNumeric(10)}`,
+          currentPeriodEnd: faker.date.soon({ days: 150 }),
+          productID: `product_${faker.string.alphanumeric(10)}`,
+          priceID: `price_${faker.string.alphanumeric(10)}`,
           status: faker.helpers.arrayElement(USER_SUBSCRIPTION_STATUSES),
           createdAt: subCreatedAt,
-          updatedAt: faker.date.recent(150),
+          updatedAt: faker.date.recent({ days: 150 }),
           // merge possible subscription override values
           ...(overrides?.subscription && overrides.subscription),
         };
@@ -67,7 +67,7 @@ const createMockUser = (overrides: Partial<User> = {}): User & { __typename: "Us
     ),
 
     createdAt: userCreatedAt,
-    updatedAt: faker.date.recent(150, userCreatedAt), // within 150 days of userCreatedAt
+    updatedAt: faker.date.recent({ days: 150, refDate: userCreatedAt }),
   };
 };
 

@@ -7,7 +7,7 @@ const createMockContact = (
   overrides: Partial<Contact> & { userID?: string } = {}
 ): Contact & { __typename: "Contact" } => {
   const handle = makeFake.userHandle(overrides);
-  const createdAt = overrides?.createdAt ?? faker.date.recent(365);
+  const createdAt = overrides?.createdAt ?? faker.date.recent({ days: 365 });
 
   return {
     __typename: "Contact",
@@ -22,7 +22,7 @@ const createMockContact = (
     phone: makeFake.phone(overrides),
     profile: makeFake.userProfile(overrides, handle),
     createdAt,
-    updatedAt: overrides?.updatedAt ?? faker.date.between(createdAt, new Date()),
+    updatedAt: overrides?.updatedAt ?? faker.date.between({ from: createdAt, to: new Date() }),
   };
 };
 

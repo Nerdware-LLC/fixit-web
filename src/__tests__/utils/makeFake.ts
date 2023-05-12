@@ -22,7 +22,7 @@ export const makeFake = {
       ? override.id
       : typeof override === "string"
       ? override
-      : `USER#${faker.datatype.uuid()}`;
+      : `USER#${faker.string.uuid()}`;
   },
 
   /**
@@ -59,11 +59,11 @@ export const makeFake = {
       type: loginType,
       ...(loginType === "LOCAL"
         ? {
-            passwordHash: overrides?.passwordHash ?? faker.random.alphaNumeric(15),
+            passwordHash: overrides?.passwordHash ?? faker.string.alphanumeric(15),
           }
         : {
-            googleID: overrides?.googleID ?? `googleID-${faker.random.alphaNumeric(10)}`,
-            googleAccessToken: overrides?.googleAccessToken ?? `googleAccessToken-${faker.random.alphaNumeric(10)}`, // prettier-ignore
+            googleID: overrides?.googleID ?? `googleID-${faker.string.alphanumeric(10)}`,
+            googleAccessToken: overrides?.googleAccessToken ?? `googleAccessToken-${faker.string.alphanumeric(10)}`, // prettier-ignore
           }),
     };
   },
@@ -76,9 +76,9 @@ export const makeFake = {
     overrides = overrides?.profile ?? overrides;
 
     const givenName =
-      overrides?.givenName || (faker.helpers.maybe(() => faker.name.firstName()) ?? null);
+      overrides?.givenName || (faker.helpers.maybe(() => faker.person.firstName()) ?? null);
     const familyName =
-      overrides?.familyName || (faker.helpers.maybe(() => faker.name.lastName()) ?? null);
+      overrides?.familyName || (faker.helpers.maybe(() => faker.person.lastName()) ?? null);
     const businessName =
       overrides?.businessName || (faker.helpers.maybe(() => faker.company.name()) ?? null);
 
