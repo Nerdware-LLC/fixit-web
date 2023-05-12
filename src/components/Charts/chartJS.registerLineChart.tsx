@@ -5,7 +5,7 @@ import {
   LineController,
   // SCALES
   LinearScale,
-  CategoryScale,
+  TimeSeriesScale,
   // ELEMENTS
   LineElement,
   PointElement,
@@ -16,13 +16,15 @@ import {
   Filler,
   Legend,
 } from "chart.js";
+// Required for time/timeseries scales:
+import "chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm";
 
 ChartJS.register(
   // CONTROLLER
   LineController,
   // SCALES
   LinearScale,
-  CategoryScale,
+  TimeSeriesScale,
   // ELEMENTS
   LineElement,
   PointElement,
