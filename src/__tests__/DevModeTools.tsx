@@ -76,12 +76,12 @@ export const DevModeTools = ({
             {`✨ `} Dev Mode Tools {` ✨`}
           </Text>
           <Divider flexItem />
-          <div>
-            <div>
+          <div className={classNames.contentRoot}>
+            <div className={classNames.section}>
               <Text variant="h6">Manage Mocked Items in Cache:</Text>
-              <div>
+              <div className={classNames.sectionContent}>
                 {HANDLE_MANAGE_CACHE_ACTIONS.map((action) => (
-                  <div key={action}>
+                  <div key={action} className={classNames.actionBtnsGrpParentContainer}>
                     <FormLabel>{action} Mocks</FormLabel>
                     <ActionsButtonGroup
                       options={HANDLE_MANAGE_CACHE_TARGETS.map((target) => ({
@@ -131,11 +131,19 @@ const ariaElementIDs = {
   modalLabel: "dev-mode-tools-modal-label",
 };
 
+const classNames = {
+  contentRoot: "dev-mode-tools-content-root",
+  section: "dev-mode-tools-section",
+  sectionContent: "dev-mode-tools-section-content",
+  actionBtnsGrpParentContainer: "dev-mode-tools-action-btns-grp-parent-container",
+};
+
 const StyledPaper = styled(Paper)({
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
+  minWidth: "clamp(328px, 35vw, 26rem)",
   border: "2px solid #000",
   borderRadius: "0.35rem",
   padding: "1rem 0",
@@ -157,7 +165,7 @@ const StyledPaper = styled(Paper)({
   },
 
   // Divs, direct child div contains all "sections" of the modal:
-  "& > div": {
+  [`& > div.${classNames.contentRoot}`]: {
     width: "100%",
     display: "flex",
     gap: "1rem",
@@ -167,30 +175,33 @@ const StyledPaper = styled(Paper)({
     padding: "0 1rem",
 
     // Grand-child divs are "section" containers:
-    "& > div": {
+    [`& > div.${classNames.section}`]: {
       width: "100%",
       display: "flex",
       gap: "0.5rem",
       flexDirection: "column",
 
-      // section titles:
-      [`& > .${typographyClasses.root}`]: {
-        //
-      },
-
-      // For the 1st section, child div contains 2 ActionButtonGroups:
-      "&:first-of-type > div": {
-        minWidth: "35vw",
+      // 1st section's content container:
+      [`&:first-of-type > div.${classNames.sectionContent}`]: {
+        width: "100%",
         display: "flex",
-        justifyContent: "space-around",
+        gap: "1rem",
+        justifyContent: "center",
 
-        "& > div": {
-          //
-          [`& > .${formLabelClasses.root}`]: {
-            display: "block",
-          },
-          [`& > .${buttonGroupClasses.root} > button:first-of-type`]: {
-            width: "8rem",
+        [`& > div.${classNames.actionBtnsGrpParentContainer}`]: {
+          width: "100%",
+          maxWidth: "10rem",
+          display: "flex",
+          flexDirection: "column",
+
+          [`& > .${formLabelClasses.root}`]: { display: "block" },
+          [`& > .${buttonGroupClasses.root}`]: {
+            width: "100%",
+            [`& > button:first-of-type`]: {
+              minWidth: "5rem",
+              width: "clamp(5rem, 100%, 10rem)",
+              maxWidth: "10rem",
+            },
           },
         },
       },
