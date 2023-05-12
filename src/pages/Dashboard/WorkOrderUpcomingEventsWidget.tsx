@@ -12,8 +12,9 @@ import ConstructionIcon from "@mui/icons-material/Construction";
 import EventIcon from "@mui/icons-material/Event";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import { EmptyListFallback } from "@components/HelpInfo";
-import { useDashboardDataContext, type WorkOrderWithUpcomingEvent } from "./DashboardDataContext";
+import { useDashboardDataContext, type UpcomingEvent } from "./DashboardDataContext";
 import { SmallWidgetLayout } from "./SmallWidgetLayout";
+import type { WorkOrder } from "@graphql/types";
 
 export const WorkOrderUpcomingEventsWidget = () => {
   const nav = useNavigate();
@@ -143,3 +144,5 @@ const StyledDiv = styled("div", {
     },
   },
 }));
+
+type WorkOrderWithUpcomingEvent = WorkOrder & UpcomingEvent;
