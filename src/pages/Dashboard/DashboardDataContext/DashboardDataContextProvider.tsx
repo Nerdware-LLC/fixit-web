@@ -1,36 +1,15 @@
 import { useQuery } from "@apollo/client/react/hooks";
 import { QUERIES } from "@graphql/queries";
 import { DashboardDataContext } from "./DashboardDataContext";
-import { ItemsDataReducer } from "./ItemsDataReducer";
-import {
-  workOrdersStatusCountDataParser,
-  workOrdersPerMonthCountDataParser,
-  invoicesStatusCountDataParser,
-  invoicesPerMonthCountDataParser,
-  workOrderUpcomingEventsDataParser,
-  openInvoiceAmountTotalsDataParser,
-} from "./itemDataParsers";
-import type { WorkOrder, Invoice } from "@graphql/types";
-
-const workOrdersDataReducer = new ItemsDataReducer<WorkOrder>([
-  workOrdersStatusCountDataParser,
-  workOrdersPerMonthCountDataParser,
-  workOrderUpcomingEventsDataParser,
-]);
-
-const invoicesDataReducer = new ItemsDataReducer<Invoice>([
-  invoicesStatusCountDataParser,
-  invoicesPerMonthCountDataParser,
-  openInvoiceAmountTotalsDataParser,
-]);
+import { workOrdersDataReducer, invoicesDataReducer } from "./itemsDataReducers";
 
 export const DashboardDataContextProvider = ({ children }: { children: React.ReactNode }) => {
   const { data: { myWorkOrders } = {} } = useQuery(QUERIES.MY_WORK_ORDERS, {
-    fetchPolicy: "cache-only", // FIXME
+    fetchPolicy: "cache-only", // FIXME rm cache-only fetchPolicy from MyWorkOrders query in DashboardDataContextProvider
   });
 
   const { data: { myInvoices } = {} } = useQuery(QUERIES.MY_INVOICES, {
-    fetchPolicy: "cache-only", // FIXME
+    fetchPolicy: "cache-only", // FIXME rm cache-only fetchPolicy from MyInvoices query in DashboardDataContextProvider
   });
 
   const itemsData = {
@@ -51,32 +30,20 @@ export const DashboardDataContextProvider = ({ children }: { children: React.Rea
       assignedToUser: itemsData.invoicesAssignedToUser.STATUS_COUNTS,
     },
     WorkOrdersPerMonthChart: {
-      createdByUser: Object.values(itemsData.workOrdersCreatedByUser.MONTH_COUNTS),
-      assignedToUser: Object.values(itemsData.workOrdersAssignedToUser.MONTH_COUNTS),
+      createdByUser: itemsData.workOrdersCreatedByUser.MONTH_COUNTS,
+      assignedToUser: itemsData.workOrdersAssignedToUser.MONTH_COUNTS,
     },
     InvoicesPerMonthChart: {
-      createdByUser: Object.values(itemsData.invoicesCreatedByUser.MONTH_COUNTS),
-      assignedToUser: Object.values(itemsData.invoicesAssignedToUser.MONTH_COUNTS),
+      createdByUser: itemsData.invoicesCreatedByUser.MONTH_COUNTS,
+      assignedToUser: itemsData.invoicesAssignedToUser.MONTH_COUNTS,
     },
     WorkOrderUpcomingEvents: {
-      createdByUser: itemsData.workOrdersCreatedByUser.WORK_ORDER_EVENTS.IN_NEXT_7_DAYS,
-      assignedToUser: itemsData.workOrdersAssignedToUser.WORK_ORDER_EVENTS.IN_NEXT_7_DAYS,
+      createdByUser: itemsData.workOrdersCreatedByUser.UPCOMING_EVENTS,
+      assignedToUser: itemsData.workOrdersAssignedToUser.UPCOMING_EVENTS,
     },
     OpenInvoiceAmountTotals: {
-      RECEIVABLE: {
-        TOTAL: itemsData.invoicesCreatedByUser.OPEN_INVOICE_TOTALS.AMOUNT,
-        AVERAGE: Math.round(
-          itemsData.invoicesCreatedByUser.OPEN_INVOICE_TOTALS.AMOUNT /
-            itemsData.invoicesCreatedByUser.STATUS_COUNTS.OPEN
-        ),
-      },
-      PAYABLE: {
-        TOTAL: itemsData.invoicesAssignedToUser.OPEN_INVOICE_TOTALS.AMOUNT,
-        AVERAGE: Math.round(
-          itemsData.invoicesAssignedToUser.OPEN_INVOICE_TOTALS.AMOUNT /
-            itemsData.invoicesAssignedToUser.STATUS_COUNTS.OPEN
-        ),
-      },
+      RECEIVABLE: itemsData.invoicesCreatedByUser.STATISTICS,
+      PAYABLE: itemsData.invoicesAssignedToUser.STATISTICS,
     },
   };
 
@@ -87,16 +54,16 @@ export const DashboardDataContextProvider = ({ children }: { children: React.Rea
       max value for both charts y-axis is determined here by the count object
       with the single largest y-axis value.  */
       yAxisMaximum: Math.max(
-        ...widgetData.WorkOrdersPerMonthChart.createdByUser,
-        ...widgetData.WorkOrdersPerMonthChart.assignedToUser,
-        ...widgetData.InvoicesPerMonthChart.createdByUser,
-        ...widgetData.InvoicesPerMonthChart.assignedToUser
+        ...Object.values(widgetData.WorkOrdersPerMonthChart.createdByUser),
+        ...Object.values(widgetData.WorkOrdersPerMonthChart.assignedToUser),
+        ...Object.values(widgetData.InvoicesPerMonthChart.createdByUser),
+        ...Object.values(widgetData.InvoicesPerMonthChart.assignedToUser)
       ),
     },
   };
 
   return (
-    <DashboardDataContext.Provider value={{ widgetData, widgetConfigs } as any}>
+    <DashboardDataContext.Provider value={{ widgetData, widgetConfigs }}>
       {children}
     </DashboardDataContext.Provider>
   );

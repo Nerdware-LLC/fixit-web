@@ -1,24 +1,34 @@
 import { createContext, useContext } from "react";
-import { workOrdersStatusCountDataParser, invoicesStatusCountDataParser } from "./itemDataParsers";
+import {
+  workOrdersPerStatusDataParser,
+  workOrdersPerMonthDataParser,
+  workOrderUpcomingEventsDataParser,
+  invoicesPerStatusDataParser,
+  invoicesPerMonthDataParser,
+  openInvoicesAmountTotalDataParser,
+} from "./itemsDataReducers";
 import type { WorkOrder, Invoice } from "@graphql/types";
-import type { ItemStatusCounter } from "./ItemDataParserClasses";
+import type {
+  ItemsPerStatusDataParserAccum,
+  ItemsPerMonthDataParserAccum,
+  ItemsStatisticsDataParserAccum,
+  UpcomingEventsDataParserAccum,
+} from "./ItemDataParsers";
 
 export const DashboardDataContext = createContext<{
   widgetData: {
     // status counters:
-    WorkOrdersByStatusCounter: ItemsSplitByOwnership<ItemStatusCounter<WorkOrder>>;
-    InvoicesByStatusCounter: ItemsSplitByOwnership<ItemStatusCounter<Invoice>>;
+    WorkOrdersByStatusCounter: ItemsSplitByOwnership<ItemsPerStatusDataParserAccum<WorkOrder>["STATUS_COUNTS"]>; // prettier-ignore
+    InvoicesByStatusCounter: ItemsSplitByOwnership<ItemsPerStatusDataParserAccum<Invoice>["STATUS_COUNTS"]>; // prettier-ignore
     // items per month:
-    WorkOrdersPerMonthChart: ItemsSplitByOwnership<number[]>;
-    InvoicesPerMonthChart: ItemsSplitByOwnership<number[]>;
+    WorkOrdersPerMonthChart: ItemsSplitByOwnership<ItemsPerMonthDataParserAccum["MONTH_COUNTS"]>;
+    InvoicesPerMonthChart: ItemsSplitByOwnership<ItemsPerMonthDataParserAccum["MONTH_COUNTS"]>;
     // work order dueDates/scheduledDateTimes within the next 7 days:
-    WorkOrderUpcomingEvents: ItemsSplitByOwnership<
-      Array<WorkOrder & { eventLabel: string; eventDate: Date }>
-    >;
+    WorkOrderUpcomingEvents: ItemsSplitByOwnership<UpcomingEventsDataParserAccum<WorkOrder>["UPCOMING_EVENTS"]>; // prettier-ignore
     // open invoice amount totals:
     OpenInvoiceAmountTotals: {
-      RECEIVABLE: { TOTAL: 0; AVERAGE: 0 };
-      PAYABLE: { TOTAL: 0; AVERAGE: 0 };
+      RECEIVABLE: ItemsStatisticsDataParserAccum["STATISTICS"];
+      PAYABLE: ItemsStatisticsDataParserAccum["STATISTICS"];
     };
   };
   widgetConfigs: {
@@ -29,28 +39,28 @@ export const DashboardDataContext = createContext<{
 }>({
   widgetData: {
     WorkOrdersByStatusCounter: {
-      createdByUser: workOrdersStatusCountDataParser.initialDataAccum.STATUS_COUNTS as any,
-      assignedToUser: workOrdersStatusCountDataParser.initialDataAccum.STATUS_COUNTS as any,
+      createdByUser: workOrdersPerStatusDataParser.initialDataAccum.STATUS_COUNTS,
+      assignedToUser: workOrdersPerStatusDataParser.initialDataAccum.STATUS_COUNTS,
     },
     InvoicesByStatusCounter: {
-      createdByUser: invoicesStatusCountDataParser.initialDataAccum.STATUS_COUNTS as any,
-      assignedToUser: invoicesStatusCountDataParser.initialDataAccum.STATUS_COUNTS as any,
+      createdByUser: invoicesPerStatusDataParser.initialDataAccum.STATUS_COUNTS,
+      assignedToUser: invoicesPerStatusDataParser.initialDataAccum.STATUS_COUNTS,
     },
     WorkOrdersPerMonthChart: {
-      createdByUser: [],
-      assignedToUser: [],
+      createdByUser: workOrdersPerMonthDataParser.initialDataAccum.MONTH_COUNTS,
+      assignedToUser: workOrdersPerMonthDataParser.initialDataAccum.MONTH_COUNTS,
     },
     InvoicesPerMonthChart: {
-      createdByUser: [],
-      assignedToUser: [],
+      createdByUser: invoicesPerMonthDataParser.initialDataAccum.MONTH_COUNTS,
+      assignedToUser: invoicesPerMonthDataParser.initialDataAccum.MONTH_COUNTS,
     },
     WorkOrderUpcomingEvents: {
-      createdByUser: [],
-      assignedToUser: [],
+      createdByUser: workOrderUpcomingEventsDataParser.initialDataAccum.UPCOMING_EVENTS,
+      assignedToUser: workOrderUpcomingEventsDataParser.initialDataAccum.UPCOMING_EVENTS,
     },
     OpenInvoiceAmountTotals: {
-      RECEIVABLE: { TOTAL: 0, AVERAGE: 0 },
-      PAYABLE: { TOTAL: 0, AVERAGE: 0 },
+      RECEIVABLE: openInvoicesAmountTotalDataParser.initialDataAccum.STATISTICS,
+      PAYABLE: openInvoicesAmountTotalDataParser.initialDataAccum.STATISTICS,
     },
   },
   widgetConfigs: {

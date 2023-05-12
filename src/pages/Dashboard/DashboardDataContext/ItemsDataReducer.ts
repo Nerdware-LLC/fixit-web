@@ -1,5 +1,6 @@
-import type { WorkOrder, Invoice } from "@graphql/types";
-import type { ItemDataParser } from "./ItemDataParserClasses";
+import { deepCopy } from "@utils/deepCopy";
+import type { UnionToIntersection, Simplify } from "type-fest";
+import type { ItemDataParser, DataParserItem, DataParserAccum } from "./ItemDataParsers";
 
 /**
  * The purpose of this class is to provide functions which can be used to reduce
@@ -15,78 +16,56 @@ import type { ItemDataParser } from "./ItemDataParserClasses";
  * To update these data points, each data set also must have a corresponding function
  * with an `Array.reduce()` signature which parses array items and updates its data
  * points in the data accumulator.
- *
- * // TODO update this jsdoc to reflect usage with ItemDataParser classes
  */
-export class ItemsDataReducer<TItem extends WorkOrder | Invoice> {
-  initialDataAccum: Record<string, Record<string, any>>;
-  reduceItems: (arrayOfItems: Array<TItem>) => Record<string, Record<string, any>>;
+export class ItemsDataReducer<
+  TItem extends DataParserItem,
+  TDataParsers extends Array<ItemDataParser<TItem, DataParserAccum>>
+> {
+  // INSTANCE MEMBERS
+  readonly initialDataAccum: CombinedReducerAccum<TItem, TDataParsers>;
+  readonly reduceItems: (arrayOfItems: Array<TItem>) => CombinedReducerAccum<TItem, TDataParsers>;
 
-  constructor(arrayOfItemDataParsers: Array<InstanceType<typeof ItemDataParser<TItem>>>) {
-    /* Combine all initialDataAccum objects into a single accum obj,
-    and push all dataAccumUpdater functions into a single array.  */
-
+  constructor(arrayOfItemDataParsers: TDataParsers) {
+    // Combine all `initialDataAccum`s and `dataAccumUpdater`s
     const { combinedInitialDataAccum, arrayOfDataAccumUpdaterFns } = arrayOfItemDataParsers.reduce<{
-      combinedInitialDataAccum: Merge<(typeof arrayOfItemDataParsers)[number]["initialDataAccum"]>;
-      arrayOfDataAccumUpdaterFns: Array<
-        (typeof arrayOfItemDataParsers)[number]["dataAccumUpdater"]
-      >;
+      combinedInitialDataAccum: CombinedReducerAccum<TItem, TDataParsers>;
+      arrayOfDataAccumUpdaterFns: Array<TDataParsers[number]["dataAccumUpdater"]>;
     }>(
-      (accum, itemDataParser) => {
+      (accum, itemDataParser) => ({
         // Update combinedInitialDataAccum
-        accum.combinedInitialDataAccum = {
+        combinedInitialDataAccum: {
           ...accum.combinedInitialDataAccum,
           ...itemDataParser.initialDataAccum,
-        };
-
+        },
         // Update arrayOfDataAccumUpdaterFns
-        accum.arrayOfDataAccumUpdaterFns.push(itemDataParser.dataAccumUpdater);
-
-        return accum;
-      },
-      { combinedInitialDataAccum: {}, arrayOfDataAccumUpdaterFns: [] }
+        arrayOfDataAccumUpdaterFns: [
+          ...accum.arrayOfDataAccumUpdaterFns,
+          itemDataParser.dataAccumUpdater,
+        ],
+      }),
+      {
+        combinedInitialDataAccum: {} as CombinedReducerAccum<TItem, TDataParsers>,
+        arrayOfDataAccumUpdaterFns: [],
+      }
     );
 
     this.initialDataAccum = { ...combinedInitialDataAccum };
-    this.reduceItems = (
-      arrayOfItems: Array<TItem>
-    ): Merge<(typeof arrayOfItemDataParsers)[number]["initialDataAccum"]> => {
-      // To ensure returned object isn't referencing an existing obj, make a new data accum
-      const newDataAccum = Object.fromEntries(
-        Object.entries(this.initialDataAccum).map(([dataParserKey, dataParserValuesObj]) => [
-          dataParserKey,
-          Object.fromEntries(
-            Object.entries(dataParserValuesObj).map(([key, value]) => [
-              key,
-              typeof value === "number" ? 0 : Array.isArray(value) ? [] : {},
-            ])
-          ),
-        ])
+    this.reduceItems = (arrayOfItems) => {
+      return arrayOfItems.reduce(
+        (itemsDataAccum, item, index, itemsArray) => {
+          // For each item, each accum-updater function is called
+          arrayOfDataAccumUpdaterFns.forEach((dataAccumUpdater) => {
+            itemsDataAccum = dataAccumUpdater(itemsDataAccum, item, index, itemsArray);
+          });
+          return itemsDataAccum;
+        },
+        deepCopy(this.initialDataAccum) // <-- deepCopy ensures fresh dataAccum for each render
       );
-      // Call reduce with init accum set to `newDataAccum`
-      return arrayOfItems.reduce((itemsDataAccum, item) => {
-        // For each item, each accum-updater function is called
-        arrayOfDataAccumUpdaterFns.forEach((dataAccumUpdater) => {
-          itemsDataAccum = dataAccumUpdater(itemsDataAccum, item);
-          /* The array of fns could be reduced as well since each fn returns the
-          accum, but nested reducers made this harder to parse at a glance.   */
-        });
-        return itemsDataAccum;
-      }, newDataAccum);
     };
   }
 }
 
-type AllKeys<T> = T extends any ? keyof T : never;
-
-type PickType<Obj, Keys extends AllKeys<Obj>> = Obj extends Record<Keys, any>
-  ? Obj[Keys]
-  : undefined;
-
-type PickTypeOf<Obj, Keys extends string | number | symbol> = Keys extends AllKeys<Obj>
-  ? PickType<Obj, Keys>
-  : never;
-
-type Merge<T extends object> = {
-  [K in AllKeys<T>]: PickTypeOf<T, K>;
-};
+type CombinedReducerAccum<
+  TItem extends DataParserItem,
+  TDataParsers extends Array<ItemDataParser<TItem, DataParserAccum>>
+> = Simplify<UnionToIntersection<TDataParsers[number]["initialDataAccum"]>>;
