@@ -32,7 +32,7 @@ export const InvoiceAmountTotalsWidget = () => {
           header="Receivable"
           caption="Invoices sent"
           icon={<SendIcon />}
-          total={RECEIVABLE.TOTAL}
+          total={RECEIVABLE.SUM}
           average={RECEIVABLE.AVERAGE}
         />
 
@@ -44,7 +44,7 @@ export const InvoiceAmountTotalsWidget = () => {
           header="Payable"
           caption="Invoices received"
           icon={<InboxIcon />}
-          total={PAYABLE.TOTAL}
+          total={PAYABLE.SUM}
           average={PAYABLE.AVERAGE}
         />
       </div>
