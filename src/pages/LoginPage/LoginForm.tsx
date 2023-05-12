@@ -14,10 +14,7 @@ export const LoginForm = () => {
   const onSubmit = async (credentials: LoginParams) => {
     const { success } = await login(credentials);
     if (success) {
-      toast.success("Welcome back!", {
-        toastId: "login-success",
-        pauseOnHover: false,
-      });
+      toast.success("Welcome back!", { toastId: "login-success" });
       nav("/home");
     }
   };
