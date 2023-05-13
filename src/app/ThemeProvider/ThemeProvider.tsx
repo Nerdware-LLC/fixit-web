@@ -10,7 +10,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const { isMobileUserAgent, isMobilePageLayout } = usePageLayoutContext();
 
   const theme: Theme = {
-    ...THEMES[themeName],
+    ...THEMES[themeName || "DARK"], // A fallback themeName for added safety (will crash if not set)
     variables: {
       isMobileUserAgent,
       isMobilePageLayout,
