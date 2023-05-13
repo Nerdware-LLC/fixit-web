@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import { checkoutValuesStore, StoredCheckoutValues } from "@cache/checkoutValuesStore";
@@ -15,16 +15,10 @@ import type { UserSubscriptionPriceLabel } from "@types";
  *   selectable (TRIAL will display MONTHLY's PRICE_INFO text, but the
  *   checkout button label is set to "Start Trial" to avoid ambiguity).
  * - If `selectedSubscription` has not been set in `checkoutValuesStore`,
- *   it is initialized to TRIAL.
+ *   it is initialized to TRIAL before nav'ing to /checkout.
  */
 export const SingleProductBox = ({ selectedSubscription, promoCode }: StoredCheckoutValues) => {
-  // EFFECT: If `selectedSubscription` has no cached value, initialize it to TRIAL
-  useEffect(() => {
-    const cachedCheckoutValues = checkoutValuesStore.get();
-    if (!cachedCheckoutValues.selectedSubscription) {
-      checkoutValuesStore.mergeUpdate({ selectedSubscription: "TRIAL" });
-    }
-  }, []);
+  const nav = useNavigate();
 
   const priceInfoToDisplay = selectedSubscription === "ANNUAL" ? "ANNUAL" : "MONTHLY";
 
@@ -45,11 +39,15 @@ export const SingleProductBox = ({ selectedSubscription, promoCode }: StoredChec
 
   const handleSwitchProducts = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.stopPropagation();
-
-    checkoutValuesStore.set({
+    checkoutValuesStore.mergeUpdate({
       selectedSubscription: switchOtherProduct.priceLabel,
-      promoCode: promoCode ?? null,
     });
+  };
+
+  const handleClickButton = () => {
+    const { selectedSubscription: cachedSelectedSub } = checkoutValuesStore.get();
+    if (!cachedSelectedSub) checkoutValuesStore.mergeUpdate({ selectedSubscription: "TRIAL" });
+    nav("/checkout");
   };
 
   return (
@@ -75,7 +73,8 @@ export const SingleProductBox = ({ selectedSubscription, promoCode }: StoredChec
         priceAmount={PRICE_AMOUNT}
         priceDescription={PRICE_DESCRIPTION}
         showMostPopularBadge={selectedSubscription === "ANNUAL"}
-        buttonLabel={selectedSubscription === "ANNUAL" ? "Subscribe" : "Start Trial"}
+        buttonLabel={selectedSubscription === "TRIAL" ? "Start Trial" : "Subscribe"}
+        onClickButton={handleClickButton}
       />
     </>
   );

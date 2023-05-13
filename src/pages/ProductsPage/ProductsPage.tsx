@@ -30,7 +30,8 @@ export const ProductsPage = () => {
         toast.info("Please select a subscription", { toastId: "please-select-sub" });
       }
     }
-  }, [locationState]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <ProductsPageContainer>

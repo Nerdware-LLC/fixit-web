@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Button, { buttonClasses } from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
+import Paper, { type PaperProps } from "@mui/material/Paper";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import { ShimmerBox, shimmerBoxClassNames } from "@components/Containers/ShimmerBox";
 import { ProductFeatures } from "./ProductFeatures";
@@ -11,59 +10,49 @@ export const ProductInfoBox = ({
   priceAmount,
   priceDescription,
   showMostPopularBadge = false,
-  isSelected = false,
-  handleClickProduct,
   buttonLabel,
-}: ProductInfoBoxProps) => {
-  const nav = useNavigate();
+  onClickButton,
+  onClickContainer,
+  ...paperProps
+}: ProductInfoBoxProps) => (
+  <StyledPaper
+    onClick={onClickContainer}
+    className={productInfoBoxClassNames.container}
+    {...paperProps}
+  >
+    <Paper elevation={2} className={productInfoBoxClassNames.headerContainer}>
+      <Text>{priceName}</Text>
 
-  const handleClickCheckout = () => nav("/checkout");
-
-  // If ProductInfoBox can be selected from a group (desktop) and isn't already selected, it's "selectable"
-  const isSelectable = !!handleClickProduct && !isSelected;
-
-  return (
-    <StyledPaper
-      onClick={handleClickProduct}
-      isSelected={isSelected}
-      className={productInfoBoxClassNames.container}
-    >
-      <Paper elevation={2} className={productInfoBoxClassNames.headerContainer}>
-        <Text>{priceName}</Text>
-
-        {showMostPopularBadge && (
-          <>
-            <span />
-            <ShimmerBox>
-              <Text>Most Popular</Text>
-            </ShimmerBox>
-          </>
-        )}
-      </Paper>
-      <div>
-        <div className={productInfoBoxClassNames.amountAndDescriptionContainer}>
-          <Text variant="h3">{priceAmount}</Text>
-          <span>
-            <Text
-              style={{
-                // if priceDescription is "per month/year", align left + margin, else just align center
-                ...(/^per/i.test(priceDescription)
-                  ? { textAlign: "left", marginLeft: "0.35rem" }
-                  : { textAlign: "center" }),
-              }}
-            >
-              {priceDescription}
-            </Text>
-          </span>
-        </div>
-        <ProductFeatures />
-        <Button onClick={isSelectable ? handleClickProduct : handleClickCheckout}>
-          {buttonLabel ?? (isSelectable ? "Select" : "Subscribe")}
-        </Button>
+      {showMostPopularBadge && (
+        <>
+          <span />
+          <ShimmerBox>
+            <Text>Most Popular</Text>
+          </ShimmerBox>
+        </>
+      )}
+    </Paper>
+    <div>
+      <div className={productInfoBoxClassNames.amountAndDescriptionContainer}>
+        <Text variant="h3">{priceAmount}</Text>
+        <span>
+          <Text
+            style={{
+              // if priceDescription is "per month/year", align left + margin, else just align center
+              ...(/^per/i.test(priceDescription)
+                ? { textAlign: "left", marginLeft: "0.35rem" }
+                : { textAlign: "center", lineHeight: "1.2rem" }),
+            }}
+          >
+            {priceDescription}
+          </Text>
+        </span>
       </div>
-    </StyledPaper>
-  );
-};
+      <ProductFeatures />
+      <Button onClick={onClickButton}>{buttonLabel}</Button>
+    </div>
+  </StyledPaper>
+);
 
 export const productInfoBoxClassNames = {
   container: "product-info-box-container",
@@ -71,9 +60,7 @@ export const productInfoBoxClassNames = {
   amountAndDescriptionContainer: "product-info-box-amount-and-description-container",
 };
 
-const StyledPaper = styled(Paper, {
-  shouldForwardProp: (propName) => propName !== "isSelected",
-})<{ isSelected: boolean }>(({ onClick, theme: { palette, breakpoints }, isSelected }) => ({
+const StyledPaper = styled(Paper)(({ onClick, theme: { palette, breakpoints } }) => ({
   position: "relative",
   height: "clamp(24rem, 43vh, 25rem)",
   width: "clamp(15rem, 100%, 25rem)",
@@ -84,7 +71,8 @@ const StyledPaper = styled(Paper, {
   borderWidth: "1px",
   borderStyle: "solid",
   borderRadius: "1rem",
-  borderColor: isSelected ? palette.secondary.main : palette.divider,
+  borderColor: palette.divider,
+
   "&:hover": {
     cursor: onClick ? "pointer" : "auto",
   },
@@ -175,7 +163,7 @@ export type ProductInfoBoxProps = {
   priceAmount: string;
   priceDescription: string;
   showMostPopularBadge?: boolean;
-  isSelected?: boolean;
-  handleClickProduct?: React.MouseEventHandler<HTMLDivElement | HTMLButtonElement>;
-  buttonLabel?: string;
-};
+  buttonLabel: string;
+  onClickButton: React.MouseEventHandler<HTMLButtonElement>;
+  onClickContainer?: React.MouseEventHandler<HTMLDivElement | HTMLButtonElement>;
+} & Omit<PaperProps, "children">;
