@@ -49,6 +49,7 @@ export const legalLinksClassNames = {
 };
 
 const StyledDiv = styled("div")(({ theme: { palette } }) => ({
+  padding: "0.1rem",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
