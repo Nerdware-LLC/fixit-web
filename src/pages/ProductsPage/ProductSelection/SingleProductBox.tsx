@@ -22,10 +22,7 @@ export const SingleProductBox = ({ selectedSubscription, promoCode }: StoredChec
   useEffect(() => {
     const cachedCheckoutValues = checkoutValuesStore.get();
     if (!cachedCheckoutValues.selectedSubscription) {
-      checkoutValuesStore.set({
-        ...cachedCheckoutValues,
-        selectedSubscription: "TRIAL",
-      });
+      checkoutValuesStore.mergeUpdate({ selectedSubscription: "TRIAL" });
     }
   }, []);
 
