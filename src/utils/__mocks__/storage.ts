@@ -15,21 +15,21 @@ beforeEach(() => {
 });
 
 export const storage = _STORAGE_KEYS.reduce(
-  (acc, storageKey) => ({
+  (acc, key) => ({
     ...acc,
-    [storageKey]: {
+    [key]: {
       get: jest.fn(() => {
-        return _mockLocalStorage?.[storageKey] ?? null;
+        return _mockLocalStorage?.[key] ?? null;
       }),
       set: jest.fn((str) => {
-        _mockLocalStorage[storageKey] = str;
+        _mockLocalStorage[key] = str;
       }),
       setDefaultIfEmpty: jest.fn((defaultValue) => {
-        const currentlyStoredValue = _mockLocalStorage?.[storageKey] ?? null;
-        if (currentlyStoredValue === null) _mockLocalStorage[storageKey] = defaultValue;
+        const currentlyStoredValue = _mockLocalStorage?.[key] ?? null;
+        if (currentlyStoredValue === null) _mockLocalStorage[key] = defaultValue;
       }),
       remove: jest.fn((str) => {
-        delete _mockLocalStorage[storageKey];
+        delete _mockLocalStorage[key];
       }),
     },
   }),
