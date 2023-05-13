@@ -16,7 +16,7 @@ export const LoginPage = () => {
   useEffect(() => {
     if (locationState?.isRedirect === true) {
       toast.info(
-        "Whoops! You must be logged in to perform this action. Please sign in or create an account.",
+        "You must be logged in to perform this action. Please sign in or create an account.",
         { toastId: "auth-required-login-redirect" }
       );
     }
@@ -29,7 +29,7 @@ export const LoginPage = () => {
         [`& > .${authPageLayoutClassNames.childrenContainer}`]: {
           minHeight: "25vh",
 
-          [`& > #${loginPageElementIDs.signupLinkContainer}`]: {
+          [`& > #${elementIDs.signupLinkContainer}`]: {
             color: palette.info.main,
             alignSelf: "center",
             whiteSpace: "pre-line",
@@ -48,7 +48,7 @@ export const LoginPage = () => {
       })}
     >
       <LoginForm />
-      <span id={loginPageElementIDs.signupLinkContainer}>
+      <span id={elementIDs.signupLinkContainer}>
         <Link to="/register">Not an existing user? Sign up now </Link>
         <ChevronRightIcon />
       </span>
@@ -56,6 +56,6 @@ export const LoginPage = () => {
   );
 };
 
-export const loginPageElementIDs = {
+export const elementIDs = {
   signupLinkContainer: "login-page-signup-link-container",
 };
