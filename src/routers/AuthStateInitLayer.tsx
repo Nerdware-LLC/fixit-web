@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { isActiveAccountStore } from "@cache/isActiveAccountStore";
 import { useAuthService } from "@hooks/useAuthService";
 import { storage } from "@utils/storage";
 
@@ -21,8 +22,13 @@ export const AuthStateInitLayer = ({ children }: AuthStateInitLayerProps) => {
       if (authToken) {
         const { success } = await refreshAuthToken();
 
-        // If auth token is good, nav to /home
-        if (success) nav("/home");
+        // If auth token is good, check if account is active
+        if (success) {
+          const isActiveAccount = isActiveAccountStore.get();
+          // If account is active, nav to /home, else nav to /products
+          if (isActiveAccount) nav("/home");
+          else nav("/products");
+        }
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
