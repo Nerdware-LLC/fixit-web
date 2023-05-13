@@ -2,7 +2,7 @@ import { styled } from "@mui/material/styles";
 import { chipClasses as muiChipClasses } from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { checkoutValuesStore, type CheckoutValues } from "@cache/checkoutValuesStore";
+import { checkoutValuesStore } from "@cache/checkoutValuesStore";
 import { formatNum } from "@utils/formatNum";
 import { PromoCodeInput } from "./PromoCodeInput";
 import { SwitchToAnnual } from "./SwitchToAnnual";
@@ -19,7 +19,10 @@ import type { UserSubscriptionPriceLabel } from "@types";
  *   info to the server results a 400 response.`
  */
 export const SubCostDetails = () => {
-  const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore() as CheckoutValues;
+  const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore();
+
+  // When SubCostDetails renders, selectedSubscription should always be available
+  if (!selectedSubscription) return null;
 
   const {
     label,
@@ -43,9 +46,7 @@ export const SubCostDetails = () => {
       <div className={checkoutPageClassNames.subCostDetails.priceLabelContainer}>
         <Text className={checkoutPageClassNames.baseText}>{label}</Text>
         <div>
-          <Text /* TODO check how this looks, was converted from an h1 */>
-            {billingPeriod ? priceStr : `${trialDays} days free`}
-          </Text>
+          <Text>{billingPeriod ? priceStr : `${trialDays} days free`}</Text>
           {!!billingPeriod && <span>{`per\n${billingPeriod}`}</span>}
         </div>
         {!!afterTrial && (
@@ -76,12 +77,8 @@ export const SubCostDetails = () => {
             </Text>
           )}
           {!!afterTrial && (
-            <Text
-              variant="caption"
-              className={checkoutPageClassNames.baseText}
-              style={{ textAlign: "right" }}
-            >
-              Then {afterTrialPriceStr} per {afterTrial.billingPeriod} after
+            <Text variant="caption" className={checkoutPageClassNames.baseText}>
+              Then {afterTrialPriceStr} per {afterTrial.billingPeriod} thereafter
             </Text>
           )}
         </div>

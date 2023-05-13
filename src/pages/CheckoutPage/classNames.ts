@@ -1,4 +1,5 @@
 export const checkoutPageClassNames = {
+  pageScrollContainer: "checkout-page-scroll-container",
   pageSectionColumn: "checkout-page-section-column",
   paymentInfoTextBox: "checkout-page-payment-info-text-box",
   paymentConfirmationText: "checkout-page-payment-confirmation-text",
