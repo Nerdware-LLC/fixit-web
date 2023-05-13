@@ -1,8 +1,6 @@
 import { makeVar, type ReactiveVar } from "@apollo/client/cache";
 import { useReactiveVar } from "@apollo/client/react/hooks";
-import deepMerge from "lodash.merge";
 import { storage, type LocalStorageWrapperKey } from "@utils/storage";
-import type { PartialDeep } from "type-fest";
 
 /**
  * A handy wrapper around apollo's reactive-var functionality.
@@ -63,12 +61,18 @@ export class ReactiveStore<T extends ReactiveStoreValueType> {
   }
 
   /**
-   * Deep-merges the provided value with the current value of the reactive-var.
+   * Shallow-merges the provided value with the current value of the reactive-var.
    * If a `storageKey` was provided, the value is also updated in localStorage.
+   *
+   * > Note: This method is only available for reactive-vars with object values,
+   *   and must only be called with an object value.
    */
-  mergeUpdate(partialNewValue?: PartialDeep<T>) {
-    const newValue = deepMerge(this.reactiveVar(), partialNewValue);
-    return this.set(newValue);
+  mergeUpdate(partialNewValue: Partial<T>) {
+    const currentValue = this.get();
+    return this.set({
+      ...(currentValue && typeof currentValue === "object" && currentValue),
+      ...(partialNewValue && partialNewValue),
+    } as T);
   }
 
   /**
