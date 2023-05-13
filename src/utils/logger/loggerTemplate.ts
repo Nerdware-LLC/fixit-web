@@ -11,7 +11,7 @@ export const loggerTemplate = ({
   identifier?: string;
 }) => {
   // prettier-ignore
-  const labelTxt = `[${dayjs().format("YYYY:MMM:D @k:mm:ss.SS")}][${label}]: ${identifier ? `${identifier} = ` : ""}`;
+  const labelTxt = `[${dayjs().format("YYYY:MMM:D @k:mm:ss.SSS")}][${label}]: ${!!identifier && identifier.length > 0 ? `${identifier}` : ""}`;
   if (message instanceof Error) {
     Sentry.captureException(message);
     console.error(`⚠️ ${labelTxt} ${message}`); // eslint-disable-line no-console
