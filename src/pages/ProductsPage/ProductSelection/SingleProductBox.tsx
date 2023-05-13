@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import { checkoutValuesStore, StoredCheckoutValues } from "@cache/checkoutValuesStore";
@@ -13,8 +14,21 @@ import type { UserSubscriptionPriceLabel } from "@types";
  * - On mobile, to simplify the UI/UX only TRIAL/ANNUAL subscriptions are
  *   selectable (TRIAL will display MONTHLY's PRICE_INFO text, but the
  *   checkout button label is set to "Start Trial" to avoid ambiguity).
+ * - If `selectedSubscription` has not been set in `checkoutValuesStore`,
+ *   it is initialized to TRIAL.
  */
 export const SingleProductBox = ({ selectedSubscription, promoCode }: StoredCheckoutValues) => {
+  // EFFECT: If `selectedSubscription` has no cached value, initialize it to TRIAL
+  useEffect(() => {
+    const cachedCheckoutValues = checkoutValuesStore.get();
+    if (!cachedCheckoutValues.selectedSubscription) {
+      checkoutValuesStore.set({
+        ...cachedCheckoutValues,
+        selectedSubscription: "TRIAL",
+      });
+    }
+  }, []);
+
   const priceInfoToDisplay = selectedSubscription === "ANNUAL" ? "ANNUAL" : "MONTHLY";
 
   // Currently selected subscription:
