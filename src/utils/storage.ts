@@ -39,14 +39,6 @@ export class LocalStorageValueManager {
   set(value: unknown): void {
     try {
       const valueToStore = typeof value === "string" ? value : JSON.stringify(value);
-      console.debug(
-        `[storage] value: `,
-        value,
-        `, typeof ${typeof value}`,
-        `\nvalueToStore: `,
-        valueToStore,
-        `, typeof ${typeof valueToStore}`
-      );
       localStorage.setItem(this.storageKey, valueToStore);
     } catch (err) {
       // prettier-ignore
