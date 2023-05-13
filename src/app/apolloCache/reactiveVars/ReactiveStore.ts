@@ -31,6 +31,9 @@ export class ReactiveStore<T extends ReactiveStoreValueType> {
     valueOnInit ??= storageKey ? (storage[storageKey].get() as T) : (defaultValue as T);
     valueOnReset ??= valueOnInit;
 
+    // If both storageKey and defaultValue were provided, ensure the value is init'd in localStorage
+    if (storageKey && defaultValue) storage[storageKey].setDefaultIfEmpty(defaultValue);
+
     this.reactiveVar = makeVar(valueOnInit);
     this.storageKey = storageKey;
     this.valueOnReset = valueOnReset;
