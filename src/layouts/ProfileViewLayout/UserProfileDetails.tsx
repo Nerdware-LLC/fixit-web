@@ -20,7 +20,7 @@ export const UserProfileDetails = ({
 }: UserProfileDetailsProps) => (
   <UserProfileDetailsContainer>
     <ItemDetails label="Name" labelIcon={<PersonIcon />}>
-      {`${givenName}${givenName && familyName && ` ${familyName}`}`}
+      {givenName && `${givenName}${givenName && familyName && ` ${familyName}`}`}
     </ItemDetails>
     <ItemDetails label="Company" labelIcon={<StorefrontIcon />}>
       {businessName}
