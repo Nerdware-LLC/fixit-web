@@ -89,7 +89,7 @@ const StyledMuiDataGrid = styled(MuiDataGrid)(({ theme: { palette, variables } }
     // @media print
     ...dataGridStyledPrintMedia,
 
-    // TOOLBAR
+    // TOOLBAR CONTAINER
     [`& .${dataGridClassNames.toolbarContainer}`]: {
       padding: "0.5rem",
       alignItems: "stretch", // make all btns same height as toolbar
@@ -199,6 +199,19 @@ const StyledMuiDataGrid = styled(MuiDataGrid)(({ theme: { palette, variables } }
     // NO-ROWS-OVERLAY
     [`& .${dataGridClassNames.overlay}`]: {
       textTransform: "capitalize",
+    },
+
+    // FOOTER CONTAINER
+    [`& .${dataGridClassNames.footerContainer}`]: {
+      "& .MuiTablePagination-root": {
+        width: "100%",
+        "& > .MuiTablePagination-toolbar": {
+          width: "100%",
+          "& .MuiTablePagination-select": {
+            lineHeight: "2rem",
+          },
+        },
+      },
     },
   };
 });
