@@ -23,7 +23,7 @@ export const ListViewHeaderToggleButtons = ({
   const slideContainerRef = useRef(null);
 
   return (
-    <ListViewHeaderToggleButtonsContainer
+    <StyledPaper
       elevation={0}
       className={listVisibility && listOrTable === "LIST" ? "show-expanded" : undefined}
       ref={slideContainerRef}
@@ -94,14 +94,14 @@ export const ListViewHeaderToggleButtons = ({
           <TableViewSharpIcon />
         </ToggleButtonWithTooltip>
       </ToggleButtonGroup>
-    </ListViewHeaderToggleButtonsContainer>
+    </StyledPaper>
   );
 };
 
 // For convenient imports:
 ListViewHeaderToggleButtons.use = useListViewHeaderToggleButtons;
 
-const ListViewHeaderToggleButtonsContainer = styled(Paper)(({ theme }) => ({
+const StyledPaper = styled(Paper)(({ theme }) => ({
   height: theme.variables.isMobilePageLayout ? "2.5rem" : "3.1rem",
   overflow: "hidden",
   zIndex: 1,
