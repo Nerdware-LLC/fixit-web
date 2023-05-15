@@ -99,25 +99,16 @@ export const useAppBarMenuConfigs = () => {
   };
 };
 
-interface MenuOptionConfigBase {
-  label: string;
-  path?: string;
-}
-
-type MenuAuthOptionConfig = MenuOptionConfigBase & { icon: React.ReactNode };
-
-export type MenuOption = MenuOptionConfigBase & { handleSelectOption: () => void | Promise<void> };
-
 const _MENU_AUTH_OPTION_CONFIGS = {
   LOGIN: {
     label: "Login",
     icon: <LoginIcon />,
     path: "/login",
-  } as Required<MenuAuthOptionConfig>,
+  } as Omit<Required<AppBarMenuConfigs["authOptionConfig"]>, "handleSelectOption">,
   LOGOUT: {
     label: "Logout",
     icon: <LogoutIcon />,
-  } as MenuAuthOptionConfig,
+  } as Omit<AppBarMenuConfigs["authOptionConfig"], "handleSelectOption">,
 } as const;
 
 export const MENU_OPTION_CONFIGS = {
@@ -144,3 +135,18 @@ export const MENU_OPTION_CONFIGS = {
     },
   ],
 } as const;
+
+interface MenuOptionBase {
+  label: string;
+  path?: string;
+  tooltip?: string;
+  handleSelectOption: () => void | Promise<void>;
+}
+
+export type AppBarMenuConfigs = {
+  isAccountActive: boolean;
+  isUserAuthenticated: boolean;
+  isConnectOnboardingNeeded: boolean;
+  authOptionConfig: MenuOptionBase & { icon: React.ReactNode };
+  menuOptionConfigs: Array<MenuOptionBase>;
+};

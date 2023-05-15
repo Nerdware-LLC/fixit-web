@@ -11,7 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { UserAvatar } from "@components/Avatar/UserAvatar";
 import { MobileModalContentBox } from "@components/Modal/MobileModalContentBox";
 import { DarkModeSwitch } from "./DarkModeSwitch";
-import { useAppBarMenuConfigs, type MenuOption } from "./useAppBarMenuConfigs";
+import { useAppBarMenuConfigs, type AppBarMenuConfigs } from "./useAppBarMenuConfigs";
 
 export const MobileAppBarMenu = () => {
   const { pathname } = useLocation();
@@ -91,7 +91,7 @@ export const MobileAppBarMenu = () => {
  * indicates that `modalMenuOpt.handleSelectOption` is a fn which will navigate
  * away to a different path from the current one.
  */
-const getModalOptClickHandler = <T extends MenuOption>(
+const getModalOptClickHandler = <T extends AppBarMenuConfigs["menuOptionConfigs"][number]>(
   modalMenuOpt: T,
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 ): T & { handleClick: () => void | Promise<void> } => ({
