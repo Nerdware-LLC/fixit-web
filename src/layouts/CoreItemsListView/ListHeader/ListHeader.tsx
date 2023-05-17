@@ -1,6 +1,6 @@
 import Text from "@mui/material/Typography";
 import { ListHeaderContainer } from "./ListHeaderContainer";
-import type { InboxListName } from "../ListViewHeaderToggleButtons";
+import type { ListViewListName } from "../types";
 
 export const ListHeader = ({ listName }: ListHeaderProps) => (
   <ListHeaderContainer>
@@ -16,4 +16,4 @@ export const ListHeader = ({ listName }: ListHeaderProps) => (
   </ListHeaderContainer>
 );
 
-export type ListHeaderProps = { listName: InboxListName };
+export type ListHeaderProps = { listName: ListViewListName };

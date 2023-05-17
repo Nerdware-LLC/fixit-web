@@ -1,3 +1,4 @@
+import { NetworkStatus } from "@apollo/client";
 import { useQuery } from "@apollo/client/react/hooks";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import { CreateItemButton } from "@components/Buttons/CreateItemButton";
@@ -17,14 +18,16 @@ export const WorkOrdersListView = () => {
     fetchPolicy: "cache-only", // FIXME rm cache-only fetch policy from WorkOrdersListView
   });
 
-  if (loading || networkStatus === 4) return <Loading />;
-  if (error) return <Error error={error} />;
-
-  return (
+  return loading || networkStatus === NetworkStatus.refetch ? (
+    <Loading />
+  ) : error ? (
+    <Error error={error} />
+  ) : (
     <CoreItemsListView
       viewHeader="Work Orders"
       viewBasePath="/home/workorders"
       renderItem={renderWorkOrdersListItem}
+      listViewSettingsStoreKey="workOrders"
       headerComponents={
         <CreateItemButton
           createItemFormPath="/home/workorders/form"

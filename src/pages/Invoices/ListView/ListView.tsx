@@ -1,3 +1,4 @@
+import { NetworkStatus } from "@apollo/client";
 import { useQuery } from "@apollo/client/react/hooks";
 import { CreateItemButton } from "@components/Buttons/CreateItemButton";
 import { EmptyListFallback, type EmptyListFallbackProps } from "@components/HelpInfo";
@@ -17,14 +18,16 @@ export const InvoicesListView = () => {
     fetchPolicy: "cache-only", // FIXME rm cache-only fetch policy from InvoicesListView
   });
 
-  if (loading || networkStatus === 4) return <Loading />;
-  if (error) return <Error error={error} />;
-
-  return (
+  return loading || networkStatus === NetworkStatus.refetch ? (
+    <Loading />
+  ) : error ? (
+    <Error error={error} />
+  ) : (
     <CoreItemsListView
       viewHeader="Invoices"
       viewBasePath="/home/invoices"
       renderItem={renderInvoicesListItem}
+      listViewSettingsStoreKey="invoices"
       headerComponents={
         <CreateItemButton createItemFormPath="/home/invoices/form" buttonText="Create Invoice" />
       }

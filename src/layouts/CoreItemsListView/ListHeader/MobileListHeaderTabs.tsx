@@ -3,33 +3,41 @@ import Tab, { tabClasses } from "@mui/material/Tab";
 import Tabs, { tabsClasses } from "@mui/material/Tabs";
 import InboxIcon from "@mui/icons-material/Inbox";
 import SendIcon from "@mui/icons-material/Send";
+import { listViewSettingsStore, type ListViewSettingsStoreKey } from "@cache/listviewSettingsStore";
 import { ListHeaderContainer } from "./ListHeaderContainer";
 import { listViewTabA11yProps, listViewTabsWrapperA11yProps } from "./tabA11yProps";
-import { INBOX_LIST_NAMES } from "../ListViewHeaderToggleButtons";
-import type { ListVisibility } from "../ListViewHeaderToggleButtons";
+import { LIST_VIEW_LIST_NAMES } from "../types";
 
-export const MobileListHeaderTabs = ({
-  listVisibility,
-  toggleListVisibility,
-}: MobileListHeaderTabsProps) => (
-  <ListHeaderContainer containsMobileListHeaderTabs>
-    <StyledTabs
-      value={listVisibility.Inbox === true ? 0 : 1}
-      onChange={toggleListVisibility}
-      {...listViewTabsWrapperA11yProps}
-    >
-      {INBOX_LIST_NAMES.map((listName) => (
-        <Tab
-          key={listName}
-          label={listName}
-          icon={listName === "Inbox" ? <InboxIcon /> : <SendIcon />}
-          iconPosition="start"
-          {...listViewTabA11yProps[listName]}
-        />
-      ))}
-    </StyledTabs>
-  </ListHeaderContainer>
-);
+export const MobileListHeaderTabs = ({ listViewSettingsStoreKey }: MobileListHeaderTabsProps) => {
+  const { listVisibility } = listViewSettingsStore[listViewSettingsStoreKey].useSubToStore();
+
+  return (
+    <ListHeaderContainer containsMobileListHeaderTabs>
+      <StyledTabs
+        value={listVisibility.Inbox === true ? 0 : 1}
+        onChange={() => {
+          listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({
+            listVisibility: {
+              Inbox: !listVisibility.Inbox,
+              Sent: listVisibility.Inbox,
+            },
+          });
+        }}
+        {...listViewTabsWrapperA11yProps}
+      >
+        {LIST_VIEW_LIST_NAMES.map((listName) => (
+          <Tab
+            key={listName}
+            label={listName}
+            icon={listName === "Inbox" ? <InboxIcon /> : <SendIcon />}
+            iconPosition="start"
+            {...listViewTabA11yProps[listName]}
+          />
+        ))}
+      </StyledTabs>
+    </ListHeaderContainer>
+  );
+};
 
 const StyledTabs = styled(Tabs)({
   height: "100%",
@@ -69,6 +77,5 @@ const StyledTabs = styled(Tabs)({
 });
 
 export type MobileListHeaderTabsProps = {
-  listVisibility: ListVisibility;
-  toggleListVisibility: () => void;
+  listViewSettingsStoreKey: ListViewSettingsStoreKey;
 };

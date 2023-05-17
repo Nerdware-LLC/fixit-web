@@ -1,7 +1,7 @@
+import { NetworkStatus } from "@apollo/client";
 import { useQuery } from "@apollo/client/react/hooks";
 import GroupIcon from "@mui/icons-material/Group";
-import { dataGridClassNames } from "@components/DataGrid";
-import { EmptyListFallback } from "@components/HelpInfo";
+import { EmptyListFallback, helpInfoClassNames } from "@components/HelpInfo";
 import { Error } from "@components/Indicators/Error";
 import { Loading } from "@components/Indicators/Loading";
 import { QUERIES } from "@graphql/queries";
@@ -20,14 +20,16 @@ export const ContactsListView = () => {
     fetchPolicy: "cache-only", // FIXME rm cache-only fetch policy from ContactsListView
   });
 
-  if (loading || networkStatus === 4) return <Loading />;
-  if (error) return <Error error={error} />;
-
-  return (
+  return loading || networkStatus === NetworkStatus.refetch ? (
+    <Loading />
+  ) : error ? (
+    <Error error={error} />
+  ) : (
     <CoreItemsListView
       viewHeader="Contacts"
       viewBasePath="/home/contacts"
       renderItem={renderContactsListItem}
+      listViewSettingsStoreKey="contacts"
       headerComponents={<SearchUsers />}
       lists={[
         {
@@ -37,6 +39,14 @@ export const ContactsListView = () => {
               text="No Contacts Available"
               tooltip={`Use the "Search & Invite Users" search bar above to start adding Contacts`}
               backgroundIcon={<GroupIcon />}
+              sx={{
+                [`& .${helpInfoClassNames.emptyListFallbackBackgroundIconContainer}`]: {
+                  maxHeight: "calc(100vw - 8rem)",
+                  "& > svg": {
+                    maxHeight: "calc(100vw - 8rem)",
+                  },
+                },
+              }}
             />
           ),
         },
@@ -59,10 +69,6 @@ export const ContactsListView = () => {
             height: "10rem",
             paddingTop: "0.75rem",
             rowGap: "0.75rem",
-          },
-          [`& .${dataGridClassNames.root}`]: {
-            maxHeight: "calc( 100% - 9rem )", // base height: isMobilePageLayout ? "calc(100% - 5rem)" : "calc(100% - 7rem)"
-            transform: "translateY( 4rem )",
           },
         }),
         // Contacts list layout:

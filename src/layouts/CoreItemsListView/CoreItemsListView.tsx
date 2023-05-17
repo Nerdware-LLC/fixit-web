@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
+import { listViewSettingsStore, type ListViewSettingsStoreKey } from "@cache/listviewSettingsStore";
 import { DataGrid, dataGridClassNames, type DataGridProps } from "@components/DataGrid";
 import {
   EmptyDataGridFallback,
@@ -21,8 +22,6 @@ import type { GridEventListener } from "@mui/x-data-grid";
 import type { OverrideProperties } from "type-fest";
 import type { ListViewHeader, CoreItemsListConfig, ListViewRenderItemFn } from "./types";
 
-// TODO Store List/Table view prefs in local storage
-
 /**
  * Provides common styles/props/logic to all core-item list views.
  */
@@ -32,6 +31,7 @@ export const CoreItemsListView = ({
   renderItem,
   tableProps: { noRowsOverlayProps, ...tableProps },
   // header props:
+  listViewSettingsStoreKey,
   headerComponents,
   viewHeader,
   viewBasePath,
@@ -39,13 +39,8 @@ export const CoreItemsListView = ({
 }: CoreItemsListViewProps) => {
   const nav = useNavigate();
   const { isMobilePageLayout } = usePageLayoutContext();
-  const {
-    listOrTable,
-    handleChangeListOrTable,
-    listVisibility,
-    handleChangeListVisibility,
-    toggleListVisibility,
-  } = ListViewHeaderToggleButtons.use({ numLists: lists.length, isMobilePageLayout });
+  const { listOrTable, listVisibility = null } =
+    listViewSettingsStore[listViewSettingsStoreKey].useSubToStore();
 
   // prettier-ignore
   const tryNavToItemView = ({ itemID, isItemOwnedByUser }: { itemID?: string; isItemOwnedByUser?: boolean; }) => {
@@ -77,12 +72,7 @@ export const CoreItemsListView = ({
     ? Object.values(listVisibility).filter((isVisible) => isVisible).length
     : 1;
 
-  const showMobileListHeaderTabs =
-    listOrTable === "LIST" &&
-    isMobilePageLayout &&
-    lists.length > 1 &&
-    listVisibility &&
-    toggleListVisibility;
+  const showMobileListHeaderTabs = listOrTable === "LIST" && isMobilePageLayout && lists.length > 1;
 
   return (
     <StyledCoreContentViewLayout
@@ -91,10 +81,7 @@ export const CoreItemsListView = ({
       headerComponents={
         <>
           <ListViewHeaderToggleButtons
-            listOrTable={listOrTable}
-            handleChangeListOrTable={handleChangeListOrTable}
-            listVisibility={listVisibility}
-            handleChangeListVisibility={handleChangeListVisibility}
+            listViewSettingsStoreKey={listViewSettingsStoreKey}
             isMobilePageLayout={isMobilePageLayout}
           />
           {headerComponents}
@@ -129,10 +116,7 @@ export const CoreItemsListView = ({
           {...tableProps}
         />
         {showMobileListHeaderTabs && (
-          <MobileListHeaderTabs
-            listVisibility={listVisibility}
-            toggleListVisibility={toggleListVisibility}
-          />
+          <MobileListHeaderTabs listViewSettingsStoreKey={listViewSettingsStoreKey} />
         )}
         {lists.map(({ listName, items, emptyListFallback }, index) => (
           <React.Fragment key={`lists-container${listName && `:${listName}`}`}>
@@ -238,6 +222,7 @@ export type CoreItemsListViewProps = {
       children?: React.ReactNode;
     };
   };
+  listViewSettingsStoreKey: ListViewSettingsStoreKey;
   headerComponents?: React.ReactNode; // made optional
   viewHeader: ListViewHeader;
   viewBasePath: string;

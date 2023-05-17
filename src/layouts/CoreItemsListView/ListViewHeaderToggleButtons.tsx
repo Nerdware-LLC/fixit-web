@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Divider, { dividerClasses } from "@mui/material/Divider";
@@ -9,18 +9,32 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import ListIcon from "@mui/icons-material/List";
 import SendIcon from "@mui/icons-material/Send";
 import TableViewSharpIcon from "@mui/icons-material/TableViewSharp";
+import {
+  listViewSettingsStore,
+  type ListViewSettingsStoreKey,
+  type ListOrTable,
+} from "@cache/listviewSettingsStore";
 import { ToggleButtonWithTooltip } from "@components/Buttons/ToggleButtonWithTooltip";
-import { useListViewHeaderToggleButtons } from "./useListViewHeaderToggleButtons";
-import type { ListViewHeaderToggleButtonsProps } from "./types";
+import type { ListViewListName } from "./types";
 
 export const ListViewHeaderToggleButtons = ({
-  listOrTable,
-  handleChangeListOrTable,
-  listVisibility,
-  handleChangeListVisibility,
+  listViewSettingsStoreKey,
   isMobilePageLayout,
 }: ListViewHeaderToggleButtonsProps) => {
+  const { listOrTable, listVisibility = null } =
+    listViewSettingsStore[listViewSettingsStoreKey].useSubToStore();
+
   const slideContainerRef = useRef(null);
+
+  // This useEffect ensures only 1 list is shown on mobile
+  useEffect(() => {
+    if (isMobilePageLayout && listVisibility !== null) {
+      listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({
+        listVisibility: { Inbox: !listVisibility.Inbox, Sent: listVisibility.Inbox },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMobilePageLayout]);
 
   return (
     <StyledPaper
@@ -32,12 +46,22 @@ export const ListViewHeaderToggleButtons = ({
         <Slide in={listOrTable === "LIST"} direction="left" container={slideContainerRef.current}>
           <Box style={{ display: "flex", alignItems: "center", zIndex: 1 }}>
             <ToggleButtonGroup
+              aria-label="list visibility toggle buttons"
               value={[
                 ...(listVisibility.Inbox === true ? ["Inbox"] : []),
                 ...(listVisibility.Sent === true ? ["Sent"] : []),
               ]}
-              onChange={handleChangeListVisibility}
-              aria-label="list visibility toggle buttons"
+              onChange={(event, newVisibleListNames: Array<ListViewListName> | null) => {
+                listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({
+                  listVisibility:
+                    newVisibleListNames && newVisibleListNames.length > 0
+                      ? newVisibleListNames.reduce(
+                          (accum, listName) => ({ ...accum, [listName]: true }),
+                          { Inbox: false, Sent: false }
+                        )
+                      : { Inbox: !listVisibility!.Inbox, Sent: listVisibility!.Inbox }, // (listVisibility can not be null here, hence the !s),
+                });
+              }}
             >
               <ToggleButtonWithTooltip
                 value="Inbox"
@@ -73,11 +97,15 @@ export const ListViewHeaderToggleButtons = ({
         </Slide>
       )}
       <ToggleButtonGroup
-        value={listOrTable}
-        onChange={handleChangeListOrTable}
-        exclusive
         aria-label="table or list view"
+        value={listOrTable}
+        exclusive
         style={{ zIndex: 5 }}
+        onChange={(event: React.MouseEvent<HTMLElement>, newValue: ListOrTable | null) => {
+          if (newValue !== null) {
+            listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({ listOrTable: newValue });
+          }
+        }}
       >
         <ToggleButtonWithTooltip
           value="LIST"
@@ -97,9 +125,6 @@ export const ListViewHeaderToggleButtons = ({
     </StyledPaper>
   );
 };
-
-// For convenient imports:
-ListViewHeaderToggleButtons.use = useListViewHeaderToggleButtons;
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   height: theme.variables.isMobilePageLayout ? "2.5rem" : "3.1rem",
@@ -176,3 +201,8 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
         }),
   },
 }));
+
+export type ListViewHeaderToggleButtonsProps = {
+  listViewSettingsStoreKey: ListViewSettingsStoreKey;
+  isMobilePageLayout: boolean;
+};

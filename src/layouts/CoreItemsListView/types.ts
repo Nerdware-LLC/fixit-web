@@ -1,10 +1,12 @@
 import type { WorkOrder, Invoice, Contact } from "@graphql/types";
-import type { InboxListName } from "./ListViewHeaderToggleButtons";
+
+export const LIST_VIEW_LIST_NAMES = ["Inbox", "Sent"] as const;
+export type ListViewListName = (typeof LIST_VIEW_LIST_NAMES)[number];
 
 export type ListViewHeader = "Work Orders" | "Invoices" | "Contacts";
 
 export interface CoreItemsListConfig {
-  listName?: InboxListName;
+  listName?: ListViewListName;
   items: Array<WorkOrder> | Array<Invoice> | Array<Contact>;
   emptyListFallback: React.ReactNode;
 }
@@ -17,5 +19,5 @@ export type ListViewRenderItemFn = ({
 }: {
   item: any;
   onClick?: React.MouseEventHandler<HTMLDivElement & HTMLLIElement>;
-  listName?: InboxListName;
+  listName?: ListViewListName;
 }) => React.ReactNode;
