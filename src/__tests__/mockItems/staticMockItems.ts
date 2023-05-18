@@ -13,8 +13,6 @@ import type {
   To avoid namespace-conflicts with the dynamically-generated mock items, these
   static items are not re-exported from ./index.ts, and so the full import path
   must be provided in test files ("@tests/mockItems/staticMockItems").
-
-  TODO Update IDs and other incorrectly-formatted values in staticMockItems
 */
 
 const SHARED_TIMESTAMPS = {
