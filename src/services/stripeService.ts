@@ -6,7 +6,7 @@ import type { UserSubscriptionPriceLabel, EncodedAuthToken } from "@types";
  */
 export const stripeService = {
   /**
-   * // TODO add jsdoc for stripeService.submitPaymentForSubscription
+   * This method is used to submit payment info gathered from the `StripeForm`.
    */
   submitPaymentForSubscription: async ({
     selectedSubscription,
@@ -43,7 +43,7 @@ export const stripeService = {
   },
 
   /**
-   * // TODO add jsdoc for stripeService.getConnectDashboardLink
+   * This method obtains a link to the Stripe-provided Connect dashboard page.
    */
   getConnectDashboardLink: async (): Promise<StripeServiceLinkResponse> => {
     return await httpService.get("/api/connect/dashboard-link");
