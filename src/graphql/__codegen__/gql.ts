@@ -29,13 +29,14 @@ const documents = {
     "\n  mutation DeleteInvoice($invoiceID: ID!) {\n    deleteInvoice(invoiceID: $invoiceID) {\n      id\n      wasDeleted\n    }\n  }\n": types.DeleteInvoiceDocument,
     "\n  query Invoice($invoiceID: ID!) {\n    invoice(invoiceID: $invoiceID) {\n      ...InvoiceWithWorkOrderFields\n    }\n  }\n": types.InvoiceDocument,
     "\n  query MyInvoices {\n    myInvoices {\n      createdByUser {\n        ...InvoiceFields\n      }\n      assignedToUser {\n        ...InvoiceFields\n      }\n    }\n  }\n": types.MyInvoicesDocument,
+    "\n  query MyInvoicesWithWorkOrderData {\n    myInvoices {\n      createdByUser {\n        ...InvoiceWithWorkOrderFields\n      }\n      assignedToUser {\n        ...InvoiceWithWorkOrderFields\n      }\n    }\n  }\n": types.MyInvoicesWithWorkOrderDataDocument,
     "\n  fragment ProfileFields on Profile {\n    displayName\n    givenName\n    familyName\n    businessName\n    photoUrl\n  }\n": types.ProfileFieldsFragmentDoc,
     "\n  mutation UpdateProfile($profile: ProfileInput!) {\n    updateProfile(profile: $profile) {\n      ...ProfileFields\n    }\n  }\n": types.UpdateProfileDocument,
     "\n  query MyProfile {\n    myProfile {\n      ...ProfileFields\n    }\n  }\n": types.MyProfileDocument,
     "\n  fragment StripeConnectAccountFields on UserStripeConnectAccount {\n    id\n    detailsSubmitted\n    chargesEnabled\n    payoutsEnabled\n  }\n": types.StripeConnectAccountFieldsFragmentDoc,
     "\n  fragment UserPublicFields on User {\n    id\n    handle\n    email\n    phone\n    profile {\n      ...ProfileFields\n    }\n  }\n": types.UserPublicFieldsFragmentDoc,
-    "\n  query GetUserByHandle($handle: String!) {\n    getUserByHandle(handle: $handle) {\n      ...ContactPublicFields\n    }\n  }\n": types.GetUserByHandleDocument,
-    "\n  query SearchForUsersByHandle($handle: String!) {\n    searchForUsersByHandle(handle: $handle) {\n      ...ContactPublicFields\n    }\n  }\n": types.SearchForUsersByHandleDocument,
+    "\n  query GetUserByHandle($handle: String!) {\n    getUserByHandle(handle: $handle) {\n      ...ContactFields\n    }\n  }\n": types.GetUserByHandleDocument,
+    "\n  query SearchForUsersByHandle($handle: String!) {\n    searchForUsersByHandle(handle: $handle) {\n      ...ContactFields\n    }\n  }\n": types.SearchForUsersByHandleDocument,
     "\n  fragment UserSubscriptionFields on UserSubscription {\n    id\n    status\n    currentPeriodEnd\n    productID\n    priceID\n    createdAt\n  }\n": types.UserSubscriptionFieldsFragmentDoc,
     "\n  fragment WorkOrderFields on WorkOrder {\n    id\n    createdBy {\n      ...FixitUserFields\n    }\n    assignedTo {\n      ...FixitUserFields\n    }\n    status\n    priority\n    location {\n      country\n      region\n      city\n      streetLine1\n      streetLine2\n    }\n    category\n    description\n    checklist {\n      id\n      description\n      isCompleted\n    }\n    dueDate\n    entryContact\n    entryContactPhone\n    scheduledDateTime\n    contractorNotes\n    createdAt\n    updatedAt\n  }\n": types.WorkOrderFieldsFragmentDoc,
     "\n  mutation CreateWorkOrder($workOrder: CreateWorkOrderInput!) {\n    createWorkOrder(workOrder: $workOrder) {\n      ...WorkOrderFields\n    }\n  }\n": types.CreateWorkOrderDocument,
@@ -127,6 +128,10 @@ export function gql(source: "\n  query MyInvoices {\n    myInvoices {\n      cre
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n  query MyInvoicesWithWorkOrderData {\n    myInvoices {\n      createdByUser {\n        ...InvoiceWithWorkOrderFields\n      }\n      assignedToUser {\n        ...InvoiceWithWorkOrderFields\n      }\n    }\n  }\n"): (typeof documents)["\n  query MyInvoicesWithWorkOrderData {\n    myInvoices {\n      createdByUser {\n        ...InvoiceWithWorkOrderFields\n      }\n      assignedToUser {\n        ...InvoiceWithWorkOrderFields\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n  fragment ProfileFields on Profile {\n    displayName\n    givenName\n    familyName\n    businessName\n    photoUrl\n  }\n"): (typeof documents)["\n  fragment ProfileFields on Profile {\n    displayName\n    givenName\n    familyName\n    businessName\n    photoUrl\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -147,11 +152,11 @@ export function gql(source: "\n  fragment UserPublicFields on User {\n    id\n  
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query GetUserByHandle($handle: String!) {\n    getUserByHandle(handle: $handle) {\n      ...ContactPublicFields\n    }\n  }\n"): (typeof documents)["\n  query GetUserByHandle($handle: String!) {\n    getUserByHandle(handle: $handle) {\n      ...ContactPublicFields\n    }\n  }\n"];
+export function gql(source: "\n  query GetUserByHandle($handle: String!) {\n    getUserByHandle(handle: $handle) {\n      ...ContactFields\n    }\n  }\n"): (typeof documents)["\n  query GetUserByHandle($handle: String!) {\n    getUserByHandle(handle: $handle) {\n      ...ContactFields\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query SearchForUsersByHandle($handle: String!) {\n    searchForUsersByHandle(handle: $handle) {\n      ...ContactPublicFields\n    }\n  }\n"): (typeof documents)["\n  query SearchForUsersByHandle($handle: String!) {\n    searchForUsersByHandle(handle: $handle) {\n      ...ContactPublicFields\n    }\n  }\n"];
+export function gql(source: "\n  query SearchForUsersByHandle($handle: String!) {\n    searchForUsersByHandle(handle: $handle) {\n      ...ContactFields\n    }\n  }\n"): (typeof documents)["\n  query SearchForUsersByHandle($handle: String!) {\n    searchForUsersByHandle(handle: $handle) {\n      ...ContactFields\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

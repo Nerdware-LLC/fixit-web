@@ -111,7 +111,7 @@ const MOCK_CACHE_CONFIGS = {
     ROOT_QUERY_FIELD_NAME: "myWorkOrders",
   },
   Invoices: {
-    WRITE_QUERY_ARGS: { query: QUERIES.MY_INVOICES, data: MOCK_INVOICES },
+    WRITE_QUERY_ARGS: { query: QUERIES.MY_INVOICES_WITH_WORKORDER_DATA, data: MOCK_INVOICES },
     ROOT_QUERY_FIELD_NAME: "myInvoices",
   },
   Contacts: {
