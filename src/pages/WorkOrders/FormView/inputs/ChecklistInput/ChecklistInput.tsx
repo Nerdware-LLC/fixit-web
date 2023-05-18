@@ -7,8 +7,6 @@ import { CreateChecklistButton } from "./CreateChecklistButton";
 import { RemoveChecklistButton } from "./RemoveChecklistButton";
 import { checklistInputClassNames as classNames } from "./classNames";
 
-// TODO Make an "editable version" of @comps/Checklist, renderItem pattern too slow here
-
 /**
  * This component wraps the `Checklist` component with a null check; if the
  * checklist field value is not an array (would be null), this component renders
