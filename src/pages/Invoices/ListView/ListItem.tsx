@@ -44,7 +44,6 @@ export const InvoicesListItem = ({ listName, item, onClick, ...props }: Invoices
           {prettyCreatedAt}
         </Text>
         <Text className={coreListItemLayoutClassNames.statusText} variant="caption" component="p">
-          {/* TODO try adding the INV-status-icon here */}
           {prettyStatus}
         </Text>
       </div>

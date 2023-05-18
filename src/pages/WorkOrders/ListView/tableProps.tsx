@@ -59,7 +59,7 @@ const COLUMNS = Object.fromEntries(
         flex: 0.75,
       },
       region: {
-        headerName: "State", // TODO "region" vs "state" col name, use state only in US
+        headerName: "State",
         valueGetter: ({ row: wo }) => wo.location.region,
         flex: 0.75,
         minWidth: 125,

@@ -1,4 +1,3 @@
-import { NetworkStatus } from "@apollo/client";
 import { useQuery } from "@apollo/client/react/hooks";
 import { CreateItemButton } from "@components/Buttons/CreateItemButton";
 import { EmptyListFallback, type EmptyListFallbackProps } from "@components/HelpInfo";
@@ -11,14 +10,9 @@ import { InvoicesListItem } from "./ListItem";
 import { invoiceTableProps } from "./tableProps";
 
 export const InvoicesListView = () => {
-  // TODO impl refetch for InvoicesListView
-  // eslint-disable-next-line
-  const { data, loading, error, refetch, networkStatus } = useQuery(QUERIES.MY_INVOICES, {
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: "cache-only", // FIXME rm cache-only fetch policy from InvoicesListView
-  });
+  const { data, loading, error } = useQuery(QUERIES.MY_INVOICES);
 
-  return loading || networkStatus === NetworkStatus.refetch ? (
+  return loading ? (
     <Loading />
   ) : error ? (
     <Error error={error} />
@@ -67,7 +61,6 @@ export const InvoicesListView = () => {
         ],
         noRowsOverlayProps: {
           backgroundIcon: <FileInvoiceDollarIcon />,
-          // TODO add children here
         },
       }}
       sx={(theme) => ({
@@ -86,7 +79,6 @@ const InvoicesEmptyListFallback = ({
   <EmptyListFallback
     backgroundIcon={backgroundIcon}
     style={{ height: "50%", whiteSpace: "normal", marginTop: "6rem" }}
-    // TODO move above styles to CoreItemsListView (must only apply in dual-list views)
     {...props}
   />
 );

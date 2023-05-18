@@ -2,28 +2,23 @@ import { logger } from "./logger";
 import { getTypeSafeErr } from "./typeSafety";
 import type { Simplify } from "type-fest";
 
-export type LocalStorageWrapperKey = "authToken" | "preferredTheme" | "checkoutValues";
-export type LocalStorageWrapperKeysArray = ReadonlyArray<LocalStorageWrapperKey>;
-interface LocalStorageValueManagerConfig {
-  key: LocalStorageWrapperKey;
-  usesJSON?: boolean;
-}
-
-export const _STORAGE_KEY_CONFIGS: ReadonlyArray<LocalStorageValueManagerConfig> = [
+const _STORAGE_KEY_CONFIGS: ReadonlyArray<{
+  readonly key:
+    | "authToken"
+    | "checkoutValues"
+    | "preferredTheme"
+    | "workOrdersListViewSettings"
+    | "invoicesListViewSettings"
+    | "contactsListViewSettings";
+  readonly usesJSON?: boolean;
+}> = [
   { key: "authToken" },
-  { key: "preferredTheme" },
   { key: "checkoutValues", usesJSON: true },
+  { key: "preferredTheme" },
+  { key: "workOrdersListViewSettings", usesJSON: true },
+  { key: "invoicesListViewSettings", usesJSON: true },
+  { key: "contactsListViewSettings", usesJSON: true },
 ] as const;
-
-export const _STORAGE_KEYS = _STORAGE_KEY_CONFIGS.map(
-  ({ key }) => key
-) as LocalStorageWrapperKeysArray;
-
-export type LocalStorageUtil = Simplify<
-  { KEYS: LocalStorageWrapperKeysArray } & {
-    [K in LocalStorageWrapperKey as K]: LocalStorageValueManager;
-  }
->;
 
 export class LocalStorageValueManager {
   protected storageKey: LocalStorageWrapperKey;
@@ -66,6 +61,19 @@ export const storage = _STORAGE_KEY_CONFIGS.reduce(
   (acc, { key, usesJSON = false }) => ({
     ...acc,
     [key]: new LocalStorageValueManager({ key, usesJSON }),
+    KEYS: [...acc.KEYS, key],
   }),
-  { KEYS: _STORAGE_KEYS } as LocalStorageUtil
+  { KEYS: [] as LocalStorageWrapperKeysArray } as LocalStorageUtil
 );
+
+export type LocalStorageWrapperKey = (typeof _STORAGE_KEY_CONFIGS)[number]["key"];
+export type LocalStorageWrapperKeysArray = Array<LocalStorageWrapperKey>;
+interface LocalStorageValueManagerConfig {
+  key: LocalStorageWrapperKey;
+  usesJSON?: boolean;
+}
+export type LocalStorageUtil = Simplify<
+  { KEYS: LocalStorageWrapperKeysArray } & {
+    [K in LocalStorageWrapperKey as K]: LocalStorageValueManager;
+  }
+>;

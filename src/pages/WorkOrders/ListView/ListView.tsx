@@ -1,4 +1,3 @@
-import { NetworkStatus } from "@apollo/client";
 import { useQuery } from "@apollo/client/react/hooks";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import { CreateItemButton } from "@components/Buttons/CreateItemButton";
@@ -11,14 +10,9 @@ import { WorkOrdersListItem } from "./ListItem";
 import { workOrderTableProps } from "./tableProps";
 
 export const WorkOrdersListView = () => {
-  // TODO impl refetch for WorkOrdersListView
-  // eslint-disable-next-line
-  const { data, loading, error, refetch, networkStatus } = useQuery(QUERIES.MY_WORK_ORDERS, {
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: "cache-only", // FIXME rm cache-only fetch policy from WorkOrdersListView
-  });
+  const { data, loading, error } = useQuery(QUERIES.MY_WORK_ORDERS);
 
-  return loading || networkStatus === NetworkStatus.refetch ? (
+  return loading ? (
     <Loading />
   ) : error ? (
     <Error error={error} />
@@ -70,7 +64,6 @@ export const WorkOrdersListView = () => {
         ],
         noRowsOverlayProps: {
           backgroundIcon: <ConstructionIcon />,
-          // TODO add children here
         },
       }}
     />
@@ -84,7 +77,6 @@ const WorkOrdersEmptyListFallback = ({
   <EmptyListFallback
     backgroundIcon={<ConstructionIcon />}
     style={{ height: "50%", whiteSpace: "normal", marginTop: "6rem" }}
-    // TODO move above styles to CoreItemsListView (must only apply in dual-list views)
     {...props}
   />
 );

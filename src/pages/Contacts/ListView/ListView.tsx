@@ -1,4 +1,3 @@
-import { NetworkStatus } from "@apollo/client";
 import { useQuery } from "@apollo/client/react/hooks";
 import GroupIcon from "@mui/icons-material/Group";
 import { EmptyListFallback, helpInfoClassNames } from "@components/HelpInfo";
@@ -13,14 +12,9 @@ import { contactTableProps } from "./tableProps";
 import type { ListViewRenderItemFn } from "@layouts/CoreItemsListView";
 
 export const ContactsListView = () => {
-  // TODO impl refetch for ContactsListView
-  // eslint-disable-next-line
-  const { data, loading, error, refetch, networkStatus } = useQuery(QUERIES.MY_CONTACTS, {
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: "cache-only", // FIXME rm cache-only fetch policy from ContactsListView
-  });
+  const { data, loading, error } = useQuery(QUERIES.MY_CONTACTS);
 
-  return loading || networkStatus === NetworkStatus.refetch ? (
+  return loading ? (
     <Loading />
   ) : error ? (
     <Error error={error} />
@@ -56,7 +50,6 @@ export const ContactsListView = () => {
         rows: data?.myContacts ?? [],
         noRowsOverlayProps: {
           backgroundIcon: <GroupIcon />,
-          // TODO add children here
         },
       }}
       sx={({ variables }) => ({

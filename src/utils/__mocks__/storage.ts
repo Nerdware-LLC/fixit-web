@@ -1,5 +1,5 @@
 import {
-  _STORAGE_KEYS,
+  storage as _storage,
   type LocalStorageWrapperKey,
   type LocalStorageValueManager,
   type LocalStorageUtil,
@@ -14,7 +14,7 @@ beforeEach(() => {
   _mockLocalStorage = {};
 });
 
-export const storage = _STORAGE_KEYS.reduce(
+export const storage = _storage.KEYS.reduce(
   (acc, key) => ({
     ...acc,
     [key]: {
@@ -33,5 +33,5 @@ export const storage = _STORAGE_KEYS.reduce(
       }),
     },
   }),
-  { KEYS: _STORAGE_KEYS } as LocalStorageUtil
+  { KEYS: [..._storage.KEYS] } as LocalStorageUtil
 );
