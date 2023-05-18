@@ -12,8 +12,8 @@ export const LoginForm = () => {
   const nav = useNavigate();
 
   const onSubmit = async (credentials: LoginParams) => {
-    const { success } = await login(credentials);
-    if (success) {
+    const apiResponse = await login(credentials);
+    if (apiResponse?.success === true) {
       toast.success("Welcome back!", { toastId: "login-success" });
       nav("/home");
     }

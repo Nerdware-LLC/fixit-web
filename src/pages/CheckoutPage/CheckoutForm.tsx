@@ -6,22 +6,18 @@ import type { PaymentMethod } from "@stripe/stripe-js";
 /**
  * Displays a form with a Stripe card input.
  */
-export const CheckoutForm = ({
-  onCompleteCheckout,
-}: {
-  onCompleteCheckout: (success: boolean) => Promise<void>;
-}) => {
+export const CheckoutForm = ({ onCompleteCheckout }: CheckoutFormProps) => {
   const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore() as CheckoutValues;
   const { submitPaymentForSubscription } = useStripeService();
 
   const handleSubmit = async (paymentMethod: PaymentMethod) => {
-    const { success } = await submitPaymentForSubscription({
+    const apiResponse = await submitPaymentForSubscription({
       selectedSubscription,
       paymentMethodID: paymentMethod.id,
       ...(!!promoCode && { promoCode }),
     });
 
-    await onCompleteCheckout(success);
+    await onCompleteCheckout(apiResponse?.success ?? false);
   };
 
   return (
@@ -35,4 +31,8 @@ export const CheckoutForm = ({
       }}
     />
   );
+};
+
+export type CheckoutFormProps = {
+  onCompleteCheckout: (success: boolean) => Promise<void>;
 };

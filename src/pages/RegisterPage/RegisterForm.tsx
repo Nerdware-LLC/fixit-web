@@ -22,9 +22,9 @@ export const RegisterForm = () => {
 
   const handleSubmit = async (values: RegisterNewUserParams) => {
     // Add "@" prefix to "handle"
-    const { success } = await registerNewUser({ ...values, handle: `@${values.handle}` });
+    const apiResponse = await registerNewUser({ ...values, handle: `@${values.handle}` });
 
-    if (success) {
+    if (apiResponse?.success === true) {
       /* If the user registered AFTER selecting a subscription from the /products page,
       locationState will contain their selectedSub in locationState.sub, which needs to
       be provided to the checkout page. If that property does not yet exist, nav to the
