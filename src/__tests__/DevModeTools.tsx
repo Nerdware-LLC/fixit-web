@@ -78,7 +78,7 @@ export const DevModeTools = ({
           <Divider flexItem />
           <div className={classNames.contentRoot}>
             <div className={classNames.section}>
-              <Text variant="h6">Manage Mocked Items in Cache:</Text>
+              <Text variant="h6">Manage Mocked Items in Apollo-Cache:</Text>
               <div className={classNames.sectionContent}>
                 {HANDLE_MANAGE_CACHE_ACTIONS.map((action) => (
                   <div key={action} className={classNames.actionBtnsGrpParentContainer}>
@@ -138,7 +138,7 @@ const classNames = {
   actionBtnsGrpParentContainer: "dev-mode-tools-action-btns-grp-parent-container",
 };
 
-const StyledPaper = styled(Paper)({
+const StyledPaper = styled(Paper)(({ theme: { variables } }) => ({
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -180,6 +180,12 @@ const StyledPaper = styled(Paper)({
       display: "flex",
       gap: "0.5rem",
       flexDirection: "column",
+      alignItems: "center",
+
+      "& > h6": {
+        fontSize: variables.isMobilePageLayout ? "1rem" : "1.25rem",
+        marginBottom: "0.25rem",
+      },
 
       // 1st section's content container:
       [`&:first-of-type > div.${classNames.sectionContent}`]: {
@@ -207,6 +213,6 @@ const StyledPaper = styled(Paper)({
       },
     },
   },
-});
+}));
 
 export type DevModeToolsProps = { label?: React.ReactNode } & Omit<ButtonProps, "id" | "onClick">;
