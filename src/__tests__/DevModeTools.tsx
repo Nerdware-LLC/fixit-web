@@ -41,11 +41,11 @@ export const DevModeTools = ({
         broadcast: true,
         fields:
           target !== "ALL"
-            ? { [MOCK_CACHE_CONFIGS[target].ROOT_QUERY_FIELD_NAME]: () => [] }
+            ? { [MOCK_CACHE_CONFIGS[target].ROOT_QUERY_FIELD_NAME]: (_, { DELETE }) => DELETE }
             : {
-                [MOCK_CACHE_CONFIGS.WorkOrders.ROOT_QUERY_FIELD_NAME]: () => [],
-                [MOCK_CACHE_CONFIGS.Invoices.ROOT_QUERY_FIELD_NAME]: () => [],
-                [MOCK_CACHE_CONFIGS.Contacts.ROOT_QUERY_FIELD_NAME]: () => [],
+                [MOCK_CACHE_CONFIGS.WorkOrders.ROOT_QUERY_FIELD_NAME]: (_, { DELETE }) => DELETE,
+                [MOCK_CACHE_CONFIGS.Invoices.ROOT_QUERY_FIELD_NAME]: (_, { DELETE }) => DELETE,
+                [MOCK_CACHE_CONFIGS.Contacts.ROOT_QUERY_FIELD_NAME]: (_, { DELETE }) => DELETE,
               },
       });
       // Run garbage collection to remove the single-item cache refs
