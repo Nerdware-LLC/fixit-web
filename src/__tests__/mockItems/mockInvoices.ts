@@ -126,38 +126,40 @@ const findWorkOrderWithInverseUserRoles = ({
  */
 export const MOCK_INVOICES = {
   myInvoices: {
-    // Between 20-50 invoices created by user "Guy McPerson":
-    createdByUser: [...Array(randomIntBetween(20, 50))].map(() => {
+    // Between 50-100 invoices created by user "Guy McPerson":
+    createdByUser: [...Array(randomIntBetween(50, 100))].map(() => {
       // Assign to random mock contact
       const invoiceAssignedTo = getRandomContact();
 
       return createMockInvoice({
         createdBy: MOCK_USERS.Guy_McPerson,
         assignedTo: invoiceAssignedTo,
-        workOrder: faker.helpers.maybe(() =>
-          // Attempt to find a suitable corresponding WorkOrder:
-          findWorkOrderWithInverseUserRoles({
-            invoiceCreatedBy: MOCK_USERS.Guy_McPerson,
-            invoiceAssignedTo,
-          })
-        ),
+        workOrder:
+          faker.helpers.maybe(() =>
+            // Attempt to find a suitable corresponding WorkOrder:
+            findWorkOrderWithInverseUserRoles({
+              invoiceCreatedBy: MOCK_USERS.Guy_McPerson,
+              invoiceAssignedTo,
+            })
+          ) ?? null,
       });
     }),
-    // Between 20-50 invoices assigned to user "Guy McPerson":
-    assignedToUser: [...Array(randomIntBetween(20, 50))].map(() => {
+    // Between 50-100 invoices assigned to user "Guy McPerson":
+    assignedToUser: [...Array(randomIntBetween(50, 100))].map(() => {
       // Created by random mock contact
       const invoiceCreatedBy = getRandomContact();
 
       return createMockInvoice({
         createdBy: invoiceCreatedBy,
         assignedTo: MOCK_USERS.Guy_McPerson,
-        workOrder: faker.helpers.maybe(() =>
-          // Attempt to find a suitable corresponding WorkOrder:
-          findWorkOrderWithInverseUserRoles({
-            invoiceCreatedBy,
-            invoiceAssignedTo: MOCK_USERS.Guy_McPerson,
-          })
-        ),
+        workOrder:
+          faker.helpers.maybe(() =>
+            // Attempt to find a suitable corresponding WorkOrder:
+            findWorkOrderWithInverseUserRoles({
+              invoiceCreatedBy,
+              invoiceAssignedTo: MOCK_USERS.Guy_McPerson,
+            })
+          ) ?? null,
       });
     }),
   },

@@ -103,16 +103,16 @@ const createMockWorkOrder = ({
  */
 export const MOCK_WORK_ORDERS = {
   myWorkOrders: {
-    // Between 20-50 work orders created by user "Guy McPerson":
-    createdByUser: [...Array(randomIntBetween(20, 50))].map(() =>
+    // Between 50-100 work orders created by user "Guy McPerson":
+    createdByUser: [...Array(randomIntBetween(50, 100))].map(() =>
       createMockWorkOrder({
         createdBy: MOCK_USERS.Guy_McPerson,
         // Assign 90% of WOs to random mock contact
         assignedTo: faker.helpers.maybe(() => getRandomContact(), { probability: 0.9 }),
       })
     ),
-    // Between 20-50 work orders assigned to user "Guy McPerson":
-    assignedToUser: [...Array(randomIntBetween(20, 50))].map(() =>
+    // Between 50-100 work orders assigned to user "Guy McPerson":
+    assignedToUser: [...Array(randomIntBetween(50, 100))].map(() =>
       createMockWorkOrder({
         // Created by random mock contact
         createdBy: getRandomContact(),
