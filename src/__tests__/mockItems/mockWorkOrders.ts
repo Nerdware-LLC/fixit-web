@@ -23,7 +23,10 @@ const createMockWorkOrder = ({
     ),
   });
 
-  const workOrderID = `WO#${createdBy.id}#${Math.floor(woCreatedAt.getTime() / 1000)}`;
+  // If 'createdBy' is a Contact, rm "CONTACT#" prefix from ID, else use ID as-is
+  const workOrderID = `WO#${createdBy.id.replace(/CONTACT#/, "")}#${Math.floor(
+    woCreatedAt.getTime() / 1000
+  )}`;
 
   return {
     __typename: "WorkOrder",

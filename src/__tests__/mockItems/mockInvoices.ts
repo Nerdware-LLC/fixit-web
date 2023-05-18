@@ -37,7 +37,8 @@ const createMockInvoice = ({
   return {
     __typename: "Invoice",
 
-    id: `INV#${createdBy.id}#${Math.floor(invCreatedAt.getTime() / 1000)}`,
+    // If 'createdBy' is a Contact, rm "CONTACT#" prefix from ID, else use ID as-is
+    id: `INV#${createdBy.id.replace(/CONTACT#/, "")}#${Math.floor(invCreatedAt.getTime() / 1000)}`,
     createdBy,
     assignedTo,
     status: invoiceStatus,
