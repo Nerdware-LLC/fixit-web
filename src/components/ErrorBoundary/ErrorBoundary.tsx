@@ -16,6 +16,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   };
 
   public static getDerivedStateFromError(error: Error) {
+    logger.error(error, "ErrorBoundary.getDerivedStateFromError");
     return { hasError: true };
   }
 
@@ -23,7 +24,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     logger.error(
       `${error}
       ${errorInfo}`,
-      `Sentry.ErrorBoundary${this.props?.identifier ? `:${this.props.identifier}` : null}`
+      `ErrorBoundary${this.props?.identifier ? `:${this.props.identifier}` : null}`
     );
   }
 
@@ -39,6 +40,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 }
 
 export type ErrorBoundaryProps = React.ComponentProps<typeof Sentry.ErrorBoundary> & {
+  showDialog?: boolean;
   identifier?: string;
   children?: React.ReactNode;
 };
