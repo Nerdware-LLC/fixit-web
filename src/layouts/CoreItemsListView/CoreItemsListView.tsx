@@ -42,30 +42,17 @@ export const CoreItemsListView = ({
   const { listOrTable, listVisibility = null } =
     listViewSettingsStore[listViewSettingsStoreKey].useSubToStore();
 
-  // prettier-ignore
-  const tryNavToItemView = ({ itemID, isItemOwnedByUser }: { itemID?: string; isItemOwnedByUser?: boolean; }) => {
-    if (typeof itemID === "string") {
-      nav(`${viewBasePath}/${encodeURIComponent(itemID)}`, {
-        state: {
-          isItemOwnedByUser: typeof isItemOwnedByUser === "boolean" && isItemOwnedByUser === true
-        }
-      });
-    }
+  const tryNavToItemView = ({ itemID }: { itemID?: string }) => {
+    if (typeof itemID === "string") nav(`${viewBasePath}/${encodeURIComponent(itemID)}`);
   };
 
-  const handleClickDataGridRow: GridEventListener<"rowClick"> = ({ id, row }) => {
-    tryNavToItemView({
-      itemID: id as string,
-      ...(!!row?.isItemOwnedByUser && { isItemOwnedByUser: row.isItemOwnedByUser }),
-    });
+  const handleClickDataGridRow: GridEventListener<"rowClick"> = ({ id }) => {
+    tryNavToItemView({ itemID: id as string });
   };
 
   const handleClickListItem = (event: React.MouseEvent<HTMLDivElement & HTMLLIElement>) => {
-    const { itemId: itemID, listName } = event.currentTarget.dataset;
-    tryNavToItemView({
-      itemID,
-      ...(!!listName && { isItemOwnedByUser: listName === "Sent" }),
-    });
+    const { itemId: itemID } = event.currentTarget.dataset;
+    tryNavToItemView({ itemID });
   };
 
   const numVisibleLists = listVisibility
