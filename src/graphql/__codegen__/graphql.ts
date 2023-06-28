@@ -5,25 +5,27 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
   /** Custom DateTime scalar; pass a string or js date instance obj */
-  DateTime: any;
+  DateTime: { input: any; output: any; }
   /** Custom Email scalar; validates using regex */
-  Email: any;
+  Email: { input: any; output: any; }
 };
 
 export type CancelWorkOrderResponse = DeleteMutationResponse | WorkOrder;
 
 export type ChecklistItem = {
-  description: Scalars['String'];
-  id: Scalars['ID'];
-  isCompleted: Scalars['Boolean'];
+  description: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  isCompleted: Scalars['Boolean']['output'];
 };
 
 /**
@@ -34,50 +36,50 @@ export type ChecklistItem = {
  */
 export type Contact = FixitUser & {
   /** (Immutable) Contact creation timestamp */
-  createdAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime']['output'];
   /** Contact email address */
-  email: Scalars['Email'];
+  email: Scalars['Email']['output'];
   /** Public-facing handle identifies users to other users (e.g., '@joe') */
-  handle: Scalars['String'];
+  handle: Scalars['String']['output'];
   /** User ID internally identifies individual User accounts */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** Contact phone number */
-  phone: Scalars['String'];
+  phone: Scalars['String']['output'];
   /** Contact Profile object */
   profile: Profile;
   /** Timestamp of the most recent Contact object update */
-  updatedAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type CreateChecklistItemInput = {
-  description: Scalars['String'];
-  isCompleted?: InputMaybe<Scalars['Boolean']>;
+  description: Scalars['String']['input'];
+  isCompleted?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type CreateLocationInput = {
-  city: Scalars['String'];
-  country?: InputMaybe<Scalars['String']>;
-  region: Scalars['String'];
-  streetLine1: Scalars['String'];
-  streetLine2?: InputMaybe<Scalars['String']>;
+  city: Scalars['String']['input'];
+  country?: InputMaybe<Scalars['String']['input']>;
+  region: Scalars['String']['input'];
+  streetLine1: Scalars['String']['input'];
+  streetLine2?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateWorkOrderInput = {
-  assignedTo?: InputMaybe<Scalars['ID']>;
+  assignedTo?: InputMaybe<Scalars['ID']['input']>;
   category?: InputMaybe<WorkOrderCategory>;
-  checklist?: InputMaybe<Array<InputMaybe<CreateChecklistItemInput>>>;
-  description?: InputMaybe<Scalars['String']>;
-  dueDate?: InputMaybe<Scalars['DateTime']>;
-  entryContact?: InputMaybe<Scalars['String']>;
-  entryContactPhone?: InputMaybe<Scalars['String']>;
+  checklist?: InputMaybe<Array<CreateChecklistItemInput>>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  dueDate?: InputMaybe<Scalars['DateTime']['input']>;
+  entryContact?: InputMaybe<Scalars['String']['input']>;
+  entryContactPhone?: InputMaybe<Scalars['String']['input']>;
   location: CreateLocationInput;
   priority?: InputMaybe<WorkOrderPriority>;
-  scheduledDateTime?: InputMaybe<Scalars['DateTime']>;
+  scheduledDateTime?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type DeleteMutationResponse = {
-  id: Scalars['ID'];
-  wasDeleted: Scalars['Boolean'];
+  id: Scalars['ID']['output'];
+  wasDeleted: Scalars['Boolean']['output'];
 };
 
 /**
@@ -87,18 +89,18 @@ export type DeleteMutationResponse = {
  * fields which are not accessible to other users.
  */
 export type FixitUser = {
-  createdAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime']['output'];
   /** Email address of either a User or Contact */
-  email: Scalars['Email'];
+  email: Scalars['Email']['output'];
   /** Public-facing handle identifies users to other users (e.g., '@joe') */
-  handle: Scalars['String'];
+  handle: Scalars['String']['output'];
   /** User ID internally identifies individual User accounts */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** Phone number of either a User or Contact */
-  phone: Scalars['String'];
+  phone: Scalars['String']['output'];
   /** Profile object of either a User or Contact */
   profile: Profile;
-  updatedAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 /**
@@ -113,35 +115,35 @@ export type FixitUser = {
  * perform some sort of "side-effect" (e.g. sending an email, sending a text message, etc.).
  */
 export type GenericSuccessResponse = {
-  wasSuccessful: Scalars['Boolean'];
+  wasSuccessful: Scalars['Boolean']['output'];
 };
 
 export type Invoice = {
   /** The Invoice amount, represented as an integer which reflects USD centage (an 'amount' of 1 = $0.01 USD) */
-  amount: Scalars['Int'];
+  amount: Scalars['Int']['output'];
   /** (Immutable) The FixitUser to whom the Invoice was assigned, AKA the Invoice's recipient */
   assignedTo: FixitUser;
   /** (Immutable) Invoice creation timestamp */
-  createdAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime']['output'];
   /** (Immutable) The FixitUser who created/sent the Invoice */
   createdBy: FixitUser;
   /** (Immutable) Invoice ID, in the format of 'INV#{createdBy.id}#{unixTimestamp(createdAt)}' */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The Invoice status; this field is controlled by the API and can not be directly edited by Users */
   status: InvoiceStatus;
   /** The ID of the most recent successful paymentIntent applied to the Invoice, if any */
-  stripePaymentIntentID?: Maybe<Scalars['String']>;
+  stripePaymentIntentID?: Maybe<Scalars['String']['output']>;
   /** Timestamp of the most recent Invoice update */
-  updatedAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime']['output'];
   /** A WorkOrder attached to the Invoice which was created by the 'assignedTo' User */
   workOrder?: Maybe<WorkOrder>;
 };
 
 export type InvoiceInput = {
-  amount: Scalars['Int'];
+  amount: Scalars['Int']['input'];
   /** The ID of the User to whom the Invoice will be assigned */
-  assignedTo: Scalars['ID'];
-  workOrderID?: InputMaybe<Scalars['ID']>;
+  assignedTo: Scalars['ID']['input'];
+  workOrderID?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type InvoiceStatus =
@@ -150,15 +152,15 @@ export type InvoiceStatus =
   | 'OPEN';
 
 export type Location = {
-  city: Scalars['String'];
-  country?: Maybe<Scalars['String']>;
-  region: Scalars['String'];
-  streetLine1: Scalars['String'];
-  streetLine2?: Maybe<Scalars['String']>;
+  city: Scalars['String']['output'];
+  country?: Maybe<Scalars['String']['output']>;
+  region: Scalars['String']['output'];
+  streetLine1: Scalars['String']['output'];
+  streetLine2?: Maybe<Scalars['String']['output']>;
 };
 
 export type Mutation = {
-  _root?: Maybe<Scalars['Boolean']>;
+  _root?: Maybe<Scalars['Boolean']['output']>;
   cancelWorkOrder: CancelWorkOrderResponse;
   createContact: Contact;
   createInvite: GenericSuccessResponse;
@@ -175,17 +177,17 @@ export type Mutation = {
 
 
 export type MutationCancelWorkOrderArgs = {
-  workOrderID: Scalars['ID'];
+  workOrderID: Scalars['ID']['input'];
 };
 
 
 export type MutationCreateContactArgs = {
-  contactUserID: Scalars['ID'];
+  contactUserID: Scalars['ID']['input'];
 };
 
 
 export type MutationCreateInviteArgs = {
-  phoneOrEmail: Scalars['String'];
+  phoneOrEmail: Scalars['String']['input'];
 };
 
 
@@ -200,28 +202,28 @@ export type MutationCreateWorkOrderArgs = {
 
 
 export type MutationDeleteContactArgs = {
-  contactID: Scalars['ID'];
+  contactID: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteInvoiceArgs = {
-  invoiceID: Scalars['ID'];
+  invoiceID: Scalars['ID']['input'];
 };
 
 
 export type MutationPayInvoiceArgs = {
-  invoiceID: Scalars['ID'];
+  invoiceID: Scalars['ID']['input'];
 };
 
 
 export type MutationSetWorkOrderStatusCompleteArgs = {
-  workOrderID: Scalars['ID'];
+  workOrderID: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdateInvoiceAmountArgs = {
-  amount: Scalars['Int'];
-  invoiceID: Scalars['ID'];
+  amount: Scalars['Int']['input'];
+  invoiceID: Scalars['ID']['input'];
 };
 
 
@@ -232,7 +234,7 @@ export type MutationUpdateProfileArgs = {
 
 export type MutationUpdateWorkOrderArgs = {
   workOrder: UpdateWorkOrderInput;
-  workOrderID: Scalars['ID'];
+  workOrderID: Scalars['ID']['input'];
 };
 
 export type MyInvoicesQueryReturnType = {
@@ -246,32 +248,32 @@ export type MyWorkOrdersQueryReturnType = {
 };
 
 export type PhoneContact = {
-  email?: Maybe<Scalars['Email']>;
-  handle?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-  isUser: Scalars['Boolean'];
-  phone?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['Email']['output']>;
+  handle?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  isUser: Scalars['Boolean']['output'];
+  phone?: Maybe<Scalars['String']['output']>;
   profile: Profile;
 };
 
 export type Profile = {
-  businessName?: Maybe<Scalars['String']>;
-  displayName: Scalars['String'];
-  familyName?: Maybe<Scalars['String']>;
-  givenName?: Maybe<Scalars['String']>;
-  photoUrl?: Maybe<Scalars['String']>;
+  businessName?: Maybe<Scalars['String']['output']>;
+  displayName: Scalars['String']['output'];
+  familyName?: Maybe<Scalars['String']['output']>;
+  givenName?: Maybe<Scalars['String']['output']>;
+  photoUrl?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProfileInput = {
-  businessName?: InputMaybe<Scalars['String']>;
-  displayName?: InputMaybe<Scalars['String']>;
-  familyName?: InputMaybe<Scalars['String']>;
-  givenName?: InputMaybe<Scalars['String']>;
-  photoUrl?: InputMaybe<Scalars['String']>;
+  businessName?: InputMaybe<Scalars['String']['input']>;
+  displayName?: InputMaybe<Scalars['String']['input']>;
+  familyName?: InputMaybe<Scalars['String']['input']>;
+  givenName?: InputMaybe<Scalars['String']['input']>;
+  photoUrl?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Query = {
-  _root?: Maybe<Scalars['Boolean']>;
+  _root?: Maybe<Scalars['Boolean']['output']>;
   contact: Contact;
   /**
    * This query returns the public fields of a User whose handle exactly matches the
@@ -304,7 +306,7 @@ export type Query = {
    *   `nextOffset`. The `data` key will contain the array of matching Users, and `nextOffset`
    *   will be the value of the `offset` argument to be used in a follow-up query.
    */
-  searchForUsersByHandle?: Maybe<Array<Contact>>;
+  searchForUsersByHandle: Array<Contact>;
   /** This query is not yet available in prod/staging - will throw 400 error outside of dev. */
   searchUsersForPhoneContacts?: Maybe<Array<Maybe<PhoneContact>>>;
   user: User;
@@ -313,29 +315,29 @@ export type Query = {
 
 
 export type QueryContactArgs = {
-  contactID: Scalars['ID'];
+  contactID: Scalars['ID']['input'];
 };
 
 
 export type QueryGetUserByHandleArgs = {
-  handle: Scalars['String'];
+  handle: Scalars['String']['input'];
 };
 
 
 export type QueryInvoiceArgs = {
-  invoiceID: Scalars['ID'];
+  invoiceID: Scalars['ID']['input'];
 };
 
 
 export type QueryProfileArgs = {
-  profileID: Scalars['ID'];
+  profileID: Scalars['ID']['input'];
 };
 
 
 export type QuerySearchForUsersByHandleArgs = {
-  handle: Scalars['String'];
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  handle: Scalars['String']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -345,15 +347,15 @@ export type QuerySearchUsersForPhoneContactsArgs = {
 
 
 export type QueryWorkOrderArgs = {
-  workOrderID: Scalars['ID'];
+  workOrderID: Scalars['ID']['input'];
 };
 
 export type RawPhoneContactInput = {
-  email?: InputMaybe<Scalars['String']>;
-  id: Scalars['String'];
-  name?: InputMaybe<Scalars['String']>;
-  phone?: InputMaybe<Scalars['String']>;
-  photoUrl?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  photoUrl?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SubscriptionStatus =
@@ -366,30 +368,30 @@ export type SubscriptionStatus =
   | 'unpaid';
 
 export type UpdateChecklistItemInput = {
-  description?: InputMaybe<Scalars['String']>;
-  id: Scalars['ID'];
-  isCompleted?: InputMaybe<Scalars['Boolean']>;
+  description: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+  isCompleted?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UpdateLocationInput = {
-  city?: InputMaybe<Scalars['String']>;
-  country?: InputMaybe<Scalars['String']>;
-  region?: InputMaybe<Scalars['String']>;
-  streetLine1?: InputMaybe<Scalars['String']>;
-  streetLine2?: InputMaybe<Scalars['String']>;
+  city: Scalars['String']['input'];
+  country?: InputMaybe<Scalars['String']['input']>;
+  region: Scalars['String']['input'];
+  streetLine1: Scalars['String']['input'];
+  streetLine2?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateWorkOrderInput = {
-  assignedToUserID?: InputMaybe<Scalars['ID']>;
+  assignedToUserID?: InputMaybe<Scalars['ID']['input']>;
   category?: InputMaybe<WorkOrderCategory>;
-  checklist?: InputMaybe<Array<InputMaybe<UpdateChecklistItemInput>>>;
-  description?: InputMaybe<Scalars['String']>;
-  dueDate?: InputMaybe<Scalars['DateTime']>;
-  entryContact?: InputMaybe<Scalars['String']>;
-  entryContactPhone?: InputMaybe<Scalars['String']>;
+  checklist?: InputMaybe<Array<UpdateChecklistItemInput>>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  dueDate?: InputMaybe<Scalars['DateTime']['input']>;
+  entryContact?: InputMaybe<Scalars['String']['input']>;
+  entryContactPhone?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<UpdateLocationInput>;
   priority?: InputMaybe<WorkOrderPriority>;
-  scheduledDateTime?: InputMaybe<Scalars['DateTime']>;
+  scheduledDateTime?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 /**
@@ -399,46 +401,46 @@ export type UpdateWorkOrderInput = {
  */
 export type User = FixitUser & {
   /** (Immutable) Account creation timestamp */
-  createdAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime']['output'];
   /** (Immutable) User's own email address */
-  email: Scalars['Email'];
+  email: Scalars['Email']['output'];
   /** (Mobile-Only) User's Expo push token, used to send push notifications to the User's mobile device */
-  expoPushToken?: Maybe<Scalars['String']>;
+  expoPushToken?: Maybe<Scalars['String']['output']>;
   /** (Immutable) Public-facing handle identifies users to other users (e.g., '@joe') */
-  handle: Scalars['String'];
+  handle: Scalars['String']['output'];
   /** (Immutable) User ID internally identifies individual User accounts */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** (Immutable) User's own phone number */
-  phone: Scalars['String'];
+  phone: Scalars['String']['output'];
   /** User's own Profile object */
   profile: Profile;
   /** User Stripe Connect Account info */
   stripeConnectAccount?: Maybe<UserStripeConnectAccount>;
   /** User's Stripe Customer ID (defined and generated by Stripe) */
-  stripeCustomerID: Scalars['String'];
+  stripeCustomerID: Scalars['String']['output'];
   /** User Subscription info */
   subscription?: Maybe<UserSubscription>;
   /** Timestamp of the most recent account update */
-  updatedAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type UserStripeConnectAccount = {
-  chargesEnabled: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
-  detailsSubmitted: Scalars['Boolean'];
-  id: Scalars['ID'];
-  payoutsEnabled: Scalars['Boolean'];
-  updatedAt: Scalars['DateTime'];
+  chargesEnabled: Scalars['Boolean']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  detailsSubmitted: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
+  payoutsEnabled: Scalars['Boolean']['output'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type UserSubscription = {
-  createdAt: Scalars['DateTime'];
-  currentPeriodEnd: Scalars['DateTime'];
-  id: Scalars['ID'];
-  priceID: Scalars['String'];
-  productID: Scalars['String'];
+  createdAt: Scalars['DateTime']['output'];
+  currentPeriodEnd: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  priceID: Scalars['String']['output'];
+  productID: Scalars['String']['output'];
   status: SubscriptionStatus;
-  updatedAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 /** A WorkOrder is a request one User submits to another for work to be performed at a location */
@@ -450,31 +452,31 @@ export type WorkOrder = {
   /** The WorkOrder checklist, an array of ChecklistItem objects */
   checklist?: Maybe<Array<Maybe<ChecklistItem>>>;
   /** Notes from the WorkOrder's recipient (this field will be renamed in the future) */
-  contractorNotes?: Maybe<Scalars['String']>;
+  contractorNotes?: Maybe<Scalars['String']['output']>;
   /** (Immutable) WorkOrder creation timestamp */
-  createdAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime']['output'];
   /** (Immutable) The FixitUser who created/sent the WorkOrder */
   createdBy: FixitUser;
   /** A general description of the work to be performed as part of the WorkOrder */
-  description?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
   /** Timestamp of the WorkOrder's due date */
-  dueDate?: Maybe<Scalars['DateTime']>;
+  dueDate?: Maybe<Scalars['DateTime']['output']>;
   /** The name of the WorkOrder's entry contact, if any */
-  entryContact?: Maybe<Scalars['String']>;
+  entryContact?: Maybe<Scalars['String']['output']>;
   /** The phone number of the WorkOrder's entry contact, if any */
-  entryContactPhone?: Maybe<Scalars['String']>;
+  entryContactPhone?: Maybe<Scalars['String']['output']>;
   /** (Immutable) WorkOrder ID, in the format of 'WO#{createdBy.id}#{unixTimestamp(createdAt)}' */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The location of the job site for the WorkOrder */
   location: Location;
   /** The WorkOrder priority */
   priority: WorkOrderPriority;
   /** Timestamp of the WorkOrder's scheduled completion */
-  scheduledDateTime?: Maybe<Scalars['DateTime']>;
+  scheduledDateTime?: Maybe<Scalars['DateTime']['output']>;
   /** The WorkOrder status */
   status: WorkOrderStatus;
   /** Timestamp of the most recent WorkOrder update */
-  updatedAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type WorkOrderCategory =
@@ -512,21 +514,21 @@ export type ContactFieldsFragment = { id: string, handle: string, email: any, ph
 export type ContactPublicFieldsFragment = { id: string, handle: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } };
 
 export type CreateContactMutationVariables = Exact<{
-  contactUserID: Scalars['ID'];
+  contactUserID: Scalars['ID']['input'];
 }>;
 
 
 export type CreateContactMutation = { createContact: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } };
 
 export type DeleteContactMutationVariables = Exact<{
-  contactID: Scalars['ID'];
+  contactID: Scalars['ID']['input'];
 }>;
 
 
 export type DeleteContactMutation = { deleteContact: { id: string, wasDeleted: boolean } };
 
 export type ContactQueryVariables = Exact<{
-  contactID: Scalars['ID'];
+  contactID: Scalars['ID']['input'];
 }>;
 
 
@@ -544,7 +546,7 @@ type FixitUserFields_User_Fragment = { createdAt: any, updatedAt: any, id: strin
 export type FixitUserFieldsFragment = FixitUserFields_Contact_Fragment | FixitUserFields_User_Fragment;
 
 export type CreateInviteMutationVariables = Exact<{
-  phoneOrEmail: Scalars['String'];
+  phoneOrEmail: Scalars['String']['input'];
 }>;
 
 
@@ -562,29 +564,29 @@ export type CreateInvoiceMutationVariables = Exact<{
 export type CreateInvoiceMutation = { createInvoice: { id: string, amount: number, status: InvoiceStatus, stripePaymentIntentID?: string | null, createdAt: any, updatedAt: any, workOrder?: { id: string, status: WorkOrderStatus, priority: WorkOrderPriority, category?: WorkOrderCategory | null, description?: string | null, dueDate?: any | null, entryContact?: string | null, entryContactPhone?: string | null, scheduledDateTime?: any | null, contractorNotes?: string | null, createdAt: any, updatedAt: any, createdBy: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } }, assignedTo?: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | null, location: { country?: string | null, region: string, city: string, streetLine1: string, streetLine2?: string | null }, checklist?: Array<{ id: string, description: string, isCompleted: boolean } | null> | null } | null, createdBy: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } }, assignedTo: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } } };
 
 export type UpdateInvoiceAmountMutationVariables = Exact<{
-  invoiceID: Scalars['ID'];
-  amount: Scalars['Int'];
+  invoiceID: Scalars['ID']['input'];
+  amount: Scalars['Int']['input'];
 }>;
 
 
 export type UpdateInvoiceAmountMutation = { updateInvoiceAmount: { id: string, amount: number, status: InvoiceStatus, stripePaymentIntentID?: string | null, createdAt: any, updatedAt: any, workOrder?: { id: string, status: WorkOrderStatus, priority: WorkOrderPriority, category?: WorkOrderCategory | null, description?: string | null, dueDate?: any | null, entryContact?: string | null, entryContactPhone?: string | null, scheduledDateTime?: any | null, contractorNotes?: string | null, createdAt: any, updatedAt: any, createdBy: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } }, assignedTo?: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | null, location: { country?: string | null, region: string, city: string, streetLine1: string, streetLine2?: string | null }, checklist?: Array<{ id: string, description: string, isCompleted: boolean } | null> | null } | null, createdBy: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } }, assignedTo: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } } };
 
 export type PayInvoiceMutationVariables = Exact<{
-  invoiceID: Scalars['ID'];
+  invoiceID: Scalars['ID']['input'];
 }>;
 
 
 export type PayInvoiceMutation = { payInvoice: { id: string, amount: number, status: InvoiceStatus, stripePaymentIntentID?: string | null, createdAt: any, updatedAt: any, workOrder?: { id: string, status: WorkOrderStatus, priority: WorkOrderPriority, category?: WorkOrderCategory | null, description?: string | null, dueDate?: any | null, entryContact?: string | null, entryContactPhone?: string | null, scheduledDateTime?: any | null, contractorNotes?: string | null, createdAt: any, updatedAt: any, createdBy: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } }, assignedTo?: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | null, location: { country?: string | null, region: string, city: string, streetLine1: string, streetLine2?: string | null }, checklist?: Array<{ id: string, description: string, isCompleted: boolean } | null> | null } | null, createdBy: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } }, assignedTo: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } } };
 
 export type DeleteInvoiceMutationVariables = Exact<{
-  invoiceID: Scalars['ID'];
+  invoiceID: Scalars['ID']['input'];
 }>;
 
 
 export type DeleteInvoiceMutation = { deleteInvoice: { id: string, wasDeleted: boolean } };
 
 export type InvoiceQueryVariables = Exact<{
-  invoiceID: Scalars['ID'];
+  invoiceID: Scalars['ID']['input'];
 }>;
 
 
@@ -619,18 +621,18 @@ export type StripeConnectAccountFieldsFragment = { id: string, detailsSubmitted:
 export type UserPublicFieldsFragment = { id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } };
 
 export type GetUserByHandleQueryVariables = Exact<{
-  handle: Scalars['String'];
+  handle: Scalars['String']['input'];
 }>;
 
 
 export type GetUserByHandleQuery = { getUserByHandle?: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | null };
 
 export type SearchForUsersByHandleQueryVariables = Exact<{
-  handle: Scalars['String'];
+  handle: Scalars['String']['input'];
 }>;
 
 
-export type SearchForUsersByHandleQuery = { searchForUsersByHandle?: Array<{ id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } }> | null };
+export type SearchForUsersByHandleQuery = { searchForUsersByHandle: Array<{ id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } }> };
 
 export type UserSubscriptionFieldsFragment = { id: string, status: SubscriptionStatus, currentPeriodEnd: any, productID: string, priceID: string, createdAt: any };
 
@@ -644,7 +646,7 @@ export type CreateWorkOrderMutationVariables = Exact<{
 export type CreateWorkOrderMutation = { createWorkOrder: { id: string, status: WorkOrderStatus, priority: WorkOrderPriority, category?: WorkOrderCategory | null, description?: string | null, dueDate?: any | null, entryContact?: string | null, entryContactPhone?: string | null, scheduledDateTime?: any | null, contractorNotes?: string | null, createdAt: any, updatedAt: any, createdBy: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } }, assignedTo?: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | null, location: { country?: string | null, region: string, city: string, streetLine1: string, streetLine2?: string | null }, checklist?: Array<{ id: string, description: string, isCompleted: boolean } | null> | null } };
 
 export type UpdateWorkOrderMutationVariables = Exact<{
-  workOrderID: Scalars['ID'];
+  workOrderID: Scalars['ID']['input'];
   workOrder: UpdateWorkOrderInput;
 }>;
 
@@ -652,21 +654,21 @@ export type UpdateWorkOrderMutationVariables = Exact<{
 export type UpdateWorkOrderMutation = { updateWorkOrder: { id: string, status: WorkOrderStatus, priority: WorkOrderPriority, category?: WorkOrderCategory | null, description?: string | null, dueDate?: any | null, entryContact?: string | null, entryContactPhone?: string | null, scheduledDateTime?: any | null, contractorNotes?: string | null, createdAt: any, updatedAt: any, createdBy: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } }, assignedTo?: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | null, location: { country?: string | null, region: string, city: string, streetLine1: string, streetLine2?: string | null }, checklist?: Array<{ id: string, description: string, isCompleted: boolean } | null> | null } };
 
 export type CancelWorkOrderMutationVariables = Exact<{
-  workOrderID: Scalars['ID'];
+  workOrderID: Scalars['ID']['input'];
 }>;
 
 
 export type CancelWorkOrderMutation = { cancelWorkOrder: { id: string, wasDeleted: boolean } | { id: string, status: WorkOrderStatus, priority: WorkOrderPriority, category?: WorkOrderCategory | null, description?: string | null, dueDate?: any | null, entryContact?: string | null, entryContactPhone?: string | null, scheduledDateTime?: any | null, contractorNotes?: string | null, createdAt: any, updatedAt: any, createdBy: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } }, assignedTo?: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | null, location: { country?: string | null, region: string, city: string, streetLine1: string, streetLine2?: string | null }, checklist?: Array<{ id: string, description: string, isCompleted: boolean } | null> | null } };
 
 export type SetWorkOrderStatusCompleteMutationVariables = Exact<{
-  workOrderID: Scalars['ID'];
+  workOrderID: Scalars['ID']['input'];
 }>;
 
 
 export type SetWorkOrderStatusCompleteMutation = { setWorkOrderStatusComplete: { id: string, status: WorkOrderStatus, priority: WorkOrderPriority, category?: WorkOrderCategory | null, description?: string | null, dueDate?: any | null, entryContact?: string | null, entryContactPhone?: string | null, scheduledDateTime?: any | null, contractorNotes?: string | null, createdAt: any, updatedAt: any, createdBy: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } }, assignedTo?: { id: string, handle: string, email: any, phone: string, createdAt: any, updatedAt: any, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | { createdAt: any, updatedAt: any, id: string, handle: string, email: any, phone: string, profile: { displayName: string, givenName?: string | null, familyName?: string | null, businessName?: string | null, photoUrl?: string | null } } | null, location: { country?: string | null, region: string, city: string, streetLine1: string, streetLine2?: string | null }, checklist?: Array<{ id: string, description: string, isCompleted: boolean } | null> | null } };
 
 export type WorkOrderQueryVariables = Exact<{
-  workOrderID: Scalars['ID'];
+  workOrderID: Scalars['ID']['input'];
 }>;
 
 
