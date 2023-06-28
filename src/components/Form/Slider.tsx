@@ -27,7 +27,7 @@ export const Slider = ({
 }: SliderProps) => {
   const { setFieldValue } = useFormikContext();
 
-  const handleChange = (event: Event, value: number | Array<number>, activeThumb: number) => {
+  const handleChange = (event: Event, value: number | Array<number>, _activeThumb: number) => {
     const fieldValue = getFieldValue(value);
     setFieldValue(id, fieldValue);
   };
