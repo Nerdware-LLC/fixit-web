@@ -75,7 +75,7 @@ const WorkOrdersEmptyListFallback = ({
   ...props
 }: Partial<EmptyListFallbackProps>) => (
   <EmptyListFallback
-    backgroundIcon={<ConstructionIcon />}
+    backgroundIcon={backgroundIcon}
     style={{ height: "50%", whiteSpace: "normal", marginTop: "6rem" }}
     {...props}
   />
