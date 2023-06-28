@@ -42,7 +42,6 @@ export const SearchUsers = () => {
             onClose={() => setIsModalOpen(false)}
             aria-labelledby={ariaElementIDs.mobileModalHeader}
             aria-describedby={ariaElementIDs.mobileModalHeader}
-            // closeAfterTransition // TODO might need this, default=false ("When set to true the Modal waits until a nested Transition is completed before closing.")
           >
             <div>
               <PersonAddIcon />
@@ -74,7 +73,7 @@ export const SearchUsers = () => {
   );
 };
 
-const StyledMobileModalContentBox = styled(MobileModalContentBox)(({ theme }) => ({
+const StyledMobileModalContentBox = styled(MobileModalContentBox)({
   // The Mui-Paper content-container:
   [`& > .${paperClasses.root}`]: {
     minHeight: "66dvh",
@@ -123,4 +122,4 @@ const StyledMobileModalContentBox = styled(MobileModalContentBox)(({ theme }) =>
       maxWidth: "calc(80dvw - 2.25rem)",
     },
   },
-}));
+});
