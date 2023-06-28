@@ -15,11 +15,11 @@ export default [
   // ALL FILES
   {
     files: ["src/**/*.[tj]s?(x)", "./*.[tj]s"],
+    ignores: ["src/**/__codegen__/**/*"], // don't lint generated code
     linterOptions: {
       reportUnusedDisableDirectives: true,
     },
     languageOptions: {
-      globals: globals.browser,
       ecmaVersion: "latest",
       sourceType: "module",
       parser: tsEslintParser,
@@ -31,18 +31,25 @@ export default [
           jsx: true,
         },
       },
+      globals: {
+        ...globals.browser,
+        React: "readonly",
+      },
     },
     plugins: {
       "@typescript-eslint": tsEslintPlugin,
       import: importPlugin,
+      "react-hooks": reactHooksPlugin,
     },
     rules: {
       ...eslintJS.configs.recommended.rules,
       ...tsEslintPlugin.configs.recommended.rules,
       ...importPlugin.configs.recommended.rules,
+      ...reactHooksPlugin.configs.recommended.rules, // impl here bc hooks can be ts or tsx
       eqeqeq: ["error", "always"],
       "no-alert": "warn",
       "no-console": "warn",
+      "no-redeclare": "off", // @typescript-eslint/no-redeclare is used instead
       "no-unused-vars": "off", // @typescript-eslint/no-unused-vars is used instead
       "prefer-const": "warn",
       "import/dynamic-import-chunkname": "error",
@@ -78,20 +85,13 @@ export default [
   // TSX,JSX FILES
   {
     files: ["src/**/*.[tj]sx"],
-    languageOptions: {
-      globals: {
-        React: "readonly",
-      },
-    },
     plugins: {
       "jsx-a11y": jsxA11yPlugin,
       react: reactPlugin,
-      "react-hooks": reactHooksPlugin,
     },
     rules: {
       ...jsxA11yPlugin.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
-      ...reactHooksPlugin.configs.recommended.rules,
       "jsx-a11y/click-events-have-key-events": "off",
       "jsx-a11y/no-autofocus": "off",
       "jsx-a11y/no-static-element-interactions": "off",
