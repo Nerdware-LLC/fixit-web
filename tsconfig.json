@@ -1,7 +1,9 @@
 {
+  "include": ["src/**/*", "./*.[ts,js]"],
+
   "compilerOptions": {
     // Language and Environment:
-    "target": "ES5",
+    "target": "ESNext",
     "jsx": "react-jsx",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
 
@@ -9,6 +11,7 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "types": ["vite/client", "vite-plugin-svgr/client", "vitest/globals"],
 
     // "Completeness" Configs:
     "skipLibCheck": true,
@@ -16,7 +19,7 @@
     // Emit Configs:
     "noEmit": true,
     "removeComments": false, // false to retain "magic" webpack comments
-    "sourceMap": false,
+    "sourceMap": true,
 
     // Interop Constraints:
     "allowSyntheticDefaultImports": true,
@@ -28,9 +31,28 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitOverride": true,
-    "strict": true
-  },
-  "include": ["src"],
-  "exclude": [".github", "node_modules"],
-  "extends": "./tsconfig.paths.json"
+    "strict": true,
+
+    // Path Aliases:
+    "baseUrl": ".",
+    "paths": {
+      "@ROOT/*": ["./*"],
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@cache/*": ["./src/app/apolloCache/reactiveVars/*"],
+      "@components/*": ["./src/components/*"],
+      "@graphql/*": ["./src/graphql/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@images/*": ["./src/images/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@routers/*": ["./src/routers/*"],
+      "@services/*": ["./src/services/*"],
+      "@tests": ["./src/__tests__"],
+      "@tests/*": ["./src/__tests__/*"],
+      "@types": ["./src/types"],
+      "@types/*": ["./src/types/*"],
+      "@utils/*": ["./src/utils/*"]
+    }
+  }
 }

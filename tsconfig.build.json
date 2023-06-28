@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/**/*"],
+  // Exclude test files from build:
+  "exclude": ["src/**/*.{test,spec}.[tj]s?(x)", "src/**/__{tests,mocks}__/**/*"]
+}
