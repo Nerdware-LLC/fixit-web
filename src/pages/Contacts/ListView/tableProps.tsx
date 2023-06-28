@@ -2,6 +2,7 @@ import { ContactAvatar } from "@components/Avatar/ContactAvatar";
 import { prettifyStr } from "@utils/prettifyStr";
 import type { Contact } from "@graphql/types";
 import type { DataGridProps, GridColDef } from "@mui/x-data-grid";
+import type { Except } from "type-fest";
 
 type ColumnFieldKeys = "contact" | keyof Contact;
 
@@ -46,6 +47,6 @@ const COLUMNS = Object.fromEntries(
   ])
 ) as Record<ColumnFieldKeys, GridColDef>;
 
-export const contactTableProps: Omit<DataGridProps, "rows"> = {
+export const contactTableProps: Except<DataGridProps, "rows"> = {
   columns: Object.values(COLUMNS),
 };
