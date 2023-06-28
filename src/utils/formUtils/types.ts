@@ -1,10 +1,10 @@
-export type OnSubmitFieldMutationProcessorFn<FormFieldValueType extends any = any> = (
+export type OnSubmitFieldMutationProcessorFn<FormFieldValueType = any> = (
   formSubmitHandlerFieldValue: FormFieldValueType | null,
   initialFieldValue: FormFieldValueType | null,
   ...args: any[]
 ) => OnSubmitFieldMutationProcessorFnReturn;
 
-export interface OnSubmitFieldMutationProcessorFnReturn<FormFieldValueType extends any = any> {
+export interface OnSubmitFieldMutationProcessorFnReturn<FormFieldValueType = any> {
   wasChanged: boolean;
   mutationType?: "UPDATE" | "DELETE";
   value?: FormFieldValueType | null;
@@ -22,10 +22,8 @@ export interface OnSubmitFieldMutationProcessorFnReturn<FormFieldValueType exten
  *    property `id: string` are replaced with `string`.
  *    - `createdBy: User` becomes `createdBy: string`
  *
- * 4. For arrays of objects which contain property `id: string`, the object type is
- *    provided with an additional symbol property which adds form input-related
- *    handling functionality. Array elements are also made non-nullable.
- *    - `Array<{ id: string } | null>` becomes `Array<{ id: string; [SymK: symbol]: number }>`
+ * 4. Array elements are made non-nullable.
+ *    - `Array<{ id: string } | null>` becomes `Array<{ id: string }>`
  *
  * 5. Date-union types have `string` and `number` excluded.
  *    - `Date | number | string | undefined` becomes `Date | null`
@@ -48,7 +46,7 @@ export type FormValues<T extends Record<string, any>, ExcludedFields extends key
 type DistributiveFormPropertyConversions<T> = T extends undefined
   ? null
   : T extends Array<infer El extends { id: string } | null>
-  ? Array<Exclude<El, null> & { [SymK: symbol]: number }>
+  ? Array<Exclude<El, null>>
   : T extends { id: string }
   ? string
   : T extends Date

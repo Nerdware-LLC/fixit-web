@@ -2,6 +2,20 @@ import { wasArrayChanged } from "./wasArrayChanged";
 import { wasDateTimeChanged } from "./wasDateTimeChanged";
 import type { OnSubmitFieldMutationProcessorFn } from "./types";
 
+/**
+ * This class provides customizable handler functions which modify form values
+ * going into into and coming out of Formik-based form components. Instances
+ * are provided with two key methods:
+ *
+ * 1. `getInitValuesForUpdate` - This is used to transform "raw" form field
+ *    values into the shape needed for the `initialValues` prop of Formik-based
+ *    form components.
+ *
+ * 2. `getFormFieldsForMutation` - This is used to transform values from the
+ *    Formik `onSubmit` handler into the type/shape needed for the relevant
+ *    create or update operation. By default, if a field is unchanged from
+ *    its initial value, it is excluded from the returned object.
+ */
 export class FormFieldHandlers<
   FormValues extends Record<string, any>,
   ValuesForMutation extends Record<string, any> = FormValues
@@ -26,13 +40,7 @@ export class FormFieldHandlers<
     initialFormValue: any
   ) => ({ wasChanged: formValue !== initialFormValue, value: formValue });
 
-  constructor({
-    onUpdate = {},
-    onSubmit = {},
-  }: {
-    onUpdate?: OnUpdateFieldHandlers;
-    onSubmit?: OnSubmitFieldMutationProcessors;
-  } = {}) {
+  constructor({ onUpdate = {}, onSubmit = {} }: FormFieldHandlersSchema = {}) {
     this.customFieldHandlers = {
       onUpdate: {},
       onSubmit,
@@ -97,6 +105,11 @@ export class FormFieldHandlers<
     );
   };
 }
+
+export type FormFieldHandlersSchema = {
+  onUpdate?: OnUpdateFieldHandlers;
+  onSubmit?: OnSubmitFieldMutationProcessors;
+};
 
 type FormFieldName = string;
 // onUpdate types:
