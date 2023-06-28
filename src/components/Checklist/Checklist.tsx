@@ -3,7 +3,8 @@ import Text from "@mui/material/Typography";
 import ListIcon from "@mui/icons-material/List";
 import { globalClassNames } from "@app/GlobalStyles/classNames";
 import { checklistClassNames as classNames } from "./classNames";
-import type { ChecklistItem, ChecklistItems } from "./types";
+import type { ChecklistItem } from "@graphql/types";
+import type { SetOptional } from "type-fest";
 
 /**
  * `a11y` note: The ul element in this component uses `list-style-type: none`
@@ -122,19 +123,21 @@ const StyledDiv = styled("div", {
 });
 
 export type ChecklistProps = {
-  checklistItems: ChecklistItems;
+  checklistItems: Array<ChecklistItem>;
   renderChecklistItem: RenderChecklistItemFn;
   headerTitle?: React.ReactNode;
   headerComponents?: React.ReactNode;
   footerComponents?: React.ReactNode;
 } & Omit<React.ComponentProps<typeof StyledDiv>, "hasFooterComponents">;
 
-export type RenderChecklistItemFn = ({
+export type RenderChecklistItemFn = <
+  ItemType extends SetOptional<ChecklistItem, "id" | "isCompleted"> = ChecklistItem
+>({
   item,
   index,
   numItems,
 }: {
-  item: ChecklistItem;
+  item: ItemType;
   index: number;
   numItems: number;
 }) => React.JSX.Element;
