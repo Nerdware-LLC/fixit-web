@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
@@ -17,7 +17,7 @@ import type { Contact } from "@graphql/types";
 import type { SearchUsersInputType, SearchUsersInputActionType } from "./types";
 
 export const SearchUsersPopperContent = forwardRef<HTMLDivElement, SearchUsersPopperContentProps>(
-  (
+  function SearchUsersPopperContent(
     {
       searchFieldHasError = false,
       inputType,
@@ -29,9 +29,18 @@ export const SearchUsersPopperContent = forwardRef<HTMLDivElement, SearchUsersPo
       ...boxProps
     },
     fwdRef
-  ) => {
-    // TODO add `useMutation` for create-contact mutation
-    // TODO add `useMutation` for invite-user mutation
+  ) {
+    // CLOSE POPPER IF USER PRESSES ESCAPE KEY
+    useEffect(() => {
+      const closeOnEscape = (event: KeyboardEvent) => {
+        if (event.key === "Escape") handleClose();
+      };
+
+      document.addEventListener("keydown", closeOnEscape);
+
+      // Return a function from the effect that removes the event listener
+      return () => document.removeEventListener("keydown", closeOnEscape);
+    }, [handleClose]);
 
     const {
       titleText,
@@ -41,13 +50,13 @@ export const SearchUsersPopperContent = forwardRef<HTMLDivElement, SearchUsersPo
       errorMsgContent = null,
     } = searchFieldHasError
       ? {
-          titleText: INPUT_INFO_TEXT?.[`${inputActionType}`].header ?? "",
+          titleText: INPUT_INFO_TEXT[inputActionType]?.header ?? "",
           titleVariant: "body2",
-          errorMsgContent: inputActionType ? (
+          errorMsgContent: (
             <div className={classNames.popperErrorContentContainer}>
               <InputRequirementsInfo inputActionType={inputActionType} />
             </div>
-          ) : null,
+          ),
         }
       : addContactUser
       ? {
@@ -74,7 +83,10 @@ export const SearchUsersPopperContent = forwardRef<HTMLDivElement, SearchUsersPo
           ),
         }
       : {
-          titleText: "", // If for some reason Popper ever opens when it shouldn't, leave it empty.
+          /* This final fallback should never be reached, but is provided just in case an update
+          breaks some SearchUsers component/logic, in which case an "empty" PopperContent window
+          will be shown to prevent potential downstream errors that may crash the app.  */
+          titleText: "",
         };
 
     return (
@@ -107,7 +119,7 @@ export const SearchUsersPopperContent = forwardRef<HTMLDivElement, SearchUsersPo
   }
 );
 
-const StyledBox = styled(Box)(({ theme: { palette, variables } }) => ({
+const StyledBox = styled(Box)(({ theme: { palette } }) => ({
   position: "relative",
   zIndex: 1202, // Mui Drawer zIndex is 1200, SearchUsersInput Backdrop set to 1201
   minHeight: "8rem",
@@ -142,8 +154,11 @@ const StyledBox = styled(Box)(({ theme: { palette, variables } }) => ({
   },
 
   // CONTACT AVATAR
-  [`& .${avatarClassNames.root} *`]: {
-    whiteSpace: "normal",
+  [`& .${avatarClassNames.root}`]: {
+    margin: "0 auto",
+    [`& *`]: {
+      whiteSpace: "normal",
+    },
   },
 
   // CONTENT CONTAINER
@@ -171,9 +186,9 @@ const StyledBox = styled(Box)(({ theme: { palette, variables } }) => ({
 export type SearchUsersPopperContentProps = {
   searchFieldHasError?: boolean;
   inputType: SearchUsersInputType;
-  inputActionType: SearchUsersInputActionType;
+  inputActionType: NonNullable<SearchUsersInputActionType>;
   addContactUser?: Contact | null;
   sendInviteTo?: string | null;
   handleDoAction: React.MouseEventHandler<HTMLButtonElement>;
-  handleClose: (event: MouseEvent | React.MouseEvent | TouchEvent | React.TouchEvent) => void;
+  handleClose: () => void;
 } & BoxProps;
