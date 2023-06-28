@@ -4,6 +4,7 @@ import { getDateAndTime } from "@utils/dateTime";
 import { prettifyStr } from "@utils/prettifyStr";
 import type { WorkOrder } from "@graphql/types";
 import type { DataGridProps, GridColDef } from "@mui/x-data-grid";
+import type { Except } from "type-fest";
 
 type ColumnFieldKeys =
   | "listName"
@@ -148,7 +149,7 @@ const COLUMNS = Object.fromEntries(
   ])
 ) as Record<ColumnFieldKeys, GridColDef>;
 
-export const workOrderTableProps: Omit<DataGridProps, "rows"> = {
+export const workOrderTableProps: Except<DataGridProps, "rows"> = {
   columns: Object.values(COLUMNS),
   experimentalFeatures: { columnGrouping: true },
   columnGroupingModel: [
