@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import Text from "@mui/material/Typography";
 import {
   CoreListItemLayout,
@@ -18,7 +19,7 @@ export const WorkOrdersListItem = ({
   const { createdBy, assignedTo, status, location, description, createdAt } = item;
   const userToDisplay = isInboxList ? createdBy : assignedTo;
 
-  const prettyCreatedAt = createdAt.toLocaleDateString("en-us", { day: "numeric", month: "short" });
+  const prettyCreatedAt = dayjs(createdAt).format("MMM D");
   const prettyStatus = status.replace(/_/g, " ");
 
   return (
