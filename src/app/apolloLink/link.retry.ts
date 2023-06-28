@@ -10,8 +10,7 @@ export const retryLink = new RetryLink({
   },
   attempts: {
     max: 5,
-    // eslint-disable-next-line no-unused-vars
-    retryIf: (error, operation) => {
+    retryIf: (error, _operation) => {
       // Don't retry if token gets rejected
       // prettier-ignore
       return error?.result?.errors?.some(
