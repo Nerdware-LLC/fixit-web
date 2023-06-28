@@ -5,6 +5,8 @@ import type { TextFieldProps as MuiTextFieldProps } from "@mui/material/TextFiel
 /**
  * Defines shared logical behavior for Mui inputs and related/derived components.
  *
+ * @template ValueType - The type of the value being managed by the input.
+ *
  * @param {boolean=} [shouldAlwaysRenderHelperText=true] - A bool switch which when `true`
  *        will cause Mui HelperText to always be rendered, even when empty/undefined. This
  *        is useful when the Mui input is used in a layout where the conditional rendering
