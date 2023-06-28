@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import { styled } from "@mui/material/styles";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import { avatarClassNames } from "@components/Avatar";
-import { getDateAndTime } from "@utils/dateTime";
 import { ItemEventIcon, type IconHighlightStyle } from "./ItemEventIcon";
 
 /**
@@ -20,14 +19,12 @@ export const ItemEventsTimeline = ({ events, ...containerProps }: ItemEventsTime
 
   return (
     <StyledDiv className={itemEventsTimelineClassNames.root} {...containerProps}>
-      {sortedEvents.map(({ timestamp, icon, iconHighlight, eventInfoContent }) => {
-        const [date, time, amOrPm] = (
-          timestamp instanceof Date ? getDateAndTime(timestamp) : timestamp
-        ).split(" ");
+      {sortedEvents.map(({ label, timestamp, icon, iconHighlight, eventInfoContent }) => {
+        const [date, time, amOrPm] = dayjs(timestamp).format("M/D/YY h:mm a").split(" ");
 
         return (
           <div
-            key={`timeline:${timestamp.toString()}`}
+            key={`timeline:${label}:${timestamp.toString()}`}
             className={itemEventsTimelineClassNames.eventRoot}
           >
             <ItemEventIcon
@@ -119,6 +116,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
 export type ItemEventsTimelineProps = {
   events: Array<
     {
+      label: string;
       timestamp: Date;
       icon: React.ReactNode;
       eventInfoContent: React.ReactNode;
