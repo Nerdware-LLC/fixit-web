@@ -4,6 +4,7 @@ import { getDateAndTime } from "@utils/dateTime";
 import { formatNum } from "@utils/formatNum";
 import type { Invoice } from "@graphql/types";
 import type { DataGridProps, GridColDef } from "@mui/x-data-grid";
+import type { Except } from "type-fest";
 
 type ColumnFieldKeys = "listName" | keyof Invoice;
 
@@ -59,11 +60,10 @@ const COLUMNS = Object.fromEntries(
         headerAlign: "center",
         valueGetter: ({ row: inv }) => inv?.workOrder?.id,
         valueFormatter: ({ value }) => value, // <-- necessary for export/print on cols with renderCell
-        renderCell: ({ value: workOrderID, row: inv }) =>
+        renderCell: ({ value: workOrderID, row: _inv }) =>
           workOrderID && (
             <Link
               to={`/home/workorders/${encodeURIComponent(workOrderID)}`}
-              state={{ isItemOwnedByUser: !inv.isItemOwnedByUser }} // WO ownership is always the inverse of INV ownership
               onClick={(event: React.MouseEvent<HTMLAnchorElement>) => event.stopPropagation()}
               style={{ fontSize: "0.875rem", lineHeight: "1.25rem" }}
             >
@@ -98,6 +98,6 @@ const COLUMNS = Object.fromEntries(
   ])
 ) as Record<ColumnFieldKeys, GridColDef>;
 
-export const invoiceTableProps: Omit<DataGridProps, "rows"> = {
+export const invoiceTableProps: Except<DataGridProps, "rows"> = {
   columns: Object.values(COLUMNS),
 };
