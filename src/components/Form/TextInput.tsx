@@ -10,14 +10,21 @@ export const TextInput = ({
   variant: explicitVariant,
   ...props
 }: TextInputProps) => {
-  const [textInputProps] = useFormikFieldProps<string>({
+  const [{ value, ...textInputProps }] = useFormikFieldProps<string>({
     id,
     label: explicitLabel,
     placeholder: explicitPlaceholder,
     variant: explicitVariant,
   });
 
-  return <StyledTextField className={formClassNames.textInput} {...textInputProps} {...props} />;
+  return (
+    <StyledTextField
+      className={formClassNames.textInput}
+      value={value ?? ""}
+      {...textInputProps}
+      {...props}
+    />
+  );
 };
 
 /**
