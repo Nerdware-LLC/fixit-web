@@ -1,6 +1,5 @@
 import { httpService } from "./httpService";
 import type { User, WorkOrder, Invoice, Contact } from "@graphql/types";
-import type { EncodedAuthToken } from "@types";
 
 export const authService = {
   registerNewUser: async (userRegArgs: RegisterNewUserParams): Promise<AuthServiceToken> => {
@@ -36,7 +35,8 @@ export type RegisterNewUserParams = Required<Pick<User, "handle" | "email" | "ph
 export type LoginParams = Omit<RegisterNewUserParams, "phone" | "profile">;
 
 export type AuthServiceToken = {
-  token: EncodedAuthToken;
+  /** An encoded auth token string. */
+  token: string;
 };
 
 export type PreFetchedUserItems = {
