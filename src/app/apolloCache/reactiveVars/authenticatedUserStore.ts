@@ -4,7 +4,7 @@ import { ReactiveStore } from "./ReactiveStore";
 import { isActiveAccountStore } from "./isActiveAccountStore";
 import { isAuthenticatedStore } from "./isAuthenticatedStore";
 import { isConnectOnboardingNeededStore } from "./isConnectOnboardingNeededStore";
-import type { EncodedAuthToken, AuthTokenPayload } from "@types";
+import type { AuthTokenPayload } from "@graphql/types";
 
 class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload> {
   /**
@@ -40,10 +40,10 @@ class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload> {
   /**
    * Process an auth token to authenticate the user.
    */
-  processAuthToken(token: EncodedAuthToken): AuthTokenPayload {
-    storage.authToken.set(token);
+  processAuthToken(encodedAuthToken: string): AuthTokenPayload {
+    storage.authToken.set(encodedAuthToken);
 
-    const tokenPayload: AuthTokenPayload = jwtDecode(token);
+    const tokenPayload: AuthTokenPayload = jwtDecode(encodedAuthToken);
 
     if (!tokenPayload?.stripeConnectAccount?.detailsSubmitted) {
       isConnectOnboardingNeededStore.set(true);
