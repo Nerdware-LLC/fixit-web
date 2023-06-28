@@ -18,20 +18,21 @@ export type SearchFieldProps = {
     : K]: UseFormikFieldPropsReturn<string>[K];
 };
 
-// TODO add jsdoc for this type
+/**
+ * This reflects the type of value the user is typing into the search field,
+ * as determined by regex-tests.
+ */
 export type SearchUsersInputType = "handle" | "phone" | "email" | null;
 
 /**
  * This reflects the type of value the user is typing into the search field, and
  * corresponds to a specific GQL query or mutation:
  *
- * // TODO update this jsdoc w "invite" mutation names when they're added
- *
  * | `Type of User Input` | `Input Action Type` | `Resultant GQL Operation`  |
  * | :------------------: | :-----------------: | :------------------------- |
  * |        handle        |      "search"       | SearchForUserByHandleQuery |
- * |        phone         |      "invite"       |                            |
- * |        email         |      "invite"       |                            |
+ * |        phone         |      "invite"       | CreateInvite               |
+ * |        email         |      "invite"       | CreateInvite               |
  * |       _empty_        |        null         | N/A                        |
  */
 export type SearchUsersInputActionType = "search" | "invite" | null;
