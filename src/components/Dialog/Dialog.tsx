@@ -6,6 +6,7 @@ import DialogActions, { dialogActionsClasses } from "@mui/material/DialogActions
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { paperClasses } from "@mui/material/Paper";
 import { SlideTransition } from "@components/Transitions/SlideTransition";
 import { useDialog } from "./useDialog";
 
@@ -60,15 +61,19 @@ export const dialogElementIDs = {
   message: "dialog-message",
 };
 
-const StyledMuiDialog = styled(MuiDialog)(({ theme }) => ({
+const StyledMuiDialog = styled(MuiDialog)(({ theme: { variables } }) => ({
   [`& > .${backdropClasses.root}`]: {
     backdropFilter: "blur( 5px )",
+  },
+
+  [`& .${paperClasses.root}`]: {
+    minWidth: "20rem",
   },
 
   [`& .${dialogActionsClasses.root}`]: {
     padding: "1rem",
     gap: "1rem",
-    justifyContent: theme.variables.isMobilePageLayout ? "space-evenly" : "flex-end",
+    justifyContent: variables.isMobilePageLayout ? "space-evenly" : "flex-end",
 
     [`& > .${buttonClasses.root}`]: {
       height: "2.5rem",
