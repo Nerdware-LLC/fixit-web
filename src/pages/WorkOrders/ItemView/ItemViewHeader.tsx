@@ -28,12 +28,7 @@ export const WorkOrderItemViewHeader = ({
       };
 
   /*
-    TODO Maybe convert the button/buttons into a single "Actions" button.
-      - If there's only 1 action, show that action as a standalone button
-      - If +1, show "Actions", which opens a modal with opts
-
-    TODO See https://mui.com/material-ui/react-button-group/#split-button
-         for a great example of an idea for an "Actions" btn.
+    TODO Maybe convert the button/buttons into a single "ActionsButtonGroup" button.
 
     TODO Add WO ItemView buttons for assignee:
       - `Update Status`

@@ -1,5 +1,6 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client/react/hooks";
+import { authenticatedUserStore } from "@cache/authenticatedUserStore";
 import { Error } from "@components/Indicators/Error";
 import { Loading } from "@components/Indicators/Loading";
 import { QUERIES } from "@graphql/queries";
@@ -9,20 +10,16 @@ import { WorkOrderItemViewContent } from "./ItemViewContent";
 import { WorkOrderItemViewHeader } from "./ItemViewHeader";
 
 export const WorkOrderItemView = () => {
-  const { id } = useParams();
-  // Get isItemOwnedByUser state-param provided by CoreItemsList component
-  const {
-    state: { isItemOwnedByUser },
-  } = useLocation();
+  const { id: workOrderID } = useParams();
+  const { id: userID } = authenticatedUserStore.useSubToStore();
 
-  const { data, loading, error, networkStatus } = useQuery(QUERIES.WORK_ORDER, {
-    variables: { workOrderID: id || "" },
-    notifyOnNetworkStatusChange: true,
+  const { data, loading, error } = useQuery(QUERIES.WORK_ORDER, {
+    variables: { workOrderID: workOrderID ?? "" },
     fetchPolicy: "cache-only",
-    skip: !id,
+    skip: !workOrderID || !userID,
   });
 
-  return loading || networkStatus === 4 || !data?.workOrder ? (
+  return loading || !data?.workOrder ? (
     <Loading />
   ) : error ? (
     <Error error={error} />
@@ -30,7 +27,10 @@ export const WorkOrderItemView = () => {
     <CoreItemView
       headerLabel="Work Order"
       headerComponents={
-        <WorkOrderItemViewHeader workOrder={data.workOrder} isItemOwnedByUser={isItemOwnedByUser} />
+        <WorkOrderItemViewHeader
+          workOrder={data.workOrder}
+          isItemOwnedByUser={data.workOrder.createdBy.id === userID}
+        />
       }
       sx={(theme) => ({
         [`& .${coreContentViewLayoutClassNames.headerContainer}`]: {
@@ -55,7 +55,7 @@ export const WorkOrderItemView = () => {
         },
       })}
     >
-      <WorkOrderItemViewContent workOrder={data.workOrder} isItemOwnedByUser={isItemOwnedByUser} />
+      <WorkOrderItemViewContent workOrder={data.workOrder} />
     </CoreItemView>
   );
 };

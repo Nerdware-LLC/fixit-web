@@ -24,10 +24,7 @@ import { WorkOrderTimeline } from "./WorkOrderTimeline";
 import { WO_ITEM_VIEW_TABS } from "./tabConfigs";
 import type { WorkOrder, ChecklistItem } from "@graphql/types";
 
-export const WorkOrderItemViewContent = ({
-  workOrder,
-  isItemOwnedByUser,
-}: WorkOrderItemViewContentProps) => {
+export const WorkOrderItemViewContent = ({ workOrder }: WorkOrderItemViewContentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
@@ -76,15 +73,13 @@ export const WorkOrderItemViewContent = ({
               <WorkOrderStatusChip status={status} />
             </ItemDetails>
             <ItemDetails gridArea="createdBy" label="Created By">
-              <ContactAvatar contact={createdBy} viewContactOnClick={!isItemOwnedByUser} />
+              <ContactAvatar contact={createdBy} />
             </ItemDetails>
             <ItemDetails gridArea="priority" label="Priority">
               {`${priority}${priority === "HIGH" && status !== "COMPLETE" ? ` ⚠️` : ""}`}
             </ItemDetails>
             <ItemDetails gridArea="assignedTo" label="Assigned To">
-              {assignedTo && (
-                <ContactAvatar contact={assignedTo} viewContactOnClick={isItemOwnedByUser} />
-              )}
+              {assignedTo && <ContactAvatar contact={assignedTo} />}
             </ItemDetails>
             <ItemDetails gridArea="category" label="Category">
               {category && <WorkOrderCategoryChip category={category} />}
@@ -93,7 +88,7 @@ export const WorkOrderItemViewContent = ({
         </XscrollContainer>
         <ItemDetailsGroup gridArea="timeline" label="Timeline" labelIcon={<CalendarIcon />}>
           <XscrollContainer>
-            <WorkOrderTimeline workOrder={workOrder} isItemOwnedByUser={isItemOwnedByUser} />
+            <WorkOrderTimeline workOrder={workOrder} />
           </XscrollContainer>
         </ItemDetailsGroup>
       </TabPanel>
@@ -283,5 +278,4 @@ const StyledDiv = styled("div")(({ theme }) => ({
 
 export type WorkOrderItemViewContentProps = {
   workOrder: WorkOrder;
-  isItemOwnedByUser: boolean;
 };

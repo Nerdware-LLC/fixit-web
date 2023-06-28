@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import Text from "@mui/material/Typography";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import CalendarDateIcon from "@mui/icons-material/InsertInvitation";
@@ -9,55 +10,40 @@ import type { WorkOrder } from "@graphql/types";
 
 export const WorkOrderTimeline = ({
   workOrder: { createdBy, status, createdAt, updatedAt, dueDate, scheduledDateTime },
-  isItemOwnedByUser,
 }: {
   workOrder: WorkOrder;
-  isItemOwnedByUser: boolean;
 }) => {
-  const dueDateDateObj = !dueDate
-    ? dueDate
-    : typeof dueDate === "number"
-    ? new Date(dueDate * 1000)
-    : dueDate;
-
-  const scheduledDateTimeObj = !scheduledDateTime
-    ? scheduledDateTime
-    : typeof scheduledDateTime === "number"
-    ? new Date(scheduledDateTime * 1000)
-    : scheduledDateTime;
-
   const workOrderEvents = [
     {
+      label: "createdAt",
       timestamp: createdAt,
       icon: <NoteAddIcon />,
       eventInfoContent: (
         <>
-          <ContactAvatar
-            contact={createdBy}
-            viewContactOnClick={!isItemOwnedByUser}
-            showDisplayName={false}
-          />
-          <Text>Work Order created by {createdBy.profile.displayName}</Text>
+          <ContactAvatar contact={createdBy} showDisplayName={false} />
+          <Text>Work Order created by {createdBy.profile?.displayName ?? createdBy.handle}</Text>
         </>
       ),
     },
     {
+      label: "updatedAt",
       timestamp: updatedAt,
       icon: <UpdateIcon />,
       eventInfoContent: <Text>Most recent update</Text>,
     },
     // Check dueDate
-    ...(dueDateDateObj instanceof Date
+    ...(dueDate
       ? [
           {
-            timestamp: dueDateDateObj,
+            label: "dueDate",
+            timestamp: dueDate,
             icon: <CalendarDateIcon />,
             ...(status === "COMPLETE"
               ? {
                   // if WO is COMPLETE, no special event formatting
                   eventInfoContent: <Text>Due date</Text>,
                 }
-              : dueDateDateObj.getTime() > Date.now()
+              : dayjs(dueDate).isAfter(dayjs())
               ? {
                   // if dueDate has passed, show red "error" event style
                   iconHighlight: "red",
@@ -72,17 +58,18 @@ export const WorkOrderTimeline = ({
         ]
       : []),
     // Check scheduledDateTime
-    ...(scheduledDateTimeObj instanceof Date
+    ...(scheduledDateTime
       ? [
           {
-            timestamp: scheduledDateTimeObj,
+            label: "scheduledDateTime",
+            timestamp: scheduledDateTime,
             icon: <HomeRepairServiceIcon />,
             ...(status === "COMPLETE"
               ? {
                   // if WO is COMPLETE, no special event formatting
                   eventInfoContent: <Text>Scheduled arrival</Text>,
                 }
-              : scheduledDateTimeObj.getTime() > Date.now()
+              : dayjs(scheduledDateTime).isAfter(dayjs())
               ? {
                   // if scheduledDateTime has passed, show red "error" event style
                   iconHighlight: "red",
