@@ -25,7 +25,7 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
           "[GraphQL Error]",
           `Status Code: ${stripAnsi(error.extensions.code as any)}`,
           `Message:     ${stripAnsi(error.message)}`,
-        ].join("\n\t")
+        ].join(`\n\t`)
       );
 
       const { extensions } = error;
