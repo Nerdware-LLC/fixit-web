@@ -11,7 +11,7 @@ export const ToggleCompleteButton = ({
 }: ToggleCompleteButtonProps) => {
   const [{ value: isCompleted }, , { setValue, setTouched }] = useField(formikFieldID);
 
-  const toggleIsCompleted: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+  const toggleIsCompleted: React.MouseEventHandler<HTMLButtonElement> = () => {
     setTouched(true);
     setValue(!isCompleted);
   };
