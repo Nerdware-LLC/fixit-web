@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { styled } from "@mui/material/styles";
 import Backdrop from "@mui/material/Backdrop";
@@ -7,18 +7,13 @@ import Divider from "@mui/material/Divider";
 import Paper, { paperClasses } from "@mui/material/Paper";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
-import { useWebViewContext } from "@app/WebViewContext/useWebViewContext";
 import { checkoutValuesStore } from "@cache/checkoutValuesStore";
 import { TitleLogo, titleLogoClassNames } from "@components/Branding/TitleLogo";
 import { FetchStateContextWrapper } from "@components/Indicators/FetchStateContextWrapper";
 import { Loading } from "@components/Indicators/Loading";
 import { useLottie } from "@components/LottieAnimations/useLottie";
 import { LegalLinks, legalLinksClassNames } from "@components/Navigation/LegalLinks";
-import { storage } from "@utils/storage";
-import {
-  USER_SUBSCRIPTION_PRICE_LABELS,
-  type UserSubscriptionPriceLabel,
-} from "@/types/UserSubscription";
+import { USER_SUBSCRIPTION_PRICE_LABELS } from "@/types/UserSubscription";
 import { CheckoutForm } from "./CheckoutForm";
 import { PaymentConfirmationInfo } from "./PaymentConfirmationInfo";
 import { SubCostDetails } from "./SubCostDetails";
@@ -26,35 +21,15 @@ import { checkoutPageClassNames as classNames } from "./classNames";
 
 export const CheckoutPage = () => {
   const { selectedSubscription } = checkoutValuesStore.useSubToStore();
-
-  const nav = useNavigate();
   const { isMobilePageLayout } = usePageLayoutContext();
+  const nav = useNavigate();
 
-  // For mobile-app WebView:
-  const { isAppWithinWebView, webViewPostMessage } = useWebViewContext();
-  const [searchParams] = useSearchParams();
-
+  // EFFECT: Redirect to /products if "selectedSubscription" isn't set
   useEffect(() => {
-    if (isAppWithinWebView) {
-      // If in a mobile-app WebView, "token" and "sub" query params must exist
-      const token = searchParams.get("token");
-      const sub = searchParams.get("sub");
-      const promoCode = searchParams.get("promoCode");
-
-      if (!token || !sub || !USER_SUBSCRIPTION_PRICE_LABELS.includes(sub as any)) {
-        webViewPostMessage({ error: "INVALID_QUERY_PARAMS" });
-      } else {
-        storage.authToken.set(token);
-        checkoutValuesStore.set({
-          selectedSubscription: sub as UserSubscriptionPriceLabel,
-          promoCode,
-        });
-      }
-    } else if (!USER_SUBSCRIPTION_PRICE_LABELS.includes(selectedSubscription as any)) {
-      // Else if not in a mobile-app WebView, redirect to /products if "selectedSubscription" isn't set
+    if (!USER_SUBSCRIPTION_PRICE_LABELS.includes(selectedSubscription as any)) {
       nav("/products", { replace: true, state: { isRedirect: true } });
     }
-  }, [isAppWithinWebView, nav, searchParams, selectedSubscription, webViewPostMessage]);
+  }, [selectedSubscription, nav]);
 
   // For displaying payment confirmation:
   const { LottieView, playLottie } = useLottie({ animation: "success-checkmark" });
