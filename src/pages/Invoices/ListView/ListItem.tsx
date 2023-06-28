@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { styled } from "@mui/material/styles";
 import Text from "@mui/material/Typography";
 import {
@@ -15,12 +16,9 @@ export const InvoicesListItem = ({ listName, item, onClick, ...props }: Invoices
   const { createdBy, assignedTo, status, amount, createdAt } = item;
   const userToDisplay = isInboxList ? createdBy : assignedTo;
 
-  const prettyContactName = userToDisplay.profile?.displayName
-    ? userToDisplay.profile.displayName
-    : userToDisplay.handle;
-
+  const prettyContactName = userToDisplay.profile?.displayName ?? userToDisplay.handle;
   const prettyAmount = formatNum.toCurrencyRoundedStr(amount);
-  const prettyCreatedAt = createdAt.toLocaleDateString("en-us", { day: "numeric", month: "short" });
+  const prettyCreatedAt = dayjs(createdAt).format("MMM D");
   const prettyStatus = status.replace(/_/g, " ");
 
   return (
