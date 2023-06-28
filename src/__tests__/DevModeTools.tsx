@@ -62,6 +62,13 @@ export const DevModeTools = ({
         onClick={() => setIsModalOpen(true)}
         variant="outlined"
         size="small"
+        sx={({ palette }) => ({
+          // ensure the button can be seen in light mode:
+          ...(palette.mode === "light" && {
+            color: "black",
+            borderColor: "black",
+          }),
+        })}
         {...buttonProps}
       >
         {children ?? label}
@@ -79,6 +86,7 @@ export const DevModeTools = ({
           <div className={classNames.contentRoot}>
             <div className={classNames.section}>
               <Text variant="h6">Manage Mocked Items in Apollo-Cache:</Text>
+              <Text variant="caption">Note: Mocked items are not persisted on the back-end.</Text>
               <div className={classNames.sectionContent}>
                 {HANDLE_MANAGE_CACHE_ACTIONS.map((action) => (
                   <div key={action} className={classNames.actionBtnsGrpParentContainer}>
@@ -182,13 +190,25 @@ const StyledPaper = styled(Paper)(({ theme: { variables } }) => ({
       flexDirection: "column",
       alignItems: "center",
 
-      "& > h6": {
-        fontSize: variables.isMobilePageLayout ? "1rem" : "1.25rem",
-        marginBottom: "0.25rem",
+      [`& > .${typographyClasses.h6}`]: {
+        ...(variables.isMobilePageLayout
+          ? {
+              fontSize: "1rem",
+              lineHeight: "1rem",
+            }
+          : {
+              fontSize: "1.25rem",
+              lineHeight: "1.25rem",
+            }),
+      },
+      [`& > .${typographyClasses.caption}`]: {
+        opacity: "0.5",
+        lineHeight: "0.9rem",
       },
 
-      // 1st section's content container:
-      [`&:first-of-type > div.${classNames.sectionContent}`]: {
+      // Section content container:
+      [`& > div.${classNames.sectionContent}`]: {
+        margin: "0.5rem 0",
         width: "100%",
         display: "flex",
         gap: "1rem",
