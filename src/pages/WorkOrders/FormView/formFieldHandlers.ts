@@ -49,6 +49,3 @@ export type WorkOrderFormValues = FormValues<
   WorkOrder,
   "id" | "createdBy" | "status" | "contractorNotes" | "createdAt" | "updatedAt"
 >;
-
-// Below type is used by ChecklistInput components
-export type WorkOrderFormChecklistItem = NonNullable<WorkOrderFormValues["checklist"]>[number];

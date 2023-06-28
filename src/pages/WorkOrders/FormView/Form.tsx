@@ -15,8 +15,6 @@ import { schema } from "./schema";
 import type { WorkOrder } from "@graphql/types";
 import type { WorkOrderFormValues } from "./formFieldHandlers";
 
-// TODO Ensure there's a loading-wheel or some other kind of feedback onSubmit for create/update WO
-
 export const WorkOrderForm = ({
   initialFormValues,
   onSubmit,
