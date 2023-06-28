@@ -137,4 +137,4 @@ export type RenderChecklistItemFn = ({
   item: ChecklistItem;
   index: number;
   numItems: number;
-}) => JSX.Element;
+}) => React.JSX.Element;
