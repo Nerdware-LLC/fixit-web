@@ -27,15 +27,13 @@ export const WorkOrderUpcomingEventsWidget = () => {
     return Object.entries(WorkOrderUpcomingEvents).reduce(
         (
           acc: Array<WorkOrderWithUpcomingEvent & { handleClickListItemBtn: React.MouseEventHandler<HTMLDivElement> }>,
-          [woListName, workOrders]
+          [_woListName, workOrders]
         ) => [
           ...acc,
           ...workOrders.map((wo) => ({
             ...wo,
             handleClickListItemBtn: () => {
-              nav(`/home/workorders/${encodeURIComponent(wo.id)}`, {
-                state: { isItemOwnedByUser: woListName === "createdByUser" },
-              });
+              nav(`/home/workorders/${encodeURIComponent(wo.id)}`);
             },
           })),
         ], []
