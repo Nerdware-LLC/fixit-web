@@ -92,7 +92,6 @@ const StyledInputAdornment = styled(InputAdornment, {
         "& *:hover": { cursor: "text !important" },
         [`& .${svgIconClasses.root}`]: { color: theme.palette.text.disabled },
       }),
-  // TODO if `isBtnActionable`, show a shimmer or something
 }));
 
 export type SearchUsersInputAdornmentBtnProps = {
