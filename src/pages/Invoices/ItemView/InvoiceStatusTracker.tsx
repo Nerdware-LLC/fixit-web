@@ -1,20 +1,18 @@
 import Text from "@mui/material/Typography";
 import DollarSignIcon from "@mui/icons-material/AttachMoney";
 import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
+import { authenticatedUserStore } from "@cache/authenticatedUserStore";
 import { INV_STATUS_ICON_REACT_NODES } from "@components/Icons/InvoiceStatusIcon";
 import { Stepper, type StepperProps, type StepperStepConfig } from "@components/Stepper";
 import { getDateAndTime } from "@utils/dateTime";
 import { PayInvoiceButton } from "./PayInvoiceButton";
 import type { Invoice } from "@graphql/types";
 
-export const InvoiceStatusTracker = ({
-  invoice,
-  isItemOwnedByUser,
-}: {
-  invoice: Invoice;
-  isItemOwnedByUser: boolean;
-}) => {
+export const InvoiceStatusTracker = ({ invoice }: { invoice: Invoice }) => {
   const { isMobilePageLayout } = usePageLayoutContext();
+  const { id: userID } = authenticatedUserStore.useSubToStore();
+
+  const isItemOwnedByUser = invoice.createdBy.id === userID;
 
   const statusStepConstants = isItemOwnedByUser
     ? INVOICE_STATUS_STEP_CONSTANTS.SENDER
@@ -66,9 +64,7 @@ export const InvoiceStatusTracker = ({
     {
       ...statusStepConstants.CLOSED,
       ...(invoice.status === "CLOSED" && {
-        /* TODO Once Invoice has paymentDate/paidDate/paidInFullDate/closedDate
-        or whatever, change below caption to use that value instead.  */
-        caption: getDateAndTime(invoice.updatedAt),
+        caption: getDateAndTime(invoice.updatedAt), // IDEA Use Invoice `paidDate` when implemented
       }),
     },
   ];
@@ -119,7 +115,7 @@ const INVOICE_STATUS_STEP_CONSTANTS: Record<
       label: "Recipient Declined Payment Request",
       content: {
         description: "Your payment request was denied.",
-        /* TODO Add more text, and maybe a link to more info or an action btn to contact the
+        /* IDEA Add more text, and maybe a link to more info or an action btn to contact the
         user who disputed/rejected their payment request; something to offer recourse.  */
       },
     },

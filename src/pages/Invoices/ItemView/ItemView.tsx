@@ -1,5 +1,6 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client/react/hooks";
+import { authenticatedUserStore } from "@cache/authenticatedUserStore";
 import { Error } from "@components/Indicators/Error";
 import { Loading } from "@components/Indicators/Loading";
 import { QUERIES } from "@graphql/queries";
@@ -9,20 +10,16 @@ import { InvoiceItemViewContent } from "./ItemViewContent";
 import { InvoiceItemViewHeader } from "./ItemViewHeader";
 
 export const InvoiceItemView = () => {
-  const { id } = useParams();
-  // Get isItemOwnedByUser state-param provided by CoreItemsList component
-  const {
-    state: { isItemOwnedByUser },
-  } = useLocation();
+  const { id: invoiceID } = useParams();
+  const { id: userID } = authenticatedUserStore.useSubToStore();
 
-  const { data, loading, error, networkStatus } = useQuery(QUERIES.INVOICE, {
-    variables: { invoiceID: id ?? "" },
-    notifyOnNetworkStatusChange: true,
+  const { data, loading, error } = useQuery(QUERIES.INVOICE, {
+    variables: { invoiceID: invoiceID ?? "" },
     fetchPolicy: "cache-only",
-    skip: !id,
+    skip: !invoiceID || !userID,
   });
 
-  return loading || networkStatus === 4 || !data?.invoice ? (
+  return loading || !data?.invoice ? (
     <Loading />
   ) : error ? (
     <Error error={error} />
@@ -30,7 +27,10 @@ export const InvoiceItemView = () => {
     <CoreItemView
       headerLabel="Invoice"
       headerComponents={
-        <InvoiceItemViewHeader invoice={data?.invoice} isItemOwnedByUser={isItemOwnedByUser} />
+        <InvoiceItemViewHeader
+          invoice={data?.invoice}
+          isItemOwnedByUser={data.invoice.createdBy.id === userID}
+        />
       }
       sx={(theme) => ({
         [`& .${coreContentViewLayoutClassNames.childrenContainer}`]: {
@@ -40,7 +40,7 @@ export const InvoiceItemView = () => {
         },
       })}
     >
-      <InvoiceItemViewContent invoice={data.invoice} isItemOwnedByUser={isItemOwnedByUser} />
+      <InvoiceItemViewContent invoice={data.invoice} />
     </CoreItemView>
   );
 };

@@ -13,13 +13,7 @@ import { InvoiceStatusTracker } from "./InvoiceStatusTracker";
 import { InvoiceWorkOrderInfo } from "../InvoiceWorkOrderInfo";
 import type { Invoice } from "@graphql/types";
 
-export const InvoiceItemViewContent = ({
-  invoice,
-  isItemOwnedByUser: isInvoiceOwnedByUser,
-}: {
-  invoice: Invoice;
-  isItemOwnedByUser: boolean;
-}) => {
+export const InvoiceItemViewContent = ({ invoice }: { invoice: Invoice }) => {
   const { amount, createdBy, assignedTo, status, workOrder, createdAt } = invoice;
 
   return (
@@ -36,18 +30,14 @@ export const InvoiceItemViewContent = ({
         {getDate(createdAt)}
       </ItemDetails>
 
-      <InvoiceWorkOrderInfo
-        gridArea="work-order"
-        workOrder={workOrder}
-        isWorkOrderOwnedByUser={!isInvoiceOwnedByUser}
-      />
+      <InvoiceWorkOrderInfo gridArea="work-order" workOrder={workOrder} />
 
       <ItemDetails gridArea="assignedTo" label="Recipient">
-        <ContactAvatar contact={assignedTo} viewContactOnClick={isInvoiceOwnedByUser} />
+        <ContactAvatar contact={assignedTo} />
       </ItemDetails>
 
       <ItemDetails gridArea="createdBy" label="Sender">
-        <ContactAvatar contact={createdBy} viewContactOnClick={!isInvoiceOwnedByUser} />
+        <ContactAvatar contact={createdBy} />
       </ItemDetails>
 
       <ItemDetailsGroup
@@ -55,7 +45,7 @@ export const InvoiceItemViewContent = ({
         label="Status Tracker"
         labelIcon={<TimelineIcon />}
       >
-        <InvoiceStatusTracker invoice={invoice} isItemOwnedByUser={isInvoiceOwnedByUser} />
+        <InvoiceStatusTracker invoice={invoice} />
       </ItemDetailsGroup>
     </InvoiceItemViewContentContainer>
   );
