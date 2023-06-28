@@ -1,4 +1,4 @@
-import type { SubscriptionStatus } from "@graphql/types";
+import type { SubscriptionStatus, SubscriptionPriceLabel } from "@graphql/types";
 
 export const USER_SUBSCRIPTION_STATUSES: ReadonlyArray<SubscriptionStatus> = [
   "active",
@@ -10,7 +10,8 @@ export const USER_SUBSCRIPTION_STATUSES: ReadonlyArray<SubscriptionStatus> = [
   "unpaid",
 ] as const;
 
-export const USER_SUBSCRIPTION_PRICE_LABELS = ["TRIAL", "MONTHLY", "ANNUAL"] as const;
-
-export type UserSubscriptionPriceLabels = typeof USER_SUBSCRIPTION_PRICE_LABELS;
-export type UserSubscriptionPriceLabel = UserSubscriptionPriceLabels[number];
+export const USER_SUBSCRIPTION_PRICE_LABELS: ReadonlyArray<SubscriptionPriceLabel> = [
+  "TRIAL",
+  "MONTHLY",
+  "ANNUAL",
+] as const;
