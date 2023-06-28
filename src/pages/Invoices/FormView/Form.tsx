@@ -31,7 +31,6 @@ export const InvoiceForm = ({
       {/* INVOICE: assignedTo */}
 
       {!existingInvoice ? (
-        // TODO Have AutoCompleteContact should show Avatar after selection
         <AutoCompleteContact
           id="assignedTo"
           label="To"
