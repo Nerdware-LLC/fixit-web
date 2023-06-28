@@ -1,11 +1,7 @@
 import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client/react/hooks";
 import { QUERIES } from "@graphql/queries";
-import { MOCK_USERS } from "@/__tests__/mockItems";
 import { helpers } from "./helpers";
-import type { Contact } from "@graphql/types";
-
-// FIXME rm mocks
 
 /**
  * This hook will automatically run the `SearchForUsersByHandle` query once per
@@ -26,11 +22,8 @@ export const useSearchUsersQuery = ({
   const [runSearchUsers, { data, loading, error }] = useLazyQuery(
     QUERIES.SEARCH_FOR_USERS_BY_HANDLE,
     {
-      // FIXME pollInterval is available here, might be able to use it to replace all the timeout stuff in this hook
-      // There are also `startPolling` and `stopPolling` methods available on the query result object!
-
-      fetchPolicy: "no-cache", // TODO configure a typePolicy to handle caching these results
-      // fetchPolicy: "network-only" // doesn't check cache, BUT stores result in cache
+      fetchPolicy: "network-only",
+      // This query won't check cache, but results are stored in cache for other comps to use.
     }
   );
 
@@ -57,26 +50,7 @@ export const useSearchUsersQuery = ({
   return {
     // query results:
     searchUsersQuery: {
-      // eslint-disable-next-line
-      data: true
-        ? // isInputFocused && helpers.isValidHandleForSearchUsersQuery(searchFieldValue)
-          Object.entries(MOCK_USERS).reduce((acc: Array<Contact>, [userDisplayName, user]) => {
-            if (acc.length < 10)
-              // if (acc.length <= 10 && user.handle.startsWith(searchFieldValue))
-              acc.push({
-                id: user.id,
-                handle: user.handle,
-                email: user.email,
-                phone: user.phone,
-                profile: user.profile,
-                createdAt: user.createdAt,
-                updatedAt: user.updatedAt,
-              });
-            return acc;
-          }, [])
-        : null,
-      // FIXME rm mocks, uncomment below (correct logic below)
-      // data: data?.searchForUsersByHandle ?? null,
+      data: data?.searchForUsersByHandle ?? null,
       loading,
       error,
     },
