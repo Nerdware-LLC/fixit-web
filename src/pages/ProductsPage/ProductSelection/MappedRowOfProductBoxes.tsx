@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { checkoutValuesStore, type StoredCheckoutValues } from "@cache/checkoutValuesStore";
 import { ProductInfoBox } from "./ProductInfoBox";
 import { PRICE_INFO } from "./productPricingInfo";
-import type { UserSubscriptionPriceLabel } from "@types";
+import type { SubscriptionPriceLabel } from "@graphql/types";
 
 /**
  * Product selection for desktop layout
@@ -11,7 +11,7 @@ import type { UserSubscriptionPriceLabel } from "@types";
 export const MappedRowOfProductBoxes = ({ selectedSubscription }: StoredCheckoutValues) => {
   const nav = useNavigate();
 
-  const handleClickContainer = (priceLabel: UserSubscriptionPriceLabel) => {
+  const handleClickContainer = (priceLabel: SubscriptionPriceLabel) => {
     checkoutValuesStore.mergeUpdate({
       selectedSubscription: priceLabel,
     });
@@ -47,7 +47,7 @@ export const MappedRowOfProductBoxes = ({ selectedSubscription }: StoredCheckout
 
 const PRICE_INFO_ENTRIES = Object.entries(PRICE_INFO) as Array<
   [
-    UserSubscriptionPriceLabel,
+    SubscriptionPriceLabel,
     {
       PRICE_NAME: string;
       PRICE_AMOUNT: string;

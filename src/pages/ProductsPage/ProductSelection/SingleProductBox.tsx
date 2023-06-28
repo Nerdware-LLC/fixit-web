@@ -5,7 +5,7 @@ import { checkoutValuesStore, StoredCheckoutValues } from "@cache/checkoutValues
 import { ProductInfoBox } from "./ProductInfoBox";
 import { SingleProductBoxSwitch } from "./SingleProductBoxSwitch";
 import { PRICE_INFO } from "./productPricingInfo";
-import type { UserSubscriptionPriceLabel } from "@types";
+import type { SubscriptionPriceLabel } from "@graphql/types";
 
 /**
  * Product selection for mobile layout
@@ -17,7 +17,7 @@ import type { UserSubscriptionPriceLabel } from "@types";
  * - If `selectedSubscription` has not been set in `checkoutValuesStore`,
  *   it is initialized to TRIAL before nav'ing to /checkout.
  */
-export const SingleProductBox = ({ selectedSubscription, promoCode }: StoredCheckoutValues) => {
+export const SingleProductBox = ({ selectedSubscription }: StoredCheckoutValues) => {
   const nav = useNavigate();
 
   const priceInfoToDisplay = selectedSubscription === "ANNUAL" ? "ANNUAL" : "MONTHLY";
@@ -26,7 +26,7 @@ export const SingleProductBox = ({ selectedSubscription, promoCode }: StoredChec
   const { PRICE_NAME, PRICE_AMOUNT, PRICE_DESCRIPTION } = PRICE_INFO[priceInfoToDisplay];
 
   // The Switch's "other" option:
-  const switchOtherProduct: { priceLabel: UserSubscriptionPriceLabel; tooltipTitle: string } =
+  const switchOtherProduct: { priceLabel: SubscriptionPriceLabel; tooltipTitle: string } =
     selectedSubscription === "ANNUAL"
       ? {
           priceLabel: "TRIAL", // on mobile MONTHLY defaults to TRIAL (see jsdoc)
