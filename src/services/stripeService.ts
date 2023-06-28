@@ -1,5 +1,5 @@
 import { httpService } from "./httpService";
-import type { UserSubscriptionPriceLabel, EncodedAuthToken } from "@types";
+import type { SubscriptionPriceLabel } from "@graphql/types";
 
 /**
  * Fixit API Stripe-Service Methods
@@ -12,7 +12,7 @@ export const stripeService = {
     selectedSubscription,
     promoCode,
     paymentMethodID,
-  }: SubmitPaymentForSubscriptionParams): Promise<{ token: EncodedAuthToken }> => {
+  }: SubmitPaymentForSubscriptionParams): Promise<{ token: string }> => {
     return await httpService.post("/api/subscriptions/submit-payment", {
       selectedSubscription,
       promoCode,
@@ -55,7 +55,7 @@ export type StripeServiceLinkResponse = {
 };
 
 export type SubmitPaymentForSubscriptionParams = {
-  selectedSubscription: UserSubscriptionPriceLabel;
+  selectedSubscription: SubscriptionPriceLabel;
   paymentMethodID: string;
   promoCode?: string;
 };
