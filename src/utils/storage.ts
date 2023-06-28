@@ -1,5 +1,4 @@
-import { logger } from "./logger";
-import { getTypeSafeErr } from "./typeSafety";
+import { safeJsonStringify } from "./typeSafety";
 import type { Simplify } from "type-fest";
 
 const _STORAGE_KEY_CONFIGS: ReadonlyArray<{
@@ -32,13 +31,8 @@ export class LocalStorageValueManager {
   }
 
   set(value: unknown): void {
-    try {
-      const valueToStore = typeof value === "string" ? value : JSON.stringify(value);
-      localStorage.setItem(this.storageKey, valueToStore);
-    } catch (err) {
-      // prettier-ignore
-      logger.error(getTypeSafeErr(err), `[LocalStorageWrapper] Failed to set value "${value}" for key "${this.storageKey}".`);
-    }
+    const valueToStore = typeof value === "string" ? value : safeJsonStringify(value);
+    localStorage.setItem(this.storageKey, valueToStore);
   }
 
   setDefaultIfEmpty(defaultValue: unknown): void {
