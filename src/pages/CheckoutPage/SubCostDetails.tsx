@@ -8,7 +8,7 @@ import { formatNum } from "@utils/formatNum";
 import { PromoCodeInput } from "./PromoCodeInput";
 import { SwitchToAnnual } from "./SwitchToAnnual";
 import { checkoutPageClassNames } from "./classNames";
-import type { UserSubscriptionPriceLabel } from "@types";
+import type { SubscriptionPriceLabel } from "@graphql/types";
 
 /**
  * **SubCostDetails** displays pricing info the the user.
@@ -107,7 +107,7 @@ export const SubCostDetails = () => {
 
 // NOTE: These values are for display purposes only - see above jsdoc for <SubCostDetails />.
 export const SUB_DICT_DISPLAY_PARAMS: Record<
-  UserSubscriptionPriceLabel,
+  SubscriptionPriceLabel,
   SubPlanPricingDisplayParams & {
     label: string;
     trialDays?: number;

@@ -15,12 +15,9 @@ import type { Invoice } from "@graphql/types";
 /**
  * A component which displays info about an Invoice's WorkOrder on non-mobile
  * viewports, and a link to the WorkOrder on mobile viewports.
- *
- * > `isWorkOrderOwnedByUser` _**is always the inverse of**_ `isInvoiceOwnedByUser`
  */
 export const InvoiceWorkOrderInfo = ({
   workOrder,
-  isWorkOrderOwnedByUser,
   label = "Work Order",
   sx,
   ...containerProps
@@ -29,7 +26,7 @@ export const InvoiceWorkOrderInfo = ({
 
   // prettier-ignore
   const woLink = workOrder ? (
-    <LinkToWorkOrder workOrderID={workOrder.id} isWorkOrderOwnedByUser={isWorkOrderOwnedByUser}>
+    <LinkToWorkOrder workOrderID={workOrder.id}>
       {!isMobilePageLayout ? <>View <ChevronRightIcon /></> : null}
     </LinkToWorkOrder>
   ) : null;
@@ -102,6 +99,5 @@ export const invWorkOrderInfoClassNames = {
 
 export type InvoiceWorkOrderInfoProps = {
   workOrder?: Invoice["workOrder"];
-  isWorkOrderOwnedByUser: boolean;
   label?: string;
 } & ItemDetailsProps;
