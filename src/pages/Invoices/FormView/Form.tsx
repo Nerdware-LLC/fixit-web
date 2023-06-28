@@ -6,9 +6,10 @@ import { itemDetailsClassNames } from "@components/DataDisplay";
 import { ItemDetailsGroup } from "@components/DataDisplay/ItemDetailsGroup";
 import { Form, formClassNames } from "@components/Form";
 import { AutoCompleteContact } from "@components/Form/AutoCompleteContact";
-import { FormInvoiceWorkOrderInfo, invWorkOrderInfoClassNames } from "./FormInvoiceWorkOrderInfo";
+import { FormInvoiceWorkOrderInfo } from "./FormInvoiceWorkOrderInfo";
 import { InvoiceWorkOrderInput, InvoiceAmountInput } from "./inputs";
 import { schema } from "./schema";
+import { invWorkOrderInfoClassNames } from "../InvoiceWorkOrderInfo";
 import type { Invoice } from "@graphql/types";
 import type { InvoiceFormValues } from "./formFieldHandlers";
 

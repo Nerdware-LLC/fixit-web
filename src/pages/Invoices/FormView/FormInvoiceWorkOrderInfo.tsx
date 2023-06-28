@@ -2,17 +2,11 @@ import { useQuery } from "@apollo/client/react/hooks";
 import { useField } from "formik";
 import { itemDetailsClassNames } from "@components/DataDisplay";
 import { QUERIES } from "@graphql/queries";
-import {
-  InvoiceWorkOrderInfo,
-  invWorkOrderInfoClassNames,
-  type InvoiceWorkOrderInfoProps,
-} from "../InvoiceWorkOrderInfo";
-
-// Convenient re-export:
-export { invWorkOrderInfoClassNames };
+import { InvoiceWorkOrderInfo, type InvoiceWorkOrderInfoProps } from "../InvoiceWorkOrderInfo";
+import type { Except } from "type-fest";
 
 export const FormInvoiceWorkOrderInfo = (
-  containerProps: Omit<InvoiceWorkOrderInfoProps, "workOrder" | "isWorkOrderOwnedByUser">
+  containerProps: Except<InvoiceWorkOrderInfoProps, "workOrder">
 ) => {
   const [{ value: selectedWorkOrderID }] = useField("workOrder");
   const { data } = useQuery(QUERIES.WORK_ORDER, {
@@ -23,10 +17,8 @@ export const FormInvoiceWorkOrderInfo = (
   return (
     <>
       {selectedWorkOrderID && data?.workOrder ? (
-        // selectedWorkOrderID && typeof data?.workOrder?.id === "string" ? (
         <InvoiceWorkOrderInfo
           workOrder={data.workOrder}
-          isWorkOrderOwnedByUser={false}
           sx={(theme) => ({
             ...(theme.variables.isMobilePageLayout && {
               height: "1rem",
