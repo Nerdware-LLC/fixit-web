@@ -12,11 +12,10 @@ export const woFormFieldHandlers = new FormFieldHandlers<WorkOrderFormValues>({
         null;
 
       return (
-        filteredChecklist?.map(({ id, description, isCompleted }, index) => ({
+        filteredChecklist?.map(({ id, description, isCompleted }) => ({
           id,
           description,
           isCompleted,
-          [Symbol("localIndex")]: index,
         })) ?? null
       );
     },
