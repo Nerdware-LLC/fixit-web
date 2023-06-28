@@ -1,21 +1,15 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Divider, { dividerClasses } from "@mui/material/Divider";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { useWebViewContext } from "@app/WebViewContext/useWebViewContext";
 import { DragonIcon } from "@components/Icons/DragonIcon";
 import { Anchor } from "@components/Navigation/Anchor";
 import { Link } from "@components/Navigation/Link";
 
 export const PageNotFound = () => {
   const nav = useNavigate();
-  const { isAppWithinWebView, webViewPostMessage } = useWebViewContext();
-
-  const handleClickButton = () => {
-    if (isAppWithinWebView) webViewPostMessage({ error: "INVALID_ROUTE" });
-    else nav("/");
-  };
 
   return (
     <StyledDiv>
@@ -35,12 +29,12 @@ export const PageNotFound = () => {
               { to: "/privacy", label: "Privacy Policy" },
               { to: "/tos", label: "Terms of Service" },
             ].map(({ to, label }, index) => (
-              <>
+              <React.Fragment key={label}>
                 {index !== 0 && <Divider orientation="vertical" flexItem />}
                 <li key={to}>
                   <Link to={to}>{label}</Link>
                 </li>
-              </>
+              </React.Fragment>
             ))}
           </ul>
         </div>
@@ -55,7 +49,7 @@ export const PageNotFound = () => {
         </Text>
       </div>
       <div className={classNames.buttonContainer}>
-        <Button onClick={handleClickButton} size="large">
+        <Button onClick={() => nav("/")} size="large">
           Take me home!
         </Button>
       </div>
