@@ -9,6 +9,7 @@ import type {
   MyInvoicesQueryReturnType,
   WorkOrder,
   Invoice,
+  AuthTokenPayload,
 } from "@graphql/types";
 import type {
   RegisterNewUserParams,
@@ -16,7 +17,6 @@ import type {
   PreFetchedUserItems,
   AuthServiceToken,
 } from "@services/authService";
-import type { AuthTokenPayload } from "@types";
 
 export const useAuthService = () => {
   const { handleApiServiceRequest, checkApiResponseForAuthToken } = useApiService();
