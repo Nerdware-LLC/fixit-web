@@ -11,7 +11,7 @@ export interface DataParserItem {
   [K: PropertyKey]: any;
 }
 
-export interface DataParserAccum<DataParserAccumValue extends unknown = any> {
+export interface DataParserAccum<DataParserAccumValue = any> {
   [K: string]: DataParserAccumValue;
 }
 
