@@ -1,13 +1,15 @@
 import renderer from "react-test-renderer";
-import { StripeForm } from "./StripeForm";
+import { StripeForm, type StripeFormProps } from "./StripeForm";
 
-jest.mock("./StripeFormChild", () => ({
+vi.mock("./StripeFormElements", () => ({
   __esModule: true,
-  StripeFormChild: () => <span>Mock_StripeFormChild</span>,
+  StripeFormElements: () => <span>Mock_StripeFormElements</span>,
 }));
 
 it("renders correctly", () => {
-  const tree = renderer.create(<StripeForm handleSubmit={jest.fn()} />).toJSON();
-
-  expect(tree).toMatchSnapshot();
+  expect(
+    renderer
+      .create(<StripeForm handleSubmit={vi.fn() as StripeFormProps["handleSubmit"]} />)
+      .toJSON()
+  ).toMatchSnapshot();
 });

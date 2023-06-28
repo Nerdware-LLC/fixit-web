@@ -1,17 +1,18 @@
 import ReactDOM from "react-dom";
-import { render } from "@testing-library/react";
+import { renderWithProviders } from "@tests/utils/renderWithProviders";
 import { Dialog } from "./Dialog";
+import type { Mock } from "vitest";
 
 beforeAll(() => {
   // Mock ReactDOM.createPortal for components built on top of Portal.
   // (react-test-renderer does not support this OOB)
-  ReactDOM.createPortal = jest.fn((element, node) => {
-    return element;
-  }) as jest.Mock;
+  ReactDOM.createPortal = vi.fn((element: React.ReactNode, _node: Element | DocumentFragment) => {
+    return element as React.ReactPortal;
+  });
 });
 
 afterEach(() => {
-  (ReactDOM.createPortal as jest.Mock).mockClear();
+  (ReactDOM.createPortal as Mock).mockClear();
 });
 
 /* NOTE: for Portal'ed components, we have to use @testing-library/react,
@@ -19,7 +20,7 @@ react-test-renderer doesn't support Portals.  */
 
 it("renders correctly", () => {
   expect(
-    render(
+    renderWithProviders(
       <div>
         <Dialog
           isVisible={true}
