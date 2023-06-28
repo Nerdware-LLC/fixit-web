@@ -60,8 +60,6 @@ type Query {
   mySubscription: UserSubscription!
   workOrder(workOrderID: ID!): WorkOrder!
   myWorkOrders: MyWorkOrdersQueryReturnType!
-  "This query is not yet available in prod/staging - will throw 400 error outside of dev."
-  searchUsersForPhoneContacts(rawPhoneContacts: [RawPhoneContactInput!]!): [PhoneContact]
 }
 type Mutation {
   _root: Boolean
@@ -246,13 +244,28 @@ type MyWorkOrdersQueryReturnType {
   createdByUser: [WorkOrder!]!
   assignedToUser: [WorkOrder!]!
 }
-type PhoneContact {
-  isUser: Boolean!
-  id: String!
-  handle: String
-  phone: String
-  email: Email
+type AuthTokenPayload {
+  id: ID!
+  handle: String!
+  email: String!
+  phone: String!
   profile: Profile!
+  stripeCustomerID: String!
+  subscription: AuthTokenPayloadSubscriptionInfo
+  stripeConnectAccount: AuthTokenPayloadStripeConnectAccountInfo!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+type AuthTokenPayloadSubscriptionInfo {
+  id: ID!
+  status: SubscriptionStatus!
+  currentPeriodEnd: DateTime!
+}
+type AuthTokenPayloadStripeConnectAccountInfo {
+  id: ID!
+  detailsSubmitted: Boolean!
+  chargesEnabled: Boolean!
+  payoutsEnabled: Boolean!
 }
 """
 FixitUser is an interface which defines publicly-accessible User fields. This
@@ -288,6 +301,11 @@ enum SubscriptionStatus {
   past_due
   canceled
   unpaid
+}
+enum SubscriptionPriceLabel {
+  ANNUAL
+  MONTHLY
+  TRIAL
 }
 enum WorkOrderStatus {
   UNASSIGNED
@@ -378,13 +396,6 @@ input UpdateWorkOrderInput {
   entryContact: String
   entryContactPhone: String
   scheduledDateTime: DateTime
-}
-input RawPhoneContactInput {
-  id: String!
-  name: String
-  phone: String
-  email: String
-  photoUrl: String
 }
 "Exposes a URL that specifies the behavior of this scalar."
 directive @specifiedBy(

@@ -20,6 +20,32 @@ export type Scalars = {
   Email: { input: any; output: any; }
 };
 
+export type AuthTokenPayload = {
+  createdAt: Scalars['DateTime']['output'];
+  email: Scalars['String']['output'];
+  handle: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  phone: Scalars['String']['output'];
+  profile: Profile;
+  stripeConnectAccount: AuthTokenPayloadStripeConnectAccountInfo;
+  stripeCustomerID: Scalars['String']['output'];
+  subscription?: Maybe<AuthTokenPayloadSubscriptionInfo>;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type AuthTokenPayloadStripeConnectAccountInfo = {
+  chargesEnabled: Scalars['Boolean']['output'];
+  detailsSubmitted: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
+  payoutsEnabled: Scalars['Boolean']['output'];
+};
+
+export type AuthTokenPayloadSubscriptionInfo = {
+  currentPeriodEnd: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  status: SubscriptionStatus;
+};
+
 export type CancelWorkOrderResponse = DeleteMutationResponse | WorkOrder;
 
 export type ChecklistItem = {
@@ -247,15 +273,6 @@ export type MyWorkOrdersQueryReturnType = {
   createdByUser: Array<WorkOrder>;
 };
 
-export type PhoneContact = {
-  email?: Maybe<Scalars['Email']['output']>;
-  handle?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  isUser: Scalars['Boolean']['output'];
-  phone?: Maybe<Scalars['String']['output']>;
-  profile: Profile;
-};
-
 export type Profile = {
   businessName?: Maybe<Scalars['String']['output']>;
   displayName: Scalars['String']['output'];
@@ -307,8 +324,6 @@ export type Query = {
    *   will be the value of the `offset` argument to be used in a follow-up query.
    */
   searchForUsersByHandle: Array<Contact>;
-  /** This query is not yet available in prod/staging - will throw 400 error outside of dev. */
-  searchUsersForPhoneContacts?: Maybe<Array<Maybe<PhoneContact>>>;
   user: User;
   workOrder: WorkOrder;
 };
@@ -341,22 +356,14 @@ export type QuerySearchForUsersByHandleArgs = {
 };
 
 
-export type QuerySearchUsersForPhoneContactsArgs = {
-  rawPhoneContacts: Array<RawPhoneContactInput>;
-};
-
-
 export type QueryWorkOrderArgs = {
   workOrderID: Scalars['ID']['input'];
 };
 
-export type RawPhoneContactInput = {
-  email?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['String']['input'];
-  name?: InputMaybe<Scalars['String']['input']>;
-  phone?: InputMaybe<Scalars['String']['input']>;
-  photoUrl?: InputMaybe<Scalars['String']['input']>;
-};
+export type SubscriptionPriceLabel =
+  | 'ANNUAL'
+  | 'MONTHLY'
+  | 'TRIAL';
 
 export type SubscriptionStatus =
   | 'active'
