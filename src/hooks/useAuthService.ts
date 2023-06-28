@@ -180,6 +180,5 @@ class PreFetchedItemError extends Error {
 
     // Set the prototype explicitly.
     Object.setPrototypeOf(this, Error);
-    Error.captureStackTrace(this, PreFetchedItemError);
   }
 }
