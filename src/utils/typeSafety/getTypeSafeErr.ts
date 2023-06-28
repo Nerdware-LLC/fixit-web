@@ -1,3 +1,10 @@
+import { ENV } from "@app/env";
+import { hasKey } from "./hasKey";
+import { safeJsonStringify } from "./safeJsonStringify";
+
+/**
+ * Internal type-safety util which guarantees the returned object is an `Error`.
+ */
 export const getTypeSafeErr = (
   err: unknown,
   fallBackErrMsg: string = "An unknown error occurred."
@@ -10,10 +17,12 @@ export const getTypeSafeErr = (
     ? new Error(err)
     : typeof err === "object" &&
       !Array.isArray(err) &&
-      Object.prototype.hasOwnProperty.call(err, "message")
-    ? new Error((err as { message: string }).message)
+      hasKey(err, "message") &&
+      typeof err.message === "string"
+    ? new Error(err.message)
     : new Error(
-        // prettier-ignore
-        `${fallBackErrMsg} Original error payload: ${typeof err !== "bigint" ? JSON.stringify(err) : "[BigInt]"}`
+        `${fallBackErrMsg}${
+          ENV.IS_PROD !== true ? `\nOriginal error payload: ${safeJsonStringify(err)}` : ""
+        }`
       );
 };

@@ -2,12 +2,12 @@ import { styled } from "@mui/material/styles";
 import { chipClasses as muiChipClasses } from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import Text, { typographyClasses } from "@mui/material/Typography";
+import { ENV } from "@app/env";
 import { checkoutValuesStore } from "@cache/checkoutValuesStore";
 import { formatNum } from "@utils/formatNum";
 import { PromoCodeInput } from "./PromoCodeInput";
 import { SwitchToAnnual } from "./SwitchToAnnual";
 import { checkoutPageClassNames } from "./classNames";
-import { PROMO_CODES } from "./promoCodes";
 import type { UserSubscriptionPriceLabel } from "@types";
 
 /**
@@ -141,8 +141,8 @@ export const SUB_DICT_DISPLAY_PARAMS: Record<
  */
 export const getTotal_DISPLAY_ONLY = (price: number, promoCode: string | null) => {
   return formatNum.toCurrencyStr(
-    typeof promoCode === "string" && (promoCode ?? "") in PROMO_CODES
-      ? price - price * (PROMO_CODES[promoCode] / 100)
+    typeof promoCode === "string" && (promoCode ?? "") in ENV.PROMO_CODES
+      ? price - price * (ENV.PROMO_CODES[promoCode] / 100)
       : price
   );
 };

@@ -1,8 +1,9 @@
 import axios from "axios";
+import { ENV } from "@app/env";
 import { logger } from "@utils/logger";
 import { storage } from "@utils/storage";
 
-axios.defaults.baseURL = `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_BASE_URI}`;
+axios.defaults.baseURL = ENV.API_ORIGIN;
 
 // Before each REQUEST goes out, do this
 axios.interceptors.request.use(
@@ -32,7 +33,7 @@ axios.interceptors.response.use(
     return Promise.resolve(response.data);
   },
   (error) => {
-    logger.error(`ERROR: ${JSON.stringify(error, null, 2)}`, "HTTP_SERVICE");
+    logger.error(error, "HTTP_SERVICE");
 
     if (error?.response?.status === 401) storage.authToken.remove();
     return Promise.reject({

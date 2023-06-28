@@ -5,9 +5,9 @@ import { inputBaseClasses } from "@mui/material/InputBase";
 import TextField, { textFieldClasses } from "@mui/material/TextField";
 import Text from "@mui/material/Typography";
 import CheckmarkIcon from "@mui/icons-material/CheckCircle";
+import { ENV } from "@app/env";
 import { checkoutValuesStore } from "@cache/checkoutValuesStore";
 import { checkoutPageClassNames } from "./classNames";
-import { PROMO_CODES } from "./promoCodes";
 
 export const PromoCodeInput = () => {
   // checkoutValuesStore: only updated upon valid promoCode entry
@@ -20,7 +20,7 @@ export const PromoCodeInput = () => {
     success: false,
   });
 
-  const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+  const handleFocus = () => {
     setFieldState({
       ...fieldState,
       touched: true,
@@ -42,7 +42,7 @@ export const PromoCodeInput = () => {
     // If fieldState.value is undefined/empty, do nothing
     if (typeof fieldState.value === "string" && fieldState.value.length > 0) {
       // If a value is present, check its validity
-      if (fieldState.value in PROMO_CODES) {
+      if (fieldState.value in ENV.PROMO_CODES) {
         // IF VALID, update checkoutValuesStore
         setFieldState({ ...fieldState, success: true });
         checkoutValuesStore.set({
@@ -58,13 +58,13 @@ export const PromoCodeInput = () => {
 
   return (
     <StyledDiv className={checkoutPageClassNames.subCostDetails.priceInfoRow}>
-      {typeof promoCode === "string" && promoCode in PROMO_CODES ? (
+      {typeof promoCode === "string" && promoCode in ENV.PROMO_CODES ? (
         <>
           <div>
             <CheckmarkIcon color="success" />
             <Text className={checkoutPageClassNames.baseText}>Promo code applied</Text>
           </div>
-          <Chip label={`${PROMO_CODES[promoCode]}% off`} color="success" size="small" />
+          <Chip label={`${ENV.PROMO_CODES[promoCode]}% off`} color="success" size="small" />
         </>
       ) : (
         <TextField

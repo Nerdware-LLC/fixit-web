@@ -6,17 +6,15 @@ import {
   matchRoutes,
 } from "react-router-dom";
 import * as Sentry from "@sentry/react";
+import { ENV } from "@app/env";
 import { logger } from "@utils/logger";
 
 Sentry.init({
-  dsn: process.env.REACT_APP_SENTRY_DSN,
+  dsn: ENV.SENTRY_DSN,
   integrations: [
     new Sentry.BrowserTracing({
       tracePropagationTargets: ["localhost", "staging.gofixit.app", "gofixit.app", /^\//],
-      /*
-        Sentry routingInstrumentation docs:
-        https://docs.sentry.io/platforms/javascript/guides/react/configuration/integrations/react-router/#usage-with-react-router-64-data-api
-      */
+      // Routing integration: React Router v6
       routingInstrumentation: Sentry.reactRouterV6Instrumentation(
         useEffect,
         useLocation,
