@@ -4,13 +4,8 @@ import { DashboardDataContext } from "./DashboardDataContext";
 import { workOrdersDataReducer, invoicesDataReducer } from "./itemsDataReducers";
 
 export const DashboardDataContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const { data: { myWorkOrders } = {} } = useQuery(QUERIES.MY_WORK_ORDERS, {
-    fetchPolicy: "cache-only", // FIXME rm cache-only fetchPolicy from MyWorkOrders query in DashboardDataContextProvider
-  });
-
-  const { data: { myInvoices } = {} } = useQuery(QUERIES.MY_INVOICES, {
-    fetchPolicy: "cache-only", // FIXME rm cache-only fetchPolicy from MyInvoices query in DashboardDataContextProvider
-  });
+  const { data: { myWorkOrders } = {} } = useQuery(QUERIES.MY_WORK_ORDERS);
+  const { data: { myInvoices } = {} } = useQuery(QUERIES.MY_INVOICES);
 
   const itemsData = {
     workOrdersCreatedByUser: workOrdersDataReducer.reduceItems(myWorkOrders?.createdByUser ?? []),
