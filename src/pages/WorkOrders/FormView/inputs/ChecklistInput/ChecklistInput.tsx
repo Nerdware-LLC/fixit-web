@@ -6,6 +6,7 @@ import { ChecklistItemInput } from "./ChecklistItemInput";
 import { CreateChecklistButton } from "./CreateChecklistButton";
 import { RemoveChecklistButton } from "./RemoveChecklistButton";
 import { checklistInputClassNames as classNames } from "./classNames";
+import type { ChecklistItem } from "@graphql/types";
 
 /**
  * This component wraps the `Checklist` component with a null check; if the
@@ -13,7 +14,7 @@ import { checklistInputClassNames as classNames } from "./classNames";
  * the `CreateChecklistButton` instead.
  */
 export const ChecklistInput = () => {
-  const [checklistField] = useField("checklist");
+  const [checklistField] = useField<Array<ChecklistItem>>("checklist");
 
   // If checklist field value is null, show 'create checklist' btn, else show checklist comp
 

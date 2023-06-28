@@ -8,10 +8,10 @@ import { AddChecklistItemButton } from "./AddChecklistItemButton";
 import { ChecklistItemInput } from "./ChecklistItemInput";
 import { RemoveChecklistButton } from "./RemoveChecklistButton";
 import { checklistInputClassNames as classNames } from "./classNames";
-import type { WorkOrderFormChecklistItem } from "./types";
+import type { ChecklistItem } from "@graphql/types";
 
 export const Checklist = () => {
-  const [{ value: checklistFieldValue }] = useField("checklist");
+  const [{ value: checklistFieldValue }] = useField<Array<ChecklistItem>>("checklist");
 
   return (
     <StyledBox>
@@ -26,7 +26,7 @@ export const Checklist = () => {
           globalClassNames.scrollbarForceShowPaperBG,
         ].join(" ")}
       >
-        {checklistFieldValue.map((item: WorkOrderFormChecklistItem, index: number) => (
+        {checklistFieldValue.map((item, index) => (
           <ChecklistItemInput
             key={`ChecklistItem:${index}]`}
             checklistItemIndex={index}
