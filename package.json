@@ -33,6 +33,7 @@
     "test:benchmarks": "vitest bench",
     "test:update-snapshots": "vitest run --update",
     "test:ci": "vitest run --coverage --reporter default --reporter './.github/github_actions_reporter.cjs'",
+    "lint": "eslint 'src/**/*.[tj]s?(x)'",
     "build": "vite build",
     "build:analyze-bundle": "source-map-explorer 'build/assets/*.js*' --html bundleAnalysisResult.html",
     "preview": "vite preview",
