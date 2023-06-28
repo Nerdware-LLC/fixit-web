@@ -52,7 +52,7 @@ type Query {
          excluded from the results.
     """
     offset: Int = 0
-  ): [Contact!]
+  ): [Contact!]!
   mySubscription: UserSubscription!
   workOrder(workOrderID: ID!): WorkOrder!
   myWorkOrders: MyWorkOrdersQueryReturnType!
@@ -143,7 +143,7 @@ input CreateChecklistItemInput {
 
 input UpdateChecklistItemInput {
   id: ID!
-  description: String
+  description: String!
   isCompleted: Boolean
 }
 
@@ -252,10 +252,10 @@ input CreateLocationInput {
 }
 
 input UpdateLocationInput {
-  streetLine1: String
+  streetLine1: String!
   streetLine2: String
-  city: String
-  region: String
+  city: String!
+  region: String!
   country: String
 }
 
@@ -453,7 +453,7 @@ input CreateWorkOrderInput {
   location: CreateLocationInput!
   category: WorkOrderCategory
   description: String
-  checklist: [CreateChecklistItemInput]
+  checklist: [CreateChecklistItemInput!]
   dueDate: DateTime
   entryContact: String
   entryContactPhone: String
@@ -466,7 +466,7 @@ input UpdateWorkOrderInput {
   location: UpdateLocationInput
   category: WorkOrderCategory
   description: String
-  checklist: [UpdateChecklistItemInput]
+  checklist: [UpdateChecklistItemInput!]
   dueDate: DateTime
   entryContact: String
   entryContactPhone: String
