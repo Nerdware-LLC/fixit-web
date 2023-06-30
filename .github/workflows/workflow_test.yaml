@@ -6,9 +6,9 @@ on:
 
 env:
   NODE_ENV: test
-  REACT_APP_STRIPE_PUBLISHABLE_KEY: ${{ secrets.REACT_APP_STRIPE_TEST_PUBLISHABLE_KEY }}
-  REACT_APP_API_BASE_URI: localhost:8080
-  REACT_APP_API_PROTOCOL: http
+  VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_TEST_PUBLISHABLE_KEY }}
+  VITE_API_PROTOCOL: http
+  VITE_API_HOST: localhost:8080
   # TODO Once fixit-api dev Docker img is available, impl docker-compose for int tests.
 
 jobs:

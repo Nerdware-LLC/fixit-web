@@ -18,9 +18,9 @@ on:
 env:
   # Build env vars specific to staging env:
   NODE_ENV: staging
-  REACT_APP_API_BASE_URI: staging.gofixit.app
-  REACT_APP_API_PROTOCOL: https
-  REACT_APP_STRIPE_PUBLISHABLE_KEY: ${{ secrets.REACT_APP_STRIPE_TEST_PUBLISHABLE_KEY }}
+  VITE_API_PROTOCOL: https
+  VITE_API_HOST: staging.gofixit.app
+  VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_TEST_PUBLISHABLE_KEY }}
 
 jobs:
   build_and_upload:
