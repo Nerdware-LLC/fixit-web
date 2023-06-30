@@ -13,7 +13,7 @@ axios.interceptors.request.use(
     const authToken = storage.authToken.get();
 
     if (authToken) {
-      config.headers = { Authorization: `Bearer ${authToken}` };
+      config.headers.Authorization = `Bearer ${authToken}`;
     }
 
     return Promise.resolve(config);
