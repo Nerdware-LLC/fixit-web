@@ -4,6 +4,7 @@ import { defineConfig, loadEnv } from "vite";
 // import eslintPlugin from "vite-plugin-eslint";
 import svgrPlugin from "vite-plugin-svgr";
 import viteTsconfigPaths from "vite-tsconfig-paths";
+import GithubActionsReporter from "vitest-github-actions-reporter";
 
 /**
  * @docs https://vitejs.dev/config/
@@ -61,6 +62,10 @@ export default defineConfig(({ mode }) => {
       environment: "jsdom",
       include: ["**/?(*.){test,spec}.?(c|m)[tj]s?(x)"],
       setupFiles: ["./src/__tests__/setupTests.ts"],
+      reporters: [
+        "default",
+        ...(process.env.GITHUB_ACTIONS ? [new GithubActionsReporter()] : []),
+      ], // prettier-ignore
     },
 
     build: {
