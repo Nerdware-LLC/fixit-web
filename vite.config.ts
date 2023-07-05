@@ -70,6 +70,17 @@ export default defineConfig(({ mode }) => {
         "default",
         ...(process.env.GITHUB_ACTIONS ? [new GithubActionsReporter()] : []),
       ], // prettier-ignore
+      coverage: {
+        reporter: [
+          // Default reporters:
+          "text",
+          "html",
+          "clover",
+          "json",
+          // Required for vitest-coverage-report GitHub Action:
+          "json-summary",
+        ],
+      },
     },
 
     build: {
