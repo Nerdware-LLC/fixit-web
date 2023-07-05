@@ -1,7 +1,7 @@
 ---
 branches:
   - main
-  - next
+  - { name: next, prerelease: true }
 tagFormat: v${version}
 plugins:
   - - "@semantic-release/commit-analyzer"
@@ -30,7 +30,7 @@ plugins:
 
   - - "@semantic-release/changelog"
     - changelogFile: "CHANGELOG.md"
-      changelogTitle: |
+      changelogTitle: |-
         # Changelog
 
         All notable changes to this project will be documented in this file.
