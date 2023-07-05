@@ -35,12 +35,16 @@ export default defineConfig(({ mode }) => {
         projects: [mode === "production" ? "./tsconfig.build.json" : "./tsconfig.json"],
       }),
       // The Sentry-vite plugin must be placed last after all other plugins
-      sentryVitePlugin({
-        org: "nerdware-io",
-        project: "fixit-web",
-        authToken: VITE_SENTRY_AUTH_TOKEN,
-        telemetry: /^(dev|prod)/i.test(mode),
-      }),
+      ...(/^(dev|prod)/i.test(mode) && !!VITE_SENTRY_AUTH_TOKEN
+        ? [
+            sentryVitePlugin({
+              org: "nerdware-io",
+              project: "fixit-web",
+              authToken: VITE_SENTRY_AUTH_TOKEN,
+              telemetry: true,
+            }),
+          ]
+        : []),
     ],
 
     server: {
