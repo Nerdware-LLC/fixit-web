@@ -11,7 +11,9 @@ import { prettifyStr } from "@utils/prettifyStr";
 import type { FixitUser } from "@graphql/types";
 
 /**
- * // TODO Introduce controls to allow users to show/hide their profile info
+ * This component displays the user's profile details.
+ *
+ * // IDEA Introduce controls to allow users to show/hide their profile info.
  */
 export const UserProfileDetails = ({
   email,
