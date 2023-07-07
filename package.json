@@ -1,7 +1,7 @@
 {
   "name": "fixit-web",
-  "version": "1.2.2",
-  "description": "Web app for managing work orders, invoices, and payments.",
+  "version": "1.2.3",
+  "description": "React-based web app for managing work orders, invoices, and payments.",
   "author": {
     "name": "Trevor Anderson",
     "email": "trevor@nerdware.cloud"
