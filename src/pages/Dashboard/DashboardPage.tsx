@@ -8,9 +8,9 @@ import { WorkOrdersByStatusCounter, InvoicesByStatusCounter } from "./StatusCoun
 import { WorkOrderUpcomingEventsWidget } from "./WorkOrderUpcomingEventsWidget";
 import { dashboardPageClassNames } from "./classNames";
 
-// TODO Idea for new widget: count number of overdue work orders, and/or how many are due/scheduled in x days
-// TODO Idea for new widget/page: CALENDAR VIEW, for due/scheduled dates
-// TODO Idea for new widget/page: Colored layout of WOs, highlighted by priority
+// IDEA Idea for new widget: count number of overdue work orders, and/or how many are due/scheduled in x days
+// IDEA Idea for new widget/page: CALENDAR VIEW, for due/scheduled dates
+// IDEA Idea for new widget/page: Colored layout of WOs, highlighted by priority
 
 export const DashboardPage = () => {
   return (
