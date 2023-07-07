@@ -8,7 +8,7 @@ import { formatNum } from "@utils/formatNum";
 import { useDashboardDataContext } from "./DashboardDataContext";
 import { SmallWidgetLayout } from "./SmallWidgetLayout";
 
-// TODO Add btns which open Invoices table with filters: status=OPEN,listName=Inbox|Sent
+// IDEA Add btns which open Invoices table with filters: status=OPEN,listName=Inbox|Sent
 
 export const InvoiceAmountTotalsWidget = () => {
   const {
