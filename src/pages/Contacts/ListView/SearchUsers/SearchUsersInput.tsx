@@ -9,7 +9,6 @@ import TextField from "@mui/material/TextField";
 import { useFormikFieldProps } from "@components/Form/useFormikFieldProps";
 import { MUTATIONS } from "@graphql/mutations";
 import { QUERIES } from "@graphql/queries";
-import { MOCK_USERS } from "@/__tests__/mockItems";
 import { SearchUsersContactOptionListItem } from "./SearchUsersContactOptionListItem";
 import { SearchUsersInputAdornmentBtn } from "./SearchUsersInputAdornmentBtn";
 import { SearchUsersPopperContent } from "./SearchUsersPopperContent";
@@ -17,8 +16,7 @@ import { ariaElementIDs } from "./classNames";
 import { helpers } from "./helpers";
 import { useSearchUsersQuery } from "./useSearchUsersQuery";
 import type { Contact } from "@graphql/types";
-
-// FIXME rm mocks
+import type { SearchUsersInputActionType } from "./types";
 
 /**
  * **Search Users Input**
@@ -80,11 +78,7 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
 
   // SEARCH USERS QUERY
   const {
-    searchUsersQuery: {
-      data: searchUsersQueryData,
-      loading: searchUsersQueryLoading,
-      // error: searchUsersQueryError // TODO do something with this error
-    },
+    searchUsersQuery: { data: searchUsersQueryData },
     runSearchUsers,
   } = useSearchUsersQuery({ searchFieldValue, isInputFocused });
 
@@ -108,23 +102,20 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
     { fetchPolicy: "no-cache" }
   );
 
-  // FIXME rm mocks
-  const { options, optionsByHandle } = Object.entries(MOCK_USERS).reduce(
+  // reduce searchUsersQueryData into options and optionsByHandle
+  const { options, optionsByHandle } = searchUsersQueryData?.reduce(
     (
       acc: { options: Array<Contact>; optionsByHandle: Record<string, Contact> },
-      [userDisplayName, { id, handle, email, phone, profile, createdAt, updatedAt }]
-    ) =>
-      handle !== "@user_person"
-        ? {
-            options: [...acc.options, { id, handle, email, phone, profile, createdAt, updatedAt }],
-            optionsByHandle: {
-              ...acc.optionsByHandle,
-              [handle]: { id, handle, email, phone, profile, createdAt, updatedAt },
-            },
-          }
-        : acc,
+      { handle, ...contactFields }
+    ) => ({
+      options: [...acc.options, { handle, ...contactFields }],
+      optionsByHandle: {
+        ...acc.optionsByHandle,
+        [handle]: { handle, ...contactFields },
+      },
+    }),
     { options: [], optionsByHandle: {} }
-  );
+  ) ?? { options: [], optionsByHandle: {} };
 
   // INPUT TYPE
   const inputType = helpers.getInputType(searchFieldValue);
@@ -171,29 +162,22 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
         const contactUserID = options.find((opt) => opt.handle === selectedOption)?.id;
 
         if (contactUserID) {
-          // TODO add loading/error/onComplete handling
+          // TODO Add `createContact` loading/error/onComplete handling
           await createContact({ variables: { contactUserID } });
         }
       } else {
-        // TODO add loading/error/onComplete handling
+        // TODO Add `runSearchUsers` loading/error/onComplete handling
         await runSearchUsers({ variables: { handle: searchFieldValue } });
       }
     } else {
-      // TODO add loading/error/onComplete handling
+      // TODO Add `createInvite` loading/error/onComplete handling
       await createInvite({ variables: { phoneOrEmail: searchFieldValue } });
     }
     handleClosePopper();
     setSearchFieldValue("");
-    // TODO clear searchFieldValue only if mutation is successful, else show error
-    // TODO if mutation is successful, show Success msg/lottie/feedback/whatever
+    // TODO Clear searchFieldValue only if mutation is successful, else show error
+    // TODO If mutation is successful, show Success msg/lottie/feedback
   };
-
-  console.debug(
-    `RENDER:[AutoComplete] \n`,
-    `RENDER:\t isInputFocused       = ${isInputFocused} \n`,
-    `RENDER:\t searchFieldHasError  = ${searchFieldHasError} \n`,
-    `RENDER:\t !!popperAnchorEl     = ${!!popperAnchorEl} \n`
-  );
 
   return (
     <>
@@ -229,17 +213,13 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
             handleOpenPopper({ showMuiBackdrop: true }); // the other input types are validated in a useEffect
           }
         }}
+        onOpen={() => {
+          // This ensures the error-popper is never shown when the AutoComplete-popper is open
+          if (searchFieldHasError) setSearchFieldError(undefined);
+        }}
         onClose={(event, reason) => {
-          console.debug(
-            `[AutoComplete:onClose] \n`,
-            `\t reason               = ${reason} \n`, // "toggleInput" | "escape" | "selectOption" | "removeOption" | "blur"
-            `\t isInputFocused       = ${isInputFocused} \n`,
-            `\t searchFieldHasError  = ${searchFieldHasError} \n`,
-            `\t !!popperAnchorEl     = ${!!popperAnchorEl} \n`
-          );
-          if (reason === "escape") {
-            setSearchFieldValue("");
-          }
+          // reason can be "toggleInput" | "escape" | "selectOption" | "removeOption" | "blur"
+          if (reason === "escape") setSearchFieldValue("");
         }}
         // behaviorial props:
         freeSolo
@@ -278,20 +258,23 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
       />
       <StyledPopper
         id={ariaElementIDs.popperRoot}
-        open={!!popperAnchorEl}
+        open={!!popperAnchorEl && !!inputActionType}
         anchorEl={popperAnchorEl}
         aria-labelledby={ariaElementIDs.popperRoot}
         aria-describedby={ariaElementIDs.popperContentDescription}
         placement="bottom-end"
         disablePortal // <-- necessary for nesting Popper in Modal on mobile
         transition
+        onKeyDown={(event) => {
+          if (event.key === "Escape") setPopperAnchorEl(null);
+        }}
       >
         {({ TransitionProps }) => (
           <Grow {...TransitionProps}>
             <SearchUsersPopperContent
               searchFieldHasError={searchFieldHasError}
               inputType={inputType}
-              inputActionType={inputActionType}
+              inputActionType={inputActionType as NonNullable<SearchUsersInputActionType>} // won't open if null
               addContactUser={inputActionType === "search" && selectedOption ? optionsByHandle[selectedOption] : null} // prettier-ignore
               sendInviteTo={inputActionType === "invite" ? searchFieldValue : null}
               handleDoAction={handleClickActionBtn}
