@@ -51,7 +51,7 @@ export const PayInvoiceButton = ({
           isVisible={isDialogVisible}
           title="Confirm Payment"
           acceptLabel="SUBMIT PAYMENT"
-          // TODO include info about when the payment will be completed and whatnot
+          // IDEA Add info about when the payment will be completed
           handleAccept={handlePayInvoice}
           handleCancel={closeDialog}
         >
