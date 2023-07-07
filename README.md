@@ -3,7 +3,7 @@
   <a href="https://github.com/Nerdware-LLC/fixit-web" >
     <img src=".github/assets/fixit_web_repo_header.png" alt="Header with logo" height="135">
   </a>
-  <h1></h1> <!--empty h1 for border and spacing -->
+  <h1></h1>
 
 Author: [Trevor Anderson](https://github.com/trevor-anderson), Founder of [Nerdware](https://github.com/Nerdware-LLC)
 
@@ -24,27 +24,45 @@ Author: [Trevor Anderson](https://github.com/trevor-anderson), Founder of [Nerdw
 
 Fixit Web provides Fixit users with business-critical web interfaces that are each a crucial part of the user's journey, like the Stripe-powered [CheckoutPage](/src/pages/CheckoutPage/). Each page contained in this project connects one part of the user onboarding funnel to another.
 
+- [🗺 Project Layout](#-project-layout)
 - [☁️ Cloud Architecture](#️-cloud-architecture)
   - [End-User Delivery](#end-user-delivery)
-- [🗺 Project Layout](#-project-layout)
-- [⚛️ Create React App](#️-create-react-app)
-  - [Available Scripts](#available-scripts)
-- [🌐 Browserslist](#-browserslist)
-- [🧪 Testing](#-testing)
-  - [Auto-Mocked Node Modules](#auto-mocked-node-modules)
+- [💎 Premium SaaS Products](#-premium-saas-products)
+- [📦 CI/CD Pipeline](#-cicd-pipeline)
+  - [GitHub Actions](#github-actions)
+  - [Codegen](#codegen)
 - [📝 License](#-license)
 - [💬 Contact](#-contact)
 
 ---
 
-### ☁️ Cloud Architecture
+## 🗺 Project Layout
+
+- [`__mocks__`](/__mocks__) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Mock npm modules for testing purposes.
+- [`.github`](/.github) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; GitHub Actions and other GitHub-related files.
+- [`fixit@current.graphql`](/fixit%40current.graphql) &nbsp; &nbsp; The Fixit API GraphQL schema.
+- [`public`](/public) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; App manifest, favicon, and other dist files.
+- [`src`](/src) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Source code root dir.
+  - [`src/app`](/src/app) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; High-level app features and structure.
+  - [`src/components`](/src/components) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Reusable JSX components.
+  - [`src/graphql`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; GraphQL queries and mutations.
+  - [`src/hooks`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Reusable React hooks.
+  - [`src/images`](/src/images) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; In-app image assets (included with build bundle).
+  - [`src/layouts`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Reusable page layout components.
+  - [`src/pages`](/src/pages) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Application pages (nav targets).
+  - [`src/routers`](/src/routers) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Routers and other nav-related components.
+  - [`src/services`](/src/services) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; HTTP handlers for the Fixit and Stripe APIs.
+  - [`src/types`](/src/types) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Ambient typedefs and shared types.
+  - [`src/utils`](/src/utils) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Helper functions for formatting, logging, etc.
+
+## ☁️ Cloud Architecture
 
 As with all Fixit cloud infrastructure, IaC files responsible for _defining_ and _implementing_ Fixit Web's cloud architecture/resources are split between two sibling repos:
 
 - [**fixit-cloud-modules**](https://github.com/Nerdware-LLC/fixit-cloud-modules) &nbsp; Terraform modules which _define_ Fixit Web's cloud.
 - [**fixit-cloud-live**](https://github.com/Nerdware-LLC/fixit-cloud-live) &nbsp;&nbsp;&nbsp; Terragrunt configs which _implement_ Fixit Web's cloud.
 
-#### End-User Delivery
+### End-User Delivery
 
 Fixit Web is delivered to end users via the process outlined in the diagram below.
 
@@ -70,93 +88,44 @@ sequenceDiagram
     end
 ```
 
----
+## 💎 Premium SaaS Products
 
-### 🗺 Project Layout
+The table below lists currently available Fixit SaaS products. Subscription management is powered by [Stripe](https://stripe.com/billing).
 
-- [`__mocks__`](/__mocks__) &nbsp; Mock npm modules (these are automatically mocked in test files, [see here](#auto-mocked-node-modules)).
-- [`.github`](/.github) &nbsp; &nbsp;&nbsp; GitHub Actions and other GitHub-related files.
-- [`public`](/public) &nbsp; &nbsp; &nbsp;&nbsp; HTML, favicon, and other dist files.
-- [`src`](/src) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Source code root dir.
-  - [`src/__tests__`](/src/__tests__) &nbsp;&nbsp; 🃏 Jest integration and unit tests.
-  - [`src/app`](/src/app) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Top-level app structure JSX.
-  - [`src/components`](/src/components) &nbsp; Individual JSX components.
-  - [`src/config`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Init logic and run-time env vars object.
-  - [`src/images`](/src/images) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; In-app image assets (included with build bundle).
-  - [`src/navigation`](/src/navigation) &nbsp; Routing-related JSX.
-  - [`src/pages`](/src/pages) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Application pages (nav targets).
-  - [`src/services`](/src/services) &nbsp; &nbsp; &nbsp; HTTP handlers for the Fixit and Stripe APIs.
-  - [`src/types`](/src/types) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Prop-types objects.
-  - [`src/utils`](/src/utils) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Helper functions for formatting, logging, etc.
+| Product                 | Purchase Option      | Price (USD) |                Promo Code(s) Available?                |
+| :---------------------- | :------------------- | :---------: | :----------------------------------------------------: |
+| Fixit SaaS Subscription | 14-Day Free Trial    |     $0      |                          N/A                           |
+| Fixit SaaS Subscription | Monthly Subscription |  $5/month   | <span style="color:#66FF00;font-size:1.5rem;">✓</span> |
+| Fixit SaaS Subscription | Annual Subscription  |  $50/year   | <span style="color:#66FF00;font-size:1.5rem;">✓</span> |
 
-### ⚛️ Create React App
+## 📦 CI/CD Pipeline
 
-This project was bootstrapped with [Create React App v5](https://github.com/facebook/create-react-app/docs) using the "typescript" template.
+<!-- An outline of this process is below. -->
 
-#### Available Scripts
+<!-- TODO Add screenshot image of pipeline_production workflow in action -->
 
-In the project root directory, you can run:
+### GitHub Actions
 
-- `npm start` Runs the app in "development" mode.\
-  Open [http://localhost:3000](http://localhost:3000) to view it in the browser.\
-  The page will reload if you make edits.\
-  You will also see any errors in the console.
+This project's CI/CD pipeline uses GitHub Actions to [test](/.github/workflows/test.yaml), [release](/.github/workflows/release.yaml), and [deploy](/.github/workflows/deploy.yaml) staging and production environments. Both environments are associated with a protected Git branch:
 
-- `npm test` Launches the test runner, [Jest](https://jestjs.io/docs/getting-started).\
-  If you'd like to run tests using the interactive "watch" mode, use `npm test -- --watchAll=true`.\
-  Links to more info regarding tests/testing:\
-  &nbsp; &nbsp;&nbsp; • [create-react-app docs: running-tests](https://facebook.github.io/create-react-app/docs/running-tests)\
-  &nbsp; &nbsp;&nbsp; • [README: Testing](#testing)
+| Environment | Git Branch | Permits `git push` |
+| :---------- | :--------: | :----------------: |
+| production  |    main    |         NO         |
+| staging     |    next    |        YES         |
 
-- `npm run build` Builds the app and places the resultant files in `/[repo_root]/build/`.\
-  It correctly bundles React in production mode and optimizes the build for the best performance.\ <!-- TODO add info on building staging env -->
-  The build is minified and the filenames include the hashes.\
-  Links to more info regarding builds/building:\
-  &nbsp; &nbsp;&nbsp; • [create-react-app docs: deployment](https://facebook.github.io/create-react-app/docs/deployment)
+For each environment, the [CI/CD pipeline workflow](/.github/workflows/cicd_pipeline.yaml) calls three workflows from the [Nerdware reusable-workflows repo](https://github.com/Nerdware-LLC/reusable-action-workflows):
 
-- `npm run eject` Provides full access to the underlying tools and configs that are normally obfuscated by create-react-app.\
-  **WARNING: this is a one-way operation. Once you `eject`, you can’t go back!**\
-  Due to the one-way nature of `eject`, the main branch will likely never be ejected.\
-  However, this CRA-default npm script is retained for toying around with Webpack/Babel/ESLint/etc on throwaway branches.
+1. [`Node Test`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#node-test) - Runs test suites, adds test and coverage info to PRs, and updates [CodeCov](https://about.codecov.io/).
+2. [`Release`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#release) - Creates a new GitHub release using [Semantic Release](https://github.com/semantic-release/semantic-release#readme).
+3. [`S3 Upload`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#upload-to-s3) - Creates the relevant build and uploads it to an [AWS S3 bucket](https://aws.amazon.com/s3/).
 
-### 🌐 Browserslist
+### Codegen
 
-Some of the [package.json "browserslist"](/package.json#"browserslist") elements were included as part of the _create-react-app_ template defaults, while others are required by [Material UI](https://mui.com/guides/migration-v4/#supported-browsers-and-node-versions) (note that these are not mutually exclusive).
+TypeScript types are generated using [GraphQL Code Generator](https://graphql-code-generator.com/) and the [Fixit GraphQL schema](/fixit%40current.graphql). The same generated types are used throughout the entire Fixit stack.
 
-The included Browserslist queries were sourced as follows -
+When the [Fixit GraphQL schema](/fixit%40current.graphql) is updated during API development, changes are automatically pushed to [Apollo Studio](https://www.apollographql.com/), thereby enabling every component of the stack to use the latest version of the schema (or any particular previous version, if necessary). The schema changes are pulled into other Fixit repos using [Rover GitHub Actions](https://www.apollographql.com/docs/rover/ci-cd/#github-actions), but can also be pulled imperatively using the [Rover CLI](https://www.apollographql.com/docs/rover/).
 
-```jsonc
-"browserslist": {
-  "production": [
-    ">0.2%",                    // create-react-app
-    "last 2 versions",          // MUI
-    "Firefox ESR",              // MUI
-    "not dead",                 // create-react-app & MUI
-    "not IE 11",                // MUI
-    "not op_mini all",          // create-react-app
-    "maintained node versions"  // MUI
-  ],
-  "development": [
-    "last 1 chrome version",    // create-react-app
-    "last 1 firefox version",   // create-react-app
-    "last 1 safari version"     // create-react-app
-  ]
-}
-```
-
-More info on Browserslist queries can be found [here](https://github.com/browserslist/browserslist).
-
-### 🧪 Testing
-
-#### Auto-Mocked Node Modules
-
-Mock implementations of the npm modules listed below are available for testing and are auto-mocked by Jest (i.e., explicitly calling `jest.mock('foo-module')` in test files is not necessary). [More info here](https://jestjs.io/docs/manual-mocks#mocking-node-modules).
-
-- [react-router-dom](/__mocks__/react-router-dom.js)
-
----
-
-### 📝 License
+## 📝 License
 
 All files, scripts, and source code contained herein are for commercial use only by Nerdware, LLC.
 
@@ -164,7 +133,7 @@ See [LICENSE](/LICENSE) for more information.
 
 <div align="center">
 
-### 💬 Contact
+## 💬 Contact
 
 Trevor Anderson - [@TeeRevTweets](https://twitter.com/teerevtweets) - [Trevor@Nerdware.cloud](mailto:trevor@nerdware.cloud)
 

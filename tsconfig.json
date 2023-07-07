@@ -1,22 +1,58 @@
 {
+  "include": ["src/**/*", "./*.[ts,js]"],
+
   "compilerOptions": {
-    "target": "ES5",
+    // Language and Environment:
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+
+    // Modules:
     "module": "ESNext",
     "moduleResolution": "node",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "noEmit": true,
-    "allowJs": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
+    "types": ["vite/client", "vite-plugin-svgr/client", "vitest/globals"],
+
+    // "Completeness" Configs:
+    "skipLibCheck": true,
+
+    // Emit Configs:
+    "noEmit": true,
+    "removeComments": false, // false to retain "magic" webpack comments
+    "sourceMap": true,
+
+    // Interop Constraints:
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "removeComments": true,
-    "jsx": "react-jsx"
-  },
-  "include": ["src/**/*"],
-  "exclude": [".github", "node_modules"]
+
+    // Type Checking:
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "strict": true,
+
+    // Path Aliases:
+    "baseUrl": ".",
+    "paths": {
+      "@ROOT/*": ["./*"],
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@cache/*": ["./src/app/apolloCache/reactiveVars/*"],
+      "@components/*": ["./src/components/*"],
+      "@graphql/*": ["./src/graphql/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@images/*": ["./src/images/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@routers/*": ["./src/routers/*"],
+      "@services/*": ["./src/services/*"],
+      "@tests": ["./src/__tests__"],
+      "@tests/*": ["./src/__tests__/*"],
+      "@types": ["./src/types"],
+      "@types/*": ["./src/types/*"],
+      "@utils/*": ["./src/utils/*"]
+    }
+  }
 }

@@ -1,1 +1,0 @@
-export { StripeForm } from "./StripeForm";

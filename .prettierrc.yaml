@@ -1,0 +1,57 @@
+##################################################
+# PRETTIER BASE CONFIGS
+
+printWidth: 100
+tabWidth: 2
+useTabs: false
+semi: true
+singleQuote: false
+quoteProps: "as-needed"
+jsxSingleQuote: false
+trailingComma: "es5"
+bracketSpacing: true
+bracketSameLine: false
+arrowParens: "always"
+htmlWhitespaceSensitivity: "css"
+endOfLine: "lf"
+singleAttributePerLine: false
+##################################################
+# PRETTIER PLUGIN CONFIGS
+
+# PLUGIN: @serverless-guru/prettier-plugin-import-order
+importOrderMergeDuplicateImports: true
+importOrderBuiltinModulesToTop: true
+importOrderTypeImportsToBottom: true
+# Note: this plugin will not move side-effect imports
+importOrder: [
+    # React imports above all other 3rd party modules
+    "^react.*$",
+    # Below keyword applies to any imports that don't match one of these explicit patterns
+    "<THIRD_PARTY_MODULES>",
+    # MUI imports: Mui-system, Mui-styles, Mui-x-components, Mui-components, Mui-icons
+    "^@mui/system(.*)$",
+    "^@mui/material/styles$",
+    "^@mui/x-(.*)$",
+    "^@mui/material/(.*)$",
+    "^@mui/icons-material/(.*)$",
+    # Project path aliases:
+    "^@ROOT/(.*)$",
+    "^@app/?(.*)$",
+    "^@cache/?(.*)$",
+    "^@components/?(.*)$",
+    "^@graphql/?(.*)$",
+    "^@hooks/?(.*)$",
+    "^@images/?(.*)$",
+    "^@layouts/?(.*)$",
+    "^@pages/?(.*)$",
+    "^@routers/?(.*)$",
+    "^@services/?(.*)$",
+    "^@tests/?(.*)$",
+    "^@types/?(.*)$",
+    "^@utils/?(.*)$",
+    "^@/",
+    # Relative imports at the bottom
+    "^./",
+    "^../",
+  ]
+##################################################
