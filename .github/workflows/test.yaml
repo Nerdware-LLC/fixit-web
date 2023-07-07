@@ -14,26 +14,27 @@ jobs:
   test:
     name: Run Tests
     uses: Nerdware-LLC/reusable-action-workflows/.github/workflows/node_test.yaml@main
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     with:
       test-script: "test:ci"
       # The node_test workflow masks these "env-vars" values and makes them
-      # available as environment variables for the test script. This serves as
+      # available as environment variables for the test env. This serves as
       # a workaround for the fact that GitHub Actions does not propagate the
       # env context to called workflows.
       env-vars: >-
         NODE_ENV=test
         VITE_API_PROTOCOL=http
         VITE_API_HOST=localhost:8080
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      env-vars: >-
         VITE_SENTRY_DSN=${{ secrets.SENTRY_DSN }}
         VITE_STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}
         VITE_FIXIT_SUB_PROMO_CODES_JSON=${{ secrets.FIXIT_SUB_PROMO_CODES_JSON }}
 
   update_pr:
     name: Update PR with Coverage Reports
-    needs: test
-    if: github.event_name == "pull_request" # only run on PRs
+    needs: test # Only run on PRs
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read # Required to checkout the code
@@ -46,9 +47,8 @@ jobs:
 
   release:
     name: Release (push-only)
-    needs: test
-    if: | # only run on push events when tests pass
-      github.event_name == "push" && needs.test.outputs.did-tests-succeed == true
-    uses: ./release.yaml
+    needs: test # Only run on push events when tests pass
+    if: github.event_name == 'push' && needs.test.outputs.did-tests-succeed == true
+    uses: ./.github/workflows/release.yaml
     secrets:
       SEMANTIC_RELEASE_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}

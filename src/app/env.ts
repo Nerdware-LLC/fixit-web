@@ -2,6 +2,7 @@
  * Fixit environment variables
  */
 export const ENV: FixitEnvVars = {
+  MODE: import.meta.env.MODE as FixitEnvVars["MODE"],
   IS_DEV: import.meta.env.DEV,
   IS_PROD: import.meta.env.PROD,
   SENTRY_DSN: import.meta.env.VITE_SENTRY_DSN,
@@ -19,9 +20,10 @@ export const ENV: FixitEnvVars = {
  * Related types: `src/types/Process.env.d.ts`
  */
 export type FixitEnvVars = Readonly<{
+  MODE: "development" | "test" | "staging" | "production";
   IS_DEV: boolean;
   IS_PROD: boolean;
-  SENTRY_DSN: string;
+  SENTRY_DSN?: string;
   API_PROTOCOL: string;
   API_HOST: string;
   /** `"[API_PROTOCOL]://[API_HOST]"` */
