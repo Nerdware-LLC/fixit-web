@@ -5,12 +5,11 @@ import Text, { typographyClasses } from "@mui/material/Typography";
 import RocketIcon from "@mui/icons-material/RocketLaunchOutlined";
 import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
 import { TitleLogo, titleLogoClassNames } from "@components/Branding/TitleLogo";
-import { CanvasGradientBG } from "./CanvasGradientBG";
-
-// TODO Add screenshot of dashboard (charts + widgets) to landing page
 
 /**
- * Index route for RootAppRouter which renders when the path is "/".
+ * // TODO Add chart demo images (@images/dashboard_chart_demo.webp)
+ *
+ * NOTE: Index route for RootAppRouter which renders when the path is "/"
  */
 export const LandingPage = () => {
   const nav = useNavigate();
@@ -22,10 +21,9 @@ export const LandingPage = () => {
 
   return (
     <StyledDiv>
-      <CanvasGradientBG />
-      <div id={landingPageElementIDs.contentContainer}>
-        <div id={landingPageElementIDs.introTextContainer}>
-          <div /* TODO this div layer me be superfluous */>
+      <div className={classNames.contentContainer}>
+        <div className={classNames.introTextContainer}>
+          <div>
             <span>
               <Text>Getting paid for your work, made easy.</Text>
             </span>
@@ -51,9 +49,9 @@ export const LandingPage = () => {
           )}
         </div>
         {!isMobilePageLayout && (
-          <div id={landingPageElementIDs.desktopContentContainer}>
+          <div className={classNames.desktopContentContainer}>
             <TitleLogo />
-            <div id={landingPageElementIDs.desktopButtonsContainer}>
+            <div className={classNames.desktopButtonsContainer}>
               <Button onClick={goToRegister}>Start Now</Button>
               <Button onClick={goToLogin} variant="outlined">
                 Sign In
@@ -61,46 +59,49 @@ export const LandingPage = () => {
             </div>
           </div>
         )}
+        {/*
+        TODO Adjust LandingPage layout to accomodate dashboard-chart-demo-img
+        <img src={chartDemoImageSrc} alt="dashboard chart example" />
+        */}
       </div>
     </StyledDiv>
   );
 };
 
-export const landingPageElementIDs = {
+const classNames = {
   contentContainer: "landing-page-content-container",
   introTextContainer: "landing-page-intro-text-container",
   desktopContentContainer: "landing-page-desktop-content-container",
   desktopButtonsContainer: "landing-page-desktop-buttons-container",
 };
 
-const StyledDiv = styled("div")(({ theme }) => ({
+const StyledDiv = styled("div")(({ theme: { palette, variables } }) => ({
   height: "100%",
   width: "100%",
   display: "flex",
 
-  [`& > #${landingPageElementIDs.contentContainer}`]: {
+  [`& > .${classNames.contentContainer}`]: {
     padding: "10vh 2rem",
     zIndex: 1,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-evenly",
-    ...(theme.variables.isMobilePageLayout ? { flexWrap: "wrap" } : { alignItems: "center" }),
+    ...(variables.isMobilePageLayout ? { flexWrap: "wrap" } : { alignItems: "center" }),
     "& button": {
       borderRadius: "1.5rem",
     },
 
-    [`& > #${landingPageElementIDs.introTextContainer}`]: {
+    [`& > .${classNames.introTextContainer}`]: {
       height: "100%",
-      width: theme.variables.isMobilePageLayout ? "100%" : "clamp(30rem, 55%, 55vw)",
+      width: variables.isMobilePageLayout ? "100%" : "clamp(30rem, 55%, 55vw)",
       textAlign: "left",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-evenly",
 
-      // TODO the below intermediate div layer may be superfluous
       "& > div:first-of-type > span": {
         [`&:first-of-type > .${typographyClasses.root}`]: {
-          color: theme.palette.secondary.main,
+          color: palette.secondary.main,
           fontSize: "clamp(2.8rem, 8vw, 5rem)",
           lineHeight: "clamp(3rem, 7.75vw, 5.2rem)",
           fontWeight: "bold",
@@ -112,7 +113,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
             fontWeight: "100",
           },
           "& b": {
-            color: theme.palette.primary.main,
+            color: palette.primary.main,
           },
         },
       },
@@ -125,7 +126,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
       },
     },
 
-    [`& > #${landingPageElementIDs.desktopContentContainer}`]: {
+    [`& > .${classNames.desktopContentContainer}`]: {
       height: "100%",
       minWidth: "21rem",
       maxWidth: "30vw",
@@ -150,7 +151,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
         },
       },
 
-      [`& > #${landingPageElementIDs.desktopButtonsContainer}`]: {
+      [`& > .${classNames.desktopButtonsContainer}`]: {
         height: "16vh",
         maxHeight: "16vh",
         width: "100%",
@@ -162,6 +163,12 @@ const StyledDiv = styled("div")(({ theme }) => ({
         justifyContent: "space-evenly",
         alignSelf: "center",
       },
+    },
+
+    "& > img": {
+      opacity: 0.85,
+      borderRadius: "0.35rem",
+      // TODO put image in semi-transparent div
     },
   },
 }));
