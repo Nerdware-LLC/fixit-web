@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
 import { avatarClasses } from "@mui/material/Avatar";
@@ -6,8 +5,6 @@ import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContex
 import { AppBarLogoBtn } from "./AppBarLogoBtn";
 import { DesktopAppBarMenu } from "./DesktopAppBarMenu";
 import { MobileAppBarMenu } from "./MobileAppBarMenu";
-
-const DevModeTools = lazy(() => import(/* webpackChunkName: "DevModeTools" */ "@/__tests__/DevModeTools")); // prettier-ignore
 
 /**
  * Mui Material AppBar, with position "fixed".
@@ -26,7 +23,6 @@ export const AppBar = () => {
     <>
       <StyledMuiAppBar id={appBarElementIDs.root} position="fixed" elevation={0}>
         <AppBarLogoBtn />
-        {process.env.NODE_ENV === "development" && <DevModeTools style={{ marginLeft: "auto" }} />}
         {isMobilePageLayout ? <MobileAppBarMenu /> : <DesktopAppBarMenu />}
       </StyledMuiAppBar>
       <div id={appBarElementIDs.fixedPositionOffset} />
