@@ -5,6 +5,13 @@ import { FileInvoiceDollarIcon } from "@components/Icons/FileInvoiceDollarIcon";
 import { PenToSquareIcon } from "@components/Icons/PenToSquareIcon";
 import type { WorkOrder } from "@graphql/types";
 
+/**
+ * // IDEA Maybe convert the button/buttons into a single "ActionsButtonGroup" button.
+ * // IDEA Add WO ItemView buttons for assignee:
+ * - `Update Status`
+ * - `Update Checklist`
+ * - `Add Notes`
+ */
 export const WorkOrderItemViewHeader = ({
   workOrder,
   isItemOwnedByUser,
@@ -26,15 +33,6 @@ export const WorkOrderItemViewHeader = ({
         startIcon: <FileInvoiceDollarIcon />,
         buttonText: "Create Invoice",
       };
-
-  /*
-    TODO Maybe convert the button/buttons into a single "ActionsButtonGroup" button.
-
-    TODO Add WO ItemView buttons for assignee:
-      - `Update Status`
-      - `Update Checklist`
-      - `Add Notes`
-  */
 
   return (
     <>
