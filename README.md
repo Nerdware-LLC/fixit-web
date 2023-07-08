@@ -59,8 +59,8 @@ Fixit Web provides Fixit users with business-critical web interfaces that are ea
 
 As with all Fixit cloud infrastructure, IaC files responsible for _defining_ and _implementing_ Fixit Web's cloud architecture/resources are split between two sibling repos:
 
-- [**fixit-cloud-modules**](https://github.com/Nerdware-LLC/fixit-cloud-modules) &nbsp; Terraform modules which _define_ Fixit Web's cloud.
-- [**fixit-cloud-live**](https://github.com/Nerdware-LLC/fixit-cloud-live) &nbsp;&nbsp;&nbsp; Terragrunt configs which _implement_ Fixit Web's cloud.
+- [**fixit-cloud-modules**](https://github.com/Nerdware-LLC/fixit-cloud-modules#readme) &nbsp; Terraform modules which _define_ Fixit Web's cloud.
+- [**fixit-cloud-live**](https://github.com/Nerdware-LLC/fixit-cloud-live#readme) &nbsp;&nbsp;&nbsp; Terragrunt configs which _implement_ Fixit Web's cloud.
 
 ### End-User Delivery
 
