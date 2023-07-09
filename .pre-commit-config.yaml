@@ -1,22 +1,23 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
       # Git Style
-      - id: check-added-large-files # Prevent large files from commit (default=500kb)
+      - id: check-added-large-files # prevent large files from commit (default=500kb)
       - id: check-merge-conflict
       - id: check-vcs-permalinks
       - id: forbid-new-submodules
-      # TODO Upon deploying into production, add "no-commit-to-branch" to protect "main".
+      - id: no-commit-to-branch # main branch can only be updated via PR
+        args: [--branch, main]
 
       # Common Errors
       - id: check-executables-have-shebangs
-      - id: check-yaml # Validate yaml file syntax
-      - id: end-of-file-fixer # Ensure files end in newline char
-        exclude: src/(graphql/__codegen__/.*|.*\.snap)$ # Don't modify Jest snapshots nor codegen-made files
+      - id: check-yaml # validate yaml file syntax
+      - id: end-of-file-fixer # ensure files end in newline char
+        exclude: src/(graphql/__codegen__/.*|.*\.snap)$ # don't modify Jest snapshots nor codegen'd files
         exclude_types: [graphql, svg, json]
-      - id: trailing-whitespace # Trim superfluous whitespace from eol
-        exclude: src/(types/graphql/.*|.*\.snap)$ # Don't modify Jest snapshots nor codegen-made files
+      - id: trailing-whitespace # trim superfluous whitespace from eol
+        exclude: src/(types/graphql/.*|.*\.snap)$ # don't modify Jest snapshots nor codegen'd files
         exclude_types: [graphql]
         args: [--markdown-linebreak-ext=md]
 
