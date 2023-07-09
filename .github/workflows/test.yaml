@@ -5,10 +5,10 @@ on:
   pull_request:
     types: [opened, reopened, synchronize] # default PR types
     branches: [main, next]
-    paths: ["src/**/*", "package*.json"]
+    paths: ["src/**/*", "package*.json", "index.html"]
   push:
     branches: [main, next]
-    paths: ["src/**/*", "package*.json"]
+    paths: ["src/**/*", "package*.json", "index.html"]
 
 jobs:
   test:
@@ -33,21 +33,23 @@ jobs:
 
   update_pr:
     name: Update PR with Coverage Reports
-    needs: test # Only run on PRs
+    needs: test # only run on PRs
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
-      contents: read # Required to checkout the code
-      pull-requests: write # Required to put a comment into the PR
+      contents: read # required to checkout the code
+      pull-requests: write # required to put a comment into the PR
     steps:
-      - uses: actions/download-artifact@v3
+      - name: Download Artifact "coverage-reports"
+        uses: actions/download-artifact@v3
         with:
           name: coverage-reports
-      - uses: davelosert/vitest-coverage-report-action@v2
+      - name: Update PR Using "coverage-reports" Artifact
+        uses: davelosert/vitest-coverage-report-action@v2
 
   release:
     name: Release (push-only)
-    needs: test # Only run on push events when tests pass
+    needs: test # only run on push events when tests pass
     if: github.event_name == 'push' && needs.test.outputs.did-tests-succeed == true
     uses: ./.github/workflows/release.yaml
     secrets:
