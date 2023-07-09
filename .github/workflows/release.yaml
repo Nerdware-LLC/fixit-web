@@ -8,7 +8,7 @@ on:
   pull_request:
     types: [closed]
     branches: [main, next]
-    paths: ["src/**/*", "package*.json"]
+    paths: ["src/**/*", "package*.json", "index.html"]
 
 jobs:
   release:
