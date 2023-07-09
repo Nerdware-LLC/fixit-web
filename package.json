@@ -6,6 +6,7 @@
     "name": "Trevor Anderson",
     "email": "trevor@nerdware.cloud"
   },
+  "license": "LicenseRef-LICENSE",
   "repository": "https://github.com/Nerdware-LLC/fixit-web",
   "private": true,
   "browserslist": {
