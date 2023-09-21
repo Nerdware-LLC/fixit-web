@@ -61,7 +61,7 @@
     "chartjs-adapter-dayjs-4": "^1.0.4",
     "dayjs": "^1.11.8",
     "formik": "^2.4.2",
-    "graphql": "^16.7.1",
+    "graphql": "^16.8.1",
     "jwt-decode": "^3.1.2",
     "lodash.isequal": "^4.5.0",
     "lottie-react": "^2.4.0",
