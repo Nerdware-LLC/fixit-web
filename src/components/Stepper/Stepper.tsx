@@ -1,6 +1,5 @@
 import { styled } from "@mui/material/styles";
 import Step from "@mui/material/Step";
-import StepContent from "@mui/material/StepContent";
 import StepLabel from "@mui/material/StepLabel";
 import MuiStepper from "@mui/material/Stepper";
 import Text, { typographyClasses } from "@mui/material/Typography";
@@ -12,7 +11,7 @@ import type { StepperProps } from "./types";
 /**
  * A Mui `Stepper` component with app-specific logic and styles.
  *
- * @see https://mui.com/material-ui/react-stepper
+ * @docs https://mui.com/material-ui/react-stepper
  */
 export const Stepper = ({
   steps,
@@ -60,10 +59,7 @@ export const Stepper = ({
               {`${index + 1}. ${label}`}
             </StepLabel>
             {useVerticalOrientation && index === activeStepIndex && content && (
-              // The Mui StepContent wrapper is only used with VERTICAL layout, otherwise an error is shown in console
-              <StepContent>
-                <StepContentContainer content={content} useVerticalOrientation={true} />
-              </StepContent>
+              <StepContentContainer content={content} useVerticalOrientation={true} />
             )}
           </Step>
         )
@@ -206,52 +202,6 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
           paddingLeft: `calc( ${iconContainerSize} / 2 + ${iconContainerMarginRight} + ${stepCaptionMarginLeft} )`, // lines up w caption
           paddingRight: 0,
         },
-      },
-    },
-
-    // StepContentContainer
-    [`& .${classNames.stepContent.container}`]: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "0.5rem", // spacing between text and btn, if one is present
-
-      // StepContentContainer - VERTICAL
-      [`&.${classNames.stepContent.vertical}`]: {
-        alignItems: "flex-start",
-        [`& .${classNames.stepContent.descriptionContainer}`]: {
-          padding: "0.5rem 0",
-          "& > svg[data-testid=InfoIcon]": {
-            display: "none", // rm the InfoIcon on vert
-          },
-        },
-      },
-
-      // StepContentContainer - HORIZONTAL
-      [`&.${classNames.stepContent.horizontal}`]: {
-        alignItems: "center",
-        paddingTop: "1.25rem", // matches ItemDetailsGroup padding-bottom
-        [`& .${classNames.stepContent.descriptionContainer}`]: {
-          [`& .${typographyClasses.root}`]: {
-            whiteSpace: "nowrap",
-          },
-        },
-      },
-
-      [`& .${classNames.stepContent.descriptionContainer}`]: {
-        display: "flex", // row
-        alignItems: "center", // for aligning icon on horizontal (irrelevant on vert layout)
-        gap: "0.5rem", // spacing between text and icon, if one is present
-
-        [`& .${typographyClasses.root}`]: {
-          fontSize: "1rem",
-          lineHeight: "1.25rem",
-        },
-      },
-
-      [`& > .${classNames.stepContent.actionButtonsContainer}`]: {
-        display: "flex",
-        alignItems: "center",
-        gap: "0.5rem",
       },
     },
 
