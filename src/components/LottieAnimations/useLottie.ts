@@ -42,13 +42,13 @@ export const useLottie = ({ animation, options = {}, style = {} }: UseLottieArgs
   return {
     LottieView,
     playLottie: !options?.duration
-      ? async () => playLottie()
+      ? async () => Promise.resolve(playLottie())
       : async () => {
           await new Promise<void>((resolve) => {
             playLottie();
 
             setTimeout(() => {
-              destroyLottie();
+              stopLottie();
               resolve();
             }, options.duration);
           });
