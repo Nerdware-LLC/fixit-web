@@ -1,4 +1,4 @@
-import { gql } from "@graphql/__codegen__";
+import { gql } from "@/graphql/__codegen__";
 
 export const FixitUserFields = gql(`
   fragment FixitUserFields on FixitUser {
