@@ -2,7 +2,7 @@ import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Text from "@mui/material/Typography";
-import { coreContentViewLayoutClassNames as classNames } from "./classNames";
+import { coreContentViewLayoutClassNames } from "./classNames";
 
 /**
  * Provides a common layout for list, item, form, and contact/profile views.
@@ -10,20 +10,21 @@ import { coreContentViewLayoutClassNames as classNames } from "./classNames";
 export const CoreContentViewLayout = ({
   headerLabel,
   headerComponents,
+  className = "",
   children,
-  ...containerProps
+  ...boxProps
 }: CoreContentViewLayoutProps) => (
-  <StyledBox className={classNames.root} {...containerProps}>
-    <Box className={classNames.headerContainer}>
+  <StyledBox className={coreContentViewLayoutClassNames.root + " " + className} {...boxProps}>
+    <Box className={coreContentViewLayoutClassNames.headerContainer}>
       {headerLabel && (
-        <Text variant="h4" component="h2" className={classNames.headerLabel}>
+        <Text variant="h4" component="h2" className={coreContentViewLayoutClassNames.headerLabel}>
           {headerLabel}
         </Text>
       )}
       {headerComponents}
     </Box>
-    <Divider flexItem className={classNames.sectionDivider} />
-    <Box className={classNames.childrenContainer}>{children}</Box>
+    <Divider flexItem className={coreContentViewLayoutClassNames.sectionDivider} />
+    <Box className={coreContentViewLayoutClassNames.childrenContainer}>{children}</Box>
   </StyledBox>
 );
 
@@ -35,7 +36,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   flexDirection: "column",
 
   // Header container:
-  [`& > .${classNames.headerContainer}`]: {
+  [`& > .${coreContentViewLayoutClassNames.headerContainer}`]: {
     ...(theme.variables.isMobilePageLayout
       ? {
           height: "4rem",
@@ -57,22 +58,20 @@ const StyledBox = styled(Box)(({ theme }) => ({
     flexDirection: "row",
     alignItems: "center",
 
-    [`& > .${classNames.headerLabel}`]: {
+    [`& > .${coreContentViewLayoutClassNames.headerLabel}`]: {
       whiteSpace: "nowrap",
       marginRight: "auto",
     },
   },
 
   // Divider:
-
-  [`& > .${classNames.sectionDivider}`]: {
+  [`& > .${coreContentViewLayoutClassNames.sectionDivider}`]: {
     width: theme.variables.isMobilePageLayout ? "calc(100% - 2rem)" : "calc(100% - 4rem)",
     alignSelf: "center",
   },
 
   // Children container:
-
-  [`& > .${classNames.childrenContainer}`]: {
+  [`& > .${coreContentViewLayoutClassNames.childrenContainer}`]: {
     height: "100%",
     width: "auto",
     maxWidth: "100%",
@@ -83,5 +82,4 @@ const StyledBox = styled(Box)(({ theme }) => ({
 export type CoreContentViewLayoutProps = {
   headerLabel?: string;
   headerComponents?: React.ReactNode;
-  children: React.ReactNode;
 } & BoxProps;
