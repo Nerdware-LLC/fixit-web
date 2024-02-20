@@ -1,32 +1,29 @@
-import { useStripe, useElements } from "@stripe/react-stripe-js";
-import Button, { type ButtonProps } from "@mui/material/Button";
-import { useFetchStateContext } from "@components/Indicators/useFetchStateContext";
-import { stripeFormClassNames as classNames } from "./classNames";
+import {
+  BaseFormSubmitButton,
+  type BaseFormSubmitButtonProps,
+} from "@/components/Form/BaseFormSubmitButton";
+import type { SetOptional } from "type-fest";
 
 export const StripeFormSubmitButton = ({
   label = "Subscribe",
-  isSubmitDisabled,
-  ...props
-}: StripeFormSubmitButtonProps) => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const { isLoading } = useFetchStateContext();
+  color = "primary",
+  size = "large",
+  disabled,
+  isLoading,
+  ...buttonProps
+}: StripeFormSubmitButtonProps) => (
+  <BaseFormSubmitButton
+    type="submit"
+    label={label}
+    color={color}
+    size={size}
+    disabled={disabled}
+    isLoading={isLoading}
+    {...buttonProps}
+  />
+);
 
-  return (
-    <Button
-      type="submit"
-      disabled={!stripe || !elements || isLoading || isSubmitDisabled}
-      color="primary"
-      size="large"
-      className={classNames.submitButton}
-      {...props}
-    >
-      {label}
-    </Button>
-  );
-};
-
-export type StripeFormSubmitButtonProps = {
-  label?: string;
-  isSubmitDisabled: boolean;
-} & ButtonProps;
+export type StripeFormSubmitButtonProps = SetOptional<
+  Omit<BaseFormSubmitButtonProps, "type">,
+  "label"
+>;
