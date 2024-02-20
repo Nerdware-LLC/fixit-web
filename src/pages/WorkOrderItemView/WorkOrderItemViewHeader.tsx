@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import Button, { type ButtonProps } from "@mui/material/Button";
-import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
-import { FileInvoiceDollarIcon } from "@components/Icons/FileInvoiceDollarIcon";
-import { PenToSquareIcon } from "@components/Icons/PenToSquareIcon";
-import type { WorkOrder } from "@graphql/types";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
+import { FileInvoiceDollarIcon } from "@/components/Icons/FileInvoiceDollarIcon";
+import { PenToSquareIcon } from "@/components/Icons/PenToSquareIcon";
+import { APP_PATHS } from "@/routes/appPaths";
+import type { WorkOrder } from "@/graphql/types";
 
 /**
  * // IDEA Maybe convert the button/buttons into a single "ActionsButtonGroup" button.
@@ -24,35 +25,29 @@ export const WorkOrderItemViewHeader = ({
 
   const { onClick, startIcon, buttonText }: ButtonProps & { buttonText: string } = isItemOwnedByUser
     ? {
-        onClick: () => nav("/home/workorders/form", { state: { workOrder } }),
-        startIcon: <PenToSquareIcon />,
         buttonText: isMobilePageLayout ? "Edit" : "Update Work Order",
+        startIcon: <PenToSquareIcon />,
+        onClick: () => {
+          nav(APP_PATHS.WORK_ORDERS_FORM_VIEW, { state: { workOrder } });
+        },
       }
     : {
-        onClick: () => nav("/home/invoices/form", { state: { workOrderToInvoice: workOrder } }),
-        startIcon: <FileInvoiceDollarIcon />,
         buttonText: "Create Invoice",
+        startIcon: <FileInvoiceDollarIcon />,
+        onClick: () => {
+          nav(APP_PATHS.INVOICES_FORM_VIEW, { state: { workOrderToInvoice: workOrder } });
+        },
       };
 
   return (
     <>
       <Button
-        className="wo-item-view-header-mutation-button"
         onClick={onClick}
         startIcon={startIcon}
         style={{
           height: "2rem",
-          paddingBottom: "0.16rem",
           borderRadius: "1.5rem",
-          ...(isMobilePageLayout && {
-            fontSize: "1rem",
-          }),
-        }}
-        sx={{
-          "& svg": {
-            marginRight: "0.2rem",
-            marginBottom: "0.15rem",
-          },
+          ...(isMobilePageLayout && { fontSize: "1rem" }),
         }}
       >
         {buttonText}
