@@ -1,17 +1,35 @@
-import { Formik, Form as FormikFormElement, type FormikValues, type FormikHelpers } from "formik";
+import {
+  Formik,
+  Form as FormikFormElement,
+  type FormikConfig as FormikComponentProps,
+  type FormikValues as BaseFormikValues,
+} from "formik";
 import { styled } from "@mui/material/styles";
-import { FormControlButtons } from "./FormControlButtons";
-import { FormSubmitButton } from "./FormSubmitButton";
 import { formClassNames } from "./classNames";
-import type { SxProps, Theme } from "@mui/material/styles";
+import type { Simplify } from "type-fest";
+import type { Schema as YupSchema } from "yup";
 
-export const Form = <FormValues extends FormikValues = FormikValues>({
+/**
+ * A [`Formik`][formik-url]-integrated form component which provides a convenient
+ * way to create a form with validation and submission logic.
+ *
+ * ### `Form` Sub-Components:
+ *
+ * - `FormSubmitButton` - A [`Formik`][formik-url]-integrated submit button which is disabled when
+ *   the form is invalid.
+ *
+ * - `FormControlButtons` - A flexbox containing a `FormSubmitButton` and a `BackButton`.
+ *
+ * [formik-url]: https://formik.org/docs/overview
+ */
+export const Form = <FormValues extends BaseFormikValues = BaseFormikValues>({
   initialValues,
   validationSchema,
   validate,
   onSubmit,
-  style,
   sx,
+  style,
+  className = "",
   children,
   ...formikProps
 }: FormProps<FormValues>) => (
@@ -22,7 +40,11 @@ export const Form = <FormValues extends FormikValues = FormikValues>({
     onSubmit={onSubmit}
     {...formikProps}
   >
-    <StyledFormikFormElement sx={sx} style={style} className={formClassNames.root}>
+    <StyledFormikFormElement
+      sx={sx}
+      style={style}
+      className={formClassNames.root + " " + className}
+    >
       {children}
     </StyledFormikFormElement>
   </Formik>
@@ -33,13 +55,27 @@ export const Form = <FormValues extends FormikValues = FormikValues>({
  */
 const StyledFormikFormElement = styled(FormikFormElement)({});
 
-// Some convenient attachments:
-Form.SubmitButton = FormSubmitButton;
-Form.ControlButtons = FormControlButtons;
+/**
+ * The props for the `<Form />` component, which wrap the `<Formik />` component's props with
+ * the following modifications/additions:
+ *
+ * - `children` is overwritten to `ReactNode` to exclude the render-prop pattern.
+ * - `validationSchema` is overwritten to `YupSchema` to get rid of the `any` type.
+ * - For styling, `sx` and `style` props are added via {@link StyledFormikFormElement}.
+ *
+ * @note The type for the `<Formik />` component's props is `FormikConfig` - not `FormikProps`,
+ * which is what `<Formik />` passes to the form component or render prop of `<Formik />`. Here,
+ * the `FormikConfig` type has been imported as `FormikComponentProps` to clarify its purpose.
+ */
+export type FormProps<FormValues extends BaseFormikValues = BaseFormikValues> = Simplify<
+  Omit<FormikComponentProps<FormValues>, "children" | "validationSchema"> & {
+    children: React.ReactNode; //                <-- exclude render-prop children
+    validationSchema?: YupSchema<FormValues>; // <-- replace `any` with YupSchema
+  } & Pick<React.ComponentProps<typeof StyledFormikFormElement>, "sx" | "style" | "className">
+>;
 
-export type FormProps<FormValues extends FormikValues = FormikValues> = {
-  onSubmit: (formValues: any, formikHelpers?: FormikHelpers<any>) => void | Promise<void>;
-  sx?: SxProps<Theme>;
-  style?: React.CSSProperties;
-  children: React.ReactNode;
-} & Omit<React.ComponentProps<typeof Formik<FormValues>>, "onSubmit">;
+/**
+ * A validation function to provide to the `Form` component's optional `validate` prop.
+ */
+export type FormValidationFunction<FormValues extends BaseFormikValues = BaseFormikValues> =
+  FormProps<FormValues>["validate"];
