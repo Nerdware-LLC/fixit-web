@@ -3,13 +3,17 @@ import { useQuery } from "@apollo/client/react/hooks";
 import { useField } from "formik";
 import Text from "@mui/material/Typography";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
-import { Dialog } from "@components/Dialog";
+import { Dialog, type DialogProps } from "@/components/Dialog";
 import {
   AutoCompleteWorkOrder,
   type AutoCompleteWorkOrderProps,
-} from "@components/Form/AutoCompleteWorkOrder";
-import { QUERIES } from "@graphql/queries";
-import type { Invoice, WorkOrder } from "@graphql/types";
+  type AutoCompleteWorkOrderOptions,
+} from "@/components/Form/inputs/AutoCompleteWorkOrder";
+import { QUERIES } from "@/graphql/queries";
+import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
+import type { AutoCompleteOnChangeFn } from "@/components/Form/inputs/AutoComplete";
+import type { Invoice, WorkOrder } from "@/graphql/types";
+import type { Simplify } from "type-fest";
 
 /**
  * InvoiceWorkOrderInput is used to select a WorkOrder from a User's list of
@@ -39,11 +43,13 @@ export const InvoiceWorkOrderInput = ({
   existingInvoice,
   ...props
 }: InvoiceWorkOrderInputProps) => {
-  const { data, loading } = useQuery(QUERIES.MY_WORK_ORDERS, {
-    fetchPolicy: "cache-only",
-  });
-  const [{ value: invoiceAssignedTo }, , { setValue: setAssignedTo }] = useField("assignedTo");
-  const [, , { setValue: setWorkOrder }] = useField("workOrder");
+  const { data, loading } = useQuery(QUERIES.MY_WORK_ORDERS, { fetchPolicy: "cache-only" });
+
+  const [{ value: invoiceAssignedTo }, , { setValue: setAssignedTo }] = useField<string | null>(
+    "assignedTo"
+  );
+
+  const [, , { setValue: setWorkOrder, setError }] = useField("workOrder");
   const [selectedWorkOrderCreatedBy, setSelectedWorkOrderCreatedBy] = useState<string | null>(null);
   const previousAssignedToValueRef = useRef<string | null>(invoiceAssignedTo);
   const { isDialogVisible, openDialog, closeDialog } = Dialog.use();
@@ -60,39 +66,42 @@ export const InvoiceWorkOrderInput = ({
     }
   }, [invoiceAssignedTo, selectedWorkOrderCreatedBy, openDialog]);
 
-  const woOptions: AutoCompleteWorkOrderProps["options"] = [];
+  const woOptions: AutoCompleteWorkOrderOptions = [];
 
   if (!loading && data?.myWorkOrders?.assignedToUser) {
     woOptions.concat(
       data.myWorkOrders.assignedToUser.reduce(
-        !invoiceAssignedTo
-          ? (acc, wo) => [...acc, { ...wo, _renderUser: wo.createdBy }]
-          : (acc, wo) =>
-              // If there's an assignedTo value, place their WOs at the top
-              invoiceAssignedTo === wo.createdBy.id
-                ? [{ ...wo, _renderUser: wo.createdBy }, ...acc]
-                : [...acc, { ...wo, _renderUser: wo.createdBy }],
-        [] as Array<any>
+        (acc: AutoCompleteWorkOrderOptions, wo) =>
+          // If there's an assignedTo value, place their WOs at the top
+          invoiceAssignedTo === wo.createdBy.id
+            ? [{ ...wo, userToDisplay: wo.createdBy }, ...acc]
+            : [...acc, { ...wo, userToDisplay: wo.createdBy }],
+        []
       )
     );
   }
 
-  const doAfterSetSelectedOption = (selectedWO: WorkOrder | null) => {
-    const woCreatedByID = selectedWO?.createdBy?.id;
+  const handleError = (error: unknown) => setError(getTypeSafeError(error).message);
+
+  // The AutoComplete runs this after running internal Form-related `onChange` logic:
+  const acOnChange: AutoCompleteOnChangeFn<WorkOrder> = async (_event, selectedWorkOrder) => {
+    const woCreatedByID = selectedWorkOrder?.createdBy?.id;
     setSelectedWorkOrderCreatedBy(woCreatedByID ?? null);
     if (!!woCreatedByID && !invoiceAssignedTo) {
-      setAssignedTo(woCreatedByID);
+      await setAssignedTo(woCreatedByID).catch(handleError);
     }
   };
 
-  const handleAcceptDialog = () => {
-    setWorkOrder(null);
+  // Dialog fns:
+
+  const handleAcceptDialog: DialogProps["handleAccept"] = async () => {
+    await setWorkOrder(null).catch(handleError);
     setSelectedWorkOrderCreatedBy(null);
     closeDialog();
   };
 
-  const handleCancelDialog = () => {
-    setAssignedTo(previousAssignedToValueRef.current);
+  const handleCancelDialog: DialogProps["handleCancel"] = async () => {
+    await setAssignedTo(previousAssignedToValueRef.current).catch(handleError);
     closeDialog();
   };
 
@@ -103,10 +112,10 @@ export const InvoiceWorkOrderInput = ({
         label={label}
         options={woOptions}
         getOptionDisabled={(option) =>
-          !!invoiceAssignedTo && (option as WorkOrder).createdBy.id !== invoiceAssignedTo
+          !!invoiceAssignedTo && option.createdBy.id !== invoiceAssignedTo
         }
         disabled={!!existingInvoice && existingInvoice.status === "CLOSED"}
-        doAfterSetSelectedOption={doAfterSetSelectedOption}
+        onChange={acOnChange}
         {...props}
       />
       {isDialogVisible && (
@@ -131,6 +140,8 @@ export const InvoiceWorkOrderInput = ({
   );
 };
 
-export type InvoiceWorkOrderInputProps = Omit<AutoCompleteWorkOrderProps, "options"> & {
-  existingInvoice?: Invoice; // <-- indicates UPDATE operation
-};
+export type InvoiceWorkOrderInputProps = Simplify<
+  Omit<AutoCompleteWorkOrderProps, "options"> & {
+    existingInvoice?: Invoice; // <-- indicates UPDATE operation
+  }
+>;

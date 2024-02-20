@@ -1,30 +1,22 @@
 import { styled } from "@mui/material/styles";
 import PersonIcon from "@mui/icons-material/Person";
-import { avatarClassNames } from "@components/Avatar";
-import { ContactAvatar } from "@components/Avatar/ContactAvatar";
-import { itemDetailsClassNames } from "@components/DataDisplay";
-import { ItemDetailsGroup } from "@components/DataDisplay/ItemDetailsGroup";
-import { Form, formClassNames } from "@components/Form";
-import { AutoCompleteContact } from "@components/Form/AutoCompleteContact";
+import { ContactAvatar, avatarClassNames } from "@/components/Avatar";
+import { ItemDetailsGroup, dataDisplayClassNames } from "@/components/DataDisplay";
+import {
+  Form,
+  FormControlButtons,
+  AutoCompleteMyContacts,
+  formClassNames,
+} from "@/components/Form";
 import { FormInvoiceWorkOrderInfo } from "./FormInvoiceWorkOrderInfo";
 import { InvoiceWorkOrderInput, InvoiceAmountInput } from "./inputs";
-import { schema } from "./schema";
-import { invWorkOrderInfoClassNames } from "../InvoiceWorkOrderInfo";
-import type { Invoice } from "@graphql/types";
-import type { InvoiceFormValues } from "./formFieldHandlers";
+import { invoiceFormSchema, type InvoiceFormValues } from "./schema";
+import type { Invoice } from "@/graphql/types";
 
-export const InvoiceForm = ({
-  initialFormValues,
-  onSubmit,
-  existingInvoice,
-}: {
-  initialFormValues: InvoiceFormValues;
-  onSubmit: (submittedFormValues: InvoiceFormValues) => Promise<void>;
-  existingInvoice?: Invoice; // <-- indicates UPDATE operation
-}) => (
+export const InvoiceForm = ({ initialFormValues, onSubmit, existingInvoice }: InvoiceFormProps) => (
   <Form
     initialValues={initialFormValues}
-    validationSchema={schema}
+    validationSchema={invoiceFormSchema}
     onSubmit={onSubmit}
     style={{ height: "100%" }}
   >
@@ -32,12 +24,13 @@ export const InvoiceForm = ({
       {/* INVOICE: assignedTo */}
 
       {!existingInvoice ? (
-        <AutoCompleteContact
-          id="assignedTo"
+        <AutoCompleteMyContacts
+          id='assignedTo["id"]'
           label="To"
           gridArea="assign-to"
-          isValueNullable={false}
           disabled={!!existingInvoice}
+          getFieldValueFromOption={(option) => option?.id || ""}
+          // The above opt-chain ||'s to an empty string, bc value is non-nullable
         />
       ) : (
         <ItemDetailsGroup label="To" labelIcon={<PersonIcon />} gridArea="assign-to">
@@ -54,7 +47,7 @@ export const InvoiceForm = ({
 
       <InvoiceAmountInput id="amount" gridArea="amount" />
 
-      <Form.ControlButtons gridArea="form-btns" />
+      <FormControlButtons gridArea="form-btns" />
     </StyledDiv>
   </Form>
 );
@@ -89,7 +82,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
           "form-btns  work-order"`,
       }),
 
-  [`& > div:not(.${invWorkOrderInfoClassNames.root}):not(.${formClassNames.controlButtonsContainer})`]:
+  [`& > div:not(.${dataDisplayClassNames.invoiceWorkOrderDetailsRoot}):not(.${formClassNames.controlButtonsContainer})`]:
     {
       ...(theme.variables.isMobilePageLayout && {
         marginBottom: "1rem",
@@ -97,7 +90,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
     },
 
   // INVOICE: assignedTo IDG (only visible during UPDATE, not CREATE)
-  [`& .${itemDetailsClassNames.groupContent} .${avatarClassNames.muiAvatar.root}`]: {
+  [`& .${dataDisplayClassNames.groupContent} .${avatarClassNames.muiAvatar.root}`]: {
     marginRight: "0.25rem",
   },
 
@@ -107,3 +100,9 @@ const StyledDiv = styled("div")(({ theme }) => ({
     alignSelf: "end",
   },
 }));
+
+export type InvoiceFormProps = {
+  initialFormValues: InvoiceFormValues;
+  onSubmit: (submittedFormValues: InvoiceFormValues) => void | Promise<void>;
+  existingInvoice?: Invoice; // <-- indicates UPDATE operation
+};

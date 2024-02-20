@@ -5,10 +5,10 @@ import { inputAdornmentClasses } from "@mui/material/InputAdornment";
 import { inputBaseClasses } from "@mui/material/InputBase";
 import { inputLabelClasses } from "@mui/material/InputLabel";
 import { typographyClasses } from "@mui/material/Typography";
-import { CurrencyInput } from "@components/Form/CurrencyInput";
+import { CurrencyInput } from "@/components/Form/inputs/CurrencyInput";
 
 export const InvoiceAmountInput = styled(CurrencyInput)(({ gridArea }) => ({
-  gridArea,
+  gridArea: gridArea as string,
   height: "9.5rem",
 
   /* When variant="outlined", Mui uses a separate FormLabel component for
