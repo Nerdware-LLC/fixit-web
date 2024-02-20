@@ -1,43 +1,54 @@
 import { useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+import Button, { type ButtonProps } from "@mui/material/Button";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
 import { MobileCreateItemButton } from "./MobileCreateItemButton";
 
 /**
  * Layout-dependant CreateItemButton.
  */
-export const CreateItemButton = ({ createItemFormPath, buttonText }: CreateItemButtonProps) => {
+export const CreateItemButton = ({
+  createItemFormPath,
+  buttonText,
+  ...buttonProps
+}: CreateItemButtonProps) => {
   const nav = useNavigate();
   const { isMobilePageLayout } = usePageLayoutContext();
 
-  const handleClickCreateItem: React.MouseEventHandler<HTMLButtonElement> = () =>
-    nav(createItemFormPath);
+  const handleClickCreateItem = () => nav(createItemFormPath);
 
   return (
     <>
       {isMobilePageLayout ? (
-        <MobileCreateItemButton onClick={handleClickCreateItem} />
+        <MobileCreateItemButton onClick={handleClickCreateItem} {...buttonProps} />
       ) : (
-        <Button
+        <StyledButton
           onClick={handleClickCreateItem}
-          startIcon={<AddCircleIcon style={{ marginBottom: "0.12rem" }} />}
-          style={{
-            height: "2rem",
-            width: "14rem",
-            paddingTop: "0.26rem",
-            paddingBottom: "0.1rem",
-            borderRadius: "1.5rem",
-          }}
+          startIcon={<AddCircleIcon />}
+          {...buttonProps}
         >
           {buttonText}
-        </Button>
+        </StyledButton>
       )}
     </>
   );
 };
 
+const StyledButton = styled(Button)(({ theme: { breakpoints } }) => ({
+  height: "2rem",
+  minWidth: "min-content",
+  borderRadius: "1.5rem",
+  whiteSpace: "nowrap",
+  /* On screens under 900px, shrink font to ensure this button isn't too large.
+  While most viewports under 900px are likely to use the MobileCreateItemButton,
+  this shrinkage prevents the layout from breaking in edge cases. */
+  [breakpoints.down("md")]: {
+    fontSize: "0.85rem",
+  },
+}));
+
 export type CreateItemButtonProps = {
   createItemFormPath: string;
   buttonText: string;
-};
+} & Pick<ButtonProps, "style" | "sx">;
