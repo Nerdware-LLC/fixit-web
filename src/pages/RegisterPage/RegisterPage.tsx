@@ -1,8 +1,7 @@
 import Text from "@mui/material/Typography";
-import { Anchor } from "@components/Navigation/Anchor";
-import { LegalLinks, legalLinksClassNames } from "@components/Navigation/LegalLinks";
-import { Link } from "@components/Navigation/Link";
-import { AuthPageLayout, authPageLayoutClassNames } from "@layouts/AuthPageLayout";
+import { Anchor, Link, LegalLinks } from "@/components/Navigation";
+import { AuthPageLayout } from "@/layouts/AuthPageLayout";
+import { APP_PATHS } from "@/routes/appPaths";
 import { RegisterForm } from "./RegisterForm";
 
 /**
@@ -13,41 +12,19 @@ import { RegisterForm } from "./RegisterForm";
  *   https://stripe.com/docs/connect/updating-accounts#tos-acceptance
  */
 export const RegisterPage = () => (
-  <AuthPageLayout
-    pageTitle="User Registration"
-    sx={{
-      [`& > .${authPageLayoutClassNames.childrenContainer}`]: {
-        minHeight: "40vh",
-
-        [`& > #${registerPageElementIDs.signupLegalNotice}`]: {
-          marginTop: "1.5rem",
-          "& a": {
-            color: "info.main",
-            textDecoration: "none",
-          },
-        },
-
-        [`& > .${legalLinksClassNames.container}`]: {
-          alignSelf: "center",
-          marginTop: "1rem",
-          marginLeft: "0.8rem",
-        },
-      },
-    }}
-  >
+  <AuthPageLayout pageTitle="User Registration">
     <RegisterForm />
-    <Text id={registerPageElementIDs.signupLegalNotice} variant="caption">
-      By registering your account, you agree to the Fixit <Link to="/ToS">Terms of Service</Link>{" "}
-      and the{" "}
+    <Text variant="caption" style={{ marginTop: "1.5rem" }}>
+      By registering your account, you agree to the Fixit{" "}
+      <Link to={APP_PATHS.ToS}>Terms of Service</Link> and the{" "}
       <Anchor href="https://stripe.com/connect-account/legal/full">
         Stripe Connected Account Agreement
       </Anchor>
       .
     </Text>
-    <LegalLinks />
+    <LegalLinks style={{ margin: "1rem 0 0 0.8rem" }} />
   </AuthPageLayout>
 );
 
-export const registerPageElementIDs = {
-  signupLegalNotice: "register-page-signup-legal-notice",
-};
+// Exported as "Component" for react-router-dom lazy loading
+export const Component = RegisterPage;
