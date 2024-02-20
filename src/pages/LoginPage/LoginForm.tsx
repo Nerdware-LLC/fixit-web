@@ -1,48 +1,52 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { object as yupObject, string } from "yup";
-import { Form } from "@components/Form";
-import { PasswordInput } from "@components/Form/PasswordInput";
-import { TextInput } from "@components/Form/TextInput";
-import { useAuthService } from "@hooks/useAuthService";
-import type { LoginParams } from "@services/authService";
+import { object as yupObject, type InferType } from "yup";
+import { useFetchStateContext } from "@/app/FetchStateContext";
+import { Form, FormSubmitButton, TextInput, PasswordInput } from "@/components/Form";
+import { yupCommonSchema, getInitialValuesFromSchema } from "@/components/Form/helpers";
+import { ErrorDialog } from "@/components/Indicators";
+import { APP_PATHS } from "@/routes/appPaths";
+import { authService } from "@/services/authService";
 
 export const LoginForm = () => {
-  const { login } = useAuthService();
   const nav = useNavigate();
+  const { fetchWithState, error, clearError } = useFetchStateContext();
 
-  const onSubmit = async (credentials: LoginParams) => {
-    const apiResponse = await login(credentials);
-    if (apiResponse?.success === true) {
+  const onSubmit = async (credentials: LoginFormValues) => {
+    const apiResponse = await fetchWithState(async () => await authService.login(credentials));
+
+    if (apiResponse?.token) {
       toast.success("Welcome back!", { toastId: "login-success" });
-      nav("/home");
+      nav(APP_PATHS.HOME);
     }
   };
 
   return (
-    <Form
-      initialValues={LOGIN_FORM.INITIAL_VALUES}
-      validationSchema={LOGIN_FORM.SCHEMA}
+    <Form<LoginFormValues>
+      initialValues={loginFormInitialValues}
+      validationSchema={loginFormSchema}
       onSubmit={onSubmit}
       sx={{ all: "inherit" }}
     >
       <TextInput id="email" type="email" autoComplete="email" />
       <PasswordInput id="password" autoComplete="current-password" />
-      <Form.SubmitButton />
+      <FormSubmitButton />
+      {error && <ErrorDialog error={error} onDismiss={clearError} />}
     </Form>
   );
 };
 
-const LOGIN_FORM = {
-  INITIAL_VALUES: {
-    email: "",
-    password: "",
-  },
-  SCHEMA: yupObject().shape({
-    email: string().email("Invalid email").max(50).required("Required"),
-    password: string()
-      .min(6, "Must be at least 6 characters long.")
-      .max(45, "Must be less than 45 characters long.")
-      .required("Required"),
-  }),
-};
+/**
+ * Yup Schema for above `Form`s "validationSchema" prop.
+ */
+const loginFormSchema = yupObject({
+  email: yupCommonSchema.email.required("Required"),
+  password: yupCommonSchema.password.required("Required"),
+});
+
+/**
+ * Object for above `Form`s "initialValues" prop.
+ */
+const loginFormInitialValues = getInitialValuesFromSchema(loginFormSchema);
+
+type LoginFormValues = InferType<typeof loginFormSchema>;
