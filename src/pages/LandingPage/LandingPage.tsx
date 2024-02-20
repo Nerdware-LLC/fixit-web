@@ -1,174 +1,246 @@
 import { useNavigate } from "react-router-dom";
-import { styled } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import Button, { buttonClasses } from "@mui/material/Button";
+import Paper, { paperClasses } from "@mui/material/Paper";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import RocketIcon from "@mui/icons-material/RocketLaunchOutlined";
-import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
-import { TitleLogo, titleLogoClassNames } from "@components/Branding/TitleLogo";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { THEMES } from "@/app/ThemeProvider/themes";
+import { PhoneShapedContainer, containerClassNames } from "@/components/Containers";
+import demoDesktopDashboardImageSrc from "@/images/demo_desktop_dashboard.webp";
+import demoDesktopDataGridImageSrc from "@/images/demo_desktop_workorders_datagrid.webp";
+import demoMobileCreateInvoiceImageSrc from "@/images/demo_mobile_create_invoice.webp";
+import demoMobileListViewImageSrc from "@/images/demo_mobile_workorders_list.webp";
+import backgroundImageSrc from "@/images/landing_page_bg.webp";
+import { APP_PATHS } from "@/routes/appPaths";
+import { ProductImage } from "./ProductImage";
+import { landingPageClassNames } from "./classNames";
 
 /**
- * // TODO Add chart demo images (@images/dashboard_chart_demo.webp)
- *
- * NOTE: Index route for RootAppRouter which renders when the path is "/"
+ * **Landing Page** - index route for RootAppRouter which renders when the path is `"/"`.
  */
 export const LandingPage = () => {
   const nav = useNavigate();
-  const { isMobilePageLayout } = usePageLayoutContext();
 
-  const goToLogin = () => nav("/login");
-  const goToRegister = () => nav("/register");
-  const goToProducts = () => nav("/products");
+  const goToRegister = () => nav(APP_PATHS.REGISTER);
+  const goToProducts = () => nav(APP_PATHS.PRODUCTS);
 
   return (
     <StyledDiv>
-      <div className={classNames.contentContainer}>
-        <div className={classNames.introTextContainer}>
-          <div>
-            <span>
-              <Text>Getting paid for your work, made easy.</Text>
-            </span>
-            <br />
-            <span>
-              <Text>
-                People who need to get things done use <b>Fixit</b> to keep in touch with customers
-                and contractors, create work orders, submit invoices, and manage payments — all in
-                one place.
-              </Text>
-              <br />
-              <Text variant="caption">
-                Whether you&apos;re a homeowner planning your next kitchen renovation, or a general
-                contractor looking for a better way to submit invoices and get paid for your work,{" "}
-                <b>Fixit</b> makes it easy.
-              </Text>
-            </span>
-          </div>
-          {isMobilePageLayout && (
-            <Button onClick={goToProducts} startIcon={<RocketIcon />}>
-              Start Now
-            </Button>
-          )}
-        </div>
-        {!isMobilePageLayout && (
-          <div className={classNames.desktopContentContainer}>
-            <TitleLogo />
-            <div className={classNames.desktopButtonsContainer}>
-              <Button onClick={goToRegister}>Start Now</Button>
-              <Button onClick={goToLogin} variant="outlined">
-                Sign In
-              </Button>
-            </div>
-          </div>
-        )}
-        {/*
-        TODO Adjust LandingPage layout to accomodate dashboard-chart-demo-img
-        <img src={chartDemoImageSrc} alt="dashboard chart example" />
-        */}
+      <div className={landingPageClassNames.textContainer}>
+        <Text variant="h1">{`Simplify\nWork Orders,\nInvoices, and\nPayments`}</Text>
+        <Text>
+          People who need to get things done use <b>Fixit</b> to keep in touch with customers and
+          contractors, create work orders, submit invoices, and manage payments — all in one place.
+        </Text>
+        <Button onClick={goToRegister} endIcon={<ChevronRightIcon />}>
+          Get Started
+        </Button>
+      </div>
+      <div className={landingPageClassNames.graphicsContainer}>
+        <Paper elevation={18}>
+          <ProductImage label="Fixit Dashboard demo" src={demoDesktopDashboardImageSrc} />
+          <PhoneShapedContainer>
+            <ProductImage
+              label="Fixit Create-Invoice mobile demo"
+              src={demoMobileCreateInvoiceImageSrc}
+            />
+          </PhoneShapedContainer>
+        </Paper>
+      </div>
+      <div className={landingPageClassNames.graphicsContainer} style={{ alignItems: "center" }}>
+        <Paper elevation={18}>
+          <ProductImage label="Fixit Data-grid demo" src={demoDesktopDataGridImageSrc} />
+          <PhoneShapedContainer>
+            <ProductImage label="Fixit List-view mobile demo" src={demoMobileListViewImageSrc} />
+          </PhoneShapedContainer>
+        </Paper>
+      </div>
+      <div className={landingPageClassNames.textContainer}>
+        <Text variant="h2">{`Powerful Tools,\nSimple to Use`}</Text>
+        <Text>
+          {/* This paragraph uses non-breaking hyphens (U+2011) to prevent hyphenated word wrap. */}
+          Empower your workflow with the tools you need to stay organized - without the learning
+          curve and additional burden of costly and time‑consuming training, webinars, and other
+          add‑ons. Try <b>Fixit</b> today.
+        </Text>
+        <Button onClick={goToProducts}>Learn More</Button>
       </div>
     </StyledDiv>
   );
 };
 
-const classNames = {
-  contentContainer: "landing-page-content-container",
-  introTextContainer: "landing-page-intro-text-container",
-  desktopContentContainer: "landing-page-desktop-content-container",
-  desktopButtonsContainer: "landing-page-desktop-buttons-container",
-};
+// Exported as "Component" for react-router-dom lazy loading
+export const Component = LandingPage;
 
-const StyledDiv = styled("div")(({ theme: { palette, variables } }) => ({
-  height: "100%",
+const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } }) => ({
+  position: "relative",
   width: "100%",
-  display: "flex",
+  maxWidth: "100%",
+  minHeight: "100%",
+  overflowX: "hidden",
+  overflowY: "auto",
+  zIndex: 1, // Ensures that the bg image in the pseudo-el is behind the content
+  display: "grid",
+  gap: "1rem",
+  padding: "2rem",
 
-  [`& > .${classNames.contentContainer}`]: {
-    padding: "10vh 2rem",
-    zIndex: 1,
+  gridTemplateRows: "repeat(auto-fit, minmax(0, 66vh))",
+  gridTemplateColumns: "minmax(0, 1fr)",
+  [breakpoints.up(600)]: {
+    gap: "2rem",
+    gridTemplateRows: "repeat(auto-fit, 75vh)",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+  },
+
+  // TEXT AND GRAPHICS CONTAINERS:
+  "& > div": {
+    zIndex: "inherit",
+  },
+
+  // TEXT CONTAINERS:
+  [`& > .${landingPageClassNames.textContainer}`]: {
+    justifySelf: "center",
+    maxWidth: "30rem",
+    ...(variables.isMobilePageLayout && { width: "100%" }),
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    ...(variables.isMobilePageLayout ? { flexWrap: "wrap" } : { alignItems: "center" }),
-    "& button": {
+    flexDirection: "column",
+    justifyContent: "center",
+    gap: "2rem",
+    textAlign: "left",
+
+    // HEADERS:
+    "& > h1,h2": {
+      fontSize: "clamp(3rem, 6.5vw, 4.75rem)",
+      lineHeight: 1,
+      fontWeight: "bold",
+      color: palette.secondary.main,
+      alignSelf: "center",
+      whiteSpace: "normal",
+      [breakpoints.up(600)]: {
+        alignSelf: "start",
+        "&:is(h1)": {
+          whiteSpace: "pre",
+        },
+      },
+    },
+    // BODY TEXT:
+    [`& > .${typographyClasses.body1}`]: {
+      fontSize: variables.isMobilePageLayout ? "1.1rem" : "1.25rem",
+      "& b": {
+        color: palette.primary.main,
+      },
+    },
+    // BUTTONS:
+    [`& > .${buttonClasses.root}`]: {
+      width: "15rem",
+      alignSelf: "center",
       borderRadius: "1.5rem",
     },
+  },
 
-    [`& > .${classNames.introTextContainer}`]: {
-      height: "100%",
-      width: variables.isMobilePageLayout ? "100%" : "clamp(30rem, 55%, 55vw)",
-      textAlign: "left",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-evenly",
+  // GRAPHICS CONTAINERS:
+  [`& > .${landingPageClassNames.graphicsContainer}`]: {
+    display: "flex",
+    alignItems: "flex-start",
+    [breakpoints.up(600)]: { alignItems: "center" },
 
-      "& > div:first-of-type > span": {
-        [`&:first-of-type > .${typographyClasses.root}`]: {
-          color: palette.secondary.main,
-          fontSize: "clamp(2.8rem, 8vw, 5rem)",
-          lineHeight: "clamp(3rem, 7.75vw, 5.2rem)",
-          fontWeight: "bold",
-        },
-        "&:last-of-type": {
-          [`& > .${typographyClasses.root}`]: {
-            fontSize: "clamp(1.1rem, 2vw, 1.5rem)",
-            lineHeight: "clamp(1.5rem, 2.15vw, 1.9rem)",
-            fontWeight: "100",
-          },
-          "& b": {
-            color: palette.primary.main,
-          },
-        },
-      },
-
-      [`& > .${buttonClasses.root}`]: {
-        width: "100%",
-        maxWidth: "30rem",
-        lineHeight: "2rem",
-        alignSelf: "center",
-      },
-    },
-
-    [`& > .${classNames.desktopContentContainer}`]: {
-      height: "100%",
-      minWidth: "21rem",
-      maxWidth: "30vw",
-      width: "clamp(20vw, 25%, 30vw)",
-      padding: "2rem",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-
-      [`& > .${titleLogoClassNames.root}`]: {
-        width: "100%",
-        margin: "clamp(1rem, 1vw, 5rem) 0",
-        [`& > .${titleLogoClassNames.logoImg}`]: {
-          width: "50%",
-          backgroundColor: "white",
-          backgroundPosition: "center",
-        },
-        [`& > .${titleLogoClassNames.logoText}`]: {
-          fontSize: "clamp(3.5rem, 5vw, 4.5rem)",
-          margin: "0 2rem 0 clamp(1rem, 5%, 2rem)",
-        },
-      },
-
-      [`& > .${classNames.desktopButtonsContainer}`]: {
-        height: "16vh",
-        maxHeight: "16vh",
-        width: "100%",
-        maxWidth: "22rem",
-        textAlign: "center",
-        display: "flex",
-        flexDirection: "column",
-        alignContent: "center",
-        justifyContent: "space-evenly",
-        alignSelf: "center",
-      },
-    },
-
-    "& > img": {
-      opacity: 0.85,
+    // The Paper component here is displays the desktop-dashboard-demo
+    [`& > .${paperClasses.root}`]: {
+      position: "relative",
+      height: "90%",
+      padding: "0.25rem",
+      [breakpoints.between(600, 900)]: { height: "80%" },
+      [breakpoints.up(900)]: { padding: "0.5rem" },
+      maxHeight: "66vh",
+      minWidth: "min-content",
       borderRadius: "0.35rem",
-      // TODO put image in semi-transparent div
+      display: "flex",
+      alignItems: "center",
+      backgroundColor: "transparent",
+      // Desktop and mobile images:
+      "& img": {
+        objectFit: "contain",
+        imageRendering: "crisp-edges",
+      },
+      // Desktop images:
+      [`& > img`]: {
+        height: "100%",
+        borderRadius: "inherit", // trims white spots from corners of image
+      },
+      // Phone-shaped container:
+      [`& > .${containerClassNames.phoneShapedContainerRoot}`]: {
+        opacity: 1,
+        position: "absolute",
+        bottom: "-5%",
+        height: "95%",
+        // The containing img reflects dark-mode, so the border needs to be dark as well:
+        "& > div": {
+          borderColor: THEMES.DARK.palette.background.paper,
+        },
+      },
     },
+
+    /* PLACEMENT OF PHONE-SHAPED CONTAINERS:
+    In desktop viewports, the grid is 2 columns wide, and for each subsequent row the text
+    and graphics containers alternate between the left and right columns. Within each graphics
+    container, the desktop screenshots need to be moved away from the middle slightly, and the
+    phone-shaped container needs to be placed on the side closest to the middle. The below CSS
+    achieves the following:
+      - If phone-container is descendent from EVEN graphics-container, phone on LEFT.
+      - If phone-container is descendent from ODD graphics-container, phone on RIGHT.
+    */
+    [`&:nth-of-type(even)`]: {
+      justifyContent: "start",
+      [`& > .${paperClasses.root}`]: {
+        left: "clamp(8rem, 15%, 20rem)",
+        [`& > .${containerClassNames.phoneShapedContainerRoot}`]: {
+          left: "-11%",
+        },
+      },
+    },
+    [`&:nth-of-type(odd)`]: {
+      justifyContent: "end",
+      [`& > .${paperClasses.root}`]: {
+        right: "clamp(8rem, 15%, 20rem)",
+        [`& > .${containerClassNames.phoneShapedContainerRoot}`]: {
+          right: "-11%",
+        },
+      },
+
+      // ODD ROWS (continued)
+      // Under 600px, the grid switches to 1 column, adjust order of text/graphics containers:
+      [breakpoints.down(600)]: { order: 1 },
+      [breakpoints.up(600)]: {
+        // Above 600px, show a translucent bg behind ODD rows (imgs on left)
+        position: "relative",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          left: "-2.5rem",
+          top: "1.25rem",
+          zIndex: 0,
+          backgroundColor: alpha(THEMES.DARK.palette.background.paper, 0.6),
+          width: "100vw",
+          height: "100%",
+        },
+      },
+    },
+  },
+
+  // The bg image is implemented as a pseudo element to allow for a filter to be applied
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+    backgroundImage: `url(${backgroundImageSrc})`,
+    backgroundAttachment: "fixed",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    objectFit: "contain",
+    ...(palette.mode === "light" && { filter: "invert(25%) brightness(3)" }),
   },
 }));
