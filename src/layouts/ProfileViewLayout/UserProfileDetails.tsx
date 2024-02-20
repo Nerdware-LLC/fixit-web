@@ -5,10 +5,9 @@ import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
 import PhoneIcon from "@mui/icons-material/Phone";
 import StorefrontIcon from "@mui/icons-material/Storefront";
-import { ItemDetails } from "@components/DataDisplay/ItemDetails";
-import { itemDetailsClassNames } from "@components/DataDisplay/classNames";
-import { prettifyStr } from "@utils/prettifyStr";
-import type { FixitUser } from "@graphql/types";
+import { ItemDetails, dataDisplayClassNames } from "@/components/DataDisplay";
+import { fmt } from "@/utils/formatters";
+import type { FixitUser } from "@/graphql/types";
 
 /**
  * This component displays the user's profile details.
@@ -20,7 +19,7 @@ export const UserProfileDetails = ({
   phone,
   profile: { givenName = "", familyName = "", businessName = "" },
 }: UserProfileDetailsProps) => (
-  <UserProfileDetailsContainer>
+  <StyledDiv>
     <ItemDetails label="Name" labelIcon={<PersonIcon />}>
       {givenName && `${givenName}${givenName && familyName && ` ${familyName}`}`}
     </ItemDetails>
@@ -28,64 +27,59 @@ export const UserProfileDetails = ({
       {businessName}
     </ItemDetails>
     <ItemDetails label="Phone" labelIcon={<PhoneIcon />}>
-      {prettifyStr.phone(phone)}
+      {fmt.prettifyPhoneNum(phone)}
     </ItemDetails>
     <ItemDetails label="Email" labelIcon={<EmailIcon />}>
       {email}
     </ItemDetails>
-  </UserProfileDetailsContainer>
+  </StyledDiv>
 );
 
-const UserProfileDetailsContainer = styled("div")(({ theme }) => ({
-  [`& > .${itemDetailsClassNames.container}`]: {
-    width: "100%",
+const StyledDiv = styled("div")(({ theme: { variables } }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "2rem",
+
+  [`& > .${dataDisplayClassNames.root}`]: {
+    width: "min-content",
+    height: "min-content",
     display: "flex",
-    flexDirection: theme.variables.isMobilePageLayout ? "column" : "row",
-    marginBottom: "2rem",
-    border: "none",
+    ...(variables.isMobilePageLayout
+      ? { flexDirection: "column" }
+      : { flexDirection: "row", alignItems: "center" }),
 
     // ItemDetails: header AND content
-    "& > div": {
+    [`& > .${dataDisplayClassNames.header},.${dataDisplayClassNames.content}`]: {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      padding: "0",
 
       // ItemDetails: all text
       [`& .${typographyClasses.root}`]: {
         overflow: "visible !important",
-        ...(theme.variables.isMobilePageLayout && {
+        ...(variables.isMobilePageLayout && {
           fontSize: "0.9rem !important",
           lineHeight: "1rem !important",
         }),
       },
 
       // ItemDetails: header
-      [`&.${itemDetailsClassNames.header}`]: {
-        ...(theme.variables.isMobilePageLayout
-          ? {
-              width: "8rem",
-              minWidth: "8rem",
-              maxWidth: "8rem",
-            }
-          : {
-              width: "10rem",
-              minWidth: "10rem",
-              maxWidth: "10rem",
-            }),
-        border: "none",
+      [`&.${dataDisplayClassNames.header}`]: {
+        ...(variables.isMobilePageLayout
+          ? { width: "8rem", minWidth: "8rem", maxWidth: "8rem" }
+          : { width: "10rem", minWidth: "10rem", maxWidth: "10rem" }),
         // ItemDetails: header icons
-        [`& .${svgIconClasses.root}`]: {
+        [`& > .${svgIconClasses.root}`]: {
           height: "1.5rem",
           width: "1.5rem",
         },
       },
 
       // ItemDetails: content
-      [`&.${itemDetailsClassNames.content}`]: {
-        ...(theme.variables.isMobilePageLayout && {
-          margin: "0.35rem 0 0 2.25rem",
-        }),
+      [`&.${dataDisplayClassNames.content}`]: {
+        /* When content is below header on mobile, the below `margin` indents
+        the content to the right so content-text lines up with header-text.*/
+        margin: variables.isMobilePageLayout ? "0.35rem 0 0 2.25rem" : 0,
       },
     },
   },

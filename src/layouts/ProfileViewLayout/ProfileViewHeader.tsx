@@ -1,57 +1,68 @@
 import { styled } from "@mui/material/styles";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { Avatar, avatarClassNames } from "@components/Avatar";
-import { XscrollContainer } from "@components/Containers/XscrollContainer";
-import type { FixitUser } from "@graphql/types";
+import { globalClassNames } from "@/app/GlobalStyles/classNames";
+import { Avatar, avatarClassNames } from "@/components/Avatar";
+import { XscrollContainer, containerClassNames } from "@/components/Containers";
+import type { FixitUser } from "@/graphql/types";
 
 export const ProfileViewHeader = ({ profile, handle }: ProfileViewHeaderProps) => (
-  <StyledDiv className={profileViewHeaderClassNames.root}>
+  <StyledDiv>
     <Avatar profile={profile} />
-    <XscrollContainer>
-      <div className={profileViewHeaderClassNames.nameContainer}>
+    <div>
+      <XscrollContainer className={globalClassNames.scrollbarForceHidden}>
         <Text variant="h6">{profile.displayName}</Text>
+      </XscrollContainer>
+      <XscrollContainer className={globalClassNames.scrollbarForceHidden}>
         <Text variant="h6">{handle}</Text>
-      </div>
-    </XscrollContainer>
+      </XscrollContainer>
+    </div>
   </StyledDiv>
 );
 
-export const profileViewHeaderClassNames = {
-  root: "profile-view-header-root",
-  nameContainer: "profile-view-header-name-container",
-};
-
-const StyledDiv = styled("div")(({ theme }) => ({
+const StyledDiv = styled("div")(({ theme: { palette, variables } }) => ({
   width: "auto",
   maxWidth: "100%",
   display: "flex",
-  flexDirection: theme.variables.isMobilePageLayout ? "column" : "row",
+  flexDirection: variables.isMobilePageLayout ? "column" : "row",
   alignItems: "center",
 
   // The Avatar comp container
   [`& > .${avatarClassNames.root}`]: {
     width: "initial",
-    margin: theme.variables.isMobilePageLayout ? "0 0 0.5rem 0" : "0",
-
-    // The Avatar comp img
+    margin: variables.isMobilePageLayout ? "0 0 0.5rem 0" : 0,
+    // The Avatar img:
     [`& > .${avatarClassNames.muiAvatar.root}`]: {
-      ...(theme.variables.isMobilePageLayout
-        ? { height: "4rem", width: "4rem", fontSize: "2.75rem" }
-        : { height: "5rem", width: "5rem", fontSize: "3rem" }),
+      ...(variables.isMobilePageLayout
+        ? { height: "4rem", width: "4rem" }
+        : { height: "5.5rem", width: "5.5rem" }),
     },
   },
 
-  // Container for displayName and handle (in case of long names/handles)
-  [`& .${profileViewHeaderClassNames.nameContainer}`]: {
-    [`& > .${typographyClasses.root}`]: {
-      // displayName and handle
-      fontWeight: "normal",
-      lineHeight: "1.3rem",
-      textAlign: theme.variables.isMobilePageLayout ? "center" : "left",
+  // The div around the X-Scroll containers allows displayName to be on top of handle on desktop
+  "& > div:nth-of-type(2)": {
+    width: "auto",
+    maxWidth: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    ...(variables.isMobilePageLayout
+      ? { alignItems: "center" }
+      : {
+          alignItems: "flex-start",
+          transform: "translateY(-3px)", // <-- mv'd up a bit to line up w center of avatar
+        }),
 
+    // X-Scroll containers for displayName and handle (in case of long names/handles)
+    [`& > .${containerClassNames.xScrollContainerRoot}`]: {
+      // displayName and handle
+      [`& > .${typographyClasses.root}`]: {
+        fontWeight: "normal",
+        lineHeight: "1.5rem",
+        textAlign: variables.isMobilePageLayout ? "center" : "left",
+      },
       // handle
-      "&:last-of-type": {
-        color: theme.palette.text.secondary,
+      [`&:last-child > .${typographyClasses.root}`]: {
+        color: palette.text.secondary,
         fontSize: "1rem",
       },
     },
