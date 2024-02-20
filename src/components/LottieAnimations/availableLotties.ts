@@ -21,7 +21,7 @@ export const AVAILABLE_LOTTIE_ANIMATIONS = {
     animationData: successLottieJSON,
     options: {
       ...DEFAULT_LOTTIE_OPTS,
-      duration: 1300,
+      duration: 1470,
     },
     style: {
       pointerEvents: "none",
