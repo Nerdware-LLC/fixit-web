@@ -1,5 +1,5 @@
-import { authenticatedUserStore } from "@cache/authenticatedUserStore";
-import { ProfileViewLayout } from "@layouts/ProfileViewLayout";
+import { ProfileViewLayout } from "@/layouts/ProfileViewLayout";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
 
 /**
  * // IDEA Add to ProfilePage:
@@ -7,7 +7,11 @@ import { ProfileViewLayout } from "@layouts/ProfileViewLayout";
  * - Button/form to update profile pic
  */
 export const ProfilePage = () => {
-  const user = authenticatedUserStore.useSubToStore();
+  // The user must be authenticated here, hence the as cast.
+  const authenticatedUser = authenticatedUserStore.useSubToStore()!;
 
-  return <ProfileViewLayout {...user} />;
+  return <ProfileViewLayout {...authenticatedUser} />;
 };
+
+// Exported as "Component" for react-router-dom lazy loading
+export const Component = ProfilePage;

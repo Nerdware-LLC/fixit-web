@@ -1,1 +1,2 @@
-export { ProfilePage as default } from "./ProfilePage";
+export { Component } from "./ProfilePage";
+// Exported as "Component" for react-router-dom lazy loading
