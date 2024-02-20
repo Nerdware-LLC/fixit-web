@@ -1,29 +1,32 @@
-/* eslint-disable no-console */
+import { safeJsonStringify, getErrorMessage, isError } from "@nerdware/ts-type-safety-utils";
 import * as Sentry from "@sentry/react";
 import dayjs from "dayjs";
-import { ENV } from "@app/env";
-import { safeJsonStringify } from "@utils/typeSafety";
+import { ENV } from "@/app/env";
+
+/* eslint-disable no-console */
 
 /**
- * Returns a log-message string.
- * - Format: `"[<timestamp>][<label>] <messagePrefix?> <message>"`
- * - Timestamp format: `"YYYY:MMM:D k:mm:ss.SSS"`
+ * - In PROD, timestamp is formatted to always be the same length to accomodate bulk log parsing.
+ *   - _example:_ `"2020:Jan:01 01:01:01.123"`
+ * - In NON-PROD, timestamp format is designed to be easier to read at a glance in the console.
+ *   - _example:_ `"2020:Jan:1 1:01:01.123"`
+ */
+const LOG_TIMESTAMP_FORMAT = ENV.IS_PROD ? "YYYY:MMM:DD HH:mm:ss.SSS" : "YYYY:MMM:D H:mm:ss.SSS";
+
+/**
+ * Returns a log-message string — format: `"[<timestamp>][<label>] <messagePrefix?> <message>"`
+ * @see {@link LOG_TIMESTAMP_FORMAT}
  */
 const getLogMessage = ({
   label,
   input,
   messagePrefix = "",
 }: GetLogMessageArgsProvidedByLoggerUtil & GetLogMessageArgsProvidedByHandler): string => {
-  let message = `[${dayjs().format("YYYY:MMM:D @k:mm:ss.SSS")}][${label}]`;
+  let message = `[${dayjs().format(LOG_TIMESTAMP_FORMAT)}][${label}]`;
 
   if (messagePrefix) message += ` ${messagePrefix}`;
 
-  message +=
-    input instanceof Error
-      ? input.message
-      : typeof input === "string"
-      ? input
-      : safeJsonStringify(input);
+  message += getErrorMessage(input) || safeJsonStringify(input);
 
   return message;
 };
@@ -62,47 +65,37 @@ const getLoggerUtil = ({
   const {
     handleLogMessage,
     handleLogError,
-  }: Record<"handleLogMessage" | "handleLogError", LoggerFn> =
-    ENV.IS_PROD === true
-      ? {
-          handleLogError: (input, messagePrefix) => {
-            Sentry.captureException(input);
-            Sentry.captureMessage(getLogMessage({ label, input, messagePrefix }));
-          },
-          handleLogMessage:
-            isEnabledInProduction === true
-              ? (input, messagePrefix) => {
-                  Sentry.captureMessage(getLogMessage({ label, input, messagePrefix }));
-                }
-              : () => {},
-        }
-      : {
-          handleLogError: (input, messagePrefix) => {
-            console.error(getLogMessage({ label, input, messagePrefix }), input);
-          },
-          handleLogMessage: (input, messagePrefix) => {
-            nonProdConsoleMethod(getLogMessage({ label, input, messagePrefix }));
-          },
-        };
+  }: Record<"handleLogMessage" | "handleLogError", LoggerFn> = ENV.IS_PROD
+    ? {
+        handleLogError: (input, messagePrefix) => {
+          Sentry.captureException(input);
+          Sentry.captureMessage(getLogMessage({ label, input, messagePrefix }));
+        },
+        handleLogMessage: isEnabledInProduction
+          ? (input, messagePrefix) => {
+              Sentry.captureMessage(getLogMessage({ label, input, messagePrefix }));
+            }
+          : () => {
+              // No-op if not enabled in production
+            },
+      }
+    : {
+        handleLogError: (input, messagePrefix) => {
+          console.error(getLogMessage({ label, input, messagePrefix }), input);
+        },
+        handleLogMessage: (input, messagePrefix) => {
+          nonProdConsoleMethod(getLogMessage({ label, input, messagePrefix }));
+        },
+      };
 
   // The returned fn simply checks if input is an Error, and calls handleLogMessage/handleLogError accordingly
   return (input, messagePrefix) => {
-    if (input instanceof Error) handleLogError(input, messagePrefix);
+    if (isError(input)) handleLogError(input, messagePrefix);
     else handleLogMessage(input, messagePrefix);
   };
 };
 
 export const logger = {
-  auth: getLoggerUtil({
-    label: "AUTH",
-  }),
-  stripe: getLoggerUtil({
-    label: "STRIPE",
-  }),
-  debug: getLoggerUtil({
-    label: "DEBUG",
-    nonProdConsoleMethod: console.debug,
-  }),
   info: getLoggerUtil({
     label: "INFO",
     nonProdConsoleMethod: console.info,
@@ -112,8 +105,9 @@ export const logger = {
     nonProdConsoleMethod: console.error,
     isEnabledInProduction: true,
   }),
-  gql: getLoggerUtil({
+  gqlInfo: getLoggerUtil({
     label: "GQL",
+    nonProdConsoleMethod: console.info,
   }),
   gqlError: getLoggerUtil({
     label: "GQL-ERROR",
