@@ -1,6 +1,6 @@
-import type { SubscriptionStatus, SubscriptionPriceLabel } from "@graphql/types";
+import type { SubscriptionStatus, SubscriptionPriceLabel } from "@/graphql/types";
 
-export const USER_SUBSCRIPTION_STATUSES: ReadonlyArray<SubscriptionStatus> = [
+export const USER_SUBSCRIPTION_STATUSES = [
   "active",
   "trialing",
   "incomplete",
@@ -8,10 +8,10 @@ export const USER_SUBSCRIPTION_STATUSES: ReadonlyArray<SubscriptionStatus> = [
   "past_due",
   "canceled",
   "unpaid",
-] as const;
+] as const satisfies ReadonlyArray<SubscriptionStatus>;
 
-export const USER_SUBSCRIPTION_PRICE_LABELS: ReadonlyArray<SubscriptionPriceLabel> = [
+export const USER_SUBSCRIPTION_PRICE_LABELS = [
   "TRIAL",
   "MONTHLY",
   "ANNUAL",
-] as const;
+] as const satisfies ReadonlyArray<SubscriptionPriceLabel>;

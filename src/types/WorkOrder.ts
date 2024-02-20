@@ -1,22 +1,21 @@
-import type { WorkOrderStatus, WorkOrderPriority, WorkOrderCategory } from "@graphql/types";
+import type { WorkOrderStatus, WorkOrderPriority, WorkOrderCategory } from "@/graphql/types";
 
-export const WORK_ORDER_STATUSES: ReadonlyArray<WorkOrderStatus> = [
+export const WORK_ORDER_STATUSES = [
   "UNASSIGNED",
   "ASSIGNED",
   "IN_PROGRESS",
   "DEFERRED",
   "CANCELLED",
   "COMPLETE",
-] as const;
+] as const satisfies ReadonlyArray<WorkOrderStatus>;
 
-export const WORK_ORDER_PRIORITIES: ReadonlyArray<WorkOrderPriority> = [
+export const WORK_ORDER_PRIORITIES = [
   "LOW",
   "NORMAL",
   "HIGH",
-] as const;
+] as const satisfies ReadonlyArray<WorkOrderPriority>;
 
-export const WORK_ORDER_CATEGORIES: ReadonlyArray<WorkOrderCategory | null> = [
-  null,
+export const WORK_ORDER_CATEGORIES = [
   "DRYWALL",
   "ELECTRICAL",
   "FLOORING",
@@ -32,4 +31,4 @@ export const WORK_ORDER_CATEGORIES: ReadonlyArray<WorkOrderCategory | null> = [
   "TRASH",
   "TURNOVER",
   "WINDOWS",
-] as const;
+] as const satisfies ReadonlyArray<WorkOrderCategory>;
