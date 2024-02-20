@@ -1,8 +1,5 @@
 import { ApolloLink } from "@apollo/client/link/core";
-import { apiHttpLink } from "./link.apiHttp";
-import { errorLink } from "./link.error";
-import { getAuthTokenLink } from "./link.getAuthToken";
-import { retryLink } from "./link.retry";
+import { apiHttpLink, errorLink, getAuthTokenLink, retryLink } from "./links";
 
 /**
  * This is the Apollo Link that is used to make all requests to the server.

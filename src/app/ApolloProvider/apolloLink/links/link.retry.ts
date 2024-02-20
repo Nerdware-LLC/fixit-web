@@ -1,7 +1,12 @@
 import { RetryLink } from "@apollo/client/link/retry";
 
-// NOTE this is just the default config
-
+/**
+ * **Apollo Link: {@link RetryLink}** - Catches and retries NETWORK errors
+ *
+ * > Note:
+ * > - _This link does not catch/retry GraphQL errors_.
+ * > - Currently this link reflects the default configs for RetryLink.
+ */
 export const retryLink = new RetryLink({
   delay: {
     initial: 300,
@@ -12,9 +17,9 @@ export const retryLink = new RetryLink({
     max: 5,
     retryIf: (error, _operation) => {
       // Don't retry if token gets rejected
-      // prettier-ignore
       return error?.result?.errors?.some(
-        (errorObj?: { extensions?: { code?: string } }) => errorObj?.extensions?.code === "UNAUTHENTICATED"
+        (errorObj?: { extensions?: { code?: string } }) =>
+          errorObj?.extensions?.code === "UNAUTHENTICATED"
       )
         ? false
         : true;
