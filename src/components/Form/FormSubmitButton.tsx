@@ -1,10 +1,12 @@
 import { useFormikContext } from "formik";
-import { grid as muiGridSxProps, type GridProps as MuiGrisSxProps } from "@mui/system";
-import { styled } from "@mui/material/styles";
-import Button, { type ButtonProps } from "@mui/material/Button";
+import { BaseFormSubmitButton, type BaseFormSubmitButtonProps } from "./BaseFormSubmitButton";
 import { formClassNames } from "./classNames";
+import type { Simplify } from "type-fest";
 
-export const FormSubmitButton = (props: FormSubmitButtonProps) => {
+/**
+ * Formik-integrated submit button (uses {@link BaseFormSubmitButton}).
+ */
+export const FormSubmitButton = ({ className = "", ...props }: FormSubmitButtonProps) => {
   const { handleSubmit, isSubmitting } = useFormikContext();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -13,22 +15,17 @@ export const FormSubmitButton = (props: FormSubmitButtonProps) => {
   };
 
   return (
-    <StyledButton
+    <BaseFormSubmitButton
+      label="Submit"
+      isLoading={isSubmitting}
       onClick={handleClick}
       disabled={isSubmitting}
-      className={formClassNames.submitButton}
+      className={formClassNames.submitButton + " " + className}
       {...props}
-    >
-      Submit
-    </StyledButton>
+    />
   );
 };
 
-const StyledButton = styled(Button, {
-  shouldForwardProp: (propName: string) => !propName.startsWith("grid"),
-})<MuiGrisSxProps>({
-  lineHeight: "2rem",
-  ...muiGridSxProps,
-});
-
-export type FormSubmitButtonProps = Omit<ButtonProps & MuiGrisSxProps, "onClick" | "disabled">;
+export type FormSubmitButtonProps = Simplify<
+  Omit<BaseFormSubmitButtonProps, "label" | "isLoading" | "onClick" | "disabled">
+>;
