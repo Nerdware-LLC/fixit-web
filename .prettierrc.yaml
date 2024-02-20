@@ -1,4 +1,4 @@
-##################################################
+################################################################################
 # PRETTIER BASE CONFIGS
 
 printWidth: 100
@@ -14,11 +14,14 @@ bracketSameLine: false
 arrowParens: "always"
 htmlWhitespaceSensitivity: "css"
 endOfLine: "lf"
-singleAttributePerLine: false
-##################################################
-# PRETTIER PLUGIN CONFIGS
+plugins: ["@serverless-guru/prettier-plugin-import-order"]
 
-# PLUGIN: @serverless-guru/prettier-plugin-import-order
+################################################################################
+# PRETTIER PLUGIN CONFIGS: @serverless-guru/prettier-plugin-import-order
+
+# This plugin will sort imports in accordance with the rules below.
+# Note: this plugin will not move side-effect imports.
+
 importOrderMergeDuplicateImports: true
 importOrderBuiltinModulesToTop: true
 importOrderTypeImportsToBottom: true
@@ -34,24 +37,10 @@ importOrder: [
     "^@mui/x-(.*)$",
     "^@mui/material/(.*)$",
     "^@mui/icons-material/(.*)$",
-    # Project path aliases:
-    "^@ROOT/(.*)$",
-    "^@app/?(.*)$",
-    "^@cache/?(.*)$",
-    "^@components/?(.*)$",
-    "^@graphql/?(.*)$",
-    "^@hooks/?(.*)$",
-    "^@images/?(.*)$",
-    "^@layouts/?(.*)$",
-    "^@pages/?(.*)$",
-    "^@routers/?(.*)$",
-    "^@services/?(.*)$",
-    "^@tests/?(.*)$",
-    "^@types/?(.*)$",
-    "^@utils/?(.*)$",
+    # Project path alias:
     "^@/",
     # Relative imports at the bottom
     "^./",
     "^../",
   ]
-##################################################
+################################################################################
