@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { PageLayoutContext } from "./PageLayoutContext";
-import { testIsMobileUserAgent } from "./testIsMobileUserAgent";
+import { testIsMobileUserAgent, testShouldUseMobileLayout } from "./helpers";
 
-export const PageLayoutContextProvider = ({ children }: PageLayoutContextProviderProps) => {
+export const PageLayoutContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [isMobileUserAgent, setIsMobileUserAgent] = useState(testIsMobileUserAgent());
   // If isMobileUserAgent OR the window is taller than it is wide, use mobile layout.
   const [shouldUseMobileLayout, setShouldUseMobileLayout] = useState(
-    isMobileUserAgent || window.innerWidth < window.innerHeight
+    testShouldUseMobileLayout(isMobileUserAgent)
   );
 
   useEffect(() => {
     const handleWindowResize = () => {
       const newIsMobileUserAgentValue = testIsMobileUserAgent();
       setIsMobileUserAgent(newIsMobileUserAgentValue);
-      setShouldUseMobileLayout(newIsMobileUserAgentValue || window.innerWidth < window.innerHeight);
+      setShouldUseMobileLayout(testShouldUseMobileLayout(newIsMobileUserAgentValue));
     };
 
     window.addEventListener("resize", handleWindowResize);
@@ -22,16 +22,13 @@ export const PageLayoutContextProvider = ({ children }: PageLayoutContextProvide
     return () => window.removeEventListener("resize", handleWindowResize);
   }, [isMobileUserAgent]);
 
-  return (
-    <PageLayoutContext.Provider
-      value={{
-        isMobileUserAgent,
-        isMobilePageLayout: shouldUseMobileLayout,
-      }}
-    >
-      {children}
-    </PageLayoutContext.Provider>
+  const contextValues = useMemo(
+    () => ({
+      isMobileUserAgent,
+      isMobilePageLayout: shouldUseMobileLayout,
+    }),
+    [isMobileUserAgent, shouldUseMobileLayout]
   );
-};
 
-export type PageLayoutContextProviderProps = { children: React.ReactNode };
+  return <PageLayoutContext.Provider value={contextValues}>{children}</PageLayoutContext.Provider>;
+};
