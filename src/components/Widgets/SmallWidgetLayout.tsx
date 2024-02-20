@@ -15,7 +15,7 @@ export const SmallWidgetLayout = ({
   </StyledBox>
 );
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(({ theme: { palette } }) => ({
   height: "100%",
   width: "100%",
   minWidth: "16rem", // minWidth of parent is 18rem, padding is 1rem each side
@@ -26,7 +26,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     minHeight: "2.5rem",
 
     [`& > .${typographyClasses.root}`]: {
-      color: alpha(theme.palette.text.primary, 0.75),
+      color: alpha(palette.text.primary, 0.75),
       fontSize: "0.95rem",
       fontWeight: "bold",
       textAlign: "center",
@@ -42,3 +42,5 @@ const StyledBox = styled(Box)(({ theme }) => ({
     display: "flex",
   },
 }));
+
+export type SmallWidgetLayoutProps = { header: string } & BoxProps;
