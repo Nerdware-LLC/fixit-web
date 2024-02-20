@@ -1,4 +1,4 @@
-import { LegalPolicySection } from "@layouts/LegalPolicyPageLayout/LegalPolicySection";
+import { LegalPolicySection } from "@/layouts/LegalPolicyPageLayout/LegalPolicySection";
 import { ToS_SECTIONS } from "./TermsOfServiceSections";
 
 /**
@@ -15,6 +15,6 @@ export const PolicySection = ({ header, children }: PolicySectionProps) => (
 );
 
 export type PolicySectionProps = {
-  header: keyof typeof ToS_SECTIONS & string;
+  header: keyof typeof ToS_SECTIONS;
   children: React.ReactNode; // section content
 };

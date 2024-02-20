@@ -1,2 +1,2 @@
-export { TermsOfServicePage as default } from "./TermsOfServicePage";
-// export as default to enable code-splitting via lazy import.
+export { Component } from "./TermsOfServicePage";
+// Exported as "Component" for react-router-dom lazy loading
