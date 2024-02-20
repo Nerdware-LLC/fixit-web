@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import AirIcon from "@mui/icons-material/Air";
 import ToolsIcon from "@mui/icons-material/Construction";
 import TrashCanIcon from "@mui/icons-material/Delete";
@@ -11,17 +12,25 @@ import PlumbingIcon from "@mui/icons-material/Plumbing";
 import RoofingIcon from "@mui/icons-material/Roofing";
 import RectanglesIcon from "@mui/icons-material/ViewQuilt";
 import WindowIcon from "@mui/icons-material/Window";
+import { useMaybeRef } from "@/hooks/useMaybeRef";
 import { RoadIcon } from "./RoadIcon";
 import { TrowelBricksIcon } from "./TrowelBricksIcon";
-import type { WorkOrderCategory } from "@graphql/types";
+import type { WorkOrderCategory } from "@/graphql/types";
 import type { SvgIconProps } from "@mui/material/SvgIcon";
 
-export const WorkOrderCategoryIcon = ({ category, ...props }: WorkOrderCategoryIconProps) => {
-  const CategoryIcon = WO_CATEGORY_ICONS[category];
+export const WorkOrderCategoryIcon = forwardRef<SVGSVGElement, WorkOrderCategoryIconProps>(
+  function WorkOrderCategoryIcon({ category, ...svgIconProps }, ref) {
+    const svgRef = useMaybeRef(ref);
 
-  return <CategoryIcon {...props} />;
-};
+    const CategoryIcon = WO_CATEGORY_ICONS[category];
 
+    return <CategoryIcon ref={svgRef} {...svgIconProps} />;
+  }
+);
+
+/**
+ * Map of {@link WorkOrderCategory|WorkOrder categories} to their corresponding icon component.
+ */
 export const WO_CATEGORY_ICONS = {
   DRYWALL: RectanglesIcon,
   ELECTRICAL: LightningBoltIcon,
@@ -38,26 +47,16 @@ export const WO_CATEGORY_ICONS = {
   TRASH: TrashCanIcon,
   TURNOVER: ToolsIcon,
   WINDOWS: WindowIcon,
-};
+} as const satisfies Record<WorkOrderCategory, React.ComponentType>;
 
-export const WO_CATEGORY_ICON_REACT_NODES = {
-  DRYWALL: <RectanglesIcon />,
-  ELECTRICAL: <LightningBoltIcon />,
-  FLOORING: <LayersIcon />,
-  GENERAL: <HomeRepairServiceIcon />,
-  HVAC: <AirIcon />,
-  LANDSCAPING: <TreesIcon />,
-  MASONRY: <TrowelBricksIcon />,
-  PAINTING: <PaintRollerIcon />,
-  PAVING: <RoadIcon />,
-  PEST: <PestBugIcon />,
-  PLUMBING: <PlumbingIcon />,
-  ROOFING: <RoofingIcon />,
-  TRASH: <TrashCanIcon />,
-  TURNOVER: <ToolsIcon />,
-  WINDOWS: <WindowIcon />,
-};
+/**
+ * Map of {@link WorkOrderCategory|WorkOrder categories} to their corresponding icon as JSX.
+ * > If you need to pass props to the icon, use {@link WO_CATEGORY_ICONS} instead.
+ */
+export const WO_CATEGORY_ICONS_JSX = Object.fromEntries(
+  Object.entries(WO_CATEGORY_ICONS).map(([category, Icon]) => [category, <Icon key={category} />])
+) as Record<WorkOrderCategory, JSX.Element>;
 
 export type WorkOrderCategoryIconProps = {
-  category: Extract<WorkOrderCategory, string>;
+  category: WorkOrderCategory;
 } & SvgIconProps;
