@@ -1,6 +1,6 @@
 import { PayInvoiceButton } from "./PayInvoiceButton";
 import { UpdateInvoiceButton } from "./UpdateInvoiceButton";
-import type { Invoice } from "@graphql/types";
+import type { Invoice } from "@/graphql/types";
 import type { ButtonProps } from "@mui/material/Button";
 
 // TODO Additional buttons/actions: CANCEL/DELETE invoice

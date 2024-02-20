@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import Button, { type ButtonProps } from "@mui/material/Button";
-import { PenToSquareIcon } from "@components/Icons/PenToSquareIcon";
-import type { Invoice } from "@graphql/types";
+import { PenToSquareIcon } from "@/components/Icons/PenToSquareIcon";
+import { APP_PATHS } from "@/routes/appPaths";
+import type { Invoice } from "@/graphql/types";
 
 export const UpdateInvoiceButton = ({
   invoice,
@@ -9,7 +10,7 @@ export const UpdateInvoiceButton = ({
 }: { invoice: Invoice } & Omit<ButtonProps, "onClick" | "startIcon">) => {
   const nav = useNavigate();
 
-  const handleClick = () => nav("/home/invoices/form", { state: { invoice } });
+  const handleClick = () => nav(APP_PATHS.INVOICES_FORM_VIEW, { state: { invoice } });
 
   return (
     <Button

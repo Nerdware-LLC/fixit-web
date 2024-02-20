@@ -1,18 +1,18 @@
 import Text from "@mui/material/Typography";
 import DollarSignIcon from "@mui/icons-material/AttachMoney";
-import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
-import { authenticatedUserStore } from "@cache/authenticatedUserStore";
-import { INV_STATUS_ICON_REACT_NODES } from "@components/Icons/InvoiceStatusIcon";
-import { Stepper, type StepperProps, type StepperStepConfig } from "@components/Stepper";
-import { getDateAndTime } from "@utils/dateTime";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
+import { INVOICE_STATUS_ICONS_JSX } from "@/components/Icons/InvoiceStatusIcon";
+import { Stepper, type StepperProps, type StepperStepConfig } from "@/components/Stepper";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
+import { getDateAndTimeStr } from "@/utils/formatters/dateTime";
 import { PayInvoiceButton } from "./PayInvoiceButton";
-import type { Invoice } from "@graphql/types";
+import type { Invoice } from "@/graphql/types";
 
 export const InvoiceStatusTracker = ({ invoice }: { invoice: Invoice }) => {
   const { isMobilePageLayout } = usePageLayoutContext();
-  const { id: userID } = authenticatedUserStore.useSubToStore();
+  const authenticatedUser = authenticatedUserStore.useSubToStore();
 
-  const isItemOwnedByUser = invoice.createdBy.id === userID;
+  const isItemOwnedByUser = invoice.createdBy.id === authenticatedUser?.id;
 
   const statusStepConstants = isItemOwnedByUser
     ? INVOICE_STATUS_STEP_CONSTANTS.SENDER
@@ -22,7 +22,7 @@ export const InvoiceStatusTracker = ({ invoice }: { invoice: Invoice }) => {
     // Step 1: Invoice created
     {
       ...statusStepConstants.INVOICE_CREATED,
-      caption: getDateAndTime(invoice.createdAt),
+      caption: getDateAndTimeStr(invoice.createdAt),
     },
 
     // Step 2: OPEN/DISPUTED
@@ -33,7 +33,7 @@ export const InvoiceStatusTracker = ({ invoice }: { invoice: Invoice }) => {
             ...(isItemOwnedByUser
               ? {
                   label: "Awaiting Payment",
-                  caption: `Status: OPEN\nUpdated: ${getDateAndTime(invoice.updatedAt)}`,
+                  caption: `Status: OPEN\nUpdated: ${getDateAndTimeStr(invoice.updatedAt)}`,
                 }
               : {
                   caption: "Status: OPEN",
@@ -56,7 +56,7 @@ export const InvoiceStatusTracker = ({ invoice }: { invoice: Invoice }) => {
         }
       : {
           ...statusStepConstants.DISPUTED,
-          caption: `Status: DISPUTED\nUpdated: ${getDateAndTime(invoice.updatedAt)}`,
+          caption: `Status: DISPUTED\nUpdated: ${getDateAndTimeStr(invoice.updatedAt)}`,
           showErrorStyling: true,
         },
 
@@ -64,7 +64,7 @@ export const InvoiceStatusTracker = ({ invoice }: { invoice: Invoice }) => {
     {
       ...statusStepConstants.CLOSED,
       ...(invoice.status === "CLOSED" && {
-        caption: getDateAndTime(invoice.updatedAt), // IDEA Use Invoice `paidDate` when implemented
+        caption: getDateAndTimeStr(invoice.updatedAt), // IDEA Use Invoice `paidDate` when implemented
       }),
     },
   ];
@@ -80,9 +80,9 @@ export const InvoiceStatusTracker = ({ invoice }: { invoice: Invoice }) => {
 
 const STATUS_STEP_LABEL_PROPS = Object.fromEntries(
   Object.entries({
-    INVOICE_CREATED: INV_STATUS_ICON_REACT_NODES.OPEN,
+    INVOICE_CREATED: INVOICE_STATUS_ICONS_JSX.OPEN,
     OPEN: <DollarSignIcon />,
-    CLOSED: INV_STATUS_ICON_REACT_NODES.CLOSED,
+    CLOSED: INVOICE_STATUS_ICONS_JSX.CLOSED,
   }).map(([stepName, stepIconNode]) => [
     stepName,
     {

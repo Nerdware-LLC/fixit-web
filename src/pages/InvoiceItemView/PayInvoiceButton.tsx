@@ -1,14 +1,15 @@
 import { toast } from "react-toastify";
 import { useMutation } from "@apollo/client/react/hooks";
 import Box from "@mui/material/Box";
-import Button, { type ButtonProps } from "@mui/material/Button";
-import Text from "@mui/material/Typography";
+import Button, { buttonClasses, type ButtonProps } from "@mui/material/Button";
+import Text, { typographyClasses } from "@mui/material/Typography";
 import PayIcon from "@mui/icons-material/Paid";
-import { ContactAvatar } from "@components/Avatar/ContactAvatar";
-import { Dialog } from "@components/Dialog";
-import { MUTATIONS } from "@graphql/mutations";
-import { prettifyStr } from "@utils/prettifyStr";
-import type { Invoice } from "@graphql/types";
+import { ContactAvatar, avatarClassNames } from "@/components/Avatar";
+import { Dialog } from "@/components/Dialog";
+import { MUTATIONS } from "@/graphql/mutations";
+import { fmt } from "@/utils/formatters";
+import { invoiceItemViewClassNames } from "./classNames";
+import type { Invoice } from "@/graphql/types";
 
 export const PayInvoiceButton = ({
   invoice,
@@ -36,7 +37,7 @@ export const PayInvoiceButton = ({
           maxHeight: "2rem",
           padding: "calc(0.5rem + 1px) 1rem calc(0.5rem - 1px) 1rem",
           whiteSpace: "nowrap",
-          "& > .MuiButton-startIcon": {
+          [`& > .${buttonClasses.startIcon}`]: {
             position: "relative",
             top: "-1px",
             marginRight: "0.375rem",
@@ -68,22 +69,22 @@ export const PayInvoiceButton = ({
                 alignItems: "center",
 
                 // All text, font size 1.5rem
-                "& .MuiTypography-root": {
+                [`& .${typographyClasses.root}`]: {
                   fontSize: "1.5rem",
                 },
 
                 // LEFT COL
-                "&.pay-inv-dialog-left-col": {
+                [`&.${invoiceItemViewClassNames.payInvoiceDialogLeftCol}`]: {
                   justifyContent: "flex-end",
-                  "& > .MuiTypography-root": {
+                  [`& .${typographyClasses.root}`]: {
                     float: "right",
                   },
                 },
 
                 // RIGHT COL
-                "&.pay-inv-dialog-right-col": {
+                [`&.${invoiceItemViewClassNames.payInvoiceDialogRightCol}`]: {
                   justifyContent: "flex-start",
-                  "& .MuiAvatar-root": {
+                  [`& .${avatarClassNames.muiAvatar.root}`]: {
                     height: "3rem",
                     width: "3rem",
                   },
@@ -97,17 +98,17 @@ export const PayInvoiceButton = ({
               },
             }}
           >
-            <div className="pay-inv-dialog-left-col">
+            <div className={invoiceItemViewClassNames.payInvoiceDialogLeftCol}>
               <Text>Recipient:</Text>
             </div>
-            <div className="pay-inv-dialog-right-col">
+            <div className={invoiceItemViewClassNames.payInvoiceDialogRightCol}>
               <ContactAvatar contact={invoice.createdBy} />
             </div>
-            <div className="pay-inv-dialog-left-col">
+            <div className={invoiceItemViewClassNames.payInvoiceDialogLeftCol}>
               <Text>Amount:</Text>
             </div>
-            <div className="pay-inv-dialog-right-col">
-              <Text>{prettifyStr.currency(invoice.amount)}</Text>
+            <div className={invoiceItemViewClassNames.payInvoiceDialogRightCol}>
+              <Text>{fmt.intToCurrencyStr(invoice.amount)}</Text>
             </div>
           </Box>
         </Dialog>
