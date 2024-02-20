@@ -1,1 +1,0 @@
-export { WorkOrdersListView } from "./ListView";
