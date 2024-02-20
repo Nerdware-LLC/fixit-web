@@ -1,35 +1,36 @@
 import { styled } from "@mui/material/styles";
-import { Form } from "@components/Form";
-import { AutoCompleteContact } from "@components/Form/AutoCompleteContact";
-import { DatePicker } from "@components/Form/DatePicker";
-import { DateTimePicker } from "@components/Form/DateTimePicker";
-import { PhoneInput } from "@components/Form/PhoneInput";
-import { TextInput } from "@components/Form/TextInput";
 import {
-  ChecklistInput,
-  LocationRegion,
+  Form,
+  FormControlButtons,
+  AutoCompleteMyContacts,
   AutoCompleteWorkOrderCategory,
-  SelectPriority,
-} from "./inputs";
-import { schema } from "./schema";
-import type { WorkOrder } from "@graphql/types";
-import type { WorkOrderFormValues } from "./formFieldHandlers";
+  SliderWorkOrderPriority,
+  DatePicker,
+  DateTimePicker,
+  PhoneInput,
+  RegionInput,
+  TextInput,
+  ChecklistInput,
+  checklistInputClassNames,
+} from "@/components/Form";
+import { workOrderFormSchema, type WorkOrderFormValues } from "./schema";
+import type { WorkOrder } from "@/graphql/types";
 
 export const WorkOrderForm = ({
   initialFormValues,
   onSubmit,
   existingWorkOrder,
 }: WorkOrderFormProps) => (
-  <Form
+  <Form<WorkOrderFormValues>
     initialValues={initialFormValues}
-    validationSchema={schema}
+    validationSchema={workOrderFormSchema}
     onSubmit={onSubmit}
     style={{ height: "100%", width: "100%" }}
   >
     <StyledDiv>
-      <div id={workOrderFormElementIDs.detailsGridArea}>
-        <AutoCompleteContact
-          id="assignedTo"
+      <div id={elementIDs.detailsGridArea}>
+        <AutoCompleteMyContacts
+          id='assignedTo["id"]'
           label="Assign to Contact"
           disabled={
             // assignedTo is disabled if WO status is IN_PROGRESS, DEFERRED, or COMPLETE
@@ -37,24 +38,24 @@ export const WorkOrderForm = ({
             ["IN_PROGRESS", "DEFERRED", "COMPLETE"].includes(existingWorkOrder?.status)
           }
         />
-        <div className={workOrderFormClassNames.detailsRow}>
-          <SelectPriority id="priority" label="Priority" />
+        <div id={elementIDs.priorityAndCategoryContainer}>
+          <SliderWorkOrderPriority id="priority" label="Priority" />
           <AutoCompleteWorkOrderCategory id="category" label="Category" fullWidth />
         </div>
         <TextInput id="description" label="Description" multiline maxRows={3} />
-        <ChecklistInput />
+        <ChecklistInput checklistFieldID="checklist" />
       </div>
 
-      <fieldset id={workOrderFormElementIDs.locationGridArea}>
+      <fieldset id={elementIDs.locationGridArea}>
         <legend>Location</legend>
         <TextInput id='location["country"]' label="Country" />
-        <LocationRegion id='location["region"]' />
+        <RegionInput regionFieldID='location["region"]' countryFieldID='location["country"]' />
         <TextInput id='location["city"]' label="City" />
         <TextInput id='location["streetLine1"]' label="Street Address" />
         <TextInput id='location["streetLine2"]' label="Street Address 2" />
       </fieldset>
 
-      <div id={workOrderFormElementIDs.entryAndDatesGridArea}>
+      <div id={elementIDs.entryAndDatesGridArea}>
         <TextInput id="entryContact" label="Entry Contact - Name" gridArea="entry-name" />
         <DatePicker id="dueDate" label="Due Date" format="MM/DD/YYYY" gridArea="due-date" />
         <PhoneInput id="entryContactPhone" label="Entry Contact - Phone" gridArea="entry-phone" />
@@ -65,22 +66,19 @@ export const WorkOrderForm = ({
         />
       </div>
 
-      <Form.ControlButtons gridArea="form-btns" />
+      <FormControlButtons gridArea="form-btns" />
     </StyledDiv>
   </Form>
 );
 
-export const workOrderFormElementIDs = {
+const elementIDs = {
   detailsGridArea: "wo-form-details-grid-area",
   locationGridArea: "wo-form-location-grid-area",
   entryAndDatesGridArea: "wo-form-entry-and-dates-grid-area",
-};
+  priorityAndCategoryContainer: "wo-form-priority-and-category-container",
+} as const;
 
-export const workOrderFormClassNames = {
-  detailsRow: "wo-form-details-row",
-};
-
-const StyledDiv = styled("div")(({ theme }) => {
+const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
   const containerHeight = "calc(100% - 1rem)";
 
   return {
@@ -100,7 +98,7 @@ const StyledDiv = styled("div")(({ theme }) => {
     display: "grid",
     gridAutoRows: "min-content",
     gridAutoColumns: "1fr",
-    ...(theme.variables.isMobilePageLayout
+    ...(variables.isMobilePageLayout
       ? {
           gap: "1.5rem",
           gridTemplateAreas: `
@@ -119,7 +117,7 @@ const StyledDiv = styled("div")(({ theme }) => {
         }),
 
     // GRID AREA: details
-    [`& > #${workOrderFormElementIDs.detailsGridArea}`]: {
+    [`& > #${elementIDs.detailsGridArea}`]: {
       gridArea: "details",
       display: "flex",
       flexDirection: "column",
@@ -129,40 +127,46 @@ const StyledDiv = styled("div")(({ theme }) => {
         marginTop: "0.5rem",
       },
       // priority + category
-      [`& > .${workOrderFormClassNames.detailsRow}`]: {
+      [`& > #${elementIDs.priorityAndCategoryContainer}`]: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         gap: "inherit",
         // wrap to col on mobile
-        ...(theme.variables.isMobilePageLayout && {
+        ...(variables.isMobilePageLayout && {
           flexWrap: "wrap",
         }),
         // priority
         "& > div:first-of-type": {
           minWidth: "12rem",
-          ...(theme.variables.isMobilePageLayout && {
+          ...(variables.isMobilePageLayout && {
             minWidth: "66%",
             margin: "-1rem auto 1rem auto",
           }),
         },
       },
-      // checklist
+      // checklist input (last-child targets both the checklist and the create-checklist btn)
       "& > *:last-child": {
         marginTop: "-1rem",
-        ...(theme.variables.isMobilePageLayout && {
+        ...(variables.isMobilePageLayout && {
           marginBottom: "0.5rem",
         }),
+        // target the checklist, not the create-checklist btn:
+        [`&.${checklistInputClassNames.root}`]: {
+          ...(variables.isMobilePageLayout && {
+            maxHeight: "40vh",
+          }),
+        },
       },
     },
 
     // GRID AREA: location
-    [`& > #${workOrderFormElementIDs.locationGridArea}`]: {
+    [`& > #${elementIDs.locationGridArea}`]: {
       gridArea: "location",
       height: "100%",
       width: "100%",
-      ...(theme.variables.isMobilePageLayout
+      ...(variables.isMobilePageLayout
         ? {
             padding: "1rem 1rem 0 1rem",
             gap: "0.5rem",
@@ -176,16 +180,16 @@ const StyledDiv = styled("div")(({ theme }) => {
       borderWidth: "1px",
       borderStyle: "solid",
       borderRadius: "0.7rem",
-      borderColor: theme.palette.divider,
+      borderColor: palette.divider,
     },
 
-    [`& > #${workOrderFormElementIDs.entryAndDatesGridArea}`]: {
+    [`& > #${elementIDs.entryAndDatesGridArea}`]: {
       gridArea: "entry-and-dates",
       display: "grid",
       gap: "inherit",
       gridAutoRows: "min-content",
       gridAutoColumns: "1fr",
-      gridTemplateAreas: theme.variables.isMobilePageLayout
+      gridTemplateAreas: variables.isMobilePageLayout
         ? `
           "entry-name"
           "entry-phone"
@@ -200,13 +204,12 @@ const StyledDiv = styled("div")(({ theme }) => {
       to space them out a bit.  */
       "& > div": {
         position: "relative",
-        ...(theme.variables.isMobilePageLayout && {
+        ...(variables.isMobilePageLayout && {
           marginBottom: "0.5rem",
         }),
         "& > .MuiFormHelperText-root": {
           position: "absolute",
           bottom: "-24.56px",
-          // bottom: 0 - (lineHeight(1.66rem) × 16px/rem) + marginTop(3px) - borderWidth(1px) = -24.56px
         },
       },
     },
@@ -215,6 +218,6 @@ const StyledDiv = styled("div")(({ theme }) => {
 
 export type WorkOrderFormProps = {
   initialFormValues: WorkOrderFormValues;
-  onSubmit: (submittedFormValues: WorkOrderFormValues) => Promise<void>;
+  onSubmit: (submittedFormValues: WorkOrderFormValues) => void | Promise<void>;
   existingWorkOrder?: WorkOrder;
 };
