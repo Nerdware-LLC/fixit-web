@@ -8,12 +8,7 @@ export const LegalPolicySection = ({
   header,
   headerID = header.replace(/[^A-Z0-9]/gi, "-"), // by default, just rm all non-alphanum chars from header str
   children,
-}: {
-  sectionNumber: number;
-  header: string;
-  headerID?: string;
-  children: React.ReactNode; // section content
-}) => (
+}: LegalPolicySectionProps) => (
   <div>
     <Text id={headerID} variant="h4" component="h3" style={{ margin: "1rem 0" }}>
       {sectionNumber}. {header}
@@ -21,3 +16,10 @@ export const LegalPolicySection = ({
     {children}
   </div>
 );
+
+export type LegalPolicySectionProps = {
+  sectionNumber: number;
+  header: string;
+  headerID?: string;
+  children: React.ReactNode; // section content
+};

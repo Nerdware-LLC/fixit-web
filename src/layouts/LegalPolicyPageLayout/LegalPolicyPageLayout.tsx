@@ -1,52 +1,47 @@
 import { styled } from "@mui/material/styles";
-import Text from "@mui/material/Typography";
+import Text, { typographyClasses } from "@mui/material/Typography";
 
 /**
  * Layout used by `PrivacyPolicyPage` and `TermsOfServicePage`.
- * - If `sx` prop is provided, it's passed to the div container.
  */
 export const LegalPolicyPageLayout = ({
   pageTitle,
   lastUpdated,
   children,
-}: {
-  pageTitle: string;
-  lastUpdated: string; // e.g., "January 01, 2022"
-  children: React.ReactNode;
-}) => (
-  <StyledLegalPolicyPageLayoutContainer>
+}: LegalPolicyPageLayoutProps) => (
+  <StyledDiv>
     <Text variant="h2" component="h1">
       {pageTitle}
     </Text>
-    <Text variant="h4" component="h2">
+    <Text
+      variant="h6"
+      component="h2"
+      style={{
+        marginTop: "0.5rem",
+        transform: "translateX(0.25rem)", // better alignment with above+below headers
+        fontWeight: "lighter",
+      }}
+    >
       Last updated {lastUpdated}
     </Text>
     {children}
-  </StyledLegalPolicyPageLayoutContainer>
+  </StyledDiv>
 );
 
-const StyledLegalPolicyPageLayoutContainer = styled("div")({
-  height: "100%",
-  overflowY: "auto",
-  padding: "1rem 1.5rem 1.5rem 1.5rem",
+const StyledDiv = styled("div")(({ theme: { breakpoints } }) => ({
+  minHeight: "100%",
+  maxWidth: "1000px",
+  margin: "0 auto",
+  padding: "1.5rem",
+  [breakpoints.up("sm")]: { padding: "2rem" },
 
-  "@media (min-width: 500px)": {
-    padding: "2rem",
-  },
-
-  "@media (min-width: 1000px)": {
-    padding: "2rem clamp(2rem, 10%, 10rem)",
-  },
-
-  "& .MuiTypography-body1": {
+  [`& .${typographyClasses.body1}`]: {
     margin: "1rem 0",
   },
+}));
 
-  "& a": {
-    textDecoration: "none",
-  },
-
-  "& ul > li": {
-    listStyleType: "square",
-  },
-});
+export type LegalPolicyPageLayoutProps = {
+  pageTitle: string;
+  lastUpdated: string; // e.g., "January 01, 2022"
+  children: React.ReactNode;
+};
