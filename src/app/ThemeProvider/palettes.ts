@@ -1,6 +1,22 @@
-import type { Theme } from "@mui/material/styles";
+import type { Theme, Palette, PaletteColor, PaletteOptions } from "@mui/material/styles";
+import type { ConditionalKeys } from "type-fest";
 
-export const PALETTE_NAMES = ["DARK", "LIGHT"] as const;
+/**
+ * Keys of `theme.palette` which correspond to a `PaletteColor`, e.g. `"primary"`.
+ * This type is used by components like `TimelineEventIcon` that take a color prop
+ * used to dynamically look up a color in the `theme.palette` object as shown below.
+ * ```ts
+ * (color: PaletteColorKey) => theme.palette[color].dark
+ * ```
+ */
+export type PaletteColorKey = ConditionalKeys<Palette, PaletteColor>;
+
+const DARK_PALETTE_NAME = "DARK" as const;
+const LIGHT_PALETTE_NAME = "LIGHT" as const;
+
+export const PALETTE_NAMES = [DARK_PALETTE_NAME, LIGHT_PALETTE_NAME] as const;
+
+export type PaletteName = (typeof PALETTE_NAMES)[number];
 
 /**
  * Mui theme palettes: DARK and LIGHT
@@ -10,7 +26,7 @@ export const PALETTES = Object.fromEntries(
     paletteName,
     {
       // --------------------------------------------------
-      mode: paletteName.toLowerCase() as Lowercase<typeof paletteName>,
+      mode: paletteName.toLowerCase() as Lowercase<PaletteName>,
       // --------------------------------------------------
       primary: {
         light: "#f89a35",
@@ -19,7 +35,7 @@ export const PALETTES = Object.fromEntries(
       },
       // --------------------------------------------------
       secondary:
-        paletteName === "DARK"
+        paletteName === DARK_PALETTE_NAME
           ? {
               light: "#a4fff3",
               main: "#00ffdc",
@@ -32,7 +48,7 @@ export const PALETTES = Object.fromEntries(
             },
       // --------------------------------------------------
       success:
-        paletteName === "DARK"
+        paletteName === DARK_PALETTE_NAME
           ? {
               light: "#66ff66",
               main: "#00c851",
@@ -45,7 +61,7 @@ export const PALETTES = Object.fromEntries(
             },
       // --------------------------------------------------
       error:
-        paletteName === "DARK"
+        paletteName === DARK_PALETTE_NAME
           ? {
               light: "#e57373", // MUI default
               main: "rgba(255, 115, 115, 0.87)",
@@ -58,7 +74,7 @@ export const PALETTES = Object.fromEntries(
             },
       // --------------------------------------------------
       warning:
-        paletteName === "DARK"
+        paletteName === DARK_PALETTE_NAME
           ? {
               light: "#ffd900",
               main: "#b69b00",
@@ -71,7 +87,7 @@ export const PALETTES = Object.fromEntries(
             },
       // --------------------------------------------------
       info:
-        paletteName === "DARK"
+        paletteName === DARK_PALETTE_NAME
           ? {
               light: "#4fc3f7", // MUI default
               main: "#29b6f6", // MUI default
@@ -84,12 +100,12 @@ export const PALETTES = Object.fromEntries(
             },
       // --------------------------------------------------
       text:
-        paletteName === "DARK"
+        paletteName === DARK_PALETTE_NAME
           ? {
-              primary: "#ffffff", //                    MUI default
-              secondary: "rgba(175, 175, 175, 0.7)",
-              disabled: "rgba(255, 255, 255, 0.5)", //  MUI default
-              icon: "rgba(255, 255, 255, 0.5)", //       MUI default
+              primary: "#ffffff", //                   MUI default
+              secondary: "rgba(255, 255, 255, 0.7)",
+              disabled: "rgba(255, 255, 255, 0.5)", // MUI default
+              icon: "rgba(255, 255, 255, 0.5)", //     MUI default
             }
           : {
               primary: "rgba(0, 0, 0, 0.87)", //  MUI default
@@ -99,7 +115,7 @@ export const PALETTES = Object.fromEntries(
             },
       // --------------------------------------------------
       background:
-        paletteName === "DARK"
+        paletteName === DARK_PALETTE_NAME
           ? {
               paper: "#1e1e26",
               default: "#121212",
@@ -111,11 +127,11 @@ export const PALETTES = Object.fromEntries(
       // --------------------------------------------------
       // prettier-ignore
       divider:
-        paletteName === "DARK"
+        paletteName === DARK_PALETTE_NAME
           ? "rgba(255, 255, 255, 0.12)" // MUI default
           : "rgba(0, 0, 0, 0.12)", //      MUI default
 
       // --------------------------------------------------
-    },
+    } as const satisfies PaletteOptions,
   ])
-) as Record<(typeof PALETTE_NAMES)[number], Theme["palette"]>;
+) as Record<PaletteName, Theme["palette"]>;
