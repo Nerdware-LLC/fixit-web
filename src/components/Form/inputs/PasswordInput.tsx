@@ -4,7 +4,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { TextInput, type TextInputProps } from "./TextInput";
-import { formClassNames } from "./classNames";
+import { formClassNames } from "../classNames";
+import type { OverrideProperties } from "type-fest";
 
 export const PasswordInput = ({ InputProps = {}, ...props }: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,9 +25,9 @@ export const PasswordInput = ({ InputProps = {}, ...props }: PasswordInputProps)
           <InputAdornment position="end">
             <IconButton aria-label="toggle password visibility" onMouseDown={toggleVis} edge="end">
               {showPassword ? (
-                <Visibility style={{ opacity: "0.75" }} />
+                <Visibility style={{ opacity: 0.75 }} />
               ) : (
-                <VisibilityOff style={{ opacity: "0.5" }} />
+                <VisibilityOff style={{ opacity: 0.5 }} />
               )}
             </IconButton>
           </InputAdornment>
@@ -43,7 +44,10 @@ export const PasswordInput = ({ InputProps = {}, ...props }: PasswordInputProps)
  * - `autoComplete` is restricted to only the values that are valid for password inputs
  * - `type` and `InputProps["endAdornment"]` are removed since they're handled internally
  */
-export type PasswordInputProps = Omit<TextInputProps, "autoComplete" | "type" | "InputProps"> & {
-  autoComplete?: "current-password" | "new-password";
-  InputProps?: Omit<TextInputProps["InputProps"], "endAdornment">;
-};
+export type PasswordInputProps = OverrideProperties<
+  Omit<TextInputProps, "type">,
+  {
+    autoComplete?: "current-password" | "new-password";
+    InputProps?: Omit<TextInputProps["InputProps"], "endAdornment">;
+  }
+>;

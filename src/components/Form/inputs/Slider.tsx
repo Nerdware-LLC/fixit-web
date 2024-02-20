@@ -1,13 +1,16 @@
-import { useFormikContext } from "formik";
 import { grid as muiGridSxProps, type GridProps as MuiGridSxProps } from "@mui/system";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MuiSlider, { sliderClasses, type SliderProps as MuiSliderProps } from "@mui/material/Slider";
-import { formClassNames } from "./classNames";
+import { formClassNames } from "../classNames";
+import {
+  useFormikFieldProps,
+  type FormikIntegratedInputProps,
+} from "../helpers/useFormikFieldProps";
 
 /**
- * MUI Slider with Formik hooks
+ * MUI Slider with Formik integration.
  *
  * - `getFieldValue`: Since the "value" property of discrete mark options must
  *    be numbers, the `getFieldValue` fn serves as a hook which can be used to
@@ -15,9 +18,9 @@ import { formClassNames } from "./classNames";
  *    whatever type/value is desired for the form. The value returned from
  *    `getFieldValue` is provided to the field's Formik-context value.
  *
- * - The Mui `sx` prop is passed to the containing div (a Mui Box).
+ * - The Mui `sx` prop is passed to the containiner - a Mui Box.
  */
-export const Slider = ({
+export const Slider = <ValueType extends number | string | null | undefined>({
   id,
   label,
   getFieldValue = (value) => value,
@@ -25,11 +28,11 @@ export const Slider = ({
   style,
   ...props
 }: SliderProps) => {
-  const { setFieldValue } = useFormikContext();
+  const [_, { setValue, setError }] = useFormikFieldProps<ValueType>({ fieldID: id });
 
-  const handleChange = (event: Event, value: number | Array<number>, _activeThumb: number) => {
+  const handleChange = (_event: Event, value: number | Array<number>, _activeThumb: number) => {
     const fieldValue = getFieldValue(value);
-    setFieldValue(id, fieldValue);
+    setValue(fieldValue as any).catch((error) => setError(error));
   };
 
   const labelID = `Slider:InputLabel:${id}`;
@@ -59,10 +62,10 @@ export const Slider = ({
  */
 const StyledMuiSlider = styled(MuiSlider, {
   shouldForwardProp: (propName: string) => !propName.startsWith("grid"),
-})<MuiGridSxProps>(({ theme }) => ({
+})<MuiGridSxProps>(({ theme: { palette } }) => ({
   height: "10px",
   marginBottom: "0.5rem",
-  color: theme.palette.primary.dark,
+  color: palette.primary.dark,
 
   [`& .${sliderClasses.track}`]: {
     border: "none",
@@ -71,7 +74,7 @@ const StyledMuiSlider = styled(MuiSlider, {
   [`& .${sliderClasses.thumb}`]: {
     height: "1.5rem",
     width: "1.5rem",
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: palette.primary.main,
     border: "2px solid currentColor",
 
     [`&:focus, &:hover, &.${sliderClasses.active}, &.${sliderClasses.focusVisible}`]: {
@@ -83,14 +86,14 @@ const StyledMuiSlider = styled(MuiSlider, {
   },
 
   [`& .${sliderClasses.valueLabel}`]: {
-    lineHeight: 1.2,
-    fontSize: 12,
+    // lineHeight: 1.2, // TODO rm this line if text is fine after setting default line-height:1.5
+    fontSize: "12px",
     background: "unset",
     padding: 0,
     width: "2rem",
     height: "2rem",
     borderRadius: "50% 50% 50% 0",
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: palette.primary.dark,
     transformOrigin: "bottom left",
     transform: "translate(50%, -100%) rotate(-45deg) scale(0)",
     "&::before": {
@@ -106,15 +109,16 @@ const StyledMuiSlider = styled(MuiSlider, {
 
   [`& .${sliderClasses.markLabel}`]: {
     marginTop: "3px",
-    color: theme.palette.text.primary,
+    color: palette.text.primary,
     fontWeight: "light",
   },
 
   ...muiGridSxProps,
 }));
 
-export type SliderProps = MuiSliderProps & {
-  id: string;
-  label: string;
-  getFieldValue?: (value: number | Array<number>) => any;
-} & MuiGridSxProps;
+export type SliderProps = FormikIntegratedInputProps<
+  MuiSliderProps & {
+    label: string;
+    getFieldValue?: (value: number | Array<number>) => number | number[] | string | string[];
+  } & MuiGridSxProps
+>;
