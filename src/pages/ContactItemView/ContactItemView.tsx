@@ -1,9 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client/react/hooks";
-import { Error } from "@components/Indicators/Error";
-import { Loading } from "@components/Indicators/Loading";
-import { QUERIES } from "@graphql/queries";
-import { ProfileViewLayout } from "@layouts/ProfileViewLayout";
+import { Loading, ErrorDialog } from "@/components/Indicators";
+import { QUERIES } from "@/graphql/queries";
+import { ProfileViewLayout } from "@/layouts/ProfileViewLayout";
 
 /**
  * // IDEA Add to ContactItemView:
@@ -22,8 +21,11 @@ export const ContactItemView = () => {
   return loading || !data?.contact ? (
     <Loading />
   ) : error ? (
-    <Error error={error} />
+    <ErrorDialog error={error} />
   ) : (
     <ProfileViewLayout {...data.contact} />
   );
 };
+
+// Exported as "Component" for react-router-dom lazy loading
+export const Component = ContactItemView;
