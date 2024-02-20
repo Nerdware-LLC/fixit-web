@@ -1,6 +1,6 @@
-import { INV_STATUS_ICON_REACT_NODES } from "@components/Icons/InvoiceStatusIcon";
-import { StatusCountWidget } from "./StatusCountWidget";
-import { useDashboardDataContext } from "../DashboardDataContext";
+import { INVOICE_STATUS_ICONS_JSX } from "@/components/Icons/InvoiceStatusIcon";
+import { StatusCountWidget } from "@/components/Widgets/StatusCountWidget";
+import { useDashboardDataContext } from "./DashboardDataContext";
 
 export const InvoicesByStatusCounter = () => {
   const {
@@ -12,7 +12,7 @@ export const InvoicesByStatusCounter = () => {
   return (
     <StatusCountWidget
       itemTypeLabel="Invoices"
-      statusIcons={INV_STATUS_ICON_REACT_NODES}
+      statusIcons={INVOICE_STATUS_ICONS_JSX}
       numCreatedByUserByStatus={createdByUser}
       numAssignedToUserByStatus={assignedToUser}
     />
