@@ -2,10 +2,13 @@ import { styled } from "@mui/material/styles";
 import {
   CoreContentViewLayout,
   coreContentViewLayoutClassNames,
-} from "@layouts/CoreContentViewLayout";
+  type CoreContentViewLayoutProps,
+} from "@/layouts/CoreContentViewLayout";
 
 /**
- * Provides common styles/props/logic to all core-item single-item views.
+ * Provides a common layout to all single-item and form views.
+ *
+ * - Uses {@link CoreContentViewLayout} as a base.
  */
 export const CoreItemView = ({
   headerLabel,
@@ -33,4 +36,4 @@ export type CoreItemViewProps = {
   headerLabel: string; // is optional in CoreContentViewLayout
   headerComponents?: React.ReactNode;
   children: React.ReactNode;
-} & React.ComponentProps<typeof StyledCoreContentViewLayout>;
+} & CoreContentViewLayoutProps;
