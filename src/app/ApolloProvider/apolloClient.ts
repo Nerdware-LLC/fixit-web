@@ -1,12 +1,11 @@
 import { ApolloClient } from "@apollo/client/core";
-import pkgJson from "@ROOT/package.json";
-import { ENV } from "@app/env";
-import { apolloCache } from "./apolloCache";
+import { ENV } from "@/app/env";
 import { apolloLink } from "./apolloLink";
+import { apolloCache } from "./apolloCache";
 
 export const apolloClient = new ApolloClient({
   name: "fixit-web",
-  ...(!!pkgJson?.version && { version: pkgJson.version }),
+  ...(!!ENV?.PROJECT_VERSION && { version: ENV.PROJECT_VERSION }),
   cache: apolloCache,
   link: apolloLink,
   connectToDevTools: ENV.IS_DEV,
