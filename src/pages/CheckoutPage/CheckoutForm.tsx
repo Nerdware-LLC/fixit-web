@@ -1,38 +1,50 @@
-import { checkoutValuesStore, type CheckoutValues } from "@cache/checkoutValuesStore";
-import { StripeForm } from "@components/StripeForm";
-import { useStripeService } from "@hooks/useStripeService";
-import type { PaymentMethod } from "@stripe/stripe-js";
+import { useFetchStateContext } from "@/app/FetchStateContext";
+import { ErrorDialog } from "@/components/Indicators";
+import { StripeForm, type StripeFormProps } from "@/components/StripeForm";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore";
+import { SUB_PRICING_DISPLAY_CONFIGS, getPrice_FOR_DISPLAY_ONLY } from "./helpers";
 
 /**
- * Displays a form with a Stripe card input.
+ * Displays a form with a Stripe PaymentInput.
  */
-export const CheckoutForm = ({ onCompleteCheckout }: CheckoutFormProps) => {
-  const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore() as CheckoutValues;
-  const { submitPaymentForSubscription } = useStripeService();
+export const CheckoutForm = ({
+  onSuccessfulSubmit: parentOnSuccessfulSubmitHandler,
+}: CheckoutFormProps) => {
+  // Route protection guarantees that selectedSubscription is defined, hence the as cast
+  const { selectedSubscription, discountPercentage } = checkoutValuesStore.useSubToStore<true>();
+  const { error, clearError } = useFetchStateContext();
 
-  const handleSubmit = async (paymentMethod: PaymentMethod) => {
-    const apiResponse = await submitPaymentForSubscription({
-      selectedSubscription,
-      paymentMethodID: paymentMethod.id,
-      ...(!!promoCode && { promoCode }),
-    });
+  const amountDueToday = getPrice_FOR_DISPLAY_ONLY(
+    SUB_PRICING_DISPLAY_CONFIGS[selectedSubscription].price,
+    discountPercentage
+  );
 
-    await onCompleteCheckout(apiResponse?.success ?? false);
+  const handleSuccessfulSubmit: StripeFormProps["onSuccessfulSubmit"] = async () => {
+    checkoutValuesStore.clear();
+    if (parentOnSuccessfulSubmitHandler) {
+      await parentOnSuccessfulSubmitHandler();
+    }
   };
 
   return (
-    <StripeForm
-      handleSubmit={handleSubmit}
-      style={{
-        padding: "1rem 0",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-end",
-      }}
-    />
+    <>
+      <StripeForm
+        onSuccessfulSubmit={handleSuccessfulSubmit}
+        stripeElementsOptions={{
+          mode: "subscription",
+          currency: "usd",
+          amount: amountDueToday,
+        }}
+      />
+      {error && (
+        <ErrorDialog
+          title="There was an issue with your payment"
+          error={error}
+          onDismiss={clearError}
+        />
+      )}
+    </>
   );
 };
 
-export type CheckoutFormProps = {
-  onCompleteCheckout: (success: boolean) => Promise<void>;
-};
+export type CheckoutFormProps = Pick<StripeFormProps, "onSuccessfulSubmit">;
