@@ -3,37 +3,45 @@ import Tab, { tabClasses } from "@mui/material/Tab";
 import Tabs, { tabsClasses } from "@mui/material/Tabs";
 import InboxIcon from "@mui/icons-material/Inbox";
 import SendIcon from "@mui/icons-material/Send";
-import { listViewSettingsStore, type ListViewSettingsStoreKey } from "@cache/listviewSettingsStore";
+import { getTabA11yProps } from "@/components/Tabs/helpers";
+import {
+  listViewSettingsStore,
+  type ListViewSettingsStoreKey,
+} from "@/stores/listviewSettingsStore";
 import { ListHeaderContainer } from "./ListHeaderContainer";
-import { listViewTabA11yProps, listViewTabsWrapperA11yProps } from "./tabA11yProps";
 import { LIST_VIEW_LIST_NAMES } from "../types";
 
 export const MobileListHeaderTabs = ({ listViewSettingsStoreKey }: MobileListHeaderTabsProps) => {
   const { listVisibility } = listViewSettingsStore[listViewSettingsStoreKey].useSubToStore();
 
+  const handleSwitchTab = () => {
+    listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({
+      listVisibility: {
+        Inbox: !listVisibility.Inbox,
+        Sent: listVisibility.Inbox,
+      },
+    });
+  };
+
   return (
     <ListHeaderContainer containsMobileListHeaderTabs>
       <StyledTabs
+        aria-label="Inbox and Sent list view tabs"
         value={listVisibility.Inbox === true ? 0 : 1}
-        onChange={() => {
-          listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({
-            listVisibility: {
-              Inbox: !listVisibility.Inbox,
-              Sent: listVisibility.Inbox,
-            },
-          });
-        }}
-        {...listViewTabsWrapperA11yProps}
+        onChange={handleSwitchTab}
       >
-        {LIST_VIEW_LIST_NAMES.map((listName) => (
-          <Tab
-            key={listName}
-            label={listName}
-            icon={listName === "Inbox" ? <InboxIcon /> : <SendIcon />}
-            iconPosition="start"
-            {...listViewTabA11yProps[listName]}
-          />
-        ))}
+        <Tab
+          label={LIST_VIEW_LIST_NAMES.INBOX}
+          icon={<InboxIcon />}
+          iconPosition="start"
+          {...getTabA11yProps(LIST_VIEW_LIST_NAMES.INBOX)}
+        />
+        <Tab
+          label={LIST_VIEW_LIST_NAMES.SENT}
+          icon={<SendIcon />}
+          iconPosition="start"
+          {...getTabA11yProps(LIST_VIEW_LIST_NAMES.SENT)}
+        />
       </StyledTabs>
     </ListHeaderContainer>
   );
@@ -77,5 +85,5 @@ const StyledTabs = styled(Tabs)({
 });
 
 export type MobileListHeaderTabsProps = {
-  listViewSettingsStoreKey: ListViewSettingsStoreKey;
+  listViewSettingsStoreKey: Exclude<ListViewSettingsStoreKey, "contacts">;
 };
