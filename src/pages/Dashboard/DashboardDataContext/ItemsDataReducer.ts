@@ -1,4 +1,3 @@
-import { deepCopy } from "@utils/deepCopy";
 import type { UnionToIntersection, Simplify } from "type-fest";
 import type { ItemDataParser, DataParserItem, DataParserAccum } from "./ItemDataParsers";
 
@@ -51,16 +50,13 @@ export class ItemsDataReducer<
 
     this.initialDataAccum = { ...combinedInitialDataAccum };
     this.reduceItems = (arrayOfItems) => {
-      return arrayOfItems.reduce(
-        (itemsDataAccum, item, index, itemsArray) => {
-          // For each item, each accum-updater function is called
-          arrayOfDataAccumUpdaterFns.forEach((dataAccumUpdater) => {
-            itemsDataAccum = dataAccumUpdater(itemsDataAccum, item, index, itemsArray);
-          });
-          return itemsDataAccum;
-        },
-        deepCopy(this.initialDataAccum) // <-- deepCopy ensures fresh dataAccum for each render
-      );
+      return arrayOfItems.reduce((itemsDataAccum, item, index, itemsArray) => {
+        // For each item, each accum-updater function is called
+        arrayOfDataAccumUpdaterFns.forEach((dataAccumUpdater) => {
+          itemsDataAccum = dataAccumUpdater(itemsDataAccum, item, index, itemsArray);
+        });
+        return itemsDataAccum;
+      }, structuredClone(this.initialDataAccum));
     };
   }
 }
