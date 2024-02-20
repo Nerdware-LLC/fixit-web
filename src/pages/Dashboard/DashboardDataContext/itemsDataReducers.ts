@@ -7,7 +7,7 @@ import {
   UpcomingEventsDataParser,
 } from "./ItemDataParsers";
 import { ItemsDataReducer } from "./ItemsDataReducer";
-import type { WorkOrder, Invoice } from "@graphql/types";
+import type { WorkOrder, Invoice } from "@/graphql/types";
 
 ////////////////////////////////////////////////////////////////
 // ITEM DATA PARSERS (exported so their `initialDataAccum`s can be used in the init DashboardDataContext obj)

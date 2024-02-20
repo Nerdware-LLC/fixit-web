@@ -11,10 +11,11 @@ import Text, { typographyClasses } from "@mui/material/Typography";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import EventIcon from "@mui/icons-material/Event";
 import ScheduleIcon from "@mui/icons-material/Schedule";
-import { EmptyListFallback } from "@components/HelpInfo";
+import { EmptyListFallback } from "@/components/List/subComponents/EmptyListFallback";
+import { SmallWidgetLayout } from "@/components/Widgets/SmallWidgetLayout";
+import { getItemViewPath } from "@/routes/helpers";
 import { useDashboardDataContext, type UpcomingEvent } from "./DashboardDataContext";
-import { SmallWidgetLayout } from "./SmallWidgetLayout";
-import type { WorkOrder } from "@graphql/types";
+import type { WorkOrder } from "@/graphql/types";
 
 export const WorkOrderUpcomingEventsWidget = () => {
   const nav = useNavigate();
@@ -33,7 +34,7 @@ export const WorkOrderUpcomingEventsWidget = () => {
           ...workOrders.map((wo) => ({
             ...wo,
             handleClickListItemBtn: () => {
-              nav(`/home/workorders/${encodeURIComponent(wo.id)}`);
+              nav(getItemViewPath("workorders", wo.id));
             },
           })),
         ], []
@@ -55,10 +56,7 @@ export const WorkOrderUpcomingEventsWidget = () => {
                 description,
                 location: { streetLine1 },
               }) => (
-                <ListItem
-                  key={`WorkOrderUpcomingEventsWidget:${id}:${eventDate.getTime()}`}
-                  disablePadding
-                >
+                <ListItem key={`ListItem:${id}:${eventDate.getTime()}`} disablePadding>
                   <Paper>
                     <ListItemButton onClick={handleClickListItemBtn}>
                       <ListItemIcon>
@@ -80,7 +78,7 @@ export const WorkOrderUpcomingEventsWidget = () => {
             )}
           </List>
         ) : (
-          <EmptyListFallback backgroundIcon={<ConstructionIcon />} text="No Upcoming Events" />
+          <EmptyListFallback text="No Upcoming Events" backgroundIcon={<ConstructionIcon />} />
         )}
       </StyledDiv>
     </SmallWidgetLayout>

@@ -7,7 +7,7 @@ import {
   invoicesPerMonthDataParser,
   openInvoicesAmountTotalDataParser,
 } from "./itemsDataReducers";
-import type { WorkOrder, Invoice } from "@graphql/types";
+import type { WorkOrder, Invoice } from "@/graphql/types";
 import type {
   ItemsPerStatusDataParserAccum,
   ItemsPerMonthDataParserAccum,

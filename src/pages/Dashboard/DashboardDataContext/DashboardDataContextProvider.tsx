@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client/react/hooks";
-import { QUERIES } from "@graphql/queries";
+import { QUERIES } from "@/graphql/queries";
 import { DashboardDataContext } from "./DashboardDataContext";
 import { workOrdersDataReducer, invoicesDataReducer } from "./itemsDataReducers";
 
