@@ -1,0 +1,30 @@
+name: Chromatic Publish Workflow
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".storybook/**/*"
+      - "src/**/*.stories.tsx"
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # to checkout the code
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+      - run: npm ci --include=dev
+      - uses: chromaui/action@v10
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: "storybook:build"
+          autoAcceptChanges: true # Automatically accept visual changes
+          exitOnceUploaded: true # Exit 0 once the build is uploaded
+          exitZeroOnChanges: true # Don't fail the build if there are visual changes
