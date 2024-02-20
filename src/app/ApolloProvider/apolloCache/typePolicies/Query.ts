@@ -1,7 +1,7 @@
-import { authenticatedUserStore } from "@cache/authenticatedUserStore";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
 import { helpers } from "./helpers";
+import type { ContactPublicFieldsFragment, Profile } from "@/graphql/types";
 import type { TypePolicies, FieldFunctionOptions } from "@apollo/client/cache";
-import type { ContactPublicFieldsFragment } from "@graphql/types";
 
 /**
  * ### Query Type Policies
@@ -26,31 +26,37 @@ export const queryTypePolicies: TypePolicies = {
       // SINGLE ITEM QUERIES:
 
       contact: {
-        read: (existing, { args, toReference }) => {
-          if (args?.contactID) {
-            return toReference({ __typename: "Contact", id: args.contactID });
+        read: (_existing, { args, toReference }: FieldFunctionOptions<{ contactID?: string }>) => {
+          const { contactID } = args ?? {};
+          if (contactID) {
+            return toReference({ __typename: "Contact", id: contactID });
           }
         },
       },
       invoice: {
-        read: (existing, { args, toReference }) => {
-          if (args?.invoiceID) {
-            return toReference({ __typename: "Invoice", id: args.invoiceID });
+        read: (_existing, { args, toReference }: FieldFunctionOptions<{ invoiceID?: string }>) => {
+          const { invoiceID } = args ?? {};
+          if (invoiceID) {
+            return toReference({ __typename: "Invoice", id: invoiceID });
           }
         },
       },
       workOrder: {
-        read: (existing, { args, toReference }) => {
-          if (args?.workOrderID) {
-            return toReference({ __typename: "WorkOrder", id: args.workOrderID });
+        read: (
+          _existing,
+          { args, toReference }: FieldFunctionOptions<{ workOrderID?: string }>
+        ) => {
+          const { workOrderID } = args ?? {};
+          if (workOrderID) {
+            return toReference({ __typename: "WorkOrder", id: workOrderID });
           }
         },
       },
 
       myProfile: {
-        merge: (existing = {}, incoming, { mergeObjects }) => {
+        merge: (existing = {}, incoming: Profile, { mergeObjects }) => {
           authenticatedUserStore.mergeUpdate({ profile: incoming });
-          return mergeObjects(existing, incoming);
+          return mergeObjects<Profile>(existing, incoming);
         },
       },
 

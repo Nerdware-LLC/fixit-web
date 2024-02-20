@@ -1,14 +1,5 @@
 import type { FieldMergeFunction, FieldReadFunction } from "@apollo/client/cache";
 
-type ArrayFieldMergeFunction<TypeExisting extends any[] = any[]> = FieldMergeFunction<TypeExisting>;
-type ArrayFieldReadFunction<TypeExisting extends any[] = any[]> = FieldReadFunction<TypeExisting>;
-
-interface TypePolicyHelpers {
-  mergeArrays: ArrayFieldMergeFunction;
-  paginatedMerge: ArrayFieldMergeFunction;
-  paginatedRead: ArrayFieldReadFunction;
-}
-
 /**
  * **Type Policy Helpers**
  *
@@ -20,10 +11,14 @@ interface TypePolicyHelpers {
  * @method `paginatedRead()` - Read from the cache according to optional GQL-query args `offset` and `limit`.
  * @docs https://www.apollographql.com/docs/react/caching/cache-field-behavior/#handling-pagination
  */
-export const helpers: TypePolicyHelpers = {
+export const helpers = {
   mergeArrays: (existing = [], incoming) => [...existing, ...incoming],
 
-  paginatedMerge: (existing = [], incoming, { args }) => {
+  paginatedMerge: (
+    existing = [],
+    incoming,
+    { args }: { args: { offset?: number; limit?: number } | null }
+  ) => {
     // Make a copy of existing array since it can't be mutated directly
     const merged = existing.slice(0);
     // Determine start and end indices
@@ -47,4 +42,14 @@ export const helpers: TypePolicyHelpers = {
       if (page.length > 0) return page;
     }
   },
+} as const satisfies {
+  mergeArrays: ArrayFieldMergeFunction;
+  paginatedMerge: ArrayFieldMergeFunction;
+  paginatedRead: ArrayFieldReadFunction;
 };
+
+type ArrayFieldMergeFunction<TypeExisting extends unknown[] = unknown[]> =
+  FieldMergeFunction<TypeExisting>;
+
+type ArrayFieldReadFunction<TypeExisting extends unknown[] = unknown[]> =
+  FieldReadFunction<TypeExisting>;
