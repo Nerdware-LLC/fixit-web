@@ -2,18 +2,27 @@ import { css, type CSSObject, type SerializedStyles } from "@emotion/react";
 import { alpha, type Theme } from "@mui/material/styles";
 import { paperClasses } from "@mui/material/Paper";
 import { globalClassNames } from "./classNames";
+import type { RootElementIdArg } from "./types";
 
 export const useScrollbarStyles = ({
   palette,
   variables: { isMobilePageLayout },
-}: Theme): SerializedStyles => {
+  rootElementID = "root",
+}: Pick<Theme, "palette" | "variables"> & RootElementIdArg): SerializedStyles => {
+  // Shared/dependent scrollbar style values:
+
   const trackDefaultBackgroundColor =
     palette.mode === "dark" ? palette.background.paper : alpha(palette.grey[400], 0.3);
 
-  // Reusable scrollbar styles
-  const scrollbarStyles: { HIDDEN: CSSObject; VISIBLE: Record<string, CSSObject> } = {
+  const trackPaperBackgroundColor = alpha(palette.background.default, 0.75);
+
+  const thumbColor = palette.mode === "dark" ? palette.divider : alpha(palette.grey[600], 0.7);
+
+  // This object contains all default scrollbar styles used in the app:
+  const scrollbarStyles = {
     HIDDEN: {
       width: 0,
+      height: 0,
       display: "none",
       appearance: "none",
       WebkitAppearance: "none",
@@ -23,76 +32,114 @@ export const useScrollbarStyles = ({
         width: isMobilePageLayout ? "0.75rem" : "1rem",
         display: "block",
         appearance: "auto",
+        zIndex: 1,
       },
       THUMB: {
         display: "block",
         appearance: "auto",
-        backgroundColor: palette.divider,
+        backgroundColor: thumbColor,
         ...(!isMobilePageLayout && {
-          boxShadow: `inset 0 0 0.05rem 0.05rem ${palette.divider}`,
+          boxShadow: `inset 0 0 0.05rem 0.05rem ${thumbColor}`,
         }),
+        zIndex: 1,
       },
       CORNER: {
         display: "block",
         appearance: "auto",
         backgroundColor: palette.background.default,
+        zIndex: 1,
       },
       TRACK: {
         display: "block",
         appearance: "auto",
         backgroundColor: trackDefaultBackgroundColor,
         boxShadow: `inset 0 0 0.1rem 0.5rem ${trackDefaultBackgroundColor}`,
+        zIndex: 1,
       },
       TRACK_PAPER_BG: {
         display: "block",
         appearance: "auto",
-        backgroundColor: alpha(palette.background.default, 0.75),
-        boxShadow: `inset 0 0 0.1rem 0.1rem ${alpha(palette.background.default, 0.75)}`,
+        backgroundColor: trackPaperBackgroundColor,
+        boxShadow: `inset 0 0 0.1rem 0.1rem ${trackPaperBackgroundColor}`,
+        zIndex: 1,
       },
     },
-  };
+  } as const satisfies Record<string, CSSObject>;
+
+  const scrollbarForceHidden = Object.fromEntries(
+    Object.entries(scrollbarStyles.HIDDEN).map(([prop, value]) => [prop, `${value} !important`])
+  );
+
+  ////////////////////////////////////////////////////////////
+  // <body> scrollbar styles (always hidden)
+
+  const bodyElementScrollbarStyles = Object.fromEntries(
+    SCROLLBAR_ELEMENT_NAMES.map((scrollbarEl) => [`body::${scrollbarEl}`, scrollbarForceHidden])
+  );
 
   ////////////////////////////////////////////////////////////
   // Global-default scrollbar styles (layout dependent)
 
-  // prettier-ignore
-  const globalDefaultScrollbarStyles = isMobilePageLayout
-    ? SCROLLBAR_ELEMENT_NAMES.reduce((accum, scrollbarElementName) => ({
-        ...accum,
-        [`*::${scrollbarElementName}`]: scrollbarStyles.HIDDEN
-      }), {})
-    : {
-        "*::-webkit-scrollbar": scrollbarStyles.VISIBLE.SCROLLBAR,
-        "*::-webkit-scrollbar-thumb": scrollbarStyles.VISIBLE.THUMB,
-        "*::-webkit-scrollbar-corner": scrollbarStyles.VISIBLE.CORNER,
-        "*::-webkit-scrollbar-track": scrollbarStyles.VISIBLE.TRACK,
-        [`.${paperClasses.root} ::-webkit-scrollbar-track`]: scrollbarStyles.VISIBLE.TRACK_PAPER_BG
-      };
+  const globalDefaultScrollbarStyles = {
+    [`div#${rootElementID} *`]: isMobilePageLayout
+      ? Object.fromEntries(
+          SCROLLBAR_ELEMENT_NAMES.map((scrollbarEl) => [
+            `&::${scrollbarEl}`,
+            scrollbarStyles.HIDDEN,
+          ])
+        )
+      : {
+          "&::-webkit-scrollbar": scrollbarStyles.VISIBLE.SCROLLBAR,
+          "&::-webkit-scrollbar-thumb": scrollbarStyles.VISIBLE.THUMB,
+          "&::-webkit-scrollbar-corner": scrollbarStyles.VISIBLE.CORNER,
+          "&::-webkit-scrollbar-track": scrollbarStyles.VISIBLE.TRACK,
+          [`.${paperClasses.root} *`]: {
+            "&::-webkit-scrollbar-track": scrollbarStyles.VISIBLE.TRACK_PAPER_BG,
+          },
+        },
+  };
 
   ////////////////////////////////////////////////////////////
   // scrollbar-force-show, scrollbar-force-show-paper-bg (ensure scrollbar is visible)
 
-  const scrollbarForceShowStyles = {
+  const scrollbarForceShowClassStyles = {
     [`.${globalClassNames.scrollbarForceShow},.${globalClassNames.scrollbarForceShowPaperBG}`]: {
-      [`&::${SCROLLBAR_ELEMENTS.SCROLLBAR}`]: scrollbarStyles.VISIBLE.SCROLLBAR,
-      [`&::${SCROLLBAR_ELEMENTS.THUMB}`]: scrollbarStyles.VISIBLE.THUMB,
-      [`&::${SCROLLBAR_ELEMENTS.CORNER}`]: scrollbarStyles.VISIBLE.CORNER,
+      "&::-webkit-scrollbar": scrollbarStyles.VISIBLE.SCROLLBAR,
+      "&::-webkit-scrollbar-thumb": scrollbarStyles.VISIBLE.THUMB,
+      "&::-webkit-scrollbar-corner": scrollbarStyles.VISIBLE.CORNER,
       // Track color depends on whether or not the -paper-bg class is used
-      [`&.${globalClassNames.scrollbarForceShow}::${SCROLLBAR_ELEMENTS.TRACK}`]:
-        scrollbarStyles.VISIBLE.TRACK,
-      [`&.${globalClassNames.scrollbarForceShowPaperBG}::${SCROLLBAR_ELEMENTS.TRACK}`]:
-        scrollbarStyles.VISIBLE.TRACK_PAPER_BG,
+      [`&.${globalClassNames.scrollbarForceShow}::-webkit-scrollbar-track`]: scrollbarStyles.VISIBLE.TRACK, // prettier-ignore
+      [`&.${globalClassNames.scrollbarForceShowPaperBG}::-webkit-scrollbar-track`]: scrollbarStyles.VISIBLE.TRACK_PAPER_BG, // prettier-ignore
     },
   };
 
-  return css(globalDefaultScrollbarStyles, scrollbarForceShowStyles);
+  ////////////////////////////////////////////////////////////
+  // scrollbar-force-show, scrollbar-force-show-paper-bg (ensure scrollbar is visible)
+
+  const scrollbarForceHiddenClassStyles = {
+    [`.${globalClassNames.scrollbarForceHidden}`]: {
+      "&::-webkit-scrollbar": scrollbarForceHidden,
+      "&::-webkit-scrollbar-thumb": scrollbarForceHidden,
+      "&::-webkit-scrollbar-corner": scrollbarForceHidden,
+      "&::-webkit-scrollbar-track": scrollbarForceHidden,
+    },
+  };
+
+  return css(
+    globalDefaultScrollbarStyles,
+    scrollbarForceShowClassStyles,
+    scrollbarForceHiddenClassStyles,
+    bodyElementScrollbarStyles
+  );
 };
 
+/** Dict of scrollbar pseudo-elements. */
 const SCROLLBAR_ELEMENTS = {
-  SCROLLBAR: "-webkit-scrollbar",
-  TRACK: "-webkit-scrollbar-track",
-  THUMB: "-webkit-scrollbar-thumb",
-  CORNER: "-webkit-scrollbar-corner",
-};
+  scrollbar: "-webkit-scrollbar",
+  thumb: "-webkit-scrollbar-thumb",
+  corner: "-webkit-scrollbar-corner",
+  track: "-webkit-scrollbar-track",
+} as const;
 
+/** Array of scrollbar pseudo-element names. */
 const SCROLLBAR_ELEMENT_NAMES = Object.values(SCROLLBAR_ELEMENTS);
