@@ -6,7 +6,14 @@ import type { SubscriptionPriceLabel } from "@graphql/types";
  */
 export const stripeService = {
   /**
-   * This method is used to submit payment info gathered from the `StripeForm`.
+   * This method is used to check the validity of a user-provided promo code.
+   */
+  checkPromoCode: async (promoCode: string) => {
+    return await httpService.post("/subscriptions/check-promo-code", {
+      promoCode,
+    });
+  },
+
    */
   submitPaymentForSubscription: async ({
     selectedSubscription,
