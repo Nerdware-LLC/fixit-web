@@ -1,16 +1,35 @@
 import { styled } from "@mui/material/styles";
-import Text, { typographyClasses } from "@mui/material/Typography";
 import CheckIcon from "@mui/icons-material/Check";
+import DotDotDotIcon from "@mui/icons-material/MoreHoriz";
 import AlertTriangleIcon from "@mui/icons-material/Warning";
 import type { StepIconProps } from "@mui/material/StepIcon";
 
-export const StepIconContainer = ({ icon, active, completed, className, error }: StepIconProps) => (
-  <StyledDiv ownerState={{ completed, active, error }} className={className}>
-    {completed ? <CheckIcon /> : active ? error ? <AlertTriangleIcon /> : icon : <Text>...</Text>}
+export const StepIconContainer = ({
+  icon,
+  active,
+  completed,
+  className,
+  error,
+  ...containerProps
+}: StepIconContainerProps) => (
+  <StyledDiv ownerState={{ completed, active, error }} className={className} {...containerProps}>
+    {completed ? (
+      <CheckIcon />
+    ) : active ? (
+      error ? (
+        <AlertTriangleIcon />
+      ) : (
+        icon
+      )
+    ) : (
+      <DotDotDotIcon style={{ transform: "translateY(1px)" }} />
+    )}
   </StyledDiv>
 );
 
-const StyledDiv = styled("div")<StepIconOwnerState>(({ theme: { palette }, ownerState }) => ({
+const StyledDiv = styled("div", {
+  shouldForwardProp: (propName) => propName !== "ownerState",
+})<StepIconOwnerState>(({ theme: { palette }, ownerState }) => ({
   width: "100%",
   height: "100%",
   zIndex: 1,
@@ -32,11 +51,12 @@ const StyledDiv = styled("div")<StepIconOwnerState>(({ theme: { palette }, owner
 
   ...(ownerState.error && {
     backgroundImage: `linear-gradient(135deg, ${palette.error.dark} 40%, ${palette.error.light})`,
+    "& > svg": {
+      // These styles nudge the icon up a bit and ensures it doesn't visually overflow the container
+      transform: "translateY(-1px)",
+      maxWidth: "80%",
+    },
   }),
-
-  [`& > .${typographyClasses.root}`]: {
-    transform: "translateY(-2px)",
-  },
 }));
 
 interface StepIconOwnerState {
@@ -46,3 +66,6 @@ interface StepIconOwnerState {
     error?: boolean;
   };
 }
+
+export type StepIconContainerProps = StepIconProps &
+  Omit<React.ComponentProps<typeof StyledDiv>, "ownerState" | "className" | "children">;
