@@ -1,37 +1,33 @@
 import { styled } from "@mui/material/styles";
+import { containerClassNames } from "./classNames";
 
 /**
  * A box with a silver shimmer/shine animation effect.
  */
-export const ShimmerBox = ({ children, ...props }: ShimmerBoxProps) => (
-  <StyledDiv className={shimmerBoxClassNames.root} {...props}>
-    <div className={shimmerBoxClassNames.childContainer}>{children}</div>
+export const ShimmerBox = ({ children, className = "", ...divProps }: ShimmerBoxProps) => (
+  <StyledDiv className={containerClassNames.shimmerBoxRoot + " " + className} {...divProps}>
+    <div className={containerClassNames.shimmerBoxChildContainer}>{children}</div>
   </StyledDiv>
 );
 
-export const shimmerBoxClassNames = {
-  root: "shimmer-box-root",
-  childContainer: "shimmer-box-child-container",
-};
-
 /* This div ensures the animated mask in StyledShimmerBox reveals a
 silver background. Without this, the "shimmer" is dark in dark-mode.*/
-const StyledDiv = styled("div")(({ theme }) => ({
+const StyledDiv = styled("div")(({ theme: { palette } }) => ({
   height: "1.75rem",
   width: "6.5rem",
 
   backgroundColor: "silver",
-  border: `1px solid ${theme.palette.grey[600]}`,
+  border: `1px solid ${palette.grey[600]}`,
   borderRadius: "0.4rem",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
 
-  [`& > .${shimmerBoxClassNames.childContainer}`]: {
+  [`& > .${containerClassNames.shimmerBoxChildContainer}`]: {
     height: "1.75rem",
     width: "6.5rem",
-    backgroundColor: `${theme.palette.grey[800]}`,
-    border: `1px solid ${theme.palette.grey[700]}`,
+    backgroundColor: palette.grey[800],
+    border: `1px solid ${palette.grey[700]}`,
     borderRadius: "0.35rem",
     display: "flex",
     justifyContent: "center",
