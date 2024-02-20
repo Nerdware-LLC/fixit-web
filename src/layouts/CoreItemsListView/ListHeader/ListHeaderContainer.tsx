@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 export const ListHeaderContainer = styled("div", {
   shouldForwardProp: (propName) => propName !== "containsMobileListHeaderTabs",
 })<{ containsMobileListHeaderTabs?: boolean }>(
-  ({ theme, containsMobileListHeaderTabs = false }) => ({
+  ({ theme: { palette }, containsMobileListHeaderTabs = false }) => ({
     ...(containsMobileListHeaderTabs
       ? {
           height: "2.5rem",
@@ -20,10 +20,9 @@ export const ListHeaderContainer = styled("div", {
           minHeight: "2rem",
           maxHeight: "2rem",
         }),
-    paddingTop: "0.1rem",
     marginBottom: "0.5rem",
     verticalAlign: "middle",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: palette.background.paper,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
