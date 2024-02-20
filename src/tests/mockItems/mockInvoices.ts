@@ -1,23 +1,21 @@
 import { faker } from "@faker-js/faker";
-import { randomIntBetween, tryToGetItemAgeInDays } from "@tests/utils";
 import { INVOICE_STATUSES } from "@/types/Invoice";
+import { getItemAge, randomIntBetween } from "@/utils/numeric";
 import { getRandomContact } from "./mockContacts";
-import { MOCK_USERS } from "./mockUsers";
 import { MOCK_WORK_ORDERS } from "./mockWorkOrders";
-import type { Invoice, FixitUser, MyInvoicesQueryReturnType } from "@graphql/types";
+import { STATIC_MOCK_USERS } from "./staticMockUsers";
+import type { Invoice, FixitUser, MyInvoicesQueryReturnType } from "@/graphql/types";
 
 const createMockInvoice = ({
   createdBy,
   assignedTo,
   workOrder = null,
-}: Pick<Invoice, "createdBy" | "assignedTo" | "workOrder">): Invoice & {
-  __typename: "Invoice";
-} => {
+}: Pick<Invoice, "createdBy" | "assignedTo" | "workOrder">): Invoice => {
   // Ensure INV is not older than the createdBy User account; place INV max age at 365 days (any older and it won't show on DashboardPage)
   const invCreatedAt = faker.date.recent({
     days: Math.min(
       365,
-      tryToGetItemAgeInDays(createdBy) ?? 365 // <-- how many days old User account is
+      getItemAge(createdBy) ?? 365 // <-- how many days old User account is
     ),
   });
 
@@ -60,7 +58,7 @@ const createMockInvoice = ({
         // upper bound range, 100001-10000000 ($1,000.01 - $100,000.00)
         faker.helpers.maybe(() => randomIntBetween(100001, 10000000), { probability: 0.05 }), // 5%
       ].filter((el) => !!el) // <-- removes any undefined values
-    ) as Invoice["amount"], // <-- TS not recognizing undefined filtered out of arrayElement
+    )!,
 
     /* stripePaymentIntentID is dependent upon the Invoice's status:
       - If status is "OPEN", stripePaymentIntentID will be null.
@@ -127,42 +125,42 @@ const findWorkOrderWithInverseUserRoles = ({
 export const MOCK_INVOICES = {
   myInvoices: {
     // Between 50-100 invoices created by user "Guy McPerson":
-    createdByUser: [...Array(randomIntBetween(50, 100))].map(() => {
+    createdByUser: Array.from({ length: randomIntBetween(50, 100) }, () => {
       // Assign to random mock contact
       const invoiceAssignedTo = getRandomContact();
 
       return createMockInvoice({
-        createdBy: MOCK_USERS.Guy_McPerson,
+        createdBy: STATIC_MOCK_USERS.Guy_McPerson,
         assignedTo: invoiceAssignedTo,
         workOrder:
           faker.helpers.maybe(() =>
             // Attempt to find a suitable corresponding WorkOrder:
             findWorkOrderWithInverseUserRoles({
-              invoiceCreatedBy: MOCK_USERS.Guy_McPerson,
+              invoiceCreatedBy: STATIC_MOCK_USERS.Guy_McPerson,
               invoiceAssignedTo,
             })
           ) ?? null,
       });
     }),
     // Between 50-100 invoices assigned to user "Guy McPerson":
-    assignedToUser: [...Array(randomIntBetween(50, 100))].map(() => {
+    assignedToUser: Array.from({ length: randomIntBetween(50, 100) }, () => {
       // Created by random mock contact
       const invoiceCreatedBy = getRandomContact();
 
       return createMockInvoice({
         createdBy: invoiceCreatedBy,
-        assignedTo: MOCK_USERS.Guy_McPerson,
+        assignedTo: STATIC_MOCK_USERS.Guy_McPerson,
         workOrder:
           faker.helpers.maybe(() =>
             // Attempt to find a suitable corresponding WorkOrder:
             findWorkOrderWithInverseUserRoles({
               invoiceCreatedBy,
-              invoiceAssignedTo: MOCK_USERS.Guy_McPerson,
+              invoiceAssignedTo: STATIC_MOCK_USERS.Guy_McPerson,
             })
           ) ?? null,
       });
     }),
   },
-} as {
+} as const satisfies {
   myInvoices: MyInvoicesQueryReturnType;
 };

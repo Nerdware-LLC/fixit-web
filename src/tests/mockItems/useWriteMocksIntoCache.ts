@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useApolloClient } from "@apollo/client/react/hooks";
-import { QUERIES } from "@graphql/queries";
-import { MOCK_WORK_ORDERS, MOCK_INVOICES, MOCK_CONTACTS } from "@/__tests__/mockItems";
+import { apolloClient } from "@/app/ApolloProvider/apolloClient";
+import { QUERIES } from "@/graphql/queries";
+import { MOCK_WORK_ORDERS, MOCK_INVOICES, MOCK_CONTACTS } from "@/tests/mockItems";
 
 /**
  * Writes the following mock data into the Apollo cache:
@@ -21,25 +21,23 @@ export const useWriteMocksIntoCache = (
     },
   }: useWriteMocksIntoCacheParams = { shouldMock: {} }
 ) => {
-  const client = useApolloClient();
-
   useEffect(() => {
-    if (shouldMockMyWorkOrders !== false) {
-      client.writeQuery({
+    if (shouldMockMyWorkOrders) {
+      apolloClient.writeQuery({
         query: QUERIES.MY_WORK_ORDERS,
         data: MOCK_WORK_ORDERS,
       });
     }
 
-    if (shouldMockMyInvoices !== false) {
-      client.writeQuery({
+    if (shouldMockMyInvoices) {
+      apolloClient.writeQuery({
         query: QUERIES.MY_INVOICES,
         data: MOCK_INVOICES,
       });
     }
 
-    if (shouldMockMyContacts !== false) {
-      client.writeQuery({
+    if (shouldMockMyContacts) {
+      apolloClient.writeQuery({
         query: QUERIES.MY_CONTACTS,
         data: {
           myContacts: Object.values(MOCK_CONTACTS),
