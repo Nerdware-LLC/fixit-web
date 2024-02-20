@@ -7,22 +7,22 @@ import { logger } from "@/utils/logger";
  */
 export const loggerLink = new ApolloLink((operation, forward) => {
   const { operationName } = operation;
-  // VSCode's GQL extension misinterprets `logger.gql( ... )` as a `gql` template string
-  // eslint-disable-next-line @typescript-eslint/dot-notation
-  logger["gql"](`Starting operation "${operationName}"...`);
+
+  logger.gqlInfo(`Starting operation "${operationName}"...`);
+
   operation.setContext({ start: Date.now() });
 
   return forward(operation).map((response) => {
     const responseTime = Date.now() - operation.getContext().start;
     const responseTimeLogMsg = `Operation "${operationName}" completed in ${responseTime} ms`;
-    // VSCode's GQL extension misinterprets `logger.gql( ... )` as a `gql` template string
-    // eslint-disable-next-line @typescript-eslint/dot-notation
-    logger["gql"](
+
+    logger.gqlInfo(
       responseTimeLogMsg +
         (operationName !== "IntrospectionQuery"
           ? `, response = ${safeJsonStringify(response, null, 2)}`
           : "")
     );
+
     return response;
   });
 });
