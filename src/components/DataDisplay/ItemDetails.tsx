@@ -1,9 +1,9 @@
 import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
+import Box, { type BoxProps } from "@mui/material/Box";
 import Text from "@mui/material/Typography";
-import { ItemDetailsLabel } from "./ItemDetailsLabel";
-import { itemDetailsClassNames as classNames } from "./classNames";
-import type { ItemDetailsProps } from "./types";
+import { ItemDetailsHeader, type ItemDetailsHeaderProps } from "./ItemDetailsHeader";
+import { dataDisplayClassNames } from "./classNames";
+import type { Simplify } from "type-fest";
 
 /**
  * Displays one or more item properties.
@@ -24,53 +24,42 @@ export const ItemDetails = ({
   labelIcon,
   labelVariant,
   headerComponents,
+  className = "",
   children,
   emptyFallback = <Text>--</Text>,
-  ...containerProps // any remaining props are passed to the containing div
+  ...boxProps // any remaining props are passed to the containing div
 }: ItemDetailsProps) => (
-  <StyledBox className={`${classNames.itemDetails} ${classNames.container}`} {...containerProps}>
+  <StyledBox className={dataDisplayClassNames.root + " " + className} {...boxProps}>
     {(label || headerComponents) && (
-      <div className={classNames.header}>
-        {label && (
-          <>
-            {labelIcon}
-            <ItemDetailsLabel variant={labelVariant}>{label}</ItemDetailsLabel>
-          </>
-        )}
-        {headerComponents}
-      </div>
+      <ItemDetailsHeader
+        label={label}
+        labelIcon={labelIcon}
+        labelVariant={labelVariant}
+        headerComponents={headerComponents}
+      />
     )}
-    <div className={classNames.content}>
+    <div className={dataDisplayClassNames.content}>
       {typeof children === "string" ? <Text>{children || "--"}</Text> : children ?? emptyFallback}
     </div>
   </StyledBox>
 );
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)({
   maxWidth: "100%",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
 
   "& *": {
+    maxWidth: "100%",
     overflow: "hidden",
     textOverflow: "ellipsis",
   },
 
-  // HEADER:
-
-  [`& > .${classNames.header}`]: {
-    height: "auto",
-    width: "100%",
-    padding: 0,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-
-    [`& > .${classNames.label}`]: {
-      color: theme.palette.text.primary,
-      opacity: "0.7",
-    },
-
-    "& > svg:first-of-type": {
-      marginRight: "0.75rem",
-    },
+  [`& > .${dataDisplayClassNames.content}`]: {
+    marginTop: "0.3rem",
   },
-}));
+});
+
+export type ItemDetailsProps = Simplify<
+  ItemDetailsHeaderProps & { emptyFallback?: React.ReactNode } & BoxProps
+>;

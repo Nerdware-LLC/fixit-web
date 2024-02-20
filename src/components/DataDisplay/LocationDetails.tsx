@@ -3,19 +3,20 @@ import Tooltip from "@mui/material/Tooltip";
 import Text, { type TypographyProps } from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MapMarkerIcon from "@mui/icons-material/Place";
-import { Anchor } from "@components/Navigation/Anchor";
-import { ItemDetails } from "./ItemDetails";
-import { itemDetailsClassNames as classNames } from "./classNames";
-import type { Location } from "@graphql/types";
-import type { ItemDetailsProps } from "./types";
+import { Anchor } from "@/components/Navigation/Anchor";
+import { ItemDetails, type ItemDetailsProps } from "./ItemDetails";
+import { dataDisplayClassNames } from "./classNames";
+import type { Location } from "@/graphql/types";
+import type { SetOptional } from "type-fest";
 
 export const LocationDetails = ({
   location,
   locationTextProps = {},
   showLabel = true,
+  className = "",
   ...itemDetailsProps
 }: LocationDetailsProps) => {
-  const { streetLine1, streetLine2, city, region, country } = location || {};
+  const { streetLine1, streetLine2, city, region, country } = location ?? {};
 
   // For display purposes, filter out falsey values (null/empty strings)
   const locationStringsArray = [streetLine1, streetLine2, city, region, country].filter(
@@ -25,17 +26,17 @@ export const LocationDetails = ({
   const addressStr = locationStringsArray.join(", ");
 
   // prettier-ignore
-  const mapLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addressStr)}`
+  const mapLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addressStr)}`;
 
   return (
     <StyledItemDetails
       label={showLabel ? "Address" : undefined}
-      className={classNames.locationDetails}
+      className={dataDisplayClassNames.locationDetails + " " + className}
       {...itemDetailsProps}
     >
       {location && (
         <>
-          <Text className={classNames.locationDetailsAddressText} {...locationTextProps}>
+          <Text className={dataDisplayClassNames.locationDetailsAddressText} {...locationTextProps}>
             <span>{streetLine1}</span>
             {streetLine2 && (
               <>
@@ -48,7 +49,7 @@ export const LocationDetails = ({
             <span>{region}</span>
           </Text>
           <Tooltip title={`Google Maps: ${addressStr}`}>
-            <Anchor href={mapLink} className={classNames.locationDetailsMapAnchor}>
+            <Anchor href={mapLink} className={dataDisplayClassNames.locationDetailsMapAnchor}>
               <MapMarkerIcon />
               Map it <ChevronRightIcon />
             </Anchor>
@@ -59,11 +60,7 @@ export const LocationDetails = ({
   );
 };
 
-const StyledItemDetails = styled(ItemDetails)(({ theme }) => ({
-  maxWidth: "100%",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-
+const StyledItemDetails = styled(ItemDetails)(({ theme: { palette, variables } }) => ({
   // All descendants inherit max-width, overflow, and text-overflow (with LOW specificity)
   "& *": {
     maxWidth: "inherit",
@@ -71,27 +68,28 @@ const StyledItemDetails = styled(ItemDetails)(({ theme }) => ({
     textOverflow: "inherit",
   },
 
-  [`& > .${classNames.content}`]: {
-    // Address text:
-    [`& > .${classNames.locationDetailsAddressText}`]: {
-      lineHeight: "1.1rem",
-      whiteSpace: "pre-wrap", // preserve \n\s and wrap
+  [`& > .${dataDisplayClassNames.content}`]: {
+    margin: 0,
+    display: "flex",
+    flexDirection: "column",
 
+    // Address text:
+    [`& > .${dataDisplayClassNames.locationDetailsAddressText}`]: {
+      whiteSpace: "pre-wrap", // preserve \n\s and wrap
       "& > span": {
-        display: "inline-block", // ensures spans have width so region will wrap below city if necessary
+        display: "inline-flex", // ensures spans have width so region will wrap below city if necessary
         whiteSpace: "pre", // preserve \n\s and nowrap
       },
     },
 
     // map anchor:
-    [`& > .${classNames.locationDetailsMapAnchor}`]: {
+    [`& > .${dataDisplayClassNames.locationDetailsMapAnchor}`]: {
       width: "fit-content",
       flexShrink: 1,
-      margin: theme.variables.isMobilePageLayout ? "1px 0 0.5rem 0" : "1px 0 0 0",
+      margin: variables.isMobilePageLayout ? "1px 0 0.5rem 0" : "1px 0 0 0",
       fontSize: "0.925rem",
-      lineHeight: "1.5rem",
       whiteSpace: "pre",
-      color: theme.palette.secondary.main,
+      color: palette.secondary.main,
       textDecoration: "none",
       display: "flex",
       flexDirection: "row",
@@ -99,9 +97,9 @@ const StyledItemDetails = styled(ItemDetails)(({ theme }) => ({
 
       // MapMarkerIcon
       "& > svg:first-of-type": {
-        color: theme.palette.secondary.main,
+        color: palette.secondary.main,
         fontSize: "1.5rem",
-        opacity: "0.35",
+        opacity: 0.35,
         marginRight: "0.25rem",
       },
 
@@ -115,7 +113,7 @@ const StyledItemDetails = styled(ItemDetails)(({ theme }) => ({
 }));
 
 export type LocationDetailsProps = {
-  location?: Location;
+  location?: SetOptional<Location, "country">;
   locationTextProps?: TypographyProps;
   showLabel?: boolean;
 } & ItemDetailsProps;
