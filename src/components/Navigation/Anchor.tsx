@@ -1,16 +1,17 @@
 import { forwardRef } from "react";
 import { styled } from "@mui/material/styles";
-import { useMaybeRef, type MaybeRef } from "@hooks/useMaybeRef";
-import { defaultLinkStyles } from "./styles";
+import { useMaybeRef } from "@/hooks/useMaybeRef";
+import { getDefaultLinkStyles } from "./styles";
+import type { Simplify } from "type-fest";
 
 /**
  * A styled anchor element with ref forwarding.
  *
- * - If an external URL is provided to `href`, the attributes `target="_blank"`
+ * > If an external URL is provided to `href`, the attributes `target="_blank"`
  *   and `rel="noreferrer"` are set automatically, and the `textDecoration` style
  *   defaults to "underline".
  */
-export const Anchor = forwardRef<MaybeRef<HTMLAnchorElement>, AnchorProps>(function Anchor(
+export const Anchor = forwardRef<HTMLAnchorElement, AnchorProps>(function Anchor(
   { href, children, ...props },
   ref
 ) {
@@ -33,8 +34,10 @@ export const Anchor = forwardRef<MaybeRef<HTMLAnchorElement>, AnchorProps>(funct
   );
 });
 
-export const StyledAnchor = styled("a")(defaultLinkStyles);
+export const StyledAnchor = styled("a")(getDefaultLinkStyles);
 
-export type AnchorProps = Omit<React.ComponentProps<typeof StyledAnchor>, "children"> & {
-  children?: React.ReactNode;
-};
+export type AnchorProps = Simplify<
+  Omit<React.ComponentProps<typeof StyledAnchor>, "children"> & {
+    children?: React.ReactNode;
+  }
+>;

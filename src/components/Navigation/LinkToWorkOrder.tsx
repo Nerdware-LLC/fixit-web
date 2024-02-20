@@ -1,7 +1,8 @@
 import { forwardRef } from "react";
 import Text from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { useMaybeRef, type MaybeRef } from "@hooks/useMaybeRef";
+import { useMaybeRef } from "@/hooks/useMaybeRef";
+import { getItemViewPath } from "@/routes/helpers";
 import { Link, type LinkProps } from "./Link";
 
 /**
@@ -10,15 +11,15 @@ import { Link, type LinkProps } from "./Link";
  * If no `children` are provided, a default text node is rendered
  * with `"View Work Order"` and a right-facing chevron icon.
  */
-export const LinkToWorkOrder = forwardRef<MaybeRef<HTMLAnchorElement>, LinkToWorkOrderProps>(
+export const LinkToWorkOrder = forwardRef<HTMLAnchorElement, LinkToWorkOrderProps>(
   function LinkToWorkOrder({ workOrderID, children, ...props }, ref) {
     const anchorRef = useMaybeRef(ref);
 
     return (
       <Link
         ref={anchorRef}
-        to={`/home/workorders/${encodeURIComponent(workOrderID)}`}
-        sx={(theme) => ({ color: theme.palette.secondary.main })}
+        to={getItemViewPath("workorders", workOrderID)}
+        sx={({ palette }) => ({ color: palette.secondary.main })}
         {...props}
       >
         {children ?? (
