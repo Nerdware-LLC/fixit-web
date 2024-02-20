@@ -1,2 +1,2 @@
-export { RegisterPage as default } from "./RegisterPage";
-// export as default to enable code-splitting via lazy import.
+export { Component } from "./RegisterPage";
+// Exported as "Component" for react-router-dom lazy loading
