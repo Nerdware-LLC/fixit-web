@@ -1,38 +1,35 @@
 import { styled } from "@mui/material/styles";
 import Text from "@mui/material/Typography";
 import { Logo } from "./Logo";
+import { brandingClassNames } from "./classNames";
 
-export const TitleLogo = ({ onClick, ...containerProps }: TitleLogoProps) => (
-  <StyledDiv
-    className={`${titleLogoClassNames.root} ${titleLogoClassNames.container}`}
-    onClick={onClick}
-    {...containerProps}
-  >
-    <Logo className={titleLogoClassNames.logoImg} />
-    <Text className={titleLogoClassNames.logoText} variant="h1">
+export const TitleLogo = ({
+  onClick,
+  logoStyle = {},
+  textStyle = {},
+  ...divProps
+}: TitleLogoProps) => (
+  <StyledDiv onClick={onClick} className={brandingClassNames.titleLogoRoot} {...divProps}>
+    <Logo className={brandingClassNames.titleLogoImg} style={logoStyle} />
+    <Text variant="h1" className={brandingClassNames.titleLogoText} style={textStyle}>
       Fixit
     </Text>
   </StyledDiv>
 );
 
-export const titleLogoClassNames = {
-  root: "title-logo",
-  container: "title-logo-container",
-  logoImg: "title-logo-img",
-  logoText: "title-logo-text",
-};
-
 const StyledDiv = styled("div")(({ onClick }) => ({
+  width: "min-content",
+  height: "5.5rem",
   display: "flex",
   flexDirection: "row",
-  justifyContent: "space-evenly",
   alignItems: "center",
+  justifyContent: "center",
   verticalAlign: "middle",
+  gap: "0.5rem",
 
-  [`& > .${titleLogoClassNames.logoText}`]: {
+  [`& > .${brandingClassNames.titleLogoText}`]: {
     margin: 0,
     fontSize: "3rem",
-    lineHeight: "1.5rem",
   },
 
   ...(onClick && {
@@ -44,4 +41,6 @@ const StyledDiv = styled("div")(({ onClick }) => ({
 
 export type TitleLogoProps = {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
-} & React.ComponentProps<typeof StyledDiv>;
+  logoStyle?: React.CSSProperties;
+  textStyle?: React.CSSProperties;
+} & Omit<React.ComponentProps<typeof StyledDiv>, "children" | "className">;
