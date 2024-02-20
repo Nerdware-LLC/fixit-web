@@ -1,4 +1,4 @@
-import { Anchor } from "@components/Navigation/Anchor";
+import { Anchor } from "@/components/Navigation/Anchor";
 
 const POLICY_ANCHOR_TARGET_CONFIGS = {
   HEADERS: [

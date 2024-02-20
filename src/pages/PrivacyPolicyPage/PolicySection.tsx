@@ -1,5 +1,5 @@
 import Text from "@mui/material/Typography";
-import { LegalPolicySection } from "@layouts/LegalPolicyPageLayout/LegalPolicySection";
+import { LegalPolicySection } from "@/layouts/LegalPolicyPageLayout/LegalPolicySection";
 import { POLICY_ANCHOR_TARGETS } from "./PolicyAnchorTargets";
 
 /**
@@ -26,7 +26,7 @@ export const InShort = ({ summary }: InShortProps) => (
 );
 
 export type PolicySectionProps = {
-  header: keyof typeof POLICY_ANCHOR_TARGETS.HEADERS & string;
+  header: keyof typeof POLICY_ANCHOR_TARGETS.HEADERS;
   summary?: string;
   children: React.ReactNode; // section content
 };
