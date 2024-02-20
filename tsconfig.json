@@ -1,22 +1,29 @@
 {
-  "include": ["src/**/*", "./*.[ts,js]"],
+  "include": ["src", ".storybook"],
 
   "compilerOptions": {
     // Language and Environment:
     "target": "ESNext",
-    "jsx": "react-jsx",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react-jsx",
 
     // Modules:
     "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "types": ["vite/client", "vite-plugin-svgr/client", "vitest/globals"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
 
-    // "Completeness" Configs:
-    "skipLibCheck": true,
+    // Type Checking:
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "strict": true,
 
-    // Emit Configs:
+    // Emit:
     "noEmit": true,
     "removeComments": false, // false to retain "magic" webpack comments
     "sourceMap": true,
@@ -25,34 +32,11 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
 
-    // Type Checking:
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitOverride": true,
-    "strict": true,
+    // Output Formatting:
+    "noErrorTruncation": true,
 
-    // Path Aliases:
-    "baseUrl": ".",
-    "paths": {
-      "@ROOT/*": ["./*"],
-      "@/*": ["./src/*"],
-      "@app/*": ["./src/app/*"],
-      "@cache/*": ["./src/app/apolloCache/reactiveVars/*"],
-      "@components/*": ["./src/components/*"],
-      "@graphql/*": ["./src/graphql/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "@images/*": ["./src/images/*"],
-      "@layouts/*": ["./src/layouts/*"],
-      "@pages/*": ["./src/pages/*"],
-      "@routers/*": ["./src/routers/*"],
-      "@services/*": ["./src/services/*"],
-      "@tests": ["./src/__tests__"],
-      "@tests/*": ["./src/__tests__/*"],
-      "@types": ["./src/types"],
-      "@types/*": ["./src/types/*"],
-      "@utils/*": ["./src/utils/*"]
-    }
+    // Completeness:
+    "skipLibCheck": false
   }
 }
