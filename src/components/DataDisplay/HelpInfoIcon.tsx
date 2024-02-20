@@ -1,21 +1,24 @@
-import React from "react";
 import Tooltip, { type TooltipProps } from "@mui/material/Tooltip";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutlineSharp";
-import { helpInfoClassNames as classNames } from "./classNames";
+import { dataDisplayClassNames } from "./classNames";
 import type { SvgIconProps } from "@mui/material/SvgIcon";
 
+/**
+ * Displays a help icon with a `tooltip` on hover.
+ */
 export const HelpInfoIcon = ({
-  tooltip,
   color = "info",
   style = {},
+  className = "",
+  tooltip,
   tooltipProps = {},
-  iconProps = {},
+  ...iconProps
 }: HelpInfoIconProps) => (
-  <Tooltip title={tooltip} arrow enterTouchDelay={0} {...tooltipProps}>
+  <Tooltip title={tooltip} enterTouchDelay={0} {...tooltipProps}>
     <HelpOutlineIcon
       color={color}
       style={{ fontSize: "1.25rem", opacity: 0.85, ...style }}
-      className={classNames.helpInfoIcon}
+      className={dataDisplayClassNames.helpInfoIcon + " " + className}
       {...iconProps}
     />
   </Tooltip>
@@ -23,8 +26,5 @@ export const HelpInfoIcon = ({
 
 export type HelpInfoIconProps = {
   tooltip: React.ReactNode;
-  color?: SvgIconProps["color"];
-  style?: SvgIconProps["style"];
   tooltipProps?: Omit<TooltipProps, "title" | "children">;
-  iconProps?: Omit<SvgIconProps, "color" | "style">;
-};
+} & SvgIconProps;
