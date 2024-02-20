@@ -6,31 +6,28 @@ import {
   matchRoutes,
 } from "react-router-dom";
 import * as Sentry from "@sentry/react";
-import { ENV } from "@app/env";
-import { logger } from "@utils/logger";
+import { ENV } from "@/app/env";
 
-Sentry.init({
-  enabled: ENV.MODE !== "test",
-  dsn: ENV.SENTRY_DSN,
-  environment: ENV.MODE,
-  integrations: [
-    new Sentry.BrowserTracing({
-      tracePropagationTargets: [
-        ENV.API_HOST.split(":")[0], // if API_HOST contains port, only use the hostname
-        /^\//,
-      ],
+if (/^(dev|staging|prod)/i.test(ENV.MODE) && !ENV.IS_STORYBOOK && !!ENV?.SENTRY_DSN) {
+  Sentry.init({
+    enabled: true,
+    dsn: ENV.SENTRY_DSN,
+    environment: ENV.MODE,
+    integrations: [
       // Routing integration: React Router v6
-      routingInstrumentation: Sentry.reactRouterV6Instrumentation(
+      Sentry.reactRouterV6BrowserTracingIntegration({
         useEffect,
         useLocation,
         useNavigationType,
         createRoutesFromChildren,
-        matchRoutes
-      ),
-    }),
-  ],
-  tracesSampleRate: 1.0,
-  debug: false,
-});
-
-logger.info("Sentry has been initialized.");
+        matchRoutes,
+      }),
+    ],
+    tracePropagationTargets: [
+      ENV.API_HOST.split(":")[0], // if API_HOST contains port, only use the hostname
+      /^\//,
+    ],
+    tracesSampleRate: 1.0,
+    debug: false,
+  });
+}
