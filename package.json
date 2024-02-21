@@ -38,6 +38,7 @@
     "test:update-snapshots": "vitest run --update",
     "test:types": "tsc --project tsconfig.json --noEmit --skipLibCheck",
     "build": "vite build",
+    "build:staging": "vite build --mode staging",
     "build:analyze-bundle": "source-map-explorer 'dist/assets/*.js*' --html bundleAnalysisResult.html",
     "preview": "vite preview",
     "gql:update-schema": "rover graph fetch fixit@current > fixit@current.graphql",
