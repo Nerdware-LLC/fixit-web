@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read #       to checkout the code
+      issues: write #        to comment on released issues
       pull-requests: write # to add coverage reports to the PR
     steps:
       - uses: actions/checkout@v4
