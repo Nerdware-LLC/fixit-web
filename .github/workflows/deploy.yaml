@@ -16,8 +16,8 @@ jobs:
     secrets:
       OIDC_GITHUB_ROLE_ARN: ${{ secrets.OIDC_GITHUB_ROLE_ARN }}
       S3_BUCKET_REGION: ${{ secrets.S3_BUCKET_REGION }}
-      S3_UPLOAD_PATH: |
-        ${{ secrets.S3_BUCKET_NAME }}/${{ contains(github.ref_name, 'next') && 'production' || 'staging' }}
+      S3_UPLOAD_PATH: |-
+        ${{ secrets.S3_BUCKET_NAME }}/${{ contains(github.ref_name, 'next') && 'staging' || 'production' }}
       # github.ref_name will be the release tag name, e.g. 'v1.0.0' or 'v1.0.0-next.1'.
       # If the ref_name contains 'next', then the S3 bucket target destination will be
       # '<bucket-name>/staging', otherwise it will be '<bucket-name>/production'. The
