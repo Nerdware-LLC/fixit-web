@@ -14,7 +14,7 @@ import { coverageConfigDefaults } from "vitest/config";
  * - [SVGR Plugin](https://react-svgr.com/docs/options/)
  * - [Sentry plugin](https://docs.sentry.io/platforms/javascript/guides/react/sourcemaps/uploading/vite/)
  */
-export default defineConfig(({ mode, command }) => {
+export default defineConfig(({ command, mode }) => {
   // Gather environment variables (these may or may not be present)
   const {
     VITE_API_PROTOCOL,
@@ -24,8 +24,9 @@ export default defineConfig(({ mode, command }) => {
   } = loadEnv(mode, process.cwd(), "VITE");
 
   // For env-specific configs, ascertain info about the execution context:
-  const isProdBuild = command === "build" && mode === "production";
+  const isBuild = command === "build";
   const isStorybookBuild = /storybook/.test(VITE_NPM_LIFECYCLE_SCRIPT ?? "");
+  const isDeployableBuild = isBuild && !isStorybookBuild && /(staging|prod)/.test(mode);
 
   return {
     plugins: [
@@ -35,11 +36,11 @@ export default defineConfig(({ mode, command }) => {
       }),
       svgrPlugin({ svgrOptions: { icon: true } }),
       viteTsconfigPaths({
-        projects: [isProdBuild && !isStorybookBuild ? "./tsconfig.build.json" : "./tsconfig.json"],
+        projects: [isDeployableBuild ? "./tsconfig.build.json" : "./tsconfig.json"],
       }),
       /* The Sentry-vite plugin uploads prod-build source maps to Sentry, and also adds
       support for release management. It must be placed last after all other plugins.*/
-      ...(isProdBuild && !isStorybookBuild && !!VITE_SENTRY_AUTH_TOKEN
+      ...(isDeployableBuild && !!VITE_SENTRY_AUTH_TOKEN
         ? [
             sentryVitePlugin({
               org: "nerdware-io",

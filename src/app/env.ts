@@ -15,26 +15,9 @@ const IS_STORYBOOK = !!import.meta.env?.STORYBOOK;
 const PROJECT_VERSION = import.meta.env.VITE_PROJECT_VERSION;
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
-let API_PROTOCOL = import.meta.env.VITE_API_PROTOCOL;
-let API_HOST = import.meta.env.VITE_API_HOST;
-let API_BASE_PATH = import.meta.env.VITE_API_BASE_PATH;
-
-// Log a warning if default env var values will be used for certain values:
-[API_PROTOCOL, API_HOST, API_BASE_PATH].forEach((envVar) => {
-  if (!envVar) {
-    // Note: console is used here, bc `logger` logic is ENV-dependent (e.g., uses Sentry in prod)
-    // eslint-disable-next-line no-console
-    console.warn(
-      `An explicit value for environment variable "${envVar}" was not provided. ` +
-        `A fallback default value will be used instead.`
-    );
-  }
-});
-
-// Apply defaults:
-API_PROTOCOL ??= "https";
-API_HOST ??= "localhost";
-API_BASE_PATH ??= "/api";
+const API_PROTOCOL = import.meta.env?.VITE_API_PROTOCOL || "https";
+const API_HOST = import.meta.env?.VITE_API_HOST || "localhost";
+const API_BASE_PATH = import.meta.env?.VITE_API_BASE_PATH || "/api";
 
 // Define the API's origin:
 const API_ORIGIN = `${API_PROTOCOL}://${API_HOST}`;
