@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.3.0-next.4](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.3...v1.3.0-next.4) (2024-02-21)
+
+
+### Bug Fixes
+
+* rm console.warn block, set default env-var values ([c494975](https://github.com/Nerdware-LLC/fixit-web/commit/c494975842abc0ba42fce68cc7d18e2faa0668f7))
+
 # [1.3.0-next.3](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.2...v1.3.0-next.3) (2024-02-21)
 
 
