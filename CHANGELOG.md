@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.3.0-next.3](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.2...v1.3.0-next.3) (2024-02-21)
+
+
+### Features
+
+* bump engines.node to v20 ([c163c95](https://github.com/Nerdware-LLC/fixit-web/commit/c163c958758a5d7cbf2adc935e6a1c6e5163a34a))
+
 # [1.3.0-next.2](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.1...v1.3.0-next.2) (2024-02-20)
 
 
