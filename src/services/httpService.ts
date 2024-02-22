@@ -3,7 +3,12 @@ import axios, { AxiosError, type AxiosResponse, type InternalAxiosRequestConfig 
 import { ENV } from "@/app/env";
 import { authTokenLocalStorage, authenticatedUserStore } from "@/stores";
 import { logger } from "@/utils/logger";
-import { cachePreFetchedUserItems, getAxiosError, getMessageFromAxiosError } from "./helpers";
+import {
+  abortController,
+  cachePreFetchedUserItems,
+  getAxiosError,
+  getMessageFromAxiosError,
+} from "./helpers";
 import type {
   RestApiRequestBodyByPath,
   RestApiPOST200ResponseByPath,
@@ -12,13 +17,15 @@ import type {
   OpenApiSchemas,
 } from "@/types/open-api";
 
+// Axios defaults:
 axios.defaults.baseURL = ENV.API_URI;
+axios.defaults.signal = abortController.signal;
+axios.defaults.timeout = 10000;
 
-// Before each REQUEST goes out, do this
+// Before each REQUEST goes out, do this:
 axios.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    config.timeout = 10000;
-
+    // Add 'Authorization' header if an authToken is present
     const authToken = authTokenLocalStorage.get();
 
     if (authToken) {
@@ -30,7 +37,7 @@ axios.interceptors.request.use(
   (error: unknown) => Promise.reject(getAxiosError(error, "Failed to send network request."))
 );
 
-// When each RESPONSE comes in, do this
+// When each RESPONSE comes in, do this:
 axios.interceptors.response.use(
   (response: AxiosResponse) => {
     // If the API response contains a new auth token, process it
@@ -74,4 +81,9 @@ export const httpService = {
     url: POSTendpoint,
     data?: RestApiRequestBodyByPath[POSTendpoint]
   ) => Promise<RestApiPOST200ResponseByPath[POSTendpoint]>,
-};
+
+  /**
+   * Abort all pending HTTP requests using the `AbortController` instance's `abort` method.
+   */
+  abortRequests: () => abortController.abort(),
+} as const;
