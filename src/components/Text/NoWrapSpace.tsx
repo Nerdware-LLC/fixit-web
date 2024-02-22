@@ -18,9 +18,14 @@ export const NoWrapSpace = () => (
       fontSize: "inherit",
       fontWeight: "inherit",
       lineHeight: "inherit",
-      whiteSpace: "nowrap",
+      whiteSpace: "nowrap", // <-- Not necessary per se, but conveys intent in stylesheets.
     }}
   >
-    &nbsp;
+    {NON_BREAKING_SPACE_CHAR}
   </span>
 );
+
+/**
+ * A non-breaking space character. @see https://www.ascii-code.com/character/nbsp
+ */
+export const NON_BREAKING_SPACE_CHAR = "\u00a0";
