@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import { globalClassNames } from "@/app/GlobalStyles";
 import { AppBar, useAppBarHeight } from "@/components/AppBar";
 import { useAuthRefresh } from "@/hooks/useAuthRefresh";
+import { useHandlePageRefresh } from "@/hooks/useHandlePageRefresh";
 import { rootAppLayoutElementIDs } from "./elementIDs";
 
 /**
@@ -15,6 +16,7 @@ import { rootAppLayoutElementIDs } from "./elementIDs";
  */
 export const RootAppLayout = () => {
   useAuthRefresh();
+  useHandlePageRefresh();
 
   return (
     <StyledDiv id={rootAppLayoutElementIDs.root} className={globalClassNames.scrollbarForceHidden}>
