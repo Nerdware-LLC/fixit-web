@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.3.0-next.6](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.5...v1.3.0-next.6) (2024-02-22)
+
+
+### Features
+
+* add abortController for req cancels ([4264c83](https://github.com/Nerdware-LLC/fixit-web/commit/4264c835c6485c1f4c5e6e6c9bbdb2806cc2f114))
+* add NON_BREAKING_SPACE_CHAR ([931360f](https://github.com/Nerdware-LLC/fixit-web/commit/931360f053fa2f6125e90d699feaceaf027eb9f3))
+* add useHandlePageRefresh to stop refreshes ([ce92f02](https://github.com/Nerdware-LLC/fixit-web/commit/ce92f02bcb7d22c9554cb40883350c9966a323fe))
+
 # [1.3.0-next.5](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.4...v1.3.0-next.5) (2024-02-21)
 
 # [1.3.0-next.4](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.3...v1.3.0-next.4) (2024-02-21)
