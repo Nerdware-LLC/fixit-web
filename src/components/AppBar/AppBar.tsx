@@ -24,7 +24,7 @@ export const AppBar = () => (
   <>
     <StyledMuiAppBar id={appBarElementIDs.root} position="fixed" elevation={0}>
       <AppBarLogoButton />
-      {ENV.IS_DEV && !ENV.IS_STORYBOOK && <DevTools />}
+      {ENV.ENABLE_DEV_TOOLS && <DevTools />}
       <AppBarMenu />
     </StyledMuiAppBar>
     <div id={appBarElementIDs.fixedPositionOffset} />
