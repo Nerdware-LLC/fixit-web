@@ -6,6 +6,7 @@ import Text, { typographyClasses } from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { THEMES } from "@/app/ThemeProvider/themes";
 import { PhoneShapedContainer, containerClassNames } from "@/components/Containers";
+import { NON_BREAKING_SPACE_CHAR } from "@/components/Text";
 import demoDesktopDashboardImageSrc from "@/images/demo_desktop_dashboard.webp";
 import demoDesktopDataGridImageSrc from "@/images/demo_desktop_workorders_datagrid.webp";
 import demoMobileCreateInvoiceImageSrc from "@/images/demo_mobile_create_invoice.webp";
@@ -24,10 +25,14 @@ export const LandingPage = () => {
   const goToRegister = () => nav(APP_PATHS.REGISTER);
   const goToProducts = () => nav(APP_PATHS.PRODUCTS);
 
+  // non-breaking space (U+) is used to prevent hyphenated word wrap
+
   return (
-    <StyledDiv>
+    <StyledDiv id="landing-page__content-root">
       <div className={landingPageClassNames.textContainer}>
-        <Text variant="h1">{`Simplify\nWork Orders,\nInvoices, and\nPayments`}</Text>
+        <Text variant="h1">
+          {`Simplify\nPayments,\nInvoices, and\nWork${NON_BREAKING_SPACE_CHAR}Orders`}
+        </Text>
         <Text>
           People who need to get things done use <b>Fixit</b> to keep in touch with customers and
           contractors, create work orders, submit invoices, and manage payments — all in one place.
@@ -82,11 +87,13 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
   zIndex: 1, // Ensures that the bg image in the pseudo-el is behind the content
   display: "grid",
   gap: "1rem",
-  padding: "2rem",
+  padding: "0 2rem 3rem 2rem",
 
-  gridTemplateRows: "repeat(auto-fit, minmax(0, 66vh))",
+  gridTemplateRows: "66vh minmax(0, 66vh) minmax(0, 66vh) minmax(0, 66vh)",
   gridTemplateColumns: "minmax(0, 1fr)",
+
   [breakpoints.up(600)]: {
+    padding: "2rem",
     gap: "2rem",
     gridTemplateRows: "repeat(auto-fit, 75vh)",
     gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
@@ -101,26 +108,31 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
   [`& > .${landingPageClassNames.textContainer}`]: {
     justifySelf: "center",
     maxWidth: "30rem",
-    ...(variables.isMobilePageLayout && { width: "100%" }),
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     gap: "2rem",
     textAlign: "left",
 
+    [breakpoints.down(600)]: {
+      width: "400px",
+      maxWidth: "100%",
+    },
+    [breakpoints.down(450)]: {
+      width: "300px",
+    },
+
     // HEADERS:
     "& > h1,h2": {
-      fontSize: "clamp(3rem, 6.5vw, 4.75rem)",
+      fontSize: "clamp(2.75rem, 6.5vw, 5rem)",
       lineHeight: 1,
       fontWeight: "bold",
       color: palette.secondary.main,
-      alignSelf: "center",
-      whiteSpace: "normal",
-      [breakpoints.up(600)]: {
-        alignSelf: "start",
-        "&:is(h1)": {
-          whiteSpace: "pre",
-        },
+      whiteSpace: "pre",
+
+      [breakpoints.between(450, 600)]: {
+        "&:is(h1)": { fontSize: "4rem" },
+        "&:is(h2)": { fontSize: "3.5rem" },
       },
     },
     // BODY TEXT:
@@ -194,7 +206,7 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
       [`& > .${paperClasses.root}`]: {
         left: "clamp(8rem, 15%, 20rem)",
         [`& > .${containerClassNames.phoneShapedContainerRoot}`]: {
-          left: "-11%",
+          left: "-10%",
         },
       },
     },
@@ -203,7 +215,7 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
       [`& > .${paperClasses.root}`]: {
         right: "clamp(8rem, 15%, 20rem)",
         [`& > .${containerClassNames.phoneShapedContainerRoot}`]: {
-          right: "-11%",
+          right: "-10%",
         },
       },
 
@@ -216,11 +228,11 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
         "&::before": {
           content: '""',
           position: "absolute",
-          left: "-2.5rem",
-          top: "1.25rem",
+          left: "-2rem",
+          top: "1rem",
           zIndex: 0,
           backgroundColor: alpha(THEMES.DARK.palette.background.paper, 0.6),
-          width: "100vw",
+          minWidth: "120vw",
           height: "100%",
         },
       },
