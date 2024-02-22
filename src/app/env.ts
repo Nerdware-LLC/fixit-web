@@ -9,15 +9,22 @@
  */
 
 const MODE = import.meta.env.MODE as "development" | "test" | "staging" | "production";
+
+/** The API's host URI by env/mode (only includes deployed envs). */
+const API_HOSTS_BY_MODE: Partial<Readonly<Record<typeof MODE, string>>> = {
+  staging: "staging.gofixit.app",
+  production: "gofixit.app",
+};
+
 const IS_DEV = import.meta.env.DEV;
 const IS_PROD = import.meta.env.PROD;
 const IS_STORYBOOK = !!import.meta.env?.STORYBOOK;
 const PROJECT_VERSION = import.meta.env.VITE_PROJECT_VERSION;
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
-const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 const API_PROTOCOL = import.meta.env?.VITE_API_PROTOCOL || "https";
-const API_HOST = import.meta.env?.VITE_API_HOST || "localhost";
+const API_HOST = import.meta.env?.VITE_API_HOST || (API_HOSTS_BY_MODE?.[MODE] ?? "localhost");
 const API_BASE_PATH = import.meta.env?.VITE_API_BASE_PATH || "/api";
+const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 const ENABLE_DEV_TOOLS = import.meta.env?.VITE_ENABLE_DEV_TOOLS ?? (!IS_PROD && !IS_STORYBOOK);
 
 // Define the API's origin:
