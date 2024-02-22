@@ -30,6 +30,9 @@ jobs:
           aws-region: ${{ secrets.S3_BUCKET_REGION }}
 
       - name: Build & Upload to S3
+        env:
+          # In PROD, this is overridden with the value pulled from Vault @ runtime
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}
         run: |
           npm ci --include=dev
 
