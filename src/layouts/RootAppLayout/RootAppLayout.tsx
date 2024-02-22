@@ -15,8 +15,8 @@ import { rootAppLayoutElementIDs } from "./elementIDs";
  * - Child components are rendered via `<Outlet />`.
  */
 export const RootAppLayout = () => {
-  useAuthRefresh();
-  useHandlePageRefresh();
+  const { handleAuthRefresh } = useAuthRefresh();
+  useHandlePageRefresh(handleAuthRefresh);
 
   return (
     <StyledDiv id={rootAppLayoutElementIDs.root} className={globalClassNames.scrollbarForceHidden}>
