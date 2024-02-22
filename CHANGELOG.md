@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.3.0-next.7](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.6...v1.3.0-next.7) (2024-02-22)
+
+
+### Features
+
+* add API_HOSTS_BY_MODE ([9b5f61c](https://github.com/Nerdware-LLC/fixit-web/commit/9b5f61c865e29dfaecb887da56bb5d00bb92732f))
+* add env VITE_ENABLE_DEV_TOOLS ([007e55e](https://github.com/Nerdware-LLC/fixit-web/commit/007e55ea5aa6a892710903b693c5c955101c8ed2))
+* add handleAuthRefresh to pageRefresh logic ([319daa3](https://github.com/Nerdware-LLC/fixit-web/commit/319daa3fbcc68be0dc79b6453122756ab0810e62))
+
 # [1.3.0-next.6](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.5...v1.3.0-next.6) (2024-02-22)
 
 
