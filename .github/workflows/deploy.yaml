@@ -15,48 +15,59 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.OIDC_GITHUB_ROLE_ARN }}
-          aws-region: ${{ secrets.S3_BUCKET_REGION }}
+      - name: Install Dependencies
+        run: npm ci --include=dev
 
-      - name: Build & Upload to S3
+      - name: Build
         env:
           # In PROD, this is overridden with the value pulled from Vault @ runtime
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}
         run: |
-          npm ci --include=dev
-
-          # ASCERTAIN WHETHER SHOULD BUILD FOR STAGING OR PRODUCTION:
-          if [[ ${{ github.ref_name }} == *next* ]]; then
+          if [ "${{ github.event.release.prerelease }}" == 'true' ]; then
             npm run build:staging
-            bucket_dirname='staging'
           else
             npm run build
-            bucket_dirname='production'
           fi
 
-          # UPLOAD TO S3:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.S3_OIDC_GITHUB_ROLE_ARN }}
+          aws-region: ${{ secrets.S3_BUCKET_REGION }}
+
+      - name: Upload to S3
+        run: |
+          if [ "${{ github.event.release.prerelease }}" == 'true' ]; then
+            bucket_dir='staging'
+          else
+            bucket_dir='production'
+          fi
+
           aws s3 sync ./dist \
-            s3://${{ secrets.S3_BUCKET_NAME }}/$bucket_dirname \
+            s3://${{ secrets.S3_BUCKET_NAME }}/$bucket_dir \
             --acl bucket-owner-full-control \
             --sse AES256 \
             --delete
 
-# github.ref_name will be the release tag name, e.g. 'v1.0.0' or 'v1.0.0-next.1'.
-# If the ref_name contains 'next', then the S3 bucket target destination will be
-# '<bucket-name>/staging', otherwise it will be '<bucket-name>/production'. The
-# CloudFront distributions are configured to serve the 'staging' or 'production'
-# S3 bucket paths based on the origin subdomain (e.g. 'staging.example.com' or
-# 'example.com'). For a real-world production app, you'd want to use the ref_tag
-# as the target, and set rules in the distribution to select the appropriate
-# version/environment, but this setup is sufficient for a demo application.
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.CLOUDFRONT_OIDC_GITHUB_ROLE_ARN }}
+          aws-region: ${{ secrets.CLOUDFRONT_DIST_REGION }}
+
+      - name: Invalidate CloudFront Edge-Cache
+        run: |
+          if [ "${{ github.event.release.prerelease }}" == 'true' ]; then
+            cf_dist_id=${{ secrets.CLOUDFRONT_STAGING_DIST_ID }}
+          else
+            cf_dist_id=${{ secrets.CLOUDFRONT_PROD_DIST_ID }}
+          fi
+
+          aws cloudfront create-invalidation \
+            --distribution-id $cf_dist_id \
+            --paths '/*'
