@@ -23,7 +23,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
-      - run: npm ci --include=dev
+
+      - name: Install Dependencies
+        run: npm ci --include=dev
 
       - name: Lint
         run: npm run lint
