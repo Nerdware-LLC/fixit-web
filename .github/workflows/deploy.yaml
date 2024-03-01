@@ -25,7 +25,8 @@ jobs:
 
       - name: Build
         env:
-          # In PROD, this is overridden with the value pulled from Vault @ runtime
+          VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          VITE_SENTRY_CI_RELEASE_NAME: ${{ github.event.release.name }}
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}
         run: |
           if [ "${{ github.event.release.prerelease }}" == 'true' ]; then
