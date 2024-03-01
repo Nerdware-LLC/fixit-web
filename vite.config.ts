@@ -17,10 +17,11 @@ import { coverageConfigDefaults } from "vitest/config";
 export default defineConfig(({ command, mode }) => {
   // Gather environment variables (these may or may not be present)
   const {
+    VITE_NPM_LIFECYCLE_SCRIPT,
     VITE_API_PROTOCOL,
     VITE_API_BASE_URI,
     VITE_SENTRY_AUTH_TOKEN,
-    VITE_NPM_LIFECYCLE_SCRIPT,
+    VITE_SENTRY_CI_RELEASE_NAME,
   } = loadEnv(mode, process.cwd(), "VITE");
 
   // For env-specific configs, ascertain info about the execution context:
@@ -47,6 +48,17 @@ export default defineConfig(({ command, mode }) => {
               project: "fixit-web",
               authToken: VITE_SENTRY_AUTH_TOKEN,
               telemetry: true,
+              ...(/prod/.test(mode) &&
+                !!VITE_SENTRY_CI_RELEASE_NAME && {
+                  release: {
+                    name: VITE_SENTRY_CI_RELEASE_NAME,
+                    cleanArtifacts: true,
+                    deploy: {
+                      env: mode,
+                      url: "https://gofixit.app",
+                    },
+                  },
+                }),
             }),
           ]
         : []),
@@ -63,7 +75,6 @@ export default defineConfig(({ command, mode }) => {
           changeOrigin: true,
         },
       },
-      // For HTTPS, use plugin @vitejs/plugin-basic-ssl
     },
 
     test: {
@@ -81,11 +92,11 @@ export default defineConfig(({ command, mode }) => {
           inline: ["vitest-canvas-mock"],
         },
       },
-      include: ["**/?(*.){test,spec}.?(c|m)[tj]s?(x)"],
+      include: ["**/?(*.)test.?(c|m)[tj]s?(x)"],
       setupFiles: ["./src/tests/setupTests.ts"],
       reporters: ["default", ...(process.env.GITHUB_ACTIONS ? [new GithubActionsReporter()] : [])],
       coverage: {
-        include: ["src/**/*.{js,ts}"],
+        include: ["src/**/*.ts"],
         exclude: [...coverageConfigDefaults.exclude, "**/tests/**/*", "**/__mocks__/**/*"],
         reporter: [
           ...coverageConfigDefaults.reporter,
