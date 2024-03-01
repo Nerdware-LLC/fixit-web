@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.3.0-next.8](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.7...v1.3.0-next.8) (2024-03-01)
+
+
+### Features
+
+* enable DevTools in AppBar by default ([f161525](https://github.com/Nerdware-LLC/fixit-web/commit/f161525604863c1e42efa1bdff2817f5899abb59))
+
 # [1.3.0-next.7](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.6...v1.3.0-next.7) (2024-02-22)
 
 
