@@ -27,7 +27,7 @@ export const RainbowBorderBox = styled(Box, { shouldForwardProp: (prop) => prop 
     aspectRatio: "1 / 1 !important",
 
     backgroundImage: "conic-gradient(red, orange, yellow, lime, aqua, blue, magenta, red)",
-    animation: "6s rotate linear infinite",
+    animation: "5s rotate linear infinite",
 
     "@keyframes rotate": {
       to: { transform: "rotate(360deg)" },
