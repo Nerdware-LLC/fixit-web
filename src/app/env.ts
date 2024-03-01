@@ -25,7 +25,6 @@ const API_PROTOCOL = import.meta.env?.VITE_API_PROTOCOL || "https";
 const API_HOST = import.meta.env?.VITE_API_HOST || (API_HOSTS_BY_MODE?.[MODE] ?? "localhost");
 const API_BASE_PATH = import.meta.env?.VITE_API_BASE_PATH || "/api";
 const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
-const ENABLE_DEV_TOOLS = import.meta.env?.VITE_ENABLE_DEV_TOOLS ?? (!IS_PROD && !IS_STORYBOOK);
 
 // Define the API's origin:
 const API_ORIGIN = `${API_PROTOCOL}://${API_HOST}`;
@@ -49,5 +48,4 @@ export const ENV = {
   /** `"[API_PROTOCOL]://[API_HOST][API_BASE_PATH]"` */
   API_URI: `${API_ORIGIN}${API_BASE_PATH}`,
   STRIPE_PUBLISHABLE_KEY,
-  ENABLE_DEV_TOOLS,
 } as const;

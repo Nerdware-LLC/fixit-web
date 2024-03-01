@@ -6,5 +6,4 @@ interface ImportMetaEnv {
   VITE_API_HOST?: string;
   VITE_API_BASE_PATH?: string;
   VITE_STRIPE_PUBLISHABLE_KEY?: string;
-  VITE_ENABLE_DEV_TOOLS?: boolean;
 }

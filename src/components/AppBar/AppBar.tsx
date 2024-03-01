@@ -1,14 +1,11 @@
-import { lazy } from "react";
 import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
-import { ENV } from "@/app/env";
+import { DevTools } from "@/components/DevTools";
 import { AppBarLogoButton } from "./AppBarLogoButton";
 import { AppBarMenu } from "./AppBarMenu";
 import { appBarElementIDs } from "./elementIDs";
 import { useAppBarHeight } from "./helpers";
 import type { CSSObject } from "@emotion/react";
-
-const DevTools = lazy(() => import(/* webpackChunkName: "DevTools" */ "@/components/DevTools"));
 
 /**
  * Mui Material AppBar, with position "fixed".
@@ -24,7 +21,7 @@ export const AppBar = () => (
   <>
     <StyledMuiAppBar id={appBarElementIDs.root} position="fixed" elevation={0}>
       <AppBarLogoButton />
-      {ENV.ENABLE_DEV_TOOLS && <DevTools />}
+      <DevTools />
       <AppBarMenu />
     </StyledMuiAppBar>
     <div id={appBarElementIDs.fixedPositionOffset} />
