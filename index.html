@@ -13,6 +13,26 @@
       name="Description"
       content="Fixit is a SaaS application which integrates work order and invoice management with in-app payment processing."
     />
+    <!-- TRUSTED TYPES DEFAULT POLICY -->
+    <script>
+      // Feature detection for TrustedTypes
+      if (trustedTypes && trustedTypes.createPolicy) {
+        // default TrustedTypes policy spec: https://w3c.github.io/trusted-types/dist/spec/#default-policy
+        trustedTypes.createPolicy("default", {
+          createHTML: (string) => DOMPurify.sanitize(string, { RETURN_TRUSTED_TYPE: true }),
+          // See https://docs.stripe.com/security/guide?csp=csp-js#content-security-policy
+          createScriptURL: (input) => {
+            return new URL(input).origin === "https://js.stripe.com" ? input : undefined;
+          },
+        });
+      }
+    </script>
+    <!-- DOMPurify for TRUSTED TYPES DEFAULT POLICY -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.2.7/purify.min.js"
+      integrity="sha512-srKA/HGYuusMcB2uqsvHKmqqE39vHU74WIuPBaKS5+wtfI6NquGXQtby+eM7o139a7Gt3szcHS09wou8GK4IJQ=="
+      crossorigin="anonymous"
+    ></script>
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
