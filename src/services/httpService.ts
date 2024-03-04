@@ -1,5 +1,10 @@
 import { isString } from "@nerdware/ts-type-safety-utils";
-import axios, { AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
+import axios, {
+  AxiosError,
+  type AxiosResponse,
+  type InternalAxiosRequestConfig,
+  type AxiosRequestConfig,
+} from "axios";
 import { ENV } from "@/app/env";
 import { authTokenLocalStorage, authenticatedUserStore } from "@/stores";
 import { logger } from "@/utils/logger";
@@ -75,12 +80,14 @@ axios.interceptors.response.use(
 
 export const httpService = {
   get: axios.get.bind(axios) as <GETendpoint extends RestApiGETendpoint>(
-    url: GETendpoint
+    url: GETendpoint,
+    config?: AxiosRequestConfig
   ) => Promise<RestApiGET200ResponseByPath[GETendpoint]>,
 
   post: axios.post.bind(axios) as <POSTendpoint extends keyof RestApiRequestBodyByPath>(
     url: POSTendpoint,
-    data?: RestApiRequestBodyByPath[POSTendpoint]
+    data?: RestApiRequestBodyByPath[POSTendpoint],
+    config?: AxiosRequestConfig
   ) => Promise<RestApiPOST200ResponseByPath[POSTendpoint]>,
 
   /**
