@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.3.0-next.10](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.9...v1.3.0-next.10) (2024-03-04)
+
+
+### Bug Fixes
+
+* add DOMPurify script integrity sha, update v to 3.0.9 ([af6a53a](https://github.com/Nerdware-LLC/fixit-web/commit/af6a53a3543b2d9834cdde755b9104f69ace1cbf))
+
 # [1.3.0-next.9](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.8...v1.3.0-next.9) (2024-03-04)
 
 
