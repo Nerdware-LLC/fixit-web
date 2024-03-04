@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.3.0-next.9](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.8...v1.3.0-next.9) (2024-03-04)
+
+
+### Features
+
+* add axios default 'withCredentials:true' ([6a609a2](https://github.com/Nerdware-LLC/fixit-web/commit/6a609a2f97ed51146714855549c499fd76afa6b6))
+* add config param to httpService methods ([d6f4a25](https://github.com/Nerdware-LLC/fixit-web/commit/d6f4a25b2e2d8c0a8e7753f7ec78774c1a9af167))
+* add explicit gofixit.app domain+subdomains to traceProp targets ([150a39e](https://github.com/Nerdware-LLC/fixit-web/commit/150a39e42b883b7e8ca896d20cbbf37e701424f3))
+* add trustedTypes default policy ([37a31d4](https://github.com/Nerdware-LLC/fixit-web/commit/37a31d4edd3ea0b982f732ab6ae980cb062d8f78))
+
 # [1.3.0-next.8](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.7...v1.3.0-next.8) (2024-03-01)
 
 
