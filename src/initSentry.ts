@@ -23,11 +23,8 @@ if (/^(dev|staging|prod)/i.test(ENV.MODE) && !ENV.IS_STORYBOOK && !!ENV?.SENTRY_
         matchRoutes,
       }),
     ],
-    tracePropagationTargets: [
-      ENV.API_HOST.split(":")[0], // if API_HOST contains port, only use the hostname
-      /^\//,
-    ],
     tracesSampleRate: 1.0,
+    tracePropagationTargets: ["localhost", /^https:\/\/(www\.)?((demo|staging)\.)?gofixit.app/],
     debug: false,
   });
 }
