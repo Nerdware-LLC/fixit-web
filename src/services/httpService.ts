@@ -64,6 +64,9 @@ axios.interceptors.response.use(
     return Promise.resolve(response.data);
   },
   async (error: AxiosError<OpenApiSchemas["Error"]>) => {
+    // Check if req was aborted:
+    if (error.code === "ERR_CANCELED") return Promise.resolve({ status: 499 });
+
     // Check the error status code:
     const errorStatusCode = error?.response?.status;
 
