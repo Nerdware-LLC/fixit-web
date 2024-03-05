@@ -8,13 +8,12 @@ import {
 import * as Sentry from "@sentry/react";
 import { ENV } from "@/app/env";
 
-if (/^(dev|staging|prod)/i.test(ENV.MODE) && !ENV.IS_STORYBOOK && !!ENV?.SENTRY_DSN) {
+if (/^(dev|staging|prod)/i.test(ENV.MODE) && !ENV.IS_STORYBOOK && !!ENV.SENTRY_DSN) {
   Sentry.init({
     enabled: true,
     dsn: ENV.SENTRY_DSN,
     environment: ENV.MODE,
     integrations: [
-      // Routing integration: React Router v6
       Sentry.reactRouterV6BrowserTracingIntegration({
         useEffect,
         useLocation,
@@ -25,6 +24,8 @@ if (/^(dev|staging|prod)/i.test(ENV.MODE) && !ENV.IS_STORYBOOK && !!ENV?.SENTRY_
     ],
     tracesSampleRate: 1.0,
     tracePropagationTargets: ["localhost", /^https:\/\/(www\.)?((demo|staging)\.)?gofixit.app/],
-    debug: false,
+    ...(/^(staging|prod)/i.test(ENV.MODE) && {
+      tunnel: "/sentry-proxy",
+    }),
   });
 }
