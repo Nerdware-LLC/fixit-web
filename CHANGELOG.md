@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.3.0-next.11](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.10...v1.3.0-next.11) (2024-03-05)
+
+
+### Features
+
+* config Sentry to use tunnel '/sentry-proxy' in staging/prod ([d146cdc](https://github.com/Nerdware-LLC/fixit-web/commit/d146cdc71f44afec97a0de6f5e0adae4c2900232))
+* ignore 'CanceledError' from abortController.abort() invocation ([207cd47](https://github.com/Nerdware-LLC/fixit-web/commit/207cd47b1f87acb387f808074085ff6139ecdc59))
+
 # [1.3.0-next.10](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.9...v1.3.0-next.10) (2024-03-04)
 
 
