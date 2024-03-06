@@ -38,6 +38,7 @@ export const ENV = {
   IS_TEST: MODE === "test",
   IS_PROD,
   IS_STORYBOOK,
+  IS_DEPLOYED_ENV: /^(staging|prod)/i.test(MODE),
   PROJECT_VERSION,
   SENTRY_DSN,
   API_PROTOCOL,
