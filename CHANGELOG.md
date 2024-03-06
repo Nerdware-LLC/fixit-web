@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.3.0-next.12](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.11...v1.3.0-next.12) (2024-03-06)
+
+
+### Features
+
+* enable Apollo dev tools in staging ([377cef8](https://github.com/Nerdware-LLC/fixit-web/commit/377cef81d52459f331da7f13e86f6176a2306682))
+* enable Sentry logging in staging env ([60153e8](https://github.com/Nerdware-LLC/fixit-web/commit/60153e8c67257fcc01eaecec20fcbb546d428a39))
+
 # [1.3.0-next.11](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.10...v1.3.0-next.11) (2024-03-05)
 
 
