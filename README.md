@@ -8,6 +8,8 @@ Author: [Trevor Anderson](https://github.com/trevor-anderson), Founder of [Nerdw
 
 [<img src=".storybook/assets/powered_by_Stripe_blurple.svg" height="22" style="position:relative;top:1px;"/>](https://stripe.com/ "stripe.com")
 &nbsp;
+[![Test Workflow][test-status-badge]](https://github.com/Nerdware-LLC/fixit-web/actions/workflows/test.yaml "View Test Workflow")
+&nbsp;
 [![React][react-badge]](https://reactjs.org/ "reactjs.org")
 &nbsp;
 [![Material UI][mui-badge]](https://mui.com/material-ui/ "mui.com/material-ui")
@@ -24,6 +26,7 @@ Author: [Trevor Anderson](https://github.com/trevor-anderson), Founder of [Nerdw
 
 <!--   BADGE LINKS   -->
 
+[test-status-badge]: https://github.com/Nerdware-LLC/fixit-web/actions/workflows/test.yaml/badge.svg
 [react-badge]: https://img.shields.io/badge/React-v18-61DAFB.svg?logo=react&logoColor=61DAFB&labelColor=gray
 [mui-badge]: https://img.shields.io/badge/Material--UI-v5-0081CB.svg?logo=mui&logoColor=0081CB&labelColor=gray
 [apollo-badge]: https://img.shields.io/badge/Apollo_Client_v3-311C87.svg?logo=apollo-graphql&labelColor=gray
@@ -36,9 +39,8 @@ Author: [Trevor Anderson](https://github.com/trevor-anderson), Founder of [Nerdw
 <br>
 
 - [🗺️ Project Overview](#️-project-overview)
-- [☁️ Cloud Architecture](#️-cloud-architecture)
-  - [End-User Delivery](#end-user-delivery)
-- [💎 Premium SaaS Products](#-premium-saas-products)
+- [☁️ Content Delivery](#️-content-delivery)
+  - [CloudFront](#cloudfront)
 - [📦 CI/CD Pipeline](#-cicd-pipeline)
   - [GitHub Actions](#github-actions)
   - [Git Workflow](#git-workflow)
@@ -87,14 +89,14 @@ The Fixit web app is a [React](https://reactjs.org/) SPA that provides core SaaS
 >   </tr>
 > </table>
 
-## ☁️ Cloud Architecture
+## ☁️ Content Delivery
 
 As with all Fixit cloud infrastructure, IaC files responsible for _defining_ and _implementing_ Fixit's cloud architecture/resources are split between two sibling repos:
 
 - [**fixit-cloud-modules**](https://github.com/Nerdware-LLC/fixit-cloud-modules#readme) &nbsp; Terraform modules which _define_ Fixit cloud resources.
 - [**fixit-cloud-live**](https://github.com/Nerdware-LLC/fixit-cloud-live#readme) &nbsp;&nbsp;&nbsp; Terragrunt configs which _implement_ Fixit cloud resources.
 
-### End-User Delivery
+### CloudFront
 
 Fixit Web is delivered to end users via the process outlined in the diagram below.
 
@@ -104,34 +106,24 @@ sequenceDiagram
   actor User as End User
   participant CF as CloudFront Cache
   participant S3 as S3 Bucket Origin
-  User->>CF: GET request
+  User->>CF: GET gofixit.app
   Note over User,CF: CloudFront Trigger:<br/>Viewer Request
   alt if cache hit
       rect rgba(0, 255, 0, 0.35)
       CF-->>User: Return cached content
-      Note over CF,User: CloudFront Trigger:<br/>Viewer Response
+      Note over CF,User: CloudFront Function sets<br/>CORS+Security headers<br/>on "Viewer Response"
       end
   else if no cache hit
       CF->>S3: GET content from S3
       Note over CF,S3: CloudFront Trigger:<br/>Origin Request
       S3-->>CF: Return content
-      Note over S3,CF: CloudFront Trigger:<br/>Origin Response<br>(Lambda fn updates CSP header)
+      Note over S3,CF: CloudFront Trigger:<br/>Origin Response
       rect rgba(0, 255, 0, 0.35)
       CF-->>User: Return content
-      Note over CF,User: CloudFront Trigger:<br/>Viewer Response
+      Note over CF,User: CloudFront Function sets<br/>CORS+Security headers<br/>on "Viewer Response"
       end
   end
 ```
-
-## 💎 Premium SaaS Products
-
-The table below lists currently available Fixit SaaS products. Subscription management is powered by [Stripe](https://stripe.com/billing).
-
-| Product                 | Purchase Option      | Price (USD) |                Promo Code(s) Available?                |
-| :---------------------- | :------------------- | :---------: | :----------------------------------------------------: |
-| Fixit SaaS Subscription | 14-Day Free Trial    |     $0      |                          N/A                           |
-| Fixit SaaS Subscription | Monthly Subscription |  $5/month   | <span style="color:#66FF00;font-size:1.5rem;">✓</span> |
-| Fixit SaaS Subscription | Annual Subscription  |  $50/year   | <span style="color:#66FF00;font-size:1.5rem;">✓</span> |
 
 ## 📦 CI/CD Pipeline
 
@@ -143,7 +135,7 @@ The table below lists currently available Fixit SaaS products. Subscription mana
 
 This project's CI/CD pipeline uses GitHub Actions to [test](/.github/workflows/test.yaml), [release](/.github/workflows/release.yaml), and [deploy](/.github/workflows/deploy.yaml) code changes.
 
-1. [`Node Test`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#node-test) - Runs test suites, adds test and coverage info to PRs, and updates [CodeCov](https://about.codecov.io/).
+1. [`Test`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#node-test) - Runs test suites, adds test and coverage info to PRs, and updates [CodeCov](https://about.codecov.io/).
 2. [`Release`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#release) - Creates a new GitHub release using [Semantic Release](https://github.com/semantic-release/semantic-release#readme).
 3. [`S3 Upload`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#upload-to-s3) - Creates the relevant build and uploads it to an [AWS S3 bucket](https://aws.amazon.com/s3/).
 
