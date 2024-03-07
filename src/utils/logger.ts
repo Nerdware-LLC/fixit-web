@@ -68,11 +68,12 @@ const getLoggerUtil = ({
   }: { handleLogError: ErrorLoggerFn; handleLogMessage: LoggerFn } = ENV.IS_DEPLOYED_ENV
     ? {
         handleLogError: (error, msgPrefix) => {
-          // Check for possible http err status — if exists and under 500, don't send to Sentry.
+          // Check for possible http err status — if exists and under 500 in PROD, don't send to Sentry.
           const maybeHttpErrStatusCode =
             error?.status ?? error?.statusCode ?? error?.response?.status;
 
-          if (isSafeInteger(maybeHttpErrStatusCode) && maybeHttpErrStatusCode < 500) return;
+          if (isSafeInteger(maybeHttpErrStatusCode) && maybeHttpErrStatusCode < 500 && ENV.IS_PROD)
+            return;
 
           Sentry.captureException(error);
           Sentry.captureMessage(getLogMessage({ label, input: error, msgPrefix }));

@@ -31,8 +31,8 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
         ].join(`\n\t`)
       );
 
-      if (extensions.code === "BAD_USER_INPUT") handle400(extensions);
-      else if (extensions.code === "UNAUTHENTICATED") handle401();
+      if (extensions.code === "BAD_USER_INPUT") gqlErrorHandlers[400](extensions);
+      else if (extensions.code === "UNAUTHENTICATED") gqlErrorHandlers[401]();
     });
   }
 
@@ -43,14 +43,15 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
 
     // If !!networkError but no statusCode, show network error msg
     if (!statusCode) {
-      toast.error("A network error occurred - please check your connection and try again.", {
+      toast.error("A network error occurred — please check your connection and try again.", {
         toastId: "network-error",
       });
     } else {
-      // If !!statusCode, run the code's associated handler
-      if (statusCode === 400) handle400();
-      else if (statusCode === 401) handle401();
-      else handle500orUnknown();
+      // If !!statusCode, run the code's associated handler (or default to 500 handler if not defined)
+      const handleGqlError =
+        gqlErrorHandlers?.[statusCode as keyof typeof gqlErrorHandlers] ?? gqlErrorHandlers[500];
+
+      handleGqlError();
     }
   }
 });
@@ -68,41 +69,51 @@ interface FixitApiGraphQLErrorExtensions extends GraphQLErrorExtensions {
 }
 
 /**
- * GraphQL error handler for HTTP status 400 errors - bad user input
+ * GraphQL HTTP error handlers by status
  */
-const handle400 = (extensions: FixitApiGraphQLErrorExtensions = {}) => {
-  // Check for "invalidArgs" (key provided via GqlUserInputError in fixit-api)
-  const { invalidArgs = [] } = extensions;
+const gqlErrorHandlers = {
+  /** 400 — Bad user input */
+  400: (extensions: FixitApiGraphQLErrorExtensions = {}) => {
+    // Check for "invalidArgs" (key provided via GqlUserInputError in fixit-api)
+    const { invalidArgs = [] } = extensions;
 
-  const errMsgSuffix =
-    Array.isArray(invalidArgs) &&
-    invalidArgs.length > 0 &&
-    invalidArgs.every((arg) => isString(arg))
-      ? [
-          "Invalid values were provided for the fields listed below - please update your input and try again.",
-          ...invalidArgs,
-        ].join("\n\t • ")
-      : "Invalid input provided - please upade your input and try again.";
+    const errMsgSuffix =
+      Array.isArray(invalidArgs) &&
+      invalidArgs.length > 0 &&
+      invalidArgs.every((arg) => isString(arg))
+        ? [
+            "Invalid values were provided for the fields listed below - please update your input and try again.",
+            ...invalidArgs,
+          ].join("\n\t • ")
+        : "Invalid input provided - please upade your input and try again.";
 
-  toast.error(`Whoops! ${errMsgSuffix}`, { toastId: "bad-user-input" });
-};
-
-/**
- * GraphQL error handler for HTTP status 401 - unauthenticated
- */
-const handle401 = () => {
-  // Token is expired, run deauth logic:
-  authenticatedUserStore.deauthenticate();
-  toast.info("Login has expired - please sign in again.", { toastId: "expired-login" });
-  // Nav to login page (window-API used since Apollo operates outside of the RRD router context)
-  window.location.replace(`${window.location.origin}/login`);
-};
-
-/**
- * GraphQL error handler for HTTP status 500/unknown - internal server error
- */
-const handle500orUnknown = () => {
-  toast.error("Whoops! An unexpected error occurred - please try again later.", {
-    toastId: "unexpected-error-try-again-later",
-  });
-};
+    toast.error(`Whoops! ${errMsgSuffix}`, { toastId: "bad-user-input" });
+  },
+  /** 401 — Authentication required */
+  401: () => {
+    // Token is expired, run deauth logic:
+    authenticatedUserStore.deauthenticate();
+    toast.info("Login has expired — please sign in again.", { toastId: "expired-login" });
+    // Nav to login page (window-API used since Apollo operates outside of the RRD router context)
+    window.location.replace(`${window.location.origin}/login`);
+  },
+  /** 402 — Payment required */
+  402: () => {
+    toast.info(
+      "Sorry, your subscription has expired — please update your payment settings and try again.",
+      { toastId: "expired-sub" }
+    );
+  },
+  /** 403 — Forbidden */
+  403: () => {
+    toast.error("Sorry, you do not have the required permissions to perform this action.", {
+      toastId: "forbidden",
+    });
+  },
+  /** 500/unknown — Internal server error */
+  500: () => {
+    toast.error("Whoops! An unexpected error occurred — please try again later.", {
+      toastId: "unexpected-error-try-again-later",
+    });
+  },
+} as const satisfies Record<number, (extensions?: FixitApiGraphQLErrorExtensions) => void>;
