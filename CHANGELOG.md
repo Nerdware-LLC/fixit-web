@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.3.0-next.13](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.12...v1.3.0-next.13) (2024-03-07)
+
+
+### Features
+
+* enable logging 4xx errs in staging ([0af7276](https://github.com/Nerdware-LLC/fixit-web/commit/0af72762a7661abc1c07c77b70b692b03e068999))
+
 # [1.3.0-next.12](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.11...v1.3.0-next.12) (2024-03-06)
 
 
