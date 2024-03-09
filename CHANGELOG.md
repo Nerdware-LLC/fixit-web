@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.3.0-next.14](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.13...v1.3.0-next.14) (2024-03-09)
+
+
+### Bug Fixes
+
+* add rounding to avg amount stat ([3218194](https://github.com/Nerdware-LLC/fixit-web/commit/32181949a672fdab2dbb7ca0d55a2cdb0e3897fc))
+* add vi calls to mock system time ([c353282](https://github.com/Nerdware-LLC/fixit-web/commit/c3532829a2739984b9feb12a9bff9169a99da23a))
+* impl milliseconds for test args ([9e68ce1](https://github.com/Nerdware-LLC/fixit-web/commit/9e68ce19284b2b5669177101947d65e120a924af))
+* **sb:** add SelectProps type params to BasicDemo ([fdf6554](https://github.com/Nerdware-LLC/fixit-web/commit/fdf655442f2e24792f62f55194e1bad605b0f196))
+* **ts:** add override ref prop type ([249875d](https://github.com/Nerdware-LLC/fixit-web/commit/249875d78d45bd01acaa85ceff7718cfca022d45))
+* update calculate.test for ci ([a3bf0bb](https://github.com/Nerdware-LLC/fixit-web/commit/a3bf0bb6523321c08beddb09ff14f7ec65c6c4ce))
+
+
+### Features
+
+* add https://sentry.io to trusted-types policy ([604384c](https://github.com/Nerdware-LLC/fixit-web/commit/604384cd62b87ac735b9a4ae7977b38024ee1bd1))
+* reduce traces sample rate from 1 to 0.5 ([ed54796](https://github.com/Nerdware-LLC/fixit-web/commit/ed5479653f947cab5445a602a80eb79f1201aaef))
+* **sb:** add PickANumber Select story ([5b0770b](https://github.com/Nerdware-LLC/fixit-web/commit/5b0770b664ff0bb0d45d2b556c07a6cd08c2415b))
+
 # [1.3.0-next.13](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.0-next.12...v1.3.0-next.13) (2024-03-07)
 
 
