@@ -14,15 +14,18 @@ const getTimestampInMultipleFormats = (dayjsTimestampObject: dayjs.Dayjs) => {
 };
 
 describe("numeric/calculate", () => {
+  const NOW_MILLISECONDS = Date.now();
+  const NUM_MILLISECONDS_PER_DAY = 86400000;
+
   // SHARED TIMESTAMP INPUTS FOR `getTimestampAge()` AND `getItemAge()`:
 
-  const threeDaysAgo = dayjs().subtract(3, "days");
+  const threeDaysAgo = dayjs(NOW_MILLISECONDS - NUM_MILLISECONDS_PER_DAY * 3);
   const threeDaysAgoTimestamps = getTimestampInMultipleFormats(threeDaysAgo);
 
-  const fiveDaysAgo = dayjs().subtract(5, "days");
+  const fiveDaysAgo = dayjs(NOW_MILLISECONDS - NUM_MILLISECONDS_PER_DAY * 5);
   const fiveDaysAgoTimestamps = getTimestampInMultipleFormats(fiveDaysAgo);
 
-  const threeDaysFromNow = dayjs().add(3, "day");
+  const threeDaysFromNow = dayjs(NOW_MILLISECONDS + NUM_MILLISECONDS_PER_DAY * 3);
   const threeDaysFromNowTimestamps = getTimestampInMultipleFormats(threeDaysFromNow);
 
   // prettier-ignore
@@ -47,10 +50,10 @@ describe("numeric/calculate", () => {
 
     test("returns a negative number when the provided timestamp is in the future", () => {
       threeDaysFromNowTimestamps.forEach((threeDaysFromNowTS) => {
-        // The resulting decimals are truncated to integers, hence -71 and -2 instead of -72 and -3
+        // The resulting decimals are truncated to integers, hence -71 instead of -72
         expect(getTimestampAge(threeDaysFromNowTS, "hours")).toBe(-71);
-        expect(getTimestampAge(threeDaysFromNowTS, "days")).toBe(-2);
-        expect(getTimestampAge(threeDaysFromNowTS)).toBe(-2);
+        expect(getTimestampAge(threeDaysFromNowTS, "days")).toBe(-3);
+        expect(getTimestampAge(threeDaysFromNowTS)).toBe(-3);
         expect(getTimestampAge(threeDaysFromNowTS, "months")).toBe(0);
         expect(getTimestampAge(threeDaysFromNowTS, "years")).toBe(0);
       });
@@ -87,8 +90,8 @@ describe("numeric/calculate", () => {
         // Use the TS to define the test item's `createdAt` property:
         const itemWithTS = { createdAt: threeDaysFromNowTS };
         expect(getItemAge(itemWithTS, "hours")).toBe(-71);
-        expect(getItemAge(itemWithTS, "days")).toBe(-2);
-        expect(getItemAge(itemWithTS)).toBe(-2);
+        expect(getItemAge(itemWithTS, "days")).toBe(-3);
+        expect(getItemAge(itemWithTS)).toBe(-3);
         expect(getItemAge(itemWithTS, "months")).toBe(0);
         expect(getItemAge(itemWithTS, "years")).toBe(0);
       });
