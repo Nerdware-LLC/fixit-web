@@ -1,10 +1,13 @@
 import dayjs from "dayjs";
+import { styled } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
 import ListItem, { type ListItemProps } from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemButton, { type ListItemButtonProps } from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import PersonOffIcon from "@mui/icons-material/PersonOff";
 import { fmt } from "@/utils/formatters";
+import { listItemClassNames } from "./classNames";
 import type { Invoice } from "@/graphql/types";
 import type { Simplify } from "type-fest";
 
@@ -37,10 +40,27 @@ export const InvoiceListItemButton = ({
   divider = true,
   ...listItemButtonProps
 }: InvoiceListItemButtonProps) => (
-  <ListItemButton divider={divider} {...listItemButtonProps}>
+  <StyledListItemButton divider={divider} {...listItemButtonProps}>
     <InvoiceListItemContent invoice={invoice} userToDisplay={userToDisplay} />
-  </ListItemButton>
+  </StyledListItemButton>
 );
+
+const StyledListItemButton = styled(ListItemButton)(({ theme: { variables } }) => ({
+  [`& .${listItemClassNames.invoiceListItemDisplayName}`]: {
+    whiteSpace: "normal",
+    fontSize: variables.isMobilePageLayout ? "1rem" : "1.1rem",
+  },
+  [`& .${listItemClassNames.invoiceListItemAmount}`]: {
+    fontSize: variables.isMobilePageLayout ? "1.1rem" : "1.35rem",
+  },
+  [`& > .${listItemClassNames.invoiceListItemRightText}`]: {
+    textAlign: "right",
+    width: "20%",
+    maxWidth: "7rem",
+    flexShrink: 0,
+    flexGrow: 0,
+  },
+}));
 
 /**
  * Content for the {@link InvoiceListItem} and {@link InvoiceListItemButton} components.
@@ -60,26 +80,27 @@ const InvoiceListItemContent = ({ invoice, userToDisplay }: InvoiceListItemConte
   return (
     <>
       <ListItemAvatar>
-        <Avatar src={photoUrl || undefined} alt={displayName} />
+        <Avatar src={photoUrl || undefined} alt={displayName}>
+          {displayName?.charAt(0) || <PersonOffIcon />}
+        </Avatar>
       </ListItemAvatar>
       <ListItemText
         primary={displayName}
-        secondary={prettyAmount}
-        secondaryTypographyProps={{ variant: "body2", color: "text.primary", textAlign: "right" }}
+        primaryTypographyProps={{ className: listItemClassNames.invoiceListItemDisplayName }}
+      />
+      <ListItemText
+        primary={prettyAmount}
+        primaryTypographyProps={{ className: listItemClassNames.invoiceListItemAmount }}
+        className={listItemClassNames.invoiceListItemRightText}
+        style={{ minWidth: "4rem" }}
       />
       <ListItemText
         primary={prettyCreatedAt}
-        primaryTypographyProps={{
-          variant: "body2",
-          marginBottom: "1.25rem",
-        }}
+        primaryTypographyProps={{ variant: "body2", marginBottom: "1.25rem" }}
         secondary={prettyStatus}
         secondaryTypographyProps={{ variant: "caption" }}
-        style={{
-          textAlign: "right",
-          marginLeft: "1rem", // ensures `description` isn't too close to `status`
-          flexShrink: 0, // ensures the contained text isn't truncated
-        }}
+        className={listItemClassNames.invoiceListItemRightText}
+        style={{ minWidth: "4.75rem" }}
       />
     </>
   );
