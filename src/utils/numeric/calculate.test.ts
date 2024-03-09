@@ -1,6 +1,14 @@
 import dayjs from "dayjs";
 import { getTimestampAge, getItemAge } from "./calculate";
 
+beforeAll(() => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date(2020, 0, 1, 0, 0, 0, 0));
+});
+afterAll(() => {
+  vi.useRealTimers();
+});
+
 const getTimestampInMultipleFormats = (dayjsTimestampObject: dayjs.Dayjs) => {
   const dateObject = dayjsTimestampObject.toDate();
   return [
@@ -14,18 +22,18 @@ const getTimestampInMultipleFormats = (dayjsTimestampObject: dayjs.Dayjs) => {
 };
 
 describe("numeric/calculate", () => {
-  const NOW_MILLISECONDS = Date.now();
+  const JAN_1_2020_MILLISECONDS = 1577854800000; // 2020-01-01T00:00:00.000Z
   const NUM_MILLISECONDS_PER_DAY = 86400000;
 
   // SHARED TIMESTAMP INPUTS FOR `getTimestampAge()` AND `getItemAge()`:
 
-  const threeDaysAgo = dayjs(NOW_MILLISECONDS - NUM_MILLISECONDS_PER_DAY * 3);
+  const threeDaysAgo = dayjs(JAN_1_2020_MILLISECONDS - NUM_MILLISECONDS_PER_DAY * 3);
   const threeDaysAgoTimestamps = getTimestampInMultipleFormats(threeDaysAgo);
 
-  const fiveDaysAgo = dayjs(NOW_MILLISECONDS - NUM_MILLISECONDS_PER_DAY * 5);
+  const fiveDaysAgo = dayjs(JAN_1_2020_MILLISECONDS - NUM_MILLISECONDS_PER_DAY * 5);
   const fiveDaysAgoTimestamps = getTimestampInMultipleFormats(fiveDaysAgo);
 
-  const threeDaysFromNow = dayjs(NOW_MILLISECONDS + NUM_MILLISECONDS_PER_DAY * 3);
+  const threeDaysFromNow = dayjs(JAN_1_2020_MILLISECONDS + NUM_MILLISECONDS_PER_DAY * 3);
   const threeDaysFromNowTimestamps = getTimestampInMultipleFormats(threeDaysFromNow);
 
   // prettier-ignore
@@ -50,8 +58,7 @@ describe("numeric/calculate", () => {
 
     test("returns a negative number when the provided timestamp is in the future", () => {
       threeDaysFromNowTimestamps.forEach((threeDaysFromNowTS) => {
-        // The resulting decimals are truncated to integers, hence -71 instead of -72
-        expect(getTimestampAge(threeDaysFromNowTS, "hours")).toBe(-71);
+        expect(getTimestampAge(threeDaysFromNowTS, "hours")).toBe(-72);
         expect(getTimestampAge(threeDaysFromNowTS, "days")).toBe(-3);
         expect(getTimestampAge(threeDaysFromNowTS)).toBe(-3);
         expect(getTimestampAge(threeDaysFromNowTS, "months")).toBe(0);
@@ -89,7 +96,7 @@ describe("numeric/calculate", () => {
       threeDaysFromNowTimestamps.forEach((threeDaysFromNowTS) => {
         // Use the TS to define the test item's `createdAt` property:
         const itemWithTS = { createdAt: threeDaysFromNowTS };
-        expect(getItemAge(itemWithTS, "hours")).toBe(-71);
+        expect(getItemAge(itemWithTS, "hours")).toBe(-72);
         expect(getItemAge(itemWithTS, "days")).toBe(-3);
         expect(getItemAge(itemWithTS)).toBe(-3);
         expect(getItemAge(itemWithTS, "months")).toBe(0);
