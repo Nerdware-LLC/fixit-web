@@ -1,15 +1,15 @@
 {
   "extends": "./tsconfig.json",
 
-  "include": ["src"],
+  "include": ["src/"],
 
   // Exclude from build:
   "exclude": [
     // test and mock files
-    "src/**/*.{test,spec}.[tj]s?(x)",
+    "src/**/*.test.ts?(x)",
     "src/**/__mocks__/**/*",
     // storybook files
-    "src/**/*.stories.[tj]s?(x)",
+    "src/**/*.stories.ts?(x)",
     "src/**/stories/**/*"
   ]
 }
