@@ -1,4 +1,4 @@
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { apolloClient } from "@/app/ApolloProvider/apolloClient";
 import { ReactiveStore } from "./ReactiveStore";
 import { LocalStorageValueManager } from "./helpers";
