@@ -27,9 +27,13 @@
         // default TrustedTypes policy spec: https://w3c.github.io/trusted-types/dist/spec/#default-policy
         trustedTypes.createPolicy("default", {
           createHTML: (string) => DOMPurify.sanitize(string, { RETURN_TRUSTED_TYPE: true }),
-          // See https://docs.stripe.com/security/guide?csp=csp-js#content-security-policy
+          // Stripe: https://docs.stripe.com/security/guide?csp=csp-js#content-security-policy
+          // Sentry origin necessary for crash reporting.
           createScriptURL: (input) => {
-            return new URL(input).origin === "https://js.stripe.com" ? input : undefined;
+            const scriptOrigin = new URL(input).origin;
+            return ["https://js.stripe.com", "https://sentry.io"].includes(scriptOrigin)
+              ? input
+              : undefined;
           },
         });
       }
