@@ -1,4 +1,4 @@
-import { object as yupObject } from "yup";
+import { object as yupObject, number as yupNumber } from "yup";
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
 import { Select, type SelectProps } from "./Select";
 import { yupCommonSchema } from "../helpers";
@@ -43,3 +43,16 @@ export const BasicDemo = {
   },
 } satisfies StoryObj<Meta<SelectProps<string | null> & FormDecoratorArgs>>;
 
+export const PickANumber = {
+  args: {
+    id: "number",
+    label: "Pick a Number",
+    options: [0, 1, 2, 3, 42, 199].map((value) => ({ value })),
+    fullWidth: true,
+
+    _form_decorator_args: {
+      validationSchema: yupObject({ number: yupNumber().nullable().default(null) }),
+      initialValues: { number: null },
+    },
+  },
+} satisfies StoryObj<Meta<SelectProps<number | null> & FormDecoratorArgs>>;
