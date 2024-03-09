@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 import { getTimestampAge, getItemAge } from "./calculate";
 
-beforeAll(() => {
+beforeEach(() => {
   vi.useFakeTimers();
   vi.setSystemTime(new Date(2020, 0, 1, 0, 0, 0, 0));
 });
-afterAll(() => {
+afterEach(() => {
   vi.useRealTimers();
 });
 
