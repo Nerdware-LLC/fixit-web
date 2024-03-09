@@ -109,14 +109,6 @@ export default defineConfig(({ command, mode }) => {
       target: "esnext",
       outDir: "dist",
       sourcemap: true, // Required for Sentry-vite plugin
-      rollupOptions: {
-        // This config disables hashes in filenames, thereby ensuring uploaded filenames are consistent
-        output: {
-          entryFileNames: `assets/[name].js`,
-          chunkFileNames: `assets/[name].js`,
-          assetFileNames: `assets/[name].[ext]`,
-        },
-      },
     },
   };
 });
