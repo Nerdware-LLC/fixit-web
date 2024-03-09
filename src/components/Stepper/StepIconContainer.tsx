@@ -10,9 +10,15 @@ export const StepIconContainer = ({
   completed,
   className,
   error,
+  ref,
   ...containerProps
 }: StepIconContainerProps) => (
-  <StyledDiv ownerState={{ completed, active, error }} className={className} {...containerProps}>
+  <StyledDiv
+    ownerState={{ completed, active, error }}
+    className={className}
+    ref={ref as React.LegacyRef<HTMLDivElement> | undefined}
+    {...containerProps}
+  >
     {completed ? (
       <CheckIcon />
     ) : active ? (
@@ -68,4 +74,4 @@ interface StepIconOwnerState {
 }
 
 export type StepIconContainerProps = StepIconProps &
-  Omit<React.ComponentProps<typeof StyledDiv>, "ownerState" | "className" | "children">;
+  Omit<React.ComponentPropsWithoutRef<typeof StyledDiv>, "ownerState" | "className" | "children">;
