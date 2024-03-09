@@ -42,7 +42,9 @@ export class ItemsStatisticsDataParser<TItem extends DataParserItem>
       const amount = getItemStat(item);
       if (amount) {
         dataReducerAccum.STATISTICS.SUM += amount;
-        dataReducerAccum.STATISTICS.AVERAGE = dataReducerAccum.STATISTICS.SUM / index + 1;
+        dataReducerAccum.STATISTICS.AVERAGE = Math.round(
+          dataReducerAccum.STATISTICS.SUM / index + 1
+        );
       }
       return dataReducerAccum;
     };
