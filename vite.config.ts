@@ -22,7 +22,8 @@ export default defineConfig(({ command, mode }) => {
     VITE_API_BASE_URI,
     VITE_SENTRY_AUTH_TOKEN,
     VITE_SENTRY_CI_RELEASE_NAME,
-  } = loadEnv(mode, process.cwd(), "VITE");
+    CI, // <-- loaded by setting env prefix to "" below so vite loads all env vars, not just VITE_*
+  } = loadEnv(mode, process.cwd(), "");
 
   // For env-specific configs, ascertain info about the execution context:
   const isBuild = command === "build";
@@ -41,7 +42,7 @@ export default defineConfig(({ command, mode }) => {
       }),
       /* The Sentry-vite plugin uploads prod-build source maps to Sentry, and also adds
       support for release management. It must be placed last after all other plugins.*/
-      ...(isDeployableBuild && !!VITE_SENTRY_AUTH_TOKEN
+      ...(isDeployableBuild && CI === "true" && !!VITE_SENTRY_AUTH_TOKEN
         ? [
             sentryVitePlugin({
               org: "nerdware-io",
