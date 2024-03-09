@@ -22,7 +22,7 @@ if (/^(dev|staging|prod)/i.test(ENV.MODE) && !ENV.IS_STORYBOOK && !!ENV.SENTRY_D
         matchRoutes,
       }),
     ],
-    tracesSampleRate: 1.0,
+    tracesSampleRate: 0.5,
     tracePropagationTargets: ["localhost", /^https:\/\/(www\.)?((demo|staging)\.)?gofixit.app/],
     ...(/^(staging|prod)/i.test(ENV.MODE) && {
       tunnel: "/sentry-proxy",
