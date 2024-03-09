@@ -23,7 +23,11 @@ export default meta;
 ///////////////////////////////////////////////////////////
 // STORIES
 
-type Story = StoryObj<typeof meta>;
+/**
+ * - **Q:** Why not use `type Story = StoryObj<typeof meta>`?
+ * - **A:** Such a `Story` type would not be re-usable across multiple `Select` stories
+ *   due to the component's type params, e.g., `SelectProps<string | number | null>`.
+ */
 
 export const BasicDemo = {
   args: {
@@ -37,4 +41,5 @@ export const BasicDemo = {
       initialValues: { food: null },
     },
   },
-} satisfies Story;
+} satisfies StoryObj<Meta<SelectProps<string | null> & FormDecoratorArgs>>;
+
