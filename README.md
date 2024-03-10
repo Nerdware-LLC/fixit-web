@@ -1,6 +1,6 @@
 <div align="center">
 
-[<img src=".storybook/assets/fixit_web_repo_header.png" alt="Fixit logo repo banner" height="135" />](https://659981450c81cefabec86fa2-hayufvwzje.chromatic.com/ "Check out the Fixit Storybook")
+[<img src=".storybook/assets/fixit_web_repo_header.png" alt="Fixit logo repo banner" height="135" />](https://main--659981450c81cefabec86fa2.chromatic.com/ "Check out the Fixit Storybook")
 
 Fixit is a SaaS product that provides users with powerful tools for managing maintenance and repair workflows, including in-app payments powered by [Stripe](https://stripe.com/). This repo is home to the Fixit web app – a [React](https://reactjs.org/) SPA that provides core services and features to Fixit users.
 
@@ -60,30 +60,30 @@ The Fixit web app is a [React](https://reactjs.org/) SPA that provides core SaaS
 >   <tr>
 >   <td align="center">
 >
-> [<img src="https://avatars.githubusercontent.com/u/22632046?s=200&v=4" width="70" alt="Check out the Fixit front-end Storybook on Chromatic" />](https://659981450c81cefabec86fa2-hayufvwzje.chromatic.com "Check out the Fixit front-end Storybook on Chromatic")
+> [<img src="https://avatars.githubusercontent.com/u/22632046?s=200&v=4" width="70" alt="Check out the Fixit front-end Storybook on Chromatic" />](https://main--659981450c81cefabec86fa2.chromatic.com "Check out the Fixit front-end Storybook on Chromatic")
 >
-> <code>Fixit Frontend</code><br><code>Component Storybook</code>
+> [<code>Fixit Frontend</code><br><code>Component Storybook</code>](https://main--659981450c81cefabec86fa2.chromatic.com "Check out the Fixit front-end Storybook on Chromatic")
 >
 >   </td>
 >   <td align="center">
 >
 > [<img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" width="70" alt="Check out the Fixit API GitHub repo" />](https://github.com/Nerdware-LLC/fixit-api#readme "Check out the Fixit API GitHub repo")
 >
-> <code>Fixit API</code><br><code>GitHub Repo</code>
+> [<code>Fixit API</code><br><code>GitHub Repo</code>](https://github.com/Nerdware-LLC/fixit-api#readme "Check out the Fixit API GitHub repo")
 >
 >   </td>
 >   <td align="center">
 >
 > [<img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Swagger-logo.png" width="70" alt="Check out the REST API OpenAPI Schema on SwaggerHub" />](https://app.swaggerhub.com/apis/Nerdware/Fixit "Check out the REST API OpenAPI Schema on SwaggerHub")
 >
-> <code>Fixit REST API OpenAPI</code><br><code>Schema Explorer</code>
+> [<code>Fixit REST API OpenAPI</code><br><code>Schema Explorer</code>](https://app.swaggerhub.com/apis/Nerdware/Fixit "Check out the REST API OpenAPI Schema on SwaggerHub")
 >
 >   </td>
 >   <td align="center">
 >
 > [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/GraphQL_Logo.svg/220px-GraphQL_Logo.svg.png" width="70" alt="Check out the GraphQL API Schema-Explorer on Apollo Studio" />](https://studio.apollographql.com/public/fixit/variant/current "Check out the GraphQL API Schema-Explorer on Apollo Studio")
 >
-> <code>Fixit GraphQL API</code><br><code>Schema Explorer</code>
+> [<code>Fixit GraphQL API</code><br><code>Schema Explorer</code>](https://studio.apollographql.com/public/fixit/variant/current "Check out the GraphQL API Schema-Explorer on Apollo Studio")
 >
 >   </td>
 >   </tr>
@@ -135,18 +135,18 @@ sequenceDiagram
 
 This project's CI/CD pipeline uses GitHub Actions to [test](/.github/workflows/test.yaml), [release](/.github/workflows/release.yaml), and [deploy](/.github/workflows/deploy.yaml) code changes.
 
-1. [`Test`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#node-test) - Runs test suites, adds test and coverage info to PRs, and updates [CodeCov](https://about.codecov.io/).
-2. [`Release`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#release) - Creates a new GitHub release using [Semantic Release](https://github.com/semantic-release/semantic-release#readme).
-3. [`S3 Upload`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#upload-to-s3) - Creates the relevant build and uploads it to an [AWS S3 bucket](https://aws.amazon.com/s3/).
+1. [`Test`](/.github/workflows/test.yaml) - Runs test suites, adds test and coverage info to PRs, and updates [CodeCov](https://about.codecov.io/).
+2. [`Release`](/.github/workflows/release.yaml) - Creates a new GitHub release using [Semantic Release](https://github.com/semantic-release/semantic-release#readme).
+3. [`Deploy`](/.github/workflows/deploy.yaml) - Creates the relevant build, uploads it to an [AWS S3 bucket](https://docs.aws.amazon.com/s3/), and invalidates the [CloudFront](https://docs.aws.amazon.com/cloudfront/) cache.
 
 ### Git Workflow
 
-This project uses uses [GitHub Flow](https://guides.github.com/introduction/flow/) to deploy two live environments - staging and production - both of which are associated with a protected Git branch:
+This project uses uses [GitHub Flow](https://guides.github.com/introduction/flow/) to deploy two live environments - staging and production - both of which are associated with a Git branch for releases:
 
-| Environment | Git Branch |                   Permits `git push`                   |
-| :---------- | :--------: | :----------------------------------------------------: |
-| staging     |    next    | <span style="color:#66FF00;font-size:1.5rem;">✓</span> |
-| production  |    main    |                           ❌                           |
+| Environment | Release Branch |                   Permits `git push`                   |
+| :---------- | :------------: | :----------------------------------------------------: |
+| staging     |      next      | <span style="color:#66FF00;font-size:1.5rem;">✓</span> |
+| production  |      main      |                           ❌                           |
 
 Project versioning and the [CHANGELOG.md](./CHANGELOG.md) are managed automatically via GitHub Actions and [Semantic Release](https://github.com/semantic-release/semantic-release#readme).
 
