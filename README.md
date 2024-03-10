@@ -1,6 +1,6 @@
 <div align="center">
 
-[<img src=".storybook/assets/fixit_web_repo_header.png" alt="Fixit logo repo banner" height="135" />](https://659981450c81cefabec86fa2-hayufvwzje.chromatic.com/ "Check out the Fixit Storybook")
+[<img src=".storybook/assets/fixit_web_repo_header.png" alt="Fixit logo repo banner" height="135" />](https://main--659981450c81cefabec86fa2.chromatic.com/ "Check out the Fixit Storybook")
 
 Fixit is a SaaS product that provides users with powerful tools for managing maintenance and repair workflows, including in-app payments powered by [Stripe](https://stripe.com/). This repo is home to the Fixit web app – a [React](https://reactjs.org/) SPA that provides core services and features to Fixit users.
 
@@ -60,7 +60,7 @@ The Fixit web app is a [React](https://reactjs.org/) SPA that provides core SaaS
 >   <tr>
 >   <td align="center">
 >
-> [<img src="https://avatars.githubusercontent.com/u/22632046?s=200&v=4" width="70" alt="Check out the Fixit front-end Storybook on Chromatic" />](https://659981450c81cefabec86fa2-hayufvwzje.chromatic.com "Check out the Fixit front-end Storybook on Chromatic")
+> [<img src="https://avatars.githubusercontent.com/u/22632046?s=200&v=4" width="70" alt="Check out the Fixit front-end Storybook on Chromatic" />](https://main--659981450c81cefabec86fa2.chromatic.com "Check out the Fixit front-end Storybook on Chromatic")
 >
 > <code>Fixit Frontend</code><br><code>Component Storybook</code>
 >
