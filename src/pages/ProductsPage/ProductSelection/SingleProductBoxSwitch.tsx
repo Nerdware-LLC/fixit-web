@@ -1,8 +1,9 @@
 import { styled } from "@mui/material/styles";
 import Text, { typographyClasses } from "@mui/material/Typography";
+import { productSelectionClassNames } from "./classNames";
 
 export const SingleProductBoxSwitch = ({ checked, handleChange }: SingleProductBoxSwitchProps) => (
-  <StyledLabelElement>
+  <StyledLabel>
     <div style={{ left: 4 }}>
       <Text>Monthly</Text>
     </div>
@@ -10,18 +11,14 @@ export const SingleProductBoxSwitch = ({ checked, handleChange }: SingleProductB
       <Text>Yearly</Text>
     </div>
     <input type="checkbox" onChange={handleChange} checked={checked} aria-label="controlled" />
-    <span className={singleProductBoxSwitchClassNames.sliderThumb} />
-  </StyledLabelElement>
+    <span className={productSelectionClassNames.singleProductBoxSwitchSliderThumb} />
+  </StyledLabel>
 );
-
-export const singleProductBoxSwitchClassNames = {
-  sliderThumb: "single-product-box-switch-slider-thumb",
-};
 
 /**
  * The box around the slider
  */
-const StyledLabelElement = styled("label")(({ theme }) => ({
+const StyledLabel = styled("label")(({ theme: { palette } }) => ({
   position: "relative",
   display: "flex",
   flexDirection: "row",
@@ -29,8 +26,8 @@ const StyledLabelElement = styled("label")(({ theme }) => ({
   width: "clamp(14rem, 100%, 20rem)",
   height: "100%",
   padding: "0.25rem 0.1rem",
-  backgroundColor: theme.palette.background.paper,
-  border: `1px solid ${theme.palette.divider}`,
+  backgroundColor: palette.background.paper,
+  border: `1px solid ${palette.divider}`,
   borderRadius: "1rem",
   cursor: "pointer",
   zIndex: 5,
@@ -60,13 +57,13 @@ const StyledLabelElement = styled("label")(({ theme }) => ({
     height: 0,
 
     // When it's checked, change the span's transition left/right values
-    [`&:checked + .${singleProductBoxSwitchClassNames.sliderThumb}`]: {
+    [`&:checked + .${productSelectionClassNames.singleProductBoxSwitchSliderThumb}`]: {
       transform: "translateX( calc(100% - 8px) )",
     },
   },
 
   // The visible slider thumb
-  [`& .${singleProductBoxSwitchClassNames.sliderThumb}`]: {
+  [`& .${productSelectionClassNames.singleProductBoxSwitchSliderThumb}`]: {
     position: "absolute",
     top: "4px",
     bottom: "4px",
@@ -78,12 +75,12 @@ const StyledLabelElement = styled("label")(({ theme }) => ({
     height: "calc(100% - 8px)",
     width: "50%",
     borderRadius: "0.85rem",
-    backgroundColor: theme.palette.primary.main,
-    boxShadow: `inset 0rem 0rem 1rem 0.5rem ${theme.palette.primary.dark}`,
+    backgroundColor: palette.primary.main,
+    boxShadow: `inset 0rem 0rem 1rem 0.5rem ${palette.primary.dark}`,
   },
 }));
 
 export type SingleProductBoxSwitchProps = {
   checked: boolean;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange: React.ChangeEventHandler<HTMLInputElement>;
 };

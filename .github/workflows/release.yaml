@@ -1,21 +1,16 @@
 name: Release Workflow
 
+# This workflow is called by the Test workflow when all tests pass.
+
 on:
   workflow_dispatch:
   workflow_call: # may be called by the Test workflow
     secrets:
       SEMANTIC_RELEASE_TOKEN: { required: true }
-  pull_request:
-    types: [closed]
-    branches: [main, next]
-    paths: ["src/**/*", "package*.json", "index.html"]
 
 jobs:
   release:
-    name: Release # if event is a closed PR, only run if PR was merged
-    if: |
-      github.event_name != 'pull_request' ||
-        github.event.pull_request.merged == true
+    name: Release
     uses: Nerdware-LLC/reusable-action-workflows/.github/workflows/release.yaml@main
     secrets:
       SEMANTIC_RELEASE_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}

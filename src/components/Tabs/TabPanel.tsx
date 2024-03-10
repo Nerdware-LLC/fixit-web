@@ -1,54 +1,42 @@
 import Box, { type BoxProps } from "@mui/material/Box";
+import { tabsClassNames } from "./classNames";
+import type { SetRequired } from "type-fest";
 
 /**
- * TabPanel for Mui Tab content
- * - If `tab` prop is provided, it's used to set the `id` and `"aria-labelledby"`
- *   attributes using the convention established in the `getTabA11yProps` fn.
+ * TabPanel for displaying Tab content in an a11y-friendly way.
  *
  * @see https://mui.com/material-ui/react-tabs/#accessibility
  */
 export const TabPanel = ({
-  tab,
   id,
   "aria-labelledby": ariaLabelledBy,
   isActive,
+  sx = {},
   children,
-  ...props
+  ...boxProps
 }: TabPanelProps) => {
-  const tabNameNoSpaces = tab?.replace(/\s/g, "");
-
   return (
     <Box
-      className={tabPabelClassNames.root}
+      id={id}
+      aria-labelledby={ariaLabelledBy}
       role="tabpanel"
+      className={tabsClassNames.tabPanel.root}
       hidden={!isActive}
       sx={{
         // This allows TabPanels to use display flex if need be
         ...(!isActive && { display: "none !important" }),
+        ...sx,
       }}
-      {...(tabNameNoSpaces
-        ? {
-            id: `${tabNameNoSpaces}-tabpanel`,
-            "aria-labelledby": `${tabNameNoSpaces}-tab`,
-          }
-        : {
-            id: id?.replace(/\s/g, ""),
-            "aria-labelledby": ariaLabelledBy?.replace(/\s/g, ""),
-          })}
-      {...props}
+      {...boxProps}
     >
       {isActive && children}
     </Box>
   );
 };
 
-export const tabPabelClassNames = {
-  root: "tab-panel",
-};
-
 export type TabPanelProps = {
-  tab?: string;
-  id?: string;
-  "aria-labelledby"?: string;
   isActive: boolean;
-} & BoxProps;
+} & Omit<
+  SetRequired<BoxProps, "id" | "aria-labelledby">, // require tabs-a11y-related props
+  "role" | "hidden" | "className" // omit hard-coded props which should not be overridden
+>;

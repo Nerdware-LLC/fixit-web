@@ -1,18 +1,33 @@
-import CircularProgress, { type CircularProgressProps } from "@mui/material/CircularProgress";
-import { IndicatorContainer, type IndicatorContainerProps } from "./IndicatorContainer";
+import CircularProgress, {
+  circularProgressClasses,
+  type CircularProgressProps,
+} from "@mui/material/CircularProgress";
 
 export const Loading = ({
   color = "primary",
   size = "7rem",
   thickness = 4.5,
-  IndicatorContainerProps = {},
+  sx = {},
   ...circularProgressProps
 }: LoadingProps) => (
-  <IndicatorContainer {...IndicatorContainerProps}>
-    <CircularProgress color={color} size={size} thickness={thickness} {...circularProgressProps} />
-  </IndicatorContainer>
+  <CircularProgress
+    color={color}
+    size={size}
+    thickness={thickness}
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "100% !important",
+      width: "100% !important",
+      [`& > .${circularProgressClasses.svg}`]: {
+        height: size,
+        width: size,
+      },
+      ...sx,
+    }}
+    {...circularProgressProps}
+  />
 );
 
-export type LoadingProps = CircularProgressProps & {
-  IndicatorContainerProps?: IndicatorContainerProps;
-};
+export type LoadingProps = CircularProgressProps;

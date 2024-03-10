@@ -1,7 +1,10 @@
 import { createTheme, responsiveFontSizes, type Theme } from "@mui/material/styles";
-import { PAGE_LAYOUT_CONTEXT_DEFAULT_VALUES } from "@app/PageLayoutContext/PageLayoutContext";
+import {
+  PAGE_LAYOUT_CONTEXT_DEFAULT_VALUES,
+  type PageLayoutContextValues,
+} from "@/app/PageLayoutContext";
 import { COMPONENTS } from "./components";
-import { PALETTES, PALETTE_NAMES } from "./palettes";
+import { PALETTES, PALETTE_NAMES, type PaletteName } from "./palettes";
 import { TYPOGRAPHY } from "./typography";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import type {} from "@mui/x-date-pickers/themeAugmentation";
@@ -10,6 +13,11 @@ import type {} from "@mui/x-date-pickers/themeAugmentation";
   - @mui/x-data-grid     https://mui.com/x/react-data-grid/getting-started/#typescript
   - @mui/x-date-pickers  https://mui.com/x/react-date-pickers/getting-started/#typescript
 */
+
+/**
+ * Fields added to custom {@link Theme} extension: `variables`
+ */
+export type ThemeCustomAppVariables = PageLayoutContextValues;
 
 /**
  * Extended Mui theme typings:
@@ -23,22 +31,25 @@ declare module "@mui/material/styles" {
     icon: string;
   }
 
-  // Custom properties:
-  type ThemeCustomVariables = typeof PAGE_LAYOUT_CONTEXT_DEFAULT_VALUES;
   // Extend `Theme` prop that's available in `sx` and `styled` components
   interface Theme {
-    variables: ThemeCustomVariables;
+    variables: ThemeCustomAppVariables;
   }
   // Allow configuration using `createTheme`
   interface ThemeOptions {
-    variables?: Partial<ThemeCustomVariables>;
+    variables?: Partial<ThemeCustomAppVariables>;
   }
 }
+
+export const THEME_NAMES = {
+  DARK: "DARK",
+  LIGHT: "LIGHT",
+} as const satisfies { [Name in PaletteName]: Name };
 
 /**
  * Each theme, DARK and LIGHT, has a unique palette.
  */
-export type ThemeName = (typeof PALETTE_NAMES)[number];
+export type ThemeName = keyof typeof THEME_NAMES;
 
 /**
  * `createTheme` merges theme inputs with the Mui default theme:

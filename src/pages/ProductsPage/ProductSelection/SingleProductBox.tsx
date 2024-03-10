@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
-import { checkoutValuesStore, StoredCheckoutValues } from "@cache/checkoutValuesStore";
+import { APP_PATHS } from "@/routes/appPaths";
+import { checkoutValuesStore, StoredCheckoutValues } from "@/stores/checkoutValuesStore";
 import { ProductInfoBox } from "./ProductInfoBox";
 import { SingleProductBoxSwitch } from "./SingleProductBoxSwitch";
 import { PRICE_INFO } from "./productPricingInfo";
-import type { SubscriptionPriceLabel } from "@graphql/types";
+import type { SubscriptionPriceLabel } from "@/graphql/types";
 
 /**
  * Product selection for mobile layout
@@ -47,7 +48,7 @@ export const SingleProductBox = ({ selectedSubscription }: StoredCheckoutValues)
   const handleClickButton = () => {
     const { selectedSubscription: cachedSelectedSub } = checkoutValuesStore.get();
     if (!cachedSelectedSub) checkoutValuesStore.mergeUpdate({ selectedSubscription: "TRIAL" });
-    nav("/checkout");
+    nav(APP_PATHS.CHECKOUT);
   };
 
   return (
@@ -57,7 +58,6 @@ export const SingleProductBox = ({ selectedSubscription }: StoredCheckoutValues)
           style={{
             width: "clamp(14rem, 66%, 20rem)",
             height: "4rem",
-            marginBottom: "1rem",
             borderRadius: "1rem",
             backgroundColor: "transparent",
           }}

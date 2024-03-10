@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { checkoutValuesStore, type StoredCheckoutValues } from "@cache/checkoutValuesStore";
+import { APP_PATHS } from "@/routes/appPaths";
+import { checkoutValuesStore, type StoredCheckoutValues } from "@/stores/checkoutValuesStore";
 import { ProductInfoBox } from "./ProductInfoBox";
 import { PRICE_INFO } from "./productPricingInfo";
-import type { SubscriptionPriceLabel } from "@graphql/types";
+import type { SubscriptionPriceLabel } from "@/graphql/types";
 
 /**
  * Product selection for desktop layout
@@ -32,7 +33,7 @@ export const MappedRowOfProductBoxes = ({ selectedSubscription }: StoredCheckout
             buttonLabel={!isSelected ? "Select" : "Subscribe"}
             onClickButton={() => {
               if (!isSelected) handleClickContainer(priceLabel);
-              else nav("/checkout");
+              else nav(APP_PATHS.CHECKOUT);
             }}
             onClickContainer={() => handleClickContainer(priceLabel)}
             sx={({ palette }) => ({
@@ -52,6 +53,6 @@ const PRICE_INFO_ENTRIES = Object.entries(PRICE_INFO) as Array<
       PRICE_NAME: string;
       PRICE_AMOUNT: string;
       PRICE_DESCRIPTION: string;
-    }
+    },
   ]
 >;

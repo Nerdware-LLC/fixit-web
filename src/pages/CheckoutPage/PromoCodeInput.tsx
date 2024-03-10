@@ -1,32 +1,38 @@
 import { useState } from "react";
+import { isString } from "@nerdware/ts-type-safety-utils";
 import { styled } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import { inputBaseClasses } from "@mui/material/InputBase";
 import TextField, { textFieldClasses } from "@mui/material/TextField";
 import Text from "@mui/material/Typography";
 import CheckmarkIcon from "@mui/icons-material/CheckCircle";
-import { ENV } from "@app/env";
-import { checkoutValuesStore } from "@cache/checkoutValuesStore";
+import { stripeService } from "@/services/stripeService";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore";
 import { checkoutPageClassNames } from "./classNames";
 
 export const PromoCodeInput = () => {
   // checkoutValuesStore: only updated upon valid promoCode entry
-  const { promoCode, selectedSubscription } = checkoutValuesStore.useSubToStore();
+  const { promoCode, selectedSubscription, discountPercentage } =
+    checkoutValuesStore.useSubToStore();
+
   // TextField state: local value/touched/error/success
   const [fieldState, setFieldState] = useState<PromoCodeInputState>({
     value: promoCode ?? "",
-    touched: false,
+    touched: !!promoCode,
+    success: !!promoCode && !!discountPercentage,
     error: false,
-    success: false,
   });
 
   const handleFocus = () => {
-    setFieldState({
-      ...fieldState,
-      touched: true,
-      error: false,
-      value: "",
-    });
+    // If the input has not been successfully completed, reset the fieldState onFocus
+    if (!promoCode && !discountPercentage) {
+      setFieldState((prevFieldState) => ({
+        ...prevFieldState,
+        touched: true,
+        error: false,
+        value: "",
+      }));
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,16 +44,21 @@ export const PromoCodeInput = () => {
     });
   };
 
-  const handleBlur = () => {
+  const handleBlur = async () => {
     // If fieldState.value is undefined/empty, do nothing
-    if (typeof fieldState.value === "string" && fieldState.value.length > 0) {
+    if (isString(fieldState.value) && fieldState.value.length > 0) {
       // If a value is present, check its validity
-      if (fieldState.value in ENV.PROMO_CODES) {
+      const {
+        promoCodeInfo: { isValidPromoCode, value: sanitizedPromoCodeValue, discountPercentage },
+      } = await stripeService.checkPromoCode(fieldState.value);
+
+      if (isValidPromoCode) {
         // IF VALID, update checkoutValuesStore
-        setFieldState({ ...fieldState, success: true });
+        setFieldState({ ...fieldState, success: true, error: false });
         checkoutValuesStore.set({
           selectedSubscription,
-          promoCode: fieldState.value,
+          promoCode: sanitizedPromoCodeValue,
+          discountPercentage,
         });
       } else {
         // IF NOT VALID, show "error" elements/styling
@@ -57,14 +68,12 @@ export const PromoCodeInput = () => {
   };
 
   return (
-    <StyledDiv className={checkoutPageClassNames.subCostDetails.priceInfoRow}>
-      {typeof promoCode === "string" && promoCode in ENV.PROMO_CODES ? (
+    <StyledDiv className={checkoutPageClassNames.priceInfoRow}>
+      {promoCode && discountPercentage ? (
         <>
-          <div>
-            <CheckmarkIcon color="success" />
-            <Text className={checkoutPageClassNames.baseText}>Promo code applied</Text>
-          </div>
-          <Chip label={`${ENV.PROMO_CODES[promoCode]}% off`} color="success" size="small" />
+          <CheckmarkIcon color="success" sx={{ fontSize: "2rem" }} />
+          <Text>Promo code applied</Text>
+          <Chip label={`${discountPercentage}% off`} color="success" size="small" />
         </>
       ) : (
         <TextField
@@ -79,38 +88,33 @@ export const PromoCodeInput = () => {
           helperText={fieldState.touched && fieldState.error ? "Invalid promo code" : null}
           autoCapitalize="characters"
           color={fieldState.success ? "success" : undefined}
+          disabled={selectedSubscription === "TRIAL"}
         />
       )}
     </StyledDiv>
   );
 };
 
-const StyledDiv = styled("div")(({ theme }) => ({
-  // This div is shown if a valid promoCode has been provided
-  "& > div:first-of-type": {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-
-    "& svg": {
-      marginRight: "0.5rem",
-    },
-  },
+const StyledDiv = styled("div")(({ theme: { palette } }) => ({
+  // Set constant height so the layout doesn't shift when the promoCode is entered:
+  height: "5.5rem",
+  gap: "0.5rem !important",
 
   // Note: the Mui Chip is styled in SubCostDetails
 
   [`& > .${textFieldClasses.root}`]: {
     width: "100%",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: palette.background.paper,
+
     [`& > .${inputBaseClasses.root}`]: {
       width: "100%",
     },
   },
 }));
 
-interface PromoCodeInputState {
+type PromoCodeInputState = {
   value: string;
   touched: boolean;
   error: boolean;
   success: boolean;
-}
+};

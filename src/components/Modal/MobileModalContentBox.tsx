@@ -1,10 +1,10 @@
 import { styled } from "@mui/material/styles";
 import Modal, { type ModalProps } from "@mui/material/Modal";
 import Paper, { paperClasses, type PaperProps } from "@mui/material/Paper";
+import type { OverrideProperties } from "type-fest";
 
 /**
- * A Mui-Modal which places its children within a Paper-container styled for
- * mobile viewports.
+ * A Mui-Modal which places its children within a Paper-container styled for mobile viewports.
  */
 export const MobileModalContentBox = ({ children, ...props }: MobileModalContentBoxProps) => (
   <StyledModal {...props}>
@@ -28,5 +28,9 @@ const StyledModal = styled(Modal)({
   },
 });
 
-export type MobileModalContentBoxProps = Omit<ModalProps, "children"> &
-  Pick<PaperProps, "children">;
+export type MobileModalContentBoxProps = OverrideProperties<
+  ModalProps,
+  {
+    children: PaperProps["children"];
+  }
+>;

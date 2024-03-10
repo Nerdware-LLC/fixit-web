@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 
 export const PersonalInfoCollectedTable = () => (
-  <PrivacyPolicyTable>
+  <StyledTable>
     <thead>
       <tr>
         <th>Category</th>
@@ -89,15 +89,15 @@ export const PersonalInfoCollectedTable = () => (
         <td>NO</td>
       </tr>
     </tbody>
-  </PrivacyPolicyTable>
+  </StyledTable>
 );
 
-const PrivacyPolicyTable = styled("table")(({ theme }) => ({
+const StyledTable = styled("table")(({ theme: { palette } }) => ({
   borderCollapse: "collapse",
 
   "& th,td": {
     padding: "0.75rem",
-    border: `1px solid ${theme.palette.grey[700]}`,
+    border: `1px solid ${palette.grey[700]}`,
   },
 
   "& td:last-child": {

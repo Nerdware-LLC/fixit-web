@@ -1,14 +1,15 @@
-import Chip, { type ChipProps } from "@mui/material/Chip";
-import { WO_CATEGORY_ICON_REACT_NODES } from "../Icons/WorkOrderCategoryIcon";
-import type { WorkOrderCategory } from "@graphql/types";
+import { WO_CATEGORY_ICONS_JSX } from "@/components/Icons/WorkOrderCategoryIcon";
+import { StyledChip, type StyledChipProps } from "./StyledChip";
+import type { WorkOrderCategory } from "@/graphql/types";
+import type { Except } from "type-fest";
 
 /**
- * WorkOrder `category` Mui Chip
+ * {@link WorkOrderCategory|WorkOrder `category`} Mui Chip
  */
-export const WorkOrderCategoryChip = ({ category, ...props }: WorkOrderCategoryChipProps) => (
-  <Chip label={category} icon={WO_CATEGORY_ICON_REACT_NODES[category]} {...props} />
+export const WorkOrderCategoryChip = ({ category, ...chipProps }: WorkOrderCategoryChipProps) => (
+  <StyledChip label={category} icon={WO_CATEGORY_ICONS_JSX[category]} {...chipProps} />
 );
 
 export type WorkOrderCategoryChipProps = {
   category: WorkOrderCategory;
-} & Omit<ChipProps, "avatar" | "icon">;
+} & Except<StyledChipProps, "label" | "icon" | "children" | "avatar" | "component">;

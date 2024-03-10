@@ -1,28 +1,10 @@
-import CssBaseline from "@mui/material/CssBaseline";
-import MuiThemeProvider from "@mui/material/styles/ThemeProvider";
-import { usePageLayoutContext } from "@app/PageLayoutContext/usePageLayoutContext";
-import { themeStore } from "@app/apolloCache/reactiveVars/themeStore";
-import { THEMES } from "./themes";
-import type { Theme } from "@mui/material/styles";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
+import { themeStore } from "@/stores/themeStore";
+import { useAppThemeObject } from "./useAppThemeObject";
 
-export const ThemeProvider = ({ children }: ThemeProviderProps) => {
+export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const themeName = themeStore.useSubToStore();
-  const { isMobileUserAgent, isMobilePageLayout } = usePageLayoutContext();
+  const theme = useAppThemeObject(themeName);
 
-  const theme: Theme = {
-    ...THEMES[themeName || "DARK"], // A fallback themeName for added safety (will crash if not set)
-    variables: {
-      isMobileUserAgent,
-      isMobilePageLayout,
-    },
-  };
-
-  return (
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
-    </MuiThemeProvider>
-  );
+  return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>;
 };
-
-export type ThemeProviderProps = { children: React.ReactNode };

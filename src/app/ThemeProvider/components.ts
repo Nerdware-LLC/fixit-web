@@ -3,7 +3,7 @@ import type { Theme } from "@mui/material/styles";
 /**
  * Mui theme component properties
  */
-export const COMPONENTS: Partial<Theme["components"]> = {
+export const COMPONENTS = {
   ////////////////////////////////////////////////////////////
   // AppBar
 
@@ -30,7 +30,7 @@ export const COMPONENTS: Partial<Theme["components"]> = {
         height: "2.5rem",
         width: "2.5rem",
         textAlign: "center",
-        overflow: "hidden !important", // <-- ensure can't be overridden
+        overflow: "hidden !important",
         color: palette.text.primary,
         ...(palette.mode === "dark"
           ? {
@@ -57,13 +57,6 @@ export const COMPONENTS: Partial<Theme["components"]> = {
   MuiButton: {
     defaultProps: {
       variant: "contained",
-    },
-    styleOverrides: {
-      root: {
-        // Roboto font not centering vertically, bump down slightly in buttons:
-        paddingTop: "0.35rem",
-        paddingBottom: "0.15rem",
-      },
     },
   },
 
@@ -99,6 +92,15 @@ export const COMPONENTS: Partial<Theme["components"]> = {
   },
 
   ////////////////////////////////////////////////////////////
+  // Stack
+
+  MuiStack: {
+    defaultProps: {
+      useFlexGap: true,
+    },
+  },
+
+  ////////////////////////////////////////////////////////////
   // Tabs
 
   MuiTabs: {
@@ -120,13 +122,15 @@ export const COMPONENTS: Partial<Theme["components"]> = {
   // Tooltip
 
   MuiTooltip: {
+    defaultProps: {
+      arrow: true,
+    },
     styleOverrides: {
       tooltip: {
         fontSize: "0.75rem", //  default is 11px (0.6875 rem)
-        paddingBottom: "1px", // better spacing and text alignment
       },
     },
   },
 
   ////////////////////////////////////////////////////////////
-};
+} as const satisfies NonNullable<Theme["components"]>;

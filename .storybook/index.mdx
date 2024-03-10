@@ -1,0 +1,380 @@
+import { Meta } from "@storybook/blocks";
+import Stack from "@mui/material/Stack";
+import Text from "@mui/material/Typography";
+import linkedInIconSVG from "./assets/LinkedIn_icon_circle.svg";
+import twitterIconSVG from "./assets/Twitter_icon_circle.svg";
+import youtubeIconSVG from "./assets/YouTube_icon_circle.svg";
+import apolloGraphqlSVG from "./assets/apollo-graphql.svg";
+import emailIconSVG from "./assets/email_icon_circle.svg";
+import fixitLogoPNG from "./assets/fixit_logo.png";
+import githubIconSVG from "./assets/github.svg";
+import nerdwareLogoPNG from "./assets/nerdware_logo.png";
+import swaggerLogoSVG from "./assets/swagger-logo.svg";
+
+{/* MDX COMPONENTS */}
+
+export const Anchor = ({ href, children, ...anchorProps }) => (
+  <a href={href} target="_blank" rel="noreferrer" {...anchorProps}>
+    {children}
+  </a>
+);
+
+export const Image = ({ href, src, alt, ...imgProps }) => (
+  <Anchor href={href} alt={alt} style={{ display: "contents" }}>
+    <img src={src} alt={alt} {...imgProps} />
+  </Anchor>
+);
+
+export const DocSection = ({ header, style = {}, children, ...stackProps }) => (
+  <Stack
+    gap="1rem"
+    style={{ width: "100%", borderTop: "1px solid rgba(255, 255, 255, 0.1)", ...style }}
+    {...stackProps}
+  >
+    {header && (
+      <Text
+        component="h2"
+        variant="h5"
+        style={{ border: "none", margin: "4px 0 0 0", padding: 0, lineHeight: 1.25 }}
+      >
+        {header}
+      </Text>
+    )}
+    {children}
+  </Stack>
+);
+
+{/* META INFO */}
+
+<Meta title="Welcome README" />
+
+{/* LAYOUT */}
+
+<Stack
+  id="fixit-sb-readme-root"
+  sx={({ breakpoints }) => ({
+    width: "100%",
+    height: "100%",
+    minHeight: "100vh",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "inherit",
+    overflowX: "hidden",
+    padding: "2.5rem",
+    gap: "2.5rem",
+    [breakpoints.down(900)]: { padding: "2rem", gap: "2rem",  },
+    [breakpoints.down(600)]: { padding: "1rem", gap: "1rem" },
+  })}
+>
+
+<Stack
+  direction="row"
+  style={{ width: "100%", gap: "inherit" }}
+>
+  <Image
+    src={fixitLogoPNG}
+    href="https://github.com/Nerdware-LLC/fixit-web#README"
+    alt="Check out this project on GitHub"
+    style={{
+      width: "125px",
+      height: "auto",
+      aspectRatio: "1 / 1",
+      borderRadius: "50%",
+      backgroundImage: `url(data:image/svg+xml;utf8,${encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50" fill="white" />
+        </svg>`
+      )})`, // white circle
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "97%",
+    }}
+  />
+  <Stack
+    sx={({ breakpoints }) => ({
+      alignSelf: "center",
+      gap: "0.75rem",
+      height: "100%",
+      justifyContent: "center",
+      whiteSpace: "pre-line",
+      "& span": { whiteSpace: "nowrap" },
+      "& > h1": {
+        lineHeight: 1,
+        fontSize: "2.75rem",
+        [breakpoints.down(600)]: { fontSize: "1.5rem" }
+      },
+    })}
+  >
+    <Text component="h1" variant="h3">Fixit Component Storybook</Text>
+
+    <p>
+      <span>Author: <Anchor href="https://github.com/trevor-anderson">Trevor Anderson</Anchor>,</span>{` `}
+      <span>Founder of <Anchor href="https://github.com/Nerdware-LLC">Nerdware</Anchor></span>
+    </p>
+
+  </Stack>
+</Stack>
+
+<DocSection style={{ border: "none" }}>
+  Hi there 👋 This Storybook contains the <b>components</b>, <b>layouts</b>, and <b>pages</b> for the Fixit
+  web app.
+
+<ul style={{ margin: 0 }}>
+  <li>
+    <b>Components</b> are the smallest re-usable building blocks of the app, like buttons, text
+    fields, and icons.
+  </li>
+  <li>
+    <b>Layouts</b> are medium-sized building blocks that define the structure of a page or view.
+  </li>
+  <li>
+    <b>Pages</b> are the largest components, each of which is associated with an app route.
+  </li>
+</ul>
+
+  </DocSection>
+
+<DocSection header="🔗 Quick Links" gap="1.5rem">
+  <Stack
+    direction="row"
+    style={{
+      maxWidth: "1000px",
+      alignSelf: "center",
+      gap: "1.5rem 1rem",
+      flexWrap: "wrap",
+      alignItems: "center",
+      justifyContent: "space-evenly",
+    }}
+  >
+    {[
+      {
+        label: `Fixit Web\nGitHub Repo`,
+        src: githubIconSVG,
+        href: "https://github.com/Nerdware-LLC/fixit-web#readme",
+      },
+      {
+        label: `Fixit API\nGitHub Repo`,
+        src: githubIconSVG,
+        href: "https://github.com/Nerdware-LLC/fixit-api#readme",
+      },
+      {
+        label: `Fixit GraphQL API\nSchema Explorer`,
+        src: apolloGraphqlSVG,
+        href: "https://studio.apollographql.com/public/fixit/variant/current",
+        containerStyle: {
+          background: `radial-gradient(circle at bottom right, #E63BAE, 33%, #3013A3)`,
+          // Apollo-GQL blue:   #3013A3
+          // GraphQL logo pink: #E63BAE
+        },
+      },
+      {
+        label: `Fixit REST OpenAPI\nSchema Explorer`,
+        src: swaggerLogoSVG,
+        href: "https://app.swaggerhub.com/apis/Nerdware/Fixit",
+      },
+      {
+        label: `Nerdware\nYouTube Channel`,
+        src: nerdwareLogoPNG,
+        href: "https://www.youtube.com/@nerdware-io",
+      },
+    ].map(({ label, src, href, containerStyle = {} }) => (
+      <Stack
+        key={label}
+        component="a"
+        href={href}
+        alt={label}
+        target="_blank"
+        rel="noreferrer"
+        style={{
+          gap: "0.5rem",
+          alignItems: "center",
+          width: "9rem",
+        }}
+      >
+        <div
+          style={{
+            width: "65px",
+            height: "65px",
+            borderRadius: "50%",
+            display: "grid",
+            placeItems: "center",
+            ...containerStyle,
+          }}
+        >
+          <img src={src} alt={label} style={{ width: "100%", height: "auto" }} />
+        </div>
+        <Text
+          variant="subtitle2"
+          style={{
+            textAlign: "center",
+            whiteSpace: "pre-line",
+            color: "#029CFD",
+            lineHeight: 1.35,
+          }}
+        >
+          {label}
+        </Text>
+      </Stack>
+    ))}
+  </Stack>
+</DocSection>
+
+<DocSection header="📝 License" style={{ marginTop: "auto" }}>
+  <span>
+    All files, scripts, and source code contained herein are for proprietary use only by Nerdware,
+    LLC.
+  </span>
+  <span>
+    {/* prettier-ignore */}
+    See <Anchor href="https://raw.githubusercontent.com/Nerdware-LLC/fixit-api/main/LICENSE?token=GHSAT0AAAAAACNMYXYE3P3MCJON2YGKRFQCZNWLHXQ">
+      LICENSE
+    </Anchor> for more information.
+  </span>
+</DocSection>
+
+<DocSection header="💬 Contact" alignItems="center">
+  <Stack
+    divider={<span style={{ color: "#C9CDCF" }}>—</span>}
+    sx={({ breakpoints }) => ({
+      flexDirection: "row",
+      gap: "0.5rem",
+      alignItems: "center",
+      [breakpoints.down(600)]: {
+        flexDirection: "column",
+        gap: 0,
+        margin: "0.25rem 0 0.75rem 0",
+        "& > span": { display: "none" }
+      }
+    })}
+  >
+    <Text>Trevor Anderson</Text>
+    <Anchor href="mailto:trevor@nerdware.cloud">Trevor@Nerdware.cloud</Anchor>
+    <Anchor href="https://twitter.com/teerevtweets">@TeeRevTweets</Anchor>
+  </Stack>
+
+  <Stack direction="row" sx={{ gap: "1.5rem", "& img": { height: "40px" } }}>
+    <Image
+      src={youtubeIconSVG}
+      href="https://www.youtube.com/@nerdware-io"
+      alt="Check out Nerdware on YouTube"
+    />
+    <Image
+      src={linkedInIconSVG}
+      href="https://www.linkedin.com/in/meet-trevor-anderson/"
+      alt="Trevor Anderson's LinkedIn"
+    />
+    <Image
+      src={twitterIconSVG}
+      href="https://twitter.com/TeeRevTweets"
+      alt="Trevor Anderson's Twitter"
+    />
+    <Image
+      src={emailIconSVG}
+      href="mailto:trevor@nerdware.cloud"
+      alt="Email Trevor Anderson"
+    />
+  </Stack>
+  <Anchor href="https://www.youtube.com/watch?v=GO5FwsblpT8">
+    <strong>
+      <i>Dare Mighty Things.</i>
+    </strong>
+  </Anchor>
+</DocSection>
+
+</Stack>
+
+<style>
+  {`
+
+  div#storybook-docs {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    display: block;
+    overflow-x: hidden;
+
+    /***** SCROLLBAR STYLES: *****/
+
+    &::-webkit-scrollbar {
+      display: block;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 0 0.05rem 0.05rem rgba(255, 255, 255, 0.12);
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #121212;
+      box-shadow: inset 0 0 0.1rem 0.5rem #121212;
+    }
+
+    /***** GLOBAL STYLE DEFAULTS: *****/
+
+    & * {
+      box-sizing: border-box;
+      font-family: "Roboto", sans-serif;
+      -webkit-text-size-adjust: 100%;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    & p,h1,h2,h3,h4,h5,h6 {
+      margin: 0;
+      color: #C9CDCF;
+    }
+
+    & p {
+      font-size: 1rem;
+    }
+
+    & img,svg {
+      object-fit: contain;
+      max-width: 150px;
+
+      @media (max-width: 600px) {
+        max-width: 100px;
+      }
+    }
+
+    & a {
+      &:hover {
+        cursor: pointer;
+      }
+      & * {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    /***** STYLES FOR SB'S OUTER WRAPPER *****/
+
+    & > div.sbdocs-wrapper {
+      min-width: 100%;
+      min-height: 100%;
+      padding: 0;
+      display: block;
+      overflow-x: hidden;
+
+      /***** STYLES FOR SB'S INNER/CONTENT WRAPPER *****/
+
+      & > div.sbdocs-content {
+        width: 100%;
+        min-width: 100%;
+        height: 100%;
+        min-height: 100%;
+        padding: 0;
+        display: block;
+        overflow-x: hidden;
+        background-color: inherit;
+      }
+
+      /***** RM SB'S BUILT-IN ToC: *****/
+
+      & > div:nth-of-type(2) {
+        display: none;
+      }
+    }
+  }
+
+  `}
+</style>

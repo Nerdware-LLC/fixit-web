@@ -4,93 +4,133 @@ import Box from "@mui/material/Box";
 import Divider, { dividerClasses } from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
 import Slide from "@mui/material/Slide";
-import ToggleButtonGroup, { toggleButtonGroupClasses } from "@mui/material/ToggleButtonGroup";
+import ToggleButtonGroup, {
+  toggleButtonGroupClasses,
+  type ToggleButtonGroupProps,
+} from "@mui/material/ToggleButtonGroup";
 import InboxIcon from "@mui/icons-material/Inbox";
 import ListIcon from "@mui/icons-material/List";
 import SendIcon from "@mui/icons-material/Send";
 import TableViewSharpIcon from "@mui/icons-material/TableViewSharp";
+import { ToggleButtonWithTooltip } from "@/components/Buttons/ToggleButtonWithTooltip";
 import {
   listViewSettingsStore,
   type ListViewSettingsStoreKey,
-  type ListOrTable,
-} from "@cache/listviewSettingsStore";
-import { ToggleButtonWithTooltip } from "@components/Buttons/ToggleButtonWithTooltip";
-import type { ListViewListName } from "./types";
+} from "@/stores/listviewSettingsStore";
+import { capitalize } from "@/utils/formatters/strings";
+import {
+  LIST_VIEW_MODES,
+  LIST_VIEW_LIST_NAMES,
+  type ListViewMode,
+  type ListViewListName,
+} from "./types";
+import type { IsMobilePageLayout } from "@/app/PageLayoutContext";
 
 export const ListViewHeaderToggleButtons = ({
   listViewSettingsStoreKey,
   isMobilePageLayout,
 }: ListViewHeaderToggleButtonsProps) => {
-  const { listOrTable, listVisibility = null } =
+  const { viewMode, listVisibility } =
     listViewSettingsStore[listViewSettingsStoreKey].useSubToStore();
 
   const slideContainerRef = useRef(null);
 
-  // This useEffect ensures only 1 list is shown on mobile
+  /**
+   * Show the list-visibility toggle buttons if:
+   * - The list-view is not in mobile-page-layout, in which space is a bit too constrained.
+   * - The list-view includes `Inbox` and `Sent` lists.
+   * - The list-view is not the ContactsListView, which only has 1 list and therefore doesn't use list-vis.
+   */
+  const showListVisibilityToggleButtons =
+    !isMobilePageLayout && !!listVisibility && listViewSettingsStoreKey !== "contacts";
+
+  // EFFECT: ensure only 1 list is shown on mobile
   useEffect(() => {
-    if (isMobilePageLayout && listVisibility !== null) {
+    if (isMobilePageLayout && listVisibility && listViewSettingsStoreKey !== "contacts") {
       listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({
-        listVisibility: { Inbox: !listVisibility.Inbox, Sent: listVisibility.Inbox },
+        listVisibility: {
+          Inbox: !listVisibility.Inbox,
+          Sent: listVisibility.Inbox,
+        },
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMobilePageLayout]);
 
+  // onChange handler for the "ListViewMode" ToggleButtonGroup:
+  const handleChangeListViewMode: ToggleButtonGroupProps["onChange"] = (
+    _event,
+    newValue: ListViewMode | null
+  ) => {
+    if (newValue) {
+      listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({ viewMode: newValue });
+    }
+  };
+
+  // onChange handler for the "ListVisibility" ToggleButtonGroup:
+  const handleChangeListVisibility: ToggleButtonGroupProps["onChange"] = (
+    _event,
+    newVisibleListNames: Array<ListViewListName> | null
+  ) => {
+    // Do nothing if the list-view doesn't use ListVisibility (e.g. ContactsListView)
+    if (listVisibility && listViewSettingsStoreKey !== "contacts") {
+      // Determine the new listVisibility state based on the newVisibleListNames:
+      const newListVisibility =
+        newVisibleListNames && newVisibleListNames.length > 0
+          ? newVisibleListNames.reduce((accum, listName) => ({ ...accum, [listName]: true }), {
+              Inbox: false,
+              Sent: false,
+            })
+          : { Inbox: !listVisibility.Inbox, Sent: listVisibility.Inbox };
+      // Update the listVisibility state:
+      listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({
+        listVisibility: newListVisibility,
+      });
+    }
+  };
+
   return (
     <StyledPaper
       elevation={0}
-      className={listVisibility && listOrTable === "LIST" ? "show-expanded" : undefined}
       ref={slideContainerRef}
+      className={
+        showListVisibilityToggleButtons && viewMode === LIST_VIEW_MODES.LIST
+          ? "show-expanded"
+          : undefined
+      }
     >
-      {!isMobilePageLayout && listVisibility && (
-        <Slide in={listOrTable === "LIST"} direction="left" container={slideContainerRef.current}>
+      {showListVisibilityToggleButtons && (
+        <Slide
+          in={viewMode === LIST_VIEW_MODES.LIST}
+          direction="left"
+          container={slideContainerRef.current}
+        >
           <Box style={{ display: "flex", alignItems: "center", zIndex: 1 }}>
             <ToggleButtonGroup
               aria-label="list visibility toggle buttons"
+              onChange={handleChangeListVisibility}
               value={[
-                ...(listVisibility.Inbox === true ? ["Inbox"] : []),
-                ...(listVisibility.Sent === true ? ["Sent"] : []),
+                ...(listVisibility.Inbox === true ? [LIST_VIEW_LIST_NAMES.INBOX] : []),
+                ...(listVisibility.Sent === true ? [LIST_VIEW_LIST_NAMES.SENT] : []),
               ]}
-              onChange={(event, newVisibleListNames: Array<ListViewListName> | null) => {
-                listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({
-                  listVisibility:
-                    newVisibleListNames && newVisibleListNames.length > 0
-                      ? newVisibleListNames.reduce(
-                          (accum, listName) => ({ ...accum, [listName]: true }),
-                          { Inbox: false, Sent: false }
-                        )
-                      : { Inbox: !listVisibility!.Inbox, Sent: listVisibility!.Inbox }, // (listVisibility can not be null here, hence the !s),
-                });
-              }}
             >
-              <ToggleButtonWithTooltip
-                value="Inbox"
-                aria-label="inbox list visibility toggle"
-                TooltipProps={{
-                  title:
-                    listVisibility.Inbox === false
-                      ? "Show Inbox"
-                      : listVisibility.Sent === true
-                      ? "Hide Inbox"
-                      : "Switch lists",
-                }}
-              >
-                <InboxIcon />
-              </ToggleButtonWithTooltip>
-              <ToggleButtonWithTooltip
-                value="Sent"
-                aria-label="sent list visibility toggle"
-                TooltipProps={{
-                  title:
-                    listVisibility.Sent === false
-                      ? "Show Sent"
-                      : listVisibility.Inbox === true
-                      ? "Hide Sent"
-                      : "Switch lists",
-                }}
-              >
-                <SendIcon />
-              </ToggleButtonWithTooltip>
+              {LIST_VISIBILITY_TOGGLE_BUTTON_CONFIGS.map(({ listName, otherListName, icon }) => (
+                <ToggleButtonWithTooltip
+                  key={listName}
+                  value={listName}
+                  aria-label={`${listName} list visibility toggle`}
+                  TooltipProps={{
+                    title:
+                      listVisibility[listName] === false
+                        ? `Show ${listName}`
+                        : listVisibility[otherListName] === true
+                          ? `Hide ${listName}`
+                          : "Switch lists",
+                  }}
+                >
+                  {icon}
+                </ToggleButtonWithTooltip>
+              ))}
             </ToggleButtonGroup>
             <Divider flexItem orientation="vertical" />
           </Box>
@@ -98,36 +138,46 @@ export const ListViewHeaderToggleButtons = ({
       )}
       <ToggleButtonGroup
         aria-label="table or list view"
-        value={listOrTable}
+        value={viewMode}
+        onChange={handleChangeListViewMode}
         exclusive
         style={{ zIndex: 5 }}
-        onChange={(event: React.MouseEvent<HTMLElement>, newValue: ListOrTable | null) => {
-          if (newValue !== null) {
-            listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({ listOrTable: newValue });
-          }
-        }}
       >
-        <ToggleButtonWithTooltip
-          value="LIST"
-          aria-label="list view"
-          TooltipProps={{ title: "View List" }}
-        >
-          <ListIcon />
-        </ToggleButtonWithTooltip>
-        <ToggleButtonWithTooltip
-          value="TABLE"
-          aria-label="table view"
-          TooltipProps={{ title: "View Table" }}
-        >
-          <TableViewSharpIcon />
-        </ToggleButtonWithTooltip>
+        {LIST_VIEW_MODE_TOGGLE_BUTTON_CONFIGS.map(({ viewMode, icon }) => (
+          <ToggleButtonWithTooltip
+            key={viewMode}
+            value={viewMode}
+            aria-label={`${viewMode} view`}
+            TooltipProps={{ title: `View ${capitalize(viewMode)}` }}
+          >
+            {icon}
+          </ToggleButtonWithTooltip>
+        ))}
       </ToggleButtonGroup>
     </StyledPaper>
   );
 };
 
-const StyledPaper = styled(Paper)(({ theme }) => ({
-  height: theme.variables.isMobilePageLayout ? "2.5rem" : "3.1rem",
+const LIST_VIEW_MODE_TOGGLE_BUTTON_CONFIGS = [
+  { viewMode: LIST_VIEW_MODES.LIST, icon: <ListIcon /> },
+  { viewMode: LIST_VIEW_MODES.TABLE, icon: <TableViewSharpIcon /> },
+] as const;
+
+const LIST_VISIBILITY_TOGGLE_BUTTON_CONFIGS = [
+  {
+    listName: LIST_VIEW_LIST_NAMES.INBOX,
+    otherListName: LIST_VIEW_LIST_NAMES.SENT, // used to determine the tooltip `title`
+    icon: <InboxIcon />,
+  },
+  {
+    listName: LIST_VIEW_LIST_NAMES.SENT,
+    otherListName: LIST_VIEW_LIST_NAMES.INBOX,
+    icon: <SendIcon />,
+  },
+] as const;
+
+const StyledPaper = styled(Paper)(({ theme: { palette, variables } }) => ({
+  height: variables.isMobilePageLayout ? "2.5rem" : "3.1rem",
   overflow: "hidden",
   zIndex: 1,
   padding: 0,
@@ -135,14 +185,15 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   display: "flex",
   alignItems: "stretch",
   justifyContent: "flex-end",
-  border: theme.palette.mode === "dark" ? "none !important" : `1px solid ${theme.palette.divider}`,
+  border: palette.mode === "dark" ? "none !important" : `1px solid ${palette.divider}`,
 
-  width: theme.variables.isMobilePageLayout ? "4.845rem" : "5.94rem",
+  width: variables.isMobilePageLayout ? "4.845rem" : "5.94rem",
 
-  ...(!theme.variables.isMobilePageLayout && {
+  ...(!variables.isMobilePageLayout && {
     transition: "width 0.225s",
     "&.show-expanded": {
       width: "12.6rem",
+      minWidth: "min-content",
     },
   }),
 
@@ -150,7 +201,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   [`& .${toggleButtonGroupClasses.root}`]: {
     position: "relative",
     height: "100%",
-    ...(theme.variables.isMobilePageLayout
+    ...(variables.isMobilePageLayout
       ? {
           width: "4.8rem",
           minWidth: "4.8rem",
@@ -163,7 +214,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
         }),
     opacity: 1,
     zIndex: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: palette.background.paper,
     border: "none !important",
     "& > button": {
       position: "absolute",
@@ -171,7 +222,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
       bottom: 0,
       "&:first-of-type": { left: 0 },
       "&:not(:first-of-type)": { right: 0 },
-      ...(theme.variables.isMobilePageLayout
+      ...(variables.isMobilePageLayout
         ? {
             height: "2rem",
             width: "2rem",
@@ -192,17 +243,10 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   },
 
   [`& .${dividerClasses.root}`]: {
-    ...(theme.variables.isMobilePageLayout
-      ? {
-          display: "none",
-        }
-      : {
-          margin: "0.65rem 0.3rem",
-        }),
+    ...(variables.isMobilePageLayout ? { display: "none" } : { margin: "0.65rem 0.3rem" }),
   },
 }));
 
 export type ListViewHeaderToggleButtonsProps = {
   listViewSettingsStoreKey: ListViewSettingsStoreKey;
-  isMobilePageLayout: boolean;
-};
+} & IsMobilePageLayout;

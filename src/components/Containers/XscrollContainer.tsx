@@ -1,20 +1,31 @@
 import { styled } from "@mui/material/styles";
+import Box, { type BoxProps } from "@mui/material/Box";
+import { containerClassNames } from "./classNames";
+import type { Simplify } from "type-fest";
 
 /**
  * A div which allows horizontal scrolling, with preferred styles.
- * - Great generic container for mobile views.
+ *
+ * This is a great generic container for mobile views.
  */
-export const XscrollContainer = ({ children, ...props }: XscrollContainerProps) => (
-  <StyledDiv className={xScrollContainerClassNames.root} {...props}>
+export const XscrollContainer = ({
+  tabIndex = 0,
+  className = "",
+  children,
+  ...boxProps
+}: XscrollContainerProps) => (
+  <StyledBox
+    tabIndex={tabIndex}
+    className={containerClassNames.xScrollContainerRoot + " " + className}
+    {...boxProps}
+  >
     {children}
-  </StyledDiv>
+  </StyledBox>
 );
 
-export const xScrollContainerClassNames = {
-  root: "x-scroll-container",
-};
-
-export const StyledDiv = styled("div")({
+export const StyledBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "horizontalPadding",
+})<XscrollContainerProps>(({ horizontalPadding = "1rem" }) => ({
   width: "auto",
   maxWidth: "100%",
   overflowX: "auto",
@@ -24,13 +35,13 @@ export const StyledDiv = styled("div")({
   "&::before, &::after": {
     content: '" "',
     display: "inline-block",
-    width: "1rem",
-    minWidth: "1rem",
+    width: horizontalPadding,
+    minWidth: horizontalPadding,
   },
 
   "& > div": {
     flexGrow: 1,
   },
-});
+}));
 
-export type XscrollContainerProps = React.ComponentProps<typeof StyledDiv>;
+export type XscrollContainerProps = Simplify<{ horizontalPadding?: string } & BoxProps>;

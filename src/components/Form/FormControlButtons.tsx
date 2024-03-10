@@ -1,15 +1,20 @@
 import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
-import { FormSubmitButton, type FormSubmitButtonProps } from "@components/Form/FormSubmitButton";
-import { BackButton, type BackButtonProps } from "@components/Navigation/BackButton";
+import { BackButton, type BackButtonProps } from "@/components/Navigation/BackButton";
+import { FormSubmitButton, type FormSubmitButtonProps } from "./FormSubmitButton";
 import { formClassNames } from "./classNames";
 
+/**
+ * A `Form` component which includes `<FormSubmitButton />` and `<BackButton />` components
+ * for convenience. The buttons are contained within a flex-box.
+ */
 export const FormControlButtons = ({
   FormSubmitButtonProps = {},
   BackButtonProps = {},
-  ...containerProps
+  className = "",
+  ...boxProps
 }: FormControlButtonsProps) => (
-  <StyledBox className={formClassNames.controlButtonsContainer} {...containerProps}>
+  <StyledBox className={formClassNames.controlButtonsContainer + " " + className} {...boxProps}>
     <FormSubmitButton {...FormSubmitButtonProps} />
     <BackButton label="Cancel" {...BackButtonProps} />
   </StyledBox>
@@ -36,7 +41,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
       : { width: "min-content", margin: "0" }),
     paddingLeft: "1.5rem",
     paddingRight: "1.5rem",
-    lineHeight: "2rem",
     borderRadius: "1.5rem",
   },
 }));
@@ -44,4 +48,4 @@ const StyledBox = styled(Box)(({ theme }) => ({
 export type FormControlButtonsProps = {
   FormSubmitButtonProps?: FormSubmitButtonProps;
   BackButtonProps?: BackButtonProps;
-} & BoxProps;
+} & Omit<BoxProps, "children">;

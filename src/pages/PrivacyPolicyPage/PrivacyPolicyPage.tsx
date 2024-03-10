@@ -1,13 +1,13 @@
 import Text from "@mui/material/Typography";
-import { Anchor } from "@components/Navigation/Anchor";
-import { LegalPolicyPageLayout } from "@layouts/LegalPolicyPageLayout";
-import { PolicyToC } from "@layouts/LegalPolicyPageLayout/PolicyToC";
+import { Anchor } from "@/components/Navigation/Anchor";
+import { LegalPolicyPageLayout } from "@/layouts/LegalPolicyPageLayout";
+import { PolicyToC } from "@/layouts/LegalPolicyPageLayout/PolicyToC";
 import { PersonalInfoCollectedTable } from "./PersonalInfoCollectedTable";
 import { POLICY_ANCHOR_TARGETS } from "./PolicyAnchorTargets";
 import { PolicySection, InShort } from "./PolicySection";
 
 export const PrivacyPolicyPage = () => (
-  <LegalPolicyPageLayout pageTitle="Privacy Policy" lastUpdated="January 01, 2022">
+  <LegalPolicyPageLayout pageTitle="Privacy Policy" lastUpdated="January 19, 2024">
     <Text>
       This privacy notice for Nerdware, LLC ("Company," "we," "us," or "our"), describes how and why
       we might collect, store, use, and/or share ("process") your information when you use our
@@ -141,8 +141,12 @@ export const PrivacyPolicyPage = () => (
       <Text>
         <b>Payment Data.</b> We may collect data necessary to process your payment if you make
         purchases, such as your payment instrument number, and the security code associated with
-        your payment instrument. All payment data is stored by Stripe. You may find their privacy
-        notice link(s) here: <Anchor href="https://stripe.com/privacy" />.
+        your payment instrument. All payment data is stored by Stripe. We use Stripe for payment,
+        analytics, and other business services. Stripe collects and processes personal data,
+        including identifying information about the devices that connect to its services. Stripe
+        uses this information to operate and improve the services it provides to us, including for
+        fraud detection and prevention. You may find their privacy notice link(s) here:{" "}
+        <Anchor href="https://stripe.com/privacy" />.
       </Text>
       <Text>
         <b>Social Media Login Data.</b> We may provide you with the option to register with us using
@@ -631,3 +635,6 @@ export const PrivacyPolicyPage = () => (
     </PolicySection>
   </LegalPolicyPageLayout>
 );
+
+// Exported as "Component" for react-router-dom lazy loading
+export const Component = PrivacyPolicyPage;

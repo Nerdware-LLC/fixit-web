@@ -11,7 +11,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBackIosNew";
  *   history.
  */
 export const BackButton = ({
-  to,
+  to = "-1",
   label,
   children = "Back",
   icon = false,
@@ -19,11 +19,11 @@ export const BackButton = ({
   tooltipProps = {},
   ...props
 }: BackButtonProps) => {
-  const navigate = useNavigate();
+  const nav = useNavigate();
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     event.preventDefault();
-    navigate(to ?? (-1 as To));
+    nav(to);
   };
 
   return (

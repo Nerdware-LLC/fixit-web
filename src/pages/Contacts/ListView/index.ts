@@ -1,1 +1,0 @@
-export { ContactsListView } from "./ListView";

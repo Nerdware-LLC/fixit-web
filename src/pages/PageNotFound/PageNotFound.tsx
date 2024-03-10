@@ -1,40 +1,41 @@
-import React from "react";
+import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Divider, { dividerClasses } from "@mui/material/Divider";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { DragonIcon } from "@components/Icons/DragonIcon";
-import { Anchor } from "@components/Navigation/Anchor";
-import { Link } from "@components/Navigation/Link";
+import { DragonIcon } from "@/components/Icons/DragonIcon";
+import { Anchor } from "@/components/Navigation/Anchor";
+import { Link } from "@/components/Navigation/Link";
+import { APP_PATHS } from "@/routes/appPaths";
 
 export const PageNotFound = () => {
   const nav = useNavigate();
 
   return (
     <StyledDiv>
-      <div className={classNames.headerContainer}>
+      <div id={elementIDs.headerContainer}>
         <Text variant="h2">
-          <span className={classNames.text404}>404</span>Whoops - this page doesn&apos;t seem to
-          exist!
+          <span style={{ opacity: 0.3, marginRight: "1rem" }}>404</span>
+          Whoops - this page doesn&apos;t seem to exist!
         </Text>
       </div>
-      <div className={classNames.bodyContainer}>
+      <div id={elementIDs.bodyContainer}>
         <div>
           <Text>Looking for something in particular? Hopefully one of these links will help:</Text>
           <ul>
             {[
-              { to: "/", label: "Home" },
-              { to: "/pricing", label: "Pricing" },
-              { to: "/privacy", label: "Privacy Policy" },
-              { to: "/tos", label: "Terms of Service" },
+              { to: APP_PATHS.HOME, label: "Home" },
+              { to: APP_PATHS.PRODUCTS, label: "Pricing" },
+              { to: APP_PATHS.PRIVACY, label: "Privacy Policy" },
+              { to: APP_PATHS.ToS, label: "Terms of Service" },
             ].map(({ to, label }, index) => (
-              <React.Fragment key={label}>
+              <Fragment key={label}>
                 {index !== 0 && <Divider orientation="vertical" flexItem />}
                 <li key={to}>
                   <Link to={to}>{label}</Link>
                 </li>
-              </React.Fragment>
+              </Fragment>
             ))}
           </ul>
         </div>
@@ -48,8 +49,12 @@ export const PageNotFound = () => {
           into <em>"There be dragons" </em> territory! <DragonIcon />
         </Text>
       </div>
-      <div className={classNames.buttonContainer}>
-        <Button onClick={() => nav("/")} size="large">
+      <div>
+        <Button
+          onClick={() => nav(APP_PATHS.ROOT)}
+          size="large"
+          style={{ marginTop: "0.5rem", fontStyle: "italic" }}
+        >
           Take me home!
         </Button>
       </div>
@@ -57,12 +62,13 @@ export const PageNotFound = () => {
   );
 };
 
-const classNames = {
-  text404: "page-not-found-text-404",
+// Exported as "Component" for react-router-dom lazy loading
+export const Component = PageNotFound;
+
+const elementIDs = {
   headerContainer: "page-not-found-header-container",
   bodyContainer: "page-not-found-body-container",
-  buttonContainer: "page-not-found-button-container",
-};
+} as const;
 
 const StyledDiv = styled("div")(({ theme: { breakpoints, variables } }) => ({
   height: "100%",
@@ -89,19 +95,14 @@ const StyledDiv = styled("div")(({ theme: { breakpoints, variables } }) => ({
   },
 
   // HEADER
-  [`& > div.${classNames.headerContainer} > h2.${typographyClasses.root}`]: {
+  [`& > #${elementIDs.headerContainer} > h2.${typographyClasses.root}`]: {
     ...(variables.isMobilePageLayout
       ? { fontSize: "2rem", lineHeight: "2.25rem" }
-      : { fontSize: "3.25rem", lineHeight: "3.25rem" }),
-    // "404" text
-    [`& .${classNames.text404}`]: {
-      opacity: 0.3,
-      marginRight: "1rem",
-    },
+      : { fontSize: "3.25rem", lineHeight: 1 }),
   },
 
   // BODY-CONTAINER
-  [`& > div.${classNames.bodyContainer}`]: {
+  [`& > #${elementIDs.bodyContainer}`]: {
     flexDirection: "column",
     gap: "inherit",
     ...(variables.isMobilePageLayout
@@ -153,11 +154,5 @@ const StyledDiv = styled("div")(({ theme: { breakpoints, variables } }) => ({
             }),
       },
     },
-  },
-
-  // BUTTON
-  [`& > div.${classNames.buttonContainer} > button`]: {
-    marginTop: "0.5rem",
-    fontStyle: "italic",
   },
 }));

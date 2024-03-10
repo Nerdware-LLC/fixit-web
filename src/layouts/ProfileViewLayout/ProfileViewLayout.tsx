@@ -1,13 +1,13 @@
 import { styled } from "@mui/material/styles";
-import { XscrollContainer } from "@components/Containers/XscrollContainer";
+import { XscrollContainer } from "@/components/Containers/XscrollContainer";
 import {
   CoreContentViewLayout,
-  coreContentViewLayoutClassNames as ccvlClassNames,
+  coreContentViewLayoutClassNames,
   type CoreContentViewLayoutProps,
-} from "@layouts/CoreContentViewLayout";
+} from "@/layouts/CoreContentViewLayout";
 import { ProfileViewHeader } from "./ProfileViewHeader";
 import { UserProfileDetails } from "./UserProfileDetails";
-import type { FixitUser } from "@graphql/types";
+import type { FixitUser } from "@/graphql/types";
 
 export const ProfileViewLayout = ({
   handle,
@@ -32,40 +32,33 @@ export const ProfileViewLayout = ({
   </StyledCoreContentViewLayout>
 );
 
-const StyledCoreContentViewLayout = styled(CoreContentViewLayout)(({ theme }) => ({
+const StyledCoreContentViewLayout = styled(CoreContentViewLayout)(({ theme: { variables } }) => ({
   "& *": {
     whiteSpace: "nowrap",
   },
 
   // CoreContent: HEADER and CONTENT containers shared styles
-  [`& > .${ccvlClassNames.headerContainer},.${ccvlClassNames.childrenContainer}`]: {
+  // prettier-ignore
+  [`& > .${coreContentViewLayoutClassNames.headerContainer},.${coreContentViewLayoutClassNames.childrenContainer}`]: {
     display: "flex",
     flexDirection: "row",
-    flexWrap: "wrap",
-    ...(theme.variables.isMobilePageLayout && {
-      justifyContent: "center",
-      paddingLeft: 0,
-      paddingRight: 0,
-    }),
-  },
+    justifyContent: "center",
 
-  // HEADER:
+    // HEADER:
+    [`&.${coreContentViewLayoutClassNames.headerContainer}`]: {
+      height: "11rem",
+      minHeight: "11rem",
+    },
 
-  [`& > .${ccvlClassNames.headerContainer}`]: {
-    ...(theme.variables.isMobilePageLayout
-      ? {
-          height: "11rem",
-          minHeight: "11rem",
-        }
-      : {
-          height: "9rem",
-          minHeight: "9rem",
-        }),
+    // CONTENT:
+    [`&.${coreContentViewLayoutClassNames.childrenContainer}`]: {
+      padding: variables.isMobilePageLayout ? "1rem" : "1rem 2rem",
+    },
   },
 
   // Divider:
-  [`& > .${ccvlClassNames.sectionDivider}`]: {
-    marginBottom: "2rem",
+  [`& > .${coreContentViewLayoutClassNames.sectionDivider}`]: {
+    marginBottom: variables.isMobilePageLayout ? "1rem" : "2rem",
   },
 }));
 

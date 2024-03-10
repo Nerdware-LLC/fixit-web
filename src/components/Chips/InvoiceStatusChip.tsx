@@ -1,14 +1,15 @@
-import Chip, { type ChipProps } from "@mui/material/Chip";
-import { INV_STATUS_ICON_REACT_NODES } from "../Icons/InvoiceStatusIcon";
-import type { InvoiceStatus } from "@graphql/types";
+import { INVOICE_STATUS_ICONS_JSX } from "@/components/Icons/InvoiceStatusIcon";
+import { StyledChip, type StyledChipProps } from "./StyledChip";
+import type { InvoiceStatus } from "@/graphql/types";
+import type { Except } from "type-fest";
 
 /**
- * Invoice `status` Mui Chip
+ * {@link InvoiceStatus|Invoice `status`} Mui Chip
  */
-export const InvoiceStatusChip = ({ status, ...props }: InvoiceStatusChipProps) => (
-  <Chip label={status} icon={INV_STATUS_ICON_REACT_NODES[status]} {...props} />
+export const InvoiceStatusChip = ({ status, ...chipProps }: InvoiceStatusChipProps) => (
+  <StyledChip label={status} icon={INVOICE_STATUS_ICONS_JSX[status]} {...chipProps} />
 );
 
 export type InvoiceStatusChipProps = {
   status: InvoiceStatus;
-} & Omit<ChipProps, "avatar" | "icon">;
+} & Except<StyledChipProps, "label" | "icon" | "children" | "avatar" | "component">;

@@ -43,14 +43,13 @@ ChartJS.register(
 ChartJS.defaults.elements.line.borderJoinStyle = "round";
 ChartJS.defaults.elements.line.tension = 0.05;
 // font
-ChartJS.defaults.font.family = "Roboto, sans-serif";
+ChartJS.defaults.font.family = '"Roboto", sans-serif';
 ChartJS.defaults.font.size = 14;
 // maintainAspectRatio
 ChartJS.defaults.maintainAspectRatio = false;
 // plugins
-ChartJS.defaults.plugins.title.display = true;
 ChartJS.defaults.plugins.title.font = {
-  family: "Roboto, sans-serif",
+  family: '"Roboto", sans-serif',
   size: 15,
   lineHeight: 1,
   weight: "bold",

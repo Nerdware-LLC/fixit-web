@@ -1,9 +1,10 @@
 import { styled, alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import Divider, { dividerClasses } from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
-import { StripeBadge, stripeBadgeClassNames } from "@components/StripeBadge";
+import { StripeBadge, brandingClassNames } from "@/components/Branding";
+import { APP_PATHS } from "@/routes/appPaths";
 import { Link } from "./Link";
+import { navigationClassNames } from "./classNames";
 
 /**
  * Legal links:
@@ -17,15 +18,22 @@ import { Link } from "./Link";
  * When provided, the anchor wrapping the StripeBadge will have an href linking to
  * the Stripe Connected Account Agreement page, rather than Stripe's landing page.
  */
-export const LegalLinks = ({ includeStripeBadge = false, ...containerProps }: LegalLinksProps) => (
-  <StyledDiv className={legalLinksClassNames.container} {...containerProps}>
+export const LegalLinks = ({
+  includeStripeBadge = false,
+  tabIndex = -1,
+  ...containerProps
+}: LegalLinksProps) => (
+  <StyledDiv
+    className={navigationClassNames.legalLinksContainer}
+    tabIndex={tabIndex}
+    {...containerProps}
+  >
     {includeStripeBadge && (
       <>
-        <Tooltip title="View Stripe Connected Account Agreement">
-          <Box className={legalLinksClassNames.stripeBadgeContainer}>
-            <StripeBadge href="https://stripe.com/connect-account/legal/full" />
-          </Box>
-        </Tooltip>
+        <StripeBadge
+          href="https://stripe.com/connect-account/legal/full"
+          tooltipProps={{ title: "View Stripe Connected Account Agreement" }}
+        />
         <Divider
           orientation="vertical"
           variant="middle"
@@ -34,32 +42,30 @@ export const LegalLinks = ({ includeStripeBadge = false, ...containerProps }: Le
       </>
     )}
     <Tooltip title="Fixit Terms of Service">
-      <Link to="/ToS">Terms</Link>
+      <Link to={APP_PATHS.ToS} tabIndex={tabIndex}>
+        Terms {/* <-- Don't rm the \s after Privacy, it elongates the underline */}
+      </Link>
     </Tooltip>
     {!includeStripeBadge && <Divider orientation="vertical" variant="middle" />}
     <Tooltip title="Fixit Privacy Policy">
-      <Link to="/privacy">Privacy</Link>
+      <Link to={APP_PATHS.PRIVACY} tabIndex={tabIndex}>
+        Privacy {/* <-- Don't rm the \s after Privacy, it elongates the underline */}
+      </Link>
     </Tooltip>
   </StyledDiv>
 );
 
-export const legalLinksClassNames = {
-  container: "legal-links-container",
-  stripeBadgeContainer: "legal-links-stripe-badge-container",
-};
-
 const StyledDiv = styled("div")(({ theme: { palette } }) => ({
-  padding: "0.1rem",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-  justifyContent: "space-evenly",
+  justifyContent: "center",
   verticalAlign: "middle",
 
-  [`& > .${legalLinksClassNames.stripeBadgeContainer}`]: {
+  [`& > .${brandingClassNames.stripeBadgeRoot}`]: {
     height: "2rem",
     margin: "0 0.5rem",
-    [`& .${stripeBadgeClassNames.img}`]: {
+    [`& .${brandingClassNames.stripeBadgeImg}`]: {
       height: "100%",
     },
   },
@@ -72,10 +78,12 @@ const StyledDiv = styled("div")(({ theme: { palette } }) => ({
     backgroundColor: alpha(palette.mode === "dark" ? palette.grey[600] : palette.grey[800], 0.5),
   },
 
-  '& > a[href="/ToS"],a[href="/privacy"]': {
+  [`& > a[href="${APP_PATHS.ToS}"],a[href="${APP_PATHS.PRIVACY}"]`]: {
     color: palette.mode === "dark" ? palette.grey[500] : palette.grey[700],
-    textDecorationStyle: "dotted",
+    textDecoration: "underline dotted",
+    textUnderlinePosition: "under",
     margin: "0 0.5rem",
+    whiteSpace: "pre", // preserve whitespace, text includes ending space to elongate underline
   },
 }));
 

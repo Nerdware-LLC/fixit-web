@@ -1,7 +1,7 @@
 import Text from "@mui/material/Typography";
-import { Anchor } from "@components/Navigation/Anchor";
-import { LegalPolicyPageLayout } from "@layouts/LegalPolicyPageLayout";
-import { PolicyToC } from "@layouts/LegalPolicyPageLayout/PolicyToC";
+import { Anchor } from "@/components/Navigation/Anchor";
+import { LegalPolicyPageLayout } from "@/layouts/LegalPolicyPageLayout";
+import { PolicyToC } from "@/layouts/LegalPolicyPageLayout/PolicyToC";
 import { PolicySection } from "./PolicySection";
 import { ToS_SECTIONS } from "./TermsOfServiceSections";
 
@@ -899,6 +899,9 @@ export const TermsOfServicePage = () => (
     </PolicySection>
   </LegalPolicyPageLayout>
 );
+
+// Exported as "Component" for react-router-dom lazy loading
+export const Component = TermsOfServicePage;
 
 const SubsectionHeader = ({ children }: { children: React.ReactNode }) => (
   <Text variant="h5" component="h4" className="tos-subsection-header">

@@ -4,13 +4,7 @@ import type { ListViewListName } from "../types";
 
 export const ListHeader = ({ listName }: ListHeaderProps) => (
   <ListHeaderContainer>
-    <Text
-      variant="h6"
-      component="h3"
-      style={{
-        marginLeft: "1rem",
-      }}
-    >
+    <Text variant="h6" component="h3" style={{ paddingLeft: "0.75rem" }}>
       {listName}
     </Text>
   </ListHeaderContainer>

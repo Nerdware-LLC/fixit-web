@@ -1,8 +1,5 @@
-######################################################################
+###############################################################################
 # React gitignore entries
-
-# This section includes entries from the gitignore.io API
-# https://www.toptal.com/developers/gitignore/api/react
 
 # Packages/npm/yarn/lerna
 node_modules
@@ -52,7 +49,7 @@ psd
 thumb
 sketch
 
-#---------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # Nerdware gitignore entries
 
 # Notes
@@ -81,7 +78,7 @@ FIXME*
 schema.json
 
 # VSCode-related
-.vscode/
+.vscode/*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
@@ -89,4 +86,4 @@ schema.json
 .history/
 .vscode-test
 
-######################################################################
+###############################################################################

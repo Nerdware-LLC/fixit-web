@@ -7,22 +7,68 @@ on:
 jobs:
   deploy:
     name: Deploy
-    uses: Nerdware-LLC/reusable-action-workflows/.github/workflows/upload_to_s3.yaml@main
+    runs-on: ubuntu-latest
+
+    # permissions required to use aws-actions/configure-aws-credentials
     permissions:
       id-token: write
       contents: read
-    with:
-      s3-sync-command-params: "--acl bucket-owner-full-control --sse AES256 --delete"
-    secrets:
-      OIDC_GITHUB_ROLE_ARN: ${{ secrets.OIDC_GITHUB_ROLE_ARN }}
-      S3_BUCKET_REGION: ${{ secrets.S3_BUCKET_REGION }}
-      S3_UPLOAD_PATH: |
-        ${{ secrets.S3_BUCKET_NAME }}/${{ contains(github.ref_name, 'next') && 'production' || 'staging' }}
-      # github.ref_name will be the release tag name, e.g. 'v1.0.0' or 'v1.0.0-next.1'.
-      # If the ref_name contains 'next', then the S3 bucket target destination will be
-      # '<bucket-name>/staging', otherwise it will be '<bucket-name>/production'. The
-      # CloudFront distributions are configured to serve the 'staging' or 'production'
-      # S3 bucket paths based on the origin subdomain (e.g. 'staging.example.com' or
-      # 'example.com'). For a real-world production app, you'd want to use the ref_tag
-      # as the target, and set rules in the distribution to select the appropriate
-      # version/environment, but this setup is sufficient for a demo application.
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+
+      - name: Install Dependencies
+        run: npm ci --include=dev
+
+      - name: Build
+        env:
+          VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          VITE_SENTRY_CI_RELEASE_NAME: ${{ github.event.release.name }}
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}
+        run: |
+          if [ "${{ github.event.release.prerelease }}" == 'true' ]; then
+            npm run build:staging
+          else
+            npm run build
+          fi
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.S3_OIDC_GITHUB_ROLE_ARN }}
+          aws-region: ${{ secrets.S3_BUCKET_REGION }}
+
+      - name: Upload to S3
+        run: |
+          if [ "${{ github.event.release.prerelease }}" == 'true' ]; then
+            bucket_dir='staging'
+          else
+            bucket_dir='production'
+          fi
+
+          aws s3 sync ./dist \
+            s3://${{ secrets.S3_BUCKET_NAME }}/$bucket_dir \
+            --acl bucket-owner-full-control \
+            --sse AES256 \
+            --delete
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.CLOUDFRONT_OIDC_GITHUB_ROLE_ARN }}
+          aws-region: ${{ secrets.CLOUDFRONT_DIST_REGION }}
+
+      - name: Invalidate CloudFront Edge-Cache
+        run: |
+          if [ "${{ github.event.release.prerelease }}" == 'true' ]; then
+            cf_dist_id=${{ secrets.CLOUDFRONT_STAGING_DIST_ID }}
+          else
+            cf_dist_id=${{ secrets.CLOUDFRONT_PROD_DIST_ID }}
+          fi
+
+          aws cloudfront create-invalidation \
+            --distribution-id $cf_dist_id \
+            --paths '/*'

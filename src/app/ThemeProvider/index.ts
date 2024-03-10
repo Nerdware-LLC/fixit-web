@@ -1,2 +1,3 @@
-export { ThemeProvider } from "./ThemeProvider";
+export * from "./ThemeProvider";
 export * from "./themes";
+export * from "./useAppThemeObject";

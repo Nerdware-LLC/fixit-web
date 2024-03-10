@@ -1,12 +1,11 @@
-import React from "react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Text from "@mui/material/Typography";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import SendIcon from "@mui/icons-material/Send";
-import { formatNum } from "@utils/formatNum";
+import { SmallWidgetLayout } from "@/components/Widgets/SmallWidgetLayout";
+import { fmt } from "@/utils/formatters";
 import { useDashboardDataContext } from "./DashboardDataContext";
-import { SmallWidgetLayout } from "./SmallWidgetLayout";
 
 // IDEA Add btns which open Invoices table with filters: status=OPEN,listName=Inbox|Sent
 
@@ -66,7 +65,6 @@ const ColumnOfInvoiceStats = ({
   average: number;
 }) => (
   <Box
-    className="invoice-totals-widget-col-container"
     style={{
       height: "100%",
       width: "calc(50% - 1rem)",
@@ -118,43 +116,44 @@ const ColumnOfInvoiceStats = ({
   </Box>
 );
 
-const InvoiceStat = ({ label, amount }: { label: "Total" | "Average"; amount: number }) => (
-  <Box
-    className="invoice-totals-widget-stat"
-    style={{
-      width: "100%",
-      padding: "0.5rem clamp(0.5rem, 5%, 5rem)",
-      display: "flex",
-      flexDirection: "row",
-      flexWrap: "wrap",
-      alignItems: "center",
-      justifyContent: "flex-end",
-    }}
-  >
-    <Text
+const InvoiceStat = ({ label, amount }: { label: "Total" | "Average"; amount: number }) => {
+  return (
+    <Box
       style={{
-        fontSize: "0.925rem",
-        fontWeight: "100",
-        lineHeight: "1.1rem",
-        opacity: 0.8,
+        width: "100%",
+        padding: "0.5rem clamp(0.5rem, 5%, 5rem)",
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+        justifyContent: "flex-end",
       }}
     >
-      {label}
-    </Text>
-    <Text
-      style={{
-        /* The below width ensures "Total" and "Average" always wrap/unwrap
+      <Text
+        style={{
+          fontSize: "0.925rem",
+          fontWeight: "100",
+          lineHeight: "1.1rem",
+          opacity: 0.8,
+        }}
+      >
+        {label}
+      </Text>
+      <Text
+        style={{
+          /* The below width ensures "Total" and "Average" always wrap/unwrap
         together (the 8.15 figure accounts for difference in char length).*/
-        width: label === "Total" ? "8.150625rem" : "6.925rem",
-        maxWidth: "100%",
-        fontSize: "1.35rem",
-        fontWeight: "bold",
-        lineHeight: "1.5rem",
-        marginLeft: "auto",
-        textAlign: "right",
-      }}
-    >
-      $ {formatNum.toCurrencyStr(amount).slice(1, -3) || 0}
-    </Text>
-  </Box>
-);
+          width: label === "Total" ? "8.150625rem" : "6.925rem",
+          maxWidth: "100%",
+          fontSize: "1.35rem",
+          fontWeight: "bold",
+          lineHeight: "1.5rem",
+          marginLeft: "auto",
+          textAlign: "right",
+        }}
+      >
+        $ {fmt.intToCurrencyStr(amount).slice(1, -3) || 0}
+      </Text>
+    </Box>
+  );
+};

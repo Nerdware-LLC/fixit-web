@@ -1,2 +1,2 @@
-export { PageNotFound as default } from "./PageNotFound";
-// export as default to enable code-splitting via lazy import.
+export { Component } from "./PageNotFound";
+// Exported as "Component" for react-router-dom lazy loading

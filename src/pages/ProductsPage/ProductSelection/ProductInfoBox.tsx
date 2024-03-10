@@ -2,8 +2,9 @@ import { styled } from "@mui/material/styles";
 import Button, { buttonClasses } from "@mui/material/Button";
 import Paper, { type PaperProps } from "@mui/material/Paper";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { ShimmerBox, shimmerBoxClassNames } from "@components/Containers/ShimmerBox";
+import { ShimmerBox, containerClassNames } from "@/components/Containers";
 import { ProductFeatures } from "./ProductFeatures";
+import { productSelectionClassNames } from "./classNames";
 
 export const ProductInfoBox = ({
   priceName,
@@ -15,12 +16,8 @@ export const ProductInfoBox = ({
   onClickContainer,
   ...paperProps
 }: ProductInfoBoxProps) => (
-  <StyledPaper
-    onClick={onClickContainer}
-    className={productInfoBoxClassNames.container}
-    {...paperProps}
-  >
-    <Paper elevation={2} className={productInfoBoxClassNames.headerContainer}>
+  <StyledPaper onClick={onClickContainer} {...paperProps}>
+    <Paper elevation={2} className={productSelectionClassNames.productInfoBoxHeaderRoot}>
       <Text>{priceName}</Text>
 
       {showMostPopularBadge && (
@@ -33,7 +30,7 @@ export const ProductInfoBox = ({
       )}
     </Paper>
     <div>
-      <div className={productInfoBoxClassNames.amountAndDescriptionContainer}>
+      <div className={productSelectionClassNames.productInfoBoxPriceInfoRoot}>
         <Text variant="h3">{priceAmount}</Text>
         <span>
           <Text
@@ -54,35 +51,33 @@ export const ProductInfoBox = ({
   </StyledPaper>
 );
 
-export const productInfoBoxClassNames = {
-  container: "product-info-box-container",
-  headerContainer: "product-info-box-header-container",
-  amountAndDescriptionContainer: "product-info-box-amount-and-description-container",
-};
-
-const StyledPaper = styled(Paper)(({ onClick, theme: { palette, breakpoints } }) => ({
+const StyledPaper = styled(Paper)(({ onClick, theme: { palette, variables } }) => ({
   position: "relative",
   height: "clamp(24rem, 43vh, 25rem)",
-  width: "clamp(15rem, 100%, 25rem)",
-  maxWidth: "25rem",
   display: "flex",
   flexDirection: "column",
   flexGrow: 1,
-  borderWidth: "1px",
   borderStyle: "solid",
   borderRadius: "1rem",
   borderColor: palette.divider,
 
+  ...(variables.isMobilePageLayout
+    ? {
+        width: "clamp(15rem, 100%, 25rem)",
+        maxWidth: "25rem",
+        borderWidth: "1px",
+      }
+    : {
+        width: "clamp(15rem, 30%, 20rem)",
+        maxWidth: "20rem",
+        borderWidth: "4px",
+      }),
+
   "&:hover": {
     cursor: onClick ? "pointer" : "auto",
   },
-  [`@media (min-width: ${breakpoints.values.md}) or (min-aspect-ratio: 1/1)`]: {
-    width: "clamp(15rem, 30%, 20rem)",
-    maxWidth: "20rem",
-    borderWidth: "4px",
-  },
 
-  [`& > .${productInfoBoxClassNames.headerContainer}`]: {
+  [`& > .${productSelectionClassNames.productInfoBoxHeaderRoot}`]: {
     alignSelf: "center",
     height: "4rem",
     width: "100%",
@@ -105,7 +100,7 @@ const StyledPaper = styled(Paper)(({ onClick, theme: { palette, breakpoints } })
       width: "1rem",
     },
 
-    [`& > .${shimmerBoxClassNames.root} .${typographyClasses.root}`]: {
+    [`& > .${containerClassNames.shimmerBoxRoot} .${typographyClasses.root}`]: {
       fontSize: "0.9rem",
       paddingTop: "1px",
       color: palette.getContrastText(palette.grey[900]),
@@ -121,14 +116,14 @@ const StyledPaper = styled(Paper)(({ onClick, theme: { palette, breakpoints } })
     alignItems: "flex-start",
     textAlign: "left",
 
-    [`& > .${productInfoBoxClassNames.amountAndDescriptionContainer}`]: {
+    [`& > .${productSelectionClassNames.productInfoBoxPriceInfoRoot}`]: {
       width: "100%",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       whiteSpace: "pre-line",
 
-      // price amount text
+      // PRICE AMOUNT TEXT
       [`& > .${typographyClasses.root}.${typographyClasses.h3}`]: {
         fontSize: "2.25rem",
         margin: "0.15rem 0 0 0",

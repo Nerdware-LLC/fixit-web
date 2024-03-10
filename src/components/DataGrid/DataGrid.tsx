@@ -1,14 +1,15 @@
+import { useMemo } from "react";
+import deepMerge from "lodash.merge";
 import { styled, alpha, darken, lighten } from "@mui/material/styles";
-import {
-  DataGrid as MuiDataGrid,
-  GridToolbar,
-  type DataGridProps as MuiDataGridProps,
-} from "@mui/x-data-grid";
-import { avatarClassNames } from "@components/Avatar";
+import { DataGrid as MuiDataGrid } from "@mui/x-data-grid";
+import AddToListIcon from "@mui/icons-material/PlaylistAddCircle";
+import { avatarClassNames } from "@/components/Avatar";
 import { dataGridClassNames } from "./classNames";
-import { gridPanelSX } from "./styles.gridPanel";
+import { getRowClassNameForBandedRows, getPrintFileName } from "./helpers";
+import { noRowsOverlaySlot, panelSlot, toolbarSlot } from "./slots";
 import { dataGridStyledPrintMedia } from "./styles.printMedia";
-import type { OverrideProperties } from "type-fest";
+import type { DataGridProps as MuiDataGridProps, GridValidRowModel } from "@mui/x-data-grid";
+import type { Simplify } from "type-fest";
 
 /**
  * Styled MUI DataGrid with `GridToolbar`
@@ -25,49 +26,74 @@ import type { OverrideProperties } from "type-fest";
  *   clicked/pressed; since it renders in a portal outside of the DataGrid's
  *   position in the DOM tree, styles can't be applied via css selectors within
  *   StyledMuiDataGrid, so its styles/sx are provided inline.
+ *
+ * <details>
+ *   <summary>See DataGrid API docs</summary>
+ *
+ *   Foo text here.
+ *
+ * </details>
+ *
+ * Foo text here.
  */
-export const DataGrid = ({
+export const DataGrid = <TRowData extends GridValidRowModel>({
+  rowDataItemName,
+  backgroundIcon,
   slots = {},
-  slotProps = {},
+  slotProps,
+  getRowClassName = getRowClassNameForBandedRows,
   columnBuffer = 6,
   rowBuffer = 6,
-  ...props
-}: DataGridProps) => (
-  <StyledMuiDataGrid
-    slots={{ toolbar: GridToolbar, ...slots }}
-    slotProps={{
-      ...slotProps,
-
-      toolbar: {
-        ...(slotProps?.toolbar ?? {}),
-        printOptions: {
-          hideFooter: true,
-          hideToolbar: true,
-          ...(slotProps?.toolbar?.printOptions ?? {}),
+  style,
+  ...dataGridProps
+}: DataGridProps<TRowData>) => {
+  // Deep-merge default slotProps with slotProps from caller and DataGrid props:
+  const mergedSlotProps = useMemo(() => {
+    return deepMerge(
+      // Component's default slotProps:
+      {
+        noRowsOverlay: noRowsOverlaySlot.defaultSlotProps,
+        panel: panelSlot.defaultSlotProps,
+        toolbar: toolbarSlot.defaultSlotProps,
+      },
+      // slotProps from DataGrid props:
+      {
+        noRowsOverlay: {
+          nameOfMissingItems: rowDataItemName,
+          backgroundIcon: backgroundIcon || <AddToListIcon />,
         },
-        csvOptions: {
-          utf8WithBom: true,
-          ...(slotProps?.toolbar?.csvOptions ?? {}),
+        toolbar: {
+          csvOptions: {
+            fileName: getPrintFileName(rowDataItemName),
+          },
         },
       },
+      // Caller-provided slotProps:
+      slotProps
+    );
+  }, [backgroundIcon, rowDataItemName, slotProps]);
 
-      panel: {
-        ...(slotProps?.panel ?? {}),
-        sx: {
-          ...gridPanelSX,
-          ...(slotProps?.panel?.sx ?? {}),
-        },
-      },
-    }}
-    columnBuffer={columnBuffer}
-    rowBuffer={rowBuffer}
-    getRowClassName={({ indexRelativeToCurrentPage: rowIndex }) =>
-      rowIndex % 2 === 0 ? dataGridClassNames.rowIndexEven : dataGridClassNames.rowIndexOdd
-    }
-    {...props}
-  />
-);
+  return (
+    <StyledMuiDataGrid<TRowData>
+      slots={{
+        noRowsOverlay: noRowsOverlaySlot.component,
+        toolbar: toolbarSlot.component,
+        ...slots,
+      }}
+      slotProps={mergedSlotProps}
+      columnBuffer={columnBuffer}
+      rowBuffer={rowBuffer}
+      getRowClassName={getRowClassName}
+      style={style}
+      {...dataGridProps}
+    />
+  );
+};
 
+/**
+ * @note Styles for the "banded rows" class names returned by the
+ * {@link getRowClassNameForBandedRows} helper function are defined below.
+ */
 const StyledMuiDataGrid = styled(MuiDataGrid)(({ theme: { palette, variables } }) => {
   const rowHoverStyle = {
     opacity: 0.85,
@@ -112,6 +138,7 @@ const StyledMuiDataGrid = styled(MuiDataGrid)(({ theme: { palette, variables } }
         borderStyle: "solid",
         borderColor: palette.secondary.main,
         verticalAlign: "middle",
+
         "& .MuiButton-startIcon": {
           display: "flex",
           alignItems: "center",
@@ -127,9 +154,6 @@ const StyledMuiDataGrid = styled(MuiDataGrid)(({ theme: { palette, variables } }
         },
         "&:hover": {
           opacity: 0.6,
-        },
-        "& svg:first-of-type": {
-          transform: "translateY(-2px)",
         },
       },
       // For some reason, Mui places a div at the end that's too big, get rid of it
@@ -214,9 +238,24 @@ const StyledMuiDataGrid = styled(MuiDataGrid)(({ theme: { palette, variables } }
       },
     },
   };
-});
+}) as typeof MuiDataGrid; // <-- `as` is necessary to ensure the component remains generic
 
-export type DataGridProps = OverrideProperties<
-  Omit<React.ComponentProps<typeof StyledMuiDataGrid>, "getRowClassName">,
-  { slots?: Omit<NonNullable<MuiDataGridProps["slots"]>, "toolbar"> }
+export type DataGridProps<TRowData extends GridValidRowModel> = Simplify<
+  {
+    /**
+     * A human-readable name in _**plural**_ form for the type of data being displayed in the
+     * DataGrid. This value is used in sub-component slots like the {@link noRowsOverlaySlot}
+     * and {@link toolbarSlot} to provide a more user-friendly experience.
+     *
+     * @examples `"Customers"`, `"Invoices"`, `"Work Orders"`
+     */
+    rowDataItemName: string;
+    /**
+     * An icon used in the {@link noRowsOverlaySlot} for when the DataGrid is empty.
+     * Defaults to the [Mui `PlaylistAddCircle` icon][icon-url].
+     *
+     * [icon-url]: https://mui.com/material-ui/material-icons/?query=PlaylistAddCircle
+     */
+    backgroundIcon?: React.ReactNode;
+  } & MuiDataGridProps<TRowData>
 >;

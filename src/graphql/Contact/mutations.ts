@@ -1,4 +1,4 @@
-import { gql } from "@graphql/__codegen__";
+import { gql } from "@/graphql/__codegen__";
 
 export const CREATE_CONTACT = gql(`
   mutation CreateContact($contactUserID: ID!) {

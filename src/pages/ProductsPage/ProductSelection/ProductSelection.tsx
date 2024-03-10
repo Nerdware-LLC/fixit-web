@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import { checkoutValuesStore } from "@cache/checkoutValuesStore";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore";
 import { USER_SUBSCRIPTION_PRICE_LABELS } from "@/types/UserSubscription";
 import { MappedRowOfProductBoxes } from "./MappedRowOfProductBoxes";
 import { SingleProductBox } from "./SingleProductBox";
+import type { IsMobilePageLayout } from "@/app/PageLayoutContext";
 
 /**
  * Notes regarding ProductSelection on **mobile** devices/layouts:
@@ -46,22 +47,26 @@ export const ProductSelection = ({ isMobilePageLayout }: ProductSelectionProps) 
   );
 };
 
-const StyledDiv = styled("div")(({ theme }) => ({
+const StyledDiv = styled("div")(({ theme: { variables } }) => ({
   width: "100%",
   display: "flex",
-  flexDirection: "column",
   alignItems: "center",
 
-  [`@media (min-width: ${theme.breakpoints.values.md}) or (min-aspect-ratio: 1/1)`]: {
-    // On desktop/large displays, switch container flex-dir to row
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignSelf: "center",
-    // Add horizontal margin to middle ProductInfoDisplay container
-    "&>*:nth-of-type(2)": {
-      margin: "0 1rem",
-    },
-  },
+  ...(variables.isMobilePageLayout
+    ? {
+        flexDirection: "column",
+        gap: "inherit",
+        justifyContent: "space-between",
+      }
+    : {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        // Add horizontal margin to middle ProductInfoDisplay container
+        "&>*:nth-of-type(2)": {
+          // TODO use classname/elementIDs here instead of nth-of-type
+          margin: "0 1rem",
+        },
+      }),
 }));
 
-export type ProductSelectionProps = { isMobilePageLayout: boolean };
+export type ProductSelectionProps = IsMobilePageLayout;

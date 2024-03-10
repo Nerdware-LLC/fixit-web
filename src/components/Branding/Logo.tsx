@@ -1,20 +1,35 @@
 import { styled } from "@mui/material/styles";
-import logoSrc from "@images/fixit-icon.webp";
+import { getInlineSvgDataUrl } from "@/app/GlobalStyles/helpers";
+import logoSrc from "@/images/fixit_icon.webp";
+import { brandingClassNames } from "./classNames";
+import type { Simplify } from "type-fest";
 
-export const Logo = ({ alt = "Fixit logo", ...props }: LogoProps = {}) => (
-  <StyledImg src={logoSrc} className={logoClassNames.root} alt={alt} {...props} />
+export const Logo = ({ alt = "Fixit logo", className = "", ...imgProps }: LogoProps = {}) => (
+  <StyledImg
+    src={logoSrc}
+    alt={alt}
+    className={brandingClassNames.fixitLogoImg + " " + className}
+    {...imgProps}
+  />
 );
-
-export const logoClassNames = {
-  root: "fixit-logo",
-};
 
 const StyledImg = styled("img")({
   alignSelf: "center",
   objectFit: "contain",
   zIndex: 100,
-  maxHeight: "12rem",
+  maxHeight: "100%",
   borderRadius: "50%",
+  imageRendering: "crisp-edges",
+  aspectRatio: "1 / 1 !important",
+  backgroundImage: getInlineSvgDataUrl(
+    // white circle:
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="50" fill="white" />
+    </svg>`
+  ),
+  backgroundPosition: "center !important",
+  backgroundRepeat: "no-repeat !important",
+  backgroundSize: "100%",
 });
 
-export type LogoProps = React.ComponentProps<typeof StyledImg>;
+export type LogoProps = Simplify<Omit<React.ComponentProps<typeof StyledImg>, "src">>;

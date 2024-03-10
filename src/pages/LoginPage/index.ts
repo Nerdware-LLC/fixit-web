@@ -1,2 +1,2 @@
-export { LoginPage as default } from "./LoginPage";
-// export as default to enable code-splitting via lazy import.
+export { Component } from "./LoginPage";
+// Exported as "Component" for react-router-dom lazy loading

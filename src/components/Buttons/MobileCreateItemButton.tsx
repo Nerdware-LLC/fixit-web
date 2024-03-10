@@ -1,8 +1,11 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { FlashyIconButton } from "./FlashyIconButton";
 
-export const MobileCreateItemButton = (props: MobileCreateItemButtonProps) => (
-  <FlashyIconButton shouldInvertColors {...props}>
+export const MobileCreateItemButton = ({
+  "aria-label": ariaLabel = "Create item",
+  ...props
+}: MobileCreateItemButtonProps) => (
+  <FlashyIconButton shouldInvertColors aria-label={ariaLabel} {...props}>
     <AddCircleIcon />
   </FlashyIconButton>
 );

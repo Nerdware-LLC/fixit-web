@@ -1,20 +1,23 @@
 import { styled } from "@mui/material/styles";
 import { backdropClasses } from "@mui/material/Backdrop";
 import Button, { buttonClasses } from "@mui/material/Button";
-import MuiDialog, { type DialogProps as MuiDialogProps } from "@mui/material/Dialog";
+import MuiDialog, { dialogClasses, type DialogProps as MuiDialogProps } from "@mui/material/Dialog";
 import DialogActions, { dialogActionsClasses } from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
+import DialogContent, { dialogContentClasses } from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { paperClasses } from "@mui/material/Paper";
-import { SlideTransition } from "@components/Transitions/SlideTransition";
+import DialogTitle, { dialogTitleClasses } from "@mui/material/DialogTitle";
+import IconButton, { iconButtonClasses } from "@mui/material/IconButton";
+import { typographyClasses } from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
+import { SlideTransition } from "@/components/Transitions/SlideTransition";
+import { dialogElementIDs } from "./elementIDs";
 import { useDialog } from "./useDialog";
 
 /**
  * Docs: https://mui.com/components/dialogs/
  */
 export const Dialog = ({
-  isVisible,
+  isVisible = true,
   title,
   message,
   children,
@@ -22,6 +25,7 @@ export const Dialog = ({
   handleCancel,
   acceptLabel = "OK",
   cancelLabel = "CANCEL",
+  showCancelButton = true,
   ...containerProps
 }: DialogProps) => (
   <StyledMuiDialog
@@ -35,6 +39,11 @@ export const Dialog = ({
   >
     <DialogTitle id={dialogElementIDs.title} color="secondary">
       {title}
+      {handleCancel && (
+        <IconButton onClick={handleCancel} aria-label="close dialog">
+          <CloseIcon />
+        </IconButton>
+      )}
     </DialogTitle>
     <DialogContent id={dialogElementIDs.message} dividers>
       {typeof message === "string" ? (
@@ -43,8 +52,8 @@ export const Dialog = ({
         message ?? children
       )}
     </DialogContent>
-    <DialogActions>
-      {handleCancel && (
+    <DialogActions disableSpacing>
+      {handleCancel && showCancelButton && (
         <Button onClick={handleCancel} variant="outlined">
           {cancelLabel}
         </Button>
@@ -56,53 +65,62 @@ export const Dialog = ({
 
 Dialog.use = useDialog;
 
-export const dialogElementIDs = {
-  title: "dialog-title",
-  message: "dialog-message",
-};
-
-const StyledMuiDialog = styled(MuiDialog)(({ theme: { variables } }) => ({
+const StyledMuiDialog = styled(MuiDialog)(({ theme: { variables, breakpoints } }) => ({
   [`& > .${backdropClasses.root}`]: {
     backdropFilter: "blur( 5px )",
   },
 
-  [`& .${paperClasses.root}`]: {
+  [`& .${dialogClasses.paper}`]: {
     minWidth: "20rem",
-  },
 
-  [`& .${dialogActionsClasses.root}`]: {
-    padding: "1rem",
-    gap: "1rem",
-    justifyContent: variables.isMobilePageLayout ? "space-evenly" : "flex-end",
+    [`& > .${dialogTitleClasses.root}`]: {
+      position: "relative",
 
-    [`& > .${buttonClasses.root}`]: {
-      height: "2.5rem",
-      minWidth: "5.5rem",
-      margin: "0 !important",
-      padding: "0.75rem",
-      paddingBottom: "0.5rem",
-      fontSize: "1rem",
-      lineHeight: "1rem",
-      fontWeight: "bold !important",
-
-      "@media (max-width: 550px)": {
-        maxWidth: "40%",
-        fontWeight: 500,
-        whiteSpace: "pre-line",
+      [`& .${iconButtonClasses.root}`]: {
+        position: "absolute",
+        top: "0.5rem",
+        right: "0.5rem",
+        color: "rgb(150,150,150)",
       },
+    },
 
-      "@media (max-width: 375px)": {
-        height: "3.5rem",
-        padding: 0,
-        paddingTop: "0.25rem",
-        fontSize: "0.9rem",
+    [`& > .${dialogContentClasses.root}`]: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "1rem",
+
+      [`& .${typographyClasses.root}`]: {
+        lineHeight: "1.35rem",
+      },
+    },
+
+    [`& > .${dialogActionsClasses.root}`]: {
+      padding: "1rem",
+      gap: "1rem",
+      justifyContent: variables.isMobilePageLayout ? "space-evenly" : "flex-end",
+
+      [`& > .${buttonClasses.root}`]: {
+        position: "relative",
+        height: "2.5rem",
+        minWidth: "5.5rem",
+        fontSize: "1rem",
+        lineHeight: "1rem",
+        fontWeight: "bold !important",
+
+        [breakpoints.down(550)]: {
+          // 550px wide and under:
+          maxWidth: "40%",
+          fontSize: "0.9rem",
+          whiteSpace: "pre-line",
+        },
       },
     },
   },
 }));
 
 export type DialogProps = {
-  isVisible: boolean;
+  /** Whether or not the Dialog is visible (default: `true`) */
+  isVisible?: boolean;
   title: React.ReactNode;
   message?: React.ReactNode;
   children?: React.ReactNode;
@@ -110,4 +128,5 @@ export type DialogProps = {
   handleCancel?: React.MouseEventHandler<HTMLButtonElement>;
   acceptLabel?: React.ReactNode;
   cancelLabel?: React.ReactNode;
+  showCancelButton?: boolean;
 } & Omit<MuiDialogProps, "open">;

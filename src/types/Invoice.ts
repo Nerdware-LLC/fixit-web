@@ -1,7 +1,7 @@
-import type { InvoiceStatus } from "@graphql/types";
+import type { InvoiceStatus } from "@/graphql/types";
 
-export const INVOICE_STATUSES: ReadonlyArray<InvoiceStatus> = [
+export const INVOICE_STATUSES = [
   "OPEN",
   "CLOSED",
   "DISPUTED",
-] as const;
+] as const satisfies ReadonlyArray<InvoiceStatus>;

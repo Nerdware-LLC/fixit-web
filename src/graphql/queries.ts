@@ -10,4 +10,4 @@ export const QUERIES = {
   ...profileQueries,
   ...userQueries,
   ...workOrderQueries,
-};
+} as const;

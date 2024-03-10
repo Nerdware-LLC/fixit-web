@@ -2,42 +2,61 @@ import { forwardRef } from "react";
 import { styled } from "@mui/material/styles";
 import MuiAvatar from "@mui/material/Avatar";
 import Text from "@mui/material/Typography";
-import { useMaybeRef, type MaybeRef } from "@hooks/useMaybeRef";
+import { useMaybeRef } from "@/hooks/useMaybeRef";
 import { avatarClassNames } from "./classNames";
-import type { Profile } from "@graphql/types";
+import type { Profile } from "@/graphql/types";
 import type { AvatarProps as MuiAvatarProps } from "@mui/material/Avatar";
+import type { Simplify, Except } from "type-fest";
 
 /**
  * **Avatar** display is determined by the following order of precedence:
  *
- * 1. Image "src" from `imageSrc` or `photoUrl` if available
- * 2. The first char of one of the following User Profile properties:
- *    1. `displayName`
- *    2. `givenName`
- *    3. `familyName`
- * 3. The final fallback is MUI's generic avatar icon
+ * 1. `src` prop if provided
+ * 2. {@link Profile|`profile.photoUrl`} prop if provided
+ * 3. An optional `fallback` prop, which can be any `ReactNode`
+ * 4. The first letter of one of the following prop values, in order of precedence:
+ *    1. `alt`
+ *    2. `avatarProps.alt`
+ *    3. `profile.displayName`
+ *    4. `profile.businessName`
+ *    5. `profile.givenName`
+ * 5. The final fallback is MUI's generic avatar icon
  */
-export const Avatar = forwardRef<MaybeRef<HTMLDivElement>, AvatarProps>(function Avatar(
-  { profile, imageSrc, showDisplayName = false, containerProps = {}, avatarProps = {}, ...props },
+export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
+  {
+    src,
+    profile,
+    fallback,
+    showDisplayName = false,
+    containerProps = {},
+    avatarProps = {},
+    alt: explicitAltProp,
+    ...muiAvatarProps
+  },
   fwdRef
 ) {
   const avatarRef = useMaybeRef(fwdRef);
+
+  // Mui's Avatar will fallback to the first letter of the `alt` prop if `src`
+  // is unavailable and `fallback` is null/undefined.
+  const alt =
+    explicitAltProp ||
+    avatarProps?.alt ||
+    profile?.displayName ||
+    profile?.businessName ||
+    profile?.givenName ||
+    undefined;
 
   return (
     <StyledDiv className={avatarClassNames.root} {...containerProps}>
       <MuiAvatar
         ref={avatarRef}
-        alt={profile?.displayName}
-        src={imageSrc || profile?.photoUrl || undefined}
+        alt={alt}
+        src={src || profile?.photoUrl || undefined}
         {...avatarProps}
-        {...props}
+        {...muiAvatarProps}
       >
-        {
-          // The below char will be unused if an image src is available
-          [profile?.businessName, profile?.givenName, profile?.familyName]
-            .find((name) => !!name)
-            ?.charAt(0)
-        }
+        {fallback}
       </MuiAvatar>
       {showDisplayName && profile?.displayName && (
         <Text className={avatarClassNames.displayName}>{profile.displayName}</Text>
@@ -62,10 +81,15 @@ const StyledDiv = styled("div")({
   },
 });
 
-export type AvatarProps = {
-  profile?: Profile;
-  imageSrc?: string;
-  showDisplayName?: boolean;
-  containerProps?: React.ComponentProps<typeof StyledDiv>;
-  avatarProps?: MuiAvatarProps;
-} & MuiAvatarProps;
+export type AvatarProps = Simplify<
+  {
+    profile?: Profile;
+    fallback?: React.ReactNode;
+    showDisplayName?: boolean;
+    containerProps?: Except<
+      React.ComponentPropsWithoutRef<typeof StyledDiv>,
+      "children" | "className"
+    >;
+    avatarProps?: Except<MuiAvatarProps, "children" | "ref">;
+  } & Except<MuiAvatarProps, "children">
+>;
