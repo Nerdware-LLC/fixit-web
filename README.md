@@ -62,28 +62,28 @@ The Fixit web app is a [React](https://reactjs.org/) SPA that provides core SaaS
 >
 > [<img src="https://avatars.githubusercontent.com/u/22632046?s=200&v=4" width="70" alt="Check out the Fixit front-end Storybook on Chromatic" />](https://main--659981450c81cefabec86fa2.chromatic.com "Check out the Fixit front-end Storybook on Chromatic")
 >
-> <code>Fixit Frontend</code><br><code>Component Storybook</code>
+> [<code>Fixit Frontend</code><br><code>Component Storybook</code>](https://main--659981450c81cefabec86fa2.chromatic.com "Check out the Fixit front-end Storybook on Chromatic")
 >
 >   </td>
 >   <td align="center">
 >
 > [<img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" width="70" alt="Check out the Fixit API GitHub repo" />](https://github.com/Nerdware-LLC/fixit-api#readme "Check out the Fixit API GitHub repo")
 >
-> <code>Fixit API</code><br><code>GitHub Repo</code>
+> [<code>Fixit API</code><br><code>GitHub Repo</code>](https://github.com/Nerdware-LLC/fixit-api#readme "Check out the Fixit API GitHub repo")
 >
 >   </td>
 >   <td align="center">
 >
 > [<img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Swagger-logo.png" width="70" alt="Check out the REST API OpenAPI Schema on SwaggerHub" />](https://app.swaggerhub.com/apis/Nerdware/Fixit "Check out the REST API OpenAPI Schema on SwaggerHub")
 >
-> <code>Fixit REST API OpenAPI</code><br><code>Schema Explorer</code>
+> [<code>Fixit REST API OpenAPI</code><br><code>Schema Explorer</code>](https://app.swaggerhub.com/apis/Nerdware/Fixit "Check out the REST API OpenAPI Schema on SwaggerHub")
 >
 >   </td>
 >   <td align="center">
 >
 > [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/GraphQL_Logo.svg/220px-GraphQL_Logo.svg.png" width="70" alt="Check out the GraphQL API Schema-Explorer on Apollo Studio" />](https://studio.apollographql.com/public/fixit/variant/current "Check out the GraphQL API Schema-Explorer on Apollo Studio")
 >
-> <code>Fixit GraphQL API</code><br><code>Schema Explorer</code>
+> [<code>Fixit GraphQL API</code><br><code>Schema Explorer</code>](https://studio.apollographql.com/public/fixit/variant/current "Check out the GraphQL API Schema-Explorer on Apollo Studio")
 >
 >   </td>
 >   </tr>
