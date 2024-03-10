@@ -135,18 +135,18 @@ sequenceDiagram
 
 This project's CI/CD pipeline uses GitHub Actions to [test](/.github/workflows/test.yaml), [release](/.github/workflows/release.yaml), and [deploy](/.github/workflows/deploy.yaml) code changes.
 
-1. [`Test`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#node-test) - Runs test suites, adds test and coverage info to PRs, and updates [CodeCov](https://about.codecov.io/).
-2. [`Release`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#release) - Creates a new GitHub release using [Semantic Release](https://github.com/semantic-release/semantic-release#readme).
-3. [`S3 Upload`](https://github.com/Nerdware-LLC/reusable-action-workflows/tree/main#upload-to-s3) - Creates the relevant build and uploads it to an [AWS S3 bucket](https://aws.amazon.com/s3/).
+1. [`Test`](/.github/workflows/test.yaml) - Runs test suites, adds test and coverage info to PRs, and updates [CodeCov](https://about.codecov.io/).
+2. [`Release`](/.github/workflows/release.yaml) - Creates a new GitHub release using [Semantic Release](https://github.com/semantic-release/semantic-release#readme).
+3. [`Deploy`](/.github/workflows/deploy.yaml) - Creates the relevant build, uploads it to an [AWS S3 bucket](https://docs.aws.amazon.com/s3/), and invalidates the [CloudFront](https://docs.aws.amazon.com/cloudfront/) cache.
 
 ### Git Workflow
 
-This project uses uses [GitHub Flow](https://guides.github.com/introduction/flow/) to deploy two live environments - staging and production - both of which are associated with a protected Git branch:
+This project uses uses [GitHub Flow](https://guides.github.com/introduction/flow/) to deploy two live environments - staging and production - both of which are associated with a Git branch for releases:
 
-| Environment | Git Branch |                   Permits `git push`                   |
-| :---------- | :--------: | :----------------------------------------------------: |
-| staging     |    next    | <span style="color:#66FF00;font-size:1.5rem;">✓</span> |
-| production  |    main    |                           ❌                           |
+| Environment | Release Branch |                   Permits `git push`                   |
+| :---------- | :------------: | :----------------------------------------------------: |
+| staging     |      next      | <span style="color:#66FF00;font-size:1.5rem;">✓</span> |
+| production  |      main      |                           ❌                           |
 
 Project versioning and the [CHANGELOG.md](./CHANGELOG.md) are managed automatically via GitHub Actions and [Semantic Release](https://github.com/semantic-release/semantic-release#readme).
 
