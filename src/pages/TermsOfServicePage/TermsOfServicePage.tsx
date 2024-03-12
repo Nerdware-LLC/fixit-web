@@ -6,7 +6,7 @@ import { PolicySection } from "./PolicySection";
 import { ToS_SECTIONS } from "./TermsOfServiceSections";
 
 export const TermsOfServicePage = () => (
-  <LegalPolicyPageLayout pageTitle="Terms of Service" lastUpdated="January 01, 2022">
+  <LegalPolicyPageLayout pageTitle="Terms of Service" lastUpdated="March 12, 2024">
     <PolicyToC policySections={ToS_SECTIONS} />
 
     {/*   SECTION 1. AGREEMENT TO TERMS   */}
@@ -111,10 +111,30 @@ export const TermsOfServicePage = () => (
     <PolicySection header="FEES AND PAYMENT">
       <Text>We accept the following forms of payment:</Text>
       <ul>
-        <li>Visa</li>
-        <li>Mastercard</li>
-        <li>American Express</li>
-        <li>Discover</li>
+        <li>Cards:</li>
+        <ul>
+          <li>Visa</li>
+          <li>Mastercard</li>
+          <li>American Express</li>
+          <li>Discover</li>
+          <li>Diners Club</li>
+          <li>JCB</li>
+          <li>China UnionPay</li>
+        </ul>
+        <li>Digital Wallets:</li>
+        <ul>
+          <li>Apple Pay</li>
+          <li>Cash App Pay</li>
+          <li>Google Pay</li>
+          <li>Link</li>
+        </ul>
+        <li>Bank Redirects:</li>
+        <ul>
+          <li>Bancontact</li>
+          <li>EPS</li>
+          <li>giropay</li>
+          <li>iDEAL</li>
+        </ul>
       </ul>
       <Text>
         You may be required to purchase or pay a fee to access some of our services. You agree to
@@ -136,7 +156,14 @@ export const TermsOfServicePage = () => (
       <Text>
         We reserve the right to correct any errors or mistakes in pricing, even if we have already
         requested or received payment. We also reserve the right to refuse any order placed through
-        the Site.
+        the Site. We may, in our sole discretion, limit or cancel quantities purchased per person,
+        per household, or per order. These restrictions may include orders placed by or under the
+        same customer account, the same payment method, and/or orders that use the same billing or
+        shipping address. We reserve the right to limit or prohibit orders that, in our sole
+        judgment, appear to be placed by dealers, resellers, or distributors. If we make a change to
+        or cancel an order, we may attempt to notify you by contacting the e-mail and/or billing
+        address/phone number provided at the time the order was made. We also reserve the right to
+        remove, modify, or add accepted methods of payment at any time without notice.
       </Text>
     </PolicySection>
 
