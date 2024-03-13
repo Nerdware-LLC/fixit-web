@@ -1,7 +1,7 @@
 import { useField } from "formik";
 import { dialogContentClasses } from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import Text from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { Dialog } from "@/components/Dialog";
@@ -33,17 +33,7 @@ export const RemoveChecklistButton = ({ checklistFieldID }: ChecklistInputFormPr
 
   return (
     <>
-      <Tooltip
-        title="Remove checklist"
-        PopperProps={{
-          sx: {
-            [`& > .${tooltipClasses.tooltip}`]: {
-              backgroundColor: "rgb(97,97,97)", // rm's the usual 0.92 alpha from tooltip bg
-              paddingBottom: "1px", // better spacing and text alignment
-            },
-          },
-        }}
-      >
+      <Tooltip title="Remove checklist">
         <IconButton
           onClick={handleClickRemove}
           aria-label="remove checklist"

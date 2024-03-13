@@ -1,6 +1,5 @@
 import { styled, alpha } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
-import { tooltipClasses } from "@mui/material/Tooltip";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import AddToListIcon from "@mui/icons-material/PlaylistAddCircle";
 import { HelpInfoIcon } from "@/components/DataDisplay/HelpInfoIcon";
@@ -29,20 +28,7 @@ export const EmptyListFallback = ({
         {tooltip && (
           <>
             <NoWrapSpace />
-            <HelpInfoIcon
-              tooltip={tooltip}
-              tooltipProps={{
-                PopperProps: {
-                  sx: {
-                    [`& .${tooltipClasses.tooltip}`]: {
-                      whiteSpace: "nowrap",
-                      minWidth: "min-content",
-                      maxWidth: "unset",
-                    },
-                  },
-                },
-              }}
-            />
+            <HelpInfoIcon tooltip={tooltip} />
           </>
         )}
       </Text>

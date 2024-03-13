@@ -1,3 +1,4 @@
+import { tooltipClasses } from "@mui/material/Tooltip";
 import type { Theme } from "@mui/material/styles";
 
 /**
@@ -124,6 +125,21 @@ export const COMPONENTS = {
   MuiTooltip: {
     defaultProps: {
       arrow: true,
+      PopperProps: {
+        sx: {
+          [`& > .${tooltipClasses.tooltip}`]: {
+            backgroundColor: "rgb(97,97,97)", // rm's the usual 0.92 alpha from tooltip bg
+            whiteSpace: "nowrap",
+            minWidth: "min-content",
+            maxWidth: "unset",
+            [`& > .${tooltipClasses.arrow}`]: {
+              "&::before": {
+                backgroundColor: "rgb(97,97,97)",
+              },
+            },
+          },
+        },
+      },
     },
     styleOverrides: {
       tooltip: {

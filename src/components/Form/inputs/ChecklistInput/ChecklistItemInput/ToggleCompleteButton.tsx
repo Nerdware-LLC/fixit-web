@@ -1,7 +1,7 @@
 import { useField } from "formik";
 import IconButton, { type IconButtonProps } from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import EmptyCheckBoxIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
@@ -30,16 +30,7 @@ export const ToggleCompleteButton = ({
 
   return (
     <InputAdornment position="start">
-      <Tooltip
-        title={!isCompleted ? "Mark item as completed" : "Mark item as incomplete"}
-        PopperProps={{
-          sx: {
-            [`& > .${tooltipClasses.tooltip}`]: {
-              backgroundColor: "rgb(97,97,97)", // rm the usual 0.92 alpha from tooltip bg
-            },
-          },
-        }}
-      >
+      <Tooltip title={!isCompleted ? "Mark item as completed" : "Mark item as incomplete"}>
         <IconButton onClick={toggleIsCompleted} edge="start" aria-label="toggle complete">
           {!isCompleted ? <EmptyCheckBoxIcon /> : <CheckBoxIcon color="success" />}
         </IconButton>
