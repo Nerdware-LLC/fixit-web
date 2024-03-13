@@ -37,14 +37,18 @@ export const Dialog = ({
     fullWidth
     {...containerProps}
   >
-    <DialogTitle id={dialogElementIDs.title} color="secondary">
-      {title}
-      {handleCancel && (
-        <IconButton onClick={handleCancel} aria-label="close dialog">
-          <CloseIcon />
-        </IconButton>
-      )}
-    </DialogTitle>
+    {typeof title === "string" ? (
+      <DialogTitle id={dialogElementIDs.title} color="secondary">
+        {title}
+        {handleCancel && (
+          <IconButton onClick={handleCancel} aria-label="close dialog">
+            <CloseIcon />
+          </IconButton>
+        )}
+      </DialogTitle>
+    ) : (
+      title
+    )}
     <DialogContent id={dialogElementIDs.message} dividers>
       {typeof message === "string" ? (
         <DialogContentText color="action">{message}</DialogContentText>
@@ -118,7 +122,7 @@ const StyledMuiDialog = styled(MuiDialog)(({ theme: { variables, breakpoints } }
   },
 }));
 
-export type DialogProps = {
+export type DialogProps = Omit<MuiDialogProps, "title" | "open"> & {
   /** Whether or not the Dialog is visible (default: `true`) */
   isVisible?: boolean;
   title: React.ReactNode;
@@ -129,4 +133,4 @@ export type DialogProps = {
   acceptLabel?: React.ReactNode;
   cancelLabel?: React.ReactNode;
   showCancelButton?: boolean;
-} & Omit<MuiDialogProps, "open">;
+};
