@@ -12,3 +12,5 @@ export const useDialog = (initIsVisible = false) => {
     closeDialog,
   };
 };
+
+export type UseDialogHookProps = ReturnType<typeof useDialog>;
