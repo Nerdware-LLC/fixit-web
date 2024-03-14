@@ -5,10 +5,11 @@ import { brandingClassNames } from "./classNames";
 import type { Simplify, Except } from "type-fest";
 
 export const StripeBadge = ({
-  href = "https://stripe.com/",
+  href = STRIPE_LINKS.LANDING_PAGE,
   tabIndex = -1,
   tooltipProps: { title, ...tooltipProps } = {},
   anchorProps = {},
+  style: imgStyle = {},
   ...imgProps
 }: StripeBadgeProps) => (
   <Tooltip title={title || href} {...tooltipProps}>
@@ -22,16 +23,25 @@ export const StripeBadge = ({
     >
       <img
         src={StripeBadgeSVG}
-        className={brandingClassNames.stripeBadgeImg}
         alt="Stripe Badge"
+        className={brandingClassNames.stripeBadgeImg}
+        style={{ height: "100%", ...imgStyle }}
         {...imgProps}
       />
     </Anchor>
   </Tooltip>
 );
 
+/**
+ * A collection of links to Stripe's website.
+ */
+export const STRIPE_LINKS = {
+  LANDING_PAGE: "https://stripe.com/",
+  CONNECT_ACCOUNT_AGREEMENT: "https://stripe.com/connect-account/legal/full",
+} as const satisfies Record<string, string>;
+
 export type StripeBadgeProps = {
-  href?: string;
+  href?: (typeof STRIPE_LINKS)[keyof typeof STRIPE_LINKS];
   tooltipProps?: Simplify<Partial<Except<TooltipProps, "children" | "className">>>;
   anchorProps?: Simplify<Except<AnchorProps, "ref" | "href" | "target" | "rel" | "className">>;
 } & Except<React.ComponentPropsWithoutRef<"img">, "src" | "className" | "children">;
