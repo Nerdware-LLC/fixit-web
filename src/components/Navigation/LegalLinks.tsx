@@ -1,15 +1,18 @@
 import { styled, alpha } from "@mui/material/styles";
 import Divider, { dividerClasses } from "@mui/material/Divider";
+import Stack, { type StackProps } from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
-import { StripeBadge, brandingClassNames } from "@/components/Branding";
+import { StripeBadge, STRIPE_LINKS } from "@/components/Branding";
 import { APP_PATHS } from "@/routes/appPaths";
 import { Link } from "./Link";
 import { navigationClassNames } from "./classNames";
+import type { Except } from "type-fest";
 
 /**
  * Legal links:
  * - `Terms`: `"/ToS"`
  * - `Privacy`: `"/privacy"`
+ * - `Cookies`: `"/cookie-policy"`
  *
  * If `includeStripeBadge` is true, a vertical divider will be placed in between the
  * StripeBadge and the links; if it is false, the divider will be placed in between
@@ -19,20 +22,25 @@ import { navigationClassNames } from "./classNames";
  * the Stripe Connected Account Agreement page, rather than Stripe's landing page.
  */
 export const LegalLinks = ({
+  useLongLabels = false,
   includeStripeBadge = false,
   tabIndex = -1,
   ...containerProps
 }: LegalLinksProps) => (
-  <StyledDiv
-    className={navigationClassNames.legalLinksContainer}
+  <StyledStack
+    direction="row"
+    spacing="0.25rem"
+    alignItems="center"
     tabIndex={tabIndex}
+    className={navigationClassNames.legalLinksContainer}
     {...containerProps}
   >
     {includeStripeBadge && (
       <>
         <StripeBadge
-          href="https://stripe.com/connect-account/legal/full"
+          href={STRIPE_LINKS.CONNECT_ACCOUNT_AGREEMENT}
           tooltipProps={{ title: "View Stripe Connected Account Agreement" }}
+          anchorProps={{ style: { height: "2rem", margin: "0 0.5rem" } }}
         />
         <Divider
           orientation="vertical"
@@ -41,35 +49,38 @@ export const LegalLinks = ({
         />
       </>
     )}
-    <Tooltip title="Fixit Terms of Service">
-      <Link to={APP_PATHS.ToS} tabIndex={tabIndex}>
-        Terms {/* <-- Don't rm the \s after Privacy, it elongates the underline */}
-      </Link>
-    </Tooltip>
-    {!includeStripeBadge && <Divider orientation="vertical" variant="middle" />}
-    <Tooltip title="Fixit Privacy Policy">
-      <Link to={APP_PATHS.PRIVACY} tabIndex={tabIndex}>
-        Privacy {/* <-- Don't rm the \s after Privacy, it elongates the underline */}
-      </Link>
-    </Tooltip>
-  </StyledDiv>
+    {[
+      {
+        label: useLongLabels ? "Terms of Service" : "Terms",
+        tooltip: "View Terms of Service",
+        link: APP_PATHS.ToS,
+      },
+      {
+        label: useLongLabels ? "Privacy Policy" : "Privacy",
+        tooltip: "View our Privacy Policy",
+        link: APP_PATHS.PRIVACY,
+      },
+      {
+        label: useLongLabels ? "Cookie Policy" : "Cookies",
+        tooltip: "View our Cookie Policy",
+        link: APP_PATHS.COOKIES,
+      },
+    ].map(({ label, link, tooltip }, index) => (
+      <>
+        {!includeStripeBadge && index !== 0 && (
+          <Divider orientation="vertical" variant="middle" flexItem />
+        )}
+        <Tooltip key={label} title={tooltip}>
+          <Link to={link} tabIndex={tabIndex}>
+            {`${label} ` /* <-- Don't rm the \s after label, it elongates the underline */}
+          </Link>
+        </Tooltip>
+      </>
+    ))}
+  </StyledStack>
 );
 
-const StyledDiv = styled("div")(({ theme: { palette } }) => ({
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-  verticalAlign: "middle",
-
-  [`& > .${brandingClassNames.stripeBadgeRoot}`]: {
-    height: "2rem",
-    margin: "0 0.5rem",
-    [`& .${brandingClassNames.stripeBadgeImg}`]: {
-      height: "100%",
-    },
-  },
-
+const StyledStack = styled(Stack)(({ theme: { palette } }) => ({
   [`& .${dividerClasses.root}`]: {
     height: "1.5rem",
     width: "0.1px",
@@ -78,7 +89,7 @@ const StyledDiv = styled("div")(({ theme: { palette } }) => ({
     backgroundColor: alpha(palette.mode === "dark" ? palette.grey[600] : palette.grey[800], 0.5),
   },
 
-  [`& > a[href="${APP_PATHS.ToS}"],a[href="${APP_PATHS.PRIVACY}"]`]: {
+  [`& > a[href]:not([href='${STRIPE_LINKS.CONNECT_ACCOUNT_AGREEMENT}'])`]: {
     color: palette.mode === "dark" ? palette.grey[500] : palette.grey[700],
     textDecoration: "underline dotted",
     textUnderlinePosition: "under",
@@ -88,5 +99,10 @@ const StyledDiv = styled("div")(({ theme: { palette } }) => ({
 }));
 
 export type LegalLinksProps = {
+  /**
+   * Whether to use the "long" names for the legal links, e.g. "Terms of Service"
+   * instead of "Terms" (default: `false`).
+   */
+  useLongLabels?: boolean;
   includeStripeBadge?: boolean;
-} & React.ComponentProps<typeof StyledDiv>;
+} & Except<StackProps, "direction" | "className" | "children">;
