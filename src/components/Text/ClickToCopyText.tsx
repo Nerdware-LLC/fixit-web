@@ -5,6 +5,7 @@ import { svgIconClasses } from "@mui/material/SvgIcon";
 import Tooltip from "@mui/material/Tooltip";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { THEMES } from "@/app/ThemeProvider/themes";
+import { textClassNames } from "./classNames";
 
 export const ClickToCopyText = ({
   children: textToCopy,
@@ -17,7 +18,7 @@ export const ClickToCopyText = ({
     );
 
   return (
-    <StyledSpan>
+    <StyledSpan className={textClassNames.clickToCopyTextRoot}>
       <Tooltip title={tooltipTitle}>
         <ButtonBase onClick={handleClickCopyBtn}>{textToCopy}</ButtonBase>
       </Tooltip>
