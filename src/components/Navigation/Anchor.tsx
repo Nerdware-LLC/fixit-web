@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { styled } from "@mui/material/styles";
 import { useMaybeRef } from "@/hooks/useMaybeRef";
+import { isExternalUrl } from "@/routes/helpers";
 import { getDefaultLinkStyles } from "./styles";
 import type { Simplify } from "type-fest";
 
@@ -17,13 +18,11 @@ export const Anchor = forwardRef<HTMLAnchorElement, AnchorProps>(function Anchor
 ) {
   const anchorRef = useMaybeRef(ref);
 
-  const isExternalUrl = href && href.startsWith("http") && !href.includes("gofixit.app");
-
   return (
     <StyledAnchor
       ref={anchorRef}
       href={href}
-      {...(isExternalUrl && {
+      {...(isExternalUrl(href) && {
         target: "_blank",
         rel: "noreferrer",
       })}
