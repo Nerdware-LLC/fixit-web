@@ -3,7 +3,7 @@ import { DemoInfoDialog } from "./DemoInfoDialog";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: "Components/Alerts/DemoInfoDialog",
+  title: "Components/DevTools/DemoInfoDialog",
   component: DemoInfoDialog,
   decorators: [withNavDecorator],
 } satisfies Meta<typeof DemoInfoDialog>;
