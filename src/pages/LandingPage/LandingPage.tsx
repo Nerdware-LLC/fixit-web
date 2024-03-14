@@ -47,7 +47,7 @@ export const LandingPage = () => {
           <ProductImage label="Fixit Dashboard demo" src={demoDesktopDashboardImageSrc} />
           <PhoneShapedContainer>
             <ProductImage
-              label="Fixit Create-Invoice mobile demo"
+              label="Fixit Create-Invoice on mobile"
               src={demoMobileCreateInvoiceImageSrc}
             />
           </PhoneShapedContainer>
@@ -55,9 +55,12 @@ export const LandingPage = () => {
       </div>
       <div className={landingPageClassNames.graphicsContainer} style={{ alignItems: "center" }}>
         <Paper elevation={18}>
-          <ProductImage label="Fixit Data-grid demo" src={demoDesktopDataGridImageSrc} />
+          <ProductImage label="Fixit work orders data-grid" src={demoDesktopDataGridImageSrc} />
           <PhoneShapedContainer>
-            <ProductImage label="Fixit List-view mobile demo" src={demoMobileListViewImageSrc} />
+            <ProductImage
+              label="Fixit work orders list-view on mobile"
+              src={demoMobileListViewImageSrc}
+            />
           </PhoneShapedContainer>
         </Paper>
       </div>

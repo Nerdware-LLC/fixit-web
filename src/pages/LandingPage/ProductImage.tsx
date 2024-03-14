@@ -52,9 +52,9 @@ export const ProductImage = ({
 
 export const PRODUCT_IMAGES = [
   { label: "Fixit Dashboard demo", src: demoDesktopDashboardImageSrc },
-  { label: "Fixit Create-Invoice mobile demo", src: demoMobileCreateInvoiceImageSrc },
-  { label: "Fixit Data-grid demo", src: demoDesktopDataGridImageSrc },
-  { label: "Fixit List-view mobile demo", src: demoMobileListViewImageSrc },
+  { label: "Fixit Create-Invoice on mobile", src: demoMobileCreateInvoiceImageSrc },
+  { label: "Fixit work orders data-grid", src: demoDesktopDataGridImageSrc },
+  { label: "Fixit work orders list-view on mobile", src: demoMobileListViewImageSrc },
 ] as const satisfies Array<CarouselImageConfig>;
 
 const StyledDialog = styled(Dialog)({
