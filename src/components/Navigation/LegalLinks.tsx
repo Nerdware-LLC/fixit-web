@@ -31,6 +31,7 @@ export const LegalLinks = ({
     direction="row"
     spacing="0.25rem"
     alignItems="center"
+    justifyContent="center"
     tabIndex={tabIndex}
     className={navigationClassNames.legalLinksContainer}
     {...containerProps}
