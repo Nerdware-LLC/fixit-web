@@ -10,8 +10,13 @@ import SvgIcon, { svgIconClasses } from "@mui/material/SvgIcon";
 import { typographyClasses } from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-export const DemoInfoListItem = ({ Icon, summary, details }: DemoInfoListItemProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const DemoInfoListItem = ({
+  isInitiallyOpen = false,
+  Icon,
+  summary,
+  details,
+}: DemoInfoListItemProps) => {
+  const [isOpen, setIsOpen] = useState(isInitiallyOpen);
 
   const handleClick = () => setIsOpen(!isOpen);
 
@@ -78,6 +83,7 @@ const StyledListItemButton = styled(ListItemButton)(({ theme: { palette } }) => 
 }));
 
 export type DemoInfoListItemProps = {
+  isInitiallyOpen?: boolean;
   Icon: typeof SvgIcon;
   summary: React.ReactNode;
   details: React.ReactNode;
