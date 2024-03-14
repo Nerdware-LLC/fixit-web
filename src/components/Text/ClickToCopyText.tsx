@@ -1,6 +1,7 @@
 import { styled, alpha } from "@mui/material/styles";
 import ButtonBase, { buttonBaseClasses } from "@mui/material/ButtonBase";
 import IconButton, { iconButtonClasses } from "@mui/material/IconButton";
+import { svgIconClasses } from "@mui/material/SvgIcon";
 import Tooltip from "@mui/material/Tooltip";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { THEMES } from "@/app/ThemeProvider/themes";
@@ -30,7 +31,6 @@ export const ClickToCopyText = ({
 };
 
 const StyledSpan = styled("span")(({ theme: { palette } }) => ({
-  position: "relative",
   display: "inline-flex",
   alignItems: "center",
   verticalAlign: "middle",
@@ -51,11 +51,8 @@ const StyledSpan = styled("span")(({ theme: { palette } }) => ({
         : alpha(THEMES.DARK.palette.background.paper, 0.8),
   },
 
-  [`& > .${iconButtonClasses.root}`]: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    transform: "translate(100%, -10%)",
+  [`& > .${iconButtonClasses.root} > .${svgIconClasses.root}`]: {
+    fontSize: "1rem",
   },
 }));
 
