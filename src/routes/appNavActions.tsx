@@ -61,10 +61,20 @@ export const APP_NAV_ACTIONS = {
     path: APP_PATHS.PRODUCTS,
     tooltip: "See pricing for Fixit products",
   },
+  ToS: {
+    label: "Terms of Service",
+    path: APP_PATHS.ToS,
+    tooltip: "View our terms of service",
+  },
   PRIVACY: {
     label: "Privacy",
     path: APP_PATHS.PRIVACY,
     tooltip: "View our privacy policy",
+  },
+  COOKIES: {
+    label: "Cookie Policy",
+    path: APP_PATHS.COOKIES,
+    tooltip: "View our cookie policy",
   },
   PRODUCTS: {
     label: "Select a Subscription",

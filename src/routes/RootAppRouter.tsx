@@ -39,6 +39,10 @@ const rootAppBrowserRouter = sentryCreateBrowserRouter(
             import(/* webpackChunkName: "PrivacyPolicyPage" */ "@/pages/PrivacyPolicyPage"),
         },
         {
+          path: APP_PATHS.COOKIES,
+          lazy: () => import(/* webpackChunkName: "CookiePolicyPage" */ "@/pages/CookiePolicyPage"),
+        },
+        {
           path: APP_PATHS.PRODUCTS,
           lazy: () => import(/* webpackChunkName: "ProductsPage" */ "@/pages/ProductsPage"),
         },
