@@ -6,7 +6,14 @@ const meta = {
   title: "Components/Navigation/LegalLinks",
   component: LegalLinks,
   tags: ["autodocs"],
-  decorators: [withNavDecorator],
+  decorators: [
+    withNavDecorator,
+    (Story) => (
+      <div style={{ height: "100%", display: "grid", placeItems: "center" }}>
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<LegalLinksProps & NavDecoratorArgs>;
 
 export default meta;
