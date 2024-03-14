@@ -9,7 +9,7 @@ export const PolicySection = ({ header, summary, children }: PolicySectionProps)
   <LegalPolicySection
     sectionNumber={POLICY_ANCHOR_TARGETS.HEADERS[header].SECTION_NUM}
     header={header}
-    headerID={POLICY_ANCHOR_TARGETS.HEADERS[header].ID}
+    headerProps={{ id: POLICY_ANCHOR_TARGETS.HEADERS[header].ID }}
   >
     {summary && <InShort summary={summary} />}
     {children}

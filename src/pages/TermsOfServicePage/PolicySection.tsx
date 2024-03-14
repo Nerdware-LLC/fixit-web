@@ -8,7 +8,7 @@ export const PolicySection = ({ header, children }: PolicySectionProps) => (
   <LegalPolicySection
     sectionNumber={ToS_SECTIONS[header].SECTION_NUM}
     header={header}
-    headerID={ToS_SECTIONS[header].ID}
+    headerProps={{ id: ToS_SECTIONS[header].ID }}
   >
     {children}
   </LegalPolicySection>
