@@ -1,4 +1,5 @@
-import Text from "@mui/material/Typography";
+import Text, { type TypographyProps } from "@mui/material/Typography";
+import type { Except } from "type-fest";
 
 /**
  * Legal policy section container with h2 header.
@@ -6,20 +7,37 @@ import Text from "@mui/material/Typography";
 export const LegalPolicySection = ({
   sectionNumber,
   header,
-  headerID = header.replace(/[^A-Z0-9]/gi, "-"), // by default, just rm all non-alphanum chars from header str
+  headerProps = {},
   children,
-}: LegalPolicySectionProps) => (
-  <div>
-    <Text id={headerID} variant="h4" component="h3" style={{ margin: "1rem 0" }}>
-      {sectionNumber}. {header}
-    </Text>
-    {children}
-  </div>
-);
+}: LegalPolicySectionProps) => {
+  // Destructure `headerProps` and apply defaults
+  const {
+    id: headerID = header.replace(/[^A-Z0-9]/gi, "-"), // by default, just rm all non-alphanum chars from header str
+    variant: headerVariant = "h4",
+    component: headerComponent = "h3",
+    style: headerStyle = {},
+    ...restHeaderProps
+  } = headerProps;
+
+  return (
+    <div>
+      <Text
+        id={headerID}
+        variant={headerVariant}
+        component={headerComponent}
+        style={{ margin: "1rem 0", ...headerStyle }}
+        {...restHeaderProps}
+      >
+        {sectionNumber ? `${sectionNumber}. ${header}` : header}
+      </Text>
+      {children}
+    </div>
+  );
+};
 
 export type LegalPolicySectionProps = {
-  sectionNumber: number;
   header: string;
-  headerID?: string;
+  headerProps?: Except<TypographyProps, "children">;
+  sectionNumber?: number;
   children: React.ReactNode; // section content
 };
