@@ -2,13 +2,13 @@ import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import Dialog, { dialogClasses } from "@mui/material/Dialog";
+import Tooltip from "@mui/material/Tooltip";
 import { globalClassNames } from "@/app/GlobalStyles/classNames";
 import {
   ImageCarousel,
   type ImageCarouselProps,
   type CarouselImageConfig,
 } from "@/components/ImageCarousel";
-import { NoMaxWidthTooltip } from "@/components/Tooltips";
 import demoDesktopDashboardImageSrc from "@/images/demo_desktop_dashboard.webp";
 import demoDesktopDataGridImageSrc from "@/images/demo_desktop_workorders_datagrid.webp";
 import demoMobileCreateInvoiceImageSrc from "@/images/demo_mobile_create_invoice.webp";
@@ -28,9 +28,9 @@ export const ProductImage = ({
 
   return (
     <>
-      <NoMaxWidthTooltip title={`Click to view image: ${label}`}>
+      <Tooltip title={`Click to view image: ${label}`}>
         <Box component="img" src={src} alt={label} onClick={handleOpen} {...boxProps} />
-      </NoMaxWidthTooltip>
+      </Tooltip>
       {isModalOpen && (
         <StyledDialog
           open={isModalOpen}
