@@ -77,8 +77,8 @@ export const PALETTES = Object.fromEntries(
         paletteName === DARK_PALETTE_NAME
           ? {
               light: "#ffd900",
-              main: "#b69b00",
-              dark: "#a87b00",
+              main: "#c4bb00",
+              dark: "#b09f02",
             }
           : {
               light: "#ff9800", // MUI default
