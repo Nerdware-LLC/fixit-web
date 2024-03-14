@@ -6,6 +6,7 @@ import Text, { typographyClasses } from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { THEMES } from "@/app/ThemeProvider/themes";
 import { PhoneShapedContainer, containerClassNames } from "@/components/Containers";
+import { DemoInfoDialog } from "@/components/DevTools/DemoInfoDialog";
 import { LegalLinks } from "@/components/Navigation/LegalLinks";
 import { NON_BREAKING_SPACE_CHAR } from "@/components/Text";
 import demoDesktopDashboardImageSrc from "@/images/demo_desktop_dashboard.webp";
@@ -21,6 +22,7 @@ import { landingPageClassNames } from "./classNames";
  * **Landing Page** - index route for RootAppRouter which renders when the path is `"/"`.
  */
 export const LandingPage = () => {
+  const { isDialogVisible, closeDialog } = DemoInfoDialog.use();
   const nav = useNavigate();
 
   const goToRegister = () => nav(APP_PATHS.REGISTER);
@@ -74,6 +76,7 @@ export const LandingPage = () => {
         </Text>
         <Button onClick={goToProducts}>Learn More</Button>
       </div>
+      {isDialogVisible && <DemoInfoDialog isVisible={isDialogVisible} closeDialog={closeDialog} />}
       <div className={landingPageClassNames.footerRoot}>
         <LegalLinks useLongLabels />
         <Text variant="body2">Fixit is a product of Nerdware, LLC ©</Text>
