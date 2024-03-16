@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Divider, { dividerClasses } from "@mui/material/Divider";
 import Stack, { type StackProps } from "@mui/material/Stack";
@@ -67,16 +68,16 @@ export const LegalLinks = ({
         link: APP_PATHS.COOKIES,
       },
     ].map(({ label, link, tooltip }, index) => (
-      <>
+      <Fragment key={label}>
         {!includeStripeBadge && index !== 0 && (
           <Divider orientation="vertical" variant="middle" flexItem />
         )}
-        <Tooltip key={label} title={tooltip}>
+        <Tooltip title={tooltip}>
           <Link to={link} tabIndex={tabIndex}>
             {`${label} ` /* <-- Don't rm the \s after label, it elongates the underline */}
           </Link>
         </Tooltip>
-      </>
+      </Fragment>
     ))}
   </StyledStack>
 );
