@@ -1,4 +1,5 @@
 import type { JsonValue } from "type-fest";
+import type { GoogleOAuthClient } from "./googleOAuth";
 
 declare global {
   /**
@@ -16,5 +17,13 @@ declare global {
     ): JsonValue;
     parse(text: number, reviver?: (this: any, key: string, value: unknown) => unknown): number;
     parse(text: null, reviver?: (this: any, key: string, value: unknown) => unknown): null;
+  }
+
+  interface Window {
+    /**
+     * Google OAuth Client
+     * > The Google OAuth client library is loaded asynchronously via a script tag.
+     */
+    google?: GoogleOAuthClient;
   }
 }
