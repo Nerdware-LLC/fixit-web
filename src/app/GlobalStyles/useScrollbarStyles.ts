@@ -1,14 +1,17 @@
-import { css, type CSSObject, type SerializedStyles } from "@emotion/react";
 import { alpha, type Theme } from "@mui/material/styles";
 import { paperClasses } from "@mui/material/Paper";
 import { globalClassNames } from "./classNames";
+import type { CSSObject } from "@emotion/react";
 import type { RootElementIdArg } from "./types";
 
+/**
+ * SCROLLBAR STYLES
+ */
 export const useScrollbarStyles = ({
   palette,
   variables: { isMobilePageLayout },
   rootElementID = "root",
-}: Pick<Theme, "palette" | "variables"> & RootElementIdArg): SerializedStyles => {
+}: Pick<Theme, "palette" | "variables"> & RootElementIdArg): Array<CSSObject> => {
   // Shared/dependent scrollbar style values:
 
   const trackDefaultBackgroundColor =
@@ -103,13 +106,13 @@ export const useScrollbarStyles = ({
   // scrollbar-force-show, scrollbar-force-show-paper-bg (ensure scrollbar is visible)
 
   const scrollbarForceShowClassStyles = {
-    [`.${globalClassNames.scrollbarForceShow},.${globalClassNames.scrollbarForceShowPaperBG}`]: {
+    [`.${globalClassNames.scrollbar.forceShow},.${globalClassNames.scrollbar.forceShowPaperBG}`]: {
       "&::-webkit-scrollbar": scrollbarStyles.VISIBLE.SCROLLBAR,
       "&::-webkit-scrollbar-thumb": scrollbarStyles.VISIBLE.THUMB,
       "&::-webkit-scrollbar-corner": scrollbarStyles.VISIBLE.CORNER,
       // Track color depends on whether or not the -paper-bg class is used
-      [`&.${globalClassNames.scrollbarForceShow}::-webkit-scrollbar-track`]: scrollbarStyles.VISIBLE.TRACK, // prettier-ignore
-      [`&.${globalClassNames.scrollbarForceShowPaperBG}::-webkit-scrollbar-track`]: scrollbarStyles.VISIBLE.TRACK_PAPER_BG, // prettier-ignore
+      [`&.${globalClassNames.scrollbar.forceShow}::-webkit-scrollbar-track`]: scrollbarStyles.VISIBLE.TRACK, // prettier-ignore
+      [`&.${globalClassNames.scrollbar.forceShowPaperBG}::-webkit-scrollbar-track`]: scrollbarStyles.VISIBLE.TRACK_PAPER_BG, // prettier-ignore
     },
   };
 
@@ -117,7 +120,7 @@ export const useScrollbarStyles = ({
   // scrollbar-force-show, scrollbar-force-show-paper-bg (ensure scrollbar is visible)
 
   const scrollbarForceHiddenClassStyles = {
-    [`.${globalClassNames.scrollbarForceHidden}`]: {
+    [`.${globalClassNames.scrollbar.forceHidden}`]: {
       "&::-webkit-scrollbar": scrollbarForceHidden,
       "&::-webkit-scrollbar-thumb": scrollbarForceHidden,
       "&::-webkit-scrollbar-corner": scrollbarForceHidden,
@@ -125,12 +128,12 @@ export const useScrollbarStyles = ({
     },
   };
 
-  return css(
+  return [
     globalDefaultScrollbarStyles,
     scrollbarForceShowClassStyles,
     scrollbarForceHiddenClassStyles,
-    bodyElementScrollbarStyles
-  );
+    bodyElementScrollbarStyles,
+  ];
 };
 
 /** Dict of scrollbar pseudo-elements. */
