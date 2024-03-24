@@ -56,7 +56,7 @@ export const SubCostDetails = () => {
           <Text variant="body2">
             {billingPeriod
               ? `Billed ${billingPeriod}ly`
-              : afterTrial
+              : afterTrial && afterTrialPriceStr
                 ? `Then ${afterTrialPriceStr} per ${afterTrial.billingPeriod} thereafter`
                 : ""}
           </Text>
