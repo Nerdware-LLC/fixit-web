@@ -25,7 +25,12 @@ export const useStripePaymentInput = () => {
     // Create the PaymentMethod using the details collected by the Payment Element
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       elements,
-      params: { billing_details: { email, phone } },
+      params: {
+        billing_details: {
+          email,
+          ...(phone && { phone }),
+        },
+      },
     });
 
     // Check for possible errors
