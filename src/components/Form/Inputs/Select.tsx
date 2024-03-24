@@ -3,7 +3,11 @@ import FormHelperText from "@mui/material/FormHelperText";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import MuiSelect from "@mui/material/Select";
-import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
+import {
+  useFormikFieldProps,
+  getFormInputErrMsg,
+  type FormikIntegratedInputProps,
+} from "../helpers";
 import type { SelectProps as MuiSelectProps } from "@mui/material/Select";
 
 export const Select = <
@@ -27,7 +31,9 @@ export const Select = <
   });
 
   const handleChange: SelectProps["onChange"] = async (event) => {
-    await setValue(event.target.value as ValueType).catch((error) => setError(error));
+    await setValue(event.target.value as ValueType).catch((error: unknown) =>
+      setError(getFormInputErrMsg(error))
+    );
   };
 
   const selectLabelID = `Select:InputLabel:${id}`;
