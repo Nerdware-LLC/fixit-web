@@ -97,7 +97,7 @@ const StyledDiv = styled("div")(({ theme: { variables } }) => ({
         margin: 0,
       },
 
-      [`& .${navigationClassNames.legalLinksContainer}`]: {
+      [`& .${navigationClassNames.legalLinksRoot}`]: {
         marginTop: "1rem",
         ...(variables.isMobilePageLayout && { marginBottom: "2rem" }),
         // marginBottom on mobile to add more space at the bottom for the Stripe logo
