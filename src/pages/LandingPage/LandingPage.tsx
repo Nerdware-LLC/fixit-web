@@ -9,10 +9,6 @@ import { PhoneShapedContainer, containerClassNames } from "@/components/Containe
 import { DemoInfoDialog } from "@/components/DevTools/DemoInfoDialog";
 import { LegalLinks } from "@/components/Navigation/LegalLinks";
 import { NON_BREAKING_SPACE_CHAR } from "@/components/Text";
-import demoDesktopDashboardImageSrc from "@/images/demo_desktop_dashboard.webp";
-import demoDesktopDataGridImageSrc from "@/images/demo_desktop_workorders_datagrid.webp";
-import demoMobileCreateInvoiceImageSrc from "@/images/demo_mobile_create_invoice.webp";
-import demoMobileListViewImageSrc from "@/images/demo_mobile_workorders_list.webp";
 import backgroundImageSrc from "@/images/landing_page_bg.webp";
 import { APP_PATHS } from "@/routes/appPaths";
 import { ProductImage } from "./ProductImage";
@@ -46,23 +42,17 @@ export const LandingPage = () => {
       </div>
       <div className={landingPageClassNames.graphicsContainer}>
         <Paper elevation={18}>
-          <ProductImage label="Fixit Dashboard demo" src={demoDesktopDashboardImageSrc} />
+          <ProductImage label="Fixit Dashboard demo" />
           <PhoneShapedContainer>
-            <ProductImage
-              label="Fixit Create-Invoice on mobile"
-              src={demoMobileCreateInvoiceImageSrc}
-            />
+            <ProductImage label="Fixit Create-Invoice on mobile" />
           </PhoneShapedContainer>
         </Paper>
       </div>
       <div className={landingPageClassNames.graphicsContainer} style={{ alignItems: "center" }}>
         <Paper elevation={18}>
-          <ProductImage label="Fixit work orders data-grid" src={demoDesktopDataGridImageSrc} />
+          <ProductImage label="Fixit work orders data-grid" />
           <PhoneShapedContainer>
-            <ProductImage
-              label="Fixit work orders list-view on mobile"
-              src={demoMobileListViewImageSrc}
-            />
+            <ProductImage label="Fixit work orders list-view on mobile" />
           </PhoneShapedContainer>
         </Paper>
       </div>

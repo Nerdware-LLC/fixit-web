@@ -17,7 +17,6 @@ import type { OverrideProperties } from "type-fest";
 
 export const ProductImage = ({
   label,
-  src,
   ImageCarouselProps = {},
   ...boxProps
 }: ProductImageProps) => {
@@ -25,6 +24,14 @@ export const ProductImage = ({
 
   const handleOpen = () => setIsModalOpen(true);
   const handleClose = () => setIsModalOpen(false);
+
+  const productImgSrcIndex = PRODUCT_IMAGES.findIndex((image) => image.label === label);
+
+  const src = PRODUCT_IMAGES?.[productImgSrcIndex]?.src;
+
+  if (!src) {
+    throw new Error(`ProductImage received an invalid "label" prop: "${label}".`);
+  }
 
   return (
     <>
@@ -36,11 +43,11 @@ export const ProductImage = ({
           open={isModalOpen}
           onClose={handleClose}
           fullWidth
-          PaperProps={{ className: globalClassNames.scrollbarForceHidden }}
+          PaperProps={{ className: globalClassNames.scrollbar.forceHidden }}
         >
           <ImageCarousel
             images={PRODUCT_IMAGES}
-            initialImageIndex={PRODUCT_IMAGES.findIndex((image) => image.label === label)}
+            initialImageIndex={productImgSrcIndex}
             showImageLabels
             {...ImageCarouselProps}
           />
@@ -50,7 +57,7 @@ export const ProductImage = ({
   );
 };
 
-export const PRODUCT_IMAGES = [
+const PRODUCT_IMAGES = [
   { label: "Fixit Dashboard demo", src: demoDesktopDashboardImageSrc },
   { label: "Fixit Create-Invoice on mobile", src: demoMobileCreateInvoiceImageSrc },
   { label: "Fixit work orders data-grid", src: demoDesktopDataGridImageSrc },
@@ -73,10 +80,10 @@ const StyledDialog = styled(Dialog)({
 });
 
 export type ProductImageProps = OverrideProperties<
-  CarouselImageConfig,
+  Omit<CarouselImageConfig, "src">,
   {
     label: (typeof PRODUCT_IMAGES)[number]["label"];
   }
 > & {
   ImageCarouselProps?: Omit<ImageCarouselProps, "images" | "initialImageIndex">;
-} & Omit<BoxProps, "component" | "onClick" | "children">;
+} & Omit<BoxProps, "component" | "onClick" | "src" | "children">;
