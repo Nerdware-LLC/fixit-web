@@ -1,74 +1,87 @@
 import { styled } from "@mui/material/styles";
-import Box, { type BoxProps } from "@mui/material/Box";
-import Text from "@mui/material/Typography";
+import Stack, { stackClasses, type StackProps } from "@mui/material/Stack";
+import Text, { typographyClasses } from "@mui/material/Typography";
 import { FetchStateContextProvider } from "@/app/FetchStateContext";
+import {
+  GOOGLE_OAUTH_BTN_DIMENSIONS,
+  googleOAuthButtonClassNames,
+} from "@/app/GoogleOAuthContext/GoogleOAuthButton";
 import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
-import { TitleLogo, brandingClassNames } from "@/components/Branding";
+import { TitleLogo } from "@/components/Branding/TitleLogo";
+import { formClassNames } from "@/components/Form/classNames";
 import { authPageLayoutClassNames } from "./classNames";
+
+export type AuthPageLayoutProps = { pageTitle: string } & Pick<StackProps, "sx" | "children">;
 
 /**
  * Layout used by `RegisterPage` and `LoginPage`.
  */
-export const AuthPageLayout = ({ pageTitle, children, ...boxProps }: AuthPageLayoutProps) => {
+export const AuthPageLayout = ({ pageTitle, sx, children }: AuthPageLayoutProps) => {
   const { isMobilePageLayout } = usePageLayoutContext();
 
   return (
     <FetchStateContextProvider>
-      <StyledBox className={authPageLayoutClassNames.root} {...boxProps}>
-        <Box className={authPageLayoutClassNames.header}>
+      <StyledStack sx={sx} className={authPageLayoutClassNames.root}>
+        <Stack className={authPageLayoutClassNames.headerContainer}>
           {!isMobilePageLayout && <TitleLogo />}
-          <Text variant="h2" className={authPageLayoutClassNames.headerTitle}>
-            {pageTitle}
-          </Text>
-        </Box>
-        <Box className={authPageLayoutClassNames.childrenContainer}>{children}</Box>
-      </StyledBox>
+          <Text variant={HEADER_VARIANT}>{pageTitle}</Text>
+        </Stack>
+        <Stack className={authPageLayoutClassNames.childrenContainer}>{children}</Stack>
+      </StyledStack>
     </FetchStateContextProvider>
   );
 };
 
-const StyledBox = styled(Box)({
+/** The `variant` of the `AuthPageLayout` header text. */
+const HEADER_VARIANT = "h2";
+
+const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
   height: "100%",
-  width: "100%",
-  overflow: "hidden",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: "3rem",
-  textAlign: "center",
+  padding: "0 1rem",
 
-  [`& > .${authPageLayoutClassNames.header}`]: {
+  "& button": {
+    borderRadius: "1.5rem",
+  },
+
+  // This MuiStack, and any MuiStack within it:
+  [`&.${stackClasses.root}, .${stackClasses.root}`]: {
+    width: "100%",
     display: "flex",
-    flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
-    gap: "1.5rem",
-
-    [`& > .${brandingClassNames.titleLogoRoot}`]: {
-      gap: "1rem",
-
-      [`& > .${brandingClassNames.titleLogoText}`]: {
-        fontSize: "3.5rem",
-      },
-    },
-
-    [`& > .${authPageLayoutClassNames.headerTitle}`]: {
-      fontSize: "2.25rem",
-    },
-  },
-
-  [`& > .${authPageLayoutClassNames.childrenContainer}`]: {
-    width: "clamp(18rem, 35vw, 26rem)",
-    minHeight: "25vh",
-    display: "flex",
-    flexDirection: "column",
     justifyContent: "space-evenly",
+    textAlign: "center",
+  },
 
-    "& button": {
-      borderRadius: "1.5rem",
+  // The `headerContainer`:
+  [`& .${authPageLayoutClassNames.headerContainer}`]: {
+    gap: "1rem",
+
+    // The header text:
+    [`& .${typographyClasses[HEADER_VARIANT]}`]: {
+      fontSize: variables.isMobilePageLayout ? "2rem" : "2.25rem",
     },
   },
-});
 
-export type AuthPageLayoutProps = { pageTitle: string } & Omit<BoxProps, "className">;
+  // The `childrenContainer`:
+  [`& .${authPageLayoutClassNames.childrenContainer}`]: {
+    /* The `GoogleLogin` button's width must be set using an explicit pixel value
+    via it's `width` prop. This width is set and enforced here to ensure descendent
+    comps can just set `width: "100%"` and all have the same width. */
+    width: variables.isMobilePageLayout
+      ? `${GOOGLE_OAUTH_BTN_DIMENSIONS.WIDTH.MOBILE}px !important`
+      : `${GOOGLE_OAUTH_BTN_DIMENSIONS.WIDTH.DESKTOP}px !important`,
+
+    gap: "1rem",
+
+    [`& .${formClassNames.root}`]: {
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      gap: "0.5rem",
+    },
+
+    [`& .${googleOAuthButtonClassNames.root}`]: {
+      alignSelf: "center",
+    },
+  },
+}));
