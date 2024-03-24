@@ -1,3 +1,4 @@
+import { isString } from "@nerdware/ts-type-safety-utils";
 import { styled } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
 import Text, { type TypographyProps } from "@mui/material/Typography";
@@ -9,18 +10,40 @@ import { dataDisplayClassNames } from "./classNames";
 import type { Location } from "@/graphql/types";
 import type { SetOptional } from "type-fest";
 
+export type LocationDetailsProps = Partial<LocationDetailsContentProps> & {
+  showLabel?: boolean;
+} & ItemDetailsProps;
+
+type LocationDetailsContentProps = {
+  location: SetOptional<Location, "country">;
+  locationTextProps: TypographyProps;
+};
+
 export const LocationDetails = ({
   location,
   locationTextProps = {},
   showLabel = true,
   className = "",
   ...itemDetailsProps
-}: LocationDetailsProps) => {
-  const { streetLine1, streetLine2, city, region, country } = location ?? {};
+}: LocationDetailsProps) => (
+  <StyledItemDetails
+    label={showLabel ? "Address" : undefined}
+    className={dataDisplayClassNames.locationDetails + " " + className}
+    {...itemDetailsProps}
+  >
+    {location && (
+      <LocationDetailsContent location={location} locationTextProps={locationTextProps} />
+    )}
+  </StyledItemDetails>
+);
 
+const LocationDetailsContent = ({
+  location: { streetLine1, streetLine2, city, region, country },
+  locationTextProps,
+}: LocationDetailsContentProps) => {
   // For display purposes, filter out falsey values (null/empty strings)
   const locationStringsArray = [streetLine1, streetLine2, city, region, country].filter(
-    (locationValue) => typeof locationValue === "string" && locationValue
+    (locationValue) => isString(locationValue) && locationValue
   );
 
   const addressStr = locationStringsArray.join(", ");
@@ -29,34 +52,26 @@ export const LocationDetails = ({
   const mapLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addressStr)}`;
 
   return (
-    <StyledItemDetails
-      label={showLabel ? "Address" : undefined}
-      className={dataDisplayClassNames.locationDetails + " " + className}
-      {...itemDetailsProps}
-    >
-      {location && (
-        <>
-          <Text className={dataDisplayClassNames.locationDetailsAddressText} {...locationTextProps}>
-            <span>{streetLine1}</span>
-            {streetLine2 && (
-              <>
-                {`\n`}
-                <span>{streetLine2}</span>
-              </>
-            )}
+    <>
+      <Text className={dataDisplayClassNames.locationDetailsAddressText} {...locationTextProps}>
+        <span>{streetLine1}</span>
+        {streetLine2 && (
+          <>
             {`\n`}
-            <span>{`${city}, `}</span>
-            <span>{region}</span>
-          </Text>
-          <Tooltip title={`Google Maps: ${addressStr}`}>
-            <Anchor href={mapLink} className={dataDisplayClassNames.locationDetailsMapAnchor}>
-              <MapMarkerIcon />
-              Map it <ChevronRightIcon />
-            </Anchor>
-          </Tooltip>
-        </>
-      )}
-    </StyledItemDetails>
+            <span>{streetLine2}</span>
+          </>
+        )}
+        {`\n`}
+        <span>{`${city}, `}</span>
+        <span>{region}</span>
+      </Text>
+      <Tooltip title={`Google Maps: ${addressStr}`}>
+        <Anchor href={mapLink} className={dataDisplayClassNames.locationDetailsMapAnchor}>
+          <MapMarkerIcon />
+          Map it <ChevronRightIcon />
+        </Anchor>
+      </Tooltip>
+    </>
   );
 };
 
@@ -111,9 +126,3 @@ const StyledItemDetails = styled(ItemDetails)(({ theme: { palette, variables } }
     },
   },
 }));
-
-export type LocationDetailsProps = {
-  location?: SetOptional<Location, "country">;
-  locationTextProps?: TypographyProps;
-  showLabel?: boolean;
-} & ItemDetailsProps;
