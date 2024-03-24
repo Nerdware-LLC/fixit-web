@@ -5,6 +5,7 @@ import { RootAppRouter } from "@/routes/RootAppRouter";
 import { ApolloProvider } from "./ApolloProvider";
 import { FetchStateContextProvider } from "./FetchStateContext";
 import { GlobalStyles } from "./GlobalStyles";
+import { GoogleOAuthContextProvider } from "./GoogleOAuthContext";
 import { PageLayoutContextProvider } from "./PageLayoutContext";
 import { ThemeProvider } from "./ThemeProvider";
 import { DateTimeLocalizationProvider } from "./localization";
@@ -24,14 +25,16 @@ export const App = () => (
     <ErrorBoundary>
       <PageLayoutContextProvider>
         <DateTimeLocalizationProvider>
-          <ThemeProvider>
-            <CssBaseline />
-            <GlobalStyles />
-            <ToastContainer />
-            <FetchStateContextProvider>
-              <RootAppRouter />
-            </FetchStateContextProvider>
-          </ThemeProvider>
+          <GoogleOAuthContextProvider>
+            <ThemeProvider>
+              <CssBaseline />
+              <GlobalStyles />
+              <ToastContainer />
+              <FetchStateContextProvider>
+                <RootAppRouter />
+              </FetchStateContextProvider>
+            </ThemeProvider>
+          </GoogleOAuthContextProvider>
         </DateTimeLocalizationProvider>
       </PageLayoutContextProvider>
     </ErrorBoundary>

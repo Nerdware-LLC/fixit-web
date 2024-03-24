@@ -18,13 +18,14 @@ const API_HOSTS_BY_MODE: Partial<Readonly<Record<typeof MODE, string>>> = {
 
 const IS_DEV = import.meta.env.DEV;
 const IS_PROD = import.meta.env.PROD;
-const IS_STORYBOOK = !!import.meta.env?.STORYBOOK;
+const IS_STORYBOOK = !!import.meta.env.STORYBOOK;
 const PROJECT_VERSION = import.meta.env.VITE_PROJECT_VERSION;
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
-const API_PROTOCOL = import.meta.env?.VITE_API_PROTOCOL || "https";
-const API_HOST = import.meta.env?.VITE_API_HOST || (API_HOSTS_BY_MODE?.[MODE] ?? "localhost");
-const API_BASE_PATH = import.meta.env?.VITE_API_BASE_PATH || "/api";
+const API_PROTOCOL = import.meta.env.VITE_API_PROTOCOL || "https";
+const API_HOST = import.meta.env.VITE_API_HOST || (API_HOSTS_BY_MODE?.[MODE] ?? "localhost");
+const API_BASE_PATH = import.meta.env.VITE_API_BASE_PATH || "/api";
 const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+const GOOGLE_OAUTH_CLIENT_ID = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID || "";
 
 // Define the API's origin:
 const API_ORIGIN = `${API_PROTOCOL}://${API_HOST}`;
@@ -49,4 +50,5 @@ export const ENV = {
   /** `"[API_PROTOCOL]://[API_HOST][API_BASE_PATH]"` */
   API_URI: `${API_ORIGIN}${API_BASE_PATH}`,
   STRIPE_PUBLISHABLE_KEY,
+  GOOGLE_OAUTH_CLIENT_ID,
 } as const;

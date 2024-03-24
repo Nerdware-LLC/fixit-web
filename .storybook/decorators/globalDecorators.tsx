@@ -2,6 +2,7 @@ import { DecoratorHelpers } from "@storybook/addon-themes";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiThemeProvider from "@mui/material/styles/ThemeProvider";
 import { GlobalStyles } from "@/app/GlobalStyles";
+import { GoogleOAuthContextProvider } from "@/app/GoogleOAuthContext";
 import { PageLayoutContextProvider } from "@/app/PageLayoutContext";
 import { THEMES, THEME_NAMES, type ThemeName } from "@/app/ThemeProvider/themes";
 import { useAppThemeObject } from "@/app/ThemeProvider/useAppThemeObject";
@@ -30,8 +31,12 @@ const withCustomThemeProvider = (): DecoratorFunction<ReactRenderer> => {
     const themeFromGlobals = globals?.theme;
     const themeOverrideFromParameters = parameters?.themes?.themeOverride;
 
-    const selectedTheme = themeOverrideFromParameters || themeFromGlobals || DEFAULT_THEME;
+    let selectedTheme = themeOverrideFromParameters || themeFromGlobals || DEFAULT_THEME;
 
+    // Ensure selectedTheme is either DARK or LIGHT:
+    if (selectedTheme !== THEME_NAMES.LIGHT) selectedTheme = THEME_NAMES.DARK;
+
+    // Get the Mui theme object for the selected theme:
     const theme = useAppThemeObject(selectedTheme);
 
     return (
@@ -51,14 +56,23 @@ const withCustomThemeProvider = (): DecoratorFunction<ReactRenderer> => {
  *   but counter-intuitively, _higher_ index decorators wrap _lower_ index decorators.
  */
 export const globalDecorators: Array<DecoratorFunction<ReactRenderer>> = [
+  // ThemeProvider
+  withCustomThemeProvider(),
+
+  // GoogleOAuthContextProvider
+  (Story) => (
+    <GoogleOAuthContextProvider>
+      <Story />
+    </GoogleOAuthContextProvider>
+  ),
+
   // DateTimeLocalizationProvider
   (Story) => (
     <DateTimeLocalizationProvider>
       <Story />
     </DateTimeLocalizationProvider>
   ),
-  // ThemeProvider
-  withCustomThemeProvider(),
+
   // PageLayoutContextProvider
   (Story) => (
     <PageLayoutContextProvider>
