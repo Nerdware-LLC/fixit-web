@@ -9,7 +9,7 @@ const meta = {
   decorators: [
     withNavDecorator,
     (Story) => (
-      <div style={{ height: "100%", display: "grid", placeItems: "center" }}>
+      <div style={{ height: "100%", width: "100%", display: "grid", placeItems: "center" }}>
         <Story />
       </div>
     ),
@@ -27,6 +27,19 @@ export const Default = {} satisfies Story;
 
 export const WithStripeBadge = {
   args: {
+    includeStripeBadge: true,
+  },
+} satisfies Story;
+
+export const WithLongLabels = {
+  args: {
+    useLongLabels: true,
+  },
+} satisfies Story;
+
+export const WithLongLabelsAndStripeBadge = {
+  args: {
+    useLongLabels: true,
     includeStripeBadge: true,
   },
 } satisfies Story;

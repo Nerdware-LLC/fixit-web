@@ -2,7 +2,5 @@
  * Class names for `Navigation` components (src/components/Navigation/).
  */
 export const navigationClassNames = {
-  legalLinksContainer: "legal-links-container",
-
-  navLinkPending: "rrd-nav-link-pending",
+  legalLinksRoot: "legal-links__root",
 } as const;
