@@ -26,7 +26,7 @@ import type {
 axios.defaults.baseURL = ENV.API_URI;
 axios.defaults.signal = abortController.signal;
 axios.defaults.timeout = 10000;
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = ENV.IS_DEPLOYED_ENV;
 
 // Before each REQUEST goes out, do this:
 axios.interceptors.request.use(
