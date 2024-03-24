@@ -1,3 +1,4 @@
+import { isSafeInteger } from "@nerdware/ts-type-safety-utils";
 import dayjs, { type ConfigType as DayJsCtorParamType } from "dayjs";
 
 /**
@@ -50,11 +51,13 @@ export const isValidTimestamp = (
   value?: unknown,
   onlyAllow13DigitNumbers: boolean = true
 ): value is ValidTimestamp => {
+  // Check for values types that break the dayjs ctor:
   if (!value || INVALID_TIMESTAMP_VALUE_TYPES.has(typeof value)) {
     return false;
   }
 
-  if (typeof value === "number" && onlyAllow13DigitNumbers && `${value}`.length !== 13) {
+  // If onlyAllow13DigitNumbers is true, check for non-13-digit numbers:
+  if (isSafeInteger(value) && onlyAllow13DigitNumbers && `${value}`.length !== 13) {
     return false;
   }
 
