@@ -42,7 +42,7 @@ export const APP_NAV_ACTIONS = {
     label: "Logout",
     doBeforeNav: () => {
       authenticatedUserStore.deauthenticate();
-      toast("👋 See ya later!", { toastId: "logout" });
+      toast("Successfully signed out 👋", { toastId: "logout", style: { textAlign: "center" } });
     },
     path: APP_PATHS.ROOT,
     icon: <LogoutIcon />,
