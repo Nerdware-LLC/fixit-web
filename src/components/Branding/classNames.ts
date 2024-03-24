@@ -4,8 +4,7 @@
 export const brandingClassNames = {
   fixitLogoImg: "fixit-logo__img",
 
-  stripeBadgeRoot: "stripe-badge__root",
-  stripeBadgeAnchor: "stripe-badge__anchor",
+  stripeBadgeAnchor: "stripe-badge__anchor", // component root
   stripeBadgeImg: "stripe-badge__img",
 
   titleLogoRoot: "title-logo__root",
