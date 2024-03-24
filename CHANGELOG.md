@@ -4,6 +4,62 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.4.0](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.1...v1.4.0) (2024-03-24)
+
+
+### Bug Fixes
+
+* add 'justifyContent:center' ([f8f8037](https://github.com/Nerdware-LLC/fixit-web/commit/f8f803773b68ad01f53a7e871cce655b444942cc))
+* add check ensuring afterTrialPriceStr is not null ([1f8c415](https://github.com/Nerdware-LLC/fixit-web/commit/1f8c4153a4aa43f318128e45a4319fbb7f3243a4))
+* add nullish fallback to 'value' ([9989c1b](https://github.com/Nerdware-LLC/fixit-web/commit/9989c1b2ac33f562cb353fe5c1dac9e5dc3e61fc))
+* correct accum typings for parsers+reducers ([3e744da](https://github.com/Nerdware-LLC/fixit-web/commit/3e744da4e682200c14918ed8223cab823775d378))
+* correct type-policy 'options.args' typings ([a9d1ebf](https://github.com/Nerdware-LLC/fixit-web/commit/a9d1ebf18da3d25325e97e3786aff536684a99f4))
+* impl logic checks for null phone values ([a499038](https://github.com/Nerdware-LLC/fixit-web/commit/a49903876434486ce95cbac405943ce2d2ad79f2))
+* mv all image imports into ProductImage for fast-refresh ([8947030](https://github.com/Nerdware-LLC/fixit-web/commit/894703099ed5d0b86e4a486c9d7958a1dc23abd3))
+* mv map key to Fragment ([7786f3d](https://github.com/Nerdware-LLC/fixit-web/commit/7786f3d2a62bee117c760425f6b658b6131f75e1))
+* rm clearing of checkoutValues ([212b3cf](https://github.com/Nerdware-LLC/fixit-web/commit/212b3cfb5979890f9a7437ddcdc73953a6271209))
+* rm extraneous 'as const' assertions ([2995812](https://github.com/Nerdware-LLC/fixit-web/commit/29958128d17002cf06e44d5cc5483c0261393169))
+* set axios.defaults.withCredentials only in deployed envs ([fed8071](https://github.com/Nerdware-LLC/fixit-web/commit/fed807156283860f78e7f04c689b54cf1e9b160f))
+* set redirect to /products if no active sub ([5c8319a](https://github.com/Nerdware-LLC/fixit-web/commit/5c8319a4491f17b7c7b096adffe9f3103bceb316))
+* update checks for null/falsey values ([5ce552b](https://github.com/Nerdware-LLC/fixit-web/commit/5ce552b4cd81299a44aaebba1a29901170d646c4))
+* update className to legalLinksRoot ([853bb7b](https://github.com/Nerdware-LLC/fixit-web/commit/853bb7b1732e0d2e5131c06b0885edaaaeafe2d0))
+* update DataDisplay exports ([69e94f5](https://github.com/Nerdware-LLC/fixit-web/commit/69e94f520ffcf9de07bbaccd73b11ec9aae628d1))
+* update global scrollbar className usage ([2202fec](https://github.com/Nerdware-LLC/fixit-web/commit/2202fec4e7d8aeac233ad18a23952e5bc4add1b4))
+* update import path to reflect Form/Inputs renaming ([eb2e5c8](https://github.com/Nerdware-LLC/fixit-web/commit/eb2e5c8594f2c54645d0de06a82bf04f48f40ff1))
+* update typing for Yup err msg fn ([fac9fc5](https://github.com/Nerdware-LLC/fixit-web/commit/fac9fc50f4f9290a1a33fc7ff28e7dd5dd25b439))
+* update usage of scrollbar.forceShowPaperBG ([fad8edf](https://github.com/Nerdware-LLC/fixit-web/commit/fad8edfda754c7baed4e4c5174e197d70a1a85e4))
+
+
+### Features
+
+* add 'long' labels and 'Cookies' ([b7ac57b](https://github.com/Nerdware-LLC/fixit-web/commit/b7ac57b39b303c6cba454c7b5a5c7003af8a32d1))
+* add APP_LINKS object w github repo url ([bd357be](https://github.com/Nerdware-LLC/fixit-web/commit/bd357bebeb942f1000adfc60252c8902a0e02551))
+* add authTokenUpdateAt storage feat ([328004e](https://github.com/Nerdware-LLC/fixit-web/commit/328004e90144297fd91326e53f5a9d292d5475b8))
+* add classNames for ClickToCopyText ([39fcc9c](https://github.com/Nerdware-LLC/fixit-web/commit/39fcc9c7ea3907e5d6c65bb5e9729745290b11a8))
+* add CloseIconButton comp ([8256d49](https://github.com/Nerdware-LLC/fixit-web/commit/8256d49c146345fb334062452ebde15f2bdfa909))
+* add CookiePolicyPage ([090c3ce](https://github.com/Nerdware-LLC/fixit-web/commit/090c3cee64c0017c0c503dcc7a3e9fea4d749a34))
+* add defaultSize, rename to reflect broader scope ([8f3ee71](https://github.com/Nerdware-LLC/fixit-web/commit/8f3ee7191ab58d75d824257615199cb97b6c8b92))
+* add DemoInfo component ([da09354](https://github.com/Nerdware-LLC/fixit-web/commit/da093546d74ffecec31bfefc5536d61cef17f333))
+* add DemoInfo components ([a3b068d](https://github.com/Nerdware-LLC/fixit-web/commit/a3b068d36342ba0c86c39e3dcce423697ead084b))
+* add DemoInfoDialog ([5cc138c](https://github.com/Nerdware-LLC/fixit-web/commit/5cc138ceb18a69d58577678a4cbf59e8d90898bb))
+* add DemoStripeCardInfoAccordion ([3de0011](https://github.com/Nerdware-LLC/fixit-web/commit/3de0011e276cd8ae6e2a24b4156bf50d8ae8d73d))
+* add DividerWithText comp ([6b0f531](https://github.com/Nerdware-LLC/fixit-web/commit/6b0f531b64d97d7114f46c994e4b35fb0698b28e))
+* add err-handling utils ([1b00dda](https://github.com/Nerdware-LLC/fixit-web/commit/1b00ddaffc2d66614f8caa0483276e0d60b6bbc3))
+* add footer to LandingPage ([8673ac4](https://github.com/Nerdware-LLC/fixit-web/commit/8673ac49151c57a57cc8418d9eea676dd5bb30d8))
+* add Google OAuth login feature ([fc028ff](https://github.com/Nerdware-LLC/fixit-web/commit/fc028ff2a9c90e2f37619f2f934a7bf17070837b))
+* add GoogleOAuth btns to Login+Register ([2422af1](https://github.com/Nerdware-LLC/fixit-web/commit/2422af196a9f4a83a4a337373cc3d971bd136c0b))
+* add GoogleOAuth types ([9515fd2](https://github.com/Nerdware-LLC/fixit-web/commit/9515fd224517583f39b2f05c905ef5980260928f))
+* add loginWithGoogleToken method ([fd68ac0](https://github.com/Nerdware-LLC/fixit-web/commit/fd68ac08d3dcd894d9b1ea38254498164ec9a54e))
+* add PolicyInfoTable comp ([5684609](https://github.com/Nerdware-LLC/fixit-web/commit/5684609a314c5181db92f1ccf2d870237d44ef11))
+* add root-app loading indicator to AppBarLogoButton ([9ad45cd](https://github.com/Nerdware-LLC/fixit-web/commit/9ad45cd40a56a5681aa50621b889aa2e783cff6d))
+* add type UseDialogHookProps ([43ea6a9](https://github.com/Nerdware-LLC/fixit-web/commit/43ea6a9a06529864346ea0c08a1d7d68bcd0f832))
+* centralize password and googleIDToken field schema ([83b079e](https://github.com/Nerdware-LLC/fixit-web/commit/83b079ef210c212aa6439841deffdf3cb19ee7b2))
+* impl new err-handling helpers ([2be61c8](https://github.com/Nerdware-LLC/fixit-web/commit/2be61c88806df6111265672f29b391532bfd3438))
+* replace old Title+Logo w the new one that has loading-spinner ([3e4f91b](https://github.com/Nerdware-LLC/fixit-web/commit/3e4f91bf54a65363faa2be09a256694885a3eed6))
+* rm 'to' prop, only do 'nav(-1)' ([14f0870](https://github.com/Nerdware-LLC/fixit-web/commit/14f0870ced4b722d841b51335913aa868099bff5))
+* rm unused userLogin makeFake util ([378e85b](https://github.com/Nerdware-LLC/fixit-web/commit/378e85b0bee914437a9576bf955845c09db010e0))
+* update gql schema doc ([c70ebc3](https://github.com/Nerdware-LLC/fixit-web/commit/c70ebc3dc577b89b32e27584bb07bafdc8b99d6e))
+
 # [1.4.0-next.1](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.1...v1.4.0-next.1) (2024-03-24)
 
 
