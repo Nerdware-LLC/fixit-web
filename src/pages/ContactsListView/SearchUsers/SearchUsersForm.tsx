@@ -47,7 +47,7 @@ const validateSearchUsersForm: FormValidationFunction<{ searchField: string }> =
   const inputType = helpers.getInputType(searchFieldValue);
 
   return !helpers.isValidFinalValue(searchFieldValue, inputType)
-    ? { searchField: `Invalid ${inputType}` }
+    ? { searchField: `Invalid ${inputType ?? "value"}` }
     : undefined;
 };
 
