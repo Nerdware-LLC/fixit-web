@@ -21,13 +21,13 @@ export const UserProfileDetails = ({
 }: UserProfileDetailsProps) => (
   <StyledDiv>
     <ItemDetails label="Name" labelIcon={<PersonIcon />}>
-      {givenName && `${givenName}${givenName && familyName && ` ${familyName}`}`}
+      {givenName && `${givenName}${givenName && familyName ? ` ${familyName}` : ""}`}
     </ItemDetails>
     <ItemDetails label="Company" labelIcon={<StorefrontIcon />}>
       {businessName}
     </ItemDetails>
     <ItemDetails label="Phone" labelIcon={<PhoneIcon />}>
-      {fmt.prettifyPhoneNum(phone)}
+      {phone ? fmt.prettifyPhoneNum(phone) : ""}
     </ItemDetails>
     <ItemDetails label="Email" labelIcon={<EmailIcon />}>
       {email}
