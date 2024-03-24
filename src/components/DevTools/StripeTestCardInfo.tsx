@@ -33,8 +33,8 @@ export const StripeTestCardInfo = ({
             For the card number, enter{" "}
             <ClickToCopyText stripeWhitespace>4242 4242 4242 4242</ClickToCopyText>
           </li>
-          <li>For the CVC, use any 3 digits.</li>
           <li>For the exp date, use any valid future date.</li>
+          <li>For the CVC, use any 3 digits.</li>
           <li>For the postal code, use any valid US zip code.</li>
         </ul>
       </li>
@@ -71,16 +71,6 @@ const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
         },
       },
     },
-    // "& li": {
-    //   listStyleType: "disc", // FIXME nested list
-    //   marginTop: "0.25rem",
-
-    //   [`& > .${textClassNames.clickToCopyTextRoot}`]: {
-    //     transform: "translateY(-1px)",
-    //   },
-
-    //   "& > ul > li": { maxHeight: "1.5rem" },
-    // },
   },
   "& img": {
     boxShadow: "0 0 0.25rem rgba(0,0,0,0.5)",
