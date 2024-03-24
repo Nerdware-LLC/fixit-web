@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { globalClassNames } from "@/app/GlobalStyles";
 import { AppBar, useAppBarHeight } from "@/components/AppBar";
-import { useAuthRefresh } from "@/hooks/useAuthRefresh";
+import { useAuthInit } from "@/hooks/useAuthInit";
 import { useHandlePageRefresh } from "@/hooks/useHandlePageRefresh";
 import { rootAppLayoutElementIDs } from "./elementIDs";
 
@@ -15,11 +15,11 @@ import { rootAppLayoutElementIDs } from "./elementIDs";
  * - Child components are rendered via `<Outlet />`.
  */
 export const RootAppLayout = () => {
-  const { handleAuthRefresh } = useAuthRefresh();
-  useHandlePageRefresh(handleAuthRefresh);
+  useHandlePageRefresh();
+  useAuthInit();
 
   return (
-    <StyledDiv id={rootAppLayoutElementIDs.root} className={globalClassNames.scrollbarForceHidden}>
+    <StyledDiv id={rootAppLayoutElementIDs.root} className={globalClassNames.scrollbar.forceHidden}>
       <AppBar />
       <div id={rootAppLayoutElementIDs.rrdOutletContainer}>
         <Outlet />
