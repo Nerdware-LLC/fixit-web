@@ -1,9 +1,8 @@
 import { Fragment } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Divider, { dividerClasses } from "@mui/material/Divider";
-import Stack, { type StackProps } from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
-import { StripeBadge, STRIPE_LINKS } from "@/components/Branding";
+import { StripeBadge, STRIPE_LINKS, brandingClassNames } from "@/components/Branding";
 import { APP_PATHS } from "@/routes/appPaths";
 import { Link } from "./Link";
 import { navigationClassNames } from "./classNames";
@@ -26,29 +25,21 @@ export const LegalLinks = ({
   useLongLabels = false,
   includeStripeBadge = false,
   tabIndex = -1,
-  ...containerProps
+  ...divProps
 }: LegalLinksProps) => (
-  <StyledStack
-    direction="row"
-    spacing="0.25rem"
-    alignItems="center"
-    justifyContent="center"
+  <StyledDiv
+    includeStripeBadge={includeStripeBadge}
     tabIndex={tabIndex}
-    className={navigationClassNames.legalLinksContainer}
-    {...containerProps}
+    className={navigationClassNames.legalLinksRoot}
+    {...divProps}
   >
     {includeStripeBadge && (
       <>
         <StripeBadge
           href={STRIPE_LINKS.CONNECT_ACCOUNT_AGREEMENT}
           tooltipProps={{ title: "View Stripe Connected Account Agreement" }}
-          anchorProps={{ style: { height: "2rem", margin: "0 0.5rem" } }}
         />
-        <Divider
-          orientation="vertical"
-          variant="middle"
-          style={{ height: "2.25rem", margin: "0 0.5rem" }}
-        />
+        <Divider orientation="vertical" />
       </>
     )}
     {[
@@ -69,9 +60,7 @@ export const LegalLinks = ({
       },
     ].map(({ label, link, tooltip }, index) => (
       <Fragment key={label}>
-        {!includeStripeBadge && index !== 0 && (
-          <Divider orientation="vertical" variant="middle" flexItem />
-        )}
+        {!includeStripeBadge && index !== 0 && <Divider orientation="vertical" />}
         <Tooltip title={tooltip}>
           <Link to={link} tabIndex={tabIndex}>
             {`${label} ` /* <-- Don't rm the \s after label, it elongates the underline */}
@@ -79,32 +68,37 @@ export const LegalLinks = ({
         </Tooltip>
       </Fragment>
     ))}
-  </StyledStack>
+  </StyledDiv>
 );
 
-const StyledStack = styled(Stack)(({ theme: { palette } }) => ({
+const StyledDiv = styled("div")<LegalLinksProps>(({ includeStripeBadge, theme: { palette } }) => ({
+  height: "2rem",
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: includeStripeBadge ? "1rem" : "0.75rem",
+
   [`& .${dividerClasses.root}`]: {
-    height: "1.5rem",
-    width: "0.1px",
-    marginTop: 0,
-    marginBottom: 0,
+    height: includeStripeBadge ? "2.25rem" : "1.75rem",
+    alignSelf: "center",
     backgroundColor: alpha(palette.mode === "dark" ? palette.grey[600] : palette.grey[800], 0.5),
   },
 
-  [`& > a[href]:not([href='${STRIPE_LINKS.CONNECT_ACCOUNT_AGREEMENT}'])`]: {
+  [`& > a:not(.${brandingClassNames.stripeBadgeAnchor})`]: {
     color: palette.mode === "dark" ? palette.grey[500] : palette.grey[700],
     textDecoration: "underline dotted",
     textUnderlinePosition: "under",
-    margin: "0 0.5rem",
     whiteSpace: "pre", // preserve whitespace, text includes ending space to elongate underline
+    transform: "translateY(-1px)", // nudged up bc the underline makes the text appear to not be centered vertically
   },
 }));
 
 export type LegalLinksProps = {
+  includeStripeBadge?: boolean;
   /**
    * Whether to use the "long" names for the legal links, e.g. "Terms of Service"
    * instead of "Terms" (default: `false`).
    */
   useLongLabels?: boolean;
-  includeStripeBadge?: boolean;
-} & Except<StackProps, "direction" | "className" | "children">;
+} & Except<React.ComponentProps<"div">, "className" | "children">;
