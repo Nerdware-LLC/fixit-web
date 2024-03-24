@@ -11,8 +11,8 @@ import type { ConditionalKeys } from "type-fest";
  */
 export type PaletteColorKey = ConditionalKeys<Palette, PaletteColor>;
 
-const DARK_PALETTE_NAME = "DARK" as const;
-const LIGHT_PALETTE_NAME = "LIGHT" as const;
+const DARK_PALETTE_NAME = "DARK";
+const LIGHT_PALETTE_NAME = "LIGHT";
 
 export const PALETTE_NAMES = [DARK_PALETTE_NAME, LIGHT_PALETTE_NAME] as const;
 
