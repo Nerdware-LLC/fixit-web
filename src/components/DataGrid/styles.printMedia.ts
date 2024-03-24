@@ -1,7 +1,7 @@
 import { alpha, darken } from "@mui/material/styles";
 import { THEMES } from "@/app/ThemeProvider";
 import { dataGridClassNames } from "./classNames";
-import type { SxPropsWithTheme } from "@/app/ThemeProvider/helpers";
+import type { CSSObject } from "@emotion/react";
 
 /**
  * When the 'print' option is selected in the 'export' menu, all color-related
@@ -48,4 +48,4 @@ export const dataGridStyledPrintMedia = {
       },
     },
   },
-} as const satisfies SxPropsWithTheme;
+} as const satisfies CSSObject;

@@ -12,6 +12,11 @@ export const authService = {
       ...userLoginArgs,
     });
   },
+  loginWithGoogleToken: async (googleTokenLoginArgs: GoogleTokenLoginParams) => {
+    return await httpService.post("/auth/google-token", {
+      ...googleTokenLoginArgs,
+    });
+  },
   refreshAuthToken: async () => {
     return await httpService.post("/auth/token");
   },
@@ -20,3 +25,5 @@ export const authService = {
 export type RegisterNewUserParams = RestApiRequestBodyByPath["/auth/register"];
 
 export type LoginParams = RestApiRequestBodyByPath["/auth/login"];
+
+export type GoogleTokenLoginParams = RestApiRequestBodyByPath["/auth/google-token"];

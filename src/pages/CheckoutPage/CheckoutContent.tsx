@@ -5,6 +5,7 @@ import Text from "@mui/material/Typography";
 import { FetchStateContextProvider } from "@/app/FetchStateContext";
 import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
 import { TitleLogo, brandingClassNames } from "@/components/Branding";
+import { DemoStripeCardInfoAccordion } from "@/components/DevTools/DemoStripeCardInfoAccordion";
 import { CheckoutForm, type CheckoutFormProps } from "./CheckoutForm";
 import { PaymentConfirmationInfo } from "./PaymentConfirmationInfo";
 import { SubCostDetails } from "./SubCostDetails";
@@ -39,9 +40,10 @@ export const CheckoutContent = ({
           <PaymentConfirmationInfo />
         ) : (
           <>
-            <Text style={{ textAlign: "center", opacity: 0.75 }}>
-              You'll receive a confirmation email with receipt upon completion.
+            <Text style={{ textAlign: "center", opacity: 0.75, whiteSpace: "pre-line" }}>
+              {`You'll receive a confirmation email\nwith receipt upon completion.`}
             </Text>
+            <DemoStripeCardInfoAccordion />
             <Divider />
             <FetchStateContextProvider>
               <CheckoutForm onSuccessfulSubmit={onCheckoutCompletion} />

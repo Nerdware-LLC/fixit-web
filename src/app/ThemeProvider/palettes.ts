@@ -11,8 +11,8 @@ import type { ConditionalKeys } from "type-fest";
  */
 export type PaletteColorKey = ConditionalKeys<Palette, PaletteColor>;
 
-const DARK_PALETTE_NAME = "DARK" as const;
-const LIGHT_PALETTE_NAME = "LIGHT" as const;
+const DARK_PALETTE_NAME = "DARK";
+const LIGHT_PALETTE_NAME = "LIGHT";
 
 export const PALETTE_NAMES = [DARK_PALETTE_NAME, LIGHT_PALETTE_NAME] as const;
 
@@ -77,8 +77,8 @@ export const PALETTES = Object.fromEntries(
         paletteName === DARK_PALETTE_NAME
           ? {
               light: "#ffd900",
-              main: "#b69b00",
-              dark: "#a87b00",
+              main: "#c4bb00",
+              dark: "#b09f02",
             }
           : {
               light: "#ff9800", // MUI default

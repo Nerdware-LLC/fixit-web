@@ -15,20 +15,19 @@ export interface ItemsPerStatusDataParserAccum<TItem extends ItemsPerStatusDataP
 }
 
 /**
- * This `ItemDataParser` implementation is used to count the number of items
- * per item-status.
+ * This `ItemDataParser` implementation is used to count the number of items per item-status.
  */
 export class ItemsPerStatusDataParser<TItem extends ItemsPerStatusDataParserItem>
   implements ItemDataParser<TItem, ItemsPerStatusDataParserAccum<TItem>>
 {
   initialDataAccum: ItemsPerStatusDataParserAccum<TItem>;
-  dataAccumUpdater: DataParserAccumUpdater<TItem>;
+  dataAccumUpdater: DataParserAccumUpdater<TItem, ItemsPerStatusDataParserAccum<TItem>>;
 
   constructor(itemStatuses: ReadonlyArray<TItem["status"]>) {
     this.initialDataAccum = {
       STATUS_COUNTS: itemStatuses.reduce(
         (acc, status) => ({ ...acc, [status]: 0 }),
-        {} as ItemsPerStatusDataParserAccum<TItem>["STATUS_COUNTS"]
+        {} as Record<TItem["status"], number>
       ),
     };
 

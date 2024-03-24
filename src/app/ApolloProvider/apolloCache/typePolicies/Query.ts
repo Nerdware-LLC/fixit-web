@@ -72,7 +72,7 @@ export const queryTypePolicies: TypePolicies = {
         merge: helpers.mergeArrays,
         read: (
           existing: Array<ContactPublicFieldsFragment> = [],
-          { args, readField }: FieldFunctionOptions
+          { args, readField }: FieldFunctionOptions<{ handle?: string }>
         ) => {
           // This query should never run without a "handle" arg
           if (existing.length > 0 && args?.handle) {

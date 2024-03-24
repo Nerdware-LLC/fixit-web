@@ -39,7 +39,7 @@ export const getProtectedRouteLoader = (
           style: { backgroundColor: "transparent" }, // hide react-toastify's modal
         });
 
-        throw redirect(APP_PATHS.ROOT);
+        throw redirect(APP_PATHS.PRODUCTS);
       }
     }
 

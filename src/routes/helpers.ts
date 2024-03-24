@@ -14,3 +14,12 @@ export const getItemViewPath = (
 ) => {
   return `/${HOME}/${itemType}/${encodeURIComponent(id)}`;
 };
+
+/**
+ * This is a helper function to determine if a given `urlStr` is an external URL.
+ * @param urlStr The URL to check.
+ * @returns `true` if the `urlStr` is an external URL, `false` otherwise.
+ */
+export const isExternalUrl = (urlStr?: string) => {
+  return urlStr && urlStr.startsWith("http") && !urlStr.includes("gofixit.app");
+};

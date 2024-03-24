@@ -56,7 +56,7 @@ export const Checklist = <
       role="list" // see jsdoc for details on why this is needed
       className={[
         checklistClassNames.scrollableListContainer,
-        globalClassNames.scrollbarForceShowPaperBG,
+        globalClassNames.scrollbar.forceShowPaperBG,
       ].join(" ")}
     >
       {checklistItems.map((item, index) =>

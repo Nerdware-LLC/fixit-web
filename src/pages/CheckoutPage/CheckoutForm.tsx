@@ -12,6 +12,7 @@ export const CheckoutForm = ({
 }: CheckoutFormProps) => {
   // Route protection guarantees that selectedSubscription is defined, hence the as cast
   const { selectedSubscription, discountPercentage } = checkoutValuesStore.useSubToStore<true>();
+
   const { error, clearError } = useFetchStateContext();
 
   const amountDueToday = getPrice_FOR_DISPLAY_ONLY(
@@ -20,7 +21,6 @@ export const CheckoutForm = ({
   );
 
   const handleSuccessfulSubmit: StripeFormProps["onSuccessfulSubmit"] = async () => {
-    checkoutValuesStore.clear();
     if (parentOnSuccessfulSubmitHandler) {
       await parentOnSuccessfulSubmitHandler();
     }

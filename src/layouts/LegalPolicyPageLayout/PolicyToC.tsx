@@ -54,7 +54,6 @@ const StyledOL = styled("ol")(({ theme: { breakpoints } }) => ({
   paddingInlineStart: "2rem",
   /* Note: `paddingInlineStart` is where the <li>'s CONTENT starts, which does not
   include the ::marker pseudo-el when `list-style-position` is "outside" (default).*/
-  listStyleType: "square",
 
   "& > li > *": {
     verticalAlign: "top", // <-- ensures ::marker pseudo-els are aligned with <li> text

@@ -1,4 +1,4 @@
-import { Slider, type SliderProps } from "@/components/Form/inputs/Slider";
+import { Slider, type SliderProps } from "@/components/Form/Inputs/Slider";
 import { capitalize } from "@/utils/formatters/strings";
 import type { Mark } from "@mui/base/useSlider";
 

@@ -6,8 +6,9 @@ import MuiSlider, { sliderClasses, type SliderProps as MuiSliderProps } from "@m
 import { formClassNames } from "../classNames";
 import {
   useFormikFieldProps,
+  getFormInputErrMsg,
   type FormikIntegratedInputProps,
-} from "../helpers/useFormikFieldProps";
+} from "../helpers";
 
 /**
  * MUI Slider with Formik integration.
@@ -32,7 +33,7 @@ export const Slider = <ValueType extends number | string | null | undefined>({
 
   const handleChange = (_event: Event, value: number | Array<number>, _activeThumb: number) => {
     const fieldValue = getFieldValue(value);
-    setValue(fieldValue as any).catch((error) => setError(error));
+    setValue(fieldValue as any).catch((error: unknown) => setError(getFormInputErrMsg(error)));
   };
 
   const labelID = `Slider:InputLabel:${id}`;
@@ -86,7 +87,6 @@ const StyledMuiSlider = styled(MuiSlider, {
   },
 
   [`& .${sliderClasses.valueLabel}`]: {
-    // lineHeight: 1.2, // TODO rm this line if text is fine after setting default line-height:1.5
     fontSize: "12px",
     background: "unset",
     padding: 0,

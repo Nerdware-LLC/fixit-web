@@ -1,4 +1,5 @@
-import type { Theme, SxProps } from "@mui/material/styles";
+import type { CSSObject } from "@emotion/react";
+import type { Theme } from "@mui/material/styles";
 
 /**
  * Default styles for the `Link` and `Anchor` components.
@@ -15,4 +16,4 @@ export const getDefaultLinkStyles = ({ theme: { palette } }: { theme: Theme }) =
       cursor: "pointer",
       opacity: 0.7,
     },
-  }) satisfies SxProps<Theme>;
+  }) satisfies CSSObject;

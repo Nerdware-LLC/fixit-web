@@ -23,7 +23,7 @@ export const BaseFormSubmitButton = ({
 const StyledButton = styled(Button, {
   shouldForwardProp: (propName: string) => !propName.startsWith("grid"),
 })<MuiGridSxProps>({
-  height: "2.75rem", // default is 2.5rem
+  height: "2.5rem",
   position: "relative",
   ...muiGridSxProps,
 });

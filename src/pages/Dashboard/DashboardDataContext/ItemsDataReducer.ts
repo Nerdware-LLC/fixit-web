@@ -18,7 +18,7 @@ import type { ItemDataParser, DataParserItem, DataParserAccum } from "./ItemData
  */
 export class ItemsDataReducer<
   TItem extends DataParserItem,
-  TDataParsers extends Array<ItemDataParser<TItem, DataParserAccum>>
+  TDataParsers extends Array<ItemDataParser<TItem, any>>,
 > {
   // INSTANCE MEMBERS
   readonly initialDataAccum: CombinedReducerAccum<TItem, TDataParsers>;
@@ -34,7 +34,7 @@ export class ItemsDataReducer<
         // Update combinedInitialDataAccum
         combinedInitialDataAccum: {
           ...accum.combinedInitialDataAccum,
-          ...itemDataParser.initialDataAccum,
+          ...(itemDataParser.initialDataAccum as Record<string, unknown>),
         },
         // Update arrayOfDataAccumUpdaterFns
         arrayOfDataAccumUpdaterFns: [
@@ -53,7 +53,10 @@ export class ItemsDataReducer<
       return arrayOfItems.reduce((itemsDataAccum, item, index, itemsArray) => {
         // For each item, each accum-updater function is called
         arrayOfDataAccumUpdaterFns.forEach((dataAccumUpdater) => {
-          itemsDataAccum = dataAccumUpdater(itemsDataAccum, item, index, itemsArray);
+          // prettier-ignore
+          itemsDataAccum = dataAccumUpdater(
+            itemsDataAccum, item, index, itemsArray
+          ) as CombinedReducerAccum<TItem, TDataParsers>;
         });
         return itemsDataAccum;
       }, structuredClone(this.initialDataAccum));
@@ -63,5 +66,5 @@ export class ItemsDataReducer<
 
 type CombinedReducerAccum<
   TItem extends DataParserItem,
-  TDataParsers extends Array<ItemDataParser<TItem, DataParserAccum>>
+  TDataParsers extends Array<ItemDataParser<TItem, DataParserAccum>>,
 > = Simplify<UnionToIntersection<TDataParsers[number]["initialDataAccum"]>>;

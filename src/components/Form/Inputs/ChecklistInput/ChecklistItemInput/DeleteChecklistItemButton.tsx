@@ -1,7 +1,7 @@
 import { useField } from "formik";
 import IconButton, { type IconButtonProps } from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import XDeleteIcon from "@mui/icons-material/HighlightOff";
 import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
 import type { BaseChecklistType } from "@/components/Checklist/types";
@@ -29,16 +29,7 @@ export const DeleteChecklistItemButton = ({
 
   return (
     <InputAdornment position="end">
-      <Tooltip
-        title="Delete item"
-        PopperProps={{
-          sx: {
-            [`& > .${tooltipClasses.tooltip}`]: {
-              backgroundColor: "rgb(97,97,97)", // rm's the usual 0.92 alpha from tooltip bg
-            },
-          },
-        }}
-      >
+      <Tooltip title="Delete item">
         <IconButton
           onClick={deleteChecklistItem}
           data-item-index={checklistItemIndex}

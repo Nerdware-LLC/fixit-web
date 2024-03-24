@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Link } from "@/components/Navigation";
-import { AuthPageLayout } from "@/layouts/AuthPageLayout";
+import { AuthPageLayout, authPageLayoutClassNames } from "@/layouts/AuthPageLayout";
 import { APP_PATHS } from "@/routes/appPaths";
 import { LoginForm } from "./LoginForm";
 
@@ -9,13 +9,20 @@ import { LoginForm } from "./LoginForm";
  * **LoginPage** - renders when path is "/login"
  */
 export const LoginPage = () => (
-  <AuthPageLayout pageTitle="User Login">
+  <AuthPageLayout
+    pageTitle="User Login"
+    sx={{
+      [`&.${authPageLayoutClassNames.root}`]: {
+        justifyContent: "center",
+        gap: "1.5rem",
+      },
+    }}
+  >
     <LoginForm />
     <Box
       style={{
-        alignSelf: "center",
+        marginTop: "0.5rem",
         whiteSpace: "pre-line",
-        marginTop: "1.5rem",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",

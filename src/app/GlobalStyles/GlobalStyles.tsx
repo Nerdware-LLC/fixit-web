@@ -3,6 +3,7 @@ import { Global as EmotionGlobalStyle, css } from "@emotion/react";
 import { useTheme } from "@mui/material/styles";
 import { filledInputClasses } from "@mui/material/FilledInput";
 import { inputBaseClasses } from "@mui/material/InputBase";
+import { globalAnimations } from "./animations";
 import { useScrollbarStyles } from "./useScrollbarStyles";
 import type { RootElementIdArg } from "./types";
 
@@ -46,6 +47,14 @@ export const GlobalStyles = ({ rootElementID = "root" }: RootElementIdArg) => {
           },
         },
         scrollbarStyles,
+        [
+          Object.fromEntries(
+            Object.values(globalAnimations).map((animationConfig) => [
+              `.${animationConfig.className}`,
+              animationConfig.styles,
+            ])
+          ),
+        ],
         {
           /* For multiline Mui TextField inputs with variant="filled", this style moves
           padding from the InputBase to the textarea to ensure the scrollbar sits next
@@ -60,7 +69,7 @@ export const GlobalStyles = ({ rootElementID = "root" }: RootElementIdArg) => {
             },
         }
       ),
-    [rootElementID, scrollbarStyles, palette.background.default]
+    [rootElementID, scrollbarStyles, palette]
   );
 
   return <EmotionGlobalStyle styles={globalStyles} />;

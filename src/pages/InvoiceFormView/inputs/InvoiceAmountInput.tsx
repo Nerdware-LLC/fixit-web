@@ -5,7 +5,7 @@ import { inputAdornmentClasses } from "@mui/material/InputAdornment";
 import { inputBaseClasses } from "@mui/material/InputBase";
 import { inputLabelClasses } from "@mui/material/InputLabel";
 import { typographyClasses } from "@mui/material/Typography";
-import { CurrencyInput } from "@/components/Form/inputs/CurrencyInput";
+import { CurrencyInput } from "@/components/Form/Inputs/CurrencyInput";
 
 export const InvoiceAmountInput = styled(CurrencyInput)(({ gridArea }) => ({
   gridArea: gridArea as string,

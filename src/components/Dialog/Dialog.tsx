@@ -1,33 +1,41 @@
+import React from "react";
+import { isString } from "@nerdware/ts-type-safety-utils";
 import { styled } from "@mui/material/styles";
 import { backdropClasses } from "@mui/material/Backdrop";
 import Button, { buttonClasses } from "@mui/material/Button";
 import MuiDialog, { dialogClasses, type DialogProps as MuiDialogProps } from "@mui/material/Dialog";
 import DialogActions, { dialogActionsClasses } from "@mui/material/DialogActions";
-import DialogContent, { dialogContentClasses } from "@mui/material/DialogContent";
+import DialogContent, {
+  dialogContentClasses,
+  type DialogContentProps,
+} from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle, { dialogTitleClasses } from "@mui/material/DialogTitle";
-import IconButton, { iconButtonClasses } from "@mui/material/IconButton";
+import DialogTitle, { dialogTitleClasses, type DialogTitleProps } from "@mui/material/DialogTitle";
+import { iconButtonClasses } from "@mui/material/IconButton";
 import { typographyClasses } from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
+import { CloseIconButton } from "@/components/Buttons/CloseIconButton";
 import { SlideTransition } from "@/components/Transitions/SlideTransition";
 import { dialogElementIDs } from "./elementIDs";
 import { useDialog } from "./useDialog";
+import type { Except } from "type-fest";
 
 /**
  * Docs: https://mui.com/components/dialogs/
  */
-export const Dialog = ({
+export const Dialog = <DialogTitle extends React.ReactNode>({
   isVisible = true,
   title,
+  dialogTitleProps,
   message,
   children,
+  dialogContentProps = {},
   handleAccept,
   handleCancel,
   acceptLabel = "OK",
   cancelLabel = "CANCEL",
   showCancelButton = true,
-  ...containerProps
-}: DialogProps) => (
+  ...dialogProps
+}: DialogProps<DialogTitle>) => (
   <StyledMuiDialog
     open={isVisible}
     onClose={handleCancel}
@@ -35,18 +43,18 @@ export const Dialog = ({
     aria-describedby={dialogElementIDs.message}
     TransitionComponent={SlideTransition}
     fullWidth
-    {...containerProps}
+    {...dialogProps}
   >
-    <DialogTitle id={dialogElementIDs.title} color="secondary">
-      {title}
-      {handleCancel && (
-        <IconButton onClick={handleCancel} aria-label="close dialog">
-          <CloseIcon />
-        </IconButton>
-      )}
-    </DialogTitle>
-    <DialogContent id={dialogElementIDs.message} dividers>
-      {typeof message === "string" ? (
+    {isString(title) ? (
+      <DialogTitle id={dialogElementIDs.title} color="secondary" {...(dialogTitleProps ?? {})}>
+        {title}
+        {handleCancel && <CloseIconButton onClick={handleCancel} aria-label="close dialog" />}
+      </DialogTitle>
+    ) : (
+      title
+    )}
+    <DialogContent id={dialogElementIDs.message} dividers {...dialogContentProps}>
+      {isString(message) ? (
         <DialogContentText color="action">{message}</DialogContentText>
       ) : (
         message ?? children
@@ -78,8 +86,9 @@ const StyledMuiDialog = styled(MuiDialog)(({ theme: { variables, breakpoints } }
 
       [`& .${iconButtonClasses.root}`]: {
         position: "absolute",
-        top: "0.5rem",
         right: "0.5rem",
+        top: "50%",
+        transform: "translateY(-50%)",
         color: "rgb(150,150,150)",
       },
     },
@@ -118,15 +127,24 @@ const StyledMuiDialog = styled(MuiDialog)(({ theme: { variables, breakpoints } }
   },
 }));
 
-export type DialogProps = {
+export type DialogProps<DialogTitle extends React.ReactNode = React.ReactNode> = Except<
+  MuiDialogProps,
+  "title" | "open"
+> & {
   /** Whether or not the Dialog is visible (default: `true`) */
   isVisible?: boolean;
-  title: React.ReactNode;
+  title: DialogTitle;
+  /** Props for the DialogTitle component (ignored if `title` is not a string). */
+  dialogTitleProps?: DialogTitle extends string
+    ? Except<DialogTitleProps, "id" | "children">
+    : never;
   message?: React.ReactNode;
   children?: React.ReactNode;
+  /** Props for the DialogContent component. */
+  dialogContentProps?: Except<DialogContentProps, "id" | "children">;
   handleAccept?: React.MouseEventHandler<HTMLButtonElement>;
   handleCancel?: React.MouseEventHandler<HTMLButtonElement>;
   acceptLabel?: React.ReactNode;
   cancelLabel?: React.ReactNode;
   showCancelButton?: boolean;
-} & Omit<MuiDialogProps, "open">;
+};

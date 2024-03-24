@@ -3,8 +3,9 @@ import Divider, { dividerClasses } from "@mui/material/Divider";
 import Drawer, { drawerClasses } from "@mui/material/Drawer";
 import List, { listClasses } from "@mui/material/List";
 import { THEMES } from "@/app/ThemeProvider";
+import { AppBarLogoButton } from "@/components/AppBar/AppBarLogoButton";
 import { useAppBarHeight } from "@/components/AppBar/helpers";
-import { TitleLogo, brandingClassNames } from "@/components/Branding";
+import { brandingClassNames } from "@/components/Branding";
 import { useAppNavActions } from "@/routes/appNavActions";
 import { isConnectOnboardingCompleteStore } from "@/stores";
 import { DesktopNavDrawerButton } from "./DesktopNavDrawerButton";
@@ -27,7 +28,7 @@ export const DesktopNavDrawer = () => {
 
   return (
     <StyledDrawer variant="permanent" anchor="left" open>
-      <TitleLogo onClick={DASHBOARD.doNavAction} />
+      <AppBarLogoButton />
       <Divider />
       <List>
         <DesktopNavDrawerButton {...DASHBOARD} />
@@ -76,11 +77,7 @@ const StyledDrawer = styled(Drawer)(({ theme: { variables } }) => {
         padding: "0 0.5rem 0 1.2rem",
         justifyContent: "flex-start",
         width: "min-content",
-        [`& > .${brandingClassNames.titleLogoImg}`]: {
-          width: "2.25rem",
-        },
-        [`& > .${brandingClassNames.titleLogoText}`]: {
-          fontSize: "1.5rem",
+        [`& .${brandingClassNames.titleLogoText}`]: {
           color: THEMES.DARK.palette.text.primary,
         },
       },

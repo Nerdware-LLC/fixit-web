@@ -4,9 +4,9 @@ import IconButton from "@mui/material/IconButton";
 import List, { listClasses } from "@mui/material/List";
 import ListItemButton, { listItemButtonClasses } from "@mui/material/ListItemButton";
 import { paperClasses } from "@mui/material/Paper";
-import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import { AvatarMyProfile } from "@/components/Avatar/AvatarMyProfile";
+import { CloseIconButton } from "@/components/Buttons/CloseIconButton";
 import { MobileModalContentBox } from "@/components/Modal/MobileModalContentBox";
 import { DarkModeSwitch } from "./DarkModeSwitch";
 import { MobileAppBarMenuAuthButton } from "./MobileAppBarMenuAuthButton";
@@ -23,17 +23,15 @@ export const MobileAppBarMenu = () => {
   return (
     <>
       {isModalOpen ? (
-        <IconButton
+        <CloseIconButton
           onClick={handleCloseMenu}
           style={{ color: "rgb(150,150,150)", backgroundColor: "rgba(150,150,150,0.16)" }}
-        >
-          <CloseIcon />
-        </IconButton>
+        />
       ) : appState.isAccountActive === true ? (
         <AvatarMyProfile onClick={handleOpenMenu} />
       ) : (
-        <IconButton onClick={handleOpenMenu}>
-          <MenuIcon aria-label="app bar menu button" />
+        <IconButton onClick={handleOpenMenu} aria-label="app bar menu button">
+          <MenuIcon />
         </IconButton>
       )}
       <StyledMobileModalContentBox open={isModalOpen} onClose={handleCloseMenu}>
@@ -69,7 +67,7 @@ const StyledMobileModalContentBox = styled(MobileModalContentBox)({
         height: "3.25rem",
         padding: "2rem",
         justifyContent: "space-between",
-      }
+      },
     },
   },
 });

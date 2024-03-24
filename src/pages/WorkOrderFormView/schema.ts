@@ -1,6 +1,6 @@
 import { object as yupObject, string, date, type InferType } from "yup";
+import { yupBaseChecklistSchema } from "@/components/Form/Inputs/ChecklistInput/helpers";
 import { yupCommonSchema } from "@/components/Form/helpers/yupCommonSchema";
-import { yupBaseChecklistSchema } from "@/components/Form/inputs/ChecklistInput/helpers";
 import { WORK_ORDER_CATEGORIES, WORK_ORDER_PRIORITIES } from "@/types/WorkOrder";
 
 export const workOrderFormSchema = yupObject({

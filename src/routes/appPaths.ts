@@ -49,6 +49,7 @@ export const APP_PATHS = {
   LANDING_PAGE: ROOT,
   ToS: "/ToS",
   PRIVACY: `/privacy`,
+  COOKIES: `/cookie-policy`,
   REGISTER: `/register`,
   LOGIN: `/login`,
   PRODUCTS: `/products`,

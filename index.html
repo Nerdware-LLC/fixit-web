@@ -5,6 +5,7 @@
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#F78103" />
+    <title>Fixit</title>
     <meta
       name="Keywords"
       content="Work Orders, Invoicing, Payment Processing, Digital Payments, Business, Tools, Utilities, Operations, B2B, B2C, eCommerce, Stripe, Web App, SPA, Website"
@@ -13,6 +14,7 @@
       name="Description"
       content="Fixit is a SaaS application which integrates work order and invoice management with in-app payment processing."
     />
+
     <!-- DOMPurify for TRUSTED TYPES DEFAULT POLICY (IF UPDATED, SHA MUST BE UPDATED AS WELL IN CSP 'script-src') -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"
@@ -20,6 +22,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+
     <!-- TRUSTED TYPES DEFAULT POLICY -->
     <script>
       // Feature detection for TrustedTypes
@@ -38,17 +41,20 @@
         });
       }
     </script>
+
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="/manifest.json" />
+
     <!-- FONT STYLESHEET -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
       type="text/css"
     />
+
     <style>
       /* FONT FIXES: VERTICAL ALIGNMENT
         This style block is a copy of the CSS returned from fonts.googleapis.com (excludes
@@ -109,14 +115,15 @@
           U+FEFF, U+FFFD;
       }
     </style>
+
     <!-- APPLE TOUCH ICON -->
     <link rel="apple-touch-icon" href="/logo192.webp" />
-    <title>Fixit</title>
+
+    <!-- STRIPE SCRIPT REQUIRED FOR PCI COMPLIANCE -->
     <script src="https://js.stripe.com/v3/"></script>
-    <!--
-      The above Stripe script is required for PCI compliance.
-      https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements&element=card#set-up-stripe-elements
-    -->
+
+    <!-- GOOGLE OAUTH CLIENT LIB -->
+    <script src="https://accounts.google.com/gsi/client" async></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

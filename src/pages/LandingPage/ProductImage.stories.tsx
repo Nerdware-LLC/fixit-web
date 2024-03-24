@@ -1,4 +1,4 @@
-import { ProductImage, PRODUCT_IMAGES } from "./ProductImage";
+import { ProductImage } from "./ProductImage";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
@@ -27,17 +27,25 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const DashboardDesktopView = {
-  args: { ...PRODUCT_IMAGES[0] },
+  args: {
+    label: "Fixit Dashboard demo",
+  },
 } satisfies Story;
 
 export const CreateInvoiceMobileView = {
-  args: { ...PRODUCT_IMAGES[1] },
+  args: {
+    label: "Fixit Create-Invoice on mobile",
+  },
 } satisfies Story;
 
 export const DataGridDemo = {
-  args: { ...PRODUCT_IMAGES[2] },
+  args: {
+    label: "Fixit work orders data-grid",
+  },
 } satisfies Story;
 
 export const ListViewMobileDemo = {
-  args: { ...PRODUCT_IMAGES[3] },
+  args: {
+    label: "Fixit work orders list-view on mobile",
+  },
 } satisfies Story;

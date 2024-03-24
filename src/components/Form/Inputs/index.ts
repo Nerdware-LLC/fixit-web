@@ -9,6 +9,7 @@ export * from "./ChecklistInput";
 export * from "./CurrencyInput";
 export * from "./DatePicker";
 export * from "./DateTimePicker";
+export * from "./EmailInput";
 export * from "./PasswordInput";
 export * from "./PhoneInput";
 export * from "./RegionInput";
@@ -16,3 +17,6 @@ export * from "./Select";
 export * from "./Slider";
 export * from "./SliderWorkOrderPriority";
 export * from "./TextInput";
+export * from "./UserHandleInput";
+
+export * from "./classNames";

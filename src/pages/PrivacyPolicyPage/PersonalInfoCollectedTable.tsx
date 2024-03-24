@@ -1,106 +1,53 @@
-import { styled } from "@mui/material/styles";
+import { PolicyInfoTable } from "@/layouts/LegalPolicyPageLayout/PolicyInfoTable";
 
 export const PersonalInfoCollectedTable = () => (
-  <StyledTable>
-    <thead>
-      <tr>
-        <th>Category</th>
-        <th>Examples</th>
-        <th>Collected</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>A. Identifiers</td>
-        <td>
-          Contact details, such as real name, alias, postal address, telephone or mobile contact
-          number, unique personal identifier, online identifier, Internet Protocol address, email
-          address, and account name
-        </td>
-        <td>NO</td>
-      </tr>
-      <tr>
-        <td>
-          B. Personal information categories listed in the California Customer Records statute
-        </td>
-        <td>
-          Name, contact information, education, employment, employment history, and financial
-          information
-        </td>
-        <td>NO</td>
-      </tr>
-      <tr>
-        <td>C. Protected classification characteristics under California or federal law</td>
-        <td>Gender and date of birth</td>
-        <td>NO</td>
-      </tr>
-      <tr>
-        <td>D. Commercial information</td>
-        <td>
-          Transaction information, purchase history, financial details, and payment information
-        </td>
-        <td>NO</td>
-      </tr>
-      <tr>
-        <td>E. Biometric information</td>
-        <td>Fingerprints and voiceprints</td>
-        <td>NO</td>
-      </tr>
-      <tr>
-        <td>F. Internet or other similar network activity</td>
-        <td>
-          Browsing history, search history, online behavior, interest data, and interactions with
-          our and other websites, applications, systems, and advertisements
-        </td>
-        <td>NO</td>
-      </tr>
-      <tr>
-        <td>G. Geolocation data</td>
-        <td>Device location</td>
-        <td>NO</td>
-      </tr>
-      <tr>
-        <td>H. Audio, electronic, visual, thermal, olfactory, or similar information</td>
-        <td>
-          Images and audio, video or call recordings created in connection with our business
-          activities
-        </td>
-        <td>NO</td>
-      </tr>
-      <tr>
-        <td>I. Professional or employment-related information</td>
-        <td>
-          Business contact details in order to provide you our Services at a business level or job
-          title, work history, and professional qualifications if you apply for a job with us
-        </td>
-        <td>NO</td>
-      </tr>
-      <tr>
-        <td>J. Education Information</td>
-        <td>Student records and directory information</td>
-        <td>NO</td>
-      </tr>
-      <tr>
-        <td>K. Inferences drawn from other personal information</td>
-        <td>
-          Inferences drawn from any of the collected personal information listed above to create a
-          profile or summary about, for example, an individual's preferences and characteristics
-        </td>
-        <td>NO</td>
-      </tr>
-    </tbody>
-  </StyledTable>
+  <PolicyInfoTable
+    headers={["Category", "Examples", "Collected"]}
+    dataRows={[
+      [
+        "A. Identifiers",
+        "Contact details, such as real name, alias, postal address, telephone or mobile contact number, unique personal identifier, online identifier, Internet Protocol address, email address, and account name",
+        "NO",
+      ],
+      [
+        "B. Personal information categories listed in the California Customer Records statute",
+        "Name, contact information, education, employment, employment history, and financial information",
+        "NO",
+      ],
+      [
+        "C. Protected classification characteristics under California or federal law",
+        "Gender and date of birth",
+        "NO",
+      ],
+      [
+        "D. Commercial information",
+        "Transaction information, purchase history, financial details, and payment information",
+        "NO",
+      ],
+      ["E. Biometric information", "Fingerprints and voiceprints", "NO"],
+      [
+        "F. Internet or other similar network activity",
+        "Browsing history, search history, online behavior, interest data, and interactions with our and other websites, applications, systems, and advertisements",
+        "NO",
+      ],
+      ["G. Geolocation data", "Device location", "NO"],
+      [
+        "H. Audio, electronic, visual, thermal, olfactory, or similar information",
+        "Images and audio, video or call recordings created in connection with our business activities",
+        "NO",
+      ],
+      [
+        "I. Professional or employment-related information",
+        "Business contact details in order to provide you our Services at a business level or job title, work history, and professional qualifications if you apply for a job with us",
+        "NO",
+      ],
+      ["J. Education Information", "Student records and directory information", "NO"],
+      [
+        "K. Inferences drawn from other personal information",
+        "Inferences drawn from any of the collected personal information listed above to create a profile or summary about, for example, an individual's preferences and characteristics",
+        "NO",
+      ],
+    ]}
+    sx={{ "& td:last-of-type": { textAlign: "center" } }}
+  />
 );
-
-const StyledTable = styled("table")(({ theme: { palette } }) => ({
-  borderCollapse: "collapse",
-
-  "& th,td": {
-    padding: "0.75rem",
-    border: `1px solid ${palette.grey[700]}`,
-  },
-
-  "& td:last-child": {
-    textAlign: "center",
-  },
-}));

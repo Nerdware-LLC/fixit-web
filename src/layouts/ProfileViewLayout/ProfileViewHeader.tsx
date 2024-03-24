@@ -9,10 +9,10 @@ export const ProfileViewHeader = ({ profile, handle }: ProfileViewHeaderProps) =
   <StyledDiv>
     <Avatar profile={profile} />
     <div>
-      <XscrollContainer className={globalClassNames.scrollbarForceHidden}>
+      <XscrollContainer className={globalClassNames.scrollbar.forceHidden}>
         <Text variant="h6">{profile.displayName}</Text>
       </XscrollContainer>
-      <XscrollContainer className={globalClassNames.scrollbarForceHidden}>
+      <XscrollContainer className={globalClassNames.scrollbar.forceHidden}>
         <Text variant="h6">{handle}</Text>
       </XscrollContainer>
     </div>

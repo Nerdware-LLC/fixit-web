@@ -6,11 +6,9 @@ import Text, { typographyClasses } from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { THEMES } from "@/app/ThemeProvider/themes";
 import { PhoneShapedContainer, containerClassNames } from "@/components/Containers";
+import { DemoInfoDialog } from "@/components/DevTools/DemoInfoDialog";
+import { LegalLinks } from "@/components/Navigation/LegalLinks";
 import { NON_BREAKING_SPACE_CHAR } from "@/components/Text";
-import demoDesktopDashboardImageSrc from "@/images/demo_desktop_dashboard.webp";
-import demoDesktopDataGridImageSrc from "@/images/demo_desktop_workorders_datagrid.webp";
-import demoMobileCreateInvoiceImageSrc from "@/images/demo_mobile_create_invoice.webp";
-import demoMobileListViewImageSrc from "@/images/demo_mobile_workorders_list.webp";
 import backgroundImageSrc from "@/images/landing_page_bg.webp";
 import { APP_PATHS } from "@/routes/appPaths";
 import { ProductImage } from "./ProductImage";
@@ -20,6 +18,7 @@ import { landingPageClassNames } from "./classNames";
  * **Landing Page** - index route for RootAppRouter which renders when the path is `"/"`.
  */
 export const LandingPage = () => {
+  const { isDialogVisible, closeDialog } = DemoInfoDialog.use();
   const nav = useNavigate();
 
   const goToRegister = () => nav(APP_PATHS.REGISTER);
@@ -43,20 +42,17 @@ export const LandingPage = () => {
       </div>
       <div className={landingPageClassNames.graphicsContainer}>
         <Paper elevation={18}>
-          <ProductImage label="Fixit Dashboard demo" src={demoDesktopDashboardImageSrc} />
+          <ProductImage label="Fixit Dashboard demo" />
           <PhoneShapedContainer>
-            <ProductImage
-              label="Fixit Create-Invoice mobile demo"
-              src={demoMobileCreateInvoiceImageSrc}
-            />
+            <ProductImage label="Fixit Create-Invoice on mobile" />
           </PhoneShapedContainer>
         </Paper>
       </div>
       <div className={landingPageClassNames.graphicsContainer} style={{ alignItems: "center" }}>
         <Paper elevation={18}>
-          <ProductImage label="Fixit Data-grid demo" src={demoDesktopDataGridImageSrc} />
+          <ProductImage label="Fixit work orders data-grid" />
           <PhoneShapedContainer>
-            <ProductImage label="Fixit List-view mobile demo" src={demoMobileListViewImageSrc} />
+            <ProductImage label="Fixit work orders list-view on mobile" />
           </PhoneShapedContainer>
         </Paper>
       </div>
@@ -69,6 +65,11 @@ export const LandingPage = () => {
           add‑ons. Try <b>Fixit</b> today.
         </Text>
         <Button onClick={goToProducts}>Learn More</Button>
+      </div>
+      {isDialogVisible && <DemoInfoDialog isVisible={isDialogVisible} closeDialog={closeDialog} />}
+      <div className={landingPageClassNames.footerRoot}>
+        <LegalLinks useLongLabels />
+        <Text variant="body2">Fixit is a product of Nerdware, LLC ©</Text>
       </div>
     </StyledDiv>
   );
@@ -89,13 +90,13 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
   gap: "1rem",
   padding: "0 2rem 3rem 2rem",
 
-  gridTemplateRows: "66vh minmax(0, 66vh) minmax(0, 66vh) minmax(0, 66vh)",
+  gridTemplateRows: "66vh minmax(0, 66vh) minmax(0, 66vh) minmax(0, 66vh) 8rem",
   gridTemplateColumns: "minmax(0, 1fr)",
 
   [breakpoints.up(600)]: {
     padding: "2rem",
     gap: "2rem",
-    gridTemplateRows: "repeat(auto-fit, 75vh)",
+    gridTemplateRows: "repeat(2, 75vh) 9rem",
     gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
   },
 
@@ -254,5 +255,37 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
     backgroundSize: "cover",
     objectFit: "contain",
     ...(palette.mode === "light" && { filter: "invert(25%) brightness(3)" }),
+  },
+
+  // FOOTER
+  [`& > .${landingPageClassNames.footerRoot}`]: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: "100vw",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "1.5rem",
+    padding: "2rem",
+    borderTop: `1px solid ${palette.divider}`,
+    boxShadow: `0 0 0.5rem ${palette.divider}`,
+
+    [breakpoints.down(600)]: {
+      padding: "1.25rem 1.5rem 1.5rem 1.5rem",
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+      gap: 0,
+      textAlign: "center",
+      "& > div": {
+        flexDirection: "column",
+        alignItems: "flex-start",
+        "& > hr": {
+          display: "none",
+        },
+      },
+    },
   },
 }));

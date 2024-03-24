@@ -42,7 +42,7 @@ export const APP_NAV_ACTIONS = {
     label: "Logout",
     doBeforeNav: () => {
       authenticatedUserStore.deauthenticate();
-      toast("👋 See ya later!", { toastId: "logout" });
+      toast("Successfully signed out 👋", { toastId: "logout", style: { textAlign: "center" } });
     },
     path: APP_PATHS.ROOT,
     icon: <LogoutIcon />,
@@ -61,10 +61,20 @@ export const APP_NAV_ACTIONS = {
     path: APP_PATHS.PRODUCTS,
     tooltip: "See pricing for Fixit products",
   },
+  ToS: {
+    label: "Terms of Service",
+    path: APP_PATHS.ToS,
+    tooltip: "View our terms of service",
+  },
   PRIVACY: {
     label: "Privacy",
     path: APP_PATHS.PRIVACY,
     tooltip: "View our privacy policy",
+  },
+  COOKIES: {
+    label: "Cookie Policy",
+    path: APP_PATHS.COOKIES,
+    tooltip: "View our cookie policy",
   },
   PRODUCTS: {
     label: "Select a Subscription",

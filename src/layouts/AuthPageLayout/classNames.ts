@@ -1,6 +1,8 @@
+/**
+ * Class names for `AuthPageLayout` components.
+ */
 export const authPageLayoutClassNames = {
-  root: "auth-page-layout-root", // was "auth-page-layout-container"
-  header: "auth-page-layout-header", // was "auth-page-header"
-  headerTitle: "auth-page-layout-header-title", // was "auth-page-header-title"
-  childrenContainer: "auth-page-layout-content-container", // was "auth-page-content-container
-};
+  root: "auth-page-layout__root",
+  headerContainer: "auth-page-layout__header-container",
+  childrenContainer: "auth-page-layout__children-container",
+} as const;
