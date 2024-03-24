@@ -1,4 +1,8 @@
-import type { FieldMergeFunction, FieldReadFunction } from "@apollo/client/cache";
+import type {
+  FieldMergeFunction,
+  FieldReadFunction,
+  FieldFunctionOptions,
+} from "@apollo/client/cache";
 
 /**
  * **Type Policy Helpers**
@@ -14,11 +18,7 @@ import type { FieldMergeFunction, FieldReadFunction } from "@apollo/client/cache
 export const helpers = {
   mergeArrays: (existing = [], incoming) => [...existing, ...incoming],
 
-  paginatedMerge: (
-    existing = [],
-    incoming,
-    { args }: { args: { offset?: number; limit?: number } | null }
-  ) => {
+  paginatedMerge: (existing = [], incoming, { args }) => {
     // Make a copy of existing array since it can't be mutated directly
     const merged = existing.slice(0);
     // Determine start and end indices
@@ -45,11 +45,40 @@ export const helpers = {
 } as const satisfies {
   mergeArrays: ArrayFieldMergeFunction;
   paginatedMerge: ArrayFieldMergeFunction;
-  paginatedRead: ArrayFieldReadFunction;
+  paginatedRead: ArrayFieldReadFn;
 };
 
-type ArrayFieldMergeFunction<TypeExisting extends unknown[] = unknown[]> =
-  FieldMergeFunction<TypeExisting>;
+/**
+ * Apollo's {@link FieldMergeFunction} with array-specific default type params.
+ */
+type ArrayFieldMergeFunction<
+  TypeExisting extends unknown[] = unknown[],
+  TypeReadResult = TypeExisting,
+  TypeOpts extends ArrayFieldFnBaseOpts = ArrayFieldFnBaseOpts,
+> = FieldMergeFunction<TypeExisting, TypeReadResult, TypeOpts>;
 
-type ArrayFieldReadFunction<TypeExisting extends unknown[] = unknown[]> =
-  FieldReadFunction<TypeExisting>;
+/**
+ * Apollo's {@link FieldReadFunction} with array-specific default type params.
+ */
+type ArrayFieldReadFn<
+  TypeExisting extends unknown[] = unknown[],
+  TypeReadResult = TypeExisting,
+  TypeOpts extends ArrayFieldFnBaseOpts = ArrayFieldFnBaseOpts,
+> = FieldReadFunction<TypeExisting, TypeReadResult, TypeOpts>;
+
+/**
+ * Base type for array type-policy read-function param: `options`
+ */
+type ArrayFieldFnBaseOpts = FieldFunctionOptions<
+  ArrayTypePolicyPaginationArgs, // <-- read fn param "options.args"
+  Record<string, unknown> //        <-- read fn param "options.vars"
+>;
+
+/**
+ * Base type for array type-policy read-function param: `options.args`
+ */
+type ArrayTypePolicyPaginationArgs = {
+  offset?: number;
+  limit?: number;
+  [key: string]: unknown;
+};
