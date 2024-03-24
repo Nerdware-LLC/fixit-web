@@ -67,7 +67,6 @@ const StyledDiv = styled("div")({
 
     [`& .${typographyClasses.root}`]: {
       fontSize: "1rem",
-      // lineHeight: "1.25rem", // TODO rm this line if text is fine after setting default line-height:1.5
     },
   },
 
