@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker/locale/en_US";
 import { getMakeFakeFn } from "./_helpers";
 import { makeFakeTextUpToNumChars } from "./textUpToNumChars";
-import { makeFakeUserLogin } from "./userLogin";
 import { makeFakeUserProfile } from "./userProfile";
 import { makeFakeUserStripeConnectAccount } from "./userStripeConnectAccount";
 import { makeFakeUserSubscription } from "./userSubscription";
@@ -23,7 +22,6 @@ export const makeFake = {
   ),
   textUpToNumChars: makeFakeTextUpToNumChars,
   textUpTo255chars: () => makeFakeTextUpToNumChars(255),
-  userLogin: makeFakeUserLogin,
   userProfile: makeFakeUserProfile,
   userStripeConnectAccount: makeFakeUserStripeConnectAccount,
   userSubscription: makeFakeUserSubscription,
