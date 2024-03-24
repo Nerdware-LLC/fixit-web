@@ -14,7 +14,13 @@ import { RegisterForm } from "./RegisterForm";
 export const RegisterPage = () => (
   <AuthPageLayout pageTitle="User Registration">
     <RegisterForm />
-    <Text variant="caption" style={{ marginTop: "1.5rem" }}>
+    <Text
+      variant="caption"
+      sx={{
+        whiteSpace: "pre-line",
+        "& > a": { display: "contents" },
+      }}
+    >
       By registering your account, you agree to the Fixit{" "}
       <Link to={APP_PATHS.ToS}>Terms of Service</Link> and the{" "}
       <Anchor href="https://stripe.com/connect-account/legal/full">
@@ -22,7 +28,14 @@ export const RegisterPage = () => (
       </Anchor>
       .
     </Text>
-    <LegalLinks style={{ margin: "1rem 0 0 0.8rem" }} />
+    <LegalLinks
+      style={{
+        /* This comp is nudged to the right by the below margin in order to
+        have the center of the form/page align with the center of the middle
+        word, rather than the center of the container (looks better). */
+        marginLeft: "1.25rem",
+      }}
+    />
   </AuthPageLayout>
 );
 
