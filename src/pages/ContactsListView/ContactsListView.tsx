@@ -1,4 +1,4 @@
-import { listItemButtonClasses } from "@mui/material/ListItemButton";
+import { styled } from "@mui/material/styles";
 import GroupIcon from "@mui/icons-material/Group";
 import { listClassNames } from "@/components/List";
 import { ContactListItemButton } from "@/components/List/listItems/ContactListItem";
@@ -64,10 +64,10 @@ export const ContactsListView = () => (
        */
       increaseViewportBy: { top: 0, bottom: 1400 },
     }}
-    sx={({ palette, variables, breakpoints }) => ({
+    sx={({ variables, breakpoints }) => ({
       /* On mobile, to accommodate the SearchUsers input, the CoreContentViewLayout
-        header flex-row is configured to wrap items and its height is increased. This
-        change makes it necessary to bump DataGrid down a bit as well.  */
+      header flex-row is configured to wrap items and its height is increased. This
+      change makes it necessary to bump DataGrid down a bit as well.  */
       ...(variables.isMobilePageLayout && {
         [`& .${coreContentViewLayoutClassNames.headerContainer}`]: {
           flexWrap: "wrap",
@@ -76,7 +76,6 @@ export const ContactsListView = () => (
           rowGap: "0.75rem",
         },
       }),
-
       // Contacts list root:
       [`& .${listClassNames.muiList.root}`]: {
         width: "100%",
@@ -90,14 +89,6 @@ export const ContactsListView = () => (
         [breakpoints.up(900)]: {
           gridTemplateColumns: "repeat( 3, minmax( 14rem, 1fr ))",
         },
-
-        // Contact ListItemButton:
-        [`& .${listItemButtonClasses.root}`]: {
-          borderRadius: "0.5rem",
-          ...(palette.mode === "dark"
-            ? { backgroundColor: palette.background.paper }
-            : { border: `2px solid ${palette.divider}` }),
-        },
       },
     })}
   />
@@ -107,5 +98,41 @@ export const ContactsListView = () => (
 export const Component = ContactsListView;
 
 const renderContactsListItem: ListViewRenderItemFn<Contact> = ({ item, onClick }) => (
-  <ContactListItemButton contact={item} onClick={onClick} data-item-id={item.id} />
+  <StyledContactListItemButton contact={item} onClick={onClick} data-item-id={item.id} />
 );
+
+const StyledContactListItemButton = styled(ContactListItemButton)(({ theme: { palette } }) => ({
+  // Root class here is MuiListItemButton-root
+  position: "relative",
+  borderRadius: "0.5rem",
+  overflow: "hidden",
+  // LP base is 1rem, 5px added for left-stripe (ensures even spacing around the Avatar)
+  paddingLeft: "calc(1rem + 5px)",
+  // Stylish left-stripe (the color may eventually reflect the Contact's status or role)
+  "&::before": {
+    content: "''",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    width: "5px",
+    height: "100%",
+    backgroundColor: palette.secondary.main,
+  },
+  borderWidth: "2px",
+  borderStyle: "solid",
+  ...(palette.mode === "dark"
+    ? {
+        borderColor: "transparent",
+        backgroundColor: palette.background.paper,
+        "&:hover": {
+          backgroundColor: palette.action.hover,
+        },
+      }
+    : {
+        borderColor: "rgba(150,150,150,0.4)",
+        "&:hover": {
+          borderColor: palette.secondary.main,
+        },
+      }),
+}));
