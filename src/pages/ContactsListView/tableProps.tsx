@@ -34,7 +34,7 @@ const COLUMNS = getDataGridColDefs<
   },
   phone: {
     headerName: "Phone",
-    valueFormatter: ({ value }) => fmt.prettifyPhoneNum(value),
+    valueFormatter: ({ value }) => (value ? fmt.prettifyPhoneNum(value) : ""),
     valueParser: (value) => (value ? fmt.prettifyPhoneNum(value) : ""),
     flex: 1,
     minWidth: 125,
