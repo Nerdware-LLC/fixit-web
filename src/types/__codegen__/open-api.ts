@@ -89,6 +89,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/google-token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Processes JSON JWT payloads from GoogleID services (existing users only) */
+        post: operations["GoogleToken"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/connect/account-link": {
         parameters: {
             query?: never;
@@ -181,7 +198,7 @@ export interface components {
         UserRegistrationParams: components["schemas"]["LoginCredentials"] & components["schemas"]["ExpoPushTokenParam"] & {
             handle: components["schemas"]["Handle"];
             email: components["schemas"]["Email"];
-            phone: components["schemas"]["Phone"];
+            phone?: components["schemas"]["Phone"];
             profile?: components["schemas"]["UserProfileParams"];
         };
         LoginParams: components["schemas"]["LoginCredentials"] & components["schemas"]["ExpoPushTokenParam"];
@@ -194,8 +211,13 @@ export interface components {
         /** @description The user's login credentials for google-oauth authentication */
         GoogleOAuthLoginCredentials: {
             email: components["schemas"]["Email"];
-            googleID: components["schemas"]["GoogleID"];
-            googleAccessToken: components["schemas"]["GoogleAccessToken"];
+            googleIDToken: components["schemas"]["GoogleIDToken"];
+        };
+        /** @description An object which contains a base64-encoded JSON JWT from GoogleID services
+         *     under the key "googleIDToken".
+         *      */
+        GoogleIDTokenField: {
+            googleIDToken: components["schemas"]["GoogleIDToken"];
         };
         /** @description Parameters for a user's profile. */
         UserProfileParams: {
@@ -501,10 +523,8 @@ export interface components {
          * @description A user's email address.
          */
         Email: string;
-        /** @description The user's OAuth Google Access Token (auth: google-oauth). */
-        GoogleAccessToken: string;
-        /** @description The user's OAuth Google ID (auth: google-oauth). */
-        GoogleID: string;
+        /** @description A base64-encoded JSON JWT from GoogleID services (auth: google-oauth). */
+        GoogleIDToken: string;
         /** @description A user's Fixit handle. */
         Handle: string;
         /**
@@ -526,7 +546,7 @@ export interface components {
          *     stripped from the phone number upon receipt, so "+1 (555) 555-5555" will be
          *     treated the same as "5555555555".
          *      */
-        Phone: string;
+        Phone: string | null;
         /** @description A user-provided promo code to apply a discount at checkout. */
         PromoCode: string;
         /**
@@ -659,6 +679,11 @@ export interface components {
                 };
             };
         };
+        GoogleTokenRequest: {
+            content: {
+                "application/json": components["schemas"]["GoogleIDTokenField"];
+            };
+        };
         LoginRequest: {
             content: {
                 "application/json": components["schemas"]["LoginParams"];
@@ -780,6 +805,22 @@ export interface operations {
         requestBody?: components["requestBodies"]["RefreshAuthTokenRequest"];
         responses: {
             200: components["responses"]["200AuthTokenAndPreFetchedUserItems"];
+            401: components["responses"]["401AuthenticationRequired"];
+            "5XX": components["responses"]["5xxInternalServerError"];
+            default: components["responses"]["UnexpectedResponse"];
+        };
+    };
+    GoogleToken: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["GoogleTokenRequest"];
+        responses: {
+            200: components["responses"]["200AuthToken"];
+            400: components["responses"]["400InvalidUserInput"];
             401: components["responses"]["401AuthenticationRequired"];
             "5XX": components["responses"]["5xxInternalServerError"];
             default: components["responses"]["UnexpectedResponse"];
