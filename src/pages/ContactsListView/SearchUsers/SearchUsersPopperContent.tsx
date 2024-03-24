@@ -3,13 +3,13 @@ import { ClickAwayListener } from "@mui/base/ClickAwayListener";
 import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import IconButton, { iconButtonClasses } from "@mui/material/IconButton";
+import { iconButtonClasses } from "@mui/material/IconButton";
 import Text from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
-import CloseIcon from "@mui/icons-material/Cancel";
 import SendIcon from "@mui/icons-material/Send";
 import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import { ContactAvatar, avatarClassNames } from "@/components/Avatar";
+import { CloseIconButton } from "@/components/Buttons/CloseIconButton";
 import { prettifyPhoneNum } from "@/utils/formatters/strings";
 import { InputRequirementsInfo, INPUT_INFO_TEXT } from "./InputRequirementsInfo";
 import { ariaElementIDs, searchUsersInputClassNames as classNames } from "./classNames";
@@ -94,9 +94,7 @@ export const SearchUsersPopperContent = forwardRef<HTMLDivElement, SearchUsersPo
     return (
       <ClickAwayListener onClickAway={handleClose}>
         <StyledBox ref={fwdRef} {...boxProps}>
-          <IconButton onClick={handleClose}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
+          <CloseIconButton onClick={handleClose} iconProps={{ fontSize: "small" }} />
           <Text id={ariaElementIDs.popperContentDescription} variant={titleVariant}>
             {titleText}
           </Text>
