@@ -1,3 +1,4 @@
+import { isString } from "@nerdware/ts-type-safety-utils";
 import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import Text from "@mui/material/Typography";
@@ -39,7 +40,7 @@ export const ItemDetails = ({
       />
     )}
     <div className={dataDisplayClassNames.content}>
-      {typeof children === "string" ? <Text>{children || "--"}</Text> : children ?? emptyFallback}
+      {isString(children) ? <Text>{children || "--"}</Text> : children ?? emptyFallback}
     </div>
   </StyledBox>
 );
