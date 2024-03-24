@@ -39,7 +39,10 @@ export class ItemsPerMonthDataParser
   // STATIC MEMBERS:
   static monthStartTimestamps: MonthStartTimestamps;
   static initialDataAccum: ItemsPerMonthDataParserAccum;
-  static dataAccumUpdater: DataParserAccumUpdater<ItemsPerMonthDataParserItem>;
+  static dataAccumUpdater: DataParserAccumUpdater<
+    ItemsPerMonthDataParserItem,
+    ItemsPerMonthDataParserAccum
+  >;
 
   /**
    * Returns an integer timestamp equal to the first millisecond of the month of the

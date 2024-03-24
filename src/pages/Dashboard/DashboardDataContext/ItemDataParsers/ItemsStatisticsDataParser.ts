@@ -33,7 +33,7 @@ export class ItemsStatisticsDataParser<TItem extends DataParserItem>
 
   // Instance initialDataAccum is a reference to the static initialDataAccum
   initialDataAccum = ItemsStatisticsDataParser.initialDataAccum;
-  dataAccumUpdater: DataParserAccumUpdater<TItem>;
+  dataAccumUpdater: DataParserAccumUpdater<TItem, ItemsStatisticsDataParserAccum>;
 
   constructor(getItemStat: GetItemStatFn<TItem>) {
     this.initialDataAccum = { ...ItemsStatisticsDataParser.initialDataAccum };

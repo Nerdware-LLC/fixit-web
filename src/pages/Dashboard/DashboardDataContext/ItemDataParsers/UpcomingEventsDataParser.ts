@@ -33,7 +33,7 @@ export class UpcomingEventsDataParser<TItem extends DataParserItem>
   private static now = dayjs();
 
   initialDataAccum: UpcomingEventsDataParserAccum<TItem>;
-  dataAccumUpdater: DataParserAccumUpdater<TItem>;
+  dataAccumUpdater: DataParserAccumUpdater<TItem, UpcomingEventsDataParserAccum<TItem>>;
 
   constructor(
     getItemEvents: GetItemEventsFn<TItem>,
