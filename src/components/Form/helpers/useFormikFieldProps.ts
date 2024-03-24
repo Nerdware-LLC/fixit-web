@@ -1,5 +1,6 @@
 import { useField, type FieldInputProps, type FieldMetaProps, type FieldHelperProps } from "formik";
-import { useDefaultTextFieldVariant } from "./useDefaultTextFieldVariant";
+import { getFormInputErrMsg } from "./errorHandling";
+import { useLayoutDependantTextFieldDefaults } from "./useLayoutDependantTextFieldDefaults";
 import type { TextFieldProps as MuiTextFieldProps } from "@mui/material/TextField";
 import type { Simplify, SetReturnType } from "type-fest";
 
@@ -21,6 +22,7 @@ export const useFormikFieldProps = <ValueType>({
   fieldID,
   label: explicitLabel,
   variant: explicitVariant,
+  size: explicitSize,
   placeholder,
   shouldAlwaysRenderHelperText = true,
 }: UseFormikFieldPropsParams): UseFormikFieldPropsReturn<ValueType> => {
@@ -28,7 +30,8 @@ export const useFormikFieldProps = <ValueType>({
 
   const { value: fieldValue, onChange, onBlur } = fieldInputProps;
 
-  const { defaultVariant, isMobilePageLayout, isMobileUserAgent } = useDefaultTextFieldVariant();
+  const { defaultVariant, defaultSize, isMobilePageLayout, isMobileUserAgent } =
+    useLayoutDependantTextFieldDefaults();
 
   const label = explicitLabel ?? fieldID;
   const showErrorState = fieldMetaProps.touched && !!fieldMetaProps?.error;
@@ -40,12 +43,13 @@ export const useFormikFieldProps = <ValueType>({
       label,
       ...(!showErrorState && placeholder && { placeholder }),
       variant: explicitVariant ?? defaultVariant,
+      size: explicitSize ?? defaultSize,
       value: fieldValue,
       onChange,
       onBlur,
       error: showErrorState,
       helperText: showErrorState
-        ? `${fieldMetaProps.error}`
+        ? getFormInputErrMsg(fieldMetaProps.error)
         : shouldAlwaysRenderHelperText
           ? " "
           : "",
@@ -58,6 +62,7 @@ export const useFormikFieldProps = <ValueType>({
       isMobilePageLayout,
       isMobileUserAgent,
       defaultVariant,
+      defaultSize,
     },
   ];
 };
@@ -74,6 +79,7 @@ export type UseFormikFieldPropsParams = {
   fieldID: string;
   label?: string;
   variant?: MuiTextFieldProps["variant"];
+  size?: MuiTextFieldProps["size"];
   placeholder?: string;
   shouldAlwaysRenderHelperText?: boolean;
 };
@@ -87,6 +93,7 @@ export type UseFormikFieldPropsReturn<ValueType> = [
     label: string;
     placeholder?: string;
     variant: MuiTextFieldProps["variant"];
+    size: MuiTextFieldProps["size"];
     value: ValueType;
     onChange: FieldInputProps<ValueType>["onChange"];
     onBlur: FieldInputProps<ValueType>["onBlur"];
@@ -96,7 +103,7 @@ export type UseFormikFieldPropsReturn<ValueType> = [
   FieldInputProps<ValueType> &
     FieldMetaProps<ValueType> &
     FieldHelperProps<ValueType> &
-    ReturnType<typeof useDefaultTextFieldVariant>,
+    ReturnType<typeof useLayoutDependantTextFieldDefaults>,
 ];
 
 /**
