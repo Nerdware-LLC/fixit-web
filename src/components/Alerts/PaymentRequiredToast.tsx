@@ -28,7 +28,7 @@ export const PaymentRequiredToast = ({ closeToast }: PaymentRequiredToastProps) 
     <Dialog
       isVisible={isDialogVisible}
       title="Payment Required"
-      message="Your account is inactive - please update your payment method to continue."
+      message="Your account does not have an active subscription - please update your payment method to continue."
       acceptLabel={showLoading ? <ButtonLoadingIndicator /> : "OK"}
       handleAccept={handleAccept}
       handleCancel={handleCancel}
