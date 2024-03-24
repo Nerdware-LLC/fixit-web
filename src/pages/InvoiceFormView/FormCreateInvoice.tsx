@@ -47,7 +47,7 @@ export const FormCreateInvoice = ({
           ...formValues,
         },
       },
-    }).catch((err) => logger.error(err));
+    }).catch(logger.error);
 
     await playLottie();
 

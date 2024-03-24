@@ -20,7 +20,7 @@ export const FormUpdateWO = ({ existingWorkOrder }: { existingWorkOrder: WorkOrd
         workOrderID: existingWorkOrder.id,
         workOrder: formValues,
       },
-    }).catch((err) => logger.error(err));
+    }).catch(logger.error);
 
     await playLottie();
 
