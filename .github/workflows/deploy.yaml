@@ -1,27 +1,25 @@
 name: Deploy Workflow
 
 on:
-  release:
-    types: [published]
+  release: { types: [published] }
+  workflow_dispatch:
 
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
 
-    # permissions required to use aws-actions/configure-aws-credentials
-    permissions:
-      id-token: write
-      contents: read
+    # Permissions required to use aws-actions/configure-aws-credentials:
+    permissions: { id-token: write, contents: read }
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
 
-      - name: Install Dependencies
-        run: npm ci --include=dev
+      - run: npm ci --include=dev
 
       - name: Build
         env:
@@ -30,10 +28,10 @@ jobs:
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}
           VITE_GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
         run: |
-          if [ "${{ github.event.release.prerelease }}" == 'true' ]; then
-            npm run build:staging
+          if [[ "${{ github.event_name }}" == 'release' && "${{ github.event.release.prerelease }}" == 'false' ]]; then
+              npm run build
           else
-            npm run build
+              npm run build:staging
           fi
 
       - name: Configure AWS Credentials
@@ -44,17 +42,18 @@ jobs:
 
       - name: Upload to S3
         run: |
-          if [ "${{ github.event.release.prerelease }}" == 'true' ]; then
-            bucket_dir='staging'
+          if [[ "${{ github.event_name }}" == 'release' && "${{ github.event.release.prerelease }}" == 'false' ]]; then
+              bucket_dir='production'
           else
-            bucket_dir='production'
+              bucket_dir='staging'
           fi
 
           aws s3 sync ./dist \
-            s3://${{ secrets.S3_BUCKET_NAME }}/$bucket_dir \
-            --acl bucket-owner-full-control \
-            --sse AES256 \
-            --delete
+              s3://${{ secrets.S3_BUCKET_NAME }}/$bucket_dir \
+              --acl bucket-owner-full-control \
+              --sse AES256 \
+              --delete \
+              1>/dev/null
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -64,12 +63,13 @@ jobs:
 
       - name: Invalidate CloudFront Edge-Cache
         run: |
-          if [ "${{ github.event.release.prerelease }}" == 'true' ]; then
-            cf_dist_id=${{ secrets.CLOUDFRONT_STAGING_DIST_ID }}
+          if [[ "${{ github.event_name }}" == 'release' && "${{ github.event.release.prerelease }}" == 'false' ]]; then
+              cf_dist_id=${{ secrets.CLOUDFRONT_PROD_DIST_ID }}
           else
-            cf_dist_id=${{ secrets.CLOUDFRONT_PROD_DIST_ID }}
+              cf_dist_id=${{ secrets.CLOUDFRONT_STAGING_DIST_ID }}
           fi
 
           aws cloudfront create-invalidation \
-            --distribution-id $cf_dist_id \
-            --paths '/*'
+              --distribution-id $cf_dist_id \
+              --paths '/*' \
+              1>/dev/null
