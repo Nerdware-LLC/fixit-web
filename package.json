@@ -143,6 +143,7 @@
     "vitest-github-actions-reporter": ">=0.10.0 <1"
   },
   "overrides": {
+    "ip": ">=2.0.1",
     "@serverless-guru/prettier-plugin-import-order": {
       "prettier": "^3.2.5"
     },
