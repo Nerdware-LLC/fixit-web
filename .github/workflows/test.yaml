@@ -20,12 +20,12 @@ jobs:
       pull-requests: write # to add coverage reports to the PR
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
 
-      - name: Install Dependencies
-        run: npm ci --include=dev
+      - run: npm ci --include=dev
 
       - name: Lint
         run: npm run lint
