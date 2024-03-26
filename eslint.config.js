@@ -112,6 +112,7 @@ export default [
           // `...props` is too common to enable ignoreRestSiblings in this project
         },
       ],
+      "@typescript-eslint/only-throw-error": "off", // <-- rule results in false positives for Error-like objects/subclasses
       "@typescript-eslint/prefer-includes": "off",
       "@typescript-eslint/prefer-nullish-coalescing": [
         "error",
