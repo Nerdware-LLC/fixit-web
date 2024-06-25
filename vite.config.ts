@@ -18,8 +18,9 @@ export default defineConfig(({ command, mode }) => {
   // Gather environment variables (these may or may not be present)
   const {
     VITE_NPM_LIFECYCLE_SCRIPT,
-    VITE_API_PROTOCOL,
-    VITE_API_BASE_URI,
+    VITE_APP_PROTOCOL,
+    VITE_APP_HOST,
+    VITE_API_BASE_PATH,
     VITE_SENTRY_AUTH_TOKEN,
     VITE_SENTRY_CI_RELEASE_NAME,
     CI, // <-- loaded by setting env prefix to "" below so vite loads all env vars, not just VITE_*
@@ -29,6 +30,9 @@ export default defineConfig(({ command, mode }) => {
   const isBuild = command === "build";
   const isStorybookBuild = /storybook/.test(VITE_NPM_LIFECYCLE_SCRIPT ?? "");
   const isDeployableBuild = isBuild && !isStorybookBuild && /(staging|prod)/.test(mode);
+
+  const APP_ORIGIN = `${VITE_APP_PROTOCOL}://${VITE_APP_HOST}`;
+  const API_BASE_URI = `${APP_ORIGIN}${VITE_API_BASE_PATH}`;
 
   return {
     plugins: [
@@ -56,7 +60,7 @@ export default defineConfig(({ command, mode }) => {
                     cleanArtifacts: true,
                     deploy: {
                       env: mode,
-                      url: "https://gofixit.app",
+                      url: APP_ORIGIN,
                     },
                   },
                 }),
@@ -72,7 +76,7 @@ export default defineConfig(({ command, mode }) => {
       port: 3000,
       proxy: {
         "^/api": {
-          target: `${VITE_API_PROTOCOL}://${VITE_API_BASE_URI}`,
+          target: API_BASE_URI,
           changeOrigin: true,
         },
       },
