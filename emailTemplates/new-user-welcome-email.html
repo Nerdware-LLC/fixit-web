@@ -1,0 +1,383 @@
+<!doctype html>
+<!-- prettier-ignore -->
+<html lang="en">
+  <head>
+    <title>Welcome to Fixit</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      type="text/css"
+    />
+    <style>
+      /************************************************************************
+        [NOTE] GMAIL DOES NOT SUPPORT THE FOLLOWING FEATURES:
+          - Nested CSS selectors/blocks (using selectors within @media queries is ok).
+          - <style> blocks aren't supported by Gmail in Mobile Webviews.
+              See https://www.caniemail.com/features/html-style/
+            Therefore, inlined styles reflect the mobile layout.
+      */
+      /************************************************************************
+        GLOBAL STYLES
+      */
+
+      .button-root:hover {
+        opacity: 0.7 !important;
+      }
+
+      /************************************************************************
+        (DESKTOP) STYLES FOR LARGER VIEWPORTS
+      */
+      @media screen and (min-width: 650px) {
+
+        /*** (DESKTOP) ROOT CONTAINER *************************/
+        #email-body-content-root {
+          width: 100% !important;
+        }
+
+        /*** (DESKTOP) ROOT CONTAINER > HEADER SECTION ********/
+        #header__layout-grid-table {
+          max-height: 148px !important;
+          border-spacing: 1.5rem !important;
+        }
+        td#header__title-container {
+          /* 650px - 100px (logo width) - 1.5rem * 3 (border-spacing) = 478px */
+          max-width: 478px !important;
+        }
+        td#header__title-container h1 {
+          font-size: 1.75rem !important;
+        }
+        td#header__logo-container img {
+          width: 100px !important;
+        }
+
+        /*** (DESKTOP) ROOT CONTAINER > CONTENT SECTION *******/
+        table#content__layout-grid-table {
+          border-spacing: 1.5rem !important;
+        }
+        /* To emulate flex row-wrap behavior with our table cells, the td's
+        in the layout grid are configured to display:inline-block on mobile.
+        On larger viewports, this is simply reversed. */
+        table#content__layout-grid-table td.content__layout-grid-table__wrap-cell {
+          display: table-cell !important;
+          width: 100% !important;
+        }
+        table#content__layout-grid-table hr {
+          margin-top: 1.5rem !important;
+        }
+        #content__feature-highlights-table {
+          width: 22rem !important;
+        }
+        .content__feature-highlights-table__item-label-container {
+          width: 5.25rem !important;
+        }
+
+        /*** (DESKTOP) ROOT CONTAINER > FOOTER SECTION ********/
+        #footer-root {
+          font-size: 1rem !important;
+        }
+      }
+    </style>
+  </head>
+  <body style="box-sizing: border-box;">
+    <div
+      id="email-body-content-root"
+      style="
+        box-sizing: border-box;
+        margin: auto;
+        width: 350px;
+        min-width: 350px;
+        max-width: 650px;
+        overflow: hidden;
+        border-radius: 1rem;
+        background-color: #272c4e;
+        color: #ffffff;
+        font-family: 'Roboto', 'Helvetica', sans-serif;
+        font-size: 1rem;
+        line-height: 1.45;
+      "
+    >
+      <div id="header-root" style="box-sizing: border-box; width: 100%; max-width: 100%; background: linear-gradient(transparent 93%, black);">
+        <table id="header__layout-grid-table" style="box-sizing: border-box; margin: 0 auto; border-spacing: 1rem;">
+          <tbody style="box-sizing: border-box;">
+            <tr style="box-sizing: border-box;">
+              <!--
+                Below <td> has inline/default max-width of 227px for mobile webviews.
+                  350px - 75px (logo width) - 1rem * 3 (border-spacing) = 227px
+                This is overridden if email client supports <style> blocks AND viewport width is >= 650px.
+              -->
+              <td id="header__title-container" style="box-sizing: border-box; max-width: 227px;">
+                <h1 style="box-sizing: border-box; margin: 0; color: #ffffff; font-size: 1.25rem; line-height: 1.2; font-weight: 700; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                  Welcome to Fixit!
+                </h1>
+              </td>
+              <td id="header__logo-container" style="box-sizing: border-box; max-width: 100px;">
+                <img
+                  src="https://raw.githubusercontent.com/Nerdware-LLC/fixit-web/main/.storybook/assets/fixit_logo.png"
+                  alt="Fixit Logo"
+                  style="box-sizing: border-box; float: right; width: 75px; height: auto; border-radius: 50%; background-color: white;"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="content-root" style="box-sizing: border-box; width: 100%; max-width: 100%;">
+        <!-- Since the td elements are made inline-block on mobile, the below border-spacing only affects the outer border around the edge of the table element. -->
+        <table id="content__layout-grid-table" style="box-sizing: border-box; table-layout: fixed; width: 100%; border-spacing: 1rem;">
+          <tbody style="box-sizing: border-box;">
+            <tr style="box-sizing: border-box;">
+              <td colspan="2" style="box-sizing: border-box; width: 100%; text-align: center;">
+                <p style="box-sizing: border-box; margin-top: 0;">
+                  Hi {{#if recipientDisplayName}}{{recipientDisplayName}}{{else}}there{{/if}} 👋,
+                </p>
+                <p style="box-sizing: border-box;">
+                  Welcome to <span style="box-sizing: border-box; font-weight: bold; color: #f78103;">Fixit</span>,
+                  the payment app for people who need to <i style="box-sizing: border-box; white-space: nowrap;">get things done</i>.
+                </p>
+                <p style="box-sizing: border-box;">
+                  Click the button below to login to your account.
+                </p>
+                <a
+                  href="https://gofixit.app/register"
+                  class="button-root"
+                  target="_blank"
+                  rel="noreferrer"
+                  style="box-sizing: border-box; display: block; height: 40px; width: 15rem; margin: 0 auto; text-decoration: none;"
+                  tabindex="0"
+                  role="button"
+                >
+                  <div style="box-sizing: border-box; height: 40px; width: 15rem; padding: 0.55rem 0.5rem 0.45rem 0.5rem; border-radius: 1.5rem; background-color: #f78103; overflow: hidden;">
+                    <span style="box-sizing: border-box; display: inline-block; width: 100%; height: 100%; margin: auto; line-height: 1.5; font-weight: 700; text-align: center; vertical-align: middle; color: #201100;">
+                      LOGIN
+                    </span>
+                  </div>
+                </a>
+                <hr style="box-sizing: border-box; border-color: #727585; border-radius: 40%; margin: 1rem 0 0 0;" />
+              </td>
+            </tr>
+            <tr style="box-sizing: border-box;">
+              <td class="content__layout-grid-table__wrap-cell" style="box-sizing: border-box; display: inline-block; width: 318px;">
+                <div class="surface" style="box-sizing: border-box; background-color: #121212; border-radius: 1rem; padding: 1rem;">
+                  <h2 style="box-sizing: border-box; margin: 0; font-size: 1.3rem; line-height: 1.2; color: #00ffdc;">
+                    Simplify Work Orders, Invoices, and Payments
+                  </h2>
+                  <p style="box-sizing: border-box; margin: 0.5rem 0 0 0;">
+                    Keep in touch with contacts, create work orders, submit invoices, and manage payments — all in one place.
+                  </p>
+                </div>
+              </td>
+              <td class="content__layout-grid-table__wrap-cell" style="box-sizing: border-box; display: inline-block; width: 318px; margin-top: 1rem;">
+                <div style="box-sizing: border-box; max-width: 100%; overflow: hidden;">
+                  <table
+                    id="content__feature-highlights-table"
+                    cellpadding="8"
+                    style="
+                      box-sizing: border-box;
+                      min-height: 180px;
+                      width: 100%;
+                      max-width: 100%;
+                      border-collapse: collapse;
+                      color: #ffffff;
+                      text-align: center;
+                      white-space: nowrap;
+                    "
+                  >
+                    <thead style="box-sizing: border-box;">
+                      <tr style="box-sizing: border-box;">
+                        <th style="box-sizing: border-box; min-width: 4.5rem; background-color: transparent;"></th>
+                        <th style="box-sizing: border-box; min-width: 4.5rem; background-color: #474b68; border-top-left-radius: 1rem; border-left: none;">Send</th>
+                        <th style="box-sizing: border-box; min-width: 4.5rem; background-color: #474b68; border-left: 1px solid #727585; border-top-right-radius: 1rem;">Receive</th>
+                      </tr>
+                    </thead>
+                    <tbody style="box-sizing: border-box;">
+                      <tr style="box-sizing: border-box;">
+                        <td
+                          style="
+                            box-sizing: border-box;
+                            min-width: 4.5rem;
+                            background-color: #474b68;
+                            border-top-left-radius: 1rem;
+                            border-top: none;
+                          "
+                        >
+                          <div style="box-sizing: border-box; width: 100%; height: 100%; display: block; text-align: center;">
+                            <img
+                              src="https://raw.githubusercontent.com/Nerdware-LLC/fixit-web/main/.storybook/assets/workorder_icon_for_html_emails.png"
+                              style="box-sizing: border-box; float: left; height: 100%; width: 1.5rem; max-width: 1.5rem; margin: auto 0.5rem auto 0; vertical-align: middle; object-fit: contain;"
+                              alt="Work Orders Icon"
+                            />
+                            <span
+                              class="content__feature-highlights-table__item-label-container"
+                              style="box-sizing: border-box; min-width: 5.25rem; width: 6rem; max-width: 6rem; text-align: center; vertical-align: middle;"
+                            >Work Orders</span>
+                          </div>
+                        </td>
+                        <td style="box-sizing: border-box; min-width: 4.5rem; background-color: #474b68; border-top: 1px solid #727585; border-left: 1px solid #727585;">
+                          <img
+                            src="https://raw.githubusercontent.com/Nerdware-LLC/fixit-web/main/.storybook/assets/checkmark_icon_for_html_emails.png"
+                            style="box-sizing: border-box; display: block; width: 1.4rem; margin: auto; object-fit: contain;"
+                            alt="Checkmark Icon"
+                          />
+                        </td>
+                        <td style="box-sizing: border-box; min-width: 4.5rem; background-color: #474b68; border-top: 1px solid #727585; border-left: 1px solid #727585;">
+                          <img
+                            src="https://raw.githubusercontent.com/Nerdware-LLC/fixit-web/main/.storybook/assets/checkmark_icon_for_html_emails.png"
+                            style="box-sizing: border-box; display: block; width: 1.4rem; margin: auto; object-fit: contain;"
+                            alt="Checkmark Icon"
+                          />
+                        </td>
+                      </tr>
+                      <tr style="box-sizing: border-box;">
+                        <td style="box-sizing: border-box; min-width: 4.5rem; background-color: #474b68; border-top: 1px solid #727585;">
+                          <div style="box-sizing: border-box; width: 100%; height: 100%; display: block; text-align: center;">
+                            <img
+                              src="https://raw.githubusercontent.com/Nerdware-LLC/fixit-web/main/.storybook/assets/invoice_icon_for_html_emails.png"
+                              style="box-sizing: border-box; float: left; width: 1.3rem; max-width: 1.3rem; margin: auto 0.5rem auto 0.15rem; vertical-align: middle; object-fit: contain;"
+                              alt="Invoices Icon"
+                            />
+                            <span
+                              class="content__feature-highlights-table__item-label-container"
+                              style="box-sizing: border-box; min-width: 5.25rem; width: 6rem; max-width: 6rem; text-align: center; vertical-align: middle;"
+                            >Invoices</span>
+                          </div>
+                        </td>
+                        <td style="box-sizing: border-box; min-width: 4.5rem; background-color: #474b68; border-top: 1px solid #727585; border-left: 1px solid #727585;">
+                          <img
+                            src="https://raw.githubusercontent.com/Nerdware-LLC/fixit-web/main/.storybook/assets/checkmark_icon_for_html_emails.png"
+                            style="box-sizing: border-box; display: block; width: 1.4rem; margin: auto; object-fit: contain;"
+                            alt="Checkmark Icon"
+                          />
+                        </td>
+                        <td style="box-sizing: border-box; min-width: 4.5rem; background-color: #474b68; border-top: 1px solid #727585; border-left: 1px solid #727585;">
+                          <img
+                            src="https://raw.githubusercontent.com/Nerdware-LLC/fixit-web/main/.storybook/assets/checkmark_icon_for_html_emails.png"
+                            style="box-sizing: border-box; display: block; width: 1.4rem; margin: auto; object-fit: contain;"
+                            alt="Checkmark Icon"
+                          />
+                        </td>
+                      </tr>
+                      <tr style="box-sizing: border-box;">
+                        <td style="box-sizing: border-box; min-width: 4.5rem; background-color: #474b68; border-top: 1px solid #727585; border-bottom-left-radius: 1rem;">
+                          <div style="box-sizing: border-box; width: 100%; height: 100%; display: block; text-align: center;">
+                            <img
+                              src="https://raw.githubusercontent.com/Nerdware-LLC/fixit-web/main/.storybook/assets/transaction_icon_for_html_emails.png"
+                              style="box-sizing: border-box; float: left; width: 1.6rem; max-width: 1.6rem; margin: 2px 0.5rem auto 0; vertical-align: middle; object-fit: contain;"
+                              alt="Payments Icon"
+                            />
+                            <span
+                              class="content__feature-highlights-table__item-label-container"
+                              style="box-sizing: border-box; min-width: 5.25rem; width: 6rem; max-width: 6rem; text-align: center; vertical-align: middle;"
+                            >Payments</span>
+                          </div>
+                        </td>
+                        <td style="box-sizing: border-box; min-width: 4.5rem; background-color: #474b68; border-top: 1px solid #727585; border-left: 1px solid #727585;">
+                          <img
+                            src="https://raw.githubusercontent.com/Nerdware-LLC/fixit-web/main/.storybook/assets/checkmark_icon_for_html_emails.png"
+                            style="box-sizing: border-box; display: block; width: 1.4rem; margin: auto; object-fit: contain;"
+                            alt="Checkmark Icon"
+                          />
+                        </td>
+                        <td style="box-sizing: border-box; min-width: 4.5rem; background-color: #474b68; border-top: 1px solid #727585; border-left: 1px solid #727585; border-bottom-right-radius: 1rem;">
+                          <img
+                            src="https://raw.githubusercontent.com/Nerdware-LLC/fixit-web/main/.storybook/assets/checkmark_icon_for_html_emails.png"
+                            style="box-sizing: border-box; display: block; width: 1.4rem; margin: auto; object-fit: contain;"
+                            alt="Checkmark Icon"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+            <tr style="box-sizing: border-box;">
+              <td
+                class="content__layout-grid-table__wrap-cell"
+                style="box-sizing: border-box; display: inline-block; border: 1px solid #5e61727e; border-radius: 1rem; overflow: clip;"
+              >
+                <div style="box-sizing: border-box; width: 318px; max-height: 180px;">
+                  <img
+                    src="https://raw.githubusercontent.com/Nerdware-LLC/fixit-web/b949265b8c6d8ff11342311438356e05687a27fa/src/images/demo_desktop_dashboard.webp"
+                    alt="Fixit dashboard, desktop layout"
+                    style="box-sizing: border-box; object-fit: cover; object-position: -390px -485px; zoom: 0.55;"
+                  />
+                </div>
+              </td>
+              <td class="content__layout-grid-table__wrap-cell" style="box-sizing: border-box; display: inline-block; width: 318px; margin-top: 1rem;">
+                <div class="surface" style="box-sizing: border-box; background-color: #121212; border-radius: 1rem; padding: 1rem;">
+                  <h2 style="box-sizing: border-box; margin: 0; font-size: 1.3rem; line-height: 1.2; color: #00ffdc;">
+                    Powerful Tools, <br style="box-sizing: border-box;"/>Simple to Use
+                  </h2>
+                  <p style="box-sizing: border-box; margin: 0.5rem 0 0 0;">
+                    Empower your workflow with the tools you need to stay organized across all your devices — without the learning curve.
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="footer-root" style="
+          box-sizing: border-box;
+          width: 100%;
+          overflow: hidden;
+          padding: 1.5rem 0 0.5rem 0;
+          font-size: 0.8rem;
+          text-align: center;
+          background: linear-gradient(black, transparent 7%);
+        "
+      >
+        <table style="box-sizing: border-box; margin: 0 auto;">
+          <tbody style="box-sizing: border-box;">
+            <tr style="box-sizing: border-box;">
+              <td style="box-sizing: border-box; padding-bottom: 0.25rem;">
+                <a
+                  href="https://gofixit.app/privacy"
+                  target="_blank"
+                  rel="noreferrer"
+                  style="box-sizing: border-box; padding: 0 0.5rem; color: #9e9e9e; text-decoration: underline dotted; text-underline-position: under; white-space: pre;"
+                >Privacy Policy </a>
+            </td>
+            <td style="box-sizing: border-box; width: 1px; padding: 0 1px 0 0; background-color: #9e9e9e; opacity: 0.7;"></td>
+            <td style="box-sizing: border-box; padding-bottom: 0.25rem;">
+              <a
+                href="https://gofixit.app/ToS"
+                target="_blank"
+                rel="noreferrer"
+                style="box-sizing: border-box; padding: 0 0.5rem; color: #9e9e9e; text-decoration: underline dotted; text-underline-position: under; white-space: pre;"
+              >Terms of Service </a>
+            </td>
+            <td style="box-sizing: border-box; width: 1px; max-width: 1px; padding: 0 1px 0 0; background-color: #9e9e9e; opacity: 0.7;"></td>
+            <td style="box-sizing: border-box; padding-bottom: 0.25rem;">
+              <a
+                href="https://gofixit.app/cookie-policy"
+                target="_blank"
+                rel="noreferrer"
+                style="box-sizing: border-box; padding: 0 0.5rem; color: #9e9e9e; text-decoration: underline dotted; text-underline-position: under; white-space: pre;"
+              >Cookie Policy </a>
+            </td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="box-sizing: border-box; color: #ffffff; line-height: 1.45; margin: 1rem;">Fixit is a product of <span style="white-space: nowrap;">Nerdware, LLC ©</span></p>
+        {{~#if unsubscribeHREF~}}
+        <p style="box-sizing: border-box; margin: 0;">
+          <a
+            href="{{unsubscribeHREF}}"
+            ses:tags="unsubscribeLinkTag:optout"
+            target="_blank"
+            rel="noreferrer"
+            style="box-sizing: border-box; color: #9e9e9e;"
+          >Unsubscribe</a>
+        </p>
+        {{~/if}}
+      </div>
+    </div>
+  </body>
+</html>
