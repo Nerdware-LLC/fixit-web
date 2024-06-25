@@ -1,5 +1,4 @@
 import remarkGfm from "remark-gfm";
-import { mergeConfig } from "vite";
 import type { StorybookConfig } from "@storybook/react-vite";
 
 export default {
@@ -32,6 +31,7 @@ export default {
     "@storybook/addon-themes",
     "@storybook/addon-a11y",
     "storybook-addon-useragent",
+    "@chromatic-com/storybook",
   ],
   staticDirs: ["../public"],
   docs: { autodocs: "tag" },
@@ -66,21 +66,5 @@ export default {
         return shouldInclude;
       },
     },
-  },
-  /**
-   * This `viteFinal` function ensures the Vite-builder is configured to use
-   * a `build.target` value of "esnext" for Storybook builds. By default, the
-   * Vite-builder currently does not use the `build.target` specified in the
-   * `vite.config.ts` file, so SB builds fail without this override.
-   *
-   * @see https://github.com/storybookjs/storybook/issues/22223
-   * @docs https://storybook.js.org/docs/api/main-config-vite-final
-   */
-  viteFinal: (viteConfig) => {
-    return mergeConfig(viteConfig, {
-      build: {
-        target: "esnext",
-      },
-    });
   },
 } satisfies StorybookConfig;
