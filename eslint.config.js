@@ -45,6 +45,7 @@ export default [
       "react-hooks": reactHooksPlugin,
     },
     rules: {
+      // MERGE PRESETS:
       ...eslintJS.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules, // impl here bc hooks can be ts or tsx
       ...importPlugin.configs.recommended.rules,
@@ -54,6 +55,7 @@ export default [
         ...tsEslint.configs.strictTypeChecked,
         ...tsEslint.configs.stylisticTypeChecked, // prettier-ignore
       ].reduce((acc, { rules = {} }) => ({ ...acc, ...rules }), {}),
+      // RULE CUSTOMIZATIONS:
       "default-case": "error",
       "default-case-last": "error",
       eqeqeq: ["error", "always"],
@@ -126,10 +128,11 @@ export default [
         "error",
         {
           allowAny: false,
-          allowBoolean: true,
+          allowNever: false,
           allowNullish: false,
+          allowBoolean: true,
           allowNumber: true,
-          allowRegExp: false,
+          allowRegExp: true,
         },
       ],
       ...eslintConfigPrettier.rules, // <-- must be last, removes rules that conflict with prettier
