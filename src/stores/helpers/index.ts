@@ -1,1 +1,1 @@
-export * from "./LocalStorageValueManager";
+export * from "./LocalStorageValueManager.js";

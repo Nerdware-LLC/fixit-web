@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import { ReactiveStore } from "./ReactiveStore";
-import type { UserSubscription } from "@/graphql/types";
+import { ReactiveStore } from "./ReactiveStore.js";
+import type { UserSubscription } from "@/types/graphql.js";
 
 /**
  * A sub-class of {@link ReactiveStore} for managing the {@link IsActiveAccount} app-state value.

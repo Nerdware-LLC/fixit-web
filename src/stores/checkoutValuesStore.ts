@@ -1,6 +1,6 @@
-import { ReactiveStore } from "./ReactiveStore";
+import { ReactiveStore } from "./ReactiveStore.js";
 import { LocalStorageValueManager } from "./helpers";
-import type { SubscriptionPriceLabel } from "@/graphql/types";
+import type { SubscriptionPriceName } from "@/types/graphql.js";
 
 /**
  * A `LocalStorageValueManager` instance for the `"checkoutValues"` key.
@@ -20,7 +20,7 @@ export const checkoutValuesStore = new ReactiveStore<StoredCheckoutValues, Check
  * A type for when selectedSub has been confirmed to not be null.
  */
 export type CheckoutValues = {
-  selectedSubscription: SubscriptionPriceLabel;
+  selectedSubscription: SubscriptionPriceName;
   promoCode: string | null;
   discountPercentage?: number | null;
 };

@@ -1,4 +1,4 @@
-import { LocalStorageValueManager } from "./LocalStorageValueManager";
+import { LocalStorageValueManager } from "./LocalStorageValueManager.js";
 
 describe("LocalStorageValueManager", () => {
   // Arrange a mock valid localStorage key

@@ -1,23 +1,13 @@
 import dayjs from "dayjs";
 import { jwtDecode } from "jwt-decode";
-import { apolloClient } from "@/app/ApolloProvider/apolloClient";
-import { googleLogout } from "@/app/GoogleOAuthContext/helpers";
-import { ReactiveStore } from "./ReactiveStore";
+import { apolloClient } from "@/app/ApolloProvider/apolloClient.js";
+import { googleLogout } from "@/app/GoogleOAuthContext/helpers.js";
+import { ReactiveStore } from "./ReactiveStore.js";
 import { LocalStorageValueManager } from "./helpers";
-import { isActiveAccountStore } from "./isActiveAccountStore";
-import { isAuthenticatedStore } from "./isAuthenticatedStore";
-import { isConnectOnboardingCompleteStore } from "./isConnectOnboardingCompleteStore";
-import type { AuthTokenPayload } from "@/graphql/types";
-import type { Except } from "type-fest";
-
-/**
- * The type of object stored in the {@link authenticatedUserStore}.
- *
- * This type is based on the {@link AuthTokenPayload} type, with the following modifications:
- * - No `__typename` field
- * - All other fields are required/non-optional (missing values default to `null`)
- */
-export type AuthenticatedUserObject = Required<Except<AuthTokenPayload, "__typename">>;
+import { isActiveAccountStore } from "./isActiveAccountStore.js";
+import { isAuthenticatedStore } from "./isAuthenticatedStore.js";
+import { isConnectOnboardingCompleteStore } from "./isConnectOnboardingCompleteStore.js";
+import type { AuthTokenPayload } from "@/types/open-api.js";
 
 /**
  * A `LocalStorageValueManager` instance for the `"authToken"` key.

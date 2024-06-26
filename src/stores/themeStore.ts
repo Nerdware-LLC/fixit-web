@@ -1,5 +1,5 @@
-import { THEME_NAMES, type ThemeName } from "@/app/ThemeProvider/themes";
-import { ReactiveStore } from "./ReactiveStore";
+import { THEME_NAMES, type ThemeName } from "@/app/ThemeProvider/themes.js";
+import { ReactiveStore } from "./ReactiveStore.js";
 import { LocalStorageValueManager } from "./helpers";
 
 /**

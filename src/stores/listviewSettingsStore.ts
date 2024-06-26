@@ -1,6 +1,6 @@
-import { testShouldUseMobileLayout } from "@/app/PageLayoutContext/helpers";
-import { LIST_VIEW_MODES, type ListViewSettings } from "@/layouts/CoreItemsListView/types";
-import { ReactiveStore } from "./ReactiveStore";
+import { testShouldUseMobileLayout } from "@/app/PageLayoutContext/helpers.js";
+import { LIST_VIEW_MODES, type ListViewSettings } from "@/layouts/CoreItemsListView/types.js";
+import { ReactiveStore } from "./ReactiveStore.js";
 import { LocalStorageValueManager } from "./helpers";
 
 // Ascertain a sensible default for stored ListViewSettings:
