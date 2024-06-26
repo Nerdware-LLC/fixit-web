@@ -10,28 +10,28 @@ import { LoginForm } from "./LoginForm.jsx";
  * **LoginPage** - renders when path is "/login"
  */
 export const LoginPage = () => (
-  <AuthPageLayout
-    pageTitle="User Login"
-    sx={{
-      [`&.${authPageLayoutClassNames.root}`]: {
-        justifyContent: "center",
-        gap: "1.5rem",
-      },
-    }}
-  >
+  <AuthPageLayout pageTitle="User Login" sx={{ gap: "2rem" }}>
     <LoginForm />
-    <Box
-      style={{
-        marginTop: "0.5rem",
-        whiteSpace: "pre-line",
-        display: "flex",
-        flexDirection: "row",
+    <Stack
+      spacing={1}
+      sx={{
         alignItems: "center",
+        "& *": {
+          color: "info.main",
+          whiteSpace: "pre-line",
+        },
+        [`& .${svgIconClasses.root}`]: {
+          transform: "translateY(1px)",
+        },
       }}
     >
-      <Link to={APP_PATHS.REGISTER}>Not an existing user? Sign up now </Link>
-      <ChevronRightIcon color="info" style={{ transform: "translateY(1px)" }} />
-    </Box>
+      <Link to={APP_PATHS.FORGOT_PASSWORD}>
+        Forgot Password <ChevronRightIcon />
+      </Link>
+      <Link to={APP_PATHS.REGISTER}>
+        Not an existing user? Sign up now <ChevronRightIcon />
+      </Link>
+    </Stack>
   </AuthPageLayout>
 );
 
