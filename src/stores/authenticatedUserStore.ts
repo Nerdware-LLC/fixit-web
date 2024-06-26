@@ -24,14 +24,11 @@ export const authTokenUpdatedAtLocalStorage = new LocalStorageValueManager<numbe
   null
 );
 
-class AuthenticatedUserStore extends ReactiveStore<
-  AuthenticatedUserObject | null,
-  AuthenticatedUserObject
-> {
+class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload | null, AuthTokenPayload> {
   /**
    * Process an auth token to authenticate the user.
    */
-  processAuthToken(encodedAuthToken: string): AuthenticatedUserObject {
+  processAuthToken(encodedAuthToken: string): AuthTokenPayload {
     authTokenLocalStorage.set(encodedAuthToken);
     authTokenUpdatedAtLocalStorage.set(dayjs().unix());
 
@@ -45,21 +42,11 @@ class AuthenticatedUserStore extends ReactiveStore<
       isActiveAccountStore.setIsSubValid(tokenPayload.subscription);
     }
 
-    // Make auth'd User obj from the tokenPayload
-    const authenticatedUserObject = {
-      // Fields which may not be present in tokenPayload default to null:
-      phone: null,
-      subscription: null,
-      stripeConnectAccount: null,
-      // Explicit values in tokenPayload override the above defaults:
-      ...tokenPayload,
-    };
-
-    this.set(authenticatedUserObject);
+    this.set(tokenPayload);
 
     isAuthenticatedStore.set(true);
 
-    return authenticatedUserObject;
+    return tokenPayload;
   }
 
   /**
