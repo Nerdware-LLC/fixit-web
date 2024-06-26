@@ -1,5 +1,7 @@
-import { httpService } from "./httpService";
-import type { RestApiRequestBodyByPath } from "@/types/open-api";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { cachePreFetchedUserItems } from "./helpers";
+import { httpService } from "./httpService.js";
+import type { RestApiRequestBodyByPath as RequestBodyByPath } from "@/types/open-api.js";
 
 export const authService = {
   registerNewUser: async (userRegistrationArgs: RegisterNewUserParams) => {

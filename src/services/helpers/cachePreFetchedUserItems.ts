@@ -1,14 +1,7 @@
-import { isString } from "@nerdware/ts-type-safety-utils";
-import { apolloClient } from "@/app/ApolloProvider/apolloClient";
-import { QUERIES } from "@/graphql/queries";
-import type {
-  AuthTokenPayload,
-  MyWorkOrdersQueryReturnType,
-  MyInvoicesQueryReturnType,
-  WorkOrder,
-  Invoice,
-} from "@/graphql/types";
-import type { OpenApiSchemas } from "@/types/open-api";
+import { apolloClient } from "@/app/ApolloProvider/apolloClient.js";
+import { QUERIES } from "@/graphql/queries.js";
+import type { MyWorkOrdersQueryResponse, MyInvoicesQueryResponse } from "@/types/graphql.js";
+import type { PreFetchedUserItems } from "@/types/open-api.js";
 
 /**
  * This function accepts pre-fetched "userItems" returned from the auth

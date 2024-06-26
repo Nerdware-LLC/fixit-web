@@ -1,4 +1,3 @@
-import { isString } from "@nerdware/ts-type-safety-utils";
 import axios, {
   AxiosError,
   type AxiosResponse,
@@ -7,20 +6,15 @@ import axios, {
 } from "axios";
 import { ENV } from "@/app/env";
 import { authTokenLocalStorage, authenticatedUserStore } from "@/stores";
-import { logger } from "@/utils/logger";
-import {
-  abortController,
-  cachePreFetchedUserItems,
-  getAxiosError,
-  getMessageFromAxiosError,
-} from "./helpers";
+import { logger } from "@/utils/logger.js";
+import { abortController, getAxiosError, getMessageFromAxiosError } from "./helpers";
 import type {
   RestApiRequestBodyByPath,
-  RestApiPOST200ResponseByPath,
   RestApiGETendpoint,
-  RestApiGET200ResponseByPath,
+  RestApiPOSTendpoint,
+  RestApiResponseByPath,
   OpenApiSchemas,
-} from "@/types/open-api";
+} from "@/types/open-api.js";
 
 // Axios defaults:
 axios.defaults.baseURL = ENV.API_URI;

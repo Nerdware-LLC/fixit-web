@@ -1,5 +1,6 @@
-import { httpService } from "./httpService";
-import type { RestApiRequestBodyByPath } from "@/types/open-api";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { httpService } from "./httpService.js";
+import type { RestApiRequestBodyByPath } from "@/types/open-api.js";
 
 export const stripeService = {
   /**
