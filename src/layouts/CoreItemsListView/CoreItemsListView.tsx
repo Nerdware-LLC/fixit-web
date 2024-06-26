@@ -4,7 +4,7 @@ import { Loading, ErrorDialog } from "@/components/Indicators";
 import {
   CoreItemsListViewContent,
   type CoreItemsListViewContentProps,
-} from "./CoreItemsListViewContent";
+} from "./CoreItemsListViewContent.jsx";
 import type { GridValidRowModel } from "@mui/x-data-grid";
 import type { DocumentNode } from "graphql";
 

@@ -1,9 +1,9 @@
 import { styled } from "@mui/material/styles";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { globalClassNames } from "@/app/GlobalStyles/classNames";
+import { globalClassNames } from "@/app/GlobalStyles/classNames.js";
 import { Avatar, avatarClassNames } from "@/components/Avatar";
 import { XscrollContainer, containerClassNames } from "@/components/Containers";
-import type { FixitUser } from "@/graphql/types";
+import type { User } from "@/types/graphql.js";
 
 export const ProfileViewHeader = ({ profile, handle }: ProfileViewHeaderProps) => (
   <StyledDiv>
@@ -69,4 +69,4 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => ({
   },
 }));
 
-export type ProfileViewHeaderProps = Pick<FixitUser, "profile" | "handle">;
+export type ProfileViewHeaderProps = Pick<User, "profile" | "handle">;

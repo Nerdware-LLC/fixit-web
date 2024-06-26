@@ -3,10 +3,10 @@ import { styled } from "@mui/material/styles";
 import { useFetchStateContext } from "@/app/FetchStateContext";
 import { usePageLayoutContext } from "@/app/PageLayoutContext";
 import { ErrorDialog } from "@/components/Indicators";
-import { DesktopNavDrawer } from "./DesktopNavDrawer";
-import { MobileNavBar } from "./MobileNavBar";
-import { homePageLayoutElementIDs } from "./elementIDs";
-import { homePageLayoutSharedStyles } from "./styles";
+import { DesktopNavDrawer } from "./DesktopNavDrawer.jsx";
+import { MobileNavBar } from "./MobileNavBar.jsx";
+import { homePageLayoutElementIDs } from "./elementIDs.js";
+import { homePageLayoutSharedStyles } from "./styles.js";
 
 /**
  * This layout-route component is rendered within `RootAppLayout` when the path is `"/home/*"`.

@@ -3,13 +3,13 @@ import Tab, { tabClasses } from "@mui/material/Tab";
 import Tabs, { tabsClasses } from "@mui/material/Tabs";
 import InboxIcon from "@mui/icons-material/Inbox";
 import SendIcon from "@mui/icons-material/Send";
-import { getTabA11yProps } from "@/components/Tabs/helpers";
+import { getTabA11yProps } from "@/components/Tabs/helpers.js";
 import {
   listViewSettingsStore,
   type ListViewSettingsStoreKey,
-} from "@/stores/listviewSettingsStore";
-import { ListHeaderContainer } from "./ListHeaderContainer";
-import { LIST_VIEW_LIST_NAMES } from "../types";
+} from "@/stores/listviewSettingsStore.js";
+import { ListHeaderContainer } from "./ListHeaderContainer.jsx";
+import { LIST_VIEW_LIST_NAMES } from "../types.js";
 
 export const MobileListHeaderTabs = ({ listViewSettingsStoreKey }: MobileListHeaderTabsProps) => {
   const { listVisibility } = listViewSettingsStore[listViewSettingsStoreKey].useSubToStore();

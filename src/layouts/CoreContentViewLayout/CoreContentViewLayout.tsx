@@ -2,7 +2,7 @@ import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Text from "@mui/material/Typography";
-import { coreContentViewLayoutClassNames } from "./classNames";
+import { coreContentViewLayoutClassNames } from "./classNames.js";
 
 /**
  * Provides a common layout for list, item, form, and contact/profile views.

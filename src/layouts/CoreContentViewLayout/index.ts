@@ -1,2 +1,3 @@
-export * from "./CoreContentViewLayout";
-export * from "./classNames";
+export * from "./CoreContentViewLayout.jsx";
+
+export * from "./classNames.js";

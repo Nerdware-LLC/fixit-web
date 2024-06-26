@@ -12,18 +12,18 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import ListIcon from "@mui/icons-material/List";
 import SendIcon from "@mui/icons-material/Send";
 import TableViewSharpIcon from "@mui/icons-material/TableViewSharp";
-import { ToggleButtonWithTooltip } from "@/components/Buttons/ToggleButtonWithTooltip";
+import { ToggleButtonWithTooltip } from "@/components/Buttons/ToggleButtonWithTooltip.jsx";
 import {
   listViewSettingsStore,
   type ListViewSettingsStoreKey,
-} from "@/stores/listviewSettingsStore";
-import { capitalize } from "@/utils/formatters/strings";
+} from "@/stores/listviewSettingsStore.js";
+import { capitalize } from "@/utils/formatters/strings.js";
 import {
   LIST_VIEW_MODES,
   LIST_VIEW_LIST_NAMES,
   type ListViewMode,
   type ListViewListName,
-} from "./types";
+} from "./types.js";
 import type { IsMobilePageLayout } from "@/app/PageLayoutContext";
 
 export const ListViewHeaderToggleButtons = ({

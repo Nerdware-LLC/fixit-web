@@ -2,14 +2,11 @@ import { styled } from "@mui/material/styles";
 import Stack, { stackClasses, type StackProps } from "@mui/material/Stack";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import { FetchStateContextProvider } from "@/app/FetchStateContext";
-import {
-  GOOGLE_OAUTH_BTN_DIMENSIONS,
-  googleOAuthButtonClassNames,
-} from "@/app/GoogleOAuthContext/GoogleOAuthButton";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
-import { TitleLogo } from "@/components/Branding/TitleLogo";
-import { formClassNames } from "@/components/Form/classNames";
-import { authPageLayoutClassNames } from "./classNames";
+import { GOOGLE_OAUTH_BTN_DIMENSIONS, googleOAuthButtonClassNames } from "@/app/GoogleOAuthContext";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
+import { TitleLogo } from "@/components/Branding/TitleLogo.jsx";
+import { formClassNames } from "@/components/Form/classNames.js";
+import { authPageLayoutClassNames } from "./classNames.js";
 
 export type AuthPageLayoutProps = { pageTitle: string } & Pick<StackProps, "sx" | "children">;
 

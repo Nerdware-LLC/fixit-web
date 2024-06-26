@@ -1,1 +1,1 @@
-export * from "./CoreItemView";
+export * from "./CoreItemView.jsx";

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
 import { DataGrid, dataGridClassNames, type DataGridProps } from "@/components/DataGrid";
 import {
   VirtualizedList,
@@ -11,7 +11,7 @@ import {
   listClassNames,
   type VirtualizedListProps,
 } from "@/components/List";
-import { getTabPanelA11yProps } from "@/components/Tabs/helpers";
+import { getTabPanelA11yProps } from "@/components/Tabs/helpers.js";
 import {
   CoreContentViewLayout,
   coreContentViewLayoutClassNames,
@@ -20,12 +20,12 @@ import {
 import {
   listViewSettingsStore,
   type ListViewSettingsStoreKey,
-} from "@/stores/listviewSettingsStore";
+} from "@/stores/listviewSettingsStore.js";
 import { ListHeader, MobileListHeaderTabs } from "./ListHeader";
-import { ListViewHeaderToggleButtons } from "./ListViewHeaderToggleButtons";
-import { coreItemsListViewClassNames as listViewClassNames } from "./classNames";
-import { LIST_VIEW_MODES, type ListViewListName } from "./types";
-import type { ListViewAppPath } from "@/routes/appPaths";
+import { ListViewHeaderToggleButtons } from "./ListViewHeaderToggleButtons.jsx";
+import { coreItemsListViewClassNames as listViewClassNames } from "./classNames.js";
+import { LIST_VIEW_MODES, type ListViewListName } from "./types.js";
+import type { ListViewAppPath } from "@/routes/appPaths.js";
 import type { GridEventListener, GridValidRowModel } from "@mui/x-data-grid";
 
 /**

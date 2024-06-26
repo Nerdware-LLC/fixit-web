@@ -8,8 +8,8 @@ import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
 import ListItemText, { listItemTextClasses } from "@mui/material/ListItemText";
 import { THEMES } from "@/app/ThemeProvider";
 import { getMessageFromAxiosError } from "@/services/helpers";
-import { useIsActiveNavAction } from "./helpers";
-import type { AppNavActionConfig } from "@/routes/appNavActions";
+import { useIsActiveNavAction } from "./helpers.js";
+import type { AppNavActionConfig } from "@/routes/appNavActions.jsx";
 import type { SetRequired } from "type-fest";
 
 /**

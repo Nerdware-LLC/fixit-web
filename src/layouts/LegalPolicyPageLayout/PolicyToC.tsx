@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Text from "@mui/material/Typography";
-import { THEMES } from "@/app/ThemeProvider/themes";
-import { Anchor } from "@/components/Navigation/Anchor";
+import { THEMES } from "@/app/ThemeProvider/themes.js";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
 
 /**
  * Legal policy table of contents.

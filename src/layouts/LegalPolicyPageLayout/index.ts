@@ -1,1 +1,1 @@
-export * from "./LegalPolicyPageLayout";
+export * from "./LegalPolicyPageLayout.jsx";

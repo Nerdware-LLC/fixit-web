@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import MuiBottomNavBar, { type BottomNavigationProps } from "@mui/material/BottomNavigation";
 import { bottomNavigationActionClasses } from "@mui/material/BottomNavigationAction";
-import { useAppNavActions } from "@/routes/appNavActions";
-import { APP_PATHS } from "@/routes/appPaths";
-import { MobileNavBarTab } from "./MobileNavBarTab";
-import { homePageLayoutElementIDs } from "./elementIDs";
-import { homePageLayoutSharedStyles } from "./styles";
+import { useAppNavActions } from "@/routes/appNavActions.jsx";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { MobileNavBarTab } from "./MobileNavBarTab.jsx";
+import { homePageLayoutElementIDs } from "./elementIDs.js";
+import { homePageLayoutSharedStyles } from "./styles.js";
 
 export const MobileNavBar = ({ initialActiveTabPath = APP_PATHS.HOME }: MobileNavBarProps) => {
   const [activeTab, setActiveTab] = useState(initialActiveTabPath);

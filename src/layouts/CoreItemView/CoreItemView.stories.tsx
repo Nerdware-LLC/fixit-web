@@ -1,9 +1,9 @@
 import { withHomePageLayoutDecorator } from "@/../.storybook/decorators";
 import { CoreItemView } from "@/layouts/CoreItemView";
-import { workOrderItemViewSX } from "@/pages/WorkOrderItemView/WorkOrderItemView";
-import { WorkOrderItemViewContent } from "@/pages/WorkOrderItemView/WorkOrderItemViewContent";
-import { WorkOrderItemViewHeader } from "@/pages/WorkOrderItemView/WorkOrderItemViewHeader";
-import { MOCK_WORK_ORDERS } from "@/tests/mockItems/mockWorkOrders";
+import { workOrderItemViewSX } from "@/pages/WorkOrderItemView/WorkOrderItemView.jsx";
+import { WorkOrderItemViewContent } from "@/pages/WorkOrderItemView/WorkOrderItemViewContent.jsx";
+import { WorkOrderItemViewHeader } from "@/pages/WorkOrderItemView/WorkOrderItemViewHeader.jsx";
+import { MOCK_WORK_ORDERS } from "@/tests/mockItems/mockWorkOrders.js";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

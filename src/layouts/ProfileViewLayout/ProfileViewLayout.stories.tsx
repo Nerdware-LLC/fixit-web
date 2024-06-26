@@ -1,6 +1,6 @@
 import { withHomePageLayoutDecorator } from "@/../.storybook/decorators";
-import { STATIC_MOCK_USERS } from "@/tests/mockItems/staticMockUsers";
-import { ProfileViewLayout } from "./ProfileViewLayout";
+import { STATIC_MOCK_USERS } from "@/tests/mockItems/staticMockUsers.js";
+import { ProfileViewLayout } from "./ProfileViewLayout.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

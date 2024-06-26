@@ -3,13 +3,13 @@ import Divider, { dividerClasses } from "@mui/material/Divider";
 import Drawer, { drawerClasses } from "@mui/material/Drawer";
 import List, { listClasses } from "@mui/material/List";
 import { THEMES } from "@/app/ThemeProvider";
-import { AppBarLogoButton } from "@/components/AppBar/AppBarLogoButton";
-import { useAppBarHeight } from "@/components/AppBar/helpers";
+import { AppBarLogoButton } from "@/components/AppBar/AppBarLogoButton.jsx";
+import { useAppBarHeight } from "@/components/AppBar/helpers.js";
 import { brandingClassNames } from "@/components/Branding";
 import { useAppNavActions } from "@/routes/appNavActions";
 import { isConnectOnboardingCompleteStore } from "@/stores";
-import { DesktopNavDrawerButton } from "./DesktopNavDrawerButton";
-import { homePageLayoutSharedStyles } from "./styles";
+import { DesktopNavDrawerButton } from "./DesktopNavDrawerButton.jsx";
+import { homePageLayoutSharedStyles } from "./styles.js";
 
 export const DesktopNavDrawer = () => {
   const isConnectOnboardingComplete = isConnectOnboardingCompleteStore.useSubToStore();

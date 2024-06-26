@@ -1,13 +1,13 @@
 import { styled } from "@mui/material/styles";
-import { XscrollContainer } from "@/components/Containers/XscrollContainer";
+import { XscrollContainer } from "@/components/Containers/XscrollContainer.jsx";
 import {
   CoreContentViewLayout,
   coreContentViewLayoutClassNames,
   type CoreContentViewLayoutProps,
 } from "@/layouts/CoreContentViewLayout";
-import { ProfileViewHeader } from "./ProfileViewHeader";
-import { UserProfileDetails } from "./UserProfileDetails";
-import type { FixitUser } from "@/graphql/types";
+import { ProfileViewHeader } from "./ProfileViewHeader.jsx";
+import { UserProfileDetails } from "./UserProfileDetails.jsx";
+import type { User } from "@/types/graphql.js";
 
 export const ProfileViewLayout = ({
   handle,
@@ -62,7 +62,7 @@ const StyledCoreContentViewLayout = styled(CoreContentViewLayout)(({ theme: { va
   },
 }));
 
-export type ProfileViewLayoutProps = Pick<FixitUser, "handle" | "email" | "phone" | "profile"> & {
+export type ProfileViewLayoutProps = Pick<User, "handle" | "email" | "phone" | "profile"> & {
   headerComponents?: CoreContentViewLayoutProps["headerComponents"];
   children?: React.ReactNode;
 };
