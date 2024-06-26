@@ -16,19 +16,21 @@ export const RegisterForm = () => {
   const { fetchWithState, error, clearError } = useFetchStateContext();
 
   const handleSubmit = async ({
+    email,
+    phone,
     handle,
     password,
     googleIDToken,
-    ...values
   }: RegisterFormValues) => {
     const apiResponse = await fetchWithState(
       async () =>
         await authService.registerNewUser({
+          email,
+          phone: phone || null, // Don't send empty string (not sure why yup gives '' instead of null)
           handle: `@${handle}`, // <-- "@" prefix added to "handle"
           ...(password
             ? { password } // Send one of `password` or `googleIDToken`
             : { googleIDToken: googleIDToken! }),
-          ...values,
         })
     );
 
@@ -66,7 +68,7 @@ export const RegisterForm = () => {
             ensure that the User can proceed to the next step without interruption.
             To that end, optional fields like `phone` here are cleared/reset if their
             value is invalid, thereby ensuring form submission isn't blocked. */
-            phone: values.phone && !errors.phone ? values.phone : null,
+            phone: !!values.phone && !errors.phone ? values.phone : null,
           },
           errors: {
             ...errors,
