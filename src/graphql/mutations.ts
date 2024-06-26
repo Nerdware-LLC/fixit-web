@@ -1,8 +1,8 @@
-import * as contactMutations from "./Contact/mutations";
-import * as inviteMutations from "./Invite/mutations";
-import * as invoiceMutations from "./Invoice/mutations";
-import * as profileMutations from "./Profile/mutations";
-import * as workOrderMutations from "./WorkOrder/mutations";
+import * as contactMutations from "./Contact/mutations.js";
+import * as inviteMutations from "./Invite/mutations.js";
+import * as invoiceMutations from "./Invoice/mutations.js";
+import * as profileMutations from "./Profile/mutations.js";
+import * as workOrderMutations from "./WorkOrder/mutations.js";
 
 export const MUTATIONS = {
   ...contactMutations,
