@@ -1,7 +1,9 @@
 import { useEffect } from "react";
-import { apolloClient } from "@/app/ApolloProvider/apolloClient";
-import { QUERIES } from "@/graphql/queries";
-import { MOCK_WORK_ORDERS, MOCK_INVOICES, MOCK_CONTACTS } from "@/tests/mockItems";
+import { apolloClient } from "@/app/ApolloProvider/apolloClient.js";
+import { QUERIES } from "@/graphql/queries.js";
+import { MOCK_CONTACTS } from "./mockContacts.js";
+import { MOCK_INVOICES } from "./mockInvoices.js";
+import { MOCK_WORK_ORDERS } from "./mockWorkOrders.js";
 
 /**
  * Writes the following mock data into the Apollo cache:

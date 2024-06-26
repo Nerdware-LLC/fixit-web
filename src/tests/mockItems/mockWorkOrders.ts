@@ -4,11 +4,11 @@ import {
   WORK_ORDER_STATUSES,
   WORK_ORDER_CATEGORIES,
   WORK_ORDER_PRIORITIES,
-} from "@/types/WorkOrder";
+} from "@/types/WorkOrder.js";
 import { randomIntBetween, getItemAge } from "@/utils/numeric";
-import { getRandomContact } from "./mockContacts";
-import { STATIC_MOCK_USERS } from "./staticMockUsers";
-import type { MyWorkOrdersQueryReturnType, WorkOrder } from "@/graphql/types";
+import { getRandomUser } from "./mockUsers.js";
+import { STATIC_MOCK_USERS } from "./staticMockUsers.js";
+import type { MyWorkOrdersQueryResponse, WorkOrder } from "@/types/graphql.js";
 
 const createMockWorkOrder = ({
   createdBy,

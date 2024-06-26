@@ -2,7 +2,7 @@ import "vitest-canvas-mock";
 import "@testing-library/jest-dom/vitest";
 import { vi } from "vitest";
 import createFetchMock from "vitest-fetch-mock";
-import { mockLocalStorage } from "./utils/mockLocalStorage";
+import { mockLocalStorage } from "./utils/mockLocalStorage.js";
 
 /**
  * This Vitest setup file accomplishes the following:
@@ -14,7 +14,6 @@ import { mockLocalStorage } from "./utils/mockLocalStorage";
  *        - localStorage    Facilitates headless test suite execution.
  *   4. Implements default mocks for commonly-used modules:
  *        - react-router-dom
- *        - @sentry/react
  */
 
 // STUB GLOBALS:

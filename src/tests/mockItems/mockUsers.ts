@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker";
 import { makeFake } from "@/tests/utils/makeFake";
-import { STATIC_MOCK_USERS } from "./staticMockUsers";
-import type { User } from "@/graphql/types";
-import type { StaticMockContactName } from "./staticMockContacts";
+import { STATIC_MOCK_USERS } from "./staticMockUsers.js";
+import type { User } from "@/types/graphql.js";
+import type { StaticMockContactName } from "./staticMockContacts.js";
 
 const createMockUser = (overrides: Partial<User> = {}): User => {
   const userID = makeFake.userID(overrides);

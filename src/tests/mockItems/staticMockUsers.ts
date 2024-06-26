@@ -1,5 +1,7 @@
-import { STATIC_MOCK_CONTACTS } from "./staticMockContacts";
-import type { User } from "@/graphql/types";
+import { STATIC_MOCK_CONTACTS } from "./staticMockContacts.js";
+import type { User, UserSubscription, UserStripeConnectAccount } from "@/types/graphql.js";
+import type { AuthTokenPayload } from "@/types/open-api.js";
+import type { OverrideProperties } from "type-fest";
 
 /**
  * **STATIC Mock Users**

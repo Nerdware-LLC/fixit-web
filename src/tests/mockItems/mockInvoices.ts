@@ -1,10 +1,10 @@
 import { faker } from "@faker-js/faker";
-import { INVOICE_STATUSES } from "@/types/Invoice";
+import { INVOICE_STATUSES } from "@/types/Invoice.js";
 import { getItemAge, randomIntBetween } from "@/utils/numeric";
-import { getRandomContact } from "./mockContacts";
-import { MOCK_WORK_ORDERS } from "./mockWorkOrders";
-import { STATIC_MOCK_USERS } from "./staticMockUsers";
-import type { Invoice, FixitUser, MyInvoicesQueryReturnType } from "@/graphql/types";
+import { getRandomUser } from "./mockUsers.js";
+import { MOCK_WORK_ORDERS } from "./mockWorkOrders.js";
+import { STATIC_MOCK_USERS } from "./staticMockUsers.js";
+import type { Invoice, User, MyInvoicesQueryResponse } from "@/types/graphql.js";
 
 const createMockInvoice = ({
   createdBy,
@@ -96,8 +96,8 @@ const findWorkOrderWithInverseUserRoles = ({
   invoiceCreatedBy,
   invoiceAssignedTo,
 }: {
-  invoiceCreatedBy: FixitUser;
-  invoiceAssignedTo: FixitUser;
+  invoiceCreatedBy: User;
+  invoiceAssignedTo: User;
 }) => {
   // If Invoice.createdBy is "Guy McPerson", search `assignedToUser`, else search `createdByUser`
   const possibleCorrespondingWOs =
@@ -127,7 +127,7 @@ export const MOCK_INVOICES = {
     // Between 50-100 invoices created by user "Guy McPerson":
     createdByUser: Array.from({ length: randomIntBetween(50, 100) }, () => {
       // Assign to random mock contact
-      const invoiceAssignedTo = getRandomContact();
+      const invoiceAssignedTo = getRandomUser();
 
       return createMockInvoice({
         createdBy: STATIC_MOCK_USERS.Guy_McPerson,
@@ -145,7 +145,7 @@ export const MOCK_INVOICES = {
     // Between 50-100 invoices assigned to user "Guy McPerson":
     assignedToUser: Array.from({ length: randomIntBetween(50, 100) }, () => {
       // Created by random mock contact
-      const invoiceCreatedBy = getRandomContact();
+      const invoiceCreatedBy = getRandomUser();
 
       return createMockInvoice({
         createdBy: invoiceCreatedBy,
@@ -162,5 +162,5 @@ export const MOCK_INVOICES = {
     }),
   },
 } as const satisfies {
-  myInvoices: MyInvoicesQueryReturnType;
+  myInvoices: MyInvoicesQueryResponse;
 };

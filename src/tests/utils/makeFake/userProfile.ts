@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker/locale/en_US";
-import type { User, Profile } from "@/graphql/types";
+import type { User, Profile } from "@/types/graphql.js";
 import type { SetRequired } from "type-fest";
 
 export const makeFakeUserProfile = (

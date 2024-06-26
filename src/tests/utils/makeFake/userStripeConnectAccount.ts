@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker/locale/en_US";
-import type { User, UserStripeConnectAccount } from "@/graphql/types";
+import type { User, UserStripeConnectAccount } from "@/types/graphql.js";
 
 export const makeFakeUserStripeConnectAccount = (
   { createdAt: userCreatedAt }: Partial<User>,

@@ -1,4 +1,4 @@
-import type { Contact } from "@/graphql/types";
+import type { Contact } from "@/types/graphql.js";
 
 /**
  * **STATIC Mock Contacts**

@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker/locale/en_US";
-import { USER_SUBSCRIPTION_STATUSES } from "@/types/UserSubscription";
-import type { User, UserSubscription } from "@/graphql/types";
+import { USER_SUBSCRIPTION_STATUSES } from "@/types/UserSubscription.js";
+import type { User, UserSubscription } from "@/types/graphql.js";
 
 export const makeFakeUserSubscription = (
   { createdAt: userCreatedAt }: Partial<User>,
