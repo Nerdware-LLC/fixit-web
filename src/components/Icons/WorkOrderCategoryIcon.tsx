@@ -12,10 +12,10 @@ import PlumbingIcon from "@mui/icons-material/Plumbing";
 import RoofingIcon from "@mui/icons-material/Roofing";
 import RectanglesIcon from "@mui/icons-material/ViewQuilt";
 import WindowIcon from "@mui/icons-material/Window";
-import { useMaybeRef } from "@/hooks/useMaybeRef";
-import { RoadIcon } from "./RoadIcon";
-import { TrowelBricksIcon } from "./TrowelBricksIcon";
-import type { WorkOrderCategory } from "@/graphql/types";
+import { useMaybeRef } from "@/hooks/useMaybeRef.js";
+import { RoadIcon } from "./RoadIcon.jsx";
+import { TrowelBricksIcon } from "./TrowelBricksIcon.jsx";
+import type { WorkOrderCategory } from "@/types/graphql.js";
 import type { SvgIconProps } from "@mui/material/SvgIcon";
 
 export const WorkOrderCategoryIcon = forwardRef<SVGSVGElement, WorkOrderCategoryIconProps>(

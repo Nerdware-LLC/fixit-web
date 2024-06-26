@@ -1,5 +1,5 @@
-export * from "./AppBar";
+export * from "./AppBar.jsx";
 
-export * from "./classNames";
-export * from "./elementIDs";
-export * from "./helpers";
+export * from "./classNames.js";
+export * from "./elementIDs.js";
+export * from "./helpers.js";

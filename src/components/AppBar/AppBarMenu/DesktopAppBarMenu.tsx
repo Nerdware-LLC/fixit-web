@@ -1,11 +1,11 @@
 import { styled } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
 import { NavLink } from "@/components/Navigation";
-import { DarkModeSwitch } from "./DarkModeSwitch";
-import { UserAvatarMenuButton } from "./UserAvatarMenuButton";
-import { appBarMenuClassNames } from "./classNames";
-import { appBarMenuElementIDs } from "./elementIDs";
-import { useAppBarMenuOptionConfigs } from "./useAppBarMenuOptionConfigs";
+import { DarkModeSwitch } from "./DarkModeSwitch.jsx";
+import { UserAvatarMenuButton } from "./UserAvatarMenuButton.jsx";
+import { appBarMenuClassNames } from "./classNames.js";
+import { appBarMenuElementIDs } from "./elementIDs.js";
+import { useAppBarMenuOptionConfigs } from "./useAppBarMenuOptionConfigs.js";
 
 export const DesktopAppBarMenu = () => {
   const { appState, appStateBasedMenuOptions, authMenuOption } = useAppBarMenuOptionConfigs();

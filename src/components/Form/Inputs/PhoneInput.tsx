@@ -1,10 +1,10 @@
 import { PatternFormat, type PatternFormatProps } from "react-number-format";
-import { BaseTextField, type BaseTextFieldProps } from "./BaseTextField";
-import { formClassNames } from "../classNames";
+import { BaseTextField, type BaseTextFieldProps } from "./BaseTextField.jsx";
+import { formClassNames } from "../classNames.js";
 import {
   useFormikFieldProps,
   type FormikIntegratedInputProps,
-} from "../helpers/useFormikFieldProps";
+} from "../helpers/useFormikFieldProps.js";
 
 /**
  * TextInput which uses [react-number-format] for phone formatting.

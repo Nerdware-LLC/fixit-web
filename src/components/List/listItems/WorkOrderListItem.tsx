@@ -8,7 +8,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Text from "@mui/material/Typography";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
 import { WorkOrderStatusIcon } from "@/components/Icons/WorkOrderStatusIcon";
-import type { WorkOrder } from "@/graphql/types";
+import type { WorkOrder } from "@/types/graphql.js";
 import type { Simplify } from "type-fest";
 
 /**

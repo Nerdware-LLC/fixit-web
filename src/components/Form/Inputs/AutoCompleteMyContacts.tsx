@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { useQuery } from "@apollo/client/react/hooks";
-import { QUERIES } from "@/graphql/queries";
+import { QUERIES } from "@/graphql/queries.js";
 import {
   AutoCompleteContact,
   type AutoCompleteContactProps,
   type AutoCompleteContactOptions,
-} from "./AutoCompleteContact";
+} from "./AutoCompleteContact.jsx";
 import type { Simplify } from "type-fest";
 
 /**

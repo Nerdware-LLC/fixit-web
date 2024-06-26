@@ -3,13 +3,13 @@ import { styled } from "@mui/material/styles";
 import { formControlClasses } from "@mui/material/FormControl";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
-import { DeleteChecklistItemButton } from "./DeleteChecklistItemButton";
-import { ToggleCompleteButton } from "./ToggleCompleteButton";
-import { checklistItemInputClassNames } from "./classNames";
-import type { BaseChecklistItemType } from "@/components/Checklist/types";
+import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
+import { DeleteChecklistItemButton } from "./DeleteChecklistItemButton.jsx";
+import { ToggleCompleteButton } from "./ToggleCompleteButton.jsx";
+import { checklistItemInputClassNames } from "./classNames.js";
+import type { BaseChecklistItemType } from "@/components/Checklist/types.js";
 import type { Simplify } from "type-fest";
-import type { ChecklistItemInputFormProps } from "./types";
+import type { ChecklistItemInputFormProps } from "./types.js";
 
 /**
  * An input component built with Formik and Mui TextField for gathering a single

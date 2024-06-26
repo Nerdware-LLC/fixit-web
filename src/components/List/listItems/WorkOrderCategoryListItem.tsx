@@ -2,9 +2,9 @@ import ListItem, { type ListItemProps } from "@mui/material/ListItem";
 import ListItemButton, { type ListItemButtonProps } from "@mui/material/ListItemButton";
 import ListItemIcon, { type ListItemIconProps } from "@mui/material/ListItemIcon";
 import ListItemText, { type ListItemTextProps } from "@mui/material/ListItemText";
-import { WO_CATEGORY_ICONS_JSX } from "@/components/Icons/WorkOrderCategoryIcon";
-import { capitalize } from "@/utils/formatters/strings";
-import type { WorkOrderCategory } from "@/graphql/types";
+import { WO_CATEGORY_ICONS_JSX } from "@/components/Icons/WorkOrderCategoryIcon.jsx";
+import { capitalize } from "@/utils/formatters/strings.js";
+import type { WorkOrderCategory } from "@/types/graphql.js";
 import type { Simplify } from "type-fest";
 
 export const WorkOrderCategoryListItem = ({

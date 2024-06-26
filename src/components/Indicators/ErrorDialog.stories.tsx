@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "@mui/material/Button";
-import { ErrorDialog } from "./ErrorDialog";
+import { ErrorDialog } from "./ErrorDialog.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

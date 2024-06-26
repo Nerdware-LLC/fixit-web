@@ -8,8 +8,8 @@ import {
   MobileDateTimePicker,
   type MobileDateTimePickerProps,
 } from "@mui/x-date-pickers/MobileDateTimePicker";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
-import { formClassNames } from "../classNames";
+import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
+import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
 import type { TextFieldProps } from "@mui/material/TextField";
 import type { ConfigType as DayjsInputType } from "dayjs";

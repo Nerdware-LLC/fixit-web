@@ -2,12 +2,12 @@ import { object as yupObject } from "yup";
 import {
   withFormDecorator,
   type FormDecoratorArgs,
-} from "@/../.storybook/decorators/FormDecorator";
+} from "@/../.storybook/decorators/FormDecorator.jsx";
 import {
   SliderWorkOrderPriority,
   type SliderWorkOrderPriorityProps,
-} from "./SliderWorkOrderPriority";
-import { yupCommonSchema } from "../helpers/yupCommonSchema";
+} from "./SliderWorkOrderPriority.jsx";
+import { yupCommonSchema } from "../helpers/yupCommonSchema.js";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

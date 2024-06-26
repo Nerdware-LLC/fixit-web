@@ -3,9 +3,9 @@ import { styled, alpha } from "@mui/material/styles";
 import Divider, { dividerClasses } from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import { StripeBadge, STRIPE_LINKS, brandingClassNames } from "@/components/Branding";
-import { APP_PATHS } from "@/routes/appPaths";
-import { Link } from "./Link";
-import { navigationClassNames } from "./classNames";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { Link } from "./Link.jsx";
+import { navigationClassNames } from "./classNames.js";
 import type { Except } from "type-fest";
 
 /**

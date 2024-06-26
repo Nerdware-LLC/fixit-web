@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import Paper, { type PaperProps } from "@mui/material/Paper";
-import { containerClassNames } from "./classNames";
+import { containerClassNames } from "./classNames.js";
 import type { SetRequired } from "type-fest";
 
 /**

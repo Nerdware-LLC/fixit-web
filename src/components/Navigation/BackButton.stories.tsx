@@ -1,5 +1,5 @@
 import { MemoryRouter, Routes, Route } from "react-router-dom";
-import { BackButton } from "./BackButton";
+import { BackButton } from "./BackButton.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

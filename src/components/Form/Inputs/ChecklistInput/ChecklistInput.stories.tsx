@@ -1,7 +1,7 @@
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
-import { BasicDemo } from "@/components/Checklist/Checklist.stories";
-import { ChecklistInput, type ChecklistInputProps } from "./ChecklistInput";
-import { yupChecklistFieldSchema } from "./helpers";
+import { BasicDemo } from "@/components/Checklist/Checklist.stories.jsx";
+import { ChecklistInput, type ChecklistInputProps } from "./ChecklistInput.jsx";
+import { yupChecklistFieldSchema } from "./helpers.js";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

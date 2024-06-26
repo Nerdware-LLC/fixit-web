@@ -1,5 +1,5 @@
 import Box, { type BoxProps } from "@mui/material/Box";
-import { tabsClassNames } from "./classNames";
+import { tabsClassNames } from "./classNames.js";
 import type { SetRequired } from "type-fest";
 
 /**

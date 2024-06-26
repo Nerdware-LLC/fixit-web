@@ -1,14 +1,14 @@
 import { useField } from "formik";
 import { styled } from "@mui/material/styles";
 import { Checklist, type ChecklistProps } from "@/components/Checklist";
-import { AddChecklistItemButton } from "./AddChecklistItemButton";
+import { AddChecklistItemButton } from "./AddChecklistItemButton.jsx";
 import { ChecklistItemInput } from "./ChecklistItemInput";
-import { CreateChecklistButton } from "./CreateChecklistButton";
-import { RemoveChecklistButton } from "./RemoveChecklistButton";
-import { checklistInputClassNames } from "./classNames";
-import type { BaseChecklistItemType, RenderChecklistItemFn } from "@/components/Checklist/types";
+import { CreateChecklistButton } from "./CreateChecklistButton.jsx";
+import { RemoveChecklistButton } from "./RemoveChecklistButton.jsx";
+import { checklistInputClassNames } from "./classNames.js";
+import type { BaseChecklistItemType, RenderChecklistItemFn } from "@/components/Checklist/types.js";
 import type { Simplify } from "type-fest";
-import type { ChecklistInputFormProps } from "./types";
+import type { ChecklistInputFormProps } from "./types.js";
 
 /**
  * This input facilitates the creation, modification, and/or removal of checklist values within a

@@ -1,8 +1,8 @@
 import { NumericFormat, type NumericFormatProps } from "react-number-format";
 import InputAdornment from "@mui/material/InputAdornment";
 import Text from "@mui/material/Typography";
-import { BaseTextField, type BaseTextFieldProps } from "./BaseTextField";
-import { formClassNames } from "../classNames";
+import { BaseTextField, type BaseTextFieldProps } from "./BaseTextField.jsx";
+import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
 import type { Simplify } from "type-fest";
 

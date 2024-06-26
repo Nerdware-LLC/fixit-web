@@ -1,5 +1,5 @@
 import { withNavDecorator } from "@/../.storybook/decorators";
-import { DemoInfoDialog } from "./DemoInfoDialog";
+import { DemoInfoDialog } from "./DemoInfoDialog.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
@@ -18,5 +18,6 @@ type Story = StoryObj<typeof meta>;
 export const BasicDemo = {
   args: {
     isVisible: true,
+    closeDialog: () => {}, // required prop, set to no-op
   },
 } satisfies Story;

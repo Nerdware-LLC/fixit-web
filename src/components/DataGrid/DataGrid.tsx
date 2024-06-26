@@ -4,10 +4,10 @@ import { styled, alpha, darken, lighten } from "@mui/material/styles";
 import { DataGrid as MuiDataGrid } from "@mui/x-data-grid";
 import AddToListIcon from "@mui/icons-material/PlaylistAddCircle";
 import { avatarClassNames } from "@/components/Avatar";
-import { dataGridClassNames } from "./classNames";
+import { dataGridClassNames } from "./classNames.js";
 import { getRowClassNameForBandedRows, getPrintFileName } from "./helpers";
 import { noRowsOverlaySlot, panelSlot, toolbarSlot } from "./slots";
-import { dataGridStyledPrintMedia } from "./styles.printMedia";
+import { dataGridStyledPrintMedia } from "./styles.printMedia.js";
 import type { DataGridProps as MuiDataGridProps, GridValidRowModel } from "@mui/x-data-grid";
 import type { Simplify } from "type-fest";
 

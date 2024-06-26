@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { LineChart, type LineChartProps } from "./LineChart";
+import { LineChart, type LineChartProps } from "./LineChart.jsx";
 import type { ChartDataset } from "chart.js";
 import type { Simplify } from "type-fest";
 

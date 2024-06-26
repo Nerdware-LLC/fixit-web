@@ -3,8 +3,8 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { TextInput, type TextInputProps } from "./TextInput";
-import { formClassNames } from "../classNames";
+import { TextInput, type TextInputProps } from "./TextInput.jsx";
+import { formClassNames } from "../classNames.js";
 import type { OverrideProperties } from "type-fest";
 
 export const PasswordInput = ({ InputProps = {}, ...props }: PasswordInputProps) => {

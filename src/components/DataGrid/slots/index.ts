@@ -1,3 +1,3 @@
-export * from "./noRowsOverlay";
-export * from "./panel";
-export * from "./toolbar";
+export * from "./noRowsOverlay.jsx";
+export * from "./panel.jsx";
+export * from "./toolbar.jsx";

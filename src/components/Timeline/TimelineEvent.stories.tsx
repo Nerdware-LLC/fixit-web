@@ -1,5 +1,5 @@
-import { BasicDemo as TimelineBasicDemo } from "./Timeline.stories";
-import { TimelineEvent } from "./TimelineEvent";
+import { BasicDemo as TimelineBasicDemo } from "./Timeline.stories.jsx";
+import { TimelineEvent } from "./TimelineEvent.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

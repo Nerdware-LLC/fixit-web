@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MuiSlider, { sliderClasses, type SliderProps as MuiSliderProps } from "@mui/material/Slider";
-import { formClassNames } from "../classNames";
+import { formClassNames } from "../classNames.js";
 import {
   useFormikFieldProps,
   getFormInputErrMsg,

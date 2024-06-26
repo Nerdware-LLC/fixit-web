@@ -1,8 +1,8 @@
 import { useState, useMemo, type SyntheticEvent } from "react";
 import Tab from "@mui/material/Tab";
 import MuiTabs, { type TabsProps as MuiTabsProps } from "@mui/material/Tabs";
-import { TabPanel, type TabPanelProps } from "./TabPanel";
-import { getTabComponentIDs } from "./helpers";
+import { TabPanel, type TabPanelProps } from "./TabPanel.jsx";
+import { getTabComponentIDs } from "./helpers.js";
 import type { SetRequired } from "type-fest";
 
 /**

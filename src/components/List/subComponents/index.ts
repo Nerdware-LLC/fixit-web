@@ -1,3 +1,3 @@
-export * from "./EmptyListFallback";
-export * from "./ListFooter";
-export * from "./List";
+export * from "./EmptyListFallback.jsx";
+export * from "./ListFooter.jsx";
+export * from "./List.jsx";

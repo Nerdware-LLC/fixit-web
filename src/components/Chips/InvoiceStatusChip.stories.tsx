@@ -1,4 +1,4 @@
-import { InvoiceStatusChip } from "./InvoiceStatusChip";
+import { InvoiceStatusChip } from "./InvoiceStatusChip.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

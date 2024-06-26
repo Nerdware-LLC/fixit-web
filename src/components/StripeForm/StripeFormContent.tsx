@@ -3,7 +3,7 @@ import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { styled } from "@mui/material/styles";
 import { useFetchStateContext } from "@/app/FetchStateContext";
 import { getTypeSafeError } from "@/utils/typeSafety";
-import { StripeFormSubmitButton } from "./StripeFormSubmitButton";
+import { StripeFormSubmitButton } from "./StripeFormSubmitButton.jsx";
 import { StripePaymentInput } from "./StripePaymentInput";
 import type { StripeElementChangeEvent, StripePaymentElementChangeEvent } from "@stripe/stripe-js";
 import type { Simplify, Except } from "type-fest";

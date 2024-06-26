@@ -1,10 +1,10 @@
 import FormLabel from "@mui/material/FormLabel";
 import Stack from "@mui/material/Stack";
-import { apolloClient } from "@/app/ApolloProvider/apolloClient";
-import { ActionsButtonGroup } from "@/components/Buttons/ActionsButtonGroup";
-import { QUERIES } from "@/graphql/queries";
+import { apolloClient } from "@/app/ApolloProvider/apolloClient.js";
+import { ActionsButtonGroup } from "@/components/Buttons/ActionsButtonGroup.jsx";
+import { QUERIES } from "@/graphql/queries.js";
 import { MOCK_WORK_ORDERS, MOCK_INVOICES, MOCK_CONTACTS } from "@/tests/mockItems";
-import { DevToolContainer } from "./DevToolContainer";
+import { DevToolContainer } from "./DevToolContainer.jsx";
 
 export const CacheManagerDevTool = ({ handleCloseModal }: { handleCloseModal: () => void }) => {
   // Shared onClick handler for the ActionsButtonGroup options:

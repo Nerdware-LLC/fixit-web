@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import { ActionsButtonGroup } from "./ActionsButtonGroup";
+import { ActionsButtonGroup } from "./ActionsButtonGroup.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

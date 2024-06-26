@@ -13,10 +13,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle, { dialogTitleClasses, type DialogTitleProps } from "@mui/material/DialogTitle";
 import { iconButtonClasses } from "@mui/material/IconButton";
 import { typographyClasses } from "@mui/material/Typography";
-import { CloseIconButton } from "@/components/Buttons/CloseIconButton";
-import { SlideTransition } from "@/components/Transitions/SlideTransition";
-import { dialogElementIDs } from "./elementIDs";
-import { useDialog } from "./useDialog";
+import { CloseIconButton } from "@/components/Buttons/CloseIconButton.jsx";
+import { SlideTransition } from "@/components/Transitions/SlideTransition.jsx";
+import { dialogElementIDs } from "./elementIDs.js";
+import { useDialog } from "./useDialog.js";
 import type { Except } from "type-fest";
 
 /**

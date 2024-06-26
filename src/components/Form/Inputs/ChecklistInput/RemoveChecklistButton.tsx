@@ -5,10 +5,10 @@ import Tooltip from "@mui/material/Tooltip";
 import Text from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { Dialog } from "@/components/Dialog";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
-import { checklistInputClassNames } from "./classNames";
-import type { BaseChecklistType } from "@/components/Checklist/types";
-import type { ChecklistInputFormProps } from "./types";
+import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
+import { checklistInputClassNames } from "./classNames.js";
+import type { BaseChecklistType } from "@/components/Checklist/types.js";
+import type { ChecklistInputFormProps } from "./types.js";
 
 export const RemoveChecklistButton = ({ checklistFieldID }: ChecklistInputFormProps) => {
   const { isDialogVisible, openDialog, closeDialog } = Dialog.use();

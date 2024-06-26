@@ -1,7 +1,7 @@
 import { object as yupObject } from "yup";
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
-import { STATIC_MOCK_CONTACTS } from "@/tests/mockItems/staticMockContacts";
-import { AutoCompleteContact, type AutoCompleteContactProps } from "./AutoCompleteContact";
+import { STATIC_MOCK_CONTACTS } from "@/tests/mockItems/staticMockContacts.js";
+import { AutoCompleteContact, type AutoCompleteContactProps } from "./AutoCompleteContact.jsx";
 import { yupCommonSchema } from "../helpers";
 import type { Meta, StoryObj } from "@storybook/react";
 

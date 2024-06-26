@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { ENV } from "@/app/env";
-import { DemoInfo, type DemoInfoProps } from "@/components/DevTools/DemoInfo";
+import { DemoInfo, type DemoInfoProps } from "@/components/DevTools/DemoInfo.jsx";
 import { Dialog, type DialogProps, type UseDialogHookProps } from "@/components/Dialog";
-import type { SetOptional } from "type-fest";
+import type { Simplify, SetOptional } from "type-fest";
 
 export const DemoInfoDialog = ({
   title = `Welcome to Fixit — Demo Mode`,
@@ -45,6 +45,8 @@ export const useDemoInfoDialog = () => {
 
 DemoInfoDialog.use = useDemoInfoDialog;
 
-export type DemoInfoDialogProps = DemoInfoProps &
-  Pick<SetOptional<DialogProps, "title">, "title" | "isVisible" | "style" | "sx"> &
-  Pick<UseDialogHookProps, "closeDialog">;
+export type DemoInfoDialogProps = Simplify<
+  DemoInfoProps &
+    Pick<SetOptional<DialogProps, "title">, "title" | "isVisible" | "style" | "sx"> &
+    Pick<UseDialogHookProps, "closeDialog">
+>;

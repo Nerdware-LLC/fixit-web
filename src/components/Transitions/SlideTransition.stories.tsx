@@ -6,7 +6,7 @@ import Paper from "@mui/material/Paper";
 import Switch from "@mui/material/Switch";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import WavingHandIcon from "@mui/icons-material/WavingHand";
-import { SlideTransition } from "./SlideTransition";
+import { SlideTransition } from "./SlideTransition.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

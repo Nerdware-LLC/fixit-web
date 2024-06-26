@@ -1,5 +1,5 @@
 import { withNavDecorator, type NavDecoratorArgs } from "@/../.storybook/decorators";
-import { LegalLinks, type LegalLinksProps } from "./LegalLinks";
+import { LegalLinks, type LegalLinksProps } from "./LegalLinks.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

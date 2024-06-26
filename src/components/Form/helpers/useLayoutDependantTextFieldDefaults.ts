@@ -1,4 +1,4 @@
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
 import type { TextFieldProps } from "@mui/material/TextField";
 
 /**

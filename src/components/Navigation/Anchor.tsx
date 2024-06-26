@@ -1,8 +1,8 @@
 import { forwardRef } from "react";
 import { styled } from "@mui/material/styles";
-import { useMaybeRef } from "@/hooks/useMaybeRef";
-import { isExternalUrl } from "@/routes/helpers";
-import { getDefaultLinkStyles } from "./styles";
+import { useMaybeRef } from "@/hooks/useMaybeRef.js";
+import { isExternalUrl } from "@/routes/helpers.js";
+import { getDefaultLinkStyles } from "./styles.js";
 import type { Simplify } from "type-fest";
 
 /**

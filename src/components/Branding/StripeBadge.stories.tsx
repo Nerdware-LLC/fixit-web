@@ -1,4 +1,4 @@
-import { StripeBadge as StripeBadgeComponent } from "./StripeBadge";
+import { StripeBadge as StripeBadgeComponent } from "./StripeBadge.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

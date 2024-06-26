@@ -1,6 +1,6 @@
 import { alpha, darken } from "@mui/material/styles";
 import { THEMES } from "@/app/ThemeProvider";
-import { dataGridClassNames } from "./classNames";
+import { dataGridClassNames } from "./classNames.js";
 import type { CSSObject } from "@emotion/react";
 
 /**

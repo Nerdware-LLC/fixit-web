@@ -1,8 +1,12 @@
-import { WO_CATEGORY_ICONS_JSX } from "@/components/Icons/WorkOrderCategoryIcon";
-import { WorkOrderCategoryListItem } from "@/components/List/listItems/WorkOrderCategoryListItem";
-import { WORK_ORDER_CATEGORIES } from "@/types/WorkOrder";
-import { AutoComplete, type AutoCompleteProps, type BaseAutoCompleteOption } from "./AutoComplete";
-import type { WorkOrderCategory } from "@/graphql/types";
+import { WO_CATEGORY_ICONS_JSX } from "@/components/Icons/WorkOrderCategoryIcon.jsx";
+import { WorkOrderCategoryListItem } from "@/components/List/listItems/WorkOrderCategoryListItem.jsx";
+import { WORK_ORDER_CATEGORIES } from "@/types/WorkOrder.js";
+import {
+  AutoComplete,
+  type AutoCompleteProps,
+  type BaseAutoCompleteOption,
+} from "./AutoComplete.jsx";
+import type { WorkOrderCategory } from "@/types/graphql.js";
 import type { OverrideProperties } from "type-fest";
 
 /**

@@ -1,4 +1,4 @@
-export * from "./AppBarMenu";
+export * from "./AppBarMenu.jsx";
 
-export * from "./classNames";
-export * from "./elementIDs";
+export * from "./classNames.js";
+export * from "./elementIDs.js";

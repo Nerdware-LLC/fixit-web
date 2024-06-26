@@ -1,6 +1,6 @@
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
-import { DesktopAppBarMenu } from "./DesktopAppBarMenu";
-import { MobileAppBarMenu } from "./MobileAppBarMenu";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
+import { DesktopAppBarMenu } from "./DesktopAppBarMenu.jsx";
+import { MobileAppBarMenu } from "./MobileAppBarMenu.jsx";
 
 /**
  * This component returns an AppBar menu component which is appropriate for the device/viewport.

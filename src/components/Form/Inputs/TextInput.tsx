@@ -1,5 +1,5 @@
-import { BaseTextField, type BaseTextFieldProps } from "./BaseTextField";
-import { formClassNames } from "../classNames";
+import { BaseTextField, type BaseTextFieldProps } from "./BaseTextField.jsx";
+import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
 
 export const TextInput = <ValueType extends string | null | undefined = string>({

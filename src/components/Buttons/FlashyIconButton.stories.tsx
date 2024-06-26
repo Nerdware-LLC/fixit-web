@@ -1,5 +1,5 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { FlashyIconButton } from "./FlashyIconButton";
+import { FlashyIconButton } from "./FlashyIconButton.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

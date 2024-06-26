@@ -2,7 +2,7 @@ import { useFormikContext } from "formik";
 import { styled } from "@mui/material/styles";
 import Button, { buttonClasses } from "@mui/material/Button";
 import PlusIcon from "@mui/icons-material/Add";
-import type { ChecklistInputFormProps } from "./types";
+import type { ChecklistInputFormProps } from "./types.js";
 
 export const CreateChecklistButton = ({ checklistFieldID }: ChecklistInputFormProps) => {
   const { setFieldValue } = useFormikContext();

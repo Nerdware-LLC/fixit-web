@@ -1,5 +1,5 @@
-import { checklistClassNames } from "@/components/Checklist/classNames";
-import { checklistItemInputClassNames } from "./ChecklistItemInput/classNames";
+import { checklistClassNames } from "@/components/Checklist/classNames.js";
+import { checklistItemInputClassNames } from "./ChecklistItemInput/classNames.js";
 
 /**
  * Class names for `ChecklistInput` components (src/components/Form/Inputs/ChecklistInput/).

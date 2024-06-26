@@ -1,5 +1,5 @@
 import { isPlainObject } from "@nerdware/ts-type-safety-utils";
-import { commonColDefs } from "./commonColDefs";
+import { commonColDefs } from "./commonColDefs.js";
 import type { GridValidRowModel, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import type { Simplify, OverrideProperties } from "type-fest";
 

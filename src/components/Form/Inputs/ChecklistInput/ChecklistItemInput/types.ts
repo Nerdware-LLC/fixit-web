@@ -1,4 +1,4 @@
-import type { ChecklistInputFormProps } from "../types";
+import type { ChecklistInputFormProps } from "../types.js";
 
 /**
  * Form-related props for `ChecklistItemInput` and related components.

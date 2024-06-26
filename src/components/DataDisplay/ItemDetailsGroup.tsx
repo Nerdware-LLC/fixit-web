@@ -1,10 +1,10 @@
 import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
-import { getMuiPaperStyles } from "@/app/ThemeProvider/helpers";
-import { ItemDetailsHeader } from "./ItemDetailsHeader";
-import { dataDisplayClassNames } from "./classNames";
-import type { ItemDetailsProps } from "./ItemDetails";
+import { getMuiPaperStyles } from "@/app/ThemeProvider/helpers.js";
+import { ItemDetailsHeader } from "./ItemDetailsHeader.jsx";
+import { dataDisplayClassNames } from "./classNames.js";
+import type { ItemDetailsProps } from "./ItemDetails.jsx";
 
 /**
  * Displays one or more ItemDetails components as a group.

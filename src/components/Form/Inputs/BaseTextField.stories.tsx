@@ -1,4 +1,4 @@
-import { BaseTextField, type BaseTextFieldProps } from "./BaseTextField";
+import { BaseTextField, type BaseTextFieldProps } from "./BaseTextField.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

@@ -1,4 +1,4 @@
-import { HelpInfoIcon } from "./HelpInfoIcon";
+import { HelpInfoIcon } from "./HelpInfoIcon.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

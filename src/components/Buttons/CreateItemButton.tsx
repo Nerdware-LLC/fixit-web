@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Button, { type ButtonProps } from "@mui/material/Button";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
-import { MobileCreateItemButton } from "./MobileCreateItemButton";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
+import { MobileCreateItemButton } from "./MobileCreateItemButton.jsx";
 
 /**
  * Layout-dependant CreateItemButton.

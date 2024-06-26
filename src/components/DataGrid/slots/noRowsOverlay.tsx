@@ -2,8 +2,8 @@ import Text from "@mui/material/Typography";
 import {
   EmptyListFallback,
   type EmptyListFallbackProps,
-} from "@/components/List/subComponents/EmptyListFallback";
-import { _makeDataGridCustomSlotModuleExports } from "./helpers";
+} from "@/components/List/subComponents/EmptyListFallback.jsx";
+import { _makeDataGridCustomSlotModuleExports } from "./helpers.js";
 import type { Simplify } from "type-fest";
 
 /**

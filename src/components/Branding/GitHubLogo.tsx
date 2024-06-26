@@ -1,4 +1,4 @@
-import { getInlineSvgDataUrl } from "@/app/GlobalStyles/helpers";
+import { getInlineSvgDataUrl } from "@/app/GlobalStyles/helpers.js";
 import GitHubLogoSVG from "@/images/github_logo.svg";
 import type { Except } from "type-fest";
 

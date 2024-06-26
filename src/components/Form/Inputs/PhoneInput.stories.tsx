@@ -1,6 +1,6 @@
 import { object as yupObject } from "yup";
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
-import { PhoneInput, type PhoneInputProps } from "./PhoneInput";
+import { PhoneInput, type PhoneInputProps } from "./PhoneInput.jsx";
 import { yupCommonSchema } from "../helpers";
 import type { Meta, StoryObj } from "@storybook/react";
 

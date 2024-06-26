@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { getMuiPaperStyles } from "@/app/ThemeProvider/helpers";
+import { getMuiPaperStyles } from "@/app/ThemeProvider/helpers.js";
 import { Dialog } from "@/components/Dialog";
-import { DefaultErrorFallback } from "./DefaultErrorFallback";
-import { ErrorBoundary } from "./ErrorBoundary";
+import { DefaultErrorFallback } from "./DefaultErrorFallback.jsx";
+import { ErrorBoundary } from "./ErrorBoundary.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

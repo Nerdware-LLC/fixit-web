@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import Tooltip, { type TooltipProps } from "@mui/material/Tooltip";
-import { getItemViewPath } from "@/routes/helpers";
-import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
-import { Avatar, type AvatarProps } from "./Avatar";
-import type { Contact } from "@/graphql/types";
+import { getItemViewPath } from "@/routes/helpers.js";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { Avatar, type AvatarProps } from "./Avatar.jsx";
+import type { Contact } from "@/types/graphql.js";
 import type { Simplify } from "type-fest";
 
 /**

@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import { WorkOrderStatusIcon } from "./WorkOrderStatusIcon";
+import { WorkOrderStatusIcon } from "./WorkOrderStatusIcon.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

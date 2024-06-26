@@ -1,3 +1,4 @@
-export * from "./Avatar";
-export * from "./ContactAvatar";
-export * from "./classNames";
+export * from "./Avatar.jsx";
+export * from "./ContactAvatar.jsx";
+
+export * from "./classNames.js";

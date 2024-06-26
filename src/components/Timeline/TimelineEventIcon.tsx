@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
-import { timelineClassNames } from "./classNames";
-import type { PaletteColorKey } from "@/app/ThemeProvider/palettes";
+import { timelineClassNames } from "./classNames.js";
+import type { PaletteColorKey } from "@/app/ThemeProvider/palettes.js";
 import type { SvgIconProps } from "@mui/material/SvgIcon";
 
 /**

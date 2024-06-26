@@ -2,8 +2,8 @@ import { useField } from "formik";
 import Button, { buttonClasses } from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import PlusIcon from "@mui/icons-material/Add";
-import type { BaseChecklistType } from "@/components/Checklist/types";
-import type { ChecklistInputFormProps } from "./types";
+import type { BaseChecklistType } from "@/components/Checklist/types.js";
+import type { ChecklistInputFormProps } from "./types.js";
 
 /**
  * A button for adding a new checklist item to the checklist.

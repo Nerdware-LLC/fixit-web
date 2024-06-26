@@ -1,6 +1,6 @@
 import { useField, type FieldInputProps, type FieldMetaProps, type FieldHelperProps } from "formik";
-import { getFormInputErrMsg } from "./errorHandling";
-import { useLayoutDependantTextFieldDefaults } from "./useLayoutDependantTextFieldDefaults";
+import { getFormInputErrMsg } from "./errorHandling.js";
+import { useLayoutDependantTextFieldDefaults } from "./useLayoutDependantTextFieldDefaults.js";
 import type { TextFieldProps as MuiTextFieldProps } from "@mui/material/TextField";
 import type { Simplify, SetReturnType } from "type-fest";
 

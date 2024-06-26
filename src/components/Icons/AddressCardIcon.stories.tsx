@@ -1,4 +1,4 @@
-import { AddressCardIcon as AddressCardIconFC } from "./AddressCardIcon";
+import { AddressCardIcon as AddressCardIconFC } from "./AddressCardIcon.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

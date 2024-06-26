@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import dayjs from "dayjs";
 import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
-import { TimelineEvent, type TimelineEventProps } from "./TimelineEvent";
-import { timelineClassNames } from "./classNames";
+import { TimelineEvent, type TimelineEventProps } from "./TimelineEvent.jsx";
+import { timelineClassNames } from "./classNames.js";
 
 /**
  * Timeline display for events.

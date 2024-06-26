@@ -3,9 +3,9 @@ import Switch, { switchClasses as muiSwitchClasses } from "@mui/material/Switch"
 import Tooltip from "@mui/material/Tooltip";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/ModeNightSharp";
-import { THEME_NAMES } from "@/app/ThemeProvider/themes";
+import { THEME_NAMES } from "@/app/ThemeProvider/themes.js";
 import { themeStore } from "@/stores";
-import { appBarMenuElementIDs } from "./elementIDs";
+import { appBarMenuElementIDs } from "./elementIDs.js";
 
 export const DarkModeSwitch = () => {
   const currentTheme = themeStore.useSubToStore();

@@ -1,4 +1,4 @@
-import { RoadIcon as RoadIconFC } from "./RoadIcon";
+import { RoadIcon as RoadIconFC } from "./RoadIcon.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

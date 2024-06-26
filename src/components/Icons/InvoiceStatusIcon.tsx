@@ -1,9 +1,9 @@
 import React, { forwardRef } from "react";
 import DollarCheckmarkIcon from "@mui/icons-material/PriceCheckRounded";
 import ExclamationMarkIcon from "@mui/icons-material/PriorityHighRounded";
-import { useMaybeRef } from "@/hooks/useMaybeRef";
-import { FileInvoiceDollarIcon } from "./FileInvoiceDollarIcon";
-import type { InvoiceStatus } from "@/graphql/types";
+import { useMaybeRef } from "@/hooks/useMaybeRef.js";
+import { FileInvoiceDollarIcon } from "./FileInvoiceDollarIcon.jsx";
+import type { InvoiceStatus } from "@/types/graphql.js";
 import type { SvgIconProps } from "@mui/material/SvgIcon";
 
 export const InvoiceStatusIcon = forwardRef<SVGSVGElement, InvoiceStatusIconProps>(

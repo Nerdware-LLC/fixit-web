@@ -1,5 +1,5 @@
-import { Checklist } from "./Checklist";
-import { ChecklistItem } from "./ChecklistItem";
+import { Checklist } from "./Checklist.jsx";
+import { ChecklistItem } from "./ChecklistItem.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

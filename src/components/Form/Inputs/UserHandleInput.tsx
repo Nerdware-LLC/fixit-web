@@ -1,5 +1,5 @@
 import InputAdornment from "@mui/material/InputAdornment";
-import { TextInput, type TextInputProps } from "./TextInput";
+import { TextInput, type TextInputProps } from "./TextInput.jsx";
 
 export const UserHandleInput = ({ ...userHandleInputProps }: UserHandleInputProps) => (
   <TextInput

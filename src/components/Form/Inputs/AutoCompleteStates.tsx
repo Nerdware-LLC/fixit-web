@@ -1,4 +1,8 @@
-import { AutoComplete, type AutoCompleteProps, type BaseAutoCompleteOption } from "./AutoComplete";
+import {
+  AutoComplete,
+  type AutoCompleteProps,
+  type BaseAutoCompleteOption,
+} from "./AutoComplete.jsx";
 import type { OverrideProperties } from "type-fest";
 
 export const AutoCompleteStates = ({ ...autoCompleteProps }: AutoCompleteStatesProps) => (

@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
-import { getInlineSvgDataUrl } from "@/app/GlobalStyles/helpers";
+import { getInlineSvgDataUrl } from "@/app/GlobalStyles/helpers.js";
 import logoSrc from "@/images/fixit_icon.webp";
-import { brandingClassNames } from "./classNames";
+import { brandingClassNames } from "./classNames.js";
 import type { Simplify } from "type-fest";
 
 export const Logo = ({ alt = "Fixit logo", className = "", ...imgProps }: LogoProps = {}) => (

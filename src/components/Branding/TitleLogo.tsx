@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Text from "@mui/material/Typography";
-import { Logo } from "./Logo";
-import { brandingClassNames } from "./classNames";
+import { Logo } from "./Logo.jsx";
+import { brandingClassNames } from "./classNames.js";
 
 export const TitleLogo = ({
   size = "3rem",

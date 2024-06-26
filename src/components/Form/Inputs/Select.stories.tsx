@@ -1,6 +1,6 @@
 import { object as yupObject, number as yupNumber } from "yup";
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
-import { Select, type SelectProps } from "./Select";
+import { Select, type SelectProps } from "./Select.jsx";
 import { yupCommonSchema } from "../helpers";
 import type { Meta, StoryObj } from "@storybook/react";
 

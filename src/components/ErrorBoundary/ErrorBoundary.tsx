@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/react";
-import { logger } from "@/utils/logger";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
-import { DefaultErrorFallback } from "./DefaultErrorFallback";
+import { logger } from "@/utils/logger.js";
+import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
+import { DefaultErrorFallback } from "./DefaultErrorFallback.jsx";
 
 /**
  * Default `onError` handler fn for {@link ErrorBoundary}

@@ -1,5 +1,5 @@
 import { useLottie as useLottieReact, type LottieOptions } from "lottie-react";
-import { AVAILABLE_LOTTIE_ANIMATIONS } from "./availableLotties";
+import { AVAILABLE_LOTTIE_ANIMATIONS } from "./availableLotties.js";
 
 /**
  * Lottie Animations Library: https://lottiefiles.com/featured

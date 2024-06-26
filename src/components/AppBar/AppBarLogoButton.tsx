@@ -3,8 +3,8 @@ import CircularProgress, { circularProgressClasses } from "@mui/material/Circula
 import Text, { typographyClasses } from "@mui/material/Typography";
 import { useFetchStateContext } from "@/app/FetchStateContext";
 import { Logo, brandingClassNames } from "@/components/Branding";
-import { Anchor } from "@/components/Navigation/Anchor";
-import { APP_PATHS } from "@/routes/appPaths";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
+import { APP_PATHS } from "@/routes/appPaths.js";
 import { isAuthenticatedStore } from "@/stores";
 
 export const AppBarLogoButton = () => {

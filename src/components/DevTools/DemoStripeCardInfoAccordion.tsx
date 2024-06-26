@@ -4,9 +4,9 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Anchor } from "@/components/Navigation/Anchor";
-import { DemoModeStatement } from "./DemoModeStatement";
-import { StripeTestCardInfo } from "./StripeTestCardInfo";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
+import { DemoModeStatement } from "./DemoModeStatement.jsx";
+import { StripeTestCardInfo } from "./StripeTestCardInfo.jsx";
 
 export const DemoStripeCardInfoAccordion = () => {
   return (

@@ -1,6 +1,6 @@
 import { object as yupObject } from "yup";
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
-import { AutoComplete, type AutoCompleteProps } from "./AutoComplete";
+import { AutoComplete, type AutoCompleteProps } from "./AutoComplete.jsx";
 import { yupCommonSchema } from "../helpers";
 import type { Meta, StoryObj } from "@storybook/react";
 

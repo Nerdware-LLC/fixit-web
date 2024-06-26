@@ -1,10 +1,10 @@
 import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
 import { DevTools } from "@/components/DevTools";
-import { AppBarLogoButton } from "./AppBarLogoButton";
+import { AppBarLogoButton } from "./AppBarLogoButton.jsx";
 import { AppBarMenu } from "./AppBarMenu";
-import { appBarElementIDs } from "./elementIDs";
-import { useAppBarHeight } from "./helpers";
+import { appBarElementIDs } from "./elementIDs.js";
+import { useAppBarHeight } from "./helpers.js";
 import type { CSSObject } from "@emotion/react";
 
 /**

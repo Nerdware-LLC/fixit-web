@@ -6,9 +6,9 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemButton, { type ListItemButtonProps } from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
-import { fmt } from "@/utils/formatters";
-import { listItemClassNames } from "./classNames";
-import type { Invoice } from "@/graphql/types";
+import { intToCurrencyStr } from "@/utils/formatters/currency.js";
+import { listItemClassNames } from "./classNames.js";
+import type { Invoice } from "@/types/graphql.js";
 import type { Simplify } from "type-fest";
 
 /**
@@ -73,7 +73,7 @@ const InvoiceListItemContent = ({ invoice, userToDisplay }: InvoiceListItemConte
   const { status, amount, createdAt } = invoice;
 
   // Apply formatting to "prettify" values
-  const prettyAmount = fmt.intToCurrencyRoundedStr(amount);
+  const prettyAmount = intToCurrencyStr(amount, { shouldRound: true });
   const prettyCreatedAt = dayjs(createdAt).format("MMM D");
   const prettyStatus = status.replace(/_/g, " ");
 

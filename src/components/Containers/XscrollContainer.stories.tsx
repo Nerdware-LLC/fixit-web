@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
-import { XscrollContainer } from "./XscrollContainer";
+import { XscrollContainer } from "./XscrollContainer.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

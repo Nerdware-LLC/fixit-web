@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import List, { listClasses } from "@mui/material/List";
 import Stack, { type StackProps } from "@mui/material/Stack";
-import { Anchor } from "@/components/Navigation/Anchor";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
 import { ClickToCopyText, textClassNames } from "@/components/Text";
 import type { Except } from "type-fest";
 

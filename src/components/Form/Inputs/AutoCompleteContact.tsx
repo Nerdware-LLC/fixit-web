@@ -1,6 +1,6 @@
-import { ContactListItem } from "@/components/List/listItems/ContactListItem";
-import { AutoComplete, type AutoCompleteProps } from "./AutoComplete";
-import type { Contact } from "@/graphql/types";
+import { ContactListItem } from "@/components/List/listItems/ContactListItem.jsx";
+import { AutoComplete, type AutoCompleteProps } from "./AutoComplete.jsx";
+import type { Contact } from "@/types/graphql.js";
 
 /**
  * `AutoCompleteContact` is a Mui Autocomplete input used to select a Contact

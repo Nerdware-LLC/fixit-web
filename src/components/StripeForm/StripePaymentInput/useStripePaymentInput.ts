@@ -1,6 +1,6 @@
-import { stripeService } from "@/services/stripeService";
-import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
-import { checkoutValuesStore } from "@/stores/checkoutValuesStore";
+import { stripeService } from "@/services/stripeService.js";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore.js";
 import type { Stripe, StripeElements } from "@stripe/stripe-js";
 
 /**

@@ -1,6 +1,6 @@
 import { useField } from "formik";
-import { AutoCompleteStates } from "./AutoCompleteStates";
-import { TextInput } from "./TextInput";
+import { AutoCompleteStates } from "./AutoCompleteStates.jsx";
+import { TextInput } from "./TextInput.jsx";
 
 /**
  * This Formik-integrated input is used to gather a location's _region_.

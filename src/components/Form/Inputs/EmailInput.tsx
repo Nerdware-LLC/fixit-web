@@ -1,4 +1,4 @@
-import { TextInput, type TextInputProps } from "./TextInput";
+import { TextInput, type TextInputProps } from "./TextInput.jsx";
 import type { Except } from "type-fest";
 
 export const EmailInput = ({ ...textInputProps }: EmailInputProps) => (

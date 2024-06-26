@@ -1,4 +1,4 @@
-import { TrowelBricksIcon as TrowelBricksIconFC } from "./TrowelBricksIcon";
+import { TrowelBricksIcon as TrowelBricksIconFC } from "./TrowelBricksIcon.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

@@ -1,9 +1,8 @@
-export * from "./ItemDetails";
-export * from "./ItemDetailsGroup";
+export * from "./DividerWithText.jsx";
+export * from "./HelpInfoIcon.jsx";
+export * from "./InvoiceWorkOrderDetails.jsx";
+export * from "./ItemDetails.jsx";
+export * from "./ItemDetailsGroup.jsx";
+export * from "./LocationDetails.jsx";
 
-export * from "./DividerWithText";
-export * from "./HelpInfoIcon";
-export * from "./InvoiceWorkOrderDetails";
-export * from "./LocationDetails";
-
-export * from "./classNames";
+export * from "./classNames.js";

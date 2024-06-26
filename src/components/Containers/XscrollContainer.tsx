@@ -1,6 +1,6 @@
 import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
-import { containerClassNames } from "./classNames";
+import { containerClassNames } from "./classNames.js";
 import type { Simplify } from "type-fest";
 
 /**

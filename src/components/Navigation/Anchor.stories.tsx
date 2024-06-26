@@ -1,5 +1,5 @@
 import Tooltip from "@mui/material/Tooltip";
-import { Anchor } from "./Anchor";
+import { Anchor } from "./Anchor.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

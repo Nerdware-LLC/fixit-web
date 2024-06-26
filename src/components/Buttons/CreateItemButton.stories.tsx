@@ -4,7 +4,7 @@ import {
   withLayoutInfoDecorator,
   type NavDecoratorArgs,
 } from "@/../.storybook/decorators";
-import { CreateItemButton, type CreateItemButtonProps } from "./CreateItemButton";
+import { CreateItemButton, type CreateItemButtonProps } from "./CreateItemButton.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

@@ -1,6 +1,6 @@
 import Box, { type BoxProps } from "@mui/material/Box";
 import Text from "@mui/material/Typography";
-import { errorBoundaryClassNames } from "./classNames";
+import { errorBoundaryClassNames } from "./classNames.js";
 import type { Except } from "type-fest";
 
 /**

@@ -1,4 +1,4 @@
-import { WorkOrderCategoryChip } from "./WorkOrderCategoryChip";
+import { WorkOrderCategoryChip } from "./WorkOrderCategoryChip.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

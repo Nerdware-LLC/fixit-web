@@ -3,10 +3,10 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import MuiStepper from "@mui/material/Stepper";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { StepContentContainer } from "./StepContentContainer";
-import { StepIconContainer } from "./StepIconContainer";
-import { stepperClassNames as classNames } from "./classNames";
-import type { StepperProps } from "./types";
+import { StepContentContainer } from "./StepContentContainer.jsx";
+import { StepIconContainer } from "./StepIconContainer.jsx";
+import { stepperClassNames as classNames } from "./classNames.js";
+import type { StepperProps } from "./types.js";
 
 /**
  * A Mui `Stepper` component with app-specific logic and styles.

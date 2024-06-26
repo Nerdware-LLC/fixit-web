@@ -1,5 +1,5 @@
 import { GridToolbar } from "@mui/x-data-grid";
-import { _makeDataGridCustomSlotModuleExports } from "./helpers";
+import { _makeDataGridCustomSlotModuleExports } from "./helpers.js";
 import { getPrintFileName } from "../helpers";
 import type {
   GridToolbarProps,

@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { getInlineSvgDataUrl } from "@/app/GlobalStyles/helpers";
-import { LeadingDotsSpan } from "./LeadingDotsSpan";
+import { getInlineSvgDataUrl } from "@/app/GlobalStyles/helpers.js";
+import { LeadingDotsSpan } from "./LeadingDotsSpan.jsx";
 
 /**
  * This component is a container that has a receipt-like shape.

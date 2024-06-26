@@ -1,6 +1,6 @@
 import { PaymentElement, type PaymentElementProps } from "@stripe/react-stripe-js";
-import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
-import { useStripePaymentInput } from "./useStripePaymentInput";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { useStripePaymentInput } from "./useStripePaymentInput.js";
 import type { Except } from "type-fest";
 
 /**

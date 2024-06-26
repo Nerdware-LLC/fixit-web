@@ -4,7 +4,7 @@ import deepMerge from "lodash.merge";
 import { useTheme, alpha } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import { usePageLayoutContext } from "@/app/PageLayoutContext";
-import { Loading } from "@/components/Indicators/Loading";
+import { Loading } from "@/components/Indicators/Loading.jsx";
 import type { ChartData, ChartOptions, DefaultDataPoint } from "chart.js";
 import type { ChartProps } from "react-chartjs-2/dist/types";
 import type { Simplify } from "type-fest";

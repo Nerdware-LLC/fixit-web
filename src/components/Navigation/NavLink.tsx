@@ -2,8 +2,8 @@ import { forwardRef } from "react";
 import { NavLink as ReactRouterDomNavLink } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import CircularProgress, { type CircularProgressProps } from "@mui/material/CircularProgress";
-import { useMaybeRef } from "@/hooks/useMaybeRef";
-import { getDefaultLinkStyles } from "./styles";
+import { useMaybeRef } from "@/hooks/useMaybeRef.js";
+import { getDefaultLinkStyles } from "./styles.js";
 import type { OverrideProperties } from "type-fest";
 
 /**

@@ -1,5 +1,5 @@
-import { Slider, type SliderProps } from "@/components/Form/Inputs/Slider";
-import { capitalize } from "@/utils/formatters/strings";
+import { Slider, type SliderProps } from "@/components/Form/Inputs/Slider.jsx";
+import { capitalize } from "@/utils/formatters/strings.js";
 import type { Mark } from "@mui/base/useSlider";
 
 /**

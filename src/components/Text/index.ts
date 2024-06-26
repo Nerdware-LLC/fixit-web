@@ -1,4 +1,4 @@
-export * from "./ClickToCopyText";
-export * from "./NoWrapSpace";
+export * from "./ClickToCopyText.jsx";
+export * from "./NoWrapSpace.jsx";
 
-export * from "./classNames";
+export * from "./classNames.js";

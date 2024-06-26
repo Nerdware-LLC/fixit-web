@@ -10,7 +10,7 @@ import Paper, { type PaperProps } from "@mui/material/Paper";
 import Text from "@mui/material/Typography";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import { imageCarouselClassNames } from "./classNames";
+import { imageCarouselClassNames } from "./classNames.js";
 import type { Simplify, SetRequired } from "type-fest";
 
 /**

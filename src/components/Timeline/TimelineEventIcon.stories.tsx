@@ -1,5 +1,5 @@
 import CalendarDateIcon from "@mui/icons-material/InsertInvitation";
-import { TimelineEventIcon } from "./TimelineEventIcon";
+import { TimelineEventIcon } from "./TimelineEventIcon.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

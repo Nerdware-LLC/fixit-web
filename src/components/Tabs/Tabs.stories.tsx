@@ -1,6 +1,6 @@
 import Paper, { paperClasses } from "@mui/material/Paper";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { Tabs } from "./Tabs";
+import { Tabs } from "./Tabs.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

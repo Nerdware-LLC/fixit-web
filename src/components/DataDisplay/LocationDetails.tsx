@@ -4,10 +4,10 @@ import Tooltip from "@mui/material/Tooltip";
 import Text, { type TypographyProps } from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MapMarkerIcon from "@mui/icons-material/Place";
-import { Anchor } from "@/components/Navigation/Anchor";
-import { ItemDetails, type ItemDetailsProps } from "./ItemDetails";
-import { dataDisplayClassNames } from "./classNames";
-import type { Location } from "@/graphql/types";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
+import { ItemDetails, type ItemDetailsProps } from "./ItemDetails.jsx";
+import { dataDisplayClassNames } from "./classNames.js";
+import type { Location } from "@/types/graphql.js";
 import type { SetOptional } from "type-fest";
 
 export type LocationDetailsProps = Partial<LocationDetailsContentProps> & {

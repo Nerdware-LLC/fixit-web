@@ -1,13 +1,13 @@
 import { styled } from "@mui/material/styles";
 import Text from "@mui/material/Typography";
 import ListIcon from "@mui/icons-material/List";
-import { globalClassNames } from "@/app/GlobalStyles/classNames";
-import { checklistClassNames } from "./classNames";
+import { globalClassNames } from "@/app/GlobalStyles/classNames.js";
+import { checklistClassNames } from "./classNames.js";
 import type {
   BaseChecklistItemType,
   BaseRenderedChecklistItemProps,
   RenderChecklistItemFn,
-} from "./types";
+} from "./types.js";
 
 /**
  * This Checklist component renders an array of checklist-items along with a list header and footer.

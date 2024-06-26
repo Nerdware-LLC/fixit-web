@@ -1,8 +1,8 @@
 import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
-import { BackButton, type BackButtonProps } from "@/components/Navigation/BackButton";
-import { FormSubmitButton, type FormSubmitButtonProps } from "./FormSubmitButton";
-import { formClassNames } from "./classNames";
+import { BackButton, type BackButtonProps } from "@/components/Navigation/BackButton.jsx";
+import { FormSubmitButton, type FormSubmitButtonProps } from "./FormSubmitButton.jsx";
+import { formClassNames } from "./classNames.js";
 
 /**
  * A `Form` component which includes `<FormSubmitButton />` and `<BackButton />` components

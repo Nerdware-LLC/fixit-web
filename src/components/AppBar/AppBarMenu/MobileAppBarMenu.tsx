@@ -5,13 +5,13 @@ import List, { listClasses } from "@mui/material/List";
 import ListItemButton, { listItemButtonClasses } from "@mui/material/ListItemButton";
 import { paperClasses } from "@mui/material/Paper";
 import MenuIcon from "@mui/icons-material/Menu";
-import { AvatarMyProfile } from "@/components/Avatar/AvatarMyProfile";
-import { CloseIconButton } from "@/components/Buttons/CloseIconButton";
-import { MobileModalContentBox } from "@/components/Modal/MobileModalContentBox";
-import { DarkModeSwitch } from "./DarkModeSwitch";
-import { MobileAppBarMenuAuthButton } from "./MobileAppBarMenuAuthButton";
-import { MobileAppBarMenuButton } from "./MobileAppBarMenuButton";
-import { useAppBarMenuOptionConfigs } from "./useAppBarMenuOptionConfigs";
+import { AvatarMyProfile } from "@/components/Avatar/AvatarMyProfile.jsx";
+import { CloseIconButton } from "@/components/Buttons/CloseIconButton.jsx";
+import { MobileModalContentBox } from "@/components/Modal/MobileModalContentBox.jsx";
+import { DarkModeSwitch } from "./DarkModeSwitch.jsx";
+import { MobileAppBarMenuAuthButton } from "./MobileAppBarMenuAuthButton.jsx";
+import { MobileAppBarMenuButton } from "./MobileAppBarMenuButton.jsx";
+import { useAppBarMenuOptionConfigs } from "./useAppBarMenuOptionConfigs.js";
 
 export const MobileAppBarMenu = () => {
   const { appState, appStateBasedMenuOptions, authMenuOption } = useAppBarMenuOptionConfigs();

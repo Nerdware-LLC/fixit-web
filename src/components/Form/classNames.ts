@@ -1,4 +1,4 @@
-import { formInputsClassNames } from "./Inputs/classNames";
+import { formInputsClassNames } from "./Inputs/classNames.js";
 
 /**
  * Class names for `Form` components (src/components/Form/).

@@ -1,5 +1,5 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { FlashyIconButton } from "./FlashyIconButton";
+import { FlashyIconButton } from "./FlashyIconButton.jsx";
 
 export const MobileCreateItemButton = ({
   "aria-label": ariaLabel = "Create item",

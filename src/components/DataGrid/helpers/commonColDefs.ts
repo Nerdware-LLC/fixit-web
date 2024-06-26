@@ -1,4 +1,4 @@
-import { getDateAndTimeStr } from "@/utils/formatters/dateTime";
+import { getDateAndTimeStr } from "@/utils/formatters/dateTime.js";
 import type { GridColDef } from "@mui/x-data-grid";
 
 const GLOBAL_DEFAULTS = {

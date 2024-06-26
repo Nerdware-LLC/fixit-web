@@ -3,7 +3,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import {
   useMobileAppBarMenuButtonState,
   type UseMobileAppBarMenuButtonStateParams,
-} from "./useMobileAppBarMenuButtonState";
+} from "./useMobileAppBarMenuButtonState.js";
 
 export const MobileAppBarMenuAuthButton = ({
   menuOption,

@@ -1,4 +1,4 @@
-import { useAppNavActions, type AppNavActionConfig } from "@/routes/appNavActions";
+import { useAppNavActions, type AppNavActionConfig } from "@/routes/appNavActions.jsx";
 import {
   isAuthenticatedStore,
   isActiveAccountStore,

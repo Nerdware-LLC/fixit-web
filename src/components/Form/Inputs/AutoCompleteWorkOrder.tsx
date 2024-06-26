@@ -3,7 +3,7 @@ import { AutoComplete, type AutoCompleteProps } from "@/components/Form/Inputs";
 import {
   WorkOrderListItem,
   type WorkOrderListItemProps,
-} from "@/components/List/listItems/WorkOrderListItem";
+} from "@/components/List/listItems/WorkOrderListItem.jsx";
 
 /**
  * `AutoCompleteWorkOrder` is a Mui Autocomplete input used to select a WorkOrder

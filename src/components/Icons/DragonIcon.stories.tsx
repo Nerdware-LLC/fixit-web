@@ -1,4 +1,4 @@
-import { DragonIcon as DragonIconFC } from "./DragonIcon";
+import { DragonIcon as DragonIconFC } from "./DragonIcon.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

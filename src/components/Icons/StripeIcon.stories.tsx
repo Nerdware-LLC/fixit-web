@@ -1,4 +1,4 @@
-import { StripeIcon as StripeIconFC } from "./StripeIcon";
+import { StripeIcon as StripeIconFC } from "./StripeIcon.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

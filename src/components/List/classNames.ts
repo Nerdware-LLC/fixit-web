@@ -1,5 +1,5 @@
 import { listClasses as muiListClassNames } from "@mui/material/List";
-import { listItemClassNames } from "./listItems/classNames";
+import { listItemClassNames } from "./listItems/classNames.js";
 
 /**
  * Class names for `List` components (src/components/List/).

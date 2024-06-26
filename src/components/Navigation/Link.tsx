@@ -1,8 +1,8 @@
 import { forwardRef } from "react";
 import { Link as ReactRouterDomLink } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import { useMaybeRef } from "@/hooks/useMaybeRef";
-import { getDefaultLinkStyles } from "./styles";
+import { useMaybeRef } from "@/hooks/useMaybeRef.js";
+import { getDefaultLinkStyles } from "./styles.js";
 
 /**
  * A styled react-router-dom `Link` with ref forwarding.

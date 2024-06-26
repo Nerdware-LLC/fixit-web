@@ -2,10 +2,10 @@ import { styled, alpha } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import AddToListIcon from "@mui/icons-material/PlaylistAddCircle";
-import { HelpInfoIcon } from "@/components/DataDisplay/HelpInfoIcon";
-import { dataDisplayClassNames } from "@/components/DataDisplay/classNames";
-import { NoWrapSpace } from "@/components/Text/NoWrapSpace";
-import { listClassNames } from "../classNames";
+import { HelpInfoIcon } from "@/components/DataDisplay/HelpInfoIcon.jsx";
+import { dataDisplayClassNames } from "@/components/DataDisplay/classNames.js";
+import { NoWrapSpace } from "@/components/Text/NoWrapSpace.jsx";
+import { listClassNames } from "../classNames.js";
 import type { SvgIconProps } from "@mui/material/SvgIcon";
 import type { Simplify } from "type-fest";
 

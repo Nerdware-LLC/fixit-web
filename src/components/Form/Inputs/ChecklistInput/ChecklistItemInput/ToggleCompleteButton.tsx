@@ -4,9 +4,9 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Tooltip from "@mui/material/Tooltip";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import EmptyCheckBoxIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
-import type { BaseChecklistItemType } from "@/components/Checklist/types";
-import type { ChecklistItemInputFormProps } from "./types";
+import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
+import type { BaseChecklistItemType } from "@/components/Checklist/types.js";
+import type { ChecklistItemInputFormProps } from "./types.js";
 
 export const ToggleCompleteButton = ({
   checklistFieldID,

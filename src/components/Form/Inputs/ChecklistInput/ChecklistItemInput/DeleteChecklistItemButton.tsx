@@ -3,9 +3,9 @@ import IconButton, { type IconButtonProps } from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Tooltip from "@mui/material/Tooltip";
 import XDeleteIcon from "@mui/icons-material/HighlightOff";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
-import type { BaseChecklistType } from "@/components/Checklist/types";
-import type { ChecklistItemInputFormProps } from "./types";
+import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
+import type { BaseChecklistType } from "@/components/Checklist/types.js";
+import type { ChecklistItemInputFormProps } from "./types.js";
 
 export const DeleteChecklistItemButton = ({
   checklistFieldID = "checklist",

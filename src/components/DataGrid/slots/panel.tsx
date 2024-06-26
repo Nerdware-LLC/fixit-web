@@ -3,8 +3,8 @@ import { buttonBaseClasses } from "@mui/material/ButtonBase";
 import { formControlLabelClasses } from "@mui/material/FormControlLabel";
 import { paperClasses } from "@mui/material/Paper";
 import { switchClasses } from "@mui/material/Switch";
-import { _makeDataGridCustomSlotModuleExports } from "./helpers";
-import { dataGridClassNames } from "../classNames";
+import { _makeDataGridCustomSlotModuleExports } from "./helpers.js";
+import { dataGridClassNames } from "../classNames.js";
 
 export const gridPanelSX = {
   [`& > .${paperClasses.root}`]: {

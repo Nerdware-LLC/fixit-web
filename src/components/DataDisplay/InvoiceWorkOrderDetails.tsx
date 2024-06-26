@@ -1,15 +1,15 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ToolsIcon from "@mui/icons-material/Construction";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
-import { WorkOrderCategoryChip } from "@/components/Chips/WorkOrderCategoryChip";
-import { WorkOrderStatusChip } from "@/components/Chips/WorkOrderStatusChip";
-import { LinkToWorkOrder } from "@/components/Navigation/LinkToWorkOrder";
-import { getDateStr } from "@/utils/formatters/dateTime";
-import { ItemDetails, type ItemDetailsProps } from "./ItemDetails";
-import { ItemDetailsGroup } from "./ItemDetailsGroup";
-import { LocationDetails } from "./LocationDetails";
-import { dataDisplayClassNames } from "./classNames";
-import type { Invoice } from "@/graphql/types";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
+import { WorkOrderCategoryChip } from "@/components/Chips/WorkOrderCategoryChip.jsx";
+import { WorkOrderStatusChip } from "@/components/Chips/WorkOrderStatusChip.jsx";
+import { LinkToWorkOrder } from "@/components/Navigation/LinkToWorkOrder.jsx";
+import { getDateStr } from "@/utils/formatters/dateTime.js";
+import { ItemDetails, type ItemDetailsProps } from "./ItemDetails.jsx";
+import { ItemDetailsGroup } from "./ItemDetailsGroup.jsx";
+import { LocationDetails } from "./LocationDetails.jsx";
+import { dataDisplayClassNames } from "./classNames.js";
+import type { Invoice } from "@/types/graphql.js";
 
 /**
  * A component which displays info about an Invoice's WorkOrder on non-mobile

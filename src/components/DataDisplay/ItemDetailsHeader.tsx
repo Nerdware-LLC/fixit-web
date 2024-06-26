@@ -2,7 +2,7 @@ import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import { svgIconClasses } from "@mui/material/SvgIcon";
 import Text, { type TypographyProps } from "@mui/material/Typography";
-import { dataDisplayClassNames } from "./classNames";
+import { dataDisplayClassNames } from "./classNames.js";
 
 export const ItemDetailsHeader = ({
   label,

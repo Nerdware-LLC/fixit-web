@@ -5,8 +5,8 @@ import MuiAutocomplete, {
   type AutocompleteProps as MuiAutocompleteProps,
 } from "@mui/material/Autocomplete";
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
-import { formClassNames } from "../classNames";
+import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
+import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
 import type { AutocompleteValue } from "@mui/base/useAutocomplete";
 import type { Simplify, SetRequired, SetOptional } from "type-fest";

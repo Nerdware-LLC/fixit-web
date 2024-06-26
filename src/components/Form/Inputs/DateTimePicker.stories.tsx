@@ -4,7 +4,7 @@ import {
   withLayoutInfoDecorator,
   type FormDecoratorArgs,
 } from "@/../.storybook/decorators";
-import { DateTimePicker, type DateTimePickerProps } from "./DateTimePicker";
+import { DateTimePicker, type DateTimePickerProps } from "./DateTimePicker.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

@@ -1,9 +1,9 @@
 import { forwardRef } from "react";
 import Text from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { useMaybeRef } from "@/hooks/useMaybeRef";
-import { getItemViewPath } from "@/routes/helpers";
-import { Link, type LinkProps } from "./Link";
+import { useMaybeRef } from "@/hooks/useMaybeRef.js";
+import { getItemViewPath } from "@/routes/helpers.js";
+import { Link, type LinkProps } from "./Link.jsx";
 
 /**
  * A react-router-dom Link to a WorkOrder with ref forwarding.
