@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
-import { useFetchStateContext } from "@/app/FetchStateContext/useFetchStateContext";
-import { useGoogleOAuthContext } from "./GoogleOAuthContext";
-import { extractClientID } from "./helpers";
+import { useFetchStateContext } from "@/app/FetchStateContext/useFetchStateContext.js";
+import { useGoogleOAuthContext } from "./GoogleOAuthContext.jsx";
+import { extractClientID } from "./helpers.js";
 import type {
   CredentialResponse,
   GoogleCredentialResponse,
   IdConfiguration,
   MomentListener,
   Context,
-} from "@/types/googleOAuth";
+} from "@/types/googleOAuth.js";
 
 interface UseGoogleOneTapLoginOptions {
   onSuccess: (credentialResponse: CredentialResponse) => void;

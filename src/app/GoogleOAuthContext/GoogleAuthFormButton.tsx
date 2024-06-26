@@ -4,12 +4,12 @@ import { jwtDecode } from "jwt-decode";
 import DialogTitle from "@mui/material/DialogTitle";
 import Text from "@mui/material/Typography";
 import GoogleIcon from "@mui/icons-material/Google";
-import { useFetchStateContext } from "@/app/FetchStateContext/useFetchStateContext";
-import { globalAnimations } from "@/app/GlobalStyles/animations";
-import { CloseIconButton } from "@/components/Buttons/CloseIconButton";
+import { useFetchStateContext } from "@/app/FetchStateContext/useFetchStateContext.js";
+import { globalAnimations } from "@/app/GlobalStyles/animations.js";
+import { CloseIconButton } from "@/components/Buttons/CloseIconButton.jsx";
 import { Dialog } from "@/components/Dialog";
-import { GoogleOAuthButton, type GoogleOAuthButtonProps } from "./GoogleOAuthButton";
-import type { CredentialResponse } from "@/types/googleOAuth";
+import { GoogleOAuthButton, type GoogleOAuthButtonProps } from "./GoogleOAuthButton.jsx";
+import type { CredentialResponse } from "@/types/googleOAuth.js";
 import type { Except, OverrideProperties } from "type-fest";
 
 type BaseAuthFormValues = {

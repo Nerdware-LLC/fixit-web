@@ -1,4 +1,4 @@
-import { GoogleCredentialResponse, TokenResponse } from "@/types/googleOAuth";
+import { GoogleCredentialResponse, TokenResponse } from "@/types/googleOAuth.js";
 
 export const extractClientID = (
   credentialResponse: GoogleCredentialResponse

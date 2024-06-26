@@ -1,3 +1,3 @@
-export * from "./ThemeProvider";
-export * from "./themes";
-export * from "./useAppThemeObject";
+export * from "./ThemeProvider.jsx";
+export * from "./themes.js";
+export * from "./useAppThemeObject.js";

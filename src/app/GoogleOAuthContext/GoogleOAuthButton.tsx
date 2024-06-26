@@ -7,9 +7,9 @@ import {
   GoogleCredentialResponse,
   MomentListener,
   GsiButtonConfiguration,
-} from "@/types/googleOAuth";
-import { useGoogleOAuthContext } from "./GoogleOAuthContext";
-import { extractClientID } from "./helpers";
+} from "@/types/googleOAuth.js";
+import { useGoogleOAuthContext } from "./GoogleOAuthContext.jsx";
+import { extractClientID } from "./helpers.js";
 import type { Except } from "type-fest";
 
 export type GoogleOAuthButtonProps = {

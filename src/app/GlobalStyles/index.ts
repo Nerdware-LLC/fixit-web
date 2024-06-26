@@ -1,3 +1,3 @@
 export * from "./GlobalStyles";
-export * from "./classNames";
-export * from "./helpers";
+export * from "./classNames.js";
+export * from "./helpers.js";

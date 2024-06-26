@@ -8,8 +8,8 @@ import {
   CodeResponse,
   OverridableTokenClientConfig,
   NonOAuthError,
-} from "@/types/googleOAuth";
-import { useGoogleOAuthContext } from "./GoogleOAuthContext";
+} from "@/types/googleOAuth.js";
+import { useGoogleOAuthContext } from "./GoogleOAuthContext.jsx";
 
 interface ImplicitFlowOptions extends Omit<TokenClientConfig, "client_id" | "scope" | "callback"> {
   onSuccess?: (

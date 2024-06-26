@@ -1,5 +1,5 @@
-import "./setupDayjs";
-import "./setupYup";
+import "./setupDayjs.js";
+import "./setupYup.js";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider as MuiLocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import type { LocalizationProviderProps } from "@mui/x-date-pickers/LocalizationProvider";

@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
+import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
 import {
   FetchStateContext,
   type BaseFetchResponseObject,
@@ -7,7 +7,7 @@ import {
   type FnWrappedWithFetchState,
   type FetchStateContextError,
   type FetchStateErrorProcessor,
-} from "./FetchStateContext";
+} from "./FetchStateContext.js";
 
 export const FetchStateContextProvider = ({ children }: FetchStateContextProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);

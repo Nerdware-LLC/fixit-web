@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
-import { THEMES, THEME_NAMES, type ThemeName } from "./themes";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
+import { THEMES, THEME_NAMES, type ThemeName } from "./themes.js";
 import type { Theme } from "@mui/material/styles";
 
 /**

@@ -1,1 +1,1 @@
-export * from "./apolloLink";
+export * from "./apolloLink.js";

@@ -2,8 +2,8 @@ import { toast } from "react-toastify";
 import { onError } from "@apollo/client/link/error";
 import { isString } from "@nerdware/ts-type-safety-utils";
 import stripAnsi from "strip-ansi";
-import { authenticatedUserStore } from "@/stores";
-import { logger } from "@/utils/logger";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { logger } from "@/utils/logger.js";
 import type { GraphQLErrorExtensions } from "graphql";
 
 /**

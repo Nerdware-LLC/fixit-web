@@ -3,9 +3,9 @@ import { Global as EmotionGlobalStyle, css } from "@emotion/react";
 import { useTheme } from "@mui/material/styles";
 import { filledInputClasses } from "@mui/material/FilledInput";
 import { inputBaseClasses } from "@mui/material/InputBase";
-import { globalAnimations } from "./animations";
-import { useScrollbarStyles } from "./useScrollbarStyles";
-import type { RootElementIdArg } from "./types";
+import { globalAnimations } from "./animations.js";
+import { useScrollbarStyles } from "./useScrollbarStyles.js";
+import type { RootElementIdArg } from "./types.js";
 
 export const GlobalStyles = ({ rootElementID = "root" }: RootElementIdArg) => {
   const { palette, variables } = useTheme();
