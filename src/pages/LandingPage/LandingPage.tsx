@@ -60,16 +60,18 @@ export const LandingPage = () => {
         <Text variant="h2">{`Powerful Tools,\nSimple to Use`}</Text>
         <Text>
           {/* This paragraph uses non-breaking hyphens (U+2011) to prevent hyphenated word wrap. */}
-          Empower your workflow with the tools you need to stay organized - without the learning
-          curve and additional burden of costly and time‑consuming training, webinars, and other
-          add‑ons. Try <b>Fixit</b> today.
+          Empower your workflow with the tools you need to stay organized across all your devices -
+          without the learning curve. If you're tired of services that require costly and
+          time‑consuming training, webinars, and other add‑ons, try <b>Fixit</b> today.
         </Text>
         <Button onClick={goToProducts}>Learn More</Button>
       </div>
       {isDialogVisible && <DemoInfoDialog isVisible={isDialogVisible} closeDialog={closeDialog} />}
       <div className={landingPageClassNames.footerRoot}>
         <LegalLinks useLongLabels />
-        <Text variant="body2">Fixit is a product of Nerdware, LLC ©</Text>
+        <Text variant="body2">
+          Fixit is a product of <span style={{ whiteSpace: "nowrap" }}>Nerdware, LLC ©</span>
+        </Text>
       </div>
     </StyledDiv>
   );
@@ -90,8 +92,14 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
   gap: "1rem",
   padding: "0 2rem 3rem 2rem",
 
-  gridTemplateRows: "66vh minmax(0, 66vh) minmax(0, 66vh) minmax(0, 66vh) 8rem",
+  // MOBILE LAYOUT:
   gridTemplateColumns: "minmax(0, 1fr)",
+  gridTemplateRows:
+    "60vh " + //            text
+    "minmax(0, 66vh) " + // graphic
+    "minmax(0, 50vh) " + // text
+    "minmax(0, 66vh) " + // graphic
+    "8rem", //             footer
 
   [breakpoints.up(600)]: {
     padding: "2rem",
@@ -274,16 +282,17 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
     boxShadow: `0 0 0.5rem ${palette.divider}`,
 
     [breakpoints.down(600)]: {
-      padding: "1.25rem 1.5rem 1.5rem 1.5rem",
+      padding: "3rem 2rem",
       flexDirection: "row",
       justifyContent: "space-evenly",
       gap: 0,
       textAlign: "center",
-      "& > div": {
+      "& > *": {
         flexDirection: "column",
-        alignItems: "flex-start",
-        "& > hr": {
-          display: "none",
+        width: "50%",
+        [`&.${navigationClassNames.legalLinksRoot}`]: {
+          fontSize: "0.9rem",
+          "& hr": { display: "none" },
         },
       },
     },
