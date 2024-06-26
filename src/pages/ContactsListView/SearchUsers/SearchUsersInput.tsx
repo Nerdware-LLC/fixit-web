@@ -105,9 +105,9 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
   const { options, optionsHandles, optionsByHandle } = searchUsersQueryData?.reduce(
     (
       acc: {
-        options: Array<Contact>;
-        optionsHandles: Array<Contact["handle"]>;
-        optionsByHandle: Record<string, Contact>;
+        options: Array<User>;
+        optionsHandles: Array<User["handle"]>;
+        optionsByHandle: Record<string, User>;
       },
       { handle, ...contactFields }
     ) => ({
@@ -228,7 +228,7 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
 
   // prettier-ignore
   const autoCompleteRenderOption: AutocompleteProps<string, false, false, true>["renderOption"] = (props, handle) => (
-    <SearchUsersContactOptionListItem contact={optionsByHandle[handle]} {...props} />
+    <SearchUsersOptionListItem user={optionsByHandle[handle]} {...props} />
   );
 
   // prettier-ignore
