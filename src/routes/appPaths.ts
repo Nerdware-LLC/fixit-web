@@ -52,6 +52,8 @@ export const APP_PATHS = {
   COOKIES: `/cookie-policy`,
   REGISTER: `/register`,
   LOGIN: `/login`,
+  FORGOT_PASSWORD: `/forgot-password`,
+  RESET_PASSWORD: `/reset-password`,
   PRODUCTS: `/products`,
   CHECKOUT: `/checkout`,
   /** The app "home" where users can view their dashboard. */

@@ -29,6 +29,16 @@ const rootAppBrowserRouter = sentryCreateBrowserRouter(
           lazy: () => import(/* webpackChunkName: "LoginPage" */ "@/pages/LoginPage"),
         },
         {
+          path: APP_PATHS.FORGOT_PASSWORD,
+          lazy: () =>
+            import(/* webpackChunkName: "ForgotPasswordPage" */ "@/pages/ForgotPasswordPage"),
+        },
+        {
+          path: APP_PATHS.RESET_PASSWORD,
+          lazy: () =>
+            import(/* webpackChunkName: "ResetPasswordPage" */ "@/pages/ResetPasswordPage"),
+        },
+        {
           path: APP_PATHS.ToS,
           lazy: () =>
             import(/* webpackChunkName: "TermsOfServicePage" */ "@/pages/TermsOfServicePage"),
