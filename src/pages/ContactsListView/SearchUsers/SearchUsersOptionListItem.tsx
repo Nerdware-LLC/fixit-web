@@ -1,13 +1,13 @@
 import { styled } from "@mui/material/styles";
 import Avatar, { avatarClasses } from "@mui/material/Avatar";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import type { Contact } from "@/graphql/types";
+import type { User } from "@/types/graphql.js";
 
-export const SearchUsersContactOptionListItem = ({
-  contact: { handle, profile },
+export const SearchUsersOptionListItem = ({
+  user: { handle, profile },
   ...props
 }: {
-  contact: Contact;
+  user: User;
 } & React.HTMLAttributes<HTMLLIElement>) => (
   <StyledLI {...props}>
     <Avatar src={profile?.photoUrl || undefined} alt={`${handle} fixit avatar`}>
