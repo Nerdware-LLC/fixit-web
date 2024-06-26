@@ -18,6 +18,7 @@ import type { OverrideProperties } from "type-fest";
 export const ProductImage = ({
   label,
   ImageCarouselProps = {},
+  sx,
   ...boxProps
 }: ProductImageProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,7 +37,14 @@ export const ProductImage = ({
   return (
     <>
       <Tooltip title={`Click to view image: ${label}`}>
-        <Box component="img" src={src} alt={label} onClick={handleOpen} {...boxProps} />
+        <Box
+          component="img"
+          src={src}
+          alt={label}
+          onClick={handleOpen}
+          sx={{ "&:hover": { cursor: "pointer" }, ...sx }}
+          {...boxProps}
+        />
       </Tooltip>
       {isModalOpen && (
         <StyledDialog
