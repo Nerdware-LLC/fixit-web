@@ -13,9 +13,10 @@ export const CookiePolicyPage = () => (
     <Text>
       This Cookie Policy explains how Nerdware, LLC ("Company," "we," "us," and "our") uses cookies
       and similar technologies to enhance product security and aid in user and/or device recognition
-      when you visit our website at <Anchor href="https://gofixit.app">https://gofixit.app</Anchor>,
-      or any of its relevant subdomains ("Website", collectively). It explains what these
-      technologies are and why we use them, as well as your rights to control our use of them.
+      when you visit our website at{" "}
+      <Anchor href={APP_URLS.APP_ORIGIN}>{APP_URLS.APP_ORIGIN}</Anchor>, or any of its relevant
+      subdomains ("Website", collectively). It explains what these technologies are and why we use
+      them, as well as your rights to control our use of them.
     </Text>
     <Text>
       In some cases we may use cookies for security purposes, such as fraud prevention and
@@ -102,7 +103,7 @@ export const CookiePolicyPage = () => (
             "Tracks the user's session for Stripe",
             "m.stripe.com",
             "Stripe",
-            <Anchor key="stripe-privacy-policy" href="https://stripe.com/privacy">
+            <Anchor key="stripe-privacy-policy" href={APP_URLS.STRIPE_PRIVACY_POLICY}>
               View Stripe's Privacy Policy
             </Anchor>,
             "server_cookie",
@@ -113,7 +114,7 @@ export const CookiePolicyPage = () => (
             "Fraud prevention and detection",
             "stripe.com",
             "Stripe",
-            <Anchor key="stripe-privacy-policy" href="https://stripe.com/privacy">
+            <Anchor key="stripe-privacy-policy" href={APP_URLS.STRIPE_PRIVACY_POLICY}>
               View Stripe's Privacy Policy
             </Anchor>,
             "http_cookie",
@@ -124,7 +125,7 @@ export const CookiePolicyPage = () => (
             "Fraud prevention and detection",
             "stripe.com",
             "Stripe",
-            <Anchor key="stripe-privacy-policy" href="https://stripe.com/privacy">
+            <Anchor key="stripe-privacy-policy" href={APP_URLS.STRIPE_PRIVACY_POLICY}>
               View Stripe's Privacy Policy
             </Anchor>,
             "http_cookie",
