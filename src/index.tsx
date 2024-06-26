@@ -1,4 +1,4 @@
-import "./initSentry";
+import "./initSentry.js";
 import { StrictMode as ReactStrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "@/app";
