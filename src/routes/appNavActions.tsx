@@ -8,12 +8,12 @@ import GroupIcon from "@mui/icons-material/Group";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useFetchStateContext } from "@/app/FetchStateContext";
-import { AddressCardIcon } from "@/components/Icons/AddressCardIcon";
-import { FileInvoiceDollarIcon } from "@/components/Icons/FileInvoiceDollarIcon";
-import { StripeIcon } from "@/components/Icons/StripeIcon";
-import { stripeService } from "@/services/stripeService";
-import { authenticatedUserStore } from "@/stores";
-import { APP_PATHS, type AppPath } from "./appPaths";
+import { AddressCardIcon } from "@/components/Icons/AddressCardIcon.jsx";
+import { FileInvoiceDollarIcon } from "@/components/Icons/FileInvoiceDollarIcon.jsx";
+import { StripeIcon } from "@/components/Icons/StripeIcon.jsx";
+import { stripeService } from "@/services/stripeService.js";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { APP_PATHS, type AppPath } from "./appPaths.js";
 import type { Simplify } from "type-fest";
 
 /**

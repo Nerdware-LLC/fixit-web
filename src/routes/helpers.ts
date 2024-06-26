@@ -1,4 +1,4 @@
-import { APP_PATH_COMPONENTS } from "./appPaths";
+import { APP_PATH_COMPONENTS } from "./appPaths.js";
 
 const { HOME, WORK_ORDERS, INVOICES, CONTACTS } = APP_PATH_COMPONENTS;
 

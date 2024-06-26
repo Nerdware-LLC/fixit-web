@@ -4,8 +4,8 @@ import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import { Dialog } from "@/components/Dialog";
-import { stripeService } from "@/services/stripeService";
-import { isConnectOnboardingCompleteStore } from "@/stores";
+import { stripeService } from "@/services/stripeService.js";
+import { isConnectOnboardingCompleteStore } from "@/stores/isConnectOnboardingCompleteStore.js";
 
 /**
  * This component is responsible for managing the state of the user's Stripe
