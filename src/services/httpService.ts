@@ -40,21 +40,7 @@ axios.interceptors.request.use(
 // When each RESPONSE comes in, do this:
 axios.interceptors.response.use(
   (response: AxiosResponse) => {
-    // If the API response contains a new auth token, process it
-    if (response?.data?.token) {
-      const tokenPayload = authenticatedUserStore.processAuthToken(response.data.token);
-
-      // Check for pre-fetched user items, write to apollo cache if present
-      if (isString(tokenPayload?.id) && response?.data?.userItems) {
-        cachePreFetchedUserItems(tokenPayload.id, response.data.userItems);
-      }
-    }
-
-    // If the API response contains a Stripe-related link, open it (API uses key "stripeLink")
-    if (response?.data?.stripeLink) {
-      window.open(response.data.stripeLink, "_blank");
-    }
-
+    // Return the response data:
     return Promise.resolve(response.data);
   },
   async (error: AxiosError<OpenApiSchemas["Error"]>) => {
@@ -79,13 +65,13 @@ export const httpService = {
   get: axios.get.bind(axios) as <GETendpoint extends RestApiGETendpoint>(
     url: GETendpoint,
     config?: AxiosRequestConfig
-  ) => Promise<RestApiGET200ResponseByPath[GETendpoint]>,
+  ) => Promise<RestApiResponseByPath[GETendpoint]>,
 
-  post: axios.post.bind(axios) as <POSTendpoint extends keyof RestApiRequestBodyByPath>(
+  post: axios.post.bind(axios) as <POSTendpoint extends RestApiPOSTendpoint>(
     url: POSTendpoint,
     data?: RestApiRequestBodyByPath[POSTendpoint],
     config?: AxiosRequestConfig
-  ) => Promise<RestApiPOST200ResponseByPath[POSTendpoint]>,
+  ) => Promise<RestApiResponseByPath[POSTendpoint]>,
 
   /**
    * Abort all pending HTTP requests using the `AbortController` instance's `abort` method.
