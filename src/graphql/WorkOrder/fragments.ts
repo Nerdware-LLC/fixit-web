@@ -1,13 +1,13 @@
-import { gql } from "@/graphql/__codegen__";
+import { gql } from "@/types/__codegen__/gql.js";
 
 export const WorkOrderFields = gql(`
   fragment WorkOrderFields on WorkOrder {
     id
     createdBy {
-      ...FixitUserFields
+      ...UserPublicFields
     }
     assignedTo {
-      ...FixitUserFields
+      ...UserPublicFields
     }
     status
     priority

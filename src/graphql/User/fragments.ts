@@ -1,4 +1,4 @@
-import { gql } from "@/graphql/__codegen__";
+import { gql } from "@/types/__codegen__/gql.js";
 
 export const UserPublicFields = gql(`
   fragment UserPublicFields on User {
@@ -9,5 +9,7 @@ export const UserPublicFields = gql(`
     profile {
       ...ProfileFields
     }
+    createdAt
+    updatedAt
   }
 `);

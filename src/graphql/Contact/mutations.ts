@@ -1,4 +1,4 @@
-import { gql } from "@/graphql/__codegen__";
+import { gql } from "@/types/__codegen__/gql.js";
 
 export const CREATE_CONTACT = gql(`
   mutation CreateContact($contactUserID: ID!) {
@@ -12,7 +12,7 @@ export const DELETE_CONTACT = gql(`
   mutation DeleteContact($contactID: ID!) {
     deleteContact(contactID: $contactID) {
       id
-      wasDeleted
+      success
     }
   }
 `);

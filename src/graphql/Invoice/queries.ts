@@ -1,4 +1,4 @@
-import { gql } from "@/graphql/__codegen__";
+import { gql } from "@/types/__codegen__/gql.js";
 
 export const INVOICE = gql(`
   query Invoice($invoiceID: ID!) {

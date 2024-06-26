@@ -1,13 +1,13 @@
-import { gql } from "@/graphql/__codegen__";
+import { gql } from "@/types/__codegen__/gql";
 
 export const InvoiceFields = gql(`
   fragment InvoiceFields on Invoice {
     id
     createdBy {
-      ...FixitUserFields
+      ...UserPublicFields
     }
     assignedTo {
-      ...FixitUserFields
+      ...UserPublicFields
     }
     amount
     status

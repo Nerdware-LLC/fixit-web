@@ -1,4 +1,4 @@
-import { gql } from "@/graphql/__codegen__";
+import { gql } from "@/types/__codegen__/gql.js";
 
 export const CREATE_WORK_ORDER = gql(`
   mutation CreateWorkOrder($workOrder: CreateWorkOrderInput!) {
@@ -21,7 +21,7 @@ export const CANCEL_WORK_ORDER = gql(`
     cancelWorkOrder(workOrderID: $workOrderID) {
       ... on DeleteMutationResponse {
         id
-        wasDeleted
+        success
       }
       ... on WorkOrder {
         ...WorkOrderFields

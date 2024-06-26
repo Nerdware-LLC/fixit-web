@@ -1,4 +1,4 @@
-import { gql } from "@/graphql/__codegen__";
+import { gql } from "@/types/__codegen__/gql.js";
 
 export const WORK_ORDER = gql(`
   query WorkOrder($workOrderID: ID!) {
