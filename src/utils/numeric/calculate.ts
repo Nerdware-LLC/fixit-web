@@ -6,8 +6,8 @@ import { isValidTimestamp } from "@/utils/typeSafety/dayjs.js";
 
 /**
  * Thin wrapper around `dayjs.diff` which uses `dayjs.isValid` to ensure the provided `timestamp`
- * is valid (`dayjs.diff` returns `NaN` if the arg is invalid), and which defaults the `unit` param to
- * `"days"` instead of `"milliseconds"`.
+ * is valid (`dayjs.diff` returns `NaN` if the arg is invalid), and which defaults the `unit` param
+ * to `"days"` instead of `"milliseconds"`.
  *
  * > This function does not check if the `timestamp` is in the past — future dates result
  *   in negative numbers.
