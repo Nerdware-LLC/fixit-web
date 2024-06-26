@@ -12,30 +12,30 @@ import type { SubscriptionPriceName } from "@/types/graphql.js";
 export const MappedRowOfProductBoxes = ({ selectedSubscription }: StoredCheckoutValues) => {
   const nav = useNavigate();
 
-  const handleClickContainer = (priceLabel: SubscriptionPriceLabel) => {
+  const handleClickContainer = (priceName: SubscriptionPriceName) => {
     checkoutValuesStore.mergeUpdate({
-      selectedSubscription: priceLabel,
+      selectedSubscription: priceName,
     });
   };
 
   return (
     <>
-      {PRICE_INFO_ENTRIES.map(([priceLabel, { PRICE_NAME, PRICE_AMOUNT, PRICE_DESCRIPTION }]) => {
-        const isSelected = selectedSubscription === priceLabel;
+      {PRICE_INFO_ENTRIES.map(([priceName, { PRICE_NAME, PRICE_AMOUNT, PRICE_DESCRIPTION }]) => {
+        const isSelected = selectedSubscription === priceName;
 
         return (
           <ProductInfoBox
-            key={`ProductInfoDisplay:${priceLabel}`}
+            key={`ProductInfoDisplay:${priceName}`}
             priceName={PRICE_NAME}
             priceAmount={PRICE_AMOUNT}
             priceDescription={PRICE_DESCRIPTION}
-            showMostPopularBadge={priceLabel === "ANNUAL"}
+            showMostPopularBadge={priceName === "ANNUAL"}
             buttonLabel={!isSelected ? "Select" : "Subscribe"}
             onClickButton={() => {
-              if (!isSelected) handleClickContainer(priceLabel);
+              if (!isSelected) handleClickContainer(priceName);
               else nav(APP_PATHS.CHECKOUT);
             }}
-            onClickContainer={() => handleClickContainer(priceLabel)}
+            onClickContainer={() => handleClickContainer(priceName)}
             sx={({ palette }) => ({
               ...(isSelected && { borderColor: palette.secondary.main }),
             })}
@@ -48,7 +48,7 @@ export const MappedRowOfProductBoxes = ({ selectedSubscription }: StoredCheckout
 
 const PRICE_INFO_ENTRIES = Object.entries(PRICE_INFO) as Array<
   [
-    SubscriptionPriceLabel,
+    SubscriptionPriceName,
     {
       PRICE_NAME: string;
       PRICE_AMOUNT: string;
