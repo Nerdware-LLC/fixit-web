@@ -33,26 +33,33 @@ export const AuthPageLayout = ({ pageTitle, sx, children }: AuthPageLayoutProps)
 const HEADER_VARIANT = "h2";
 
 const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
+  width: "100%",
   height: "100%",
   padding: "0 1rem",
+
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "1.5rem",
+  textAlign: "center",
 
   "& button": {
     borderRadius: "1.5rem",
   },
 
-  // This MuiStack, and any MuiStack within it:
-  [`&.${stackClasses.root}, .${stackClasses.root}`]: {
+  // Child MuiStacks:
+  [`& > .${stackClasses.root}`]: {
     width: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-evenly",
+    gap: "inherit",
     textAlign: "center",
   },
 
   // The `headerContainer`:
   [`& .${authPageLayoutClassNames.headerContainer}`]: {
     gap: "1rem",
-
     // The header text:
     [`& .${typographyClasses[HEADER_VARIANT]}`]: {
       fontSize: variables.isMobilePageLayout ? "2rem" : "2.25rem",
@@ -67,8 +74,6 @@ const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
     width: variables.isMobilePageLayout
       ? `${GOOGLE_OAUTH_BTN_DIMENSIONS.WIDTH.MOBILE}px !important`
       : `${GOOGLE_OAUTH_BTN_DIMENSIONS.WIDTH.DESKTOP}px !important`,
-
-    gap: "1rem",
 
     [`& .${formClassNames.root}`]: {
       width: "100%",
