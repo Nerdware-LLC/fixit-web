@@ -22,7 +22,6 @@ export const STATIC_MOCK_USERS = {
     handle: "@user_person",
     email: "person@user.com",
     phone: "4542471029",
-    expoPushToken: "expo-HbIa6NvWxJ",
     profile: {
       __typename: "Profile",
       displayName: "Guy McPerson",
@@ -58,7 +57,6 @@ export const STATIC_MOCK_USERS = {
     ...STATIC_MOCK_CONTACTS.Linda_McContractorLongName_Jones_Smith,
     __typename: "User",
     id: "USER#e011a9dc-6ef6-400f-9ade-7b932dffab6b",
-    expoPushToken: "expo-0Pw1c5ejHK",
     stripeCustomerID: "cus_nBpBPHPh7bDb",
     stripeConnectAccount: {
       __typename: "UserStripeConnectAccount",
@@ -86,7 +84,6 @@ export const STATIC_MOCK_USERS = {
     ...STATIC_MOCK_CONTACTS.Aloy_McInvoicer,
     __typename: "User",
     id: "USER#30022ae6-4cea-4de7-bd5d-d1953319c0a0",
-    expoPushToken: "expo-Bv8qTaJXVo",
     stripeCustomerID: "cus_xUxTKxUCmNq8",
     stripeConnectAccount: {
       __typename: "UserStripeConnectAccount",
@@ -164,4 +161,14 @@ export const STATIC_MOCK_USERS = {
     updatedAt: new Date("2022-01-18T00:58:22.908Z"),
     createdAt: new Date("2021-08-09T07:10:11.829Z"),
   },
-} as const satisfies Record<string, User>;
+} as const satisfies Record<
+  string,
+  User &
+    OverrideProperties<
+      AuthTokenPayload,
+      {
+        subscription: UserSubscription;
+        stripeConnectAccount: UserStripeConnectAccount;
+      }
+    >
+>;

@@ -16,29 +16,7 @@ const createMockUser = (overrides: Partial<User> = {}): User => {
     handle,
     email: makeFake.email(overrides),
     phone: makeFake.phone(overrides),
-
-    expoPushToken:
-      overrides?.expoPushToken ??
-      faker.helpers.maybe(() => `expo-${faker.string.alphanumeric(10)}`),
-
     profile: makeFake.userProfile(overrides, handle),
-
-    stripeCustomerID: overrides?.stripeCustomerID ?? `cus_${faker.string.alphanumeric(12)}`,
-
-    stripeConnectAccount: faker.helpers.maybe(
-      () =>
-        makeFake.userStripeConnectAccount(
-          { createdAt: userCreatedAt },
-          overrides?.stripeConnectAccount
-        ),
-      { probability: 0.9 }
-    ),
-
-    subscription: faker.helpers.maybe(
-      () => makeFake.userSubscription({ createdAt: userCreatedAt }, overrides?.subscription),
-      { probability: 0.9 }
-    ),
-
     createdAt: userCreatedAt,
     updatedAt: faker.date.between({ from: userCreatedAt, to: new Date() }),
   };
@@ -65,3 +43,15 @@ export const MOCK_USERS = {
     })
   ),
 } as Record<StaticMockContactName, User> & { [k: string]: User };
+
+/**
+ * This fn returns a random known User object.
+ */
+export const getRandomUser = () => {
+  return faker.helpers.arrayElement([
+    MOCK_USERS.Linda_McContractorLongName_Jones_Smith,
+    MOCK_USERS.Aloy_McInvoicer,
+    MOCK_USERS.Walt_McWorkOrder,
+    MOCK_USERS.Astarion_Ancunin,
+  ]);
+};
