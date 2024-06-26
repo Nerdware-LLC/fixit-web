@@ -3,7 +3,7 @@ import { apolloCache } from "@/app/ApolloProvider/apolloCache";
 import {
   MockApolloProvider,
   type MockApolloProviderProps,
-} from "@/tests/mockProviders/MockApolloProvider";
+} from "@/tests/mockProviders/MockApolloProvider.jsx";
 import type { ReactRenderer } from "@storybook/react";
 import type { DecoratorFunction, Args } from "@storybook/types";
 import type { SetOptional } from "type-fest";

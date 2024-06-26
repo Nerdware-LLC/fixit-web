@@ -1,6 +1,6 @@
-import { HomePageLayout } from "@/layouts/HomePageLayout/HomePageLayout";
-import { RootAppLayout } from "@/layouts/RootAppLayout";
-import { MockRouter } from "@/tests/mockProviders/MockRouter";
+import { HomePageLayout } from "@/layouts/HomePageLayout/HomePageLayout.jsx";
+import { RootAppLayout } from "@/layouts/RootAppLayout/RootAppLayout.jsx";
+import { MockRouter } from "@/tests/mockProviders/MockRouter.jsx";
 import type { ReactRenderer } from "@storybook/react";
 import type { Args, PartialStoryFn } from "@storybook/types";
 

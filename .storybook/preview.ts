@@ -1,7 +1,7 @@
 import { themes } from "@storybook/theming";
 import { globalDecorators } from "./decorators";
-import { customUserAgents } from "./userAgents";
-import { customViewports } from "./viewports";
+import { customUserAgents } from "./userAgents.js";
+import { customViewports } from "./viewports.js";
 import type { Preview } from "@storybook/react";
 
 export default {

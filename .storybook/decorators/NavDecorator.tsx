@@ -1,4 +1,4 @@
-import { MockRouter, type MockRouterProps } from "@/tests/mockProviders/MockRouter";
+import { MockRouter, type MockRouterProps } from "@/tests/mockProviders/MockRouter.jsx";
 import type { ReactRenderer } from "@storybook/react";
 import type { DecoratorFunction, Args, PartialStoryFn, StoryContext } from "@storybook/types";
 import type { SetOptional } from "type-fest";

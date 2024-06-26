@@ -1,6 +1,6 @@
 import Text, { typographyClasses } from "@mui/material/Typography";
 import InfoIcon from "@mui/icons-material/Info";
-import { StoryInfoDecorator, type StoryInfoDecoratorProps } from "./StoryInfoDecorator";
+import { StoryInfoDecorator, type StoryInfoDecoratorProps } from "./StoryInfoDecorator.jsx";
 import type { ReactRenderer } from "@storybook/react";
 import type { DecoratorFunction } from "@storybook/types";
 

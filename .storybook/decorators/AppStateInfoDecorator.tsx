@@ -7,12 +7,12 @@ import {
   type IsActiveAccount,
   type IsConnectOnboardingComplete,
 } from "@/stores";
-import { MockApolloProvider } from "@/tests/mockProviders/MockApolloProvider";
-import { StoryInfoDecorator, type StoryInfoDecoratorProps } from "./StoryInfoDecorator";
+import { MockApolloProvider } from "@/tests/mockProviders/MockApolloProvider.jsx";
+import { StoryInfoDecorator, type StoryInfoDecoratorProps } from "./StoryInfoDecorator.jsx";
 import type { ReactRenderer } from "@storybook/react";
 import type { DecoratorFunction, Args, PartialStoryFn, StoryContext } from "@storybook/types";
 import type { Simplify } from "type-fest";
-import type { MockApolloDecoratorArgs } from "./MockApolloDecorator";
+import type { MockApolloDecoratorArgs } from "./MockApolloDecorator.jsx";
 
 const AppStateInfo = ({
   componentName = "component Story",

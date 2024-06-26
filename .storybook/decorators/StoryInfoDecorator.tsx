@@ -4,7 +4,7 @@ import Button, { buttonClasses } from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import VisibileIcon from "@mui/icons-material/Visibility";
 import NotVisibileIcon from "@mui/icons-material/VisibilityOff";
-import { sbDecoratorClassNames } from "./classNames";
+import { sbDecoratorClassNames } from "./classNames.js";
 
 /**
  * A Mui `Box` fixed to the bottom of the Story viewport for displaying the `storyInfo`.
