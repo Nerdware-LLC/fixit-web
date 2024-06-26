@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import { checkoutValuesStore } from "@/stores/checkoutValuesStore";
-import { USER_SUBSCRIPTION_PRICE_LABELS } from "@/types/UserSubscription";
-import { MappedRowOfProductBoxes } from "./MappedRowOfProductBoxes";
-import { SingleProductBox } from "./SingleProductBox";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore.js";
+import { USER_SUBSCRIPTION_PRICE_NAMES } from "@/types/UserSubscription.js";
+import { MappedRowOfProductBoxes } from "./MappedRowOfProductBoxes.jsx";
+import { SingleProductBox } from "./SingleProductBox.jsx";
 import type { IsMobilePageLayout } from "@/app/PageLayoutContext";
 
 /**
@@ -27,7 +27,7 @@ export const ProductSelection = ({ isMobilePageLayout }: ProductSelectionProps) 
     if (
       isMobilePageLayout &&
       !!checkoutValues.selectedSubscription &&
-      !USER_SUBSCRIPTION_PRICE_LABELS.includes(checkoutValues.selectedSubscription)
+      !USER_SUBSCRIPTION_PRICE_NAMES.includes(checkoutValues.selectedSubscription)
     ) {
       checkoutValuesStore.set({
         selectedSubscription: "TRIAL",

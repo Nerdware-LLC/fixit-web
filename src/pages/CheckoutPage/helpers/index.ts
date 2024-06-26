@@ -1,2 +1,2 @@
-export * from "./getTotalForDisplay";
-export * from "./subPricingDisplayConfigs";
+export * from "./getTotalForDisplay.js";
+export * from "./subPricingDisplayConfigs.js";

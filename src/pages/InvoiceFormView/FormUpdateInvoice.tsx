@@ -2,13 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client/react/hooks";
 import { getInitialValuesFromSchema } from "@/components/Form/helpers";
 import { useLottie } from "@/components/LottieAnimations";
-import { MUTATIONS } from "@/graphql/mutations";
-import { getItemViewPath } from "@/routes/helpers";
-import { fmt } from "@/utils/formatters";
-import { normalizeCurrencyStrToInt } from "@/utils/normalizers/currency";
-import { InvoiceForm } from "./InvoiceForm";
-import { invoiceFormSchema, type InvoiceFormValues } from "./schema";
-import type { Invoice } from "@/graphql/types";
+import { MUTATIONS } from "@/graphql/mutations.js";
+import { getItemViewPath } from "@/routes/helpers.js";
+import { currencyStrToInt, intToCurrencyStr } from "@/utils/formatters/currency.js";
+import { InvoiceForm } from "./InvoiceForm.jsx";
+import { invoiceFormSchema, type InvoiceFormValues } from "./schema.js";
+import type { Invoice } from "@/types/graphql.js";
 
 export const FormUpdateInvoice = ({ invoice: existingInvoice }: { invoice: Invoice }) => {
   const { LottieView, playLottie } = useLottie({ animation: "success-checkmark" });
@@ -19,7 +18,7 @@ export const FormUpdateInvoice = ({ invoice: existingInvoice }: { invoice: Invoi
     await updateInvoice({
       variables: {
         invoiceID: existingInvoice.id,
-        amount: normalizeCurrencyStrToInt(amount),
+        amount: currencyStrToInt(amount),
       },
     });
 
@@ -30,7 +29,7 @@ export const FormUpdateInvoice = ({ invoice: existingInvoice }: { invoice: Invoi
 
   const formUpdateInvoiceInitialValues = getInitialValuesFromSchema(invoiceFormSchema, {
     ...existingInvoice,
-    amount: fmt.intToCurrencyStr(existingInvoice.amount),
+    amount: intToCurrencyStr(existingInvoice.amount),
   });
 
   return (

@@ -1,15 +1,15 @@
 import { styled } from "@mui/material/styles";
 import GroupIcon from "@mui/icons-material/Group";
 import { listClassNames } from "@/components/List";
-import { ContactListItemButton } from "@/components/List/listItems/ContactListItem";
-import { QUERIES } from "@/graphql/queries";
+import { ContactListItemButton } from "@/components/List/listItems/ContactListItem.jsx";
+import { QUERIES } from "@/graphql/queries.js";
 import { coreContentViewLayoutClassNames } from "@/layouts/CoreContentViewLayout";
 import { CoreItemsListView } from "@/layouts/CoreItemsListView";
-import { APP_PATHS } from "@/routes/appPaths";
+import { APP_PATHS } from "@/routes/appPaths.js";
 import { SearchUsers } from "./SearchUsers";
-import { contactTableProps, type ContactTableRowData } from "./tableProps";
-import type { Contact } from "@/graphql/types";
+import { contactTableProps, type ContactTableRowData } from "./tableProps.jsx";
 import type { ListViewRenderItemFn } from "@/layouts/CoreItemsListView";
+import type { Contact } from "@/types/graphql.js";
 
 type MyContactsQueryData = { myContacts: Array<Contact> };
 

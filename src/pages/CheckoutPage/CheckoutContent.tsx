@@ -3,13 +3,13 @@ import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
 import Text from "@mui/material/Typography";
 import { FetchStateContextProvider } from "@/app/FetchStateContext";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
 import { TitleLogo, brandingClassNames } from "@/components/Branding";
-import { DemoStripeCardInfoAccordion } from "@/components/DevTools/DemoStripeCardInfoAccordion";
-import { CheckoutForm, type CheckoutFormProps } from "./CheckoutForm";
-import { PaymentConfirmationInfo } from "./PaymentConfirmationInfo";
-import { SubCostDetails } from "./SubCostDetails";
-import { checkoutPageClassNames } from "./classNames";
+import { DemoStripeCardInfoAccordion } from "@/components/DevTools/DemoStripeCardInfoAccordion.jsx";
+import { CheckoutForm, type CheckoutFormProps } from "./CheckoutForm.jsx";
+import { PaymentConfirmationInfo } from "./PaymentConfirmationInfo.jsx";
+import { SubCostDetails } from "./SubCostDetails.jsx";
+import { checkoutPageClassNames } from "./classNames.js";
 
 export const CheckoutContent = ({
   showPaymentConfirmation,

@@ -1,11 +1,12 @@
 import Text from "@mui/material/Typography";
-import { Anchor } from "@/components/Navigation/Anchor";
-import { Link } from "@/components/Navigation/Link";
-import { ClickToCopyText } from "@/components/Text/ClickToCopyText";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
+import { Link } from "@/components/Navigation/Link.jsx";
+import { ClickToCopyText } from "@/components/Text/ClickToCopyText.jsx";
 import { LegalPolicyPageLayout } from "@/layouts/LegalPolicyPageLayout";
-import { LegalPolicySection } from "@/layouts/LegalPolicyPageLayout/LegalPolicySection";
-import { PolicyInfoTable } from "@/layouts/LegalPolicyPageLayout/PolicyInfoTable";
-import { APP_PATHS } from "@/routes/appPaths";
+import { LegalPolicySection } from "@/layouts/LegalPolicyPageLayout/LegalPolicySection.jsx";
+import { PolicyInfoTable } from "@/layouts/LegalPolicyPageLayout/PolicyInfoTable.jsx";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { APP_URLS } from "@/routes/appURLs.js";
 
 export const CookiePolicyPage = () => (
   <LegalPolicyPageLayout pageTitle="Cookie Policy" lastUpdated="March 12, 2024">

@@ -7,9 +7,9 @@ import Tooltip from "@mui/material/Tooltip";
 import SearchIcon from "@mui/icons-material/Search";
 import SendIcon from "@mui/icons-material/Send";
 import SendToMobileIcon from "@mui/icons-material/SendToMobile";
-import { prettifyPhoneNum } from "@/utils/formatters/strings";
-import { helpers } from "./helpers";
-import type { SearchUsersInputType } from "./types";
+import { prettifyPhoneNumStr } from "@/utils/formatters/phone.js";
+import { helpers } from "./helpers.js";
+import type { SearchUsersInputType } from "./types.js";
 
 /**
  * Search Users Input Adornment Button
@@ -50,7 +50,7 @@ export const SearchUsersInputAdornmentBtn = ({
                 : inputType === "handle"
                   ? `Search for ${searchFieldValue}`
                   : inputType === "phone"
-                    ? `Text invite to ${prettifyPhoneNum(searchFieldValue, false)}`
+                    ? `Text invite to ${prettifyPhoneNumStr(searchFieldValue)}`
                     : `Email invite to ${searchFieldValue}`
           }
         >

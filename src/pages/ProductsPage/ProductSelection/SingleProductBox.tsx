@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
-import { APP_PATHS } from "@/routes/appPaths";
-import { checkoutValuesStore, StoredCheckoutValues } from "@/stores/checkoutValuesStore";
-import { ProductInfoBox } from "./ProductInfoBox";
-import { SingleProductBoxSwitch } from "./SingleProductBoxSwitch";
-import { PRICE_INFO } from "./productPricingInfo";
-import type { SubscriptionPriceLabel } from "@/graphql/types";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { checkoutValuesStore, StoredCheckoutValues } from "@/stores/checkoutValuesStore.js";
+import { ProductInfoBox } from "./ProductInfoBox.jsx";
+import { SingleProductBoxSwitch } from "./SingleProductBoxSwitch.jsx";
+import { PRICE_INFO } from "./productPricingInfo.js";
+import type { SubscriptionPriceName } from "@/types/graphql.js";
 
 /**
  * Product selection for mobile layout
@@ -27,21 +27,21 @@ export const SingleProductBox = ({ selectedSubscription }: StoredCheckoutValues)
   const { PRICE_NAME, PRICE_AMOUNT, PRICE_DESCRIPTION } = PRICE_INFO[priceInfoToDisplay];
 
   // The Switch's "other" option:
-  const switchOtherProduct: { priceLabel: SubscriptionPriceLabel; tooltipTitle: string } =
+  const switchOtherProduct: { priceName: SubscriptionPriceName; tooltipTitle: string } =
     selectedSubscription === "ANNUAL"
       ? {
-          priceLabel: "TRIAL", // on mobile MONTHLY defaults to TRIAL (see jsdoc)
+          priceName: "TRIAL", // on mobile MONTHLY defaults to TRIAL (see jsdoc)
           tooltipTitle: "Switch to monthly subscription",
         }
       : {
-          priceLabel: "ANNUAL",
+          priceName: "ANNUAL",
           tooltipTitle: "Switch to annual subscription",
         };
 
   const handleSwitchProducts = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.stopPropagation();
     checkoutValuesStore.mergeUpdate({
-      selectedSubscription: switchOtherProduct.priceLabel,
+      selectedSubscription: switchOtherProduct.priceName,
     });
   };
 

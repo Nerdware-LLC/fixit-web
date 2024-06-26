@@ -1,6 +1,6 @@
 import Box, { type BoxProps } from "@mui/material/Box";
 import Text, { type TypographyProps } from "@mui/material/Typography";
-import type { SearchUsersInputActionType } from "./types";
+import type { SearchUsersInputActionType } from "./types.js";
 
 export const InputRequirementsInfo = ({
   inputActionType,

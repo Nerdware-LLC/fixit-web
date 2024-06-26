@@ -1,8 +1,10 @@
+import Stack from "@mui/material/Stack";
 import Text from "@mui/material/Typography";
 import { Anchor, Link, LegalLinks } from "@/components/Navigation";
 import { AuthPageLayout } from "@/layouts/AuthPageLayout";
-import { APP_PATHS } from "@/routes/appPaths";
-import { RegisterForm } from "./RegisterForm";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { APP_URLS } from "@/routes/appURLs.js";
+import { RegisterForm } from "./RegisterForm.jsx";
 
 /**
  * **RegisterPage**

@@ -1,5 +1,5 @@
 import { withRootAppLayoutDecorator } from "@/../.storybook/decorators";
-import { CookiePolicyPage } from "./CookiePolicyPage";
+import { CookiePolicyPage } from "./CookiePolicyPage.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

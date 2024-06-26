@@ -4,10 +4,10 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Divider, { dividerClasses } from "@mui/material/Divider";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { DragonIcon } from "@/components/Icons/DragonIcon";
-import { Anchor } from "@/components/Navigation/Anchor";
-import { Link } from "@/components/Navigation/Link";
-import { APP_PATHS } from "@/routes/appPaths";
+import { DragonIcon } from "@/components/Icons/DragonIcon.jsx";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
+import { Link } from "@/components/Navigation/Link.jsx";
+import { APP_PATHS } from "@/routes/appPaths.js";
 
 export const PageNotFound = () => {
   const nav = useNavigate();

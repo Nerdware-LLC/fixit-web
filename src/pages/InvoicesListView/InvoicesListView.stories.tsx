@@ -3,9 +3,9 @@ import {
   withHomePageLayoutDecorator,
   type MockApolloDecoratorArgs,
 } from "@/../.storybook/decorators";
-import { QUERIES } from "@/graphql/queries";
-import { MOCK_INVOICES } from "@/tests/mockItems/mockInvoices";
-import { InvoicesListView } from "./InvoicesListView";
+import { QUERIES } from "@/graphql/queries.js";
+import { MOCK_INVOICES } from "@/tests/mockItems/mockInvoices.js";
+import { InvoicesListView } from "./InvoicesListView.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

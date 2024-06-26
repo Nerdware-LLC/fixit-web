@@ -2,19 +2,19 @@ import { styled, alpha } from "@mui/material/styles";
 import CalendarIcon from "@mui/icons-material/CalendarToday";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import PersonIcon from "@mui/icons-material/Person";
-import { ContactAvatar } from "@/components/Avatar/ContactAvatar";
-import { WorkOrderCategoryChip } from "@/components/Chips/WorkOrderCategoryChip";
-import { WorkOrderStatusChip } from "@/components/Chips/WorkOrderStatusChip";
+import { ContactAvatar } from "@/components/Avatar/ContactAvatar.jsx";
+import { WorkOrderCategoryChip } from "@/components/Chips/WorkOrderCategoryChip.jsx";
+import { WorkOrderStatusChip } from "@/components/Chips/WorkOrderStatusChip.jsx";
 import { XscrollContainer, containerClassNames } from "@/components/Containers";
-import { ItemDetails } from "@/components/DataDisplay/ItemDetails";
-import { ItemDetailsGroup } from "@/components/DataDisplay/ItemDetailsGroup";
-import { LocationDetails } from "@/components/DataDisplay/LocationDetails";
-import { dataDisplayClassNames } from "@/components/DataDisplay/classNames";
+import { ItemDetails } from "@/components/DataDisplay/ItemDetails.jsx";
+import { ItemDetailsGroup } from "@/components/DataDisplay/ItemDetailsGroup.jsx";
+import { LocationDetails } from "@/components/DataDisplay/LocationDetails.jsx";
+import { dataDisplayClassNames } from "@/components/DataDisplay/classNames.js";
 import { Tabs, tabsClassNames } from "@/components/Tabs";
-import { fmt } from "@/utils/formatters";
-import { WorkOrderItemViewChecklist } from "./WorkOrderItemViewChecklist";
-import { WorkOrderTimeline } from "./WorkOrderTimeline";
-import type { WorkOrder } from "@/graphql/types";
+import { getDateStr, prettifyPhoneNumStr } from "@/utils/formatters";
+import { WorkOrderItemViewChecklist } from "./WorkOrderItemViewChecklist.jsx";
+import { WorkOrderTimeline } from "./WorkOrderTimeline.jsx";
+import type { WorkOrder } from "@/types/graphql.js";
 
 export const WorkOrderItemViewContent = ({ workOrder }: WorkOrderItemViewContentProps) => {
   // prettier-ignore
@@ -42,7 +42,7 @@ export const WorkOrderItemViewContent = ({ workOrder }: WorkOrderItemViewContent
                     />
                   </ItemDetailsGroup>
                   <ItemDetails gridArea="createdAt" label="Created">
-                    {fmt.getDateStr(createdAt)}
+                    {getDateStr(createdAt)}
                   </ItemDetails>
                   <ItemDetails gridArea="status" label="Status">
                     <WorkOrderStatusChip status={status} />
@@ -76,7 +76,7 @@ export const WorkOrderItemViewContent = ({ workOrder }: WorkOrderItemViewContent
               <ItemDetailsGroup label="Entry Contact" labelIcon={<PersonIcon />}>
                 <ItemDetails label="Name">{entryContact}</ItemDetails>
                 <ItemDetails label="Phone">
-                  {entryContactPhone ? fmt.prettifyPhoneNum(entryContactPhone) : ""}
+                  {entryContactPhone ? prettifyPhoneNumStr(entryContactPhone) : ""}
                 </ItemDetails>
               </ItemDetailsGroup>
             </div>

@@ -1,5 +1,5 @@
 import { withRootAppLayoutDecorator } from "@/../.storybook/decorators";
-import { PrivacyPolicyPage } from "./PrivacyPolicyPage";
+import { PrivacyPolicyPage } from "./PrivacyPolicyPage.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

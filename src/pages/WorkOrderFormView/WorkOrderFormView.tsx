@@ -1,8 +1,8 @@
 import { useLocation, type Location } from "react-router-dom";
 import { CoreItemView } from "@/layouts/CoreItemView";
-import { FormCreateWO } from "./FormCreateWO";
-import { FormUpdateWO } from "./FormUpdateWO";
-import type { WorkOrder } from "@/graphql/types";
+import { FormCreateWO } from "./FormCreateWO.jsx";
+import { FormUpdateWO } from "./FormUpdateWO.jsx";
+import type { WorkOrder } from "@/types/graphql.js";
 
 export const WorkOrderFormView = () => {
   const { state: locationState } = useLocation() as Location<{ workOrder?: WorkOrder }>;

@@ -2,11 +2,12 @@ import { styled } from "@mui/material/styles";
 import Box, { boxClasses } from "@mui/material/Box";
 import Divider, { dividerClasses } from "@mui/material/Divider";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
 import { StripeBadge, brandingClassNames } from "@/components/Branding";
 import { Anchor, LegalLinks, navigationClassNames } from "@/components/Navigation";
+import { APP_URLS } from "@/routes/appURLs.js";
 import { ProductSelection } from "./ProductSelection";
-import { productsPageElementIDs } from "./elementIDs";
+import { productsPageElementIDs } from "./elementIDs.js";
 
 /**
  * **ProductsPage** - renders when path is "/products"
@@ -22,14 +23,14 @@ export const ProductsPage = () => {
       <Box>
         <div id={productsPageElementIDs.fixitProductInfoContainer}>
           <Text style={{ fontWeight: "bold" }}>
-            Fixit uses <Anchor href="https://stripe.com/">Stripe</Anchor> to process your payments
-            quickly and keep your personal and payment information secure. Millions of companies
-            around the world trust Stripe to process payments for their users.
+            Fixit uses <Anchor href={APP_URLS.STRIPE_LANDING_PAGE}>Stripe</Anchor> to process your
+            payments quickly and keep your personal and payment information secure. Millions of
+            companies around the world trust Stripe to process payments for their users.
           </Text>
           <Text>
             For payments made with a credit card, Stripe charges a transaction fee of 2.9% + 30¢.
-            Click <Anchor href="https://stripe.com/pricing#pricing-details">here</Anchor> to learn
-            more about Stripe transaction pricing.
+            Click <Anchor href={APP_URLS.STRIPE_PRICING}>here</Anchor> to learn more about Stripe
+            transaction pricing.
           </Text>
           <LegalLinks includeStripeBadge={isMobilePageLayout} />
         </div>

@@ -6,12 +6,12 @@ import Text from "@mui/material/Typography";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ThreePIcon from "@mui/icons-material/ThreeP";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
-import { MobileCreateItemButton } from "@/components/Buttons/MobileCreateItemButton";
-import { MobileModalContentBox } from "@/components/Modal/MobileModalContentBox";
-import { InputRequirementsInfo, INPUT_INFO_TEXT } from "./InputRequirementsInfo";
-import { SearchUsersForm } from "./SearchUsersForm";
-import { ariaElementIDs, searchUsersInputClassNames as classNames } from "./classNames";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
+import { MobileCreateItemButton } from "@/components/Buttons/MobileCreateItemButton.jsx";
+import { MobileModalContentBox } from "@/components/Modal/MobileModalContentBox.jsx";
+import { InputRequirementsInfo, INPUT_INFO_TEXT } from "./InputRequirementsInfo.jsx";
+import { SearchUsersForm } from "./SearchUsersForm.jsx";
+import { ariaElementIDs, searchUsersInputClassNames as classNames } from "./classNames.js";
 
 /**
  * This component renders a layout-dependant SearchUsersForm/Input.

@@ -3,10 +3,10 @@ import {
   withRootAppLayoutDecorator,
   type CheckoutStateDecoratorArgs,
 } from "@/../.storybook/decorators";
-import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
-import { isAuthenticatedStore } from "@/stores/isAuthenticatedStore";
-import { STATIC_MOCK_USERS } from "@/tests/mockItems/staticMockUsers";
-import { CheckoutPage, type CheckoutPageProps } from "./CheckoutPage";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { isAuthenticatedStore } from "@/stores/isAuthenticatedStore.js";
+import { STATIC_MOCK_USERS } from "@/tests/mockItems/staticMockUsers.js";
+import { CheckoutPage, type CheckoutPageProps } from "./CheckoutPage.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

@@ -2,14 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client/react/hooks";
 import { getInitialValuesFromSchema } from "@/components/Form/helpers";
 import { useLottie } from "@/components/LottieAnimations";
-import { MUTATIONS } from "@/graphql/mutations";
-import { QUERIES } from "@/graphql/queries";
-import { APP_PATHS } from "@/routes/appPaths";
-import { logger } from "@/utils/logger";
-import { normalizeCurrencyStrToInt } from "@/utils/normalizers/currency";
-import { InvoiceForm } from "./InvoiceForm";
-import { invoiceFormSchema, type InvoiceFormValues } from "./schema";
-import type { WorkOrder } from "@/graphql/types";
+import { MUTATIONS } from "@/graphql/mutations.js";
+import { QUERIES } from "@/graphql/queries.js";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { currencyStrToInt } from "@/utils/formatters/currency.js";
+import { logger } from "@/utils/logger.js";
+import { InvoiceForm } from "./InvoiceForm.jsx";
+import { invoiceFormSchema, type InvoiceFormValues } from "./schema.js";
+import type { WorkOrder } from "@/types/graphql.js";
 
 /**
  * - Prop `workOrderToInvoice` represents a WO to attach to the Invoice. Note
@@ -43,7 +43,7 @@ export const FormCreateInvoice = ({
       variables: {
         invoice: {
           assignedTo: assignedTo.id,
-          amount: normalizeCurrencyStrToInt(amount),
+          amount: currencyStrToInt(amount),
           ...formValues,
         },
       },

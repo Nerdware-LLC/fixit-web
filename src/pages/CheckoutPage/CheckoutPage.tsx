@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Backdrop from "@mui/material/Backdrop";
-import { useLottie } from "@/components/LottieAnimations/useLottie";
+import { useLottie } from "@/components/LottieAnimations/useLottie.js";
 import { LegalLinks } from "@/components/Navigation";
-import { CheckoutContent } from "./CheckoutContent";
-import { checkoutPageElementIDs } from "./elementIDs";
+import { CheckoutContent } from "./CheckoutContent.jsx";
+import { checkoutPageElementIDs } from "./elementIDs.js";
 
 export const CheckoutPage = ({
   showPaymentConfirmation: initialShowPaymentConfirmation = false,

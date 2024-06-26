@@ -1,6 +1,6 @@
 import { useTheme, alpha } from "@mui/material/styles";
-import { ItemsPerMonthChart } from "@/components/Charts/ItemsPerMonthChart";
-import { TABLE_VIEW_DATA_SETS } from "@/layouts/CoreItemsListView/types";
+import { ItemsPerMonthChart } from "@/components/Charts/ItemsPerMonthChart.jsx";
+import { TABLE_VIEW_DATA_SETS } from "@/layouts/CoreItemsListView/types.js";
 import { useDashboardDataContext, ItemsPerMonthDataParser } from "./DashboardDataContext";
 
 export const InvoicesPerMonthChart = () => {

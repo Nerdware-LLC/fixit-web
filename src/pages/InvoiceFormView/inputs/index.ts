@@ -1,2 +1,2 @@
-export * from "./InvoiceAmountInput";
-export * from "./InvoiceWorkOrderInput";
+export * from "./InvoiceAmountInput.jsx";
+export * from "./InvoiceWorkOrderInput.jsx";

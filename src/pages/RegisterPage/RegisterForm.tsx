@@ -2,14 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { object as yupObject, type InferType } from "yup";
 import { useFetchStateContext } from "@/app/FetchStateContext";
-import { GoogleAuthFormButton } from "@/app/GoogleOAuthContext/GoogleAuthFormButton";
+import { GoogleAuthFormButton } from "@/app/GoogleOAuthContext/GoogleAuthFormButton.jsx";
 import { DividerWithText } from "@/components/DataDisplay";
 import { Form, FormSubmitButton } from "@/components/Form";
 import { UserHandleInput, EmailInput, PasswordInput, PhoneInput } from "@/components/Form/Inputs";
 import { yupCommonSchema, getInitialValuesFromSchema } from "@/components/Form/helpers";
 import { ErrorDialog } from "@/components/Indicators";
-import { APP_PATHS } from "@/routes/appPaths";
-import { authService } from "@/services/authService";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { authService } from "@/services/authService.js";
 
 export const RegisterForm = () => {
   const nav = useNavigate();

@@ -4,15 +4,15 @@ import Button, { buttonClasses } from "@mui/material/Button";
 import Paper, { paperClasses } from "@mui/material/Paper";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { THEMES } from "@/app/ThemeProvider/themes";
+import { THEMES } from "@/app/ThemeProvider/themes.js";
 import { PhoneShapedContainer, containerClassNames } from "@/components/Containers";
-import { DemoInfoDialog } from "@/components/DevTools/DemoInfoDialog";
-import { LegalLinks } from "@/components/Navigation/LegalLinks";
+import { DemoInfoDialog } from "@/components/DevTools/DemoInfoDialog.jsx";
+import { LegalLinks, navigationClassNames } from "@/components/Navigation";
 import { NON_BREAKING_SPACE_CHAR } from "@/components/Text";
 import backgroundImageSrc from "@/images/landing_page_bg.webp";
-import { APP_PATHS } from "@/routes/appPaths";
-import { ProductImage } from "./ProductImage";
-import { landingPageClassNames } from "./classNames";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { ProductImage } from "./ProductImage.jsx";
+import { landingPageClassNames } from "./classNames.js";
 
 /**
  * **Landing Page** - index route for RootAppRouter which renders when the path is `"/"`.

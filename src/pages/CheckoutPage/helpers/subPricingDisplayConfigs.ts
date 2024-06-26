@@ -1,4 +1,4 @@
-import type { SubscriptionPriceLabel } from "@/graphql/types";
+import type { SubscriptionPriceName } from "@/types/graphql.js";
 
 /**
  * > `The values used here are for DISPLAY PURPOSES ONLY and merely convey
@@ -27,7 +27,7 @@ export const SUB_PRICING_DISPLAY_CONFIGS = {
     billingPeriod: "year",
   },
 } as {
-  readonly [Sub in SubscriptionPriceLabel]: Sub extends "TRIAL"
+  readonly [Sub in SubscriptionPriceName]: Sub extends "TRIAL"
     ? TrialSubBillingDisplayConfigs
     : PaidSubBillingDisplayConfigs;
 };

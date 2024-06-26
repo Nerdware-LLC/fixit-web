@@ -1,5 +1,5 @@
 import { withRootAppLayoutDecorator } from "@/../.storybook/decorators";
-import { TermsOfServicePage } from "./TermsOfServicePage";
+import { TermsOfServicePage } from "./TermsOfServicePage.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

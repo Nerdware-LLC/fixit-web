@@ -3,8 +3,8 @@ import Button, { buttonClasses } from "@mui/material/Button";
 import Paper, { type PaperProps } from "@mui/material/Paper";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import { ShimmerBox, containerClassNames } from "@/components/Containers";
-import { ProductFeatures } from "./ProductFeatures";
-import { productSelectionClassNames } from "./classNames";
+import { ProductFeatures } from "./ProductFeatures.jsx";
+import { productSelectionClassNames } from "./classNames.js";
 
 export const ProductInfoBox = ({
   priceName,

@@ -9,12 +9,12 @@ import AddIcon from "@mui/icons-material/Add";
 import SendIcon from "@mui/icons-material/Send";
 import SendToMobileIcon from "@mui/icons-material/SendToMobile";
 import { ContactAvatar, avatarClassNames } from "@/components/Avatar";
-import { CloseIconButton } from "@/components/Buttons/CloseIconButton";
-import { prettifyPhoneNum } from "@/utils/formatters/strings";
-import { InputRequirementsInfo, INPUT_INFO_TEXT } from "./InputRequirementsInfo";
-import { ariaElementIDs, searchUsersInputClassNames as classNames } from "./classNames";
-import type { Contact } from "@/graphql/types";
-import type { SearchUsersInputType, SearchUsersInputActionType } from "./types";
+import { CloseIconButton } from "@/components/Buttons/CloseIconButton.jsx";
+import { prettifyPhoneNumStr } from "@/utils/formatters/phone.js";
+import { InputRequirementsInfo, INPUT_INFO_TEXT } from "./InputRequirementsInfo.jsx";
+import { ariaElementIDs, searchUsersInputClassNames as classNames } from "./classNames.js";
+import type { User } from "@/types/graphql.js";
+import type { SearchUsersInputType, SearchUsersInputActionType } from "./types.js";
 
 export const SearchUsersPopperContent = forwardRef<HTMLDivElement, SearchUsersPopperContentProps>(
   function SearchUsersPopperContent(
@@ -79,7 +79,7 @@ export const SearchUsersPopperContent = forwardRef<HTMLDivElement, SearchUsersPo
                 <div style={{ display: "flex", justifyContent: "center", gap: "0.55rem" }}>
                   <Text>To:</Text>
                   <Text>
-                    {inputType === "phone" ? prettifyPhoneNum(sendInviteTo, false) : sendInviteTo}
+                    {inputType === "phone" ? prettifyPhoneNumStr(sendInviteTo) : sendInviteTo}
                   </Text>
                 </div>
               ),
@@ -187,7 +187,7 @@ export type SearchUsersPopperContentProps = {
   searchFieldHasError?: boolean;
   inputType: SearchUsersInputType;
   inputActionType: NonNullable<SearchUsersInputActionType>;
-  addContactUser?: Contact | null;
+  addContactUser?: User | null;
   sendInviteTo?: string | null;
   handleDoAction: React.MouseEventHandler<HTMLButtonElement>;
   handleClose: () => void;

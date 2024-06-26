@@ -1,9 +1,10 @@
 import Text from "@mui/material/Typography";
-import { Anchor } from "@/components/Navigation/Anchor";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
 import { LegalPolicyPageLayout } from "@/layouts/LegalPolicyPageLayout";
-import { PolicyToC } from "@/layouts/LegalPolicyPageLayout/PolicyToC";
-import { PolicySection } from "./PolicySection";
-import { ToS_SECTIONS } from "./TermsOfServiceSections";
+import { PolicyToC } from "@/layouts/LegalPolicyPageLayout/PolicyToC.jsx";
+import { APP_URLS } from "@/routes/appURLs.js";
+import { PolicySection } from "./PolicySection.jsx";
+import { ToS_SECTIONS } from "./TermsOfServiceSections.jsx";
 
 export const TermsOfServicePage = () => (
   <LegalPolicyPageLayout pageTitle="Terms of Service" lastUpdated="March 12, 2024">
@@ -14,10 +15,10 @@ export const TermsOfServicePage = () => (
     <PolicySection header="AGREEMENT TO TERMS">
       <Text>
         These Terms of Service constitute a legally binding agreement made between you, whether
-        personally or on behalf of an entity (“you”) and Nerdware, LLC ("Company", “we”, “us”, or
-        “our”), concerning your access to and use of the <Anchor href="https://gofixit.app" />{" "}
+        personally or on behalf of an entity ("you") and Nerdware, LLC ("Company", "we", "us", or
+        "our"), concerning your access to and use of the <Anchor href={APP_URLS.APP_ORIGIN} />{" "}
         website as well as any other media form, media channel, mobile website or mobile application
-        related, linked, or otherwise connected thereto (collectively, the “Site”). We are
+        related, linked, or otherwise connected thereto (collectively, the "Site"). We are
         registered in Ohio, United States and have our registered office at 4694 Cemetery Road,
         #398, Hilliard, OH 43026. You agree that by accessing the Site, you have read, understood,
         and agree to be bound by all of these Terms of Service. IF YOU DO NOT AGREE WITH ALL OF
@@ -28,7 +29,7 @@ export const TermsOfServicePage = () => (
         Supplemental terms and conditions or documents that may be posted on the Site from time to
         time are hereby expressly incorporated herein by reference. We reserve the right, in our
         sole discretion, to make changes or modifications to these Terms of Service at any time and
-        for any reason. We will alert you about any changes by updating the “Last updated” date of
+        for any reason. We will alert you about any changes by updating the "Last updated" date of
         these Terms of Service, and you waive any right to receive specific notice of each such
         change. Please ensure that you check the applicable Terms every time you use our Site so
         that you understand which Terms apply. You will be subject to, and will be deemed to have
@@ -56,11 +57,11 @@ export const TermsOfServicePage = () => (
       <Text>
         Unless otherwise indicated, the Site is our proprietary property and all source code,
         databases, functionality, software, website designs, audio, video, text, photographs, and
-        graphics on the Site (collectively, the “Content”) and the trademarks, service marks, and
-        logos contained therein (the “Marks”) are owned or controlled by us or licensed to us, and
+        graphics on the Site (collectively, the "Content") and the trademarks, service marks, and
+        logos contained therein (the "Marks") are owned or controlled by us or licensed to us, and
         are protected by copyright and trademark laws and various other intellectual property rights
         and unfair competition laws of the United States, international copyright laws, and
-        international conventions. The Content and the Marks are provided on the Site “AS IS” for
+        international conventions. The Content and the Marks are provided on the Site "AS IS" for
         your information and personal use only. Except as expressly provided in these Terms of
         Service, no part of the Site and no Content or Marks may be copied, reproduced, aggregated,
         republished, uploaded, posted, publicly displayed, encoded, translated, transmitted,
@@ -173,20 +174,20 @@ export const TermsOfServicePage = () => (
       <Text>
         {/*
           The language in this paragraph is required by Stripe, see link below.
-          https://stripe.com/docs/connect/updating-accounts#tos-acceptance
+          https://docs.stripe.com/connect/updating-service-agreements#tos-acceptance
         */}
         Payment processing services for users on Fixit are provided by Stripe and are subject to the{" "}
-        <Anchor href="https://stripe.com/connect-account/legal/full">
+        <Anchor href={APP_URLS.STRIPE_CONNECTED_ACCOUNT_AGREEMENT}>
           Stripe Connected Account Agreement
         </Anchor>
         , which includes the{" "}
-        <Anchor href="https://stripe.com/legal">Stripe Terms of Service</Anchor> (collectively, the
-        “Stripe Services Agreement”). By agreeing to these terms, or continuing to operate as a user
-        on Fixit, you agree to be bound by the Stripe Services Agreement, as the same may be
-        modified by Stripe from time to time. As a condition of Fixit enabling payment processing
-        services through Stripe, you agree to provide Fixit accurate and complete information about
-        you and your business, and you authorize Fixit to share it and transaction information
-        related to your use of the payment processing services provided by Stripe.
+        <Anchor href={APP_URLS.STRIPE_SERVICES_AGREEMENT}>Stripe Terms of Service</Anchor>{" "}
+        (collectively, the "Stripe Services Agreement"). By agreeing to these terms, or continuing
+        to operate as a user on Fixit, you agree to be bound by the Stripe Services Agreement, as
+        the same may be modified by Stripe from time to time. As a condition of Fixit enabling
+        payment processing services through Stripe, you agree to provide Fixit accurate and complete
+        information about you and your business, and you authorize Fixit to share it and transaction
+        information related to your use of the payment processing services provided by Stripe.
       </Text>
     </PolicySection>
 
@@ -264,9 +265,9 @@ export const TermsOfServicePage = () => (
         <li>
           Upload or transmit (or attempt to upload or to transmit) any material that acts as a
           passive or active information collection or transmission mechanism, including without
-          limitation, clear graphics interchange formats (“gifs”), 1×1 pixels, web bugs, cookies, or
-          other similar devices (sometimes referred to as “spyware” or “passive collection
-          mechanisms” or “pcms”).
+          limitation, clear graphics interchange formats ("gifs"), 1×1 pixels, web bugs, cookies, or
+          other similar devices (sometimes referred to as "spyware" or "passive collection
+          mechanisms" or "pcms").
         </li>
         <li>
           Interfere with, disrupt, or create an undue burden on the Site or the networks or services
@@ -450,7 +451,7 @@ export const TermsOfServicePage = () => (
       <SubsectionHeader>Apple and Android Devices</SubsectionHeader>
       <Text>
         The following terms apply when you use a mobile application obtained from either the Apple
-        Store or Google Play (each an “App Distributor”) to access the Site: (1) the license granted
+        Store or Google Play (each an "App Distributor") to access the Site: (1) the license granted
         to you for our mobile application is limited to a non-transferable license to use the
         application on a device that utilizes the Apple iOS or Android operating systems, as
         applicable, and in accordance with the usage rules set forth in the applicable App
@@ -466,7 +467,7 @@ export const TermsOfServicePage = () => (
         the App Distributor will have no other warranty obligation whatsoever with respect to the
         mobile application; (4) you represent and warrant that (i) you are not located in a country
         that is subject to a U.S. government embargo, or that has been designated by the U.S.
-        government as a “terrorist supporting” country and (ii) you are not listed on any U.S.
+        government as a "terrorist supporting" country and (ii) you are not listed on any U.S.
         government list of prohibited or restricted parties; (5) you must comply with applicable
         third-party terms of agreement when using the mobile application, e.g., if you have a VoIP
         application, then you must not be in violation of their wireless data service agreement when
@@ -484,7 +485,7 @@ export const TermsOfServicePage = () => (
     <PolicySection header="SOCIAL MEDIA">
       <Text>
         As part of the functionality of the Site, you may link your account with online accounts you
-        have with third-party service providers (each such account, a “Third-Party Account”) by
+        have with third-party service providers (each such account, a "Third-Party Account") by
         either: (1) providing your Third-Party Account login information through the Site; or (2)
         allowing us to access your Third-Party Account, as is permitted under the applicable terms
         and conditions that govern your use of each Third-Party Account. You represent and warrant
@@ -495,7 +496,7 @@ export const TermsOfServicePage = () => (
         third-party service provider of the Third-Party Account. By granting us access to any
         Third-Party Accounts, you understand that (1) we may access, make available, and store (if
         applicable) any content that you have provided to and stored in your Third-Party Account
-        (the “Social Network Content”) so that it is available on and through the Site via your
+        (the "Social Network Content") so that it is available on and through the Site via your
         account, including without limitation any friend lists and (2) we may submit to and receive
         from your Third-Party Account additional information to the extent you are notified when you
         link your account with the Third-Party Account. Depending on the Third-Party Accounts you
@@ -573,13 +574,13 @@ export const TermsOfServicePage = () => (
 
     <PolicySection header="U.S. GOVERNMENT RIGHTS">
       <Text>
-        Our services are “commercial items” as defined in Federal Acquisition Regulation (“FAR”)
+        Our services are "commercial items" as defined in Federal Acquisition Regulation ("FAR")
         2.101. If our services are acquired by or on behalf of any agency not within the Department
-        of Defense (“DOD”), our services are subject to the terms of these Terms of Service in
+        of Defense ("DOD"), our services are subject to the terms of these Terms of Service in
         accordance with FAR 12.212 (for computer software) and FAR 12.211 (for technical data). If
         our services are acquired by or on behalf of any agency within the Department of Defense,
         our services are subject to the terms of these Terms of Service in accordance with Defense
-        Federal Acquisition Regulation (“DFARS”) 227.7202-3. In addition, DFARS 252.227-7015 applies
+        Federal Acquisition Regulation ("DFARS") 227.7202-3. In addition, DFARS 252.227-7015 applies
         to technical data acquired by the DOD. This U.S. Government Rights clause is in lieu of, and
         supersedes, any other FAR, DFARS, or other clause or provision that addresses government
         rights in computer software or technical data under these Terms of Service.
@@ -608,9 +609,9 @@ export const TermsOfServicePage = () => (
     <PolicySection header="PRIVACY POLICY">
       <Text>
         We care about data privacy and security. Please review our Privacy Policy:{" "}
-        <Anchor href="https://gofixit.app/privacy" />. By using the Site, you agree to be bound by
-        our Privacy Policy, which is incorporated into these Terms of Service. Please be advised the
-        Site is hosted in the United States. If you access the Site from any other region of the
+        <Anchor href={APP_URLS.APP_PRIVACY_POLICY_PAGE} />. By using the Site, you agree to be bound
+        by our Privacy Policy, which is incorporated into these Terms of Service. Please be advised
+        the Site is hosted in the United States. If you access the Site from any other region of the
         world with laws or other requirements governing personal data collection, use, or disclosure
         that differ from applicable laws in the United States, then through your continued use of
         the Site, you are transferring your data to the United States, and you agree to have your
@@ -624,7 +625,7 @@ export const TermsOfServicePage = () => (
       <Text>
         We respect the intellectual property rights of others. If you believe that any material
         available on or through the Site infringes upon any copyright you own or control, please
-        immediately notify us using the contact information provided below (a “Notification”). A
+        immediately notify us using the contact information provided below (a "Notification"). A
         copy of your Notification will be sent to the person who posted or stored the material
         addressed in the Notification. Please be advised that pursuant to applicable law you may be
         held liable for damages if you make material misrepresentations in a Notification. Thus, if
@@ -691,8 +692,8 @@ export const TermsOfServicePage = () => (
       <SubsectionHeader>Informal Negotiations</SubsectionHeader>
       <Text>
         To expedite resolution and control the cost of any dispute, controversy, or claim related to
-        these Terms of Service (each "Dispute" and collectively, the “Disputes”) brought by either
-        you or us (individually, a “Party” and collectively, the “Parties”), the Parties agree to
+        these Terms of Service (each "Dispute" and collectively, the "Disputes") brought by either
+        you or us (individually, a "Party" and collectively, the "Parties"), the Parties agree to
         first attempt to negotiate any Dispute (except those Disputes expressly provided below)
         informally for at least thirty (30) days before initiating arbitration. Such informal
         negotiations commence upon written notice from one Party to the other Party.

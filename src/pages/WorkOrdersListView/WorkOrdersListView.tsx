@@ -1,18 +1,18 @@
 import ConstructionIcon from "@mui/icons-material/Construction";
-import { CreateItemButton } from "@/components/Buttons/CreateItemButton";
-import { WorkOrderListItemButton } from "@/components/List/listItems/WorkOrderListItem";
-import { QUERIES } from "@/graphql/queries";
+import { CreateItemButton } from "@/components/Buttons/CreateItemButton.jsx";
+import { WorkOrderListItemButton } from "@/components/List/listItems/WorkOrderListItem.jsx";
+import { QUERIES } from "@/graphql/queries.js";
 import {
   CoreItemsListView,
   LIST_VIEW_LIST_NAMES,
   TABLE_VIEW_DATA_SETS,
   type ListViewRenderItemFn,
 } from "@/layouts/CoreItemsListView";
-import { APP_PATHS } from "@/routes/appPaths";
-import { workOrderTableProps, type WorkOrderTableRowData } from "./tableProps";
-import type { WorkOrder, MyWorkOrdersQueryReturnType } from "@/graphql/types";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { workOrderTableProps, type WorkOrderTableRowData } from "./tableProps.js";
+import type { WorkOrder, MyWorkOrdersQueryResponse } from "@/types/graphql.js";
 
-type MyWorkOrdersQueryData = { myWorkOrders: MyWorkOrdersQueryReturnType };
+type MyWorkOrdersQueryData = { myWorkOrders: MyWorkOrdersQueryResponse };
 
 const getListsAndTablePropsFromMyWorkOrders = (data: MyWorkOrdersQueryData) => {
   const workOrdersCreatedByUser = data?.myWorkOrders?.createdByUser ?? [];

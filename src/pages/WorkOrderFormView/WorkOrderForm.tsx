@@ -13,8 +13,8 @@ import {
   ChecklistInput,
   checklistInputClassNames,
 } from "@/components/Form";
-import { workOrderFormSchema, type WorkOrderFormValues } from "./schema";
-import type { WorkOrder } from "@/graphql/types";
+import { workOrderFormSchema, type WorkOrderFormValues } from "./schema.js";
+import type { WorkOrder } from "@/types/graphql.js";
 
 export const WorkOrderForm = ({
   initialFormValues,

@@ -1,9 +1,10 @@
-import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import { svgIconClasses } from "@mui/material/SvgIcon";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Link } from "@/components/Navigation";
-import { AuthPageLayout, authPageLayoutClassNames } from "@/layouts/AuthPageLayout";
-import { APP_PATHS } from "@/routes/appPaths";
-import { LoginForm } from "./LoginForm";
+import { AuthPageLayout } from "@/layouts/AuthPageLayout";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { LoginForm } from "./LoginForm.jsx";
 
 /**
  * **LoginPage** - renders when path is "/login"

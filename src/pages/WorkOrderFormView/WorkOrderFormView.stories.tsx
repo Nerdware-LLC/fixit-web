@@ -6,9 +6,9 @@ import {
 } from "@/../.storybook/decorators";
 import { getInitialValuesFromSchema } from "@/components/Form/helpers";
 import { CoreItemView } from "@/layouts/CoreItemView";
-import { MOCK_WORK_ORDERS } from "@/tests/mockItems/mockWorkOrders";
-import { WorkOrderForm, type WorkOrderFormProps } from "./WorkOrderForm";
-import { workOrderFormSchema, type WorkOrderFormValues } from "./schema";
+import { MOCK_WORK_ORDERS } from "@/tests/mockItems/mockWorkOrders.js";
+import { WorkOrderForm, type WorkOrderFormProps } from "./WorkOrderForm.jsx";
+import { workOrderFormSchema, type WorkOrderFormValues } from "./schema.js";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

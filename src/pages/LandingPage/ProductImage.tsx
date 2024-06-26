@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import Dialog, { dialogClasses } from "@mui/material/Dialog";
 import Tooltip from "@mui/material/Tooltip";
-import { globalClassNames } from "@/app/GlobalStyles/classNames";
+import { globalClassNames } from "@/app/GlobalStyles/classNames.js";
 import {
   ImageCarousel,
   type ImageCarouselProps,

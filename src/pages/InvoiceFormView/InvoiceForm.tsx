@@ -8,10 +8,10 @@ import {
   AutoCompleteMyContacts,
   formClassNames,
 } from "@/components/Form";
-import { FormInvoiceWorkOrderInfo } from "./FormInvoiceWorkOrderInfo";
+import { FormInvoiceWorkOrderInfo } from "./FormInvoiceWorkOrderInfo.jsx";
 import { InvoiceWorkOrderInput, InvoiceAmountInput } from "./inputs";
-import { invoiceFormSchema, type InvoiceFormValues } from "./schema";
-import type { Invoice } from "@/graphql/types";
+import { invoiceFormSchema, type InvoiceFormValues } from "./schema.js";
+import type { Invoice } from "@/types/graphql.js";
 
 export const InvoiceForm = ({ initialFormValues, onSubmit, existingInvoice }: InvoiceFormProps) => (
   <Form

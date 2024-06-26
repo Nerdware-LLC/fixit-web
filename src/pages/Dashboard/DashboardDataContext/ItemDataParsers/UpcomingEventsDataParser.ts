@@ -5,7 +5,7 @@ import type {
   DataParserItem,
   DataParserAccum,
   DataParserAccumUpdater,
-} from "./ItemDataParser";
+} from "./ItemDataParser.js";
 
 export type UpcomingEvent = {
   eventLabel: string;

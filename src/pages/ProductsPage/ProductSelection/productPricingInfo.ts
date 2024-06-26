@@ -1,7 +1,7 @@
-import type { SubscriptionPriceLabel } from "@/graphql/types";
+import type { SubscriptionPriceName } from "@/types/graphql.js";
 
 export const PRICE_INFO: Record<
-  SubscriptionPriceLabel,
+  SubscriptionPriceName,
   {
     PRICE_NAME: string;
     PRICE_AMOUNT: string;

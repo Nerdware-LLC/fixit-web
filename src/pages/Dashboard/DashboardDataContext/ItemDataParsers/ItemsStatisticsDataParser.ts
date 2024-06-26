@@ -3,7 +3,7 @@ import type {
   DataParserItem,
   DataParserAccum,
   DataParserAccumUpdater,
-} from "./ItemDataParser";
+} from "./ItemDataParser.js";
 
 export interface ItemsStatisticsDataParserAccum extends DataParserAccum {
   STATISTICS: {

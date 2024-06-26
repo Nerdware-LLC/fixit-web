@@ -1,5 +1,5 @@
 import { withRootAppLayoutDecorator } from "@/../.storybook/decorators";
-import { LandingPage } from "./LandingPage";
+import { LandingPage } from "./LandingPage.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

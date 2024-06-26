@@ -8,11 +8,11 @@ import {
   AutoCompleteWorkOrder,
   type AutoCompleteWorkOrderProps,
   type AutoCompleteWorkOrderOptions,
-} from "@/components/Form/Inputs/AutoCompleteWorkOrder";
-import { QUERIES } from "@/graphql/queries";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
-import type { AutoCompleteOnChangeFn } from "@/components/Form/Inputs/AutoComplete";
-import type { Invoice, WorkOrder } from "@/graphql/types";
+} from "@/components/Form/Inputs/AutoCompleteWorkOrder.jsx";
+import { QUERIES } from "@/graphql/queries.js";
+import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
+import type { AutoCompleteOnChangeFn } from "@/components/Form/Inputs/AutoComplete.jsx";
+import type { Invoice, WorkOrder } from "@/types/graphql.js";
 import type { Simplify } from "type-fest";
 
 /**

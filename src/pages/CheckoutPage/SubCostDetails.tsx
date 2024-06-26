@@ -3,12 +3,12 @@ import Box from "@mui/material/Box";
 import { chipClasses as muiChipClasses } from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { checkoutValuesStore } from "@/stores";
-import { fmt } from "@/utils/formatters";
-import { PromoCodeInput } from "./PromoCodeInput";
-import { SwitchToAnnual } from "./SwitchToAnnual";
-import { checkoutPageClassNames } from "./classNames";
-import { checkoutPageElementIDs } from "./elementIDs";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore.js";
+import { intToCurrencyStr } from "@/utils/formatters/currency.js";
+import { PromoCodeInput } from "./PromoCodeInput.js";
+import { SwitchToAnnual } from "./SwitchToAnnual.js";
+import { checkoutPageClassNames } from "./classNames.js";
+import { checkoutPageElementIDs } from "./elementIDs.js";
 import { SUB_PRICING_DISPLAY_CONFIGS, getPrice_FOR_DISPLAY_ONLY } from "./helpers";
 
 /**
@@ -27,8 +27,8 @@ export const SubCostDetails = () => {
   const { label, price, billingPeriod, trialDays, afterTrial } =
     SUB_PRICING_DISPLAY_CONFIGS[selectedSubscription];
 
-  const priceStr = fmt.intToCurrencyStr(price);
-  const afterTrialPriceStr = afterTrial ? fmt.intToCurrencyStr(afterTrial.price) : null;
+  const priceStr = intToCurrencyStr(price);
+  const afterTrialPriceStr = afterTrial ? intToCurrencyStr(afterTrial.price) : null;
 
   return (
     <StyledDiv>

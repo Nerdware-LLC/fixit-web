@@ -1,4 +1,4 @@
-import { PolicyInfoTable } from "@/layouts/LegalPolicyPageLayout/PolicyInfoTable";
+import { PolicyInfoTable } from "@/layouts/LegalPolicyPageLayout/PolicyInfoTable.jsx";
 
 export const PersonalInfoCollectedTable = () => (
   <PolicyInfoTable

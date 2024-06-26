@@ -1,7 +1,7 @@
 import { useFetchStateContext } from "@/app/FetchStateContext";
 import { ErrorDialog } from "@/components/Indicators";
 import { StripeForm, type StripeFormProps } from "@/components/StripeForm";
-import { checkoutValuesStore } from "@/stores/checkoutValuesStore";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore.js";
 import { SUB_PRICING_DISPLAY_CONFIGS, getPrice_FOR_DISPLAY_ONLY } from "./helpers";
 
 /**

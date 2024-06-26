@@ -2,18 +2,18 @@ import { styled } from "@mui/material/styles";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import DollarIcon from "@mui/icons-material/AttachMoney";
 import TimelineIcon from "@mui/icons-material/Timeline";
-import { ContactAvatar } from "@/components/Avatar/ContactAvatar";
-import { InvoiceStatusChip } from "@/components/Chips/InvoiceStatusChip";
+import { ContactAvatar } from "@/components/Avatar/ContactAvatar.jsx";
+import { InvoiceStatusChip } from "@/components/Chips/InvoiceStatusChip.jsx";
 import {
   ItemDetails,
   ItemDetailsGroup,
   InvoiceWorkOrderDetails,
   dataDisplayClassNames,
 } from "@/components/DataDisplay";
-import { fmt } from "@/utils/formatters";
-import { InvoiceStatusTracker } from "./InvoiceStatusTracker";
-import { invoiceItemViewElementIDs } from "./elementIDs";
-import type { Invoice } from "@/graphql/types";
+import { intToCurrencyStr, getDateStr } from "@/utils/formatters";
+import { InvoiceStatusTracker } from "./InvoiceStatusTracker.jsx";
+import { invoiceItemViewElementIDs } from "./elementIDs.js";
+import type { Invoice } from "@/types/graphql.js";
 
 export const InvoiceItemViewContent = ({ invoice }: { invoice: Invoice }) => {
   const { amount, createdBy, assignedTo, status, workOrder, createdAt } = invoice;
@@ -25,7 +25,7 @@ export const InvoiceItemViewContent = ({ invoice }: { invoice: Invoice }) => {
         label="Amount"
         labelIcon={<DollarIcon />}
       >
-        <Text>{fmt.intToCurrencyStr(amount)}</Text>
+        <Text>{intToCurrencyStr(amount)}</Text>
       </ItemDetailsGroup>
 
       <ItemDetails gridArea="status" label="Status">
@@ -33,7 +33,7 @@ export const InvoiceItemViewContent = ({ invoice }: { invoice: Invoice }) => {
       </ItemDetails>
 
       <ItemDetails gridArea="createdAt" label="Created">
-        {fmt.getDateStr(createdAt)}
+        {getDateStr(createdAt)}
       </ItemDetails>
 
       <InvoiceWorkOrderDetails gridArea="work-order" workOrder={workOrder} />

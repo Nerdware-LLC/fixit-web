@@ -1,13 +1,13 @@
-import { INVOICE_STATUSES } from "@/types/Invoice";
-import { WORK_ORDER_STATUSES } from "@/types/WorkOrder";
+import { INVOICE_STATUSES } from "@/types/Invoice.js";
+import { WORK_ORDER_STATUSES } from "@/types/WorkOrder.js";
 import {
   ItemsPerMonthDataParser,
   ItemsPerStatusDataParser,
   ItemsStatisticsDataParser,
   UpcomingEventsDataParser,
 } from "./ItemDataParsers";
-import { ItemsDataReducer } from "./ItemsDataReducer";
-import type { WorkOrder, Invoice } from "@/graphql/types";
+import { ItemsDataReducer } from "./ItemsDataReducer.js";
+import type { WorkOrder, Invoice } from "@/types/graphql.js";
 
 ////////////////////////////////////////////////////////////////
 // ITEM DATA PARSERS (exported so their `initialDataAccum`s can be used in the init DashboardDataContext obj)

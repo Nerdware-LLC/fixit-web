@@ -11,11 +11,11 @@ import Text, { typographyClasses } from "@mui/material/Typography";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import EventIcon from "@mui/icons-material/Event";
 import ScheduleIcon from "@mui/icons-material/Schedule";
-import { EmptyListFallback } from "@/components/List/subComponents/EmptyListFallback";
-import { SmallWidgetLayout } from "@/components/Widgets/SmallWidgetLayout";
-import { getItemViewPath } from "@/routes/helpers";
+import { EmptyListFallback } from "@/components/List/subComponents/EmptyListFallback.jsx";
+import { SmallWidgetLayout } from "@/components/Widgets/SmallWidgetLayout.jsx";
+import { getItemViewPath } from "@/routes/helpers.js";
 import { useDashboardDataContext, type UpcomingEvent } from "./DashboardDataContext";
-import type { WorkOrder } from "@/graphql/types";
+import type { WorkOrder } from "@/types/graphql.js";
 
 export const WorkOrderUpcomingEventsWidget = () => {
   const nav = useNavigate();

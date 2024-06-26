@@ -1,7 +1,7 @@
 import { withMockApolloDecorator, type MockApolloDecoratorArgs } from "@/../.storybook/decorators";
-import { QUERIES } from "@/graphql/queries";
-import { STATIC_MOCK_CONTACTS } from "@/tests/mockItems/staticMockContacts";
-import { SearchUsers } from "./SearchUsers";
+import { QUERIES } from "@/graphql/queries.js";
+import { STATIC_MOCK_CONTACTS } from "@/tests/mockItems/staticMockContacts.js";
+import { SearchUsers } from "./SearchUsers.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

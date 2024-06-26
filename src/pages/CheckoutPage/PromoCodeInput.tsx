@@ -6,9 +6,9 @@ import { inputBaseClasses } from "@mui/material/InputBase";
 import TextField, { textFieldClasses } from "@mui/material/TextField";
 import Text from "@mui/material/Typography";
 import CheckmarkIcon from "@mui/icons-material/CheckCircle";
-import { stripeService } from "@/services/stripeService";
-import { checkoutValuesStore } from "@/stores/checkoutValuesStore";
-import { checkoutPageClassNames } from "./classNames";
+import { stripeService } from "@/services/stripeService.js";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore.js";
+import { checkoutPageClassNames } from "./classNames.js";
 
 export const PromoCodeInput = () => {
   // checkoutValuesStore: only updated upon valid promoCode entry

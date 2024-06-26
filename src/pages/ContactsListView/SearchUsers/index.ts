@@ -1,1 +1,1 @@
-export * from "./SearchUsers";
+export * from "./SearchUsers.jsx";

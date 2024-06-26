@@ -1,5 +1,5 @@
-import type { UseFormikFieldPropsReturn } from "@/components/Form/helpers/useFormikFieldProps";
-import type { SearchForUsersByHandleQuery } from "@/graphql/types";
+import type { UseFormikFieldPropsReturn } from "@/components/Form/helpers/useFormikFieldProps.js";
+import type { SearchForUsersByHandleQuery } from "@/types/graphql.js";
 import type { useLazyQuery } from "@apollo/client/react/hooks";
 
 /**
@@ -10,12 +10,12 @@ export type SearchFieldProps = {
   [K in keyof UseFormikFieldPropsReturn<string> as K extends "value"
     ? "searchFieldValue"
     : K extends "label"
-    ? "searchFieldLabel"
-    : K extends "error"
-    ? "searchFieldHasError"
-    : K extends "helperText"
-    ? "searchFieldErrMsg"
-    : K]: UseFormikFieldPropsReturn<string>[K];
+      ? "searchFieldLabel"
+      : K extends "error"
+        ? "searchFieldHasError"
+        : K extends "helperText"
+          ? "searchFieldErrMsg"
+          : K]: UseFormikFieldPropsReturn<string>[K];
 };
 
 /**

@@ -1,9 +1,9 @@
 import { withHomePageLayoutDecorator } from "@/../.storybook/decorators";
 import { CoreItemView } from "@/layouts/CoreItemView";
-import { MOCK_INVOICES } from "@/tests/mockItems/mockInvoices";
-import { invoiceItemViewSX } from "./InvoiceItemView";
-import { InvoiceItemViewContent } from "./InvoiceItemViewContent";
-import { InvoiceItemViewHeader } from "./InvoiceItemViewHeader";
+import { MOCK_INVOICES } from "@/tests/mockItems/mockInvoices.js";
+import { invoiceItemViewSX } from "./InvoiceItemView.jsx";
+import { InvoiceItemViewContent } from "./InvoiceItemViewContent.jsx";
+import { InvoiceItemViewHeader } from "./InvoiceItemViewHeader.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

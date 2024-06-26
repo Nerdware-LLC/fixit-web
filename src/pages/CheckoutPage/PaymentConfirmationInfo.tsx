@@ -5,9 +5,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
 import Text from "@mui/material/Typography";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { ReceiptShapedContainer } from "@/components/Containers/ReceiptShapedContainer";
-import { APP_PATHS } from "@/routes/appPaths";
-import { checkoutValuesStore } from "@/stores";
+import { ReceiptShapedContainer } from "@/components/Containers/ReceiptShapedContainer.jsx";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore.js";
 import { SUB_PRICING_DISPLAY_CONFIGS, getPrice_FOR_DISPLAY_ONLY } from "./helpers";
 
 export const PaymentConfirmationInfo = () => {

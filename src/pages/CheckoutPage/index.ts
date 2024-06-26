@@ -1,2 +1,2 @@
-export { Component } from "./CheckoutPage";
+export { Component } from "./CheckoutPage.jsx";
 // Exported as "Component" for react-router-dom lazy loading

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import Button, { type ButtonProps } from "@mui/material/Button";
-import { PenToSquareIcon } from "@/components/Icons/PenToSquareIcon";
-import { APP_PATHS } from "@/routes/appPaths";
-import type { Invoice } from "@/graphql/types";
+import { PenToSquareIcon } from "@/components/Icons/PenToSquareIcon.jsx";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import type { Invoice } from "@/types/graphql.js";
 
 export const UpdateInvoiceButton = ({
   invoice,

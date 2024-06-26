@@ -1,6 +1,6 @@
 import { styled } from "@mui/material/styles";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { productSelectionClassNames } from "./classNames";
+import { productSelectionClassNames } from "./classNames.js";
 
 export const SingleProductBoxSwitch = ({ checked, handleChange }: SingleProductBoxSwitchProps) => (
   <StyledLabel>

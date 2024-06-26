@@ -6,16 +6,16 @@ import Backdrop from "@mui/material/Backdrop";
 import Grow from "@mui/material/Grow";
 import Popper from "@mui/material/Popper";
 import TextField from "@mui/material/TextField";
-import { useFormikFieldProps } from "@/components/Form/helpers/useFormikFieldProps";
-import { MUTATIONS } from "@/graphql/mutations";
-import { QUERIES } from "@/graphql/queries";
-import { SearchUsersContactOptionListItem } from "./SearchUsersContactOptionListItem";
-import { SearchUsersInputAdornmentBtn } from "./SearchUsersInputAdornmentBtn";
-import { SearchUsersPopperContent } from "./SearchUsersPopperContent";
-import { ariaElementIDs } from "./classNames";
-import { helpers } from "./helpers";
-import { useSearchUsersQuery } from "./useSearchUsersQuery";
-import type { Contact } from "@/graphql/types";
+import { useFormikFieldProps } from "@/components/Form/helpers/useFormikFieldProps.js";
+import { MUTATIONS } from "@/graphql/mutations.js";
+import { QUERIES } from "@/graphql/queries.js";
+import { SearchUsersInputAdornmentBtn } from "./SearchUsersInputAdornmentBtn.jsx";
+import { SearchUsersOptionListItem } from "./SearchUsersOptionListItem.jsx";
+import { SearchUsersPopperContent } from "./SearchUsersPopperContent.jsx";
+import { ariaElementIDs } from "./classNames.js";
+import { helpers } from "./helpers.js";
+import { useSearchUsersQuery } from "./useSearchUsersQuery.js";
+import type { User } from "@/types/graphql.js";
 
 /**
  * **Search Users Input**

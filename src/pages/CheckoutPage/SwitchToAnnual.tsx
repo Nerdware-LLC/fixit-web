@@ -5,13 +5,13 @@ import Chip from "@mui/material/Chip";
 import Switch from "@mui/material/Switch";
 import Tooltip from "@mui/material/Tooltip";
 import Text from "@mui/material/Typography";
-import { checkoutValuesStore } from "@/stores/checkoutValuesStore";
-import type { SubscriptionPriceLabel } from "@/graphql/types";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore.js";
+import type { SubscriptionPriceName } from "@/types/graphql.js";
 
 export const SwitchToAnnual = () => {
   // Route protection guarantees that these values are defined, hence the as cast
   const { selectedSubscription } = checkoutValuesStore.useSubToStore<true>();
-  const originalSelectedSubRef = useRef<SubscriptionPriceLabel | null>(null);
+  const originalSelectedSubRef = useRef<SubscriptionPriceName | null>(null);
 
   useEffect(() => {
     if (originalSelectedSubRef.current === null) {

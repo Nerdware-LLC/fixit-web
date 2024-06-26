@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { APP_PATHS } from "@/routes/appPaths";
-import { checkoutValuesStore, type StoredCheckoutValues } from "@/stores/checkoutValuesStore";
-import { ProductInfoBox } from "./ProductInfoBox";
-import { PRICE_INFO } from "./productPricingInfo";
-import type { SubscriptionPriceLabel } from "@/graphql/types";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { checkoutValuesStore, type StoredCheckoutValues } from "@/stores/checkoutValuesStore.js";
+import { ProductInfoBox } from "./ProductInfoBox.jsx";
+import { PRICE_INFO } from "./productPricingInfo.js";
+import type { SubscriptionPriceName } from "@/types/graphql.js";
 
 /**
  * Product selection for desktop layout

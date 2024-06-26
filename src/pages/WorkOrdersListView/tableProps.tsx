@@ -1,9 +1,9 @@
-import { ContactAvatar } from "@/components/Avatar/ContactAvatar";
-import { WorkOrderCategoryChip } from "@/components/Chips/WorkOrderCategoryChip";
-import { getDataGridColDefs } from "@/components/DataGrid/helpers/getDataGridColDefs";
-import { prettifyPhoneNum } from "@/utils/formatters/strings";
-import type { WorkOrder, Location } from "@/graphql/types";
-import type { TableViewDataSetProp } from "@/layouts/CoreItemsListView/types";
+import { ContactAvatar } from "@/components/Avatar/ContactAvatar.jsx";
+import { WorkOrderCategoryChip } from "@/components/Chips/WorkOrderCategoryChip.jsx";
+import { getDataGridColDefs } from "@/components/DataGrid/helpers/getDataGridColDefs.js";
+import { prettifyPhoneNumStr } from "@/utils/formatters/phone.js";
+import type { TableViewDataSetProp } from "@/layouts/CoreItemsListView/types.js";
+import type { WorkOrder, Location } from "@/types/graphql.js";
 import type { DataGridProps } from "@mui/x-data-grid";
 
 /**
@@ -103,8 +103,8 @@ const COLUMNS = getDataGridColDefs<
   },
   entryContactPhone: {
     headerName: "Phone",
-    valueFormatter: ({ value }) => (value ? prettifyPhoneNum(value) : ""),
-    valueParser: (value) => (value ? prettifyPhoneNum(value) : ""),
+    valueFormatter: ({ value }) => (value ? prettifyPhoneNumStr(value) : ""),
+    valueParser: (value) => (value ? prettifyPhoneNumStr(value) : ""),
     minWidth: 125,
     headerAlign: "center",
     align: "center",

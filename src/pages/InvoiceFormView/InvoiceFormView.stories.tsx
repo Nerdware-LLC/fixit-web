@@ -6,9 +6,9 @@ import {
 } from "@/../.storybook/decorators";
 import { getInitialValuesFromSchema } from "@/components/Form/helpers";
 import { CoreItemView } from "@/layouts/CoreItemView";
-import { MOCK_INVOICES } from "@/tests/mockItems/mockInvoices";
-import { InvoiceForm, type InvoiceFormProps } from "./InvoiceForm";
-import { invoiceFormSchema, type InvoiceFormValues } from "./schema";
+import { MOCK_INVOICES } from "@/tests/mockItems/mockInvoices.js";
+import { InvoiceForm, type InvoiceFormProps } from "./InvoiceForm.jsx";
+import { invoiceFormSchema, type InvoiceFormValues } from "./schema.js";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

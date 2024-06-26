@@ -5,7 +5,7 @@ import {
   dataDisplayClassNames,
   type ItemDetailsProps,
 } from "@/components/DataDisplay";
-import { QUERIES } from "@/graphql/queries";
+import { QUERIES } from "@/graphql/queries.js";
 
 export const FormInvoiceWorkOrderInfo = (itemDetailsContainerProps: ItemDetailsProps) => {
   const [{ value: selectedWorkOrderID }] = useField<string>("workOrder");

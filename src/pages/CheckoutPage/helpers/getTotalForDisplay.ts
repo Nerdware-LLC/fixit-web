@@ -1,6 +1,6 @@
 import { isSafeInteger } from "@nerdware/ts-type-safety-utils";
-import { fmt } from "@/utils/formatters";
-import type { OpenApiSchemas } from "@/types/open-api";
+import { intToCurrencyStr } from "@/utils/formatters/currency.js";
+import type { OpenApiSchemas } from "@/types/open-api.js";
 
 /**
  * > `The values used here are for DISPLAY PURPOSES ONLY and merely convey
@@ -18,7 +18,7 @@ export const getPrice_FOR_DISPLAY_ONLY = <FormatOpts extends { formatAsCurrency?
     : price;
 
   const returnValue =
-    formatAsCurrency === true ? fmt.intToCurrencyStr(priceWithDiscount) : priceWithDiscount;
+    formatAsCurrency === true ? intToCurrencyStr(priceWithDiscount) : priceWithDiscount;
 
   return returnValue as FormatOpts["formatAsCurrency"] extends true ? string : number;
 };
