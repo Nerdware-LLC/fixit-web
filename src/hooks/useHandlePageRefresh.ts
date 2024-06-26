@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { abortController } from "@/services/helpers/abortController";
+import { abortController } from "@/services/helpers/abortController.js";
 
 /**
  * This hook is used to handle page refresh events.

@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useFetchStateContext } from "@/app/FetchStateContext";
 import { useGoogleOneTapLogin } from "@/app/GoogleOAuthContext";
-import { APP_PATHS } from "@/routes/appPaths";
-import { authService, type GoogleTokenLoginParams } from "@/services/authService";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { authService } from "@/services/authService.js";
 import { isAuthenticatedStore, isActiveAccountStore, authenticatedUserStore } from "@/stores";
 
 /**
