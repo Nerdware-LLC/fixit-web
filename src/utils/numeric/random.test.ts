@@ -1,4 +1,4 @@
-import { randomIntBetween } from "./random";
+import { randomIntBetween } from "./random.js";
 
 describe("numeric/random", () => {
   describe("randomIntBetween()", () => {

@@ -1,2 +1,2 @@
-export * from "./calculate";
-export * from "./random";
+export * from "./calculate.js";
+export * from "./random.js";

@@ -1,2 +1,2 @@
-export * from "./dayjs";
-export * from "./getTypeSafeError";
+export * from "./dayjs.js";
+export * from "./getTypeSafeError.js";
