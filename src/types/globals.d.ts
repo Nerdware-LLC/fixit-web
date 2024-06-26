@@ -1,5 +1,5 @@
 import type { JsonValue } from "type-fest";
-import type { GoogleOAuthClient } from "./googleOAuth";
+import type { GoogleOAuthClient } from "./googleOAuth.js";
 
 declare global {
   /**

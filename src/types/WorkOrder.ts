@@ -1,4 +1,4 @@
-import type { WorkOrderStatus, WorkOrderPriority, WorkOrderCategory } from "@/graphql/types";
+import type { WorkOrderStatus, WorkOrderPriority, WorkOrderCategory } from "@/types/graphql.js";
 
 export const WORK_ORDER_STATUSES = [
   "UNASSIGNED",

@@ -1,6 +1,6 @@
-export * from "./googleOAuth";
-export * from "./open-api";
+export * from "./googleOAuth.js";
+export * from "./open-api.js";
 
-export * from "./Invoice";
-export * from "./UserSubscription";
-export * from "./WorkOrder";
+export * from "./Invoice.js";
+export * from "./UserSubscription.js";
+export * from "./WorkOrder.js";
