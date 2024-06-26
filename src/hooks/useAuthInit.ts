@@ -39,17 +39,10 @@ export const useAuthInit = () => {
    *
    * @param googleIDToken - Google ID Token. If provided, the `authService` method used
    * by this fn will be `loginWithGoogleToken`, otherwise it will be `refreshAuthToken`.
-   * @param shouldRunInBackground - If true, loading/error indicators are not shown.
-   * @param authFailErrMsg - If provided, a toast will be shown on auth failure (ignored
-   * if `shouldRunInBackground` is true).
+   * @param authFailErrMsg - If provided, a toast will be shown on auth failure.
    */
   const handleAuthInit = useCallback(
-    async ({
-      googleIDToken,
-      authFailErrMsg,
-    }: Partial<GoogleTokenLoginParams> & {
-      authFailErrMsg?: string;
-    }) => {
+    async ({ googleIDToken }: { googleIDToken?: string }) => {
       // Determine the `authService` method to use based on the presence of `googleIDToken`:
       const authInitFn = googleIDToken
         ? () => authService.loginWithGoogleToken({ googleIDToken })
@@ -74,11 +67,13 @@ export const useAuthInit = () => {
           nav(APP_PATHS.PRODUCTS);
         }
       } else {
-        // If the req failed and a authFailErrMsg was provided, then toast+redirect
-        if (authFailErrMsg) {
-          toast.error(authFailErrMsg, { toastId: "auth-init-request-failed" });
-          nav(APP_PATHS.LOGIN);
-        }
+        // If the req failed, toast+redirect
+        toast.error(
+          "Oops! Automatic sign-in with Google One-Tap didn't work. Please sign in with a different method.",
+          { toastId: "auth-init-request-failed" }
+        );
+
+        nav(APP_PATHS.LOGIN);
       }
     },
     [nav, setIsLoading]
@@ -94,21 +89,10 @@ export const useAuthInit = () => {
     onSuccess: (credentialResponse) => {
       void handleAuthInit({
         googleIDToken: credentialResponse.credential,
-        authFailErrMsg: AUTH_FAIL_ERR_MSGS.GOOGLE_ONETAP_FAILED,
       });
     },
     onError: () => {
-      void handleAuthInit({
-        authFailErrMsg: AUTH_FAIL_ERR_MSGS.GOOGLE_ONETAP_FAILED,
-      });
+      void handleAuthInit({});
     },
   });
 };
-
-/**
- * Error messages for failed auth requests.
- */
-const AUTH_FAIL_ERR_MSGS = {
-  GOOGLE_ONETAP_FAILED:
-    "Oops! Automatic sign-in with Google One-Tap didn't work. Please sign in with a different method.",
-} as const satisfies Record<string, string>;
