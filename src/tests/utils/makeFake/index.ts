@@ -8,11 +8,11 @@ import { makeFakeWorkOrderDescription } from "./workOrderDescription.js";
 import type { User } from "@/types/graphql.js";
 
 export const makeFake = {
-  userID: getMakeFakeFn<Pick<User, "id">>("id", () => `USER#${faker.string.uuid()}`),
+  userID: (handle: string) => `USER#${handle}`,
   email: getMakeFakeFn<Pick<User, "email">>("email", () => faker.internet.email()),
   userHandle: getMakeFakeFn<Pick<User, "handle">>(
     "handle",
-    () => `@${faker.internet.userName().replace(/[.-]/g, "")}`
+    () => `@${faker.internet.userName().replace(/[^a-z0-9_]/gi, "")}`
   ),
   phone: getMakeFakeFn<Pick<User, "phone">>("phone", () =>
     [

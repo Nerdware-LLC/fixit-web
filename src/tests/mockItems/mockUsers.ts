@@ -5,13 +5,12 @@ import type { User } from "@/types/graphql.js";
 import type { StaticMockContactName } from "./staticMockContacts.js";
 
 const createMockUser = (overrides: Partial<User> = {}): User => {
-  const userID = makeFake.userID(overrides);
   const handle = makeFake.userHandle(overrides);
+  const userID = makeFake.userID(handle);
   const userCreatedAt = overrides?.createdAt ?? faker.date.past({ years: 3 });
 
   return {
     __typename: "User",
-
     id: userID,
     handle,
     email: makeFake.email(overrides),

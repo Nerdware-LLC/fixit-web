@@ -17,7 +17,7 @@ const createMockContact = (
       ? overrides.id
       : overrides?.userID
         ? `CONTACT#${overrides.userID}`
-        : `CONTACT#${makeFake.userID()}`,
+        : `CONTACT#${makeFake.userID(handle)}`,
     handle,
     email: makeFake.email(overrides),
     phone: makeFake.phone(overrides),

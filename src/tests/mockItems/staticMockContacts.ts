@@ -14,7 +14,7 @@ import type { Contact } from "@/types/graphql.js";
 export const STATIC_MOCK_CONTACTS = {
   Linda_McContractorLongName_Jones_Smith: {
     __typename: "Contact",
-    id: "CONTACT#USER#e011a9dc-6ef6-400f-9ade-7b932dffab6b",
+    id: "CONTACT#USER#@linda_mcContractorLongName_jones_smith",
     handle: "@linda_mcContractorLongName_jones_smith",
     email: "linda_mcContractorLongName_jones_smith@foo.com",
     phone: "7978667438",
@@ -31,7 +31,7 @@ export const STATIC_MOCK_CONTACTS = {
   },
   Aloy_McInvoicer: {
     __typename: "Contact",
-    id: "CONTACT#USER#30022ae6-4cea-4de7-bd5d-d1953319c0a0",
+    id: "CONTACT#USER#@aloy_mcInvoicer",
     handle: "@aloy_mcInvoicer",
     email: "mech_hunter@gmail.com",
     phone: "4216104084",
@@ -48,7 +48,7 @@ export const STATIC_MOCK_CONTACTS = {
   },
   Walt_McWorkOrder: {
     __typename: "Contact",
-    id: "CONTACT#USER#c152ce44-e95c-4332-bbdf-d82a0bc6d149",
+    id: "CONTACT#USER#@walt_mcWorkOrder",
     handle: "@walt_mcWorkOrder",
     email: "arrow_in_the_knee@foo.biz",
     phone: "7026949910",
@@ -65,7 +65,7 @@ export const STATIC_MOCK_CONTACTS = {
   },
   Astarion_Ancunin: {
     __typename: "Contact",
-    id: "CONTACT#USER#3f17b361-cd21-4aab-86ce-f87bb645d352",
+    id: "CONTACT#USER#@rogue_vamp",
     handle: "@rogue_vamp",
     email: "astarion_3@gmail.com",
     phone: "7228277105",
