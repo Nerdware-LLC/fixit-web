@@ -2,7 +2,7 @@ import { makeVar, type ReactiveVar } from "@apollo/client/cache";
 import { useReactiveVar } from "@apollo/client/react/hooks";
 import { isPlainObject } from "@nerdware/ts-type-safety-utils";
 import deepMerge from "lodash.merge";
-import { LocalStorageValueManager } from "./helpers";
+import { LocalStorageValueManager } from "./LocalStorageValueManager.js";
 import type { Jsonifiable, JsonArray } from "type-fest";
 
 /**
@@ -28,14 +28,16 @@ export class ReactiveStore<
 > {
   protected readonly reactiveVar: ReactiveVar<ValueType>;
   protected readonly defaultValue: ValueType;
-  protected readonly storageValueManager: InstanceType<typeof LocalStorageValueManager> | undefined;
+  protected readonly storageValueManager:
+    | InstanceType<typeof LocalStorageValueManager<ValueType>>
+    | undefined;
 
   constructor({
     defaultValue,
     storageValueManager,
   }: {
     defaultValue?: ValueType;
-    storageValueManager?: InstanceType<typeof LocalStorageValueManager> | undefined;
+    storageValueManager?: InstanceType<typeof LocalStorageValueManager<ValueType>> | undefined;
   }) {
     if (defaultValue === undefined) {
       if (storageValueManager === undefined) {
@@ -79,7 +81,7 @@ export class ReactiveStore<
    */
   set<ShouldReturnValidatedValueType extends boolean = false>(newValue?: ValueType) {
     if (this.storageValueManager && newValue !== undefined) {
-      this.storageValueManager.set(newValue as any);
+      this.storageValueManager.set(newValue);
     }
     return this.reactiveVar(newValue) as ShouldReturnValidatedValueType extends true
       ? ValidatedValueType
@@ -100,6 +102,10 @@ export class ReactiveStore<
       : never
   ) {
     const currentValue = this.get();
+
+    // If `currentValue` is not set, use `partialNewValue` as the new value
+    if (currentValue === null)
+      return this.set<ShouldReturnValidatedValueType>(partialNewValue as unknown as ValueType);
 
     // Ensure the reactive-var's value is an iterable object
     if (!isPlainObject(currentValue)) {
