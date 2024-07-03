@@ -39,11 +39,10 @@ export const StripePaymentInput = ({
             // Only `email` is required to enable Link, but more info = more streamlined checkout.
             email,
             ...(phone && { phone }),
-            ...(!!givenName &&
-              !!familyName && {
-                // Stripe examples use the western `firstName lastName` convention for `name`:
-                name: `${givenName} ${familyName}`,
-              }),
+            ...(!!(givenName && familyName) && {
+              // Stripe examples use the western `firstName lastName` convention for `name`:
+              name: `${givenName} ${familyName}`,
+            }),
           },
         },
       }}
