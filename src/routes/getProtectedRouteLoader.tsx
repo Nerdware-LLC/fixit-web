@@ -38,7 +38,6 @@ export const getProtectedRouteLoader = (
           closeButton: false, // PaymentRequiredToast contains its own close btn
           style: { backgroundColor: "transparent" }, // hide react-toastify's modal
         });
-
         throw redirect(APP_PATHS.PRODUCTS);
       }
     }
