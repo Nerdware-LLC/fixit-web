@@ -6,6 +6,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { TextInput, type TextInputProps } from "./TextInput.jsx";
 import { formClassNames } from "../classNames.js";
 import type { OverrideProperties } from "type-fest";
+import type { PasswordAutoCompleteValue } from "./types.js";
 
 export const PasswordInput = ({ InputProps = {}, ...props }: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +48,7 @@ export const PasswordInput = ({ InputProps = {}, ...props }: PasswordInputProps)
 export type PasswordInputProps = OverrideProperties<
   Omit<TextInputProps, "type">,
   {
-    autoComplete?: "current-password" | "new-password";
+    autoComplete?: PasswordAutoCompleteValue;
     InputProps?: Omit<TextInputProps["InputProps"], "endAdornment">;
   }
 >;
