@@ -3,15 +3,21 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { BaseTextField } from "./BaseTextField.jsx";
 import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps } from "../helpers";
+import type { OverrideProperties } from "type-fest";
 import type { TextInputProps } from "./TextInput.jsx";
+import type { NameAutoCompleteValue } from "./types.js";
 
-export type UserHandleInputProps = TextInputProps;
+export type UserHandleInputProps = OverrideProperties<
+  TextInputProps,
+  { autoComplete?: NameAutoCompleteValue }
+>;
 
 export const UserHandleInput = <ValueType extends string | null | undefined = string>({
   id,
   label: explicitLabel,
   variant: explicitVariant,
   placeholder = "my_username",
+  autoComplete = "name nickname",
   ...userHandleInputProps
 }: UserHandleInputProps) => {
   const [{ value, ...textInputProps }, { setValue }] = useFormikFieldProps<ValueType>({
@@ -35,13 +41,15 @@ export const UserHandleInput = <ValueType extends string | null | undefined = st
 
   return (
     <BaseTextField
-      className={formClassNames.textInput}
       value={value ?? ""}
+      autoComplete={autoComplete}
+      className={formClassNames.textInput}
       {...textInputProps}
       {...userHandleInputProps}
       InputProps={{
         ...(userHandleInputProps.InputProps ?? {}),
         startAdornment: <InputAdornment position="start">@</InputAdornment>,
+        autoComplete,
       }}
     />
   );
