@@ -1,5 +1,4 @@
-import { ReactiveStore } from "./ReactiveStore.js";
-import { LocalStorageValueManager } from "./helpers";
+import { ReactiveStore, LocalStorageValueManager } from "./helpers";
 import type { SubscriptionPriceName } from "@/types/graphql.js";
 
 /**
@@ -9,7 +8,9 @@ import type { SubscriptionPriceName } from "@/types/graphql.js";
  */
 export const checkoutValuesLocalStorage = new LocalStorageValueManager<StoredCheckoutValues>(
   "checkoutValues",
-  { selectedSubscription: null, promoCode: null, discountPercentage: null }
+  {
+    initialValue: { selectedSubscription: null, promoCode: null, discountPercentage: null },
+  }
 );
 
 export const checkoutValuesStore = new ReactiveStore<StoredCheckoutValues, CheckoutValues>({

@@ -1,4 +1,4 @@
-import { ReactiveStore } from "./ReactiveStore.js";
+import { ReactiveStore } from "./helpers";
 
 export const isConnectOnboardingCompleteStore = new ReactiveStore<IsConnectOnboardingComplete>({
   defaultValue: false,

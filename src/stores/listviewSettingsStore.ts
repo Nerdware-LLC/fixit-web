@@ -1,7 +1,6 @@
 import { testShouldUseMobileLayout } from "@/app/PageLayoutContext/helpers.js";
 import { LIST_VIEW_MODES, type ListViewSettings } from "@/layouts/CoreItemsListView/types.js";
-import { ReactiveStore } from "./ReactiveStore.js";
-import { LocalStorageValueManager } from "./helpers";
+import { ReactiveStore, LocalStorageValueManager } from "./helpers";
 
 // Ascertain a sensible default for stored ListViewSettings:
 const isMobilePageLayout = testShouldUseMobileLayout();
@@ -15,14 +14,14 @@ const defaultListViewSettings = {
  */
 export const workOrdersListViewSettingsLocalStorage = new LocalStorageValueManager<
   ListViewSettings<true>
->("workOrdersListViewSettings", defaultListViewSettings);
+>("workOrdersListViewSettings", { initialValue: defaultListViewSettings });
 
 /**
  * A `LocalStorageValueManager` instance for the `"invoicesListViewSettings"` key.
  */
 export const invoicesListViewSettingsLocalStorage = new LocalStorageValueManager<
   ListViewSettings<true>
->("invoicesListViewSettings", defaultListViewSettings);
+>("invoicesListViewSettings", { initialValue: defaultListViewSettings });
 
 /**
  * A `LocalStorageValueManager` instance for the `"contactsListViewSettings"` key.
@@ -30,8 +29,10 @@ export const invoicesListViewSettingsLocalStorage = new LocalStorageValueManager
 export const contactsListViewSettingsLocalStorage = new LocalStorageValueManager<
   ListViewSettings<false>
 >("contactsListViewSettings", {
-  ...defaultListViewSettings,
-  listVisibility: null, // <-- overridden, because ContactsListView doesn't have Inbox/Sent lists
+  initialValue: {
+    ...defaultListViewSettings,
+    listVisibility: null, // <-- overridden, because ContactsListView doesn't have Inbox/Sent lists
+  },
 });
 
 /**

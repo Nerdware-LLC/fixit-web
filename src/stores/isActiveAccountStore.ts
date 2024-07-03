@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { ReactiveStore } from "./ReactiveStore.js";
+import { ReactiveStore } from "./helpers";
 import type { UserSubscription } from "@/types/graphql.js";
 
 /**
