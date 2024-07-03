@@ -34,10 +34,10 @@ export const yupCommonSchema = {
      * They sourced the pattern from here:
      * https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
      */
-    .email("Invalid email")
+    .email("The provided email is invalid")
     .test({
       name: "is-valid-email",
-      message: "Please enter a valid email",
+      message: "The provided email is invalid",
       test: (value) => isValidEmail(value),
     }),
 
