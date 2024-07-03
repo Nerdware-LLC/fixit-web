@@ -87,9 +87,7 @@ export const useAuthInit = () => {
     disabled: isAuthenticated,
     context: "signin",
     onSuccess: (credentialResponse) => {
-      void handleAuthInit({
-        googleIDToken: credentialResponse.credential,
-      });
+      void handleAuthInit({ googleIDToken: credentialResponse.credential });
     },
     onError: () => {
       void handleAuthInit({});
