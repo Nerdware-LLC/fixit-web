@@ -41,12 +41,9 @@ export const LoginForm = () => {
       <EmailInput id="email" />
       <PasswordInput id="password" autoComplete="current-password" />
       <FormSubmitButton />
-
-      {error && <ErrorDialog error={error} onDismiss={clearError} />}
-
       <DividerWithText flexItem>OR</DividerWithText>
-
-      <GoogleAuthFormButton text="signin_with" requiredFieldInputs={<EmailInput id="email" />} />
+      <GoogleAuthFormButton text="signin_with" />
+      {error && <ErrorDialog error={error} onDismiss={clearError} />}
     </Form>
   );
 };
