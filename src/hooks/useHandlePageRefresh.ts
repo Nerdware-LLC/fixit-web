@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { abortController } from "@/services/helpers/abortController.js";
+import { httpService } from "@/services/httpService.js";
 
 /**
  * This hook is used to handle page refresh events.
@@ -15,7 +15,7 @@ export const useHandlePageRefresh = (handlePageRefresh?: PageRefreshHandler) => 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
-      abortController.abort();
+      httpService.abortRequests();
       if (handlePageRefresh) handlePageRefresh(event);
     };
 
