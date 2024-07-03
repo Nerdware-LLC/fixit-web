@@ -33,7 +33,7 @@ export const typePolicies: TypePolicies = {
       myProfile: {
         merge: (existing = {}, incoming: Profile, { mergeObjects }) => {
           authenticatedUserStore.mergeUpdate({ profile: incoming });
-          return mergeObjects<Profile>(existing, incoming);
+          return mergeObjects<Profile>(existing as Profile, incoming);
         },
       },
 
