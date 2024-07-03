@@ -10,7 +10,7 @@ import { LoginForm } from "./LoginForm.jsx";
  * **LoginPage** - renders when path is "/login"
  */
 export const LoginPage = () => (
-  <AuthPageLayout pageTitle="User Login" sx={{ gap: "2rem" }}>
+  <AuthPageLayout pageTitle="User Login">
     <LoginForm />
     <Stack
       spacing={1}

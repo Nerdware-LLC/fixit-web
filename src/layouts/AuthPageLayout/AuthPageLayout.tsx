@@ -40,7 +40,7 @@ const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  gap: "1.5rem",
+  gap: "2rem",
   textAlign: "center",
 
   "& button": {
@@ -53,7 +53,6 @@ const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-evenly",
-    gap: "inherit",
     textAlign: "center",
   },
 
@@ -74,6 +73,8 @@ const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
     width: variables.isMobilePageLayout
       ? `${GOOGLE_OAUTH_BTN_DIMENSIONS.WIDTH.MOBILE}px !important`
       : `${GOOGLE_OAUTH_BTN_DIMENSIONS.WIDTH.DESKTOP}px !important`,
+
+    gap: "inherit",
 
     [`& .${formClassNames.root}`]: {
       width: "100%",
