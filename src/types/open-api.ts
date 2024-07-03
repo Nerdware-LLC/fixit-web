@@ -103,6 +103,8 @@ export type PreFetchedUserItems = OpenApiSchemas["PreFetchedUserItems"];
 export type CheckoutCompletionInfo = OpenApiSchemas["CheckoutCompletionInfo"];
 /** Info returned from the check-promo-code endpoint. */
 export type PromoCodeInfo = OpenApiSchemas["PromoCodeInfo"];
+/** REST API Error Response */
+export type ErrorResponse = OpenApiSchemas["Error"];
 
 ///////////////////////////////////////////////////////////////////////////////
 // OpenAPI Path Parameter Types (Path, Query, Header, Cookie)

@@ -8,6 +8,7 @@ import type {
   RestApiGETendpoint,
   RestApiPOSTendpoint,
   RestApiResponseByPath,
+  ErrorResponse,
 } from "@/types/open-api.js";
 
 // An `AbortController` instance that can be used to cancel Axios requests
@@ -41,7 +42,7 @@ axios.interceptors.response.use(
   // If the response is successful, return the response as-is:
   (response) => response,
   // If the response is an error, handle the error:
-  async (error: unknown) => {
+  async (error: AxiosError<ErrorResponse>) => {
     // If `error` is not an AxiosError, reject with a generic error message:
     if (!axios.isAxiosError(error))
       return Promise.reject(
@@ -51,24 +52,37 @@ axios.interceptors.response.use(
         })
       );
 
+    // Check for any available info about the error:
+    const {
+      code: axiosErrorCode,
+      message: axiosErrorMsg,
+      response: {
+        status: httpErrorStatusCode,
+        data: apiErrorResponse
+      } = {},
+    } = error; // prettier-ignore
+
     // Handle aborted requests:
-    if (error.code === "ERR_CANCELED") return Promise.resolve({ status: 499 });
+    if (axiosErrorCode === "ERR_CANCELED") return Promise.resolve({ status: 499 });
 
     // Handle timeouts / network errors:
-    if (error.message.includes("timeout"))
-      return Promise.reject(new Error("An error occurred - please try again later."));
+    if (axiosErrorMsg.includes("timeout"))
+      return Promise.reject(new Error("A network error occurred - please try again later."));
 
     // Check the error status code:
-    const errorStatusCode = error.response?.status;
-
-    if (errorStatusCode) {
-      if (errorStatusCode === 401) authenticatedUserStore.deauthenticate();
-      else if (errorStatusCode >= 500) logger.error(error, "HTTP_SERVICE_CODE_5xx");
+    if (httpErrorStatusCode) {
+      if (httpErrorStatusCode === 401) authenticatedUserStore.deauthenticate();
+      else if (httpErrorStatusCode >= 500) logger.error(error, "HTTP_SERVICE_CODE_5xx");
     } else {
       logger.error(error, "HTTP_SERVICE_CODE_UNKNOWN");
     }
 
-    return Promise.reject(error);
+    return Promise.reject(
+      new Error(
+        apiErrorResponse?.error ??
+          (ENV.IS_PROD ? "An error occurred - please try again." : axiosErrorMsg)
+      )
+    );
   }
 );
 
