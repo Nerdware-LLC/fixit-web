@@ -16,7 +16,7 @@ import { RegisterForm } from "./RegisterForm.jsx";
 export const RegisterPage = () => (
   <AuthPageLayout pageTitle="User Registration">
     <RegisterForm />
-    <Stack spacing={2}>
+    <Stack style={{ gap: "inherit" }}>
       <Text variant="caption" sx={{ "& > a": { display: "contents" } }}>
         By registering your account, you agree to the Fixit{" "}
         <Link to={APP_PATHS.ToS}>Terms of Service</Link> and the{" "}
