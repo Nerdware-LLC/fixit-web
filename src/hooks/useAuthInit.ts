@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useFetchStateContext } from "@/app/FetchStateContext";
@@ -13,26 +13,29 @@ import { isAuthenticatedStore, isActiveAccountStore } from "@/stores";
  * This hook is used to initialize the User's authentication state when the app is first loaded.
  * The logic implemented here is as follows:
  *
- * - If an AuthToken is not present in LocalStorage, this hook does nothing.
- * - If an AuthToken IS present, this hook will try two methods to "automatically"
- *   authenticate the User:
+ * 1. CHECK FOR AUTH TOKEN IN LOCAL STORAGE:
+ *    - If an AuthToken IS NOT present in LocalStorage, this hook does nothing.
+ *    - If an AuthToken IS present, this hook will try two methods to "automatically"
+ *      authenticate the User:
+ *      1. First, the hook will try to get the User signed in via Google OneTap.
+ *      2. If Google OneTap fails, or is dismissed/skipped/disabled, this hook will then attempt
+ *         to refresh the User's AuthToken using the `authService.refreshAuthToken` method. Note
+ *         that if Google OneTap is dismissed or skipped (not disabled), the refresh request will
+ *         be made in the background (i.e. without showing loading/error indicators).
  *
- *   1. First, the hook will try to get the User signed in via Google OneTap.
- *   2. If Google OneTap fails, or is dismissed/skipped/disabled, this hook will then attempt
- *      to refresh the User's AuthToken using the `authService.refreshAuthToken` method. Note
- *      that if Google OneTap is dismissed or skipped (not disabled), the refresh request will
- *      be made in the background (i.e. without showing loading/error indicators).
+ * 2. UPDATE APP STATE TO REFLECT INITIAL AUTH STATE:
+ *    If any method results in successful User authentication, the User is informed via toast msg,
+ *    and thereafter redirected to the appropriate page based on their account status:
+ *    - If the User has an active subscription, they are redirected to the `/home` page.
+ *    - If the User does not have an active subscription, they are redirected to `/products`.
  *
- * - If any method results in successful User authentication, the User is informed via toast msg,
- *   and thereafter redirected to the appropriate page based on their account status:
- *
- *   - If the User has an active subscription, they are redirected to the `/home` page.
- *   - If the User does not have an active subscription, they are redirected to the `/products` page.
+ * 3. FINALLY, `isAuthInitComplete` state is set to `true` to ensure the hook does not run again.
  */
 export const useAuthInit = () => {
   const nav = useNavigate();
   const { setIsLoading } = useFetchStateContext();
   const isAuthenticated = isAuthenticatedStore.useSubToStore();
+  const [isAuthInitComplete, setIsAuthInitComplete] = useState(false);
 
   /**
    * ### Auth Initialization Handler
@@ -83,8 +86,8 @@ export const useAuthInit = () => {
    * Google OneTap login for automatic sign-in.
    */
   useGoogleOneTapLogin({
-    // Only enabled if User is not currently authenticated
-    disabled: isAuthenticated,
+    // Only enabled if User is not authenticated when the app first loads
+    disabled: isAuthenticated || isAuthInitComplete,
     context: "signin",
     onSuccess: (credentialResponse) => {
       void handleAuthInit({ googleIDToken: credentialResponse.credential });
@@ -93,4 +96,7 @@ export const useAuthInit = () => {
       void handleAuthInit({});
     },
   });
+
+  // EFFECT: Set `isAuthInitComplete` to `true` when the hook completes the auth init process
+  useEffect(() => setIsAuthInitComplete(true), []);
 };
