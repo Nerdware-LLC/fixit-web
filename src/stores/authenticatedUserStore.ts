@@ -10,9 +10,9 @@ import type { AuthTokenPayload } from "@/types/open-api.js";
 
 class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload | null, AuthTokenPayload> {
   /**
-   * Process an auth token to authenticate the user.
+   * Process an auth token to update relevant reactive stores.
    */
-  processAuthToken(encodedAuthToken: string): AuthTokenPayload {
+  static readonly processAuthToken = (encodedAuthToken: string): AuthTokenPayload => {
     authTokenLocalStorage.set(encodedAuthToken);
 
     const tokenPayload: AuthTokenPayload = jwtDecode(encodedAuthToken);
@@ -25,11 +25,23 @@ class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload | null, Auth
       isActiveAccountStore.setIsSubValid(tokenPayload.subscription);
     }
 
-    this.set(tokenPayload);
-
     isAuthenticatedStore.set(true);
 
     return tokenPayload;
+  };
+
+  constructor() {
+    const maybeAuthToken = authTokenLocalStorage.get();
+    super({
+      defaultValue: maybeAuthToken ? AuthenticatedUserStore.processAuthToken(maybeAuthToken) : null,
+    });
+  }
+
+  /**
+   * Process an auth token to authenticate the user.
+   */
+  processAuthToken(encodedAuthToken: string): void {
+    this.set(AuthenticatedUserStore.processAuthToken(encodedAuthToken));
   }
 
   /**
@@ -53,4 +65,4 @@ class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload | null, Auth
   }
 }
 
-export const authenticatedUserStore = new AuthenticatedUserStore({ defaultValue: null });
+export const authenticatedUserStore = new AuthenticatedUserStore();
