@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import {
   FetchStateContext,
   type BaseFetchResponseObject,
