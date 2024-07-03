@@ -1,4 +1,5 @@
 export * from "./authenticatedUserStore.js";
+export * from "./authTokenLocalStorage.js";
 export * from "./checkoutValuesStore.js";
 export * from "./isActiveAccountStore.js";
 export * from "./isAuthenticatedStore.js";

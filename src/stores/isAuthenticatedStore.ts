@@ -1,4 +1,4 @@
-import { ReactiveStore } from "./ReactiveStore.js";
+import { authTokenLocalStorage } from "./authTokenLocalStorage.js";
 
 export const isAuthenticatedStore = new ReactiveStore<IsAuthenticated>({
   defaultValue: false,

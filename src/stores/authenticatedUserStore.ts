@@ -1,28 +1,12 @@
-import dayjs from "dayjs";
 import { jwtDecode } from "jwt-decode";
 import { apolloClient } from "@/app/ApolloProvider/apolloClient.js";
 import { googleLogout } from "@/app/GoogleOAuthContext/helpers.js";
-import { ReactiveStore } from "./ReactiveStore.js";
-import { LocalStorageValueManager } from "./helpers";
+import { authTokenLocalStorage } from "./authTokenLocalStorage.js";
+import { ReactiveStore } from "./helpers";
 import { isActiveAccountStore } from "./isActiveAccountStore.js";
 import { isAuthenticatedStore } from "./isAuthenticatedStore.js";
 import { isConnectOnboardingCompleteStore } from "./isConnectOnboardingCompleteStore.js";
 import type { AuthTokenPayload } from "@/types/open-api.js";
-
-/**
- * A `LocalStorageValueManager` instance for the `"authToken"` key.
- * Used by the {@link AuthenticatedUserStore} to manage the auth token.
- */
-export const authTokenLocalStorage = new LocalStorageValueManager<string | null>("authToken", null);
-
-/**
- * A `LocalStorageValueManager` instance for the `"authTokenUpdatedAt"` key.
- * Used to determine if the User should be shown the Google OAuth OneTap prompt on app load.
- */
-export const authTokenUpdatedAtLocalStorage = new LocalStorageValueManager<number | null>(
-  "authTokenUpdatedAt",
-  null
-);
 
 class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload | null, AuthTokenPayload> {
   /**
