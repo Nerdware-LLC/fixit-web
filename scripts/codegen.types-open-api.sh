@@ -101,43 +101,45 @@ function fetch_openapi_schema() {
 function generate_openapi_ts_types() {
 	log_info 'Generating OpenAPI TypeScript types ...'
 
-	local schema_file_version="$(grep -oPm1 '(?<=version:\s")[a-zA-Z0-9.-]+(?=")' "$schema_file")"
+	local schema_file_version="$(grep -oPm1 '(?<=version:\s)[a-zA-Z0-9.-]+' "$schema_file")"
 
 	# Update OpenAPI types using NodeJS API from openapi-typescript to fix `Date` types.
 	# (Their CLI does not convert `format: date-time` values to `Date` types)
 
 	node --input-type=module -e "
-	import fs from 'node:fs';
-	import ts from 'typescript';
-	import openapiTS, { astToString } from 'openapi-typescript';
+		import fs from 'node:fs';
+		import ts from 'typescript';
+		import openapiTS, { astToString } from 'openapi-typescript';
 
-	const DATE = ts.factory.createIdentifier('Date');
-	const NULL = ts.factory.createLiteralTypeNode(ts.factory.createNull());
+		const DATE = ts.factory.createIdentifier('Date');
+		const NULL = ts.factory.createLiteralTypeNode(ts.factory.createNull());
 
-	const ast = await openapiTS(
-		new URL('file://$PWD/$schema_file'),
-		{
-			transform(schemaObject, metadata) {
-				if (schemaObject.format === 'date-time') {
-					return Array.isArray(schemaObject.type) && schemaObject.type.includes('null')
-						? ts.factory.createUnionTypeNode([DATE, NULL])
-						: DATE;
-				}
-			},
-		}
-	);
+		const ast = await openapiTS(
+			new URL('file://$PWD/$schema_file'),
+			{
+				transform(schemaObject, metadata) {
+					if (schemaObject.format === 'date-time') {
+						return Array.isArray(schemaObject.type) && schemaObject.type.includes('null')
+							? ts.factory.createUnionTypeNode([DATE, NULL])
+							: DATE;
+					}
+				},
+			}
+		);
 
-	const tsFileContents = \`\
-	/**
-	 * DO NOT MAKE DIRECT CHANGES TO THIS FILE.
-	 *
-	 * This file was auto-generated using schema version: '$schema_file_version'
-	 */
+		const tsFileContents = \`\
+		/**
+		 * Fixit OpenAPI Schema Types
+		 *
+		 * DO NOT MAKE DIRECT CHANGES TO THIS FILE.
+		 *
+		 * This file was auto-generated using schema version: \\\`$schema_file_version\\\`
+		 */
 
-	\${astToString(ast)}
-	\`;
+		\${astToString(ast)}
+		\`.replaceAll(/^\t{0,2}/gm, ''); // <-- Removes leading tabs
 
-	fs.writeFileSync('$types_output', tsFileContents);"
+		fs.writeFileSync('$types_output', tsFileContents);"
 
 	[ $? != 0 ] && throw_error 'Failed to generate OpenAPI TypeScript types.'
 
