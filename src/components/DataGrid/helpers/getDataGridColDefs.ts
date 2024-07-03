@@ -58,7 +58,7 @@ export const getDataGridColDefs = <
               ? commonColDefs.dateTimeDefaults
               : {}),
           // If `renderCell` is present, `valueFormatter` is necessary for print/export:
-          ...(!!gridColDef?.renderCell && commonColDefs.renderCellBaseValueFormatter),
+          ...(!!gridColDef.renderCell && commonColDefs.renderCellBaseValueFormatter),
           ...gridColDef, // <-- explicit configs override above defaults
         },
       ];

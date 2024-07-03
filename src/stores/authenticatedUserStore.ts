@@ -17,11 +17,11 @@ class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload | null, Auth
 
     const tokenPayload: AuthTokenPayload = jwtDecode(encodedAuthToken);
 
-    if (tokenPayload?.stripeConnectAccount?.detailsSubmitted === true) {
+    if (tokenPayload.stripeConnectAccount.detailsSubmitted === true) {
       isConnectOnboardingCompleteStore.set(true);
     }
 
-    if (tokenPayload?.subscription) {
+    if (tokenPayload.subscription) {
       isActiveAccountStore.setIsSubValid(tokenPayload.subscription);
     }
 

@@ -34,9 +34,11 @@ export const GoogleOAuthContextProvider = ({ children }: { children: React.React
         const timeoutTimerIDs: NodeJS.Timeout[] = [];
         // Make 3 attempts to check if the google lib has loaded successfully:
         for (let i = 0; i < 3; i++) {
+          // Ignore eslint false positive
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
           if (hasGoogleOAuthScriptLoadedSuccessfully) break;
 
-          if (isFunction(window.google?.accounts?.id?.initialize)) {
+          if (isFunction(window.google?.accounts.id.initialize)) {
             setHasGoogleOAuthScriptLoadedSuccessfully(true);
           } else {
             // Else wait 1s, add the timerID to the array, and try again

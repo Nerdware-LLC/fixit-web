@@ -81,7 +81,7 @@ const InvoiceListItemContent = ({ invoice, userToDisplay }: InvoiceListItemConte
     <>
       <ListItemAvatar>
         <Avatar src={photoUrl || undefined} alt={displayName}>
-          {displayName?.charAt(0) || <PersonOffIcon />}
+          {displayName.charAt(0) || <PersonOffIcon />}
         </Avatar>
       </ListItemAvatar>
       <ListItemText

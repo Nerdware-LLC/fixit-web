@@ -1,7 +1,7 @@
+import { getErrorMessage } from "@nerdware/ts-type-safety-utils";
 import { styled } from "@mui/material/styles";
 import { dialogTitleClasses } from "@mui/material/DialogTitle";
 import { Dialog, type DialogProps } from "@/components/Dialog";
-import { getTypeSafeError } from "@/utils/typeSafety";
 
 export const ErrorDialog = ({
   error,
@@ -11,7 +11,7 @@ export const ErrorDialog = ({
 }: ErrorDialogProps) => {
   const { isDialogVisible, closeDialog } = Dialog.use(true);
 
-  const errorMsg = getTypeSafeError(error).message;
+  const errorMsg = getErrorMessage(error);
 
   const handleAccept = () => {
     closeDialog();

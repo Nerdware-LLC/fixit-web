@@ -31,7 +31,7 @@ export const commonColDefs = {
     ...GLOBAL_DEFAULTS,
     type: "dateTime",
     minWidth: 160,
-    valueFormatter: ({ value }) => (value ? getDateAndTimeStr(value) : null),
+    valueFormatter: ({ value }) => (value ? getDateAndTimeStr(value as Date) : null),
     ...CENTERED_COLUMN,
   },
   /** GridColDef configs for centering column header and content. */

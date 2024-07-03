@@ -43,7 +43,7 @@ export const COMPONENTS = {
             }),
 
         "&:hover": {
-          ...(!!ownerState?.onClick && {
+          ...(!!ownerState.onClick && {
             cursor: "pointer",
             opacity: 0.7,
           }),

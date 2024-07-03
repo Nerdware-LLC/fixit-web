@@ -20,7 +20,7 @@ const meta = {
   decorators: [
     (Story, { args }) => (
       <CoreItemView
-        headerLabel={args?.existingWorkOrder ? "Update Work Order" : "Create Work Order"}
+        headerLabel={args.existingWorkOrder ? "Update Work Order" : "Create Work Order"}
       >
         <Story />
       </CoreItemView>

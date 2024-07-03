@@ -10,15 +10,15 @@ export const SearchUsersOptionListItem = ({
   user: User;
 } & React.HTMLAttributes<HTMLLIElement>) => (
   <StyledLI {...props}>
-    <Avatar src={profile?.photoUrl || undefined} alt={`${handle} fixit avatar`}>
+    <Avatar src={profile.photoUrl || undefined} alt={`${handle} fixit avatar`}>
       {// The below char will be unused if an image src is available
-      [profile?.displayName, profile?.givenName, profile?.familyName]
+      [profile.displayName, profile.givenName, profile.familyName]
         .find((name) => !!name)
         ?.charAt(0)}
     </Avatar>
     <div>
       <Text variant="body2">{handle}</Text>
-      {profile?.displayName && <Text variant="caption">{profile.displayName}</Text>}
+      {profile.displayName && <Text variant="caption">{profile.displayName}</Text>}
     </div>
   </StyledLI>
 );

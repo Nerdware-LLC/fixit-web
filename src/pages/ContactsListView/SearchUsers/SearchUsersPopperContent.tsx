@@ -50,7 +50,7 @@ export const SearchUsersPopperContent = forwardRef<HTMLDivElement, SearchUsersPo
       errorMsgContent = null,
     } = searchFieldHasError
       ? {
-          titleText: INPUT_INFO_TEXT[inputActionType]?.header ?? "",
+          titleText: INPUT_INFO_TEXT[inputActionType].header,
           titleVariant: "body2",
           errorMsgContent: (
             <div className={classNames.popperErrorContentContainer}>

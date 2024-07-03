@@ -17,8 +17,8 @@ export const workOrdersPerMonthDataParser = new ItemsPerMonthDataParser();
 export const workOrdersPerStatusDataParser = new ItemsPerStatusDataParser<WorkOrder>(WORK_ORDER_STATUSES); // prettier-ignore
 export const workOrderUpcomingEventsDataParser = new UpcomingEventsDataParser<WorkOrder>(
   (workOrder) => [
-    { eventLabel: "Due", eventDate: workOrder?.dueDate },
-    { eventLabel: "Scheduled", eventDate: workOrder?.scheduledDateTime },
+    { eventLabel: "Due", eventDate: workOrder.dueDate },
+    { eventLabel: "Scheduled", eventDate: workOrder.scheduledDateTime },
   ]
 );
 

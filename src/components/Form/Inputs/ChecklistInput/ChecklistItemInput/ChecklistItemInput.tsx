@@ -1,9 +1,9 @@
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import { useField, useFormikContext } from "formik";
 import { styled } from "@mui/material/styles";
 import { formControlClasses } from "@mui/material/FormControl";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
 import { DeleteChecklistItemButton } from "./DeleteChecklistItemButton.jsx";
 import { ToggleCompleteButton } from "./ToggleCompleteButton.jsx";
 import { checklistItemInputClassNames } from "./classNames.js";
@@ -64,7 +64,7 @@ export const ChecklistItemInput = ({
       <TextField
         label={meta.error ?? null}
         placeholder="Description"
-        value={descriptionValue ?? ""}
+        value={descriptionValue}
         onKeyDown={handleKeyDown}
         onChange={handleTextChange}
         onBlur={handleBlur}

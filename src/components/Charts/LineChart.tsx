@@ -69,7 +69,7 @@ export const LineChart = <
 
   // If `title` was not provided,  but `options.plugins.title.text` was, set `title` to that value:
   if (!title) {
-    const maybeTitlePluginText = options?.plugins?.title?.text;
+    const maybeTitlePluginText = options.plugins?.title?.text;
     if (isString(maybeTitlePluginText)) title = maybeTitlePluginText;
   }
 

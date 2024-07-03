@@ -64,7 +64,7 @@ const COLUMNS = getDataGridColDefs<
     flex: 0.5,
     align: "center",
     headerAlign: "center",
-    valueGetter: ({ row: inv }) => inv?.workOrder?.id,
+    valueGetter: ({ row: inv }) => inv.workOrder?.id,
     renderCell: ({ value: workOrder }) =>
       !!workOrder?.id && (
         <Link

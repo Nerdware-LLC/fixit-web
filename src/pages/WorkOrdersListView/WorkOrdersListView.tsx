@@ -15,8 +15,8 @@ import type { WorkOrder, MyWorkOrdersQueryResponse } from "@/types/graphql.js";
 type MyWorkOrdersQueryData = { myWorkOrders: MyWorkOrdersQueryResponse };
 
 const getListsAndTablePropsFromMyWorkOrders = (data: MyWorkOrdersQueryData) => {
-  const workOrdersCreatedByUser = data?.myWorkOrders?.createdByUser ?? [];
-  const workOrdersAssignedToUser = data?.myWorkOrders?.assignedToUser ?? [];
+  const workOrdersCreatedByUser = data.myWorkOrders.createdByUser;
+  const workOrdersAssignedToUser = data.myWorkOrders.assignedToUser;
   return {
     lists: [
       {

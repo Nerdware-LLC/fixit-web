@@ -15,8 +15,8 @@ import type { Invoice, MyInvoicesQueryResponse } from "@/types/graphql.js";
 type MyInvoicesQueryData = { myInvoices: MyInvoicesQueryResponse };
 
 const getListsAndTablePropsFromMyInvoices = (data: MyInvoicesQueryData) => {
-  const invoicesCreatedByUser = data?.myInvoices?.createdByUser ?? [];
-  const invoicesAssignedToUser = data?.myInvoices?.assignedToUser ?? [];
+  const invoicesCreatedByUser = data.myInvoices.createdByUser;
+  const invoicesAssignedToUser = data.myInvoices.assignedToUser;
   return {
     lists: [
       {

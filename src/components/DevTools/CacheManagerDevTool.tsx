@@ -5,19 +5,24 @@ import { ActionsButtonGroup } from "@/components/Buttons/ActionsButtonGroup.jsx"
 import { QUERIES } from "@/graphql/queries.js";
 import { MOCK_WORK_ORDERS, MOCK_INVOICES, MOCK_CONTACTS } from "@/tests/mockItems";
 import { DevToolContainer } from "./DevToolContainer.jsx";
+import type { DataProxy } from "@apollo/client/core";
 
 export const CacheManagerDevTool = ({ handleCloseModal }: { handleCloseModal: () => void }) => {
   // Shared onClick handler for the ActionsButtonGroup options:
   const handleManageCache = async ({ target, action }: HandleManageCacheParams) => {
     if (action === "Write") {
       if (target !== "ALL") {
-        apolloClient.writeQuery(MOCK_CACHE_CONFIGS[target].WRITE_QUERY_ARGS as any);
+        apolloClient.writeQuery(
+          MOCK_CACHE_CONFIGS[target].WRITE_QUERY_ARGS as DataProxy.WriteQueryOptions<never, never>
+        );
       } else {
         // Write all queries to cache
         apolloClient.writeQuery(MOCK_CACHE_CONFIGS.WorkOrders.WRITE_QUERY_ARGS);
         apolloClient.writeQuery(MOCK_CACHE_CONFIGS.Invoices.WRITE_QUERY_ARGS);
         apolloClient.writeQuery(MOCK_CACHE_CONFIGS.Contacts.WRITE_QUERY_ARGS);
       }
+      // "Unnecessary condition" kept for future-proofing
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     } else if (action === "Clear") {
       // id defaults to ROOT_QUERY; return DELETE sentinel object to remove the "field"
       apolloClient.cache.modify({

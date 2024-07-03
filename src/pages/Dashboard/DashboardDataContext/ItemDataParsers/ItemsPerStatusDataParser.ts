@@ -27,7 +27,7 @@ export class ItemsPerStatusDataParser<TItem extends ItemsPerStatusDataParserItem
     this.initialDataAccum = {
       STATUS_COUNTS: itemStatuses.reduce(
         (acc, status) => ({ ...acc, [status]: 0 }),
-        {} as Record<TItem["status"], number>
+        {} as Record<TItem["status"], number> // eslint-disable-line @typescript-eslint/prefer-reduce-type-parameter
       ),
     };
 

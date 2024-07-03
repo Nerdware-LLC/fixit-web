@@ -41,7 +41,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
   // is unavailable and `fallback` is null/undefined.
   const alt =
     explicitAltProp ||
-    avatarProps?.alt ||
+    avatarProps.alt ||
     profile?.displayName ||
     profile?.businessName ||
     profile?.givenName ||

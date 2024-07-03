@@ -28,7 +28,7 @@ export const ProductImage = ({
 
   const productImgSrcIndex = PRODUCT_IMAGES.findIndex((image) => image.label === label);
 
-  const src = PRODUCT_IMAGES?.[productImgSrcIndex]?.src;
+  const src = PRODUCT_IMAGES[productImgSrcIndex]?.src;
 
   if (!src) {
     throw new Error(`ProductImage received an invalid "label" prop: "${label}".`);

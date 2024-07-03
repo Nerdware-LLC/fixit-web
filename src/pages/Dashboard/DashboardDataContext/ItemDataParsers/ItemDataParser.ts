@@ -8,11 +8,11 @@ export interface ItemDataParser<TItem extends DataParserItem, TAccum extends Dat
 }
 
 export interface DataParserItem {
-  [K: PropertyKey]: any;
+  [K: PropertyKey]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export interface DataParserAccum {
-  [K: string]: any;
+  [K: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 /**

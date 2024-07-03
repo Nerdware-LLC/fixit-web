@@ -32,7 +32,7 @@ export const ImageCarousel = ({
 }: ImageCarouselProps) => {
   // If an image exists at the given index, use it. Otherwise, use zero.
   const [activeImgIndex, setActiveImgIndex] = useState(
-    images?.[initialImageIndex] ? initialImageIndex : 0
+    images[initialImageIndex] ? initialImageIndex : 0
   );
 
   const numImages = images.length;
@@ -131,7 +131,7 @@ export const ImageCarousel = ({
 };
 
 const StyledPaper = styled(Paper)(({ style = {} }) => {
-  const borderRadius = style?.borderRadius || "inherit";
+  const borderRadius = style.borderRadius || "inherit";
 
   return {
     // THE ROOT PAPER
@@ -139,10 +139,10 @@ const StyledPaper = styled(Paper)(({ style = {} }) => {
     flexDirection: "column",
     justifyContent: "center",
     // some default dimensions to ensure the carousel never extends beyond the viewport:
-    maxHeight: style?.maxHeight || "95vh",
-    maxWidth: style?.maxWidth || "95vw",
-    height: style?.height || "100%",
-    width: style?.width || "100%",
+    maxHeight: style.maxHeight || "95vh",
+    maxWidth: style.maxWidth || "95vw",
+    height: style.height || "100%",
+    width: style.width || "100%",
 
     borderTopLeftRadius: borderRadius,
     borderTopRightRadius: borderRadius,

@@ -58,7 +58,7 @@ export const Stepper = ({
             >
               {`${index + 1}. ${label}`}
             </StepLabel>
-            {useVerticalOrientation && index === activeStepIndex && content && (
+            {useVerticalOrientation && index === activeStepIndex && (
               <StepContentContainer content={content} useVerticalOrientation={true} />
             )}
           </Step>

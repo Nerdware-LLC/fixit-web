@@ -38,7 +38,7 @@ export const InvoiceStatusTracker = ({ invoice }: { invoice: Invoice }) => {
               : {
                   caption: "Status: OPEN",
                   content: {
-                    ...(statusStepConstants.OPEN?.content ?? {}),
+                    ...(statusStepConstants.OPEN.content ?? {}),
                     stepActionButtons: (
                       <PayInvoiceButton
                         invoice={invoice}

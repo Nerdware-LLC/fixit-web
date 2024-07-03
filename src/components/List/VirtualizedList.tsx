@@ -27,7 +27,7 @@ export const VirtualizedList = <TDataItem, TContext>({
   const componentsWithDefaults = {
     ...components,
     List: useForwardRefListComponent(listComponentProps),
-    ...(!components?.EmptyPlaceholder && {
+    ...(!components.EmptyPlaceholder && {
       EmptyPlaceholder: () => <EmptyListFallback {...emptyPlaceholderComponentProps} />,
     }),
   };

@@ -14,7 +14,7 @@ import type { Contact } from "@/types/graphql.js";
 type MyContactsQueryData = { myContacts: Array<Contact> };
 
 const getListsAndTablePropsFromMyContacts = (data: MyContactsQueryData) => {
-  const contactsArray = data?.myContacts ?? [];
+  const contactsArray = data.myContacts;
   return {
     lists: [
       {

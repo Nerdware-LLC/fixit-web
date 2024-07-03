@@ -1,10 +1,10 @@
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import { useField } from "formik";
 import IconButton, { type IconButtonProps } from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Tooltip from "@mui/material/Tooltip";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import EmptyCheckBoxIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
 import type { BaseChecklistItemType } from "@/components/Checklist/types.js";
 import type { ChecklistItemInputFormProps } from "./types.js";
 

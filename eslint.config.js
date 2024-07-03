@@ -56,8 +56,8 @@ export default [
         ...tsEslint.configs.stylisticTypeChecked, // prettier-ignore
       ].reduce((acc, { rules = {} }) => ({ ...acc, ...rules }), {}),
       // RULE CUSTOMIZATIONS:
-      "default-case": "error",
-      "default-case-last": "error",
+      "default-case": "error", //      switch-case statements must have a default case
+      "default-case-last": "error", // switch-case statements' default case must be last
       eqeqeq: ["error", "always"],
       "no-alert": "warn",
       "no-console": "warn",
@@ -68,19 +68,21 @@ export default [
       "import/named": "off", //                      TS performs this check
       "import/namespace": "off", //                  TS performs this check
       "import/default": "off", //                    TS performs this check
+      "import/no-named-as-default": "off", //        TS performs this check
       "import/no-named-as-default-member": "off", // TS performs this check
       "import/no-webpack-loader-syntax": "error",
-      "@typescript-eslint/array-type": "off", // Allow "T[]" and "Array<T>"
+      "@typescript-eslint/array-type": "off", //                      Allow "T[]" and "Array<T>"
       "@typescript-eslint/consistent-indexed-object-style": "off", // Allow "Record<K, V>" and "{ [key: K]: V }"
-      "@typescript-eslint/consistent-type-definitions": "off", // Allow "type" and "interface", there are subtle usage differences
-      "@typescript-eslint/no-confusing-void-expression": "off", // <-- rule results in false positives on RRD's `navigate` fn
-      "@typescript-eslint/no-dynamic-delete": "off",
-      "@typescript-eslint/no-empty-function": "off",
-      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/consistent-type-definitions": "off", //     Allow "type" and "interface", there are subtle usage differences
+      "@typescript-eslint/no-confusing-void-expression": "off", //    Allow 1-line arrow fns to return void for readability
+      "@typescript-eslint/no-empty-function": "off", //               Allow empty fns for ctx providers and whatnot
       "@typescript-eslint/no-floating-promises": ["error", { ignoreIIFE: true, ignoreVoid: true }],
       "@typescript-eslint/no-inferrable-types": "off",
       "@typescript-eslint/no-invalid-void-type": "off", // Allow "void" in unions
-      "@typescript-eslint/no-misused-promises": ["error", { checksVoidReturn: false }],
+      "@typescript-eslint/no-misused-promises": [
+        "error",
+        { checksVoidReturn: { attributes: false, variables: false } },
+      ],
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-restricted-imports": [
         "error",
@@ -94,28 +96,21 @@ export default [
           ],
         },
       ],
-      "@typescript-eslint/no-throw-literal": "off", // <-- rule results in false positives when an error is re-thrown
-      "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off",
-      "@typescript-eslint/no-unnecessary-condition": "off", // Allow option chains to convey "dont know if preceding exists"
-      "@typescript-eslint/no-unsafe-argument": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off", // Allow "if (x === true)"
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
-          vars: "all",
-          varsIgnorePattern: "^_",
           args: "after-used",
           argsIgnorePattern: "^_",
+          vars: "all",
+          varsIgnorePattern: "^_",
           caughtErrors: "all",
           caughtErrorsIgnorePattern: "^_",
           destructuredArrayIgnorePattern: "^_",
           ignoreRestSiblings: false,
-          // `...props` is too common to enable ignoreRestSiblings in this project
         },
       ],
-      "@typescript-eslint/only-throw-error": "off", // <-- rule results in false positives for Error-like objects/subclasses
-      "@typescript-eslint/prefer-includes": "off",
+      "@typescript-eslint/only-throw-error": "off", // <-- Too many false positives for Error-like objects/subclasses
       "@typescript-eslint/prefer-nullish-coalescing": [
         "error",
         {
@@ -123,7 +118,6 @@ export default [
           ignorePrimitives: { string: true },
         },
       ],
-      "@typescript-eslint/prefer-reduce-type-parameter": "off",
       "@typescript-eslint/restrict-template-expressions": [
         "error",
         {
@@ -212,19 +206,8 @@ export default [
     files: ["src/**/*.test.[tj]s?(x)", "**/tests/**/*", "**/__mocks__/**/*"],
     languageOptions: {
       globals: {
+        ...vitestPlugin.environments.env.globals,
         React: "readonly",
-        vitest: "readonly",
-        vi: "readonly",
-        describe: "readonly",
-        it: "readonly",
-        expect: "readonly",
-        assert: "readonly",
-        suite: "readonly",
-        test: "readonly",
-        beforeAll: "readonly",
-        afterAll: "readonly",
-        beforeEach: "readonly",
-        afterEach: "readonly",
       },
     },
     plugins: {
@@ -232,14 +215,23 @@ export default [
       vitest: vitestPlugin,
     },
     rules: {
-      ...vitestPlugin.configs.recommended.rules,
       ...testingLibPlugin.configs.react.rules,
+      ...vitestPlugin.configs.recommended.rules,
       "testing-library/no-debugging-utils": "warn",
       "testing-library/render-result-naming-convention": "off",
+      "vitest/consistent-test-it": ["error", { fn: "test" }],
       "vitest/expect-expect": "warn",
       "vitest/no-disabled-tests": "warn",
-      "vitest/no-focused-tests": "warn",
+      "vitest/no-focused-tests": ["warn", { fixable: false }],
+      "vitest/prefer-lowercase-title": ["error", { ignore: ["describe"] }],
+      "vitest/prefer-to-be-truthy": "off",
+      "vitest/prefer-to-be-falsy": "off",
       "vitest/valid-expect": "warn",
+      "@typescript-eslint/no-confusing-void-expression": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
     },
   },
   ////////////////////////////////////////////////////////////////

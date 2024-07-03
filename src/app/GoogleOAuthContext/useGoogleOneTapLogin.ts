@@ -64,7 +64,7 @@ export const useGoogleOneTapLogin = ({
     googleAPI.accounts.id.initialize({
       client_id: clientID,
       callback: (credentialResponse: GoogleCredentialResponse) => {
-        if (!credentialResponse?.credential) {
+        if (!credentialResponse.credential) {
           setFetchError(
             new Error(
               "Oops! We were unable to obtain valid login credentials from Google — please try again."

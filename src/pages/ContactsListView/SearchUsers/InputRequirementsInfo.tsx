@@ -16,7 +16,7 @@ export const InputRequirementsInfo = ({
           lineHeight: "inherit",
         },
       }}
-      {...(slotProps?.list ?? {})}
+      {...(slotProps.list ?? {})}
     >
       {INPUT_INFO_TEXT[inputActionType].requirements.map((str) => (
         <li key={str}>
@@ -24,7 +24,7 @@ export const InputRequirementsInfo = ({
         </li>
       ))}
     </Box>
-    <Text style={{ fontSize: "0.9rem" }} {...(slotProps?.exampleText ?? {})}>
+    <Text style={{ fontSize: "0.9rem" }} {...(slotProps.exampleText ?? {})}>
       Example: "<code>{INPUT_INFO_TEXT[inputActionType].example}</code>"
     </Text>
   </>

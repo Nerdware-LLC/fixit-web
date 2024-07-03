@@ -7,7 +7,7 @@ import type { StaticMockContactName } from "./staticMockContacts.js";
 const createMockUser = (overrides: Partial<User> = {}): User => {
   const handle = makeFake.userHandle(overrides);
   const userID = makeFake.userID(handle);
-  const userCreatedAt = overrides?.createdAt ?? faker.date.past({ years: 3 });
+  const userCreatedAt = overrides.createdAt ?? faker.date.past({ years: 3 });
 
   return {
     __typename: "User",
@@ -35,10 +35,7 @@ export const MOCK_USERS = {
   ...Object.fromEntries(
     Array.from({ length: 10 }).map(() => {
       const randomMockUser = createMockUser();
-      return [
-        randomMockUser.profile?.displayName?.replace(/(\s|-)/g, "_") ?? randomMockUser.handle,
-        randomMockUser,
-      ];
+      return [randomMockUser.profile.displayName.replace(/(\s|-)/g, "_"), randomMockUser];
     })
   ),
 } as Record<StaticMockContactName, User> & { [k: string]: User };

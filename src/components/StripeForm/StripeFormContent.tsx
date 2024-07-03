@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { styled } from "@mui/material/styles";
 import { useFetchStateContext } from "@/app/FetchStateContext";
-import { getTypeSafeError } from "@/utils/typeSafety";
 import { StripeFormSubmitButton } from "./StripeFormSubmitButton.jsx";
 import { StripePaymentInput } from "./StripePaymentInput";
+import type { CombineUnionOfObjects } from "@/types/helpers.js";
 import type { StripeElementChangeEvent, StripePaymentElementChangeEvent } from "@stripe/stripe-js";
 import type { Simplify, Except } from "type-fest";
 
@@ -20,8 +21,10 @@ export const StripeFormContent = ({ onSuccessfulSubmit, ...formProps }: StripeFo
 
   const { handleSubmit: handleSubmitStripeInput } = StripePaymentInput.use();
 
-  const handleInputChange = (event: StripeElementChangeEvent | StripePaymentElementChangeEvent) => {
-    if ((event as any)?.error) setIsSubmitDisabled(true);
+  const handleInputChange = (
+    event: CombineUnionOfObjects<StripeElementChangeEvent | StripePaymentElementChangeEvent>
+  ) => {
+    if (event.error) setIsSubmitDisabled(true);
   };
 
   const handleInputBlur = async () => {
@@ -42,7 +45,9 @@ export const StripeFormContent = ({ onSuccessfulSubmit, ...formProps }: StripeFo
         await handleSubmitStripeInput(stripe, elements);
         if (onSuccessfulSubmit) await onSuccessfulSubmit();
       } catch (err) {
-        throw getTypeSafeError(err, "Failed to process payment - please try again later.");
+        throw getTypeSafeError(err, {
+          fallBackErrMsg: "Failed to process payment - please try again later.",
+        });
       }
     });
   };

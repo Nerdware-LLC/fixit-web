@@ -32,7 +32,7 @@ export const AutoCompleteWorkOrder = ({
         multiline: true, // to show WO info on multiple lines in the TextField
         sx: {
           whiteSpace: "nowrap", // to preserve line breaks in the TextField
-          ...(InputProps?.sx ?? {}),
+          ...(InputProps.sx ?? {}),
         },
         ...InputProps,
       }}
@@ -58,7 +58,7 @@ const defaultGetOptionLabel: NonNullable<AutoCompleteWorkOrderProps["getOptionLa
   location: { streetLine1 },
   createdAt,
 }) => {
-  const userDescription = userToDisplay?.profile?.displayName ?? "- Unassigned -";
+  const userDescription = userToDisplay?.profile.displayName ?? "- Unassigned -";
   return `${userDescription}\n${streetLine1}\n${dayjs(createdAt).format("M/D/YY h:mm a")}`;
 };
 

@@ -55,7 +55,7 @@ export const FormCreateInvoice = ({
   };
 
   const formCreateInvoiceInitialValues = getInitialValuesFromSchema(invoiceFormSchema, {
-    assignedTo: { id: workOrderToInvoice?.createdBy?.id ?? "" },
+    assignedTo: { id: workOrderToInvoice?.createdBy.id ?? "" },
     workOrder: workOrderToInvoice?.id ?? null,
     amount: "",
   });

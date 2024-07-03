@@ -1,3 +1,4 @@
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import { grid as muiGridSxProps, type GridProps as MuiGridSxProps } from "@mui/system";
 import { styled } from "@mui/material/styles";
 import {
@@ -5,7 +6,6 @@ import {
   type DesktopDatePickerProps,
 } from "@mui/x-date-pickers/DesktopDatePicker";
 import { MobileDatePicker, type MobileDatePickerProps } from "@mui/x-date-pickers/MobileDatePicker";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
 import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
 import type { TextFieldProps } from "@mui/material/TextField";
@@ -85,7 +85,7 @@ export const DatePicker = ({
       textField: {
         variant,
         style,
-        ...(slotProps?.textField ?? {}),
+        ...(slotProps.textField ?? {}),
       },
       ...slotProps,
     },

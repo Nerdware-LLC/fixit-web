@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, type SyntheticEvent, type SetStateAction } from "react";
 import { styled } from "@mui/material/styles";
 import MuiBottomNavBar, { type BottomNavigationProps } from "@mui/material/BottomNavigation";
 import { bottomNavigationActionClasses } from "@mui/material/BottomNavigationAction";
@@ -13,7 +13,10 @@ export const MobileNavBar = ({ initialActiveTabPath = APP_PATHS.HOME }: MobileNa
   const { DASHBOARD, WORK_ORDERS_LIST_VIEW, INVOICES_LIST_VIEW, CONTACTS_LIST_VIEW } =
     useAppNavActions();
 
-  const handleChange: BottomNavigationProps["onChange"] = (_event, newValue) => {
+  const handleChange: BottomNavigationProps["onChange"] = (
+    _event: SyntheticEvent,
+    newValue: SetStateAction<"/home" | "/home/workorders" | "/home/invoices" | "/home/contacts">
+  ) => {
     setActiveTab(newValue);
   };
 

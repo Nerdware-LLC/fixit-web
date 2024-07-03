@@ -35,7 +35,7 @@ export const WorkOrderForm = ({
           disabled={
             // assignedTo is disabled if WO status is IN_PROGRESS, DEFERRED, or COMPLETE
             existingWorkOrder &&
-            ["IN_PROGRESS", "DEFERRED", "COMPLETE"].includes(existingWorkOrder?.status)
+            ["IN_PROGRESS", "DEFERRED", "COMPLETE"].includes(existingWorkOrder.status)
           }
         />
         <div id={elementIDs.priorityAndCategoryContainer}>

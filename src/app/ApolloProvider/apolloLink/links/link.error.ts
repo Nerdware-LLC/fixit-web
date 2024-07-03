@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { onError } from "@apollo/client/link/error";
-import { isString } from "@nerdware/ts-type-safety-utils";
+import { isString, hasKey } from "@nerdware/ts-type-safety-utils";
 import stripAnsi from "strip-ansi";
 import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
 import { logger } from "@/utils/logger.js";
@@ -26,7 +26,7 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
       logger.gqlError(
         [
           "[GraphQL Error]",
-          `Status Code: ${isString(extensions?.code) ? stripAnsi(extensions.code) : "unknown"}`,
+          `Status Code: ${isString(extensions.code) ? stripAnsi(extensions.code) : "unknown"}`,
           `Message:     ${stripAnsi(errorMessage)}`,
         ].join(`\n\t`)
       );
@@ -48,8 +48,9 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
       });
     } else {
       // If !!statusCode, run the code's associated handler (or default to 500 handler if not defined)
-      const handleGqlError =
-        gqlErrorHandlers?.[statusCode as keyof typeof gqlErrorHandlers] ?? gqlErrorHandlers[500];
+      const handleGqlError = hasKey(gqlErrorHandlers, statusCode)
+        ? (gqlErrorHandlers[statusCode] as () => void)
+        : gqlErrorHandlers[500];
 
       handleGqlError();
     }

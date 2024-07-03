@@ -35,6 +35,7 @@ export const useStripePaymentInput = () => {
 
     // Check for possible errors
     if (error) throw error;
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!paymentMethod)
       throw new Error("Stripe Error: Failed to gather payment details — please try again.");
 
@@ -55,7 +56,7 @@ export const useStripePaymentInput = () => {
       const { error, paymentIntent } = await stripe.handleNextAction({ clientSecret });
 
       if (error) throw error;
-      if (!paymentIntent || paymentIntent?.status !== "succeeded")
+      if (!paymentIntent || paymentIntent.status !== "succeeded")
         throw new Error("Your payment could not be completed at this time");
     }
   };

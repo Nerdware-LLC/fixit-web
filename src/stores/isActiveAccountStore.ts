@@ -28,7 +28,7 @@ class IsActiveAccountStore extends ReactiveStore<IsActiveAccount> {
     this.set(
       !!(
         dayjs(currentPeriodEnd).unix() >= dayjs().unix() &&
-        IsActiveAccountStore.IS_VALID_SUB_STATUS?.[status] === true
+        IsActiveAccountStore.IS_VALID_SUB_STATUS[status] === true
       )
     );
   }

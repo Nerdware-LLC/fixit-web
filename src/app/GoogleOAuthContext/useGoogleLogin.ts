@@ -94,7 +94,12 @@ export const useGoogleLogin: UseGoogleLoginHook = ({
       scope: overrideScope ? scope : `openid profile email ${scope}`,
       callback: (response) => {
         if (response.error) return onErrorRef.current?.(response);
-        onSuccessRef.current?.(response as any);
+        onSuccessRef.current?.(
+          response as Omit<
+            CodeResponse & TokenResponse,
+            "error" | "error_description" | "error_uri"
+          >
+        );
       },
       error_callback: (nonOAuthError: NonOAuthError) => {
         onNonOAuthErrorRef.current?.(nonOAuthError);
@@ -109,12 +114,12 @@ export const useGoogleLogin: UseGoogleLoginHook = ({
 
   const loginImplicitFlow = useCallback(
     (overrideConfig?: OverridableTokenClientConfig) =>
-      (clientRef.current as GoogleOAuthTokenClient)?.requestAccessToken(overrideConfig),
+      (clientRef.current as GoogleOAuthTokenClient).requestAccessToken(overrideConfig),
     []
   );
 
   const loginAuthCodeFlow = useCallback(
-    () => (clientRef.current as GoogleOAuthCodeClient)?.requestCode(),
+    () => (clientRef.current as GoogleOAuthCodeClient).requestCode(),
     []
   );
 

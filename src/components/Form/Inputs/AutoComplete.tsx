@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import { grid as muiGridSxProps, type GridProps as MuiGridSxProps } from "@mui/system";
 import { styled } from "@mui/material/styles";
 import MuiAutocomplete, {
   type AutocompleteProps as MuiAutocompleteProps,
 } from "@mui/material/Autocomplete";
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
 import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
 import type { AutocompleteValue } from "@mui/base/useAutocomplete";
@@ -96,8 +96,8 @@ export const AutoComplete = <
   useEffect(() => {
     if (fieldValue !== getFieldValueFromOption(selectedOption)) {
       const newFieldValue = getOptionFromFieldValue(fieldValue);
-      // Ensure newFieldValue !undefined, which would cause Mui to think the comp is uncontrolled.
-      if (newFieldValue !== undefined) setSelectedOption(newFieldValue);
+      // Ensure `undefined` is not passed, which would cause Mui to think the comp is uncontrolled.
+      setSelectedOption(newFieldValue ?? null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fieldValue]);

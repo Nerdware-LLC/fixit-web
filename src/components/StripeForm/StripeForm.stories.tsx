@@ -23,7 +23,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-authenticatedUserStore.set(STATIC_MOCK_USERS.Guy_McPerson as any);
+authenticatedUserStore.set(STATIC_MOCK_USERS.Guy_McPerson);
 
 export const PaymentInputDemo = {
   args: {

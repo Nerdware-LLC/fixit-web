@@ -34,7 +34,7 @@ export const useFormikFieldProps = <ValueType>({
     useLayoutDependantTextFieldDefaults();
 
   const label = explicitLabel ?? fieldID;
-  const showErrorState = fieldMetaProps.touched && !!fieldMetaProps?.error;
+  const showErrorState = fieldMetaProps.touched && !!fieldMetaProps.error;
 
   return [
     // Props for Mui TextField and other inputs:
@@ -140,21 +140,8 @@ type PropsToOmit =
   | "components" //       Deprecated Mui prop, use `slots` instead
   | "componentsProps"; // Deprecated Mui prop, use `slotProps` instead
 
-/**
- * If `T` is a function, this generic will convert its return type from `X` to `X | Promise<X>`.
- *
- * ```ts
- * // Before:  () => Foo
- * // After:   () => Foo | Promise<Foo>
- * ```
- *
- * If `T` is a union, the other members are left unchanged:
- *
- * ```ts
- * // Before:  (() => Foo) | undefined
- * // After:   (() => Foo | Promise<Foo>) | undefined
- * ```
- */
+/** If `T` is a function, this generic will convert its return type from `X` to `X | Promise<X>`. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AddAsyncReturnType<T> = T extends (...args: any[]) => any
   ? SetReturnType<T, ReturnType<T> | Promise<Awaited<ReturnType<T>>>>
   : T;

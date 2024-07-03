@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@apollo/client/react/hooks";
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import { useField } from "formik";
 import Text from "@mui/material/Typography";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
@@ -10,7 +11,6 @@ import {
   type AutoCompleteWorkOrderOptions,
 } from "@/components/Form/Inputs/AutoCompleteWorkOrder.jsx";
 import { QUERIES } from "@/graphql/queries.js";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
 import type { AutoCompleteOnChangeFn } from "@/components/Form/Inputs/AutoComplete.jsx";
 import type { Invoice, WorkOrder } from "@/types/graphql.js";
 import type { Simplify } from "type-fest";
@@ -68,7 +68,7 @@ export const InvoiceWorkOrderInput = ({
 
   const woOptions: AutoCompleteWorkOrderOptions = [];
 
-  if (!loading && data?.myWorkOrders?.assignedToUser) {
+  if (!loading && data?.myWorkOrders.assignedToUser) {
     woOptions.concat(
       data.myWorkOrders.assignedToUser.reduce(
         (acc: AutoCompleteWorkOrderOptions, wo) =>
@@ -85,7 +85,7 @@ export const InvoiceWorkOrderInput = ({
 
   // The AutoComplete runs this after running internal Form-related `onChange` logic:
   const acOnChange: AutoCompleteOnChangeFn<WorkOrder> = async (_event, selectedWorkOrder) => {
-    const woCreatedByID = selectedWorkOrder?.createdBy?.id;
+    const woCreatedByID = selectedWorkOrder?.createdBy.id;
     setSelectedWorkOrderCreatedBy(woCreatedByID ?? null);
     if (!!woCreatedByID && !invoiceAssignedTo) {
       await setAssignedTo(woCreatedByID).catch(handleError);

@@ -25,7 +25,7 @@ export const WorkOrderItemViewChecklist = ({
 };
 
 const renderChecklistItem: RenderChecklistItemFn<ChecklistItemType> = ({ item, index }) => (
-  <ChecklistItem key={`ChecklistItem:${item?.id || index}`} item={item} />
+  <ChecklistItem key={`ChecklistItem:${item.id || index}`} item={item} />
 );
 
 export type WorkOrderItemViewChecklistProps = {

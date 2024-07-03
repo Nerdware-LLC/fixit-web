@@ -1,3 +1,4 @@
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import { grid as muiGridSxProps, type GridProps as MuiGridSxProps } from "@mui/system";
 import { styled } from "@mui/material/styles";
 import {
@@ -8,7 +9,6 @@ import {
   MobileDateTimePicker,
   type MobileDateTimePickerProps,
 } from "@mui/x-date-pickers/MobileDateTimePicker";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
 import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
 import type { TextFieldProps } from "@mui/material/TextField";
@@ -88,7 +88,7 @@ export const DateTimePicker = ({
       textField: {
         variant,
         style,
-        ...(slotProps?.textField ?? {}),
+        ...(slotProps.textField ?? {}),
       },
       ...slotProps,
     },

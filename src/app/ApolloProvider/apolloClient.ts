@@ -5,7 +5,7 @@ import { apolloLink } from "./apolloLink";
 
 export const apolloClient = new ApolloClient({
   name: "fixit-web",
-  ...(!!ENV?.PROJECT_VERSION && { version: ENV.PROJECT_VERSION }),
+  ...(!!ENV.PROJECT_VERSION && { version: ENV.PROJECT_VERSION }),
   cache: apolloCache,
   link: apolloLink,
   connectToDevTools: !ENV.IS_PROD,

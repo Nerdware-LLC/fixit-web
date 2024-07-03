@@ -28,7 +28,7 @@ export const InvoiceItemView = () => {
       headerLabel="Invoice"
       headerComponents={
         <InvoiceItemViewHeader
-          invoice={data?.invoice}
+          invoice={data.invoice}
           isItemOwnedByUser={data.invoice.createdBy.id === authenticatedUser?.id}
         />
       }

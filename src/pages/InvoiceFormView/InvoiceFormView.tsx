@@ -11,11 +11,11 @@ export const InvoiceFormView = () => {
   }>;
 
   return (
-    <CoreItemView headerLabel={locationState?.invoice ? "Update Invoice" : "Create Invoice"}>
-      {locationState?.invoice ? (
+    <CoreItemView headerLabel={locationState.invoice ? "Update Invoice" : "Create Invoice"}>
+      {locationState.invoice ? (
         <FormUpdateInvoice invoice={locationState.invoice} />
       ) : (
-        <FormCreateInvoice workOrderToInvoice={locationState?.workOrderToInvoice ?? null} />
+        <FormCreateInvoice workOrderToInvoice={locationState.workOrderToInvoice ?? null} />
       )}
     </CoreItemView>
   );

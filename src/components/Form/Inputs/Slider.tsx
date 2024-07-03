@@ -33,7 +33,9 @@ export const Slider = <ValueType extends number | string | null | undefined>({
 
   const handleChange = (_event: Event, value: number | Array<number>, _activeThumb: number) => {
     const fieldValue = getFieldValue(value);
-    setValue(fieldValue as any).catch((error: unknown) => setError(getFormInputErrMsg(error)));
+    setValue(fieldValue as ValueType).catch((error: unknown) =>
+      setError(getFormInputErrMsg(error))
+    );
   };
 
   const labelID = `Slider:InputLabel:${id}`;

@@ -1,3 +1,4 @@
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import { useField } from "formik";
 import { dialogContentClasses } from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
@@ -5,7 +6,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Text from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { Dialog } from "@/components/Dialog";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
 import { checklistInputClassNames } from "./classNames.js";
 import type { BaseChecklistType } from "@/components/Checklist/types.js";
 import type { ChecklistInputFormProps } from "./types.js";

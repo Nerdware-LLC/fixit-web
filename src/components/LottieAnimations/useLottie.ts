@@ -41,7 +41,7 @@ export const useLottie = ({ animation, options = {}, style = {} }: UseLottieArgs
 
   return {
     LottieView,
-    playLottie: !options?.duration
+    playLottie: !options.duration
       ? async () => Promise.resolve(playLottie())
       : async () => {
           await new Promise<void>((resolve) => {

@@ -8,10 +8,8 @@ export const WorkOrderFormView = () => {
   const { state: locationState } = useLocation() as Location<{ workOrder?: WorkOrder }>;
 
   return (
-    <CoreItemView
-      headerLabel={locationState?.workOrder ? "Update Work Order" : "Create Work Order"}
-    >
-      {locationState?.workOrder ? (
+    <CoreItemView headerLabel={locationState.workOrder ? "Update Work Order" : "Create Work Order"}>
+      {locationState.workOrder ? (
         <FormUpdateWO existingWorkOrder={locationState.workOrder} />
       ) : (
         <FormCreateWO />

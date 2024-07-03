@@ -37,9 +37,9 @@ const COLUMNS = getDataGridColDefs<
   },
   assignedTo: {
     headerName: "Assigned To",
-    valueGetter: ({ row: wo }) => wo?.assignedTo?.profile?.displayName,
+    valueGetter: ({ row: wo }) => wo.assignedTo?.profile.displayName,
     renderCell: ({ row: wo }) =>
-      !!wo?.assignedTo && <ContactAvatar contact={wo.assignedTo} viewContactOnClick={false} />,
+      !!wo.assignedTo && <ContactAvatar contact={wo.assignedTo} viewContactOnClick={false} />,
     flex: 1,
     minWidth: 175,
   },
@@ -51,7 +51,7 @@ const COLUMNS = getDataGridColDefs<
   },
   streetLine2: {
     headerName: "Street Line 2",
-    valueGetter: ({ row: wo }) => wo.location?.streetLine2,
+    valueGetter: ({ row: wo }) => wo.location.streetLine2,
     flex: 0.75,
   },
   city: {
@@ -67,7 +67,7 @@ const COLUMNS = getDataGridColDefs<
   },
   country: {
     headerName: "Country",
-    valueGetter: ({ row: wo }) => wo.location?.country,
+    valueGetter: ({ row: wo }) => wo.location.country,
     flex: 0.5,
     minWidth: 80,
   },

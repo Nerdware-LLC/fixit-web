@@ -18,7 +18,7 @@ import type { ItemDataParser, DataParserItem, DataParserAccum } from "./ItemData
  */
 export class ItemsDataReducer<
   TItem extends DataParserItem,
-  TDataParsers extends Array<ItemDataParser<TItem, any>>,
+  TDataParsers extends Array<ItemDataParser<TItem, any>>, // eslint-disable-line @typescript-eslint/no-explicit-any
 > {
   // INSTANCE MEMBERS
   readonly initialDataAccum: CombinedReducerAccum<TItem, TDataParsers>;

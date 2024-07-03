@@ -70,7 +70,7 @@ export const GoogleOAuthButton = ({
     googleAPI.accounts.id.initialize({
       client_id: clientID,
       callback: (credentialResponse: GoogleCredentialResponse) => {
-        if (!credentialResponse?.credential) {
+        if (!credentialResponse.credential) {
           return onErrorRef.current?.();
         }
 
@@ -121,7 +121,7 @@ export const GoogleOAuthButton = ({
       {...containerProps}
       ref={btnContainerRef}
       style={{
-        ...(containerProps?.style ?? {}),
+        ...(containerProps.style ?? {}),
         height: GOOGLE_OAUTH_BTN_DIMENSIONS.HEIGHT,
       }}
       className={googleOAuthButtonClassNames.root}

@@ -45,7 +45,7 @@ export const CurrencyInput = <ValueType extends string | number | null | undefin
         ),
         sx: {
           "& input": { textAlign: "right" },
-          ...(InputProps?.sx ?? {}),
+          ...(InputProps.sx ?? {}),
         },
       }}
       {...textInputProps}

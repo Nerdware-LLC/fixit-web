@@ -24,7 +24,7 @@ export const DefaultErrorFallback = ({
     }}
     {...boxProps}
   >
-    <Text>{errorMessage || `Whoops! Something went wrong  :(\nPlease try again later.`}</Text>
+    <Text>{errorMessage || `Whoops! Something went wrong —\nPlease try again later.`}</Text>
   </Box>
 );
 

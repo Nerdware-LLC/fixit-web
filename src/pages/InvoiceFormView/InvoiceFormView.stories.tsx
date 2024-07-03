@@ -19,7 +19,7 @@ const meta = {
   },
   decorators: [
     (Story, { args }) => (
-      <CoreItemView headerLabel={args?.existingInvoice ? "Update Invoice" : "Create Invoice"}>
+      <CoreItemView headerLabel={args.existingInvoice ? "Update Invoice" : "Create Invoice"}>
         <Story />
       </CoreItemView>
     ),

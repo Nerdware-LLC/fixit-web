@@ -123,7 +123,7 @@ export const CoreItemsListViewContent = <
               className={listViewClassNames.listContainer}
               style={{
                 display:
-                  (listVisibility && (!listName || !listVisibility?.[listName])) ||
+                  (listVisibility && (!listName || !listVisibility[listName])) ||
                   viewMode === LIST_VIEW_MODES.TABLE
                     ? "none"
                     : "flex",

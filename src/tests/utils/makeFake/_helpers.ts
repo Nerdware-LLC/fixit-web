@@ -5,7 +5,7 @@ export const getMakeFakeFn = <T extends Record<string, unknown>>(
   makeFake: () => string
 ) => {
   return (override?: string | Partial<T>): string => {
-    const overrideValue = isPlainObject(override) ? override?.[overrideObjectKey] : undefined;
+    const overrideValue = isPlainObject(override) ? override[overrideObjectKey] : undefined;
 
     return isString(overrideValue) ? overrideValue : isString(override) ? override : makeFake();
   };
