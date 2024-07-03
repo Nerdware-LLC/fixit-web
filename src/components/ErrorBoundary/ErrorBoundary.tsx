@@ -1,6 +1,6 @@
+import { getErrorMessage } from "@nerdware/ts-type-safety-utils";
 import * as Sentry from "@sentry/react";
 import { logger } from "@/utils/logger.js";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError.js";
 import { DefaultErrorFallback } from "./DefaultErrorFallback.jsx";
 
 /**
@@ -18,7 +18,7 @@ const defaultErrorBoundaryOnErrorHandler: ErrorBoundaryOnErrorHandler = (
  * Default `fallback` render fn for {@link ErrorBoundary}
  */
 const defaultErrorBoundaryFallback: ErrorBoundaryFallbackFn = ({ error }) => (
-  <DefaultErrorFallback errorMessage={getTypeSafeError(error).message} />
+  <DefaultErrorFallback errorMessage={getErrorMessage(error)} />
 );
 
 /**
