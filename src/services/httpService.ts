@@ -1,54 +1,65 @@
-import axios, {
-  AxiosError,
-  type AxiosResponse,
-  type InternalAxiosRequestConfig,
-  type AxiosRequestConfig,
-} from "axios";
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
+import axios, { AxiosError } from "axios";
 import { ENV } from "@/app/env";
 import { authTokenLocalStorage, authenticatedUserStore } from "@/stores";
 import { logger } from "@/utils/logger.js";
-import { abortController, getAxiosError, getMessageFromAxiosError } from "./helpers";
 import type {
   RestApiRequestBodyByPath,
   RestApiGETendpoint,
   RestApiPOSTendpoint,
   RestApiResponseByPath,
-  OpenApiSchemas,
 } from "@/types/open-api.js";
+
+// An `AbortController` instance that can be used to cancel Axios requests
+const axiosAbortController = new AbortController();
 
 // Axios defaults:
 axios.defaults.baseURL = ENV.API_URI;
-axios.defaults.signal = abortController.signal;
-axios.defaults.timeout = 10000;
+axios.defaults.signal = axiosAbortController.signal;
+axios.defaults.timeout = 5000;
 axios.defaults.withCredentials = ENV.IS_DEPLOYED_ENV;
 
 // Before each REQUEST goes out, do this:
 axios.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  (config) => {
     // Add 'Authorization' header if an authToken is present
     const authToken = authTokenLocalStorage.get();
 
-    if (authToken) {
-      config.headers.Authorization = `Bearer ${authToken}`;
-    }
+    if (authToken) config.headers.Authorization = `Bearer ${authToken}`;
 
     return Promise.resolve(config);
   },
-  (error: unknown) => Promise.reject(getAxiosError(error, "Failed to send network request."))
+  (error: unknown) => {
+    return Promise.reject(
+      axios.isAxiosError(error) ? error : new AxiosError("Failed to send network request.")
+    );
+  }
 );
 
 // When each RESPONSE comes in, do this:
 axios.interceptors.response.use(
-  (response: AxiosResponse) => {
-    // Return the response data:
-    return Promise.resolve(response.data);
-  },
-  async (error: AxiosError<OpenApiSchemas["Error"]>) => {
-    // Check if req was aborted:
+  // If the response is successful, return the response as-is:
+  (response) => response,
+  // If the response is an error, handle the error:
+  async (error: unknown) => {
+    // If `error` is not an AxiosError, reject with a generic error message:
+    if (!axios.isAxiosError(error))
+      return Promise.reject(
+        getTypeSafeError(error, {
+          fallBackErrMsg: "An error occurred - please try again later.",
+          shouldStringifyUnknownError: ENV.IS_DEV,
+        })
+      );
+
+    // Handle aborted requests:
     if (error.code === "ERR_CANCELED") return Promise.resolve({ status: 499 });
 
+    // Handle timeouts / network errors:
+    if (error.message.includes("timeout"))
+      return Promise.reject(new Error("An error occurred - please try again later."));
+
     // Check the error status code:
-    const errorStatusCode = error?.response?.status;
+    const errorStatusCode = error.response?.status;
 
     if (errorStatusCode) {
       if (errorStatusCode === 401) authenticatedUserStore.deauthenticate();
@@ -57,24 +68,24 @@ axios.interceptors.response.use(
       logger.error(error, "HTTP_SERVICE_CODE_UNKNOWN");
     }
 
-    return Promise.reject(getAxiosError(error, getMessageFromAxiosError(error)));
+    return Promise.reject(error);
   }
 );
 
 export const httpService = {
-  get: axios.get.bind(axios) as <GETendpoint extends RestApiGETendpoint>(
-    url: GETendpoint,
-    config?: AxiosRequestConfig
-  ) => Promise<RestApiResponseByPath[GETendpoint]>,
+  get: async <GETendpoint extends RestApiGETendpoint>(endpoint: GETendpoint) => {
+    const response = await axios.get<RestApiResponseByPath[GETendpoint]>(endpoint);
+    return response.data;
+  },
 
-  post: axios.post.bind(axios) as <POSTendpoint extends RestApiPOSTendpoint>(
-    url: POSTendpoint,
-    data?: RestApiRequestBodyByPath[POSTendpoint],
-    config?: AxiosRequestConfig
-  ) => Promise<RestApiResponseByPath[POSTendpoint]>,
+  post: async <POSTendpoint extends RestApiPOSTendpoint>(
+    endpoint: POSTendpoint,
+    data?: RestApiRequestBodyByPath[POSTendpoint]
+  ) => {
+    const response = await axios.post<RestApiResponseByPath[POSTendpoint]>(endpoint, data);
+    return response.data;
+  },
 
-  /**
-   * Abort all pending HTTP requests using the `AbortController` instance's `abort` method.
-   */
-  abortRequests: () => abortController.abort(),
+  /** Abort all pending Axios requests using the `AbortController` instance's `abort` method. */
+  abortRequests: () => axiosAbortController.abort(),
 } as const;
