@@ -1,10 +1,12 @@
-	/**
-	 * DO NOT MAKE DIRECT CHANGES TO THIS FILE.
-	 *
-	 * This file was auto-generated using schema version: ''
-	 */
+/**
+ * Fixit OpenAPI Schema Types
+ *
+ * DO NOT MAKE DIRECT CHANGES TO THIS FILE.
+ *
+ * This file was auto-generated using schema version: `2.1.2`
+ */
 
-	export interface paths {
+export interface paths {
     "/admin/csp-violation": {
         parameters: {
             query?: never;
@@ -1215,4 +1217,3 @@ export interface operations {
     };
 }
 
-	
