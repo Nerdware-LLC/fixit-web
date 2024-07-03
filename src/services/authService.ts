@@ -1,7 +1,12 @@
+import { apolloClient } from "@/app/ApolloProvider/apolloClient.js";
+import { QUERIES } from "@/graphql/queries.js";
 import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
-import { cachePreFetchedUserItems } from "./helpers";
 import { httpService } from "./httpService.js";
-import type { RestApiRequestBodyByPath as RequestBodyByPath } from "@/types/open-api.js";
+import type { MyWorkOrdersQueryResponse, MyInvoicesQueryResponse } from "@/types/graphql.js";
+import type {
+  PreFetchedUserItems,
+  RestApiRequestBodyByPath as RequestBodyByPath,
+} from "@/types/open-api.js";
 
 /**
  * This service provides methods for user authentication, registration, and password reset.
@@ -38,4 +43,26 @@ export const authService = {
   passwordReset: async (pwResetArgs: RequestBodyByPath["/auth/password-reset"]) => {
     await httpService.post("/auth/password-reset", { ...pwResetArgs });
   },
+};
+
+/**
+ * This function accepts pre-fetched "userItems" returned from login auth
+ * endpoints and writes them into the local ApolloCache instance.
+ */
+const cachePreFetchedUserItems = (userItems: PreFetchedUserItems) => {
+  // WORK ORDERS:
+  apolloClient.writeQuery({
+    query: QUERIES.MY_WORK_ORDERS,
+    data: { myWorkOrders: userItems.myWorkOrders as MyWorkOrdersQueryResponse },
+  });
+  // INVOICES
+  apolloClient.writeQuery({
+    query: QUERIES.MY_INVOICES,
+    data: { myInvoices: userItems.myInvoices as MyInvoicesQueryResponse },
+  });
+  // CONTACTS
+  apolloClient.writeQuery({
+    query: QUERIES.MY_CONTACTS,
+    data: { myContacts: userItems.myContacts },
+  });
 };
