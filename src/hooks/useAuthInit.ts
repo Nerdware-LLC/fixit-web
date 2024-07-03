@@ -5,7 +5,7 @@ import { useFetchStateContext } from "@/app/FetchStateContext";
 import { useGoogleOneTapLogin } from "@/app/GoogleOAuthContext";
 import { APP_PATHS } from "@/routes/appPaths.js";
 import { authService } from "@/services/authService.js";
-import { isAuthenticatedStore, isActiveAccountStore, authenticatedUserStore } from "@/stores";
+import { isAuthenticatedStore, isActiveAccountStore } from "@/stores";
 
 /**
  * ### Auth Initialization Hook
@@ -83,8 +83,8 @@ export const useAuthInit = () => {
    * Google OneTap login for automatic sign-in.
    */
   useGoogleOneTapLogin({
-    // Only enabled if User is not currently authenticated, BUT has an AuthToken already registered
-    disabled: isAuthenticated || !authenticatedUserStore.shouldAttemptAuthTokenRefresh(),
+    // Only enabled if User is not currently authenticated
+    disabled: isAuthenticated,
     context: "signin",
     onSuccess: (credentialResponse) => {
       void handleAuthInit({

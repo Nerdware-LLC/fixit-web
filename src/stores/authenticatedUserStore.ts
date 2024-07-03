@@ -14,7 +14,6 @@ class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload | null, Auth
    */
   processAuthToken(encodedAuthToken: string): AuthTokenPayload {
     authTokenLocalStorage.set(encodedAuthToken);
-    authTokenUpdatedAtLocalStorage.set(dayjs().unix());
 
     const tokenPayload: AuthTokenPayload = jwtDecode(encodedAuthToken);
 
@@ -31,32 +30,6 @@ class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload | null, Auth
     isAuthenticatedStore.set(true);
 
     return tokenPayload;
-  }
-
-  /**
-   * Returns a boolean indicating whether an AuthToken refresh should be attempted. This is used
-   * in the `useAuthInit` hook to determine if Google OAuth OneTap should be enabled on app load.
-   *
-   * This fn returns `true` only if all of the following conditions are `true`:
-   * - The user has truthy values in LocalStorage under keys "authToken" and "authTokenUpdatedAt".
-   * - The timestamp in "authTokenUpdatedAt" is less than 10 hours old.
-   *
-   * > _`If an "authToken" is present, but it's more than 10h old, it is removed from LocalStorage.`_
-   */
-  shouldAttemptAuthTokenRefresh(): boolean {
-    let shouldAttemptAuthTokenRefresh = false;
-
-    if (authTokenLocalStorage.get()) {
-      // Get "authTokenUpdatedAt" unix timestamp from LocalStorage, default to "0" if not present
-      const authTokenUpdatedAt = authTokenUpdatedAtLocalStorage.get() ?? 0;
-      const tenHoursAgoTimestamp = dayjs().subtract(10, "hours").unix();
-
-      // If the token's updatedAt timestamp is less than 10h old, an attempt can be made to refresh it
-      if (authTokenUpdatedAt > tenHoursAgoTimestamp) shouldAttemptAuthTokenRefresh = true;
-      else authTokenLocalStorage.remove(); // rm the token if the timestamp is too old
-    }
-
-    return shouldAttemptAuthTokenRefresh;
   }
 
   /**
