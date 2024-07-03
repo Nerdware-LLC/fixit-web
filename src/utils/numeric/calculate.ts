@@ -2,7 +2,6 @@ import dayjs, {
   type ConfigType as DayJsCtorParamType,
   type UnitType as DayJsUnitType,
 } from "dayjs";
-import { isValidTimestamp } from "@/utils/typeSafety/dayjs.js";
 
 /**
  * Thin wrapper around `dayjs.diff` which uses `dayjs.isValid` to ensure the provided `timestamp`
@@ -13,7 +12,7 @@ import { isValidTimestamp } from "@/utils/typeSafety/dayjs.js";
  *   in negative numbers.
  */
 export const getTimestampAge = (timestamp: DayJsCtorParamType, unit: DayJsUnitType = "days") => {
-  if (isValidTimestamp(timestamp)) {
+  if (dayjs(timestamp).isValid()) {
     return dayjs().diff(timestamp, unit);
   }
 };
