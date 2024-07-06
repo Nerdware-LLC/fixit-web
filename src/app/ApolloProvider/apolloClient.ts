@@ -9,5 +9,5 @@ export const apolloClient = new ApolloClient({
   cache: apolloCache,
   link: apolloLink,
   connectToDevTools: !ENV.IS_PROD,
-  // TODO - experiment with setting `assumeImmutableResults` to `true` (apollo says it's faster)
+  assumeImmutableResults: true, // enables substantial performance optimizations
 });
