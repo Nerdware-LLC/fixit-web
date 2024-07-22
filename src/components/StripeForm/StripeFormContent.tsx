@@ -27,10 +27,12 @@ export const StripeFormContent = ({ onSuccessfulSubmit, ...formProps }: StripeFo
     if (event.error) setIsSubmitDisabled(true);
   };
 
-  const handleInputBlur = async () => {
+  const handleInputBlur = () => {
     if (!elements) return;
-    const { error } = await elements.submit();
-    setIsSubmitDisabled(!!error);
+    elements
+      .submit()
+      .then(({ error }) => setIsSubmitDisabled(!!error))
+      .catch(() => setIsSubmitDisabled(true));
   };
 
   // Form submission handler
@@ -46,7 +48,7 @@ export const StripeFormContent = ({ onSuccessfulSubmit, ...formProps }: StripeFo
         if (onSuccessfulSubmit) await onSuccessfulSubmit();
       } catch (err) {
         throw getTypeSafeError(err, {
-          fallBackErrMsg: "Failed to process payment - please try again later.",
+          fallBackErrMsg: "Failed to process payment — please try again later.",
         });
       }
     });
