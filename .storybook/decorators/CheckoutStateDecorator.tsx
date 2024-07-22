@@ -6,10 +6,10 @@ import type { SetOptional } from "type-fest";
 import type { MockApolloDecoratorArgs } from "./MockApolloDecorator";
 
 const CheckoutStateDecorator = ({
-  checkoutState: { selectedSubscription, promoCode = null },
+  checkoutState: { selectedSubscription, promoCode = null, discountPercentage = null },
   children, // <-- the story
 }: CheckoutStateDecoratorProps & { children: React.ReactNode }) => {
-  checkoutValuesStore.set({ selectedSubscription, promoCode });
+  checkoutValuesStore.set({ selectedSubscription, promoCode, discountPercentage });
   return children;
 };
 
@@ -38,7 +38,7 @@ withCheckoutStateDecorator satisfies DecoratorFunction<
 >;
 
 export type CheckoutStateDecoratorProps = {
-  checkoutState: SetOptional<CheckoutValues, "promoCode">;
+  checkoutState: SetOptional<CheckoutValues, "promoCode" | "discountPercentage">;
 };
 
 /**
