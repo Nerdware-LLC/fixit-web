@@ -14,7 +14,15 @@ export const typePolicies: TypePolicies = {
 
       contact: {
         read: (_, { args, toReference }: FieldFunctionOptions<{ contactID?: string }>) => {
-          return toReference({ __typename: "Contact", id: args?.contactID });
+          return toReference(
+            {
+              __typename: "Contact",
+              id: args?.contactID?.startsWith("USER")
+                ? `CONTACT#${args.contactID}`
+                : args?.contactID,
+            },
+            true
+          );
         },
       },
 
