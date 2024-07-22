@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useLayoutEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Divider, { dividerClasses } from "@mui/material/Divider";
@@ -45,7 +45,7 @@ export const ListViewHeaderToggleButtons = ({
     !isMobilePageLayout && !!listVisibility && listViewSettingsStoreKey !== "contacts";
 
   // EFFECT: ensure only 1 list is shown on mobile
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isMobilePageLayout && listVisibility && listViewSettingsStoreKey !== "contacts") {
       listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({
         listVisibility: {
