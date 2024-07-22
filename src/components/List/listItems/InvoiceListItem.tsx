@@ -1,13 +1,11 @@
 import dayjs from "dayjs";
-import { styled } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
 import ListItem, { type ListItemProps } from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemButton, { type ListItemButtonProps } from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
+import ListItemText, { listItemTextClasses } from "@mui/material/ListItemText";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
 import { intToCurrencyStr } from "@/utils/formatters/currency.js";
-import { listItemClassNames } from "./classNames.js";
 import type { Invoice } from "@/types/graphql.js";
 import type { Simplify } from "type-fest";
 
@@ -40,27 +38,10 @@ export const InvoiceListItemButton = ({
   divider = true,
   ...listItemButtonProps
 }: InvoiceListItemButtonProps) => (
-  <StyledListItemButton divider={divider} {...listItemButtonProps}>
+  <ListItemButton divider={divider} {...listItemButtonProps}>
     <InvoiceListItemContent invoice={invoice} userToDisplay={userToDisplay} />
-  </StyledListItemButton>
+  </ListItemButton>
 );
-
-const StyledListItemButton = styled(ListItemButton)(({ theme: { variables } }) => ({
-  [`& .${listItemClassNames.invoiceListItemDisplayName}`]: {
-    whiteSpace: "normal",
-    fontSize: variables.isMobilePageLayout ? "1rem" : "1.1rem",
-  },
-  [`& .${listItemClassNames.invoiceListItemAmount}`]: {
-    fontSize: variables.isMobilePageLayout ? "1.1rem" : "1.35rem",
-  },
-  [`& > .${listItemClassNames.invoiceListItemRightText}`]: {
-    textAlign: "right",
-    width: "20%",
-    maxWidth: "7rem",
-    flexShrink: 0,
-    flexGrow: 0,
-  },
-}));
 
 /**
  * Content for the {@link InvoiceListItem} and {@link InvoiceListItemButton} components.
@@ -86,21 +67,37 @@ const InvoiceListItemContent = ({ invoice, userToDisplay }: InvoiceListItemConte
       </ListItemAvatar>
       <ListItemText
         primary={displayName}
-        primaryTypographyProps={{ className: listItemClassNames.invoiceListItemDisplayName }}
+        sx={{
+          maxHeight: { xs: "3rem", lg: "3.25rem" },
+          overflow: "hidden",
+
+          [`& > .${listItemTextClasses.primary}`]: {
+            fontSize: { xs: "1rem", lg: "1.1rem" },
+            whiteSpace: "normal !important",
+          },
+        }}
       />
       <ListItemText
         primary={prettyAmount}
-        primaryTypographyProps={{ className: listItemClassNames.invoiceListItemAmount }}
-        className={listItemClassNames.invoiceListItemRightText}
-        style={{ minWidth: "4rem" }}
+        sx={{
+          [`&.${listItemTextClasses.root}, & + .${listItemTextClasses.root}`]: {
+            minWidth: "4.5rem",
+            textAlign: "right",
+            width: "20%",
+            maxWidth: "7rem",
+            flexGrow: 0,
+            flexShrink: 0,
+          },
+          [`& > .${listItemTextClasses.primary}`]: {
+            fontSize: { xs: "1.1rem", lg: "1.35rem" },
+          },
+        }}
       />
       <ListItemText
         primary={prettyCreatedAt}
-        primaryTypographyProps={{ variant: "body2", marginBottom: "1.25rem" }}
+        primaryTypographyProps={{ variant: "body2" }}
         secondary={prettyStatus}
         secondaryTypographyProps={{ variant: "caption" }}
-        className={listItemClassNames.invoiceListItemRightText}
-        style={{ minWidth: "4.75rem" }}
       />
     </>
   );
