@@ -11,7 +11,7 @@ import type { Stripe, StripeElements } from "@stripe/stripe-js";
  */
 export const useStripePaymentInput = () => {
   // Route protection guarantees that selectedSubscription is defined, hence the as cast
-  const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore<true>();
+  const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore();
 
   const handleSubmit = async (stripe: Stripe, elements: StripeElements) => {
     // Trigger form validation and wallet collection
@@ -20,7 +20,7 @@ export const useStripePaymentInput = () => {
     if (submitError) throw submitError;
 
     // Gather available data for billing details
-    const { email, phone } = authenticatedUserStore.get<true>();
+    const { email, phone } = authenticatedUserStore.get()!;
 
     // Create the PaymentMethod using the details collected by the Payment Element
     const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -42,7 +42,7 @@ export const useStripePaymentInput = () => {
     const {
       checkoutCompletionInfo: { isCheckoutComplete, clientSecret },
     } = await stripeService.submitPaymentForSubscription({
-      selectedSubscription,
+      selectedSubscription: selectedSubscription!,
       paymentMethodID: paymentMethod.id,
       ...(!!promoCode && { promoCode }),
     });

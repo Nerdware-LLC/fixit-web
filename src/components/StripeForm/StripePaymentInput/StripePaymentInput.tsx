@@ -25,7 +25,7 @@ export const StripePaymentInput = ({
   onChange,
   ...paymentElementProps
 }: StripePaymentInputProps) => {
-  const { email, phone, profile } = authenticatedUserStore.useSubToStore<true>();
+  const { email, phone, profile } = authenticatedUserStore.useSubToStore()!;
 
   const { givenName, familyName } = profile;
 
