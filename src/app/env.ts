@@ -36,7 +36,6 @@ const APP_ORIGIN = `${APP_PROTOCOL}://${APP_HOST}`;
 export const ENV = {
   MODE,
   IS_DEV,
-  IS_TEST: MODE === "test",
   IS_PROD,
   IS_STORYBOOK,
   IS_DEPLOYED_ENV: /^(staging|prod)/i.test(MODE),
