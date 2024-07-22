@@ -1,6 +1,6 @@
 import { styled, alpha } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
-import Text, { typographyClasses } from "@mui/material/Typography";
+import Text from "@mui/material/Typography";
 import AddToListIcon from "@mui/icons-material/PlaylistAddCircle";
 import { HelpInfoIcon } from "@/components/DataDisplay/HelpInfoIcon.jsx";
 import { dataDisplayClassNames } from "@/components/DataDisplay/classNames.js";
@@ -69,14 +69,15 @@ const StyledBox = styled(Box)(({ theme: { palette } }) => ({
       opacity: 0.15,
     },
 
-    [`& > .${typographyClasses.root}`]: {
-      width: "clamp(10rem, 95%, 25rem)",
-      whiteSpace: "normal",
+    [`& > .${emptyPlaceHolderClassNames.text}`]: {
+      width: "clamp(10rem, 66%, 25rem)",
       fontSize: "1.35rem",
       lineHeight: "1.65rem",
       textAlign: "center",
       verticalAlign: "middle",
       opacity: "0.9",
+      whiteSpace: "normal",
+      textWrap: "balance",
 
       [`& > .${dataDisplayClassNames.helpInfoIcon}`]: {
         verticalAlign: "inherit",
