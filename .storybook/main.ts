@@ -52,9 +52,9 @@ export default {
         let shouldInclude = true;
 
         // Test if prop is sourced from a 3rd-party module:
-        if (prop?.parent?.fileName) {
+        if (prop.parent?.fileName) {
           // Test if the 3rd-party module is a @mui packaage:
-          if (/node_modules\/@mui/.test(prop.parent.fileName)) {
+          if (prop.parent.fileName.includes("node_modules/@mui")) {
             // Test if the @mui package prop is excluded:
             shouldInclude = !["as", "classes"].includes(prop.name);
           } else {
