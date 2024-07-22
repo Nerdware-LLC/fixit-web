@@ -37,8 +37,9 @@ export const AutoComplete = <
   id,
   label,
   options,
-  getFieldValueFromOption: caller_getFieldValueFromOption,
-  getOptionFromFieldValue: caller_getOptionFromFieldValue,
+  getFieldValueFromOption,
+  getOptionFromFieldValue,
+  isOptionEqualToValue,
   onChange: caller_onChange,
   onInputChange: caller_onInputChange,
   // behavior-determining props:
@@ -60,8 +61,22 @@ export const AutoComplete = <
   // Short-hand for the type of the Autocomplete's `value` prop:
   type ValuePropType = AutocompleteValue<OptionType, Multiple, DisableClearable, FreeSolo>;
 
-  const [selectedOption, setSelectedOption] = useState<ValuePropType | null>(null);
-  const [textFieldValue, setTextFieldValue] = useState("");
+  // Assign default fns for bi-directional conversion between `fieldValue` and `selectedOption`:
+
+  getFieldValueFromOption ??= (option) => {
+    return (option as { id?: string } | null)?.id ?? (option as string | null);
+  };
+
+  getOptionFromFieldValue ??= (fieldValueArg) => {
+    const targetOption = fieldValueArg
+      ? options.find((opt) => getFieldValueFromOption(opt) === fieldValueArg) ?? fieldValueArg
+      : fieldValueArg;
+    return targetOption as ValuePropType;
+  };
+
+  isOptionEqualToValue ??= (option, value) => {
+    return getFieldValueFromOption(option) === getFieldValueFromOption(value);
+  };
 
   const [
     { value: fieldValue, error: fieldIsInvalid, helperText: fieldErrorMessage, variant },
@@ -72,23 +87,10 @@ export const AutoComplete = <
     placeholder: explicitPlaceholder,
   });
 
-  // Defaults for getFieldValueFromOption and getOptionFromFieldValue:
-
-  const getFieldValueFromOption = caller_getFieldValueFromOption
-    ? caller_getFieldValueFromOption
-    : (opt: OptionType | ValuePropType | null) => {
-        const targetFieldValue = !!opt && "id" in opt ? opt.id : opt;
-        return targetFieldValue as string | null;
-      };
-
-  const getOptionFromFieldValue = caller_getOptionFromFieldValue
-    ? caller_getOptionFromFieldValue
-    : (fieldValueArg: string | null) => {
-        const targetOption = fieldValueArg
-          ? options.find((opt) => opt.id === fieldValueArg) ?? fieldValueArg
-          : fieldValueArg;
-        return targetOption as ValuePropType;
-      };
+  const [textFieldValue, setTextFieldValue] = useState("");
+  const [selectedOption, setSelectedOption] = useState<ValuePropType | null>(
+    getOptionFromFieldValue(fieldValue)
+  );
 
   /* This useEffect ensures that if the form field's value is set externally, the input is updated
   accordingly to reflect the new value. For example, during create operations in InvoiceForm, the
@@ -137,6 +139,7 @@ export const AutoComplete = <
       InputProps={{
         ...InputProps,
         ...explicitTextFieldInputProps,
+        style: { lineHeight: "inherit", ...(explicitTextFieldInputProps.style ?? {}) },
       }}
     />
   );
@@ -149,6 +152,7 @@ export const AutoComplete = <
     <StyledAutoComplete<OptionType, Multiple, DisableClearable, FreeSolo, ChipComponent>
       id={id}
       options={options}
+      isOptionEqualToValue={isOptionEqualToValue}
       // state values and handlers:
       value={autoCompleteValue}
       onChange={handleChangeSelectedOption}
@@ -174,6 +178,9 @@ export const AutoComplete = <
 const StyledAutoComplete = styled(MuiAutocomplete, {
   shouldForwardProp: (propName: string) => !propName.startsWith("grid"),
 })<MuiGridSxProps>(muiGridSxProps) as typeof MuiAutocomplete;
+
+///////////////////////////////////////////////////////////////////////////////
+// AutoComplete Props:
 
 /**
  * The base type for AutoComplete props. An optional type arg `OptionType` can be provided
