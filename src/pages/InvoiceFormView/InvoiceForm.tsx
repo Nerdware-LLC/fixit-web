@@ -24,14 +24,7 @@ export const InvoiceForm = ({ initialFormValues, onSubmit, existingInvoice }: In
       {/* INVOICE: assignedTo */}
 
       {!existingInvoice ? (
-        <AutoCompleteMyContacts
-          id='assignedTo["id"]'
-          label="To"
-          gridArea="assign-to"
-          disabled={!!existingInvoice}
-          getFieldValueFromOption={(option) => option?.id || ""}
-          // The above opt-chain ||'s to an empty string, bc value is non-nullable
-        />
+        <AutoCompleteMyContacts id='assignedTo["id"]' label="To" gridArea="assign-to" />
       ) : (
         <ItemDetailsGroup label="To" labelIcon={<PersonIcon />} gridArea="assign-to">
           <ContactAvatar contact={existingInvoice.assignedTo} />
