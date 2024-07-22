@@ -37,6 +37,7 @@ const StyledDiv = styled("div")({
   display: "flex",
   flexDirection: "column",
   gap: "0.5rem", // spacing between text and btn, if one is present
+  minWidth: "min-content",
 
   // StepContentContainer - VERTICAL
   [`&.${classNames.stepContent.vertical}`]: {

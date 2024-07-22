@@ -90,7 +90,8 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
         };
 
   return {
-    width: "auto",
+    width: variables.isMobilePageLayout ? "auto" : "100%",
+    minWidth: "min-content",
     alignSelf: "center",
 
     [`& > .${classNames.stepper.root}`]: {
@@ -109,19 +110,10 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
       [`& > .${classNames.step.root}`]: {
         overflow: "visible",
 
-        // Set a min-width for steps in horizontal layout
-        [`&.${classNames.step.horizontal}`]: {
-          minWidth: "max(15rem, fit-content)",
-        },
-
         // STEP LABELS
         [`& > .${classNames.stepLabel.root}`]: {
           // step-label-root is a flex row on VERTICAL, flex col on HORIZONTAL
           padding: 0,
-
-          [`&.${classNames.stepLabel.horizontal}`]: {
-            minWidth: "10rem",
-          },
 
           [`& > .${classNames.stepLabel.iconContainer}`]: {
             width: iconContainerSize,
