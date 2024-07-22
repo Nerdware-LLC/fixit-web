@@ -1,10 +1,10 @@
 /** Name-related `autocomplete` attribute values. */
 export type NameAutoCompleteValue =
   | "name"
-  | "name given-name"
-  | "name additional-name" // middle name
-  | "name family-name"
-  | "name nickname";
+  | "given-name"
+  | "additional-name" // middle name
+  | "family-name"
+  | "nickname";
 
 /** Telephone-related `autocomplete` attribute values. */
 export type TelAutoCompleteValue =
