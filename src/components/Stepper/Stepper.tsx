@@ -89,9 +89,6 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
           stepCaptionMarginLeft: 0,
         };
 
-  // Light/Dark mode-dependent values:
-  const connectorColor = palette.mode === "dark" ? "#757575" : "rgba(0,0,0,0.87)";
-
   return {
     width: "auto",
     alignSelf: "center",
@@ -110,39 +107,11 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
 
       // STEPS
       [`& > .${classNames.step.root}`]: {
+        overflow: "visible",
+
         // Set a min-width for steps in horizontal layout
         [`&.${classNames.step.horizontal}`]: {
           minWidth: "max(15rem, fit-content)",
-        },
-
-        /* The below css provides a small connector extension above+below/left+right of
-        step icon containers depending on the orientation (ignores first and last steps),
-        which is sometimes necessary for gaps not to appear in the connectors. The icon
-        containers do not receive the orientation-class, hence the nested selectors. */
-        [`&:not(:first-of-type):not(:last-of-type)`]: {
-          [`& .${classNames.stepLabel.iconContainer}`]: {
-            position: "relative",
-            zIndex: 1,
-            "&::after": {
-              overflow: "hidden",
-              position: "absolute",
-              zIndex: -1,
-              content: '""',
-              display: "inline-block",
-              alignSelf: "center",
-            },
-          },
-          [`&.${classNames.step.vertical} .${classNames.stepLabel.iconContainer}::after`]: {
-            left: `calc( ${iconContainerSize} / 2 )`,
-            height: "calc(100% + 3rem)",
-            borderLeft: `1px solid ${connectorColor}`,
-          },
-          [`&.${classNames.step.horizontal} .${classNames.stepLabel.iconContainer}::after`]: {
-            top: `calc( ${iconContainerSize} / 2 )`,
-            left: "-50%",
-            width: "calc(100% + 6rem)",
-            borderBottom: `1px solid ${connectorColor}`,
-          },
         },
 
         // STEP LABELS
