@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { httpService } from "@/services/httpService.js";
 
 /**
@@ -12,7 +12,7 @@ import { httpService } from "@/services/httpService.js";
  */
 export const useHandlePageRefresh = (handlePageRefresh?: PageRefreshHandler) => {
   // EFFECT: Prevent the http request from being sent when the user refreshes the page
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
       httpService.abortRequests();
