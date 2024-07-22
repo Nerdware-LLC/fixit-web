@@ -100,6 +100,7 @@ const WorkOrderListItemContent = ({ workOrder, userToDisplay }: WorkOrderListIte
           <>
             <Text component="span" variant="body2" color="text.primary" style={{ opacity: 0.9 }}>
               {location.streetLine1}
+              <br />
             </Text>
             <Text component="span" variant="body2">
               {description}
