@@ -8,7 +8,7 @@ import { isAuthenticatedStore } from "./isAuthenticatedStore.js";
 import { isConnectOnboardingCompleteStore } from "./isConnectOnboardingCompleteStore.js";
 import type { AuthTokenPayload } from "@/types/open-api.js";
 
-class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload | null, AuthTokenPayload> {
+class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload | null> {
   /**
    * Process an auth token to update relevant reactive stores.
    */

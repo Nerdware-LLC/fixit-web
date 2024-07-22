@@ -13,19 +13,9 @@ import type { Jsonifiable, JsonArray } from "type-fest";
  *
  * @param defaultValue - The value the reactive-var will be set to upon initialization.
  * @param storageValueManager - Provide a {@link LocalStorageValueManager} to add persistence functionality.
- *
  * @template ValueType - The type of the reactive-var's value.
- * @template ValidatedValueType - The type of the reactive-var's value after validation. If this
- *   type parameter is provided, then the resulting instance's methods like `useSubToStore()` can
- *   be provided with a boolean type parameter to indicate that the reactive-var's value has been
- *   previously validated, causing the return type of the method to be narrowed to the validated
- *   type. This is useful when `ValueType` is a plain key-value store object with optional/nullable
- *   fields, and the `ValidatedValueType` is the same object with all fields required.
  */
-export class ReactiveStore<
-  ValueType extends ValidReactiveStoreValue,
-  ValidatedValueType extends ValidReactiveStoreValue = ValueType,
-> {
+export class ReactiveStore<ValueType extends ValidReactiveStoreValue> {
   protected readonly reactiveVar: ReactiveVar<ValueType>;
   protected readonly defaultValue: ValueType;
   protected readonly storageValueManager:
@@ -59,34 +49,24 @@ export class ReactiveStore<
   /**
    * Returns the current value of the reactive-var.
    */
-  get<ShouldReturnValidatedValueType extends boolean = false>() {
-    return this.reactiveVar() as ShouldReturnValidatedValueType extends true
-      ? ValidatedValueType
-      : ValueType;
-  }
+  get = () => this.reactiveVar();
 
   /**
    * Calls `useReactiveVar` to subscribe to reactive-var changes.
    */
-  useSubToStore<ShouldReturnValidatedValueType extends boolean = false>() {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useReactiveVar(this.reactiveVar) as ShouldReturnValidatedValueType extends true
-      ? ValidatedValueType
-      : ValueType;
-  }
+  useSubToStore = () => useReactiveVar(this.reactiveVar);
 
   /**
    * Set a new value for the reactive-var. If a `storageValueManager` was
    * provided, the value is also updated in `localStorage`.
    */
-  set<ShouldReturnValidatedValueType extends boolean = false>(newValue?: ValueType) {
+  set = (newValue?: ValueType) => {
     if (this.storageValueManager && newValue !== undefined) {
       this.storageValueManager.set(newValue);
     }
-    return this.reactiveVar(newValue) as ShouldReturnValidatedValueType extends true
-      ? ValidatedValueType
-      : ValueType;
-  }
+
+    return this.reactiveVar(newValue);
+  };
 
   /**
    * This method uses `lodash.merge` to deep-merge the provided `partialNewValue`
@@ -96,16 +76,15 @@ export class ReactiveStore<
    * > Note: This method should only be used with reactive-vars for which the
    *   value is an iterable object, and should only be called with the same.
    */
-  mergeUpdate<ShouldReturnValidatedValueType extends boolean = false>(
+  mergeUpdate = (
     partialNewValue: ValueType extends Record<PropertyKey, unknown>
       ? { [Key in keyof ValueType]?: Exclude<ValueType[Key], undefined> }
       : never
-  ) {
+  ) => {
     const currentValue = this.get();
 
     // If `currentValue` is not set, use `partialNewValue` as the new value
-    if (currentValue === null)
-      return this.set<ShouldReturnValidatedValueType>(partialNewValue as unknown as ValueType);
+    if (currentValue === null) return this.set(partialNewValue as unknown as ValueType);
 
     // Ensure the reactive-var's value is an iterable object
     if (!isPlainObject(currentValue)) {
@@ -123,24 +102,22 @@ export class ReactiveStore<
       partialNewValue
     );
 
-    return this.set<ShouldReturnValidatedValueType>(newMergedValue as ValueType);
-  }
+    return this.set(newMergedValue as ValueType);
+  };
 
   /**
    * Resets the reactive-var to the store's `defaultValue`.
    */
-  reset<ShouldReturnValidatedValueType extends boolean = false>() {
-    return this.set<ShouldReturnValidatedValueType>(this.defaultValue);
-  }
+  reset = () => this.set(this.defaultValue);
 
   /**
    * Clears the reactive-var. If a `storageValueManager` was provided, the K/V
    * is also removed from `localStorage`.
    */
-  clear<ShouldReturnValidatedValueType extends boolean = false>() {
+  clear = () => {
     if (this.storageValueManager) this.storageValueManager.remove();
-    return this.reset<ShouldReturnValidatedValueType>();
-  }
+    return this.reset();
+  };
 }
 
 /**
