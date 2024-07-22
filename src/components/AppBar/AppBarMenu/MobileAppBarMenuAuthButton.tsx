@@ -19,7 +19,7 @@ export const MobileAppBarMenuAuthButton = ({
       onClick={handleClick}
       startIcon={!showLoading ? menuOption.icon : null}
       style={{
-        width: "calc(100% - 4rem)",
+        width: "calc( 100% - 4rem )",
         alignSelf: "center",
         margin: "auto 0 2rem 0",
       }}
