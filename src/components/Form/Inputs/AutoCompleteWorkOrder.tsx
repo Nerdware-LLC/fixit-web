@@ -44,7 +44,7 @@ export const AutoCompleteWorkOrder = ({
 /**
  * Default `renderOption` fn for {@link AutoCompleteWorkOrder}.
  */
-const defaultRenderOption: NonNullable<AutoCompleteWorkOrderProps["renderOption"]> = (
+const defaultRenderOption: AutoCompleteWorkOrderProps["renderOption"] = (
   listItemProps,
   { userToDisplay, ...workOrder } // option
   // other available props: state, ownerState
@@ -53,11 +53,12 @@ const defaultRenderOption: NonNullable<AutoCompleteWorkOrderProps["renderOption"
 /**
  * Default `getOptionLabel` fn for {@link AutoCompleteWorkOrder}.
  */
-const defaultGetOptionLabel: NonNullable<AutoCompleteWorkOrderProps["getOptionLabel"]> = ({
-  userToDisplay,
-  location: { streetLine1 },
-  createdAt,
-}) => {
+const defaultGetOptionLabel: AutoCompleteWorkOrderProps["getOptionLabel"] = (opt) => {
+  const {
+    userToDisplay,
+    location: { streetLine1 },
+    createdAt,
+  } = opt;
   const userDescription = userToDisplay?.profile.displayName ?? "- Unassigned -";
   return `${userDescription}\n${streetLine1}\n${dayjs(createdAt).format("M/D/YY h:mm a")}`;
 };
