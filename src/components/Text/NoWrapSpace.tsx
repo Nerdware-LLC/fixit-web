@@ -1,3 +1,5 @@
+import { NON_BREAKING_SPACE_CHAR } from "./constants.js";
+
 /**
  * Use this component to add a non-breaking space that will not wrap to a new line.
  *
@@ -24,8 +26,3 @@ export const NoWrapSpace = () => (
     {NON_BREAKING_SPACE_CHAR}
   </span>
 );
-
-/**
- * A non-breaking space character. @see https://www.ascii-code.com/character/nbsp
- */
-export const NON_BREAKING_SPACE_CHAR = "\u00a0";
