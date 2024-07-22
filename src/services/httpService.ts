@@ -17,7 +17,7 @@ const axiosAbortController = new AbortController();
 // Axios defaults:
 axios.defaults.baseURL = ENV.API_URI;
 axios.defaults.signal = axiosAbortController.signal;
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 10000;
 axios.defaults.withCredentials = ENV.IS_DEPLOYED_ENV;
 
 // Before each REQUEST goes out, do this:
