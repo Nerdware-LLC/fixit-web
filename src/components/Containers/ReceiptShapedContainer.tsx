@@ -1,7 +1,6 @@
 import { Fragment } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { getInlineSvgDataUrl } from "@/app/GlobalStyles/helpers.js";
 import { LeadingDotsSpan } from "./LeadingDotsSpan.jsx";
 
 /**
@@ -23,40 +22,38 @@ export const ReceiptShapedContainer = ({
 );
 
 const StyledDiv = styled("div")(({ theme: { palette } }) => ({
-  height: "4rem",
+  height: "4.5rem",
   width: "100%",
-  padding: "0.5rem 1rem",
+  padding: "0 1rem 0.75rem 1rem",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "center",
-  border: `2px solid ${palette.divider}`,
+  border: `2px inset ${palette.divider}`,
   borderBottomWidth: 0,
   borderRadius: "0.25rem 0.25rem 0 0",
-  position: "relative",
-  color: alpha(palette.text.primary, 0.75),
-
-  "&::after": {
-    content: "' '",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    width: "100%",
-    height: "100%",
-    backgroundImage: getInlineSvgDataUrl(
-      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
-        <polyline points="0 45 25 30 50 45" fill="none" stroke="gray" stroke-width="3px" stroke-opacity="0.75" />
-      </svg>`
-    ),
-    backgroundPosition: "bottom",
-    backgroundRepeat: "repeat-x",
-    backgroundSize: "0.91rem",
-  },
+  color: alpha(palette.text.primary, 0.85),
+  overflow: "clip",
+  backgroundColor: palette.divider,
 
   [`& > .${typographyClasses.root}`]: {
     margin: "0 0.25rem",
   },
+
+  // This ensures correct placement of the leading-dots span:
+  "& *": { height: "1rem", lineHeight: "1rem" },
+
+  // This clip-path creates a jagged receipt-like shape along the bottom edge
+  clipPath: `polygon(
+    0 0, 100% 0, 100% 80%,
+    95% 90%, 90% 80%, 85% 90%,
+    80% 80%, 75% 90%, 70% 80%,
+    65% 90%, 60% 80%, 55% 90%,
+    50% 80%, 45% 90%, 40% 80%,
+    35% 90%, 30% 80%, 25% 90%,
+    20% 80%, 15% 90%, 10% 80%,
+    5% 90%, 0 80%
+  )`,
 }));
 
 export type ReceiptShapedContainerProps = Omit<
