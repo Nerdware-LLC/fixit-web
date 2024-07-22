@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { useSearchParams, Outlet } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
@@ -38,7 +38,7 @@ export const StripeConnectOnboardingStateLayer = () => {
   const isConnectOnboardingComplete = isConnectOnboardingCompleteStore.useSubToStore();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async () => {
       // Do nothing if isConnectOnboardingComplete is true
       if (!isConnectOnboardingComplete) {
