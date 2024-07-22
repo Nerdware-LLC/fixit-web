@@ -14,7 +14,7 @@ export const retryLink = new RetryLink({
     jitter: true,
   },
   attempts: {
-    max: 5,
+    max: 3,
     retryIf: (error: unknown, _operation) => {
       // Don't retry if token gets rejected
       return !!error &&
