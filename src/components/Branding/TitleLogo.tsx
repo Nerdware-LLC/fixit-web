@@ -30,7 +30,8 @@ export const TitleLogo = ({
 
 const StyledDiv = styled("div")(({ onClick }) => ({
   width: "min-content",
-  height: "5.5rem",
+  height: "min-content",
+  maxHeight: "5.5rem",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
