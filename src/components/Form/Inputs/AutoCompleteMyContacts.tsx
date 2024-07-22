@@ -16,9 +16,7 @@ export const AutoCompleteMyContacts = ({
   reduceContacts = defaultReduceContacts,
   ...autoCompleteContactProps
 }: AutoCompleteMyContactsProps) => {
-  const { data, loading } = useQuery(QUERIES.MY_CONTACTS, {
-    fetchPolicy: "cache-only", // For this input, only pull from cache
-  });
+  const { data, loading } = useQuery(QUERIES.MY_CONTACTS, { fetchPolicy: "cache-only" });
 
   const contactOptions: AutoCompleteContactOptions = useMemo(() => {
     return !loading && Array.isArray(data?.myContacts) && data.myContacts.length > 0
@@ -35,7 +33,7 @@ export const AutoCompleteMyContacts = ({
 const defaultReduceContacts = (contacts: AutoCompleteContactOptions) => contacts;
 
 export type AutoCompleteMyContactsProps = Simplify<
-  {
+  Omit<AutoCompleteContactProps, "options"> & {
     reduceContacts?: (contacts: AutoCompleteContactOptions) => AutoCompleteContactOptions;
-  } & Omit<AutoCompleteContactProps, "options">
+  }
 >;
