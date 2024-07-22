@@ -21,10 +21,7 @@ export const StripeTestCardInfo = ({
       </li>
       <li>
         To test one of the payment flows, use the{" "}
-        <Anchor
-          href="https://docs.stripe.com/testing#testing-interactively"
-          style={{ display: "contents" }}
-        >
+        <Anchor href="https://docs.stripe.com/testing#testing-interactively">
           Stripe-provided test card number
         </Anchor>{" "}
         in any payment form:{" "}
@@ -47,12 +44,13 @@ export const StripeTestCardInfo = ({
         boxShadow: "0 0 0.25rem rgba(0,0,0,0.5)",
         borderRadius: "0.25rem",
         marginBottom: "0.5rem",
+        maxWidth: "100%",
       }}
     />
   </StyledStack>
 );
 
-const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
+const StyledStack = styled(Stack)(({ theme: { variables, breakpoints } }) => ({
   [`& > .${listClasses.root}`]: {
     padding: "0 0 0 1.25rem",
 
@@ -62,8 +60,12 @@ const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
 
       "& > ul > li": {
         marginTop: "0.25rem",
+        // The below styles ensure the test-card-number info displays correctly on narrow desktop viewports (tablets)
         ...(!variables.isMobilePageLayout && {
-          maxHeight: "1.5rem",
+          height: "1.5rem",
+          "&:first-of-type": {
+            [breakpoints.down(1100)]: { height: "min-content", maxHeight: "3rem" },
+          },
         }),
 
         [`& > .${textClassNames.clickToCopyTextRoot}`]: {
@@ -71,11 +73,6 @@ const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
         },
       },
     },
-  },
-  "& img": {
-    boxShadow: "0 0 0.25rem rgba(0,0,0,0.5)",
-    borderRadius: "0.25rem",
-    marginBottom: "0.5rem",
   },
 }));
 
