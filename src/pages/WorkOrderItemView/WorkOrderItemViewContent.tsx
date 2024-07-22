@@ -1,4 +1,4 @@
-import { styled, alpha } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import CalendarIcon from "@mui/icons-material/CalendarToday";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import PersonIcon from "@mui/icons-material/Person";
@@ -14,6 +14,7 @@ import { Tabs, tabsClassNames } from "@/components/Tabs";
 import { getDateStr, prettifyPhoneNumStr } from "@/utils/formatters";
 import { WorkOrderItemViewChecklist } from "./WorkOrderItemViewChecklist.jsx";
 import { WorkOrderTimeline } from "./WorkOrderTimeline.jsx";
+import { woItemViewElementIDs } from "./elementIDs.js";
 import type { WorkOrder } from "@/types/graphql.js";
 
 export const WorkOrderItemViewContent = ({ workOrder }: WorkOrderItemViewContentProps) => {
@@ -29,7 +30,7 @@ export const WorkOrderItemViewContent = ({ workOrder }: WorkOrderItemViewContent
           "Work Order": (
             <>
               <XscrollContainer>
-                <div id={elementIDs.workOrderTabPanelGridContainer}>
+                <div id={woItemViewElementIDs.workOrderTabPanelGridContainer}>
                   <ItemDetailsGroup
                     gridArea="location"
                     label="Address"
@@ -69,7 +70,7 @@ export const WorkOrderItemViewContent = ({ workOrder }: WorkOrderItemViewContent
             </>
           ),
           Description: (
-            <div id={elementIDs.descriptionTabPanelGridContainer}>
+            <div id={woItemViewElementIDs.descriptionTabPanelGridContainer}>
               <ItemDetails label="Description">{description}</ItemDetails>
               <WorkOrderItemViewChecklist label="Checklist" checklist={checklist} />
               <ItemDetails label="Notes">{contractorNotes}</ItemDetails>
@@ -87,105 +88,63 @@ export const WorkOrderItemViewContent = ({ workOrder }: WorkOrderItemViewContent
   );
 };
 
-const elementIDs = {
-  workOrderTabPanelGridContainer: "wo-item-view-wo-tabpanel-grid-container",
-  descriptionTabPanelGridContainer: "wo-item-view-description-tabpanel-grid-container",
-};
+const StyledDiv = styled("div")(({ theme: { variables, breakpoints } }) => {
+  const spacing = variables.isMobilePageLayout ? "1.5rem" : "2rem";
 
-const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } }) => ({
-  [`& .${tabsClassNames.muiTabs.root}`]: {
-    margin: "0 2rem",
-    borderWidth: "0 0 1px 0",
-    borderStyle: "solid",
-    borderColor: palette.divider,
+  return {
+    padding: `0 ${spacing}`,
 
-    ...(variables.isMobilePageLayout && {
-      width: "calc( 100% - 2rem )",
-      margin: "0 1rem",
+    // TabPanel containers:
+    [`& > .${tabsClassNames.tabPanel.root}`]: {
+      padding: `${spacing} 0`,
+      display: "flex",
+      flexDirection: "column",
+      gap: spacing,
 
-      [`& .${tabsClassNames.muiTabs.flexContainer}`]: {
-        justifyContent: "space-around",
+      // TAB: WorkOrder
 
-        [`& > .${tabsClassNames.muiTab.root}`]: {
-          width: "45%",
-          padding: "0.3rem 0 0 0",
-        },
-      },
-    }),
-  },
+      "&[aria-labelledby=workorder-tab]": {
+        // TOP SECTION (X-scroll container):
+        [`& > .${containerClassNames.xScrollContainerRoot}`]: {
+          paddingBottom: `calc( ${spacing} / 2 )`,
+          marginBottom: `calc( -${spacing} / 2 )`,
 
-  // TabPanel containers:
-
-  [`& > .${tabsClassNames.tabPanel.root}`]: {
-    padding: "1.5rem 0",
-    display: "flex",
-    flexDirection: "column",
-    gap: variables.isMobilePageLayout ? "2rem" : "2rem 3rem",
-
-    // TAB: WorkOrder
-
-    "&[aria-labelledby=workorder-tab]": {
-      // X-scroll container:
-      [`& > .${containerClassNames.xScrollContainerRoot}`]: {
-        "&::before, &::after": {
-          width: "2rem",
-          minWidth: "2rem",
-        },
-        // top-section grid layout container:
-        [`& > #${elementIDs.workOrderTabPanelGridContainer}`]: {
-          display: "grid",
-          gap: "1rem 1.5rem",
-          gridAutoRows: "min-content",
-          gridTemplateColumns: "repeat(2, minmax(8rem,1fr))",
-          gridTemplateAreas: `
+          // top-section grid layout container:
+          [`& > #${woItemViewElementIDs.workOrderTabPanelGridContainer}`]: {
+            display: "grid",
+            gap: spacing,
+            gridAutoRows: "min-content",
+            gridTemplateColumns: "repeat(2, minmax(8rem,1fr))",
+            gridTemplateAreas: `
             "location    location"
             "createdAt   status"
             "createdBy   priority"
             "assignedTo  category"`,
-          // For viewports over 600px wide:
-          [breakpoints.up("sm")]: {
-            gap: "2rem",
-            gridTemplateColumns: "minmax(min-content,2fr) repeat(2, minmax(8rem,1fr))",
-            gridTemplateAreas: `
+            // For viewports over 600px wide:
+            [breakpoints.up("sm")]: {
+              transform: "translateX(-1rem)", // shift grid to the left for XScroll pseudo-elements
+              gridTemplateColumns: "minmax(min-content,2fr) repeat(2, minmax(8rem,1fr))",
+              gridTemplateAreas: `
               "location  status      createdAt"
               "location  assignedTo  createdBy"
               "location  priority    category"`,
-          },
-          // For viewports over 1200px wide:
-          [breakpoints.up("lg")]: {
-            gridTemplateColumns:
-              "minmax(min-content,2fr) minmax(0,0.5fr) repeat(2, minmax(10rem,1fr))",
-            gridTemplateAreas: `
-              "location  .  status      createdAt"
-              "location  .  assignedTo  createdBy"
-              "location  .  priority    category"`,
-          },
-
-          // LOCATION IDG:
-          [`& > .${dataDisplayClassNames.groupRoot}`]: {
-            minWidth: "min-content",
-            [breakpoints.down("sm")]: {
-              width: "calc(100% + 1rem)",
-              transform: "translateX(-0.5rem)",
             },
-            ...(!variables.isMobilePageLayout && { maxWidth: "max-content" }),
 
-            [`& > .${dataDisplayClassNames.groupContent}`]: {
-              height: "calc(100% - 57px)",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "1rem",
-              [breakpoints.up("sm")]: {
-                padding: "2rem",
-              },
+            // LOCATION IDG:
+            [`& > .${dataDisplayClassNames.groupRoot}`]: {
+              display: "flex",
+              flexDirection: "column",
+              minWidth: "min-content",
+              width: "100%",
+              [breakpoints.up("sm")]: { width: "66%" },
 
-              // LocationDetails content div:
-              [`& .${dataDisplayClassNames.locationDetails} > .${dataDisplayClassNames.content}`]: {
-                transform: "translateY(-0.25rem)",
-                gap: "0.25rem",
-
-                [`& > .${dataDisplayClassNames.locationDetailsAddressText}`]: {
-                  width: "fit-content",
+              [`& > .${dataDisplayClassNames.groupContent}`]: {
+                flexGrow: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                padding: `calc( ${spacing} - 0.5rem )`,
+                // LocationDetails text:
+                [`& .${dataDisplayClassNames.locationDetailsAddressText}`]: {
                   fontSize: "1.25rem",
                   [breakpoints.up("xl")]: { fontSize: "1.75rem" },
                 },
@@ -193,62 +152,56 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
             },
           },
         },
-      },
-      // timeline ItemDetailsGroup
-      [`& > .${dataDisplayClassNames.groupRoot}:last-of-type`]: {
-        margin: variables.isMobilePageLayout ? "0 1.5rem" : "0 2rem",
-
-        [`& > .${dataDisplayClassNames.groupContent}`]: {
-          padding: "0.1rem 0",
-          backgroundColor: palette.background.paper,
-          "& *": {
-            borderColor: alpha(palette.divider, 0.05),
+        // BOTTOM SECTION (timeline ItemDetailsGroup):
+        [`& > .${dataDisplayClassNames.groupRoot}:last-of-type`]: {
+          [`& > .${dataDisplayClassNames.groupContent}`]: {
+            padding: "0.1rem 0",
           },
         },
       },
-    },
 
-    // TAB: Description
+      // TAB: Description
 
-    "&[aria-labelledby=description-tab]": {
-      padding: variables.isMobilePageLayout ? "1.5rem 1rem" : "1.5rem 2rem",
+      "&[aria-labelledby=description-tab]": {
+        // padding: variables.isMobilePageLayout ? "1.5rem 1rem" : "1.5rem 2rem",
 
-      [`& #${elementIDs.descriptionTabPanelGridContainer}`]: {
-        display: "grid",
-        gridAutoRows: "min-content",
-        gridAutoColumns: "1fr",
-        gap: "2rem",
-        gridTemplateAreas: `
+        [`& #${woItemViewElementIDs.descriptionTabPanelGridContainer}`]: {
+          display: "grid",
+          gridAutoRows: "min-content",
+          gridAutoColumns: "1fr",
+          gap: "2rem",
+          gridTemplateAreas: `
           "description"
           "checklist"
           "notes"
           "entry"`,
-        // For viewports over 600px wide:
-        [breakpoints.up("sm")]: {
-          gap: "3rem",
-          gridTemplateAreas: `
+          // For viewports over 600px wide:
+          [breakpoints.up("sm")]: {
+            gap: "3rem",
+            gridTemplateAreas: `
             "description  checklist"
             "notes        entry"`,
-        },
-        "& > div": {
-          // CHILDREN
-          "&:nth-of-type(1)": {
-            gridArea: "description",
           },
-          "&:nth-of-type(2)": {
-            gridArea: "checklist",
-          },
-          "&:nth-of-type(3)": {
-            gridArea: "notes",
-          },
-          "&:nth-of-type(4)": {
-            gridArea: "entry",
+          "& > div": {
+            // CHILDREN
+            "&:nth-of-type(1)": {
+              gridArea: "description",
+            },
+            "&:nth-of-type(2)": {
+              gridArea: "checklist",
+            },
+            "&:nth-of-type(3)": {
+              gridArea: "notes",
+            },
+            "&:nth-of-type(4)": {
+              gridArea: "entry",
+            },
           },
         },
       },
     },
-  },
-}));
+  };
+});
 
 export type WorkOrderItemViewContentProps = {
   workOrder: WorkOrder;
