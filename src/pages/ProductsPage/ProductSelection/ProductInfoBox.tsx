@@ -6,6 +6,16 @@ import { ShimmerBox, containerClassNames } from "@/components/Containers";
 import { ProductFeatures } from "./ProductFeatures.jsx";
 import { productSelectionClassNames } from "./classNames.js";
 
+export type ProductInfoBoxProps = {
+  priceName: string;
+  priceAmount: string;
+  priceDescription: string;
+  showMostPopularBadge?: boolean;
+  buttonLabel: string;
+  onClickButton: React.MouseEventHandler<HTMLButtonElement>;
+  onClickContainer?: React.MouseEventHandler<HTMLDivElement | HTMLButtonElement>;
+} & Omit<PaperProps, "children">;
+
 export const ProductInfoBox = ({
   priceName,
   priceAmount,
@@ -152,13 +162,3 @@ const StyledPaper = styled(Paper)(({ onClick, theme: { palette, variables } }) =
     },
   },
 }));
-
-export type ProductInfoBoxProps = {
-  priceName: string;
-  priceAmount: string;
-  priceDescription: string;
-  showMostPopularBadge?: boolean;
-  buttonLabel: string;
-  onClickButton: React.MouseEventHandler<HTMLButtonElement>;
-  onClickContainer?: React.MouseEventHandler<HTMLDivElement | HTMLButtonElement>;
-} & Omit<PaperProps, "children">;
