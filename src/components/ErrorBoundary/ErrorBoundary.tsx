@@ -7,9 +7,9 @@ import { DefaultErrorFallback } from "./DefaultErrorFallback.jsx";
  * Default `onError` handler fn for {@link ErrorBoundary}
  */
 const defaultErrorBoundaryOnErrorHandler: ErrorBoundaryOnErrorHandler = (
-  error: Error,
-  _componentStack: string,
-  _eventId: string
+  error,
+  _componentStack,
+  _eventId
 ) => {
   logger.error(error, "Sentry.ErrorBoundary");
 };
