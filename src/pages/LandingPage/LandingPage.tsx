@@ -7,7 +7,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { THEMES } from "@/app/ThemeProvider/themes.js";
 import { PhoneShapedContainer, containerClassNames } from "@/components/Containers";
 import { DemoInfoDialog } from "@/components/DevTools/DemoInfoDialog.jsx";
-import { LegalLinks, navigationClassNames } from "@/components/Navigation";
+import { LegalLinksFooter } from "@/components/Navigation";
 import { NON_BREAKING_SPACE_CHAR } from "@/components/Text";
 import backgroundImageSrc from "@/images/landing_page_bg.webp";
 import { APP_PATHS } from "@/routes/appPaths.js";
@@ -23,8 +23,6 @@ export const LandingPage = () => {
 
   const goToRegister = () => nav(APP_PATHS.REGISTER);
   const goToProducts = () => nav(APP_PATHS.PRODUCTS);
-
-  // non-breaking space (U+) is used to prevent hyphenated word wrap
 
   return (
     <StyledDiv id="landing-page__content-root">
@@ -67,12 +65,7 @@ export const LandingPage = () => {
         <Button onClick={goToProducts}>Learn More</Button>
       </div>
       {isDialogVisible && <DemoInfoDialog isVisible={isDialogVisible} closeDialog={closeDialog} />}
-      <div className={landingPageClassNames.footerRoot}>
-        <LegalLinks useLongLabels />
-        <Text variant="body2">
-          Fixit is a product of <span style={{ whiteSpace: "nowrap" }}>Nerdware, LLC ©</span>
-        </Text>
-      </div>
+      <LegalLinksFooter style={{ position: "absolute" }} />
     </StyledDiv>
   );
 };
@@ -140,7 +133,7 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
       whiteSpace: "pre",
 
       [breakpoints.between(450, 600)]: {
-        "&:is(h1)": { fontSize: "4rem" },
+        "&:is(h1)": { fontSize: "3.5rem" },
         "&:is(h2)": { fontSize: "3.5rem" },
       },
     },
@@ -263,38 +256,5 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
     backgroundSize: "cover",
     objectFit: "contain",
     ...(palette.mode === "light" && { filter: "invert(25%) brightness(3)" }),
-  },
-
-  // FOOTER
-  [`& > .${landingPageClassNames.footerRoot}`]: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    width: "100vw",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "1.5rem",
-    padding: "2rem",
-    borderTop: `1px solid ${palette.divider}`,
-    boxShadow: `0 0 0.5rem ${palette.divider}`,
-
-    [breakpoints.down(600)]: {
-      padding: "3rem 2rem",
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      gap: 0,
-      textAlign: "center",
-      "& > *": {
-        flexDirection: "column",
-        width: "50%",
-        [`&.${navigationClassNames.legalLinksRoot}`]: {
-          fontSize: "0.9rem",
-          "& hr": { display: "none" },
-        },
-      },
-    },
   },
 }));
