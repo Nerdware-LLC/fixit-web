@@ -1,7 +1,8 @@
+import React from "react";
 import { styled } from "@mui/material/styles";
-import Box, { type BoxProps } from "@mui/material/Box";
 import { containerClassNames } from "./classNames.js";
-import type { Simplify } from "type-fest";
+
+export type XscrollContainerProps = React.ComponentProps<typeof StyledDiv>;
 
 /**
  * A div which allows horizontal scrolling, with preferred styles.
@@ -11,21 +12,21 @@ import type { Simplify } from "type-fest";
 export const XscrollContainer = ({
   tabIndex = 0,
   className = "",
+  style = {},
   children,
-  ...boxProps
+  ...props
 }: XscrollContainerProps) => (
-  <StyledBox
+  <StyledDiv
     tabIndex={tabIndex}
-    className={containerClassNames.xScrollContainerRoot + " " + className}
-    {...boxProps}
+    className={`${containerClassNames.xScrollContainerRoot} ${className}`}
+    style={{ ...style, overflowX: "auto" }}
+    {...props}
   >
     {children}
-  </StyledBox>
+  </StyledDiv>
 );
 
-export const StyledBox = styled(Box, {
-  shouldForwardProp: (prop) => prop !== "horizontalPadding",
-})<XscrollContainerProps>(({ horizontalPadding = "1rem" }) => ({
+const StyledDiv = styled("div")({
   width: "auto",
   maxWidth: "100%",
   overflowX: "auto",
@@ -33,15 +34,14 @@ export const StyledBox = styled(Box, {
   flexDirection: "row",
 
   "&::before, &::after": {
-    content: '" "',
+    content: '""',
     display: "inline-block",
-    width: horizontalPadding,
-    minWidth: horizontalPadding,
+    width: "1rem",
+    minWidth: "1rem",
   },
 
   "& > div": {
     flexGrow: 1,
+    overflow: "visible",
   },
-}));
-
-export type XscrollContainerProps = Simplify<{ horizontalPadding?: string } & BoxProps>;
+});
