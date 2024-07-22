@@ -16,6 +16,7 @@ export const ContactItemView = () => {
   const { data, loading, error } = useQuery(QUERIES.CONTACT, {
     variables: { contactID: contactID ?? "" },
     skip: !contactID,
+    fetchPolicy: "cache-only",
   });
 
   return loading || !data?.contact ? (
