@@ -1,4 +1,4 @@
-import { forwardRef, useEffect } from "react";
+import { forwardRef, useLayoutEffect } from "react";
 import { ClickAwayListener } from "@mui/base/ClickAwayListener";
 import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
@@ -31,7 +31,7 @@ export const SearchUsersPopperContent = forwardRef<HTMLDivElement, SearchUsersPo
     fwdRef
   ) {
     // CLOSE POPPER IF USER PRESSES ESCAPE KEY
-    useEffect(() => {
+    useLayoutEffect(() => {
       const closeOnEscape = (event: KeyboardEvent) => {
         if (event.key === "Escape") handleClose();
       };
