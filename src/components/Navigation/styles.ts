@@ -6,11 +6,18 @@ import type { Theme } from "@mui/material/styles";
  */
 export const getDefaultLinkStyles = ({ theme: { palette } }: { theme: Theme }) =>
   ({
-    color: palette.info.main,
-    textDecoration: "none",
-    display: "inline-flex",
+    display: "inline",
+    // If display=flex/inline-flex, center contents by default:
     alignItems: "center",
     justifyContent: "center",
+
+    color: palette.info.main,
+    lineHeight: 1.2,
+
+    textDecoration: "underline dotted",
+    textDecorationThickness: "1px",
+    textUnderlineOffset: "-12%",
+    textUnderlinePosition: "under",
 
     "&:hover": {
       cursor: "pointer",

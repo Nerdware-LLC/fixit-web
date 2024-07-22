@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import { styled } from "@mui/material/styles";
 import { useMaybeRef } from "@/hooks/useMaybeRef.js";
 import { isExternalUrl } from "@/routes/helpers.js";
+import { navigationClassNames } from "./classNames.js";
 import { getDefaultLinkStyles } from "./styles.js";
 import type { Simplify } from "type-fest";
 
@@ -13,7 +14,7 @@ import type { Simplify } from "type-fest";
  *   defaults to "underline".
  */
 export const Anchor = forwardRef<HTMLAnchorElement, AnchorProps>(function Anchor(
-  { href, children, ...props },
+  { href, className = "", children, ...props },
   ref
 ) {
   const anchorRef = useMaybeRef(ref);
@@ -22,6 +23,7 @@ export const Anchor = forwardRef<HTMLAnchorElement, AnchorProps>(function Anchor
     <StyledAnchor
       ref={anchorRef}
       href={href}
+      className={navigationClassNames.anchorRoot + ` ${className}`}
       {...(isExternalUrl(href) && {
         target: "_blank",
         rel: "noreferrer",

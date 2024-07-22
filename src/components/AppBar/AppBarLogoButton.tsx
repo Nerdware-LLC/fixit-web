@@ -3,7 +3,7 @@ import CircularProgress, { circularProgressClasses } from "@mui/material/Circula
 import Text, { typographyClasses } from "@mui/material/Typography";
 import { useFetchStateContext } from "@/app/FetchStateContext";
 import { Logo, brandingClassNames } from "@/components/Branding";
-import { Anchor } from "@/components/Navigation/Anchor.jsx";
+import { Anchor, navigationClassNames } from "@/components/Navigation";
 import { APP_PATHS } from "@/routes/appPaths.js";
 import { isAuthenticatedStore } from "@/stores";
 
@@ -29,8 +29,11 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => ({
   flexDirection: "row",
   alignItems: "center",
 
-  "& > a": {
+  [`& > a.${navigationClassNames.anchorRoot}`]: {
     position: "relative",
+    display: "flex",
+    border: "none",
+    textDecoration: "none",
 
     // Increase the anchor's default hover-opacity from 0.7 to 0.75
     "&:hover": {

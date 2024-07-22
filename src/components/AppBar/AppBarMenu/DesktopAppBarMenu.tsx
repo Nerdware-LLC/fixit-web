@@ -55,6 +55,7 @@ const StyledDiv = styled("div")(({ theme: { palette } }) => ({
       color: palette.text.primary,
       fontSize: "0.9rem",
       fontWeight: "bold",
+      textDecoration: "none",
       "&:hover": {
         opacity: 0.6,
       },

@@ -1,5 +1,5 @@
-import { forwardRef } from "react";
-import { Link as ReactRouterDomLink } from "react-router-dom";
+import React, { forwardRef } from "react";
+import { Link as RrdLink, type LinkProps as RrdLinkProps } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { useMaybeRef } from "@/hooks/useMaybeRef.js";
 import { getDefaultLinkStyles } from "./styles.js";
@@ -14,12 +14,12 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   const anchorRef = useMaybeRef(ref);
 
   return (
-    <StyledReactRouterDomLink ref={anchorRef} to={to} {...linkProps}>
+    <StyledRrdLink ref={anchorRef} to={to} {...linkProps}>
       {children}
-    </StyledReactRouterDomLink>
+    </StyledRrdLink>
   );
 });
 
-export const StyledReactRouterDomLink = styled(ReactRouterDomLink)(getDefaultLinkStyles);
+export const StyledRrdLink = styled(RrdLink)(getDefaultLinkStyles);
 
-export type LinkProps = React.ComponentProps<typeof StyledReactRouterDomLink>;
+export type LinkProps = React.ComponentProps<typeof StyledRrdLink> & RrdLinkProps;
