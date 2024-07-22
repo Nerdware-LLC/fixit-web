@@ -1,11 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useFetchStateContext } from "@/app/FetchStateContext";
 import { useGoogleOneTapLogin } from "@/app/GoogleOAuthContext";
-import { APP_PATHS } from "@/routes/appPaths.js";
+import { useAuthLoginNav } from "@/hooks/useAuthLoginNav.js";
 import { authService } from "@/services/authService.js";
-import { isAuthenticatedStore, isActiveAccountStore } from "@/stores";
+import { isAuthenticatedStore } from "@/stores";
 
 /**
  * ### Auth Initialization Hook
@@ -32,10 +30,13 @@ import { isAuthenticatedStore, isActiveAccountStore } from "@/stores";
  * 3. FINALLY, `isAuthInitComplete` state is set to `true` to ensure the hook does not run again.
  */
 export const useAuthInit = () => {
-  const nav = useNavigate();
   const { setIsLoading } = useFetchStateContext();
   const isAuthenticated = isAuthenticatedStore.useSubToStore();
   const [isAuthInitComplete, setIsAuthInitComplete] = useState(false);
+  const { handleLoginNav } = useAuthLoginNav({
+    authReqFailureErrorMsg:
+      "Oops! Automatic sign-in with Google One-Tap didn't work. Please sign in with a different method.",
+  });
 
   /**
    * ### Auth Initialization Handler
@@ -53,33 +54,13 @@ export const useAuthInit = () => {
 
       // Trigger loading and submit the auth request
       setIsLoading(true);
-      const { token } = await authInitFn().catch(() => ({ token: null }));
+      await authInitFn().catch(() => ({ token: null }));
       setIsLoading(false);
 
-      // If a `token` was returned, the request was successful.
-
-      // If the req was successful, do toast+redirect based on account status
-      if (token) {
-        // If account is active, nav to /home, else nav to /products
-        const isActivePaidAccount = isActiveAccountStore.get();
-        if (isActivePaidAccount) {
-          toast.success("Welcome back!", { toastId: "refreshed-token" });
-          nav(APP_PATHS.HOME);
-        } else {
-          toast.info("Welcome back! Please select a subscription.", { toastId: "select-a-sub" });
-          nav(APP_PATHS.PRODUCTS);
-        }
-      } else {
-        // If the req failed, toast+redirect
-        toast.error(
-          "Oops! Automatic sign-in with Google One-Tap didn't work. Please sign in with a different method.",
-          { toastId: "auth-init-request-failed" }
-        );
-
-        nav(APP_PATHS.LOGIN);
-      }
+      // Nav+toast based on auth state and account status
+      handleLoginNav();
     },
-    [nav, setIsLoading]
+    [handleLoginNav, setIsLoading]
   );
 
   /**
