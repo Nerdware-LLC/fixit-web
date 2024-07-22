@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { object as yupObject, type InferType } from "yup";
 import { useFetchStateContext } from "@/app/FetchStateContext";
 import { GoogleAuthFormButton } from "@/app/GoogleOAuthContext/GoogleAuthFormButton.jsx";
@@ -8,15 +6,15 @@ import { Form, FormSubmitButton } from "@/components/Form";
 import { EmailInput, PasswordInput } from "@/components/Form/Inputs";
 import { yupCommonSchema, getInitialValuesFromSchema } from "@/components/Form/helpers";
 import { ErrorDialog } from "@/components/Indicators";
-import { APP_PATHS } from "@/routes/appPaths.js";
+import { useAuthLoginNav } from "@/hooks/useAuthLoginNav.js";
 import { authService } from "@/services/authService.js";
 
 export const LoginForm = () => {
-  const nav = useNavigate();
   const { fetchWithState, error, clearError } = useFetchStateContext();
+  const { handleLoginNav } = useAuthLoginNav();
 
   const onSubmit = async ({ password, googleIDToken, ...values }: LoginFormValues) => {
-    const apiResponse = await fetchWithState(
+    await fetchWithState(
       async () =>
         await authService.login({
           ...(password
@@ -25,11 +23,7 @@ export const LoginForm = () => {
           ...values,
         })
     );
-
-    if (apiResponse?.token) {
-      toast.success("Welcome back!", { toastId: "login-success" });
-      nav(APP_PATHS.HOME);
-    }
+    handleLoginNav();
   };
 
   return (
