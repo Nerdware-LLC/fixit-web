@@ -66,7 +66,7 @@ export class LocalStorageValueManager<StoredValueType extends Jsonifiable> {
   readonly set = (value: StoredValueType, ttl: StoredValueTTL = this.ttl): void => {
     const valueDataWrapper: LsvmDataWrapper<StoredValueType> = {
       data: value,
-      ...(ttl && { expiresAt: Date.now() + ttl }),
+      ...(ttl && value !== null && { expiresAt: Date.now() + ttl }),
     };
 
     localStorage.setItem(this.storageKey, safeJsonStringify(valueDataWrapper));
