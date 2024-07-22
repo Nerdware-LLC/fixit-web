@@ -41,6 +41,7 @@ const StyledBox = styled(Box)(({ theme: { palette, shadows, transitions } }) => 
 
   overflow: "hidden",
   textOverflow: "ellipsis",
+
   "& *": {
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -48,16 +49,19 @@ const StyledBox = styled(Box)(({ theme: { palette, shadows, transitions } }) => 
 
   // HEADER:
   [`& > .${dataDisplayClassNames.groupHeader}`]: {
-    padding: "1rem 1.25rem",
-    paddingBottom: "1rem",
-    transform: "translateY(1px)",
+    fontSize: "1rem !important",
+    padding: "1.1rem 1rem 1rem 1rem",
     borderWidth: "0 0 1px 0",
     borderStyle: "solid",
     borderColor: alpha(palette.divider, 0.05),
     borderRadius: "0.35rem 0.35rem 0 0",
     ...getMuiPaperStyles(1, { palette, shadows, transitions }),
-    [`& .${dataDisplayClassNames.label}`]: {
-      opacity: "1 !important", // rm opacity from header label
+    "& *": {
+      lineHeight: "1.5 !important",
+      [`&.${dataDisplayClassNames.label}`]: {
+        fontSize: "0.95rem",
+        opacity: "1 !important", // rm opacity from header label
+      },
     },
   },
 

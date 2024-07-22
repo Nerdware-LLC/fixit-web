@@ -27,6 +27,7 @@ export const ItemDetailsHeader = ({
 
 const StyledBox = styled(Box)(({ theme: { palette } }) => ({
   width: "100%",
+  minHeight: "1rem",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
@@ -35,6 +36,7 @@ const StyledBox = styled(Box)(({ theme: { palette } }) => ({
   // CHILDREN: icon + label + headerComponents
   "& > *": {
     color: palette.text.primary,
+    lineHeight: 1,
 
     // ICON
     [`&.${svgIconClasses.root}`]: {
@@ -45,7 +47,6 @@ const StyledBox = styled(Box)(({ theme: { palette } }) => ({
     [`&.${dataDisplayClassNames.label}`]: {
       opacity: 0.7,
       fontSize: "0.9rem",
-      lineHeight: 1,
       fontWeight: palette.mode === "dark" ? 200 : "normal",
       textTransform: "uppercase",
       whiteSpace: "nowrap",
