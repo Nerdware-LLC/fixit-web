@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useLayoutEffect, useMemo } from "react";
 import { PageLayoutContext } from "./PageLayoutContext.js";
 import { testIsMobileUserAgent, testShouldUseMobileLayout } from "./helpers.js";
 
@@ -9,7 +9,7 @@ export const PageLayoutContextProvider = ({ children }: { children: React.ReactN
     testShouldUseMobileLayout(isMobileUserAgent)
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleWindowResize = () => {
       const newIsMobileUserAgentValue = testIsMobileUserAgent();
       setIsMobileUserAgent(newIsMobileUserAgentValue);
