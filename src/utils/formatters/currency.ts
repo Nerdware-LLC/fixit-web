@@ -1,5 +1,6 @@
 import { sanitizeNumeric } from "@nerdware/ts-string-helpers";
 import { isSafeInteger, safeJsonStringify } from "@nerdware/ts-type-safety-utils";
+import { calculateDiscountedPrice_FOR_DISPLAY_ONLY } from "@/utils/numeric/calculate.js";
 import { i18nFormats } from "./i18n.js";
 import type { SupportedLocale } from "./i18n.js";
 
@@ -64,7 +65,6 @@ export const intToCurrencyStr = (
   }: {
     locale?: SupportedLocale;
     shouldRound?: boolean;
-    
   } = {}
 ) => {
   if (!isSafeInteger(minorCurrencyUnitInteger))
@@ -77,4 +77,22 @@ export const intToCurrencyStr = (
     : i18nFormats[locale].number.currency;
 
   return intlNumberFormat.format(minorCurrencyUnitInteger / 100);
+};
+
+/**
+ * Returns a currency-formatted string from the given `price` and `discountPercentage`.
+ *
+ * > `This function is for DISPLAY PURPOSES ONLY and merely conveys information to the user.
+ * >  All pricing/product info is stored and calculated by the backend API.
+ * >  Sending invalid pricing/product info to the server results in a 400 response.`
+ *
+ * @see {@link calculateDiscountedPrice_FOR_DISPLAY_ONLY}
+ */
+export const getPrice_FOR_DISPLAY_ONLY = (
+  price: number,
+  /** The discount % expressed as an integer (`10` = 10% discount). */
+  discountPercentageInt?: number | null | undefined
+) => {
+  const priceWithDiscount = calculateDiscountedPrice_FOR_DISPLAY_ONLY(price, discountPercentageInt);
+  return intToCurrencyStr(priceWithDiscount);
 };

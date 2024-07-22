@@ -1,3 +1,4 @@
+import { isSafeInteger } from "@nerdware/ts-type-safety-utils";
 import dayjs, {
   type ConfigType as DayJsCtorParamType,
   type UnitType as DayJsUnitType,
@@ -29,4 +30,21 @@ export const getItemAge = (
   unit: DayJsUnitType = "days"
 ) => {
   return getTimestampAge(maybeItem?.createdAt, unit);
+};
+
+/**
+ * Calculates the discounted price based on the provided `price` and `discountPercentage`.
+ *
+ * > `This function is for DISPLAY PURPOSES ONLY and merely conveys information to the user.
+ * >  All pricing/product info is stored and calculated by the backend API.
+ * >  Sending invalid pricing/product info to the server results in a 400 response.`
+ */
+export const calculateDiscountedPrice_FOR_DISPLAY_ONLY = (
+  price: number,
+  /** The discount % expressed as an integer (`10` = 10% discount). */
+  discountPercentageInt: number | null | undefined
+) => {
+  return isSafeInteger(discountPercentageInt)
+    ? price - price * (discountPercentageInt / 100)
+    : price;
 };
