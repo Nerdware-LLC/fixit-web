@@ -11,6 +11,8 @@ import { ENV } from "@/app/env";
 
 /* eslint-disable no-console */
 
+const jsonStrSpaces = ENV.IS_PROD ? 0 : 2;
+
 /**
  * Returns a log message string.
  * - Log message format: `"[<timestamp>][<label>] <msgPrefix?> <message>"`
@@ -20,11 +22,11 @@ const getLogMessage = ({
   input,
   msgPrefix = "",
 }: GetLogMessageArgsProvidedByLoggerUtil & GetLogMessageArgsProvidedByHandler): string => {
-  let message = `[${dayjs().format("YYYY:MMM:D H:mm:ss.SSS")}][${label}]`;
+  let message = `[${dayjs().format("YYYY:MMM:D H:mm:ss.SSS")}][${label}] `;
 
-  if (msgPrefix) message += ` ${msgPrefix}`;
+  if (msgPrefix) message += `${msgPrefix} `;
 
-  message += getErrorMessage(input) || safeJsonStringify(input);
+  message += getErrorMessage(input) || safeJsonStringify(input, null, jsonStrSpaces);
 
   return message;
 };
