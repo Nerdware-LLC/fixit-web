@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { styled } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import { TimelineEventIcon, type TimelineEventIconProps } from "./TimelineEventIcon.jsx";
@@ -32,69 +32,64 @@ export const TimelineEvent = ({
 };
 
 const StyledBox = styled(Box)(({ theme: { palette } }) => ({
-  [`&.${timelineClassNames.eventRoot}`]: {
+  display: "flex",
+  alignItems: "center",
+  gap: "1rem",
+  padding: "0.625rem 0",
+  minWidth: "min-content",
+  overflow: "visible",
+
+  // ALL DIRECT DIV CHILDREN
+  "& > div": {
     display: "flex",
+    flexDirection: "row",
     alignItems: "center",
-    gap: "1rem",
-    padding: "0.625rem 0",
+    gap: "inherit",
+    flexShrink: 0,
+    whiteSpace: "nowrap",
+  },
 
-    // ALL DESCENDANTS
-    "& > *": {
-      flexShrink: 0,
-      whiteSpace: "nowrap",
-    },
+  // EVENT TIMESTAMP CONTAINER
+  [`& > .${timelineClassNames.eventTimestamp.root}`]: {
+    margin: "0 0.5rem 0 0",
+    justifyContent: "flex-end",
 
-    // ALL DIRECT DIV CHILDREN
-    "& > div": {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      gap: "inherit",
-    },
+    [`& > .${typographyClasses.root}`]: {
+      textAlign: "right",
 
-    // EVENT TIMESTAMP CONTAINER
-    [`& > .${timelineClassNames.eventTimestamp.root}`]: {
-      margin: "0 0.5rem 0 0",
-      justifyContent: "flex-end",
-
-      [`& > .${typographyClasses.root}`]: {
-        textAlign: "right",
-
-        [`&.${timelineClassNames.eventTimestamp.dateText}`]: {
-          width: "5.5rem",
-          minWidth: "5.5rem",
-          maxWidth: "5.5rem",
-        },
-        [`&.${timelineClassNames.eventTimestamp.timeText}`]: {
-          width: "4.5rem",
-          minWidth: "4.5rem",
-          maxWidth: "4.5rem",
-        },
+      [`&.${timelineClassNames.eventTimestamp.dateText}`]: {
+        width: "5.5rem",
+        minWidth: "5.5rem",
+        maxWidth: "5.5rem",
+      },
+      [`&.${timelineClassNames.eventTimestamp.timeText}`]: {
+        width: "4.5rem",
+        minWidth: "4.5rem",
+        maxWidth: "4.5rem",
       },
     },
+  },
 
-    // EVENT INFO-CONTENT CONTAINER
-    [`& > .${timelineClassNames.eventContentRoot}`]: {
-      gap: "0.75rem",
-    },
+  // EVENT INFO-CONTENT CONTAINER
+  [`& > .${timelineClassNames.eventContentRoot}`]: {
+    gap: "0.5rem",
+  },
 
-    "&:not(:last-of-type)": {
-      borderBottom: `1px solid ${palette.divider}`,
+  "&:not(:last-of-type)": {
+    borderBottom: `1px solid ${alpha(palette.divider, 0.075)}`,
+
+    [`& > .${timelineClassNames.eventIconRoot}`]: {
       overflow: "visible",
 
-      [`& > .${timelineClassNames.eventIconRoot}`]: {
-        overflow: "visible",
-
-        "&::after": {
-          content: '""',
-          position: "absolute",
-          bottom: "-1.25rem",
-          left: "calc(50% - 1.5px)",
-          display: "block",
-          height: "1.25rem",
-          width: "3px",
-          backgroundColor: palette.info.main,
-        },
+      "&::after": {
+        content: '""',
+        position: "absolute",
+        bottom: "-1.25rem",
+        left: "calc( 50% - 1.5px )",
+        display: "block",
+        height: "1.25rem",
+        width: "3px",
+        backgroundColor: palette.info.main,
       },
     },
   },
