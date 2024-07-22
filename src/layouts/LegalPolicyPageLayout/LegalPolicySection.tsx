@@ -1,6 +1,13 @@
 import Text, { type TypographyProps } from "@mui/material/Typography";
 import type { Except } from "type-fest";
 
+export type LegalPolicySectionProps = {
+  header: string;
+  headerProps?: Except<TypographyProps, "children">;
+  sectionNumber?: number;
+  children: React.ReactNode; // section content
+};
+
 /**
  * Legal policy section container with h2 header.
  */
@@ -33,11 +40,4 @@ export const LegalPolicySection = ({
       {children}
     </div>
   );
-};
-
-export type LegalPolicySectionProps = {
-  header: string;
-  headerProps?: Except<TypographyProps, "children">;
-  sectionNumber?: number;
-  children: React.ReactNode; // section content
 };
