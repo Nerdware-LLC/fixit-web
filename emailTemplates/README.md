@@ -12,10 +12,10 @@ Email clients are relatively limited in their support for modern web features, a
 
 To ensure emails achieve their intended user impact, HTML emails must implement the desired UI/UX with these constraints in mind to ensure recipients aren't presented with rendering/formatting issues.
 
-## Available Templates:
+## Available Templates
 
-| Template                           | Purpose                                             | TODO?          |
-| ---------------------------------- | --------------------------------------------------- | -------------- |
-| `new-user-welcome-email.html`      | Welcomes newly-registered user to Fixit             |                |
-| `checkout-confirmation-email.html` | Confirms subscription info upon successful checkout | <!-- FIXME --> |
-| `fixit-user-invitation-email.html` | Invites the recipient to join Fixit                 |                |
+| Template                           | Purpose                                             |
+| ---------------------------------- | --------------------------------------------------- |
+| `new-user-welcome-email.html`      | Welcomes newly-registered user to Fixit             |
+| `checkout-confirmation-email.html` | Confirms subscription info upon successful checkout |
+| `fixit-user-invitation-email.html` | Invites the recipient to join Fixit                 |
