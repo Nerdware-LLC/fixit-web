@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import deepMerge from "lodash.merge";
 import { styled, alpha, darken, lighten } from "@mui/material/styles";
 import { DataGrid as MuiDataGrid } from "@mui/x-data-grid";
+import { typographyClasses } from "@mui/material/Typography";
 import AddToListIcon from "@mui/icons-material/PlaylistAddCircle";
 import { avatarClassNames } from "@/components/Avatar";
 import { dataGridClassNames } from "./classNames.js";
@@ -26,15 +27,6 @@ import type { Simplify } from "type-fest";
  *   clicked/pressed; since it renders in a portal outside of the DataGrid's
  *   position in the DOM tree, styles can't be applied via css selectors within
  *   StyledMuiDataGrid, so its styles/sx are provided inline.
- *
- * <details>
- *   <summary>See DataGrid API docs</summary>
- *
- *   Foo text here.
- *
- * </details>
- *
- * Foo text here.
  */
 export const DataGrid = <TRowData extends GridValidRowModel>({
   rowDataItemName,
@@ -42,8 +34,8 @@ export const DataGrid = <TRowData extends GridValidRowModel>({
   slots = {},
   slotProps,
   getRowClassName = getRowClassNameForBandedRows,
-  columnBuffer = 6,
-  rowBuffer = 6,
+  columnBufferPx = 6,
+  rowBufferPx = 6,
   style,
   ...dataGridProps
 }: DataGridProps<TRowData>) => {
@@ -81,8 +73,8 @@ export const DataGrid = <TRowData extends GridValidRowModel>({
         ...slots,
       }}
       slotProps={mergedSlotProps}
-      columnBuffer={columnBuffer}
-      rowBuffer={rowBuffer}
+      columnBufferPx={columnBufferPx}
+      rowBufferPx={rowBufferPx}
       getRowClassName={getRowClassName}
       style={style}
       {...dataGridProps}
@@ -161,14 +153,9 @@ const StyledMuiDataGrid = styled(MuiDataGrid)(({ theme: { palette, variables } }
     },
 
     // COLUMN GROUP HEADERS
-    [`& .${dataGridClassNames.columnHeadersInner} > div:not(:last-of-type)`]: {
-      [`& .${dataGridClassNames.columnHeader}`]: {
-        padding: 0,
-
+    [`& .${dataGridClassNames.columnHeaders}`]: {
+      [`& > div:not(:last-of-type)`]: {
         [`& div.${dataGridClassNames.columnHeaderTitleContainer}`]: {
-          paddingTop: "0.75rem",
-          lineHeight: "2rem",
-          alignItems: "flex-end",
           justifyContent: "center",
         },
       },
@@ -177,12 +164,12 @@ const StyledMuiDataGrid = styled(MuiDataGrid)(({ theme: { palette, variables } }
     // ROWS CONTAINER
     [`& .${dataGridClassNames.virtualScroller}`]: {
       backgroundColor: palette.background.default,
+
       "&:hover": { cursor: "pointer" },
 
       // ROWS
-      [`& .${dataGridClassNames.row}`]: {
-        "&:hover": rowHoverStyle,
-      },
+      [`& .${dataGridClassNames.row}`]: { "&:hover": rowHoverStyle },
+
       // Banded rows by using custom className:
       [`& .${dataGridClassNames.row}.${dataGridClassNames.rowIndexEven}`]: {
         backgroundColor: darken(palette.background.paper, palette.mode === "dark" ? 0.1 : 0.025),
@@ -191,51 +178,33 @@ const StyledMuiDataGrid = styled(MuiDataGrid)(({ theme: { palette, variables } }
 
       // CELLS
       [`& .${dataGridClassNames.cell}`]: {
+        display: "flex",
+        alignItems: "center",
         fontSize: "0.875rem",
-        lineHeight: "0.875rem",
-        padding: "0.75rem 0.625rem 0.5rem 0.625rem",
-        verticalAlign: "middle",
+
         borderWidth: "1px 1px 0 0",
         borderStyle: "solid",
         borderColor:
           palette.mode === "dark"
             ? alpha(palette.grey[300], 0.125)
             : alpha(palette.grey[400], 0.75),
-        [`& > .${dataGridClassNames.cellContent}`]: {
-          verticalAlign: "middle",
+        "&:not(:last-of-type)": {
+          borderRightColor:
+            palette.mode === "dark"
+              ? alpha(palette.grey[300], 0.035)
+              : alpha(palette.grey[400], 0.45),
         },
 
         // Avatar comps in cells (using our custom className):
-        [`& .${avatarClassNames.root}`]: {
-          "& .MuiTypography-root": {
-            fontSize: "0.875rem",
-          },
+        [`& .${avatarClassNames.root} .${typographyClasses.root}`]: {
+          fontSize: "inherit",
         },
-      },
-      [`& .${dataGridClassNames.cell}:not(:last-of-type)`]: {
-        borderRightColor:
-          palette.mode === "dark"
-            ? alpha(palette.grey[300], 0.035)
-            : alpha(palette.grey[400], 0.45),
       },
     },
 
     // NO-ROWS-OVERLAY
     [`& .${dataGridClassNames.overlay}`]: {
       textTransform: "capitalize",
-    },
-
-    // FOOTER CONTAINER
-    [`& .${dataGridClassNames.footerContainer}`]: {
-      "& .MuiTablePagination-root": {
-        width: "100%",
-        "& > .MuiTablePagination-toolbar": {
-          width: "100%",
-          "& .MuiTablePagination-select": {
-            lineHeight: "2rem",
-          },
-        },
-      },
     },
   };
 }) as typeof MuiDataGrid; // <-- `as` is necessary to ensure the component remains generic

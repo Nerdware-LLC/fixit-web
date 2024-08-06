@@ -28,7 +28,7 @@ const COLUMNS = getDataGridColDefs<
   },
   createdBy: {
     headerName: "Created By",
-    valueGetter: ({ row: wo }) => wo.createdBy.profile.displayName,
+    valueGetter: (_value, row) => row.createdBy.profile.displayName,
     renderCell: ({ row: wo }) => (
       <ContactAvatar contact={wo.createdBy} viewContactOnClick={false} />
     ),
@@ -37,7 +37,7 @@ const COLUMNS = getDataGridColDefs<
   },
   assignedTo: {
     headerName: "Assigned To",
-    valueGetter: ({ row: wo }) => wo.assignedTo?.profile.displayName,
+    valueGetter: (_value, row) => row.assignedTo?.profile.displayName,
     renderCell: ({ row: wo }) =>
       !!wo.assignedTo && <ContactAvatar contact={wo.assignedTo} viewContactOnClick={false} />,
     flex: 1,
@@ -45,35 +45,35 @@ const COLUMNS = getDataGridColDefs<
   },
   streetLine1: {
     headerName: "Street Address",
-    valueGetter: ({ row }) => row.location.streetLine1,
+    valueGetter: (_value, row) => row.location.streetLine1,
     flex: 1,
     minWidth: 175,
   },
   streetLine2: {
     headerName: "Street Line 2",
-    valueGetter: ({ row: wo }) => wo.location.streetLine2,
+    valueGetter: (_value, row) => row.location.streetLine2,
     flex: 0.75,
   },
   city: {
     headerName: "City",
-    valueGetter: ({ row: wo }) => wo.location.city,
+    valueGetter: (_value, row) => row.location.city,
     flex: 0.75,
   },
   region: {
     headerName: "State",
-    valueGetter: ({ row: wo }) => wo.location.region,
+    valueGetter: (_value, row) => row.location.region,
     flex: 0.75,
     minWidth: 125,
   },
   country: {
     headerName: "Country",
-    valueGetter: ({ row: wo }) => wo.location.country,
+    valueGetter: (_value, row) => row.location.country,
     flex: 0.5,
     minWidth: 80,
   },
   status: {
     headerName: "Status",
-    valueGetter: ({ row: wo }) => wo.status.replace(/_/g, " "),
+    valueGetter: (_value, row) => row.status.replace(/_/g, " "),
     flex: 0.5,
     minWidth: 115,
     headerAlign: "center",
@@ -103,7 +103,7 @@ const COLUMNS = getDataGridColDefs<
   },
   entryContactPhone: {
     headerName: "Phone",
-    valueFormatter: ({ value }) => (value ? prettifyPhoneNumStr(value) : ""),
+    valueFormatter: (value) => (value ? prettifyPhoneNumStr(value) : ""),
     valueParser: (value) => (value ? prettifyPhoneNumStr(value) : ""),
     minWidth: 125,
     headerAlign: "center",
@@ -134,7 +134,6 @@ const COLUMNS = getDataGridColDefs<
 
 export const workOrderTableProps = {
   columns: Object.values(COLUMNS),
-  experimentalFeatures: { columnGrouping: true },
   columnGroupingModel: [
     {
       groupId: "Address",

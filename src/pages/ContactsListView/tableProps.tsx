@@ -18,7 +18,7 @@ const COLUMNS = getDataGridColDefs<
 >({
   contact: {
     headerName: "Contact",
-    valueGetter: ({ row: contact }) => contact.profile.displayName,
+    valueGetter: (_value, row) => row.profile.displayName,
     renderCell: ({ row: contact }) => (
       <ContactAvatar contact={contact} viewContactOnClick={false} />
     ),
@@ -34,7 +34,7 @@ const COLUMNS = getDataGridColDefs<
   },
   phone: {
     headerName: "Phone",
-    valueFormatter: ({ value }) => (value ? prettifyPhoneNumStr(value) : ""),
+    valueFormatter: (value) => (value ? prettifyPhoneNumStr(value) : ""),
     valueParser: (value) => (value ? prettifyPhoneNumStr(value) : ""),
     flex: 1,
     minWidth: 125,

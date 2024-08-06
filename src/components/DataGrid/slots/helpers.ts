@@ -1,10 +1,9 @@
-import { UncapitalizedGridSlotsComponent } from "@mui/x-data-grid";
+import type { GridSlotsComponent } from "@mui/x-data-grid";
 
 /** @internal */
 export const _makeDataGridCustomSlotModuleExports = <
-  SlotName extends keyof UncapitalizedGridSlotsComponent,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  SlotComponent extends React.JSXElementConstructor<any>,
+  SlotName extends keyof GridSlotsComponent,
+  SlotComponent extends NonNullable<GridSlotsComponent[SlotName]>,
   DefaultSlotComponentProps extends Readonly<
     Partial<React.ComponentPropsWithoutRef<SlotComponent>>
   >,

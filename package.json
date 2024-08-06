@@ -45,6 +45,7 @@
     "graphql:update-types": "scripts/codegen.types-graphql.sh"
   },
   "dependencies": {
+    "@mui/x-data-grid": "^7.12.0",
     "@mui/x-date-pickers": "^7.12.0",
     "@nerdware/ts-string-helpers": "^1.7.0",
     "@nerdware/ts-type-safety-utils": "^1.0.14",

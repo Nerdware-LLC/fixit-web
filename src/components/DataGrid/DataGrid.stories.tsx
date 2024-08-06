@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import ConstructionIcon from "@mui/icons-material/Construction";
-import { withNavDecorator, type NavDecoratorArgs } from "@/../.storybook/decorators";
+import { withNavDecorator } from "@/../.storybook/decorators";
 import { TABLE_VIEW_DATA_SETS } from "@/layouts/CoreItemsListView/types.js";
 import {
   workOrderTableProps,
@@ -63,7 +63,7 @@ export const WorkOrdersDemo = {
       })),
     ],
   },
-} satisfies StoryObj<typeof meta & NavDecoratorArgs>;
+} satisfies StoryObj<typeof meta>;
 
 export const Empty = {
   args: {

@@ -28,7 +28,7 @@ const COLUMNS = getDataGridColDefs<
   },
   createdBy: {
     headerName: "Created By",
-    valueGetter: ({ row: inv }) => inv.createdBy.profile.displayName,
+    valueGetter: (_value, row) => row.createdBy.profile.displayName,
     renderCell: ({ row: inv }) => (
       <ContactAvatar contact={inv.createdBy} viewContactOnClick={false} />
     ),
@@ -37,7 +37,7 @@ const COLUMNS = getDataGridColDefs<
   },
   assignedTo: {
     headerName: "Assigned To",
-    valueGetter: ({ row: inv }) => inv.assignedTo.profile.displayName,
+    valueGetter: (_value, row) => row.assignedTo.profile.displayName,
     renderCell: ({ row: inv }) => (
       <ContactAvatar contact={inv.assignedTo} viewContactOnClick={false} />
     ),
@@ -46,7 +46,7 @@ const COLUMNS = getDataGridColDefs<
   },
   amount: {
     headerName: "Amount",
-    valueFormatter: ({ value }) => intToCurrencyStr(value),
+    valueFormatter: (value) => intToCurrencyStr(value),
     flex: 0.5,
     minWidth: 100,
     headerAlign: "right",
@@ -64,9 +64,9 @@ const COLUMNS = getDataGridColDefs<
     flex: 0.5,
     align: "center",
     headerAlign: "center",
-    valueGetter: ({ row: inv }) => inv.workOrder?.id,
+    valueGetter: (_value, row) => row.workOrder?.id,
     renderCell: ({ value: workOrder }) =>
-      !!workOrder?.id && (
+      !!workOrder && (
         <Link
           to={getItemViewPath("workorders", workOrder.id)}
           onClick={(event: React.MouseEvent<HTMLAnchorElement>) => event.stopPropagation()}

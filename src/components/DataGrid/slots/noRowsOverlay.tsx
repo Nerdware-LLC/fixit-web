@@ -35,6 +35,12 @@ export const DataGridCustomNoRowsOverlay = ({
   />
 );
 
+declare module "@mui/x-data-grid" {
+  interface NoRowsOverlayPropsOverrides extends DataGridCustomNoRowsOverlayProps {
+    nameOfMissingItems: string;
+  }
+}
+
 export type DataGridCustomNoRowsOverlayProps = Simplify<
   {
     /** The name of the missing items, e.g. `"Invoices"`. */
