@@ -1,19 +1,9 @@
-import Text, { typographyClasses } from "@mui/material/Typography";
-import InfoIcon from "@mui/icons-material/Info";
+import Text from "@mui/material/Typography";
 import { StoryInfoDecorator, type StoryInfoDecoratorProps } from "./StoryInfoDecorator.jsx";
 import type { ReactRenderer } from "@storybook/react";
 import type { DecoratorFunction } from "@storybook/types";
 
-const LayoutInfo = (
-  <Text variant="subtitle1">
-    <InfoIcon />
-    This component renders different content depending on the <i>viewport</i> and <i>userAgent</i>
-    <p>
-      — try switching between mobile/desktop <i>viewports</i> and <i>userAgents</i> using the
-      toolbar.
-    </p>
-  </Text>
-);
+type LayoutInfoDecoratorProps = Omit<StoryInfoDecoratorProps, "storyInfo">;
 
 /**
  * This `decorator` component uses the {@link StoryInfoDecorator} to display a
@@ -23,38 +13,29 @@ const LayoutInfo = (
 export const LayoutInfoDecorator = ({
   disabled = false,
   children, // <-- the story
-  storyInfoContainerProps: { sx = {}, ...storyInfoContainerProps } = {},
 }: LayoutInfoDecoratorProps) => (
-  <StoryInfoDecorator
-    storyInfo={LayoutInfo}
-    disabled={disabled}
-    storyInfoContainerProps={{
-      sx: ({ palette, breakpoints }) => ({
-        [`& ${typographyClasses.subtitle1}`]: {
-          [breakpoints.down("md")]: { fontSize: "0.9rem" },
-          "& > svg": {
-            verticalAlign: "middle",
-            margin: "-0.1rem 0.35rem 0 0",
-          },
-          "& > p": {
-            margin: 0,
-            fontStyle: "italic",
-            [breakpoints.down("md")]: { fontSize: "0.75rem" },
-          },
-          "& svg,i": {
-            color: palette.secondary.main,
-          },
-        },
-        ...sx,
-      }),
-      ...storyInfoContainerProps,
-    }}
-  >
+  <StoryInfoDecorator storyInfo={LayoutInfo} disabled={disabled}>
     {children}
   </StoryInfoDecorator>
 );
 
-type LayoutInfoDecoratorProps = Omit<StoryInfoDecoratorProps, "storyInfo">;
+const LayoutInfo = (
+  <Text
+    variant="subtitle1"
+    sx={({ palette, breakpoints }) => ({
+      pointerEvents: "none",
+      lineHeight: 1.5,
+      [breakpoints.down("md")]: { fontSize: "0.9rem" },
+      "& i": { color: palette.secondary.main },
+    })}
+  >
+    This component renders different content depending on the <i>viewport</i> and <i>userAgent</i>
+    <p style={{ margin: 0, fontStyle: "italic" }}>
+      — try switching between mobile/desktop <i>viewports</i> and <i>userAgents</i> using the
+      toolbar.
+    </p>
+  </Text>
+);
 
 /**
  * This `decorator` wraps a `Story` in a component that displays a message
