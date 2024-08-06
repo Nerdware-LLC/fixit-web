@@ -13,6 +13,7 @@ import backgroundImageSrc from "@/images/landing_page_bg.webp";
 import { APP_PATHS } from "@/routes/appPaths.js";
 import { ProductImage } from "./ProductImage.jsx";
 import { landingPageClassNames } from "./classNames.js";
+import { landingPageElementIDs } from "./elementIDs.js";
 
 /**
  * **Landing Page** - index route for RootAppRouter which renders when the path is `"/"`.
@@ -25,7 +26,7 @@ export const LandingPage = () => {
   const goToProducts = () => nav(APP_PATHS.PRODUCTS);
 
   return (
-    <StyledDiv id="landing-page__content-root">
+    <StyledDiv id={landingPageElementIDs.contentRoot}>
       <div className={landingPageClassNames.textContainer}>
         <Text variant="h1">
           {`Simplify\nPayments,\nInvoices, and\nWork${NON_BREAKING_SPACE_CHAR}Orders`}
