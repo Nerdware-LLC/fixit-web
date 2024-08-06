@@ -4,48 +4,30 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Anchor } from "@/components/Navigation/Anchor";
-import { DemoModeStatement } from "./DemoModeStatement";
-import { StripeTestCardInfo } from "./StripeTestCardInfo";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
+import { NON_BREAKING_HYPHEN_CHAR } from "@/components/Text/constants.js";
+import { DemoModeStatement } from "./DemoModeStatement.jsx";
+import { StripeTestCardInfo } from "./StripeTestCardInfo.jsx";
 
 export const DemoStripeCardInfoAccordion = () => {
   return (
     <Box
-      sx={({ palette }) => ({
-        border: `1px solid ${palette.warning.main}`,
-        borderRadius: "0.25rem",
-      })}
+      style={{ borderWidth: "1px", borderStyle: "solid", borderRadius: "0.25rem" }}
+      borderColor="warning.main"
     >
-      <DemoModeStatement
-        variant="short"
-        sx={({ palette }) => ({
-          padding: "1rem",
-          justifyContent: "flex-start",
-          backgroundColor: palette.warning.main,
-          "& *": {
-            color: palette.getContrastText(palette.warning.main),
-          },
-        })}
-      />
+      <DemoModeStatement variant="short" invertColor style={{ padding: "1rem" }} />
       <Accordion style={{ marginTop: 0 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           id="stripe-card-info-summary"
           aria-controls="stripe-card-info-details"
-          sx={({ palette }) => ({
-            gap: "1rem",
-            "&:hover": {
-              backgroundColor: palette.action.hover,
-            },
-          })}
+          style={{ gap: "1rem" }}
+          sx={({ palette }) => ({ "&:hover": { backgroundColor: palette.action.hover } })}
         >
-          <Text style={{ whiteSpace: "pre-line" }}>
+          <Text style={{ textWrap: "balance" }}>
             Click here to learn how to use the{" "}
-            <Anchor
-              href="https://docs.stripe.com/testing#testing-interactively"
-              style={{ display: "contents" }}
-            >
-              {`Stripe-provided\ntest card number`}
+            <Anchor href="https://docs.stripe.com/testing#testing-interactively">
+              {`Stripe${NON_BREAKING_HYPHEN_CHAR}provided test card number`}
             </Anchor>{" "}
             for testing this payment flow.
           </Text>

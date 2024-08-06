@@ -3,9 +3,9 @@ import {
   withHomePageLayoutDecorator,
   type MockApolloDecoratorArgs,
 } from "@/../.storybook/decorators";
-import { QUERIES } from "@/graphql/queries";
-import { MOCK_INVOICES } from "@/tests/mockItems/mockInvoices";
-import { InvoicesListView } from "./InvoicesListView";
+import { QUERIES } from "@/graphql/queries.js";
+import { MOCK_INVOICES } from "@/tests/mockItems/mockInvoices.js";
+import { InvoicesListView } from "./InvoicesListView.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
@@ -29,7 +29,7 @@ export const WithMockInvoices = {
     _mock_apollo_decorator_args: {
       mocks: [
         {
-          request: { query: QUERIES.MY_INVOICES },
+          request: { query: QUERIES.MY_INVOICES_WITH_WORKORDER_DATA },
           result: { data: MOCK_INVOICES },
         },
       ],
@@ -42,7 +42,7 @@ export const EmptyList = {
     _mock_apollo_decorator_args: {
       mocks: [
         {
-          request: { query: QUERIES.MY_INVOICES },
+          request: { query: QUERIES.MY_INVOICES_WITH_WORKORDER_DATA },
           result: {
             data: {
               myInvoices: {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { getErrorMessage } from "@nerdware/ts-type-safety-utils";
 import { styled } from "@mui/material/styles";
 import CircularProgress from "@mui/material/CircularProgress";
 import ListItem from "@mui/material/ListItem";
@@ -7,9 +8,8 @@ import ListItemButton, { listItemButtonClasses } from "@mui/material/ListItemBut
 import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
 import ListItemText, { listItemTextClasses } from "@mui/material/ListItemText";
 import { THEMES } from "@/app/ThemeProvider";
-import { getMessageFromAxiosError } from "@/services/helpers";
-import { useIsActiveNavAction } from "./helpers";
-import type { AppNavActionConfig } from "@/routes/appNavActions";
+import { useIsActiveNavAction } from "./helpers.js";
+import type { AppNavActionConfig } from "@/routes/appNavActions.jsx";
 import type { SetRequired } from "type-fest";
 
 /**
@@ -33,7 +33,7 @@ export const DesktopNavDrawerButton = ({
           setShowLoading(true);
           await serviceAction();
         } catch (err) {
-          toast.error(getMessageFromAxiosError(err));
+          toast.error(getErrorMessage(err) ?? "Whoops! An error occurred — please try again.");
         } finally {
           setShowLoading(false);
         }

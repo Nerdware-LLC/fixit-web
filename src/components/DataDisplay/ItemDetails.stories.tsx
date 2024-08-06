@@ -1,5 +1,5 @@
-import { ItemDetails } from "./ItemDetails";
-import { BasicDemo as ItemDetailsHeaderBasicDemo } from "./ItemDetailsHeader.stories";
+import { ItemDetails } from "./ItemDetails.jsx";
+import { BasicDemo as ItemDetailsHeaderBasicDemo } from "./ItemDetailsHeader.stories.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

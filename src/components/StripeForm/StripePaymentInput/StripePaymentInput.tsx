@@ -1,6 +1,6 @@
 import { PaymentElement, type PaymentElementProps } from "@stripe/react-stripe-js";
-import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
-import { useStripePaymentInput } from "./useStripePaymentInput";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { useStripePaymentInput } from "./useStripePaymentInput.js";
 import type { Except } from "type-fest";
 
 /**
@@ -25,7 +25,7 @@ export const StripePaymentInput = ({
   onChange,
   ...paymentElementProps
 }: StripePaymentInputProps) => {
-  const { email, phone, profile } = authenticatedUserStore.useSubToStore<true>();
+  const { email, phone, profile } = authenticatedUserStore.useSubToStore()!;
 
   const { givenName, familyName } = profile;
 
@@ -39,11 +39,10 @@ export const StripePaymentInput = ({
             // Only `email` is required to enable Link, but more info = more streamlined checkout.
             email,
             ...(phone && { phone }),
-            ...(!!givenName &&
-              !!familyName && {
-                // Stripe examples use the western `firstName lastName` convention for `name`:
-                name: `${givenName} ${familyName}`,
-              }),
+            ...(!!(givenName && familyName) && {
+              // Stripe examples use the western `firstName lastName` convention for `name`:
+              name: `${givenName} ${familyName}`,
+            }),
           },
         },
       }}

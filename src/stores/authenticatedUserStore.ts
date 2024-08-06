@@ -1,101 +1,47 @@
-import dayjs from "dayjs";
 import { jwtDecode } from "jwt-decode";
-import { apolloClient } from "@/app/ApolloProvider/apolloClient";
-import { googleLogout } from "@/app/GoogleOAuthContext/helpers";
-import { ReactiveStore } from "./ReactiveStore";
-import { LocalStorageValueManager } from "./helpers";
-import { isActiveAccountStore } from "./isActiveAccountStore";
-import { isAuthenticatedStore } from "./isAuthenticatedStore";
-import { isConnectOnboardingCompleteStore } from "./isConnectOnboardingCompleteStore";
-import type { AuthTokenPayload } from "@/graphql/types";
-import type { Except } from "type-fest";
+import { apolloClient } from "@/app/ApolloProvider/apolloClient.js";
+import { googleLogout } from "@/app/GoogleOAuthContext/helpers.js";
+import { authTokenLocalStorage } from "./authTokenLocalStorage.js";
+import { ReactiveStore } from "./helpers";
+import { isActiveAccountStore } from "./isActiveAccountStore.js";
+import { isAuthenticatedStore } from "./isAuthenticatedStore.js";
+import { isConnectOnboardingCompleteStore } from "./isConnectOnboardingCompleteStore.js";
+import type { AuthTokenPayload } from "@/types/open-api.js";
 
-/**
- * The type of object stored in the {@link authenticatedUserStore}.
- *
- * This type is based on the {@link AuthTokenPayload} type, with the following modifications:
- * - No `__typename` field
- * - All other fields are required/non-optional (missing values default to `null`)
- */
-export type AuthenticatedUserObject = Required<Except<AuthTokenPayload, "__typename">>;
-
-/**
- * A `LocalStorageValueManager` instance for the `"authToken"` key.
- * Used by the {@link AuthenticatedUserStore} to manage the auth token.
- */
-export const authTokenLocalStorage = new LocalStorageValueManager<string | null>("authToken", null);
-
-/**
- * A `LocalStorageValueManager` instance for the `"authTokenUpdatedAt"` key.
- * Used to determine if the User should be shown the Google OAuth OneTap prompt on app load.
- */
-export const authTokenUpdatedAtLocalStorage = new LocalStorageValueManager<number | null>(
-  "authTokenUpdatedAt",
-  null
-);
-
-class AuthenticatedUserStore extends ReactiveStore<
-  AuthenticatedUserObject | null,
-  AuthenticatedUserObject
-> {
+class AuthenticatedUserStore extends ReactiveStore<AuthTokenPayload | null> {
   /**
-   * Process an auth token to authenticate the user.
+   * Process an auth token to update relevant reactive stores.
    */
-  processAuthToken(encodedAuthToken: string): AuthenticatedUserObject {
+  static readonly processAuthToken = (encodedAuthToken: string): AuthTokenPayload => {
     authTokenLocalStorage.set(encodedAuthToken);
-    authTokenUpdatedAtLocalStorage.set(dayjs().unix());
 
     const tokenPayload: AuthTokenPayload = jwtDecode(encodedAuthToken);
 
-    if (tokenPayload?.stripeConnectAccount?.detailsSubmitted === true) {
+    if (tokenPayload.stripeConnectAccount.detailsSubmitted === true) {
       isConnectOnboardingCompleteStore.set(true);
     }
 
-    if (tokenPayload?.subscription) {
+    if (tokenPayload.subscription) {
       isActiveAccountStore.setIsSubValid(tokenPayload.subscription);
     }
 
-    // Make auth'd User obj from the tokenPayload
-    const authenticatedUserObject = {
-      // Fields which may not be present in tokenPayload default to null:
-      phone: null,
-      subscription: null,
-      stripeConnectAccount: null,
-      // Explicit values in tokenPayload override the above defaults:
-      ...tokenPayload,
-    };
-
-    this.set(authenticatedUserObject);
-
     isAuthenticatedStore.set(true);
 
-    return authenticatedUserObject;
+    return tokenPayload;
+  };
+
+  constructor() {
+    const maybeAuthToken = authTokenLocalStorage.get();
+    super({
+      defaultValue: maybeAuthToken ? AuthenticatedUserStore.processAuthToken(maybeAuthToken) : null,
+    });
   }
 
   /**
-   * Returns a boolean indicating whether an AuthToken refresh should be attempted. This is used
-   * in the `useAuthInit` hook to determine if Google OAuth OneTap should be enabled on app load.
-   *
-   * This fn returns `true` only if all of the following conditions are `true`:
-   * - The user has truthy values in LocalStorage under keys "authToken" and "authTokenUpdatedAt".
-   * - The timestamp in "authTokenUpdatedAt" is less than 10 hours old.
-   *
-   * > _`If an "authToken" is present, but it's more than 10h old, it is removed from LocalStorage.`_
+   * Process an auth token to authenticate the user.
    */
-  shouldAttemptAuthTokenRefresh(): boolean {
-    let shouldAttemptAuthTokenRefresh = false;
-
-    if (authTokenLocalStorage.get()) {
-      // Get "authTokenUpdatedAt" unix timestamp from LocalStorage, default to "0" if not present
-      const authTokenUpdatedAt = authTokenUpdatedAtLocalStorage.get() ?? 0;
-      const tenHoursAgoTimestamp = dayjs().subtract(10, "hours").unix();
-
-      // If the token's updatedAt timestamp is less than 10h old, an attempt can be made to refresh it
-      if (authTokenUpdatedAt > tenHoursAgoTimestamp) shouldAttemptAuthTokenRefresh = true;
-      else authTokenLocalStorage.remove(); // rm the token if the timestamp is too old
-    }
-
-    return shouldAttemptAuthTokenRefresh;
+  processAuthToken(encodedAuthToken: string): void {
+    this.set(AuthenticatedUserStore.processAuthToken(encodedAuthToken));
   }
 
   /**
@@ -119,4 +65,4 @@ class AuthenticatedUserStore extends ReactiveStore<
   }
 }
 
-export const authenticatedUserStore = new AuthenticatedUserStore({ defaultValue: null });
+export const authenticatedUserStore = new AuthenticatedUserStore();

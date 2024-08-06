@@ -1,5 +1,7 @@
-import { STATIC_MOCK_CONTACTS } from "./staticMockContacts";
-import type { User } from "@/graphql/types";
+import { STATIC_MOCK_CONTACTS } from "./staticMockContacts.js";
+import type { User, UserSubscription, UserStripeConnectAccount } from "@/types/graphql.js";
+import type { AuthTokenPayload } from "@/types/open-api.js";
+import type { OverrideProperties } from "type-fest";
 
 /**
  * **STATIC Mock Users**
@@ -16,11 +18,10 @@ import type { User } from "@/graphql/types";
 export const STATIC_MOCK_USERS = {
   Guy_McPerson: {
     __typename: "User",
-    id: "USER#0cfe2895-5455-4612-9b6b-9f6343056e71",
+    id: "USER#@user_person",
     handle: "@user_person",
     email: "person@user.com",
     phone: "4542471029",
-    expoPushToken: "expo-HbIa6NvWxJ",
     profile: {
       __typename: "Profile",
       displayName: "Guy McPerson",
@@ -55,8 +56,7 @@ export const STATIC_MOCK_USERS = {
   Linda_McContractorLongName_Jones_Smith: {
     ...STATIC_MOCK_CONTACTS.Linda_McContractorLongName_Jones_Smith,
     __typename: "User",
-    id: "USER#e011a9dc-6ef6-400f-9ade-7b932dffab6b",
-    expoPushToken: "expo-0Pw1c5ejHK",
+    id: "USER#@linda_mcContractorLongName_jones_smith",
     stripeCustomerID: "cus_nBpBPHPh7bDb",
     stripeConnectAccount: {
       __typename: "UserStripeConnectAccount",
@@ -83,8 +83,7 @@ export const STATIC_MOCK_USERS = {
   Aloy_McInvoicer: {
     ...STATIC_MOCK_CONTACTS.Aloy_McInvoicer,
     __typename: "User",
-    id: "USER#30022ae6-4cea-4de7-bd5d-d1953319c0a0",
-    expoPushToken: "expo-Bv8qTaJXVo",
+    id: "USER#@aloy_mcInvoicer",
     stripeCustomerID: "cus_xUxTKxUCmNq8",
     stripeConnectAccount: {
       __typename: "UserStripeConnectAccount",
@@ -111,7 +110,7 @@ export const STATIC_MOCK_USERS = {
   Walt_McWorkOrder: {
     ...STATIC_MOCK_CONTACTS.Walt_McWorkOrder,
     __typename: "User",
-    id: "USER#c152ce44-e95c-4332-bbdf-d82a0bc6d149",
+    id: "USER#@walt_mcWorkOrder",
     stripeCustomerID: "cus_pHdXVgZ6KOwu",
     stripeConnectAccount: {
       __typename: "UserStripeConnectAccount",
@@ -138,7 +137,7 @@ export const STATIC_MOCK_USERS = {
   Astarion_Ancunin: {
     ...STATIC_MOCK_CONTACTS.Astarion_Ancunin,
     __typename: "User",
-    id: "USER#3f17b361-cd21-4aab-86ce-f87bb645d352",
+    id: "USER#@rogue_vamp",
     stripeCustomerID: "cus_qD2Spa249Wgn",
     stripeConnectAccount: {
       __typename: "UserStripeConnectAccount",
@@ -162,4 +161,14 @@ export const STATIC_MOCK_USERS = {
     updatedAt: new Date("2022-01-18T00:58:22.908Z"),
     createdAt: new Date("2021-08-09T07:10:11.829Z"),
   },
-} as const satisfies Record<string, User>;
+} as const satisfies Record<
+  string,
+  User &
+    OverrideProperties<
+      AuthTokenPayload,
+      {
+        subscription: UserSubscription;
+        stripeConnectAccount: UserStripeConnectAccount;
+      }
+    >
+>;

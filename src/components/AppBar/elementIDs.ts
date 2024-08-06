@@ -1,4 +1,4 @@
-import { appBarMenuElementIDs } from "./AppBarMenu/elementIDs";
+import { appBarMenuElementIDs } from "./AppBarMenu/elementIDs.js";
 
 /**
  * IDs of `AppBar` components (src/components/AppBar/).

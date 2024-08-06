@@ -2,14 +2,11 @@ import { styled } from "@mui/material/styles";
 import Stack, { stackClasses, type StackProps } from "@mui/material/Stack";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import { FetchStateContextProvider } from "@/app/FetchStateContext";
-import {
-  GOOGLE_OAUTH_BTN_DIMENSIONS,
-  googleOAuthButtonClassNames,
-} from "@/app/GoogleOAuthContext/GoogleOAuthButton";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
-import { TitleLogo } from "@/components/Branding/TitleLogo";
-import { formClassNames } from "@/components/Form/classNames";
-import { authPageLayoutClassNames } from "./classNames";
+import { GOOGLE_OAUTH_BTN_DIMENSIONS, googleOAuthButtonClassNames } from "@/app/GoogleOAuthContext";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
+import { TitleLogo } from "@/components/Branding/TitleLogo.jsx";
+import { formClassNames } from "@/components/Form/classNames.js";
+import { authPageLayoutClassNames } from "./classNames.js";
 
 export type AuthPageLayoutProps = { pageTitle: string } & Pick<StackProps, "sx" | "children">;
 
@@ -36,15 +33,22 @@ export const AuthPageLayout = ({ pageTitle, sx, children }: AuthPageLayoutProps)
 const HEADER_VARIANT = "h2";
 
 const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
+  width: "100%",
   height: "100%",
   padding: "0 1rem",
+
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "2rem",
+  textAlign: "center",
 
   "& button": {
     borderRadius: "1.5rem",
   },
 
-  // This MuiStack, and any MuiStack within it:
-  [`&.${stackClasses.root}, .${stackClasses.root}`]: {
+  // Child MuiStacks:
+  [`& > .${stackClasses.root}`]: {
     width: "100%",
     display: "flex",
     alignItems: "center",
@@ -55,7 +59,6 @@ const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
   // The `headerContainer`:
   [`& .${authPageLayoutClassNames.headerContainer}`]: {
     gap: "1rem",
-
     // The header text:
     [`& .${typographyClasses[HEADER_VARIANT]}`]: {
       fontSize: variables.isMobilePageLayout ? "2rem" : "2.25rem",
@@ -71,7 +74,7 @@ const StyledStack = styled(Stack)(({ theme: { variables } }) => ({
       ? `${GOOGLE_OAUTH_BTN_DIMENSIONS.WIDTH.MOBILE}px !important`
       : `${GOOGLE_OAUTH_BTN_DIMENSIONS.WIDTH.DESKTOP}px !important`,
 
-    gap: "1rem",
+    gap: "inherit",
 
     [`& .${formClassNames.root}`]: {
       width: "100%",

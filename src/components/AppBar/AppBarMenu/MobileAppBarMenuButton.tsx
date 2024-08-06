@@ -5,7 +5,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import {
   useMobileAppBarMenuButtonState,
   type UseMobileAppBarMenuButtonStateParams,
-} from "./useMobileAppBarMenuButtonState";
+} from "./useMobileAppBarMenuButtonState.js";
 
 export const MobileAppBarMenuButton = ({
   menuOption,

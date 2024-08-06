@@ -1,6 +1,6 @@
 import { object as yupObject } from "yup";
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
-import { CurrencyInput, type CurrencyInputProps } from "./CurrencyInput";
+import { CurrencyInput, type CurrencyInputProps } from "./CurrencyInput.jsx";
 import { yupCommonSchema } from "../helpers";
 import type { Meta, StoryObj } from "@storybook/react";
 
@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicDemo = {
   args: {
-    id: "amount",
+    fieldID: "amount",
     label: "Amount",
 
     _form_decorator_args: {

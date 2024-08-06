@@ -1,5 +1,5 @@
 import { useLottie as useLottieReact, type LottieOptions } from "lottie-react";
-import { AVAILABLE_LOTTIE_ANIMATIONS } from "./availableLotties";
+import { AVAILABLE_LOTTIE_ANIMATIONS } from "./availableLotties.js";
 
 /**
  * Lottie Animations Library: https://lottiefiles.com/featured
@@ -41,7 +41,7 @@ export const useLottie = ({ animation, options = {}, style = {} }: UseLottieArgs
 
   return {
     LottieView,
-    playLottie: !options?.duration
+    playLottie: !options.duration
       ? async () => Promise.resolve(playLottie())
       : async () => {
           await new Promise<void>((resolve) => {

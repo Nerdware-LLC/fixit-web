@@ -2,7 +2,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe, type StripeElementsOptionsMode } from "@stripe/stripe-js";
 import { useTheme, rgbToHex } from "@mui/material/styles";
 import { ENV } from "@/app/env";
-import { StripeFormContent, type StripeFormContentProps } from "./StripeFormContent";
+import { StripeFormContent, type StripeFormContentProps } from "./StripeFormContent.jsx";
 import type { Simplify, Except } from "type-fest";
 
 if (!ENV.STRIPE_PUBLISHABLE_KEY) {

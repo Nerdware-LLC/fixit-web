@@ -1,5 +1,5 @@
-import { LegalPolicySection } from "@/layouts/LegalPolicyPageLayout/LegalPolicySection";
-import { ToS_SECTIONS } from "./TermsOfServiceSections";
+import { LegalPolicySection } from "@/layouts/LegalPolicyPageLayout/LegalPolicySection.jsx";
+import { ToS_SECTIONS } from "./TermsOfServiceSections.jsx";
 
 /**
  * TermsOfServicePage wrapper around `LegalPolicySection`

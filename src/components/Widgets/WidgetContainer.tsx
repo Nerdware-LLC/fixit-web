@@ -1,6 +1,6 @@
 import Paper, { type PaperProps } from "@mui/material/Paper";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { widgetClassNames } from "./classNames";
+import { widgetClassNames } from "./classNames.js";
 
 /**
  * Container for Dashboard widgets

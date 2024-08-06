@@ -1,9 +1,9 @@
 import { forwardRef } from "react";
 import Text from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { useMaybeRef } from "@/hooks/useMaybeRef";
-import { getItemViewPath } from "@/routes/helpers";
-import { Link, type LinkProps } from "./Link";
+import { useMaybeRef } from "@/hooks/useMaybeRef.js";
+import { getItemViewPath } from "@/routes/helpers.js";
+import { Link, type LinkProps } from "./Link.jsx";
 
 /**
  * A react-router-dom Link to a WorkOrder with ref forwarding.
@@ -12,20 +12,23 @@ import { Link, type LinkProps } from "./Link";
  * with `"View Work Order"` and a right-facing chevron icon.
  */
 export const LinkToWorkOrder = forwardRef<HTMLAnchorElement, LinkToWorkOrderProps>(
-  function LinkToWorkOrder({ workOrderID, children, ...props }, ref) {
+  function LinkToWorkOrder(
+    { workOrderID, style = {}, children, text = "View Work Order", ...props },
+    ref
+  ) {
     const anchorRef = useMaybeRef(ref);
 
     return (
       <Link
         ref={anchorRef}
         to={getItemViewPath("workorders", workOrderID)}
-        sx={({ palette }) => ({ color: palette.secondary.main })}
+        style={{ display: "inline-flex", ...style }}
         {...props}
       >
         {children ?? (
           <>
-            <Text>View Work Order</Text>
-            <ChevronRightIcon />
+            <Text style={{ textTransform: "capitalize" }}>{text}</Text>
+            <ChevronRightIcon style={{ transform: "translate(-2px, 1px)" }} />
           </>
         )}
       </Link>
@@ -33,7 +36,8 @@ export const LinkToWorkOrder = forwardRef<HTMLAnchorElement, LinkToWorkOrderProp
   }
 );
 
-export type LinkToWorkOrderProps = {
+export type LinkToWorkOrderProps = Omit<LinkProps, "to" | "children"> & {
   workOrderID: string;
-  children?: React.ReactNode; // optional, since there's a default fallback
-} & Omit<LinkProps, "to" | "children">;
+  text?: string | undefined;
+  children?: React.ReactNode | undefined; // optional, since there's a default fallback
+};

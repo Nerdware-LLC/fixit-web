@@ -8,9 +8,10 @@ import * as Sentry from "@sentry/react";
 import axios from "axios";
 import dayjs from "dayjs";
 import { ENV } from "@/app/env";
-import type { AxiosError } from "axios";
 
 /* eslint-disable no-console */
+
+const jsonStrSpaces = ENV.IS_PROD ? 0 : 2;
 
 /**
  * Returns a log message string.
@@ -21,11 +22,11 @@ const getLogMessage = ({
   input,
   msgPrefix = "",
 }: GetLogMessageArgsProvidedByLoggerUtil & GetLogMessageArgsProvidedByHandler): string => {
-  let message = `[${dayjs().format("YYYY:MMM:D H:mm:ss.SSS")}][${label}]`;
+  let message = `[${dayjs().format("YYYY:MMM:D H:mm:ss.SSS")}][${label}] `;
 
-  if (msgPrefix) message += ` ${msgPrefix}`;
+  if (msgPrefix) message += `${msgPrefix} `;
 
-  message += getErrorMessage(input) || safeJsonStringify(input);
+  message += getErrorMessage(input) || safeJsonStringify(input, null, jsonStrSpaces);
 
   return message;
 };
@@ -68,12 +69,13 @@ const getLoggerUtil = ({
   }: { handleLogError: ErrorLoggerFn; handleLogMessage: LoggerFn } = ENV.IS_DEPLOYED_ENV
     ? {
         handleLogError: (error, msgPrefix) => {
-          // Check for possible http err status — if exists and under 500 in PROD, don't send to Sentry.
-          const maybeHttpErrStatusCode =
-            error?.status ?? error?.statusCode ?? error?.response?.status;
+          // Check for possible http err status — if exists and under 500, don't send to Sentry.
+          const statusCode =
+            (error as { status?: number }).status ??
+            (error as { statusCode?: number }).statusCode ??
+            (error as { response?: { status?: number } }).response?.status;
 
-          if (isSafeInteger(maybeHttpErrStatusCode) && maybeHttpErrStatusCode < 500 && ENV.IS_PROD)
-            return;
+          if (isSafeInteger(statusCode) && statusCode < 500) return;
 
           Sentry.captureException(error);
           Sentry.captureMessage(getLogMessage({ label, input: error, msgPrefix }));
@@ -148,6 +150,6 @@ type LoggerFn = (
 
 /** Internal type for `handleLogError` fns used in `getLoggerUtil`. */
 type ErrorLoggerFn = (
-  error: Error & Partial<Omit<AxiosError, "cause">> & { statusCode?: number },
+  error: unknown,
   msgPrefix?: GetLogMessageArgsProvidedByHandler["msgPrefix"]
 ) => void;

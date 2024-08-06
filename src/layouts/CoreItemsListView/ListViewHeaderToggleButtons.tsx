@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useLayoutEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Divider, { dividerClasses } from "@mui/material/Divider";
@@ -12,18 +12,18 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import ListIcon from "@mui/icons-material/List";
 import SendIcon from "@mui/icons-material/Send";
 import TableViewSharpIcon from "@mui/icons-material/TableViewSharp";
-import { ToggleButtonWithTooltip } from "@/components/Buttons/ToggleButtonWithTooltip";
+import { ToggleButtonWithTooltip } from "@/components/Buttons/ToggleButtonWithTooltip.jsx";
 import {
   listViewSettingsStore,
   type ListViewSettingsStoreKey,
-} from "@/stores/listviewSettingsStore";
-import { capitalize } from "@/utils/formatters/strings";
+} from "@/stores/listviewSettingsStore.js";
+import { capitalize } from "@/utils/formatters/strings.js";
 import {
   LIST_VIEW_MODES,
   LIST_VIEW_LIST_NAMES,
   type ListViewMode,
   type ListViewListName,
-} from "./types";
+} from "./types.js";
 import type { IsMobilePageLayout } from "@/app/PageLayoutContext";
 
 export const ListViewHeaderToggleButtons = ({
@@ -45,7 +45,7 @@ export const ListViewHeaderToggleButtons = ({
     !isMobilePageLayout && !!listVisibility && listViewSettingsStoreKey !== "contacts";
 
   // EFFECT: ensure only 1 list is shown on mobile
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isMobilePageLayout && listVisibility && listViewSettingsStoreKey !== "contacts") {
       listViewSettingsStore[listViewSettingsStoreKey].mergeUpdate({
         listVisibility: {

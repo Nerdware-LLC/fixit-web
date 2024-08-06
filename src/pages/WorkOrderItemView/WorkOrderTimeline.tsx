@@ -4,9 +4,9 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import CalendarDateIcon from "@mui/icons-material/InsertInvitation";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import UpdateIcon from "@mui/icons-material/Update";
-import { ContactAvatar } from "@/components/Avatar/ContactAvatar";
+import { ContactAvatar } from "@/components/Avatar/ContactAvatar.jsx";
 import { Timeline, type TimelineEvents } from "@/components/Timeline";
-import type { WorkOrder } from "@/graphql/types";
+import type { WorkOrder } from "@/types/graphql.js";
 
 export const WorkOrderTimeline = ({
   workOrder: { createdBy, status, createdAt, updatedAt, dueDate, scheduledDateTime },
@@ -51,8 +51,8 @@ export const WorkOrderTimeline = ({
             ? "red"
             : "yellow"
           : status === "IN_PROGRESS"
-          ? "green"
-          : "blue",
+            ? "green"
+            : "blue",
     });
   }
 

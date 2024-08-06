@@ -1,4 +1,4 @@
-import { ProductImage } from "./ProductImage";
+import { ProductImage } from "./ProductImage.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

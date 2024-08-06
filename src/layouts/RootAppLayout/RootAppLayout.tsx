@@ -2,9 +2,9 @@ import { Outlet } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { globalClassNames } from "@/app/GlobalStyles";
 import { AppBar, useAppBarHeight } from "@/components/AppBar";
-import { useAuthInit } from "@/hooks/useAuthInit";
-import { useHandlePageRefresh } from "@/hooks/useHandlePageRefresh";
-import { rootAppLayoutElementIDs } from "./elementIDs";
+import { useAuthInit } from "@/hooks/useAuthInit.js";
+import { useHandlePageRefresh } from "@/hooks/useHandlePageRefresh.js";
+import { rootAppLayoutElementIDs } from "./elementIDs.js";
 
 /**
  * Responsive page-layout container with mobile/desktop `AppBar`.

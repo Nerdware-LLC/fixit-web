@@ -1,3 +1,3 @@
-export * from "./ButtonLoadingIndicator";
-export * from "./ErrorDialog";
-export * from "./Loading";
+export * from "./ButtonLoadingIndicator.jsx";
+export * from "./ErrorDialog.jsx";
+export * from "./Loading.jsx";

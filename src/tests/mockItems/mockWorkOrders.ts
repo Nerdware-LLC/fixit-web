@@ -4,11 +4,11 @@ import {
   WORK_ORDER_STATUSES,
   WORK_ORDER_CATEGORIES,
   WORK_ORDER_PRIORITIES,
-} from "@/types/WorkOrder";
+} from "@/types/WorkOrder.js";
 import { randomIntBetween, getItemAge } from "@/utils/numeric";
-import { getRandomContact } from "./mockContacts";
-import { STATIC_MOCK_USERS } from "./staticMockUsers";
-import type { MyWorkOrdersQueryReturnType, WorkOrder } from "@/graphql/types";
+import { getRandomUser } from "./mockUsers.js";
+import { STATIC_MOCK_USERS } from "./staticMockUsers.js";
+import type { MyWorkOrdersQueryResponse, WorkOrder } from "@/types/graphql.js";
 
 const createMockWorkOrder = ({
   createdBy,
@@ -107,18 +107,18 @@ export const MOCK_WORK_ORDERS = {
       createMockWorkOrder({
         createdBy: STATIC_MOCK_USERS.Guy_McPerson,
         // Assign 90% of WOs to random mock contact
-        assignedTo: faker.helpers.maybe(() => getRandomContact(), { probability: 0.9 }),
+        assignedTo: faker.helpers.maybe(() => getRandomUser(), { probability: 0.9 }),
       })
     ),
     // Between 50-100 work orders assigned to user "Guy McPerson":
     assignedToUser: Array.from({ length: randomIntBetween(50, 100) }, () =>
       createMockWorkOrder({
         // Created by random mock contact
-        createdBy: getRandomContact(),
+        createdBy: getRandomUser(),
         assignedTo: STATIC_MOCK_USERS.Guy_McPerson,
       })
     ),
   },
 } as const satisfies {
-  myWorkOrders: MyWorkOrdersQueryReturnType;
+  myWorkOrders: MyWorkOrdersQueryResponse;
 };

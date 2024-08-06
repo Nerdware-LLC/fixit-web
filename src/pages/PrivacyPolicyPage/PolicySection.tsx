@@ -1,6 +1,6 @@
 import Text from "@mui/material/Typography";
-import { LegalPolicySection } from "@/layouts/LegalPolicyPageLayout/LegalPolicySection";
-import { POLICY_ANCHOR_TARGETS } from "./PolicyAnchorTargets";
+import { LegalPolicySection } from "@/layouts/LegalPolicyPageLayout/LegalPolicySection.jsx";
+import { POLICY_ANCHOR_TARGETS } from "./PolicyAnchorTargets.jsx";
 
 /**
  * PrivacyPolicyPage wrapper around `LegalPolicySection`

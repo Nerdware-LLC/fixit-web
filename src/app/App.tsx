@@ -1,7 +1,7 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { ToastContainer } from "@/components/Alerts";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { RootAppRouter } from "@/routes/RootAppRouter";
+import { RootAppRouter } from "@/routes/RootAppRouter.jsx";
 import { ApolloProvider } from "./ApolloProvider";
 import { FetchStateContextProvider } from "./FetchStateContext";
 import { GlobalStyles } from "./GlobalStyles";

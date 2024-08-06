@@ -1,5 +1,6 @@
 import { isValidEmail, isValidPassword } from "@nerdware/ts-string-helpers";
-import { string as yupString } from "yup";
+import dayjs, { type Dayjs as DayJsObject } from "dayjs";
+import { string as yupString, mixed } from "yup";
 
 /**
  * Base string schema: `yup.string().defined().trim().max(250).default("")`
@@ -26,6 +27,11 @@ export const yupCommonSchema = {
   /** ### Nullable string schema: `yup.string().defined().trim().max(250).nullable().default(null)` */
   stringNullable: yupNullableStringSchema,
 
+  /** ### DayJS Object schema: `yup.mixed((input): input is dayjs.Dayjs => input instanceof dayjs)` */
+  dayjsObject: mixed((input): input is dayjs.Dayjs => input instanceof dayjs).transform(
+    (value: DayJsObject | Date | null, _input, ctx) => (ctx.isType(value) ? value : dayjs(value))
+  ),
+
   /** ### Email string schema */
   email: yupBaseStringSchema
     /**
@@ -34,10 +40,10 @@ export const yupCommonSchema = {
      * They sourced the pattern from here:
      * https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
      */
-    .email("Invalid email")
+    .email("The provided email is invalid")
     .test({
       name: "is-valid-email",
-      message: "Please enter a valid email",
+      message: "The provided email is invalid",
       test: (value) => isValidEmail(value),
     }),
 
@@ -65,41 +71,46 @@ export const yupCommonSchema = {
    *   - Contains at least one of !, \@, #, $, %, ^, &, and/or *.
    *   - Is at least 6 characters long, and no more than 250 characters long.
    */
-  // prettier-ignore
-  password: yupString().defined().nullable().default(null).when("googleIDToken", {
-    is: (googleIDToken: string | null) => !!googleIDToken,
-    then: (schema) => schema,
-    otherwise: (schema) => schema.nonNullable().default("").trim().max(250)
-      .test({
-        name: "is-right-length",
-        message: "Passwords must be between 6-250 characters",
-        test: (value) => value?.length >= 6 && value?.length <= 250,
-      })
-      .test({
-        name: "contains-lowercase-char",
-        message: "Passwords must contain at least 1 lowercase letter",
-        test: (value) => /[a-z]/.test(value),
-      })
-      .test({
-        name: "contains-uppercase-char",
-        message: "Passwords must contain at least 1 uppercase letter",
-        test: (value) => /[A-Z]/.test(value),
-      })
-      .test({
-        name: "contains-number",
-        message: "Passwords must contain at least one number",
-        test: (value) => /\d/.test(value),
-      })
-      .test({
-        name: "contains-special-char",
-        message: "Must contain at least one special character: !, @, #, $, %, ^, &, or *",
-        test: (value) => /[!@#$%^&*]/.test(value),
-      })
-      // This last one should be unnecessary, but it's here just in case.
-      .test({
-        name: "fallback-is-valid-password",
-        message: "Your password does not meet platform requirements",
-        test: (value) => isValidPassword(value),
-      }),
+  password: yupString()
+    .defined()
+    .nullable()
+    .default(null)
+    .when("googleIDToken", {
+      is: (googleIDToken: string | null) => !!googleIDToken,
+      then: (schema) => schema,
+      otherwise: (schema) =>
+        schema
+          .nonNullable()
+          .default("")
+          .trim()
+          .max(250)
+          .test({
+            name: "is-right-length",
+            message: "Passwords must be between 6-250 characters",
+            test: (value) => value.length >= 6 && value.length <= 250,
+          })
+          .test({
+            name: "contains-required-chars",
+            test: (value, { createError }) => {
+              return !/[a-z]/.test(value)
+                ? createError({ message: "Passwords must contain at least 1 lowercase letter" })
+                : !/[A-Z]/.test(value)
+                  ? createError({ message: "Passwords must contain at least 1 uppercase letter" })
+                  : !/\d/.test(value)
+                    ? createError({ message: "Passwords must contain at least 1 number" })
+                    : !/[!@#$%^&*]/.test(value)
+                      ? createError({
+                          message:
+                            "Must contain at least one special character: !, @, #, $, %, ^, &, or *",
+                        })
+                      : true;
+            },
+          })
+          // This last one should be unnecessary, but it's here just in case.
+          .test({
+            name: "fallback-is-valid-password",
+            message: "Your password does not meet platform requirements",
+            test: (value) => isValidPassword(value),
+          }),
     }),
 } as const;

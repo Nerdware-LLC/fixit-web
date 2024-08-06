@@ -1,5 +1,5 @@
 import { string as yupString } from "yup";
-import type { SearchUsersInputType, SearchUsersInputActionType } from "./types";
+import type { SearchUsersInputType, SearchUsersInputActionType } from "./types.js";
 
 const getInputType = (value?: string | null): SearchUsersInputType => {
   return !value

@@ -1,4 +1,4 @@
-import { appBarMenuClassNames } from "./AppBarMenu/classNames";
+import { appBarMenuClassNames } from "./AppBarMenu/classNames.js";
 
 /**
  * Class names for `AppBar` components (src/components/AppBar/).

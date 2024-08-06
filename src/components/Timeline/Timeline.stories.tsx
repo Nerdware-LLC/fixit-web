@@ -6,7 +6,7 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import CalendarDateIcon from "@mui/icons-material/InsertInvitation";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import UpdateIcon from "@mui/icons-material/Update";
-import { Timeline } from "./Timeline";
+import { Timeline } from "./Timeline.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

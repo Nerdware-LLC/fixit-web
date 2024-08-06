@@ -1,1 +1,1 @@
-export * from "./StripePaymentInput";
+export * from "./StripePaymentInput.jsx";

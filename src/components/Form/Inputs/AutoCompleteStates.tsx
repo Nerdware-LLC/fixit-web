@@ -1,5 +1,19 @@
-import { AutoComplete, type AutoCompleteProps, type BaseAutoCompleteOption } from "./AutoComplete";
-import type { OverrideProperties } from "type-fest";
+import {
+  AutoComplete,
+  type AutoCompleteProps,
+  type BaseAutoCompleteOption,
+} from "./AutoComplete.jsx";
+import type { Except, OverrideProperties } from "type-fest";
+
+export type AutoCompleteStatesProps = Except<
+  AutoCompleteProps<AutoCompleteStatesOption>,
+  "options" | "groupBy" | "autoSelect"
+>;
+
+export type AutoCompleteStatesOption = OverrideProperties<
+  Required<BaseAutoCompleteOption>,
+  { group: "States" | "Territories" }
+>;
 
 export const AutoCompleteStates = ({ ...autoCompleteProps }: AutoCompleteStatesProps) => (
   <AutoComplete
@@ -14,16 +28,6 @@ export const AutoCompleteStates = ({ ...autoCompleteProps }: AutoCompleteStatesP
  * Default `groupBy` fn for {@link AutoCompleteStates}.
  */
 const defaultGroupBy = (option: AutoCompleteStatesOption) => option.group;
-
-export type AutoCompleteStatesProps = Omit<
-  AutoCompleteProps<AutoCompleteStatesOption>,
-  "options" | "groupBy" | "autoSelect"
->;
-
-export type AutoCompleteStatesOption = OverrideProperties<
-  Required<BaseAutoCompleteOption>,
-  { group: "States" | "Territories" }
->;
 
 // prettier-ignore
 const US_STATES = [

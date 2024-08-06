@@ -1,6 +1,6 @@
 import { useField, type FieldInputProps, type FieldMetaProps, type FieldHelperProps } from "formik";
-import { getFormInputErrMsg } from "./errorHandling";
-import { useLayoutDependantTextFieldDefaults } from "./useLayoutDependantTextFieldDefaults";
+import { getFormInputErrMsg } from "./errorHandling.js";
+import { useLayoutDependantTextFieldDefaults } from "./useLayoutDependantTextFieldDefaults.js";
 import type { TextFieldProps as MuiTextFieldProps } from "@mui/material/TextField";
 import type { Simplify, SetReturnType } from "type-fest";
 
@@ -34,12 +34,11 @@ export const useFormikFieldProps = <ValueType>({
     useLayoutDependantTextFieldDefaults();
 
   const label = explicitLabel ?? fieldID;
-  const showErrorState = fieldMetaProps.touched && !!fieldMetaProps?.error;
+  const showErrorState = fieldMetaProps.touched && !!fieldMetaProps.error;
 
   return [
     // Props for Mui TextField and other inputs:
     {
-      id: fieldID,
       label,
       ...(!showErrorState && placeholder && { placeholder }),
       variant: explicitVariant ?? defaultVariant,
@@ -70,26 +69,21 @@ export const useFormikFieldProps = <ValueType>({
 /**
  * Parameters of the {@link useFormikFieldProps|`useFormikFieldProps`} hook.
  */
-export type UseFormikFieldPropsParams = {
-  /**
-   * The Formik field ID the input will provide to [Formik's `useField`][useField-ref] hook.
-   *
-   * [useField-ref]: https://formik.org/docs/api/useField#reference
-   */
-  fieldID: string;
-  label?: string;
-  variant?: MuiTextFieldProps["variant"];
-  size?: MuiTextFieldProps["size"];
-  placeholder?: string;
-  shouldAlwaysRenderHelperText?: boolean;
-};
+export type UseFormikFieldPropsParams = Simplify<
+  FormikFieldIdProp & {
+    label?: string;
+    variant?: MuiTextFieldProps["variant"];
+    size?: MuiTextFieldProps["size"];
+    placeholder?: string;
+    shouldAlwaysRenderHelperText?: boolean;
+  }
+>;
 
 /**
  * Return type of the {@link useFormikFieldProps|`useFormikFieldProps`} hook.
  */
 export type UseFormikFieldPropsReturn<ValueType> = [
-  {
-    id: string;
+  Simplify<{
     label: string;
     placeholder?: string;
     variant: MuiTextFieldProps["variant"];
@@ -99,7 +93,7 @@ export type UseFormikFieldPropsReturn<ValueType> = [
     onBlur: FieldInputProps<ValueType>["onBlur"];
     error: boolean;
     helperText: string;
-  },
+  }>,
   FieldInputProps<ValueType> &
     FieldMetaProps<ValueType> &
     FieldHelperProps<ValueType> &
@@ -110,7 +104,7 @@ export type UseFormikFieldPropsReturn<ValueType> = [
  * This generic augments base prop typings for Formik-integrated input components
  * by making the following modifications:
  *
- * - Requires prop `id: string`, the value for which is used as the field ID for the
+ * - Requires prop `fieldID: string`, the value for which is used as the field ID for the
  *   Formik [`useField`][usefield-docs] hook.
  *
  * - Omits prop `value`, which Formik-integrated inputs obtain from [`useField`][usefield-docs].
@@ -125,36 +119,30 @@ export type FormikIntegratedInputProps<
   BaseProps extends object,
   FnPropsToAsyncify extends string = never,
 > = Simplify<
-  {
-    /** The field ID to provide to the `useField` Formik hook. */
-    id: string;
-  } & {
+  FormikFieldIdProp & {
     [Key in keyof BaseProps as Key extends PropsToOmit ? never : Key]: Key extends FnPropsToAsyncify
       ? AddAsyncReturnType<BaseProps[Key]>
       : BaseProps[Key];
   }
 >;
 
+/** The `fieldID` prop for Formik integration. */
+export type FormikFieldIdProp = {
+  /**
+   * The Formik field ID the input will provide to [Formik's `useField`][useField-ref] hook.
+   *
+   * [useField-ref]: https://formik.org/docs/api/useField#reference
+   */
+  fieldID: string;
+};
+
 type PropsToOmit =
   | "value" //            Formik-integrated inputs obtain this from `useField`
   | "components" //       Deprecated Mui prop, use `slots` instead
   | "componentsProps"; // Deprecated Mui prop, use `slotProps` instead
 
-/**
- * If `T` is a function, this generic will convert its return type from `X` to `X | Promise<X>`.
- *
- * ```ts
- * // Before:  () => Foo
- * // After:   () => Foo | Promise<Foo>
- * ```
- *
- * If `T` is a union, the other members are left unchanged:
- *
- * ```ts
- * // Before:  (() => Foo) | undefined
- * // After:   (() => Foo | Promise<Foo>) | undefined
- * ```
- */
+/** If `T` is a function, this generic will convert its return type from `X` to `X | Promise<X>`. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AddAsyncReturnType<T> = T extends (...args: any[]) => any
   ? SetReturnType<T, ReturnType<T> | Promise<Awaited<ReturnType<T>>>>
   : T;

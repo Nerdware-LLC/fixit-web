@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { abortController } from "@/services/helpers/abortController";
+import { useLayoutEffect } from "react";
+import { httpService } from "@/services/httpService.js";
 
 /**
  * This hook is used to handle page refresh events.
@@ -12,10 +12,10 @@ import { abortController } from "@/services/helpers/abortController";
  */
 export const useHandlePageRefresh = (handlePageRefresh?: PageRefreshHandler) => {
   // EFFECT: Prevent the http request from being sent when the user refreshes the page
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
-      abortController.abort();
+      httpService.abortRequests();
       if (handlePageRefresh) handlePageRefresh(event);
     };
 

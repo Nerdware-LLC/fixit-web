@@ -14,13 +14,13 @@ export const retryLink = new RetryLink({
     jitter: true,
   },
   attempts: {
-    max: 5,
-    retryIf: (error, _operation) => {
+    max: 3,
+    retryIf: (error: unknown, _operation) => {
       // Don't retry if token gets rejected
-      return error?.result?.errors?.some(
-        (errorObj?: { extensions?: { code?: string } }) =>
-          errorObj?.extensions?.code === "UNAUTHENTICATED"
-      )
+      return !!error &&
+        (
+          error as { result?: { errors?: Array<{ extensions?: { code?: string } }> } }
+        ).result?.errors?.some((errorObj) => errorObj.extensions?.code === "UNAUTHENTICATED")
         ? false
         : true;
     },

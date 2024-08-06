@@ -3,9 +3,9 @@ import {
   PAGE_LAYOUT_CONTEXT_DEFAULT_VALUES,
   type PageLayoutContextValues,
 } from "@/app/PageLayoutContext";
-import { COMPONENTS } from "./components";
-import { PALETTES, PALETTE_NAMES, type PaletteName } from "./palettes";
-import { TYPOGRAPHY } from "./typography";
+import { COMPONENTS } from "./components.js";
+import { PALETTES, PALETTE_NAMES, type PaletteName } from "./palettes.js";
+import { TYPOGRAPHY } from "./typography.js";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import type {} from "@mui/x-date-pickers/themeAugmentation";
 

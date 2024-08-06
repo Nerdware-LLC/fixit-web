@@ -4,10 +4,10 @@ import Tooltip from "@mui/material/Tooltip";
 import Text, { type TypographyProps } from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MapMarkerIcon from "@mui/icons-material/Place";
-import { Anchor } from "@/components/Navigation/Anchor";
-import { ItemDetails, type ItemDetailsProps } from "./ItemDetails";
-import { dataDisplayClassNames } from "./classNames";
-import type { Location } from "@/graphql/types";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
+import { ItemDetails, type ItemDetailsProps } from "./ItemDetails.jsx";
+import { dataDisplayClassNames } from "./classNames.js";
+import type { Location } from "@/types/graphql.js";
 import type { SetOptional } from "type-fest";
 
 export type LocationDetailsProps = Partial<LocationDetailsContentProps> & {
@@ -75,9 +75,11 @@ const LocationDetailsContent = ({
   );
 };
 
-const StyledItemDetails = styled(ItemDetails)(({ theme: { palette, variables } }) => ({
-  // All descendants inherit max-width, overflow, and text-overflow (with LOW specificity)
+const StyledItemDetails = styled(ItemDetails)(({ theme: { palette } }) => ({
+  // All descendants:
   "& *": {
+    lineHeight: 1.35,
+    // Inherit max-width, overflow, and text-overflow (with LOW specificity)
     maxWidth: "inherit",
     overflow: "inherit",
     textOverflow: "inherit",
@@ -87,10 +89,17 @@ const StyledItemDetails = styled(ItemDetails)(({ theme: { palette, variables } }
     margin: 0,
     display: "flex",
     flexDirection: "column",
+    gap: "0.25rem",
+
+    // ADDRESS-TEXT AND MAP-ANCHOR CONTAINERS:
+    "& > *": {
+      width: "fit-content",
+    },
 
     // Address text:
     [`& > .${dataDisplayClassNames.locationDetailsAddressText}`]: {
       whiteSpace: "pre-wrap", // preserve \n\s and wrap
+
       "& > span": {
         display: "inline-flex", // ensures spans have width so region will wrap below city if necessary
         whiteSpace: "pre", // preserve \n\s and nowrap
@@ -99,29 +108,30 @@ const StyledItemDetails = styled(ItemDetails)(({ theme: { palette, variables } }
 
     // map anchor:
     [`& > .${dataDisplayClassNames.locationDetailsMapAnchor}`]: {
-      width: "fit-content",
       flexShrink: 1,
-      margin: variables.isMobilePageLayout ? "1px 0 0.5rem 0" : "1px 0 0 0",
       fontSize: "0.925rem",
       whiteSpace: "pre",
       color: palette.secondary.main,
       textDecoration: "none",
+
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
 
-      // MapMarkerIcon
-      "& > svg:first-of-type": {
-        color: palette.secondary.main,
-        fontSize: "1.5rem",
-        opacity: 0.35,
-        marginRight: "0.25rem",
-      },
+      transform: "translateX(-3px)", // to account for <path> not taking up full width
 
-      // ChevronRightIcon
-      "& > svg:last-of-type": {
-        fontSize: "1rem",
-        marginTop: "1px",
+      "& > svg": {
+        // MapMarkerIcon
+        "&:first-of-type": {
+          fontSize: "1.5rem",
+          opacity: 0.35,
+          marginRight: "2px",
+        },
+        // ChevronRightIcon
+        "&:last-of-type": {
+          fontSize: "1rem",
+          transform: "translate(-2px, 1px)",
+        },
       },
     },
   },

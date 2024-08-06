@@ -1,4 +1,4 @@
-import { GoogleOAuthButton } from "./GoogleOAuthButton";
+import { GoogleOAuthButton } from "./GoogleOAuthButton.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

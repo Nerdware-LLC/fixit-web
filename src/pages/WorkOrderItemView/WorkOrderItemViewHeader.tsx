@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import Button, { type ButtonProps } from "@mui/material/Button";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
-import { FileInvoiceDollarIcon } from "@/components/Icons/FileInvoiceDollarIcon";
-import { PenToSquareIcon } from "@/components/Icons/PenToSquareIcon";
-import { APP_PATHS } from "@/routes/appPaths";
-import type { WorkOrder } from "@/graphql/types";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
+import { FileInvoiceDollarIcon } from "@/components/Icons/FileInvoiceDollarIcon.jsx";
+import { PenToSquareIcon } from "@/components/Icons/PenToSquareIcon.jsx";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import type { WorkOrder } from "@/types/graphql.js";
 
 /**
  * // IDEA Maybe convert the button/buttons into a single "ActionsButtonGroup" button.

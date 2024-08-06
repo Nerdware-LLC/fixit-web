@@ -1,100 +1,105 @@
-import { isString } from "@nerdware/ts-type-safety-utils";
-import axios, {
-  AxiosError,
-  type AxiosResponse,
-  type InternalAxiosRequestConfig,
-  type AxiosRequestConfig,
-} from "axios";
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
+import axios, { AxiosError } from "axios";
 import { ENV } from "@/app/env";
 import { authTokenLocalStorage, authenticatedUserStore } from "@/stores";
-import { logger } from "@/utils/logger";
-import {
-  abortController,
-  cachePreFetchedUserItems,
-  getAxiosError,
-  getMessageFromAxiosError,
-} from "./helpers";
+import { logger } from "@/utils/logger.js";
 import type {
   RestApiRequestBodyByPath,
-  RestApiPOST200ResponseByPath,
   RestApiGETendpoint,
-  RestApiGET200ResponseByPath,
-  OpenApiSchemas,
-} from "@/types/open-api";
+  RestApiPOSTendpoint,
+  RestApiResponseByPath,
+  ErrorResponse,
+} from "@/types/open-api.js";
+
+// An `AbortController` instance that can be used to cancel Axios requests
+const axiosAbortController = new AbortController();
 
 // Axios defaults:
 axios.defaults.baseURL = ENV.API_URI;
-axios.defaults.signal = abortController.signal;
+axios.defaults.signal = axiosAbortController.signal;
 axios.defaults.timeout = 10000;
 axios.defaults.withCredentials = ENV.IS_DEPLOYED_ENV;
 
 // Before each REQUEST goes out, do this:
 axios.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  (config) => {
     // Add 'Authorization' header if an authToken is present
     const authToken = authTokenLocalStorage.get();
 
-    if (authToken) {
-      config.headers.Authorization = `Bearer ${authToken}`;
-    }
+    if (authToken) config.headers.Authorization = `Bearer ${authToken}`;
 
     return Promise.resolve(config);
   },
-  (error: unknown) => Promise.reject(getAxiosError(error, "Failed to send network request."))
+  (error: unknown) => {
+    return Promise.reject(
+      axios.isAxiosError(error) ? error : new AxiosError("Failed to send network request.")
+    );
+  }
 );
 
 // When each RESPONSE comes in, do this:
 axios.interceptors.response.use(
-  (response: AxiosResponse) => {
-    // If the API response contains a new auth token, process it
-    if (response?.data?.token) {
-      const tokenPayload = authenticatedUserStore.processAuthToken(response.data.token);
+  // If the response is successful, return the response as-is:
+  (response) => response,
+  // If the response is an error, handle the error:
+  async (error: AxiosError<ErrorResponse>) => {
+    // If `error` is not an AxiosError, reject with a generic error message:
+    if (!axios.isAxiosError(error))
+      return Promise.reject(
+        getTypeSafeError(error, {
+          fallBackErrMsg: "An error occurred - please try again later.",
+          shouldStringifyUnknownError: ENV.IS_DEV,
+        })
+      );
 
-      // Check for pre-fetched user items, write to apollo cache if present
-      if (isString(tokenPayload?.id) && response?.data?.userItems) {
-        cachePreFetchedUserItems(tokenPayload.id, response.data.userItems);
-      }
-    }
+    // Check for any available info about the error:
+    const {
+      code: axiosErrorCode,
+      message: axiosErrorMsg,
+      response: {
+        status: httpErrorStatusCode,
+        data: apiErrorResponse
+      } = {},
+    } = error; // prettier-ignore
 
-    // If the API response contains a Stripe-related link, open it (API uses key "stripeLink")
-    if (response?.data?.stripeLink) {
-      window.open(response.data.stripeLink, "_blank");
-    }
+    // Handle aborted requests:
+    if (axiosErrorCode === "ERR_CANCELED") return Promise.resolve({ status: 499 });
 
-    return Promise.resolve(response.data);
-  },
-  async (error: AxiosError<OpenApiSchemas["Error"]>) => {
-    // Check if req was aborted:
-    if (error.code === "ERR_CANCELED") return Promise.resolve({ status: 499 });
+    // Handle timeouts / network errors:
+    if (axiosErrorMsg.includes("timeout"))
+      return Promise.reject(new Error("A network error occurred - please try again later."));
 
     // Check the error status code:
-    const errorStatusCode = error?.response?.status;
-
-    if (errorStatusCode) {
-      if (errorStatusCode === 401) authenticatedUserStore.deauthenticate();
-      else if (errorStatusCode >= 500) logger.error(error, "HTTP_SERVICE_CODE_5xx");
+    if (httpErrorStatusCode) {
+      if (httpErrorStatusCode === 401) authenticatedUserStore.deauthenticate();
+      else if (httpErrorStatusCode >= 500) logger.error(error, "HTTP_SERVICE_CODE_5xx");
     } else {
       logger.error(error, "HTTP_SERVICE_CODE_UNKNOWN");
     }
 
-    return Promise.reject(getAxiosError(error, getMessageFromAxiosError(error)));
+    return Promise.reject(
+      new Error(
+        apiErrorResponse?.error ??
+          (ENV.IS_PROD ? "An error occurred - please try again." : axiosErrorMsg)
+      )
+    );
   }
 );
 
 export const httpService = {
-  get: axios.get.bind(axios) as <GETendpoint extends RestApiGETendpoint>(
-    url: GETendpoint,
-    config?: AxiosRequestConfig
-  ) => Promise<RestApiGET200ResponseByPath[GETendpoint]>,
+  get: async <GETendpoint extends RestApiGETendpoint>(endpoint: GETendpoint) => {
+    const response = await axios.get<RestApiResponseByPath[GETendpoint]>(endpoint);
+    return response.data;
+  },
 
-  post: axios.post.bind(axios) as <POSTendpoint extends keyof RestApiRequestBodyByPath>(
-    url: POSTendpoint,
-    data?: RestApiRequestBodyByPath[POSTendpoint],
-    config?: AxiosRequestConfig
-  ) => Promise<RestApiPOST200ResponseByPath[POSTendpoint]>,
+  post: async <POSTendpoint extends RestApiPOSTendpoint>(
+    endpoint: POSTendpoint,
+    data?: RestApiRequestBodyByPath[POSTendpoint]
+  ) => {
+    const response = await axios.post<RestApiResponseByPath[POSTendpoint]>(endpoint, data);
+    return response.data;
+  },
 
-  /**
-   * Abort all pending HTTP requests using the `AbortController` instance's `abort` method.
-   */
-  abortRequests: () => abortController.abort(),
+  /** Abort all pending Axios requests using the `AbortController` instance's `abort` method. */
+  abortRequests: () => axiosAbortController.abort(),
 } as const;

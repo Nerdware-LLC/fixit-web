@@ -1,36 +1,37 @@
-import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import { svgIconClasses } from "@mui/material/SvgIcon";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Link } from "@/components/Navigation";
-import { AuthPageLayout, authPageLayoutClassNames } from "@/layouts/AuthPageLayout";
-import { APP_PATHS } from "@/routes/appPaths";
-import { LoginForm } from "./LoginForm";
+import { AuthPageLayout } from "@/layouts/AuthPageLayout";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { LoginForm } from "./LoginForm.jsx";
 
 /**
  * **LoginPage** - renders when path is "/login"
  */
 export const LoginPage = () => (
-  <AuthPageLayout
-    pageTitle="User Login"
-    sx={{
-      [`&.${authPageLayoutClassNames.root}`]: {
-        justifyContent: "center",
-        gap: "1.5rem",
-      },
-    }}
-  >
+  <AuthPageLayout pageTitle="User Login">
     <LoginForm />
-    <Box
-      style={{
-        marginTop: "0.5rem",
-        whiteSpace: "pre-line",
-        display: "flex",
-        flexDirection: "row",
+    <Stack
+      spacing={1}
+      sx={{
         alignItems: "center",
+        "& *": {
+          color: "info.main",
+          whiteSpace: "pre-line",
+        },
+        [`& .${svgIconClasses.root}`]: {
+          transform: "translateY(1px)",
+        },
       }}
     >
-      <Link to={APP_PATHS.REGISTER}>Not an existing user? Sign up now </Link>
-      <ChevronRightIcon color="info" style={{ transform: "translateY(1px)" }} />
-    </Box>
+      <Link to={APP_PATHS.FORGOT_PASSWORD}>
+        Forgot Password <ChevronRightIcon />
+      </Link>
+      <Link to={APP_PATHS.REGISTER}>
+        Not an existing user? Sign up now <ChevronRightIcon />
+      </Link>
+    </Stack>
   </AuthPageLayout>
 );
 

@@ -4,7 +4,7 @@ import { yupCommonSchema } from "@/components/Form/helpers";
 
 export const invoiceFormSchema = yupObject({
   assignedTo: yupObject({
-    id: yupCommonSchema.string.required(),
+    id: yupCommonSchema.string.required("Please select an invoice recipient"),
   }),
   workOrder: yupCommonSchema.stringNullable,
   amount: yupCommonSchema.string

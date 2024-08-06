@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { AppNavActionConfig } from "@/routes/appNavActions";
+import type { AppNavActionConfig } from "@/routes/appNavActions.jsx";
 
 export const useMobileAppBarMenuButtonState = ({
   menuOption,

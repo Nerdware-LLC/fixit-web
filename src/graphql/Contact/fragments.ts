@@ -1,4 +1,4 @@
-import { gql } from "@/graphql/__codegen__";
+import { gql } from "@/types/__codegen__/gql.js";
 
 export const ContactFields = gql(`
   fragment ContactFields on Contact {
@@ -11,15 +11,5 @@ export const ContactFields = gql(`
     }
     createdAt
     updatedAt
-  }
-`);
-
-export const ContactPublicFields = gql(`
-  fragment ContactPublicFields on Contact {
-    id
-    handle
-    profile {
-      ...ProfileFields
-    }
   }
 `);

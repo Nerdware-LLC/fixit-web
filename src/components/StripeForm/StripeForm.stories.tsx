@@ -1,7 +1,7 @@
 import { FetchStateContextProvider } from "@/app/FetchStateContext";
-import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
-import { STATIC_MOCK_USERS } from "@/tests/mockItems/staticMockUsers";
-import { StripeForm } from "./StripeForm";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { STATIC_MOCK_USERS } from "@/tests/mockItems/staticMockUsers.js";
+import { StripeForm } from "./StripeForm.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
@@ -23,7 +23,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-authenticatedUserStore.set(STATIC_MOCK_USERS.Guy_McPerson as any);
+authenticatedUserStore.set(STATIC_MOCK_USERS.Guy_McPerson);
 
 export const PaymentInputDemo = {
   args: {

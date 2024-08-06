@@ -1,3 +1,4 @@
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import { grid as muiGridSxProps, type GridProps as MuiGridSxProps } from "@mui/system";
 import { styled } from "@mui/material/styles";
 import {
@@ -5,12 +6,21 @@ import {
   type DesktopDatePickerProps,
 } from "@mui/x-date-pickers/DesktopDatePicker";
 import { MobileDatePicker, type MobileDatePickerProps } from "@mui/x-date-pickers/MobileDatePicker";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
-import { formClassNames } from "../classNames";
+import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
 import type { TextFieldProps } from "@mui/material/TextField";
-import type { ConfigType as DayjsInputType } from "dayjs";
+import type { Dayjs as DayJsObject } from "dayjs";
 import type { Simplify } from "type-fest";
+
+export type DatePickerProps = Simplify<
+  FormikIntegratedInputProps<
+    MobileDatePickerProps<DayJsObject> & DesktopDatePickerProps<DayJsObject>,
+    "onChange" | "onOpen"
+  > &
+    Pick<TextFieldProps, "variant" | "style"> & // <-- props passed to the TextField slot
+    MuiGridSxProps &
+    React.RefAttributes<HTMLDivElement>
+>;
 
 /**
  * Mui DatePicker with Formik bindings and Mui-system grid props like `gridArea`.
@@ -42,7 +52,7 @@ import type { Simplify } from "type-fest";
  * [mui-dp]: https://github.com/mui/mui-x/blob/next/packages/x-date-pickers/src/DatePicker/DatePicker.tsx
  */
 export const DatePicker = ({
-  id,
+  fieldID,
   onChange: callerOnChangeHandler,
   onOpen: callerOnOpenHandler,
   variant: explicitVariant,
@@ -52,8 +62,8 @@ export const DatePicker = ({
   ...props
 }: DatePickerProps) => {
   const [{ value: fieldValue, variant }, { setValue, setTouched, setError, isMobilePageLayout }] =
-    useFormikFieldProps<DayjsInputType>({
-      fieldID: id,
+    useFormikFieldProps<DayJsObject | null>({
+      fieldID,
       variant: explicitVariant,
     });
 
@@ -85,7 +95,7 @@ export const DatePicker = ({
       textField: {
         variant,
         style,
-        ...(slotProps?.textField ?? {}),
+        ...(slotProps.textField ?? {}),
       },
       ...slotProps,
     },
@@ -106,13 +116,3 @@ export const StyledMobileDatePicker = styled(MobileDatePicker, {
 export const StyledDesktopDatePicker = styled(DesktopDatePicker, {
   shouldForwardProp: (propName: string) => !propName.startsWith("grid"),
 })<MuiGridSxProps>(muiGridSxProps) as typeof DesktopDatePicker;
-
-export type DatePickerProps = Simplify<
-  FormikIntegratedInputProps<
-    MobileDatePickerProps<DayjsInputType> & DesktopDatePickerProps<DayjsInputType>,
-    "onChange" | "onOpen"
-  > &
-    Pick<TextFieldProps, "variant" | "style"> & // <-- props passed to the TextField slot
-    MuiGridSxProps &
-    React.RefAttributes<HTMLDivElement>
->;

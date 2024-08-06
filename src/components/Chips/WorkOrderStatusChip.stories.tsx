@@ -1,4 +1,4 @@
-import { WorkOrderStatusChip } from "./WorkOrderStatusChip";
+import { WorkOrderStatusChip } from "./WorkOrderStatusChip.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

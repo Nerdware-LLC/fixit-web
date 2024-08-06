@@ -1,6 +1,6 @@
-import { WO_CATEGORY_ICONS_JSX } from "@/components/Icons/WorkOrderCategoryIcon";
-import { StyledChip, type StyledChipProps } from "./StyledChip";
-import type { WorkOrderCategory } from "@/graphql/types";
+import { WO_CATEGORY_ICONS_JSX } from "@/components/Icons/WorkOrderCategoryIcon.jsx";
+import { StyledChip, type StyledChipProps } from "./StyledChip.jsx";
+import type { WorkOrderCategory } from "@/types/graphql.js";
 import type { Except } from "type-fest";
 
 /**

@@ -1,26 +1,30 @@
 {
   "name": "Fixit",
   "short_name": "Fixit",
-  "description": "Web app for managing work orders, invoices, and payments.",
+  "description": "Fixit is the payment app for people who need to get things done — manage work orders, invoices, and payments — all in one place.",
   "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 48x48 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.webp",
-      "type": "image/webp",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.webp",
-      "type": "image/webp",
-      "sizes": "512x512"
-    }
+    { "src": "favicon.ico", "sizes": "48x48", "type": "image/x-icon" },
+    { "src": "logo192.webp", "sizes": "192x192", "type": "image/webp" },
+    { "src": "logo512.webp", "sizes": "512x512", "type": "image/webp" }
   ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#F78103",
-  "background_color": "#121212"
+  "background_color": "#121212",
+  "screenshots": [
+    {
+      "src": "demo_desktop_dashboard.webp",
+      "sizes": "1919x910",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Fixit Dashboard"
+    },
+    {
+      "src": "demo_mobile_workorders_list.webp",
+      "sizes": "358x780",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Fixit Work Orders"
+    }
+  ]
 }

@@ -3,9 +3,9 @@ import {
   withAppStateInfoDecorator,
   type AppStateInfoDecoratorArgs,
 } from "@/../.storybook/decorators";
-import { QUERIES } from "@/graphql/queries";
-import { STATIC_MOCK_USERS } from "@/tests/mockItems/staticMockUsers";
-import { AppBar } from "./AppBar";
+import { QUERIES } from "@/graphql/queries.js";
+import { STATIC_MOCK_USERS } from "@/tests/mockItems/staticMockUsers.js";
+import { AppBar } from "./AppBar.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

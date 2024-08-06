@@ -1,12 +1,12 @@
 import { styled } from "@mui/material/styles";
-import Box, { boxClasses } from "@mui/material/Box";
-import Divider, { dividerClasses } from "@mui/material/Divider";
-import Text, { typographyClasses } from "@mui/material/Typography";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
+import Divider from "@mui/material/Divider";
+import Text from "@mui/material/Typography";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
 import { StripeBadge, brandingClassNames } from "@/components/Branding";
-import { Anchor, LegalLinks, navigationClassNames } from "@/components/Navigation";
+import { Anchor, LegalLinksFooter } from "@/components/Navigation";
+import { APP_URLS } from "@/routes/appURLs.js";
 import { ProductSelection } from "./ProductSelection";
-import { productsPageElementIDs } from "./elementIDs";
+import { productsPageElementIDs } from "./elementIDs.js";
 
 /**
  * **ProductsPage** - renders when path is "/products"
@@ -16,29 +16,31 @@ export const ProductsPage = () => {
 
   return (
     <StyledDiv>
-      <Text variant="h3">Subscription Pricing</Text>
-      <ProductSelection isMobilePageLayout={isMobilePageLayout} />
-      <Divider />
-      <Box>
-        <div id={productsPageElementIDs.fixitProductInfoContainer}>
-          <Text style={{ fontWeight: "bold" }}>
-            Fixit uses <Anchor href="https://stripe.com/">Stripe</Anchor> to process your payments
-            quickly and keep your personal and payment information secure. Millions of companies
-            around the world trust Stripe to process payments for their users.
-          </Text>
-          <Text>
-            For payments made with a credit card, Stripe charges a transaction fee of 2.9% + 30¢.
-            Click <Anchor href="https://stripe.com/pricing#pricing-details">here</Anchor> to learn
-            more about Stripe transaction pricing.
-          </Text>
-          <LegalLinks includeStripeBadge={isMobilePageLayout} />
-        </div>
-        {!isMobilePageLayout && (
-          <div>
+      <div id={productsPageElementIDs.contentRoot}>
+        <Text variant="h3" style={{ textAlign: "center" }}>
+          Subscription Pricing
+        </Text>
+        <ProductSelection isMobilePageLayout={isMobilePageLayout} />
+        <Divider />
+        <div id={productsPageElementIDs.productDetailsRoot}>
+          <div id={productsPageElementIDs.productDetailsTextRoot}>
+            <Text style={{ fontWeight: "bold" }}>
+              Fixit uses <Anchor href={APP_URLS.STRIPE_LANDING_PAGE}>Stripe</Anchor> to process your
+              payments quickly and keep your personal and payment information secure. Millions of
+              companies around the world trust Stripe to process payments for their users.
+            </Text>
+            <Text>
+              For payments made with a credit card, Stripe charges a transaction fee of 2.9% + 30¢.
+              Click <Anchor href={APP_URLS.STRIPE_PRICING}>here</Anchor> to learn more about Stripe
+              transaction pricing.
+            </Text>
+          </div>
+          <div id={productsPageElementIDs.stripeImgWrapper}>
             <StripeBadge />
           </div>
-        )}
-      </Box>
+        </div>
+      </div>
+      <LegalLinksFooter />
     </StyledDiv>
   );
 };
@@ -47,74 +49,53 @@ export const ProductsPage = () => {
 export const Component = ProductsPage;
 
 const StyledDiv = styled("div")(({ theme: { variables } }) => ({
-  minHeight: "100%",
-  minWidth: "15rem",
+  height: "100%",
   width: "100%",
-  maxWidth: "85rem",
-  overflowY: variables.isMobilePageLayout ? "auto" : "hidden",
-  margin: "0 auto",
-  padding: "1rem clamp(2rem, 5%, 15vw)",
-  textAlign: "center",
+  overflow: "hidden auto", // Prevents horizontal scroll on mobile "products" page
   display: "flex",
   flexDirection: "column",
-  justifyContent: "space-evenly",
+  justifyContent: "space-between",
   alignItems: "center",
-  gap: "1rem",
 
-  [`& > h1.${typographyClasses.root}`]: {
-    lineHeight: "2.2rem",
-    fontWeight: "bold",
-    whiteSpace: "nowrap",
-  },
-
-  [`& > .${dividerClasses.root}`]: {
-    ...(variables.isMobilePageLayout && { margin: "1rem 0" }),
-    width: "clamp(15rem, 100%, 85rem)",
+  [`& > #${productsPageElementIDs.contentRoot}`]: {
+    height: "fit-content",
     minWidth: "15rem",
-  },
-
-  [`& > .${boxClasses.root}`]: {
-    ...(variables.isMobilePageLayout ? { flexWrap: "wrap" } : { minWidth: "100%" }),
     width: "100%",
-    maxWidth: "100dvh",
+    maxWidth: "75rem",
+    padding: variables.isMobilePageLayout ? "1rem 1.5rem 1.5rem 1.5rem" : "1rem",
     display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignContent: "center",
+    gap: "1rem",
+    flexGrow: 1,
 
-    [`& > #${productsPageElementIDs.fixitProductInfoContainer}`]: {
-      ...(variables.isMobilePageLayout ? { width: "100%" } : { width: "60%", maxWidth: "60rem" }),
-      flexGrow: 1,
-      flexShrink: 1,
+    [`& > #${productsPageElementIDs.productDetailsRoot}`]: {
+      width: "100%",
       display: "flex",
-      flexDirection: "column",
-      gap: "1rem",
-
-      [`& > .${typographyClasses.root}`]: {
-        fontSize: "1rem",
-        lineHeight: 1.65,
-        textAlign: "left",
-        margin: 0,
-      },
-
-      [`& .${navigationClassNames.legalLinksRoot}`]: {
-        marginTop: "1rem",
-        ...(variables.isMobilePageLayout && { marginBottom: "2rem" }),
-        // marginBottom on mobile to add more space at the bottom for the Stripe logo
-      },
-    },
-
-    // The div around StripeBadge (on desktop only):
-    "& > div:nth-of-type(2)": {
-      minWidth: "20rem",
-      width: "25%",
-      flexGrow: 1,
-      display: "flex",
+      flexDirection: variables.isMobilePageLayout ? "column" : "row",
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: "space-evenly",
+      gap: "inherit",
 
-      [`& .${brandingClassNames.stripeBadgeAnchor},.${brandingClassNames.stripeBadgeImg}`]: {
-        height: "2.5rem",
+      [`& > #${productsPageElementIDs.productDetailsTextRoot}`]: {
+        ...(variables.isMobilePageLayout ? { width: "100%" } : { width: "60%" }),
+        flexGrow: 1,
+        flexShrink: 1,
+        display: "flex",
+        flexDirection: "column",
+        gap: "inherit",
+        whiteSpace: "pre-line",
+      },
+
+      [`& > #${productsPageElementIDs.stripeImgWrapper}`]: {
+        minWidth: "20rem",
+        width: "25%",
+        flexGrow: 1,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        [`& .${brandingClassNames.stripeBadgeImg}`]: { height: "2.5rem" },
       },
     },
   },

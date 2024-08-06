@@ -1,2 +1,2 @@
-export * from "./ListHeader";
-export * from "./MobileListHeaderTabs";
+export * from "./ListHeader.jsx";
+export * from "./MobileListHeaderTabs.jsx";

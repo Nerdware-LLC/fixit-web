@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import { containerClassNames } from "./classNames";
+import { containerClassNames } from "./classNames.js";
 
 /**
  * A box with a silver shimmer/shine animation effect.

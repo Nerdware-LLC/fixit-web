@@ -3,7 +3,7 @@ import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decor
 import {
   AutoCompleteWorkOrderCategory,
   type AutoCompleteWorkOrderCategoryProps,
-} from "./AutoCompleteWorkOrderCategory";
+} from "./AutoCompleteWorkOrderCategory.jsx";
 import { yupCommonSchema } from "../helpers";
 import type { Meta, StoryObj } from "@storybook/react";
 
@@ -30,7 +30,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicDemo = {
   args: {
-    id: "category",
+    fieldID: "category",
     label: "Category",
 
     _form_decorator_args: {

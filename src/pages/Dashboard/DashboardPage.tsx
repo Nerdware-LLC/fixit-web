@@ -2,13 +2,13 @@ import { styled } from "@mui/material/styles";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import { WidgetContainer, widgetClassNames } from "@/components/Widgets";
 import { DashboardDataContextProvider } from "./DashboardDataContext";
-import { InvoiceAmountTotalsWidget } from "./InvoiceAmountTotalsWidget";
-import { InvoicesByStatusCounter } from "./InvoicesByStatusCounter";
-import { InvoicesPerMonthChart } from "./InvoicesPerMonthChart";
-import { WorkOrderUpcomingEventsWidget } from "./WorkOrderUpcomingEventsWidget";
-import { WorkOrdersByStatusCounter } from "./WorkOrdersByStatusCounter";
-import { WorkOrdersPerMonthChart } from "./WorkOrdersPerMonthChart";
-import { dashboardPageClassNames } from "./classNames";
+import { InvoiceAmountTotalsWidget } from "./InvoiceAmountTotalsWidget.js";
+import { InvoicesByStatusCounter } from "./InvoicesByStatusCounter.jsx";
+import { InvoicesPerMonthChart } from "./InvoicesPerMonthChart.jsx";
+import { WorkOrderUpcomingEventsWidget } from "./WorkOrderUpcomingEventsWidget.jsx";
+import { WorkOrdersByStatusCounter } from "./WorkOrdersByStatusCounter.jsx";
+import { WorkOrdersPerMonthChart } from "./WorkOrdersPerMonthChart.jsx";
+import { dashboardPageClassNames } from "./classNames.js";
 
 /**
  * **DashboardPage** - renders when path is "/home" and user is both authenticated and authorized.

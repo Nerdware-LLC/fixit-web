@@ -1,59 +1,64 @@
 import { styled } from "@mui/material/styles";
-import Divider from "@mui/material/Divider";
+import Box from "@mui/material/Box";
+import Divider, { dividerClasses } from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
-import Text from "@mui/material/Typography";
+import Text, { typographyClasses } from "@mui/material/Typography";
 import { FetchStateContextProvider } from "@/app/FetchStateContext";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
 import { TitleLogo, brandingClassNames } from "@/components/Branding";
-import { DemoStripeCardInfoAccordion } from "@/components/DevTools/DemoStripeCardInfoAccordion";
-import { CheckoutForm, type CheckoutFormProps } from "./CheckoutForm";
-import { PaymentConfirmationInfo } from "./PaymentConfirmationInfo";
-import { SubCostDetails } from "./SubCostDetails";
-import { checkoutPageClassNames } from "./classNames";
+import { DemoStripeCardInfoAccordion } from "@/components/DevTools/DemoStripeCardInfoAccordion.jsx";
+import { CheckoutForm, type CheckoutFormProps } from "./CheckoutForm.jsx";
+import { PaymentConfirmationInfo } from "./PaymentConfirmationInfo.jsx";
+import { SubCostDetails } from "./SubCostDetails.jsx";
+import { checkoutPageClassNames } from "./classNames.js";
+
+export type CheckoutContentProps = {
+  isPaymentConfirmed: boolean;
+  onCheckoutCompletion: CheckoutFormProps["onSuccessfulSubmit"];
+};
 
 export const CheckoutContent = ({
-  showPaymentConfirmation,
+  isPaymentConfirmed,
   onCheckoutCompletion,
-}: CheckoutContentProps) => {
-  const { isMobilePageLayout } = usePageLayoutContext();
-
-  return (
-    <StyledPaper elevation={0}>
+}: CheckoutContentProps) => (
+  <StyledPaper elevation={0}>
+    <FetchStateContextProvider>
       {/*   SECTION: LEFT/TOP   */}
-
-      <div className={checkoutPageClassNames.pageSectionColumn}>
-        <TitleLogo
-          sx={{
+      <Box
+        className={checkoutPageClassNames.pageSectionColumn}
+        sx={{
+          maxHeight: "80vh",
+          // The above prevents expansion if the other pageSectionColumn is expanded to show more info
+          [`& > .${brandingClassNames.titleLogoRoot}`]: {
+            height: "min-content",
             [`& .${brandingClassNames.titleLogoImg}`]: { height: "8vh" },
             [`& .${brandingClassNames.titleLogoText}`]: { fontSize: "3rem" },
-          }}
-        />
+          },
+        }}
+      >
+        <TitleLogo />
         <SubCostDetails />
-      </div>
+      </Box>
 
-      {isMobilePageLayout && <Divider />}
+      <Divider />
 
       {/*   SECTION: RIGHT/BOTTOM   */}
-
       <div className={checkoutPageClassNames.pageSectionColumn}>
-        {showPaymentConfirmation ? (
+        {isPaymentConfirmed ? (
           <PaymentConfirmationInfo />
         ) : (
           <>
-            <Text style={{ textAlign: "center", opacity: 0.75, whiteSpace: "pre-line" }}>
-              {`You'll receive a confirmation email\nwith receipt upon completion.`}
+            <Text style={{ textAlign: "center", opacity: 0.8 }}>
+              You'll receive a confirmation email with receipt upon completion.
             </Text>
             <DemoStripeCardInfoAccordion />
             <Divider />
-            <FetchStateContextProvider>
-              <CheckoutForm onSuccessfulSubmit={onCheckoutCompletion} />
-            </FetchStateContextProvider>
+            <CheckoutForm onSuccessfulSubmit={onCheckoutCompletion} />
           </>
         )}
       </div>
-    </StyledPaper>
-  );
-};
+    </FetchStateContextProvider>
+  </StyledPaper>
+);
 
 const StyledPaper = styled(Paper)(({ theme: { variables } }) => ({
   width: "100%",
@@ -78,24 +83,40 @@ const StyledPaper = styled(Paper)(({ theme: { variables } }) => ({
         gap: "2rem",
       }),
 
+  // DEFAULT STYLES FOR ALL TEXT:
+  [`& .${typographyClasses.root}`]: { textWrap: "balance" },
+
+  // The hr Divider in between the pageSectionColumns on mobile:
+  [`& > hr.${dividerClasses.root}`]: {
+    // Hide on desktop
+    ...(!variables.isMobilePageLayout && { display: "none" }),
+  },
+
   [`& > div.${checkoutPageClassNames.pageSectionColumn}`]: {
-    ...(variables.isMobilePageLayout
-      ? {
-          width: "100%",
-          height: "min-content",
-        }
-      : {
-          width: "50%",
-          minHeight: "100%",
-        }),
+    width: variables.isMobilePageLayout ? "100%" : "50%",
+    minHeight: "min-content",
     gap: "inherit",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
+
+    [`& .${checkoutPageClassNames.priceInfoRowGroup}`]: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "0.5rem",
+      padding: "1rem 0",
+    },
+
+    [`& .${checkoutPageClassNames.priceInfoRow}`]: {
+      position: "relative",
+      width: "100%",
+      padding: "0 1rem",
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: "0.5rem",
+      borderRadius: "0.25rem",
+    },
   },
 }));
-
-export type CheckoutContentProps = {
-  showPaymentConfirmation: boolean;
-  onCheckoutCompletion: CheckoutFormProps["onSuccessfulSubmit"];
-};

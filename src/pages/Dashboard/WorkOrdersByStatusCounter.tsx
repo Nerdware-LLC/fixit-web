@@ -1,5 +1,5 @@
-import { WO_STATUS_ICONS_JSX } from "@/components/Icons/WorkOrderStatusIcon";
-import { StatusCountWidget } from "@/components/Widgets/StatusCountWidget";
+import { WO_STATUS_ICONS_JSX } from "@/components/Icons/WorkOrderStatusIcon.jsx";
+import { StatusCountWidget } from "@/components/Widgets/StatusCountWidget.jsx";
 import { useDashboardDataContext } from "./DashboardDataContext";
 
 export const WorkOrdersByStatusCounter = () => {

@@ -4,31 +4,33 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Divider, { dividerClasses } from "@mui/material/Divider";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { DragonIcon } from "@/components/Icons/DragonIcon";
-import { Anchor } from "@/components/Navigation/Anchor";
-import { Link } from "@/components/Navigation/Link";
-import { APP_PATHS } from "@/routes/appPaths";
+import { DragonIcon } from "@/components/Icons/DragonIcon.jsx";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
+import { Link } from "@/components/Navigation/Link.jsx";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { pageNotFoundElementIDs } from "./elementIDs.js";
 
 export const PageNotFound = () => {
   const nav = useNavigate();
 
   return (
     <StyledDiv>
-      <div id={elementIDs.headerContainer}>
+      <div id={pageNotFoundElementIDs.headerContainer}>
         <Text variant="h2">
           <span style={{ opacity: 0.3, marginRight: "1rem" }}>404</span>
-          Whoops - this page doesn&apos;t seem to exist!
+          Whoops — this page doesn&apos;t seem to exist!
         </Text>
       </div>
-      <div id={elementIDs.bodyContainer}>
+      <div id={pageNotFoundElementIDs.bodyContainer}>
         <div>
           <Text>Looking for something in particular? Hopefully one of these links will help:</Text>
           <ul>
             {[
               { to: APP_PATHS.HOME, label: "Home" },
               { to: APP_PATHS.PRODUCTS, label: "Pricing" },
-              { to: APP_PATHS.PRIVACY, label: "Privacy Policy" },
               { to: APP_PATHS.ToS, label: "Terms of Service" },
+              { to: APP_PATHS.PRIVACY, label: "Privacy Policy" },
+              { to: APP_PATHS.COOKIES, label: "Cookie Policy" },
             ].map(({ to, label }, index) => (
               <Fragment key={label}>
                 {index !== 0 && <Divider orientation="vertical" flexItem />}
@@ -45,7 +47,7 @@ export const PageNotFound = () => {
             "Not all those who wander are lost"
           </Anchor>
           {`  `}
-          and all that, but <i>you</i> - my friend - have wandered right off the map and straight
+          and all that, but <i>you</i> — my friend — have wandered right off the map and straight
           into <em>"There be dragons" </em> territory! <DragonIcon />
         </Text>
       </div>
@@ -65,11 +67,6 @@ export const PageNotFound = () => {
 // Exported as "Component" for react-router-dom lazy loading
 export const Component = PageNotFound;
 
-const elementIDs = {
-  headerContainer: "page-not-found-header-container",
-  bodyContainer: "page-not-found-body-container",
-} as const;
-
 const StyledDiv = styled("div")(({ theme: { breakpoints, variables } }) => ({
   height: "100%",
   padding: "3rem 2rem",
@@ -79,6 +76,7 @@ const StyledDiv = styled("div")(({ theme: { breakpoints, variables } }) => ({
   justifyContent: "flex-start",
   gap: "2rem",
   textAlign: "center",
+  textWrap: "balance",
 
   [breakpoints.up("md")]: {
     justifyContent: "center",
@@ -95,14 +93,14 @@ const StyledDiv = styled("div")(({ theme: { breakpoints, variables } }) => ({
   },
 
   // HEADER
-  [`& > #${elementIDs.headerContainer} > h2.${typographyClasses.root}`]: {
+  [`& > #${pageNotFoundElementIDs.headerContainer} > h2.${typographyClasses.root}`]: {
     ...(variables.isMobilePageLayout
       ? { fontSize: "2rem", lineHeight: "2.25rem" }
       : { fontSize: "3.25rem", lineHeight: 1 }),
   },
 
   // BODY-CONTAINER
-  [`& > #${elementIDs.bodyContainer}`]: {
+  [`& > #${pageNotFoundElementIDs.bodyContainer}`]: {
     flexDirection: "column",
     gap: "inherit",
     ...(variables.isMobilePageLayout
@@ -124,34 +122,26 @@ const StyledDiv = styled("div")(({ theme: { breakpoints, variables } }) => ({
       "& > li": {
         listStyleType: "none",
         margin: "0 1rem",
-        "& > a": {
-          textDecoration: "underline",
-        },
       },
       [`& > .${dividerClasses.root}`]: {
-        ...(variables.isMobilePageLayout && { display: "none" }),
+        // ...(variables.isMobilePageLayout && { display: "none" }),
       },
     },
 
     [`& > .${typographyClasses.root}`]: {
       whiteSpace: "pre-wrap",
+      fontWeight: "lighter",
 
       "& a,em": {
+        textDecoration: "none",
         whiteSpace: "nowrap",
         fontStyle: "italic",
       },
       "& svg": {
+        transform: "translateY(2px)",
         ...(variables.isMobilePageLayout
-          ? {
-              height: "1rem",
-              marginLeft: "0.15rem",
-              transform: "translateY(2px)",
-            }
-          : {
-              height: "1.5rem",
-              marginLeft: "0.35rem",
-              transform: "translateY(3px)",
-            }),
+          ? { height: "1rem", marginLeft: "0.15rem" }
+          : { height: "1.5rem", marginLeft: "0.35rem" }),
       },
     },
   },

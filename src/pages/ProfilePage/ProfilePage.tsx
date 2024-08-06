@@ -1,5 +1,5 @@
 import { ProfileViewLayout } from "@/layouts/ProfileViewLayout";
-import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
 
 /**
  * // IDEA Add to ProfilePage:

@@ -1,7 +1,7 @@
-import { ContactAvatar } from "@/components/Avatar/ContactAvatar";
-import { getDataGridColDefs } from "@/components/DataGrid/helpers/getDataGridColDefs";
-import { fmt } from "@/utils/formatters";
-import type { Contact } from "@/graphql/types";
+import { ContactAvatar } from "@/components/Avatar/ContactAvatar.jsx";
+import { getDataGridColDefs } from "@/components/DataGrid/helpers/getDataGridColDefs.js";
+import { prettifyPhoneNumStr } from "@/utils/formatters/phone.js";
+import type { Contact } from "@/types/graphql.js";
 import type { DataGridProps } from "@mui/x-data-grid";
 
 /**
@@ -18,7 +18,7 @@ const COLUMNS = getDataGridColDefs<
 >({
   contact: {
     headerName: "Contact",
-    valueGetter: ({ row: contact }) => contact.profile.displayName,
+    valueGetter: (_value, row) => row.profile.displayName,
     renderCell: ({ row: contact }) => (
       <ContactAvatar contact={contact} viewContactOnClick={false} />
     ),
@@ -34,8 +34,8 @@ const COLUMNS = getDataGridColDefs<
   },
   phone: {
     headerName: "Phone",
-    valueFormatter: ({ value }) => (value ? fmt.prettifyPhoneNum(value) : ""),
-    valueParser: (value) => (value ? fmt.prettifyPhoneNum(value) : ""),
+    valueFormatter: (value) => (value ? prettifyPhoneNumStr(value) : ""),
+    valueParser: (value) => (value ? prettifyPhoneNumStr(value) : ""),
     flex: 1,
     minWidth: 125,
     headerAlign: "center",

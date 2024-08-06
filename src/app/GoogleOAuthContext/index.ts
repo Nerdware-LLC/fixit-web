@@ -1,9 +1,9 @@
-export * from "./GoogleOAuthContext";
+export * from "./GoogleOAuthContext.jsx";
 
-export * from "./GoogleOAuthButton";
-export * from "./GoogleAuthFormButton";
+export * from "./GoogleOAuthButton.jsx";
+export * from "./GoogleAuthFormButton.jsx";
 
-export * from "./useGoogleLogin";
-export * from "./useGoogleOneTapLogin";
+export * from "./useGoogleLogin.js";
+export * from "./useGoogleOneTapLogin.js";
 
-export * from "./helpers";
+export * from "./helpers.js";

@@ -1,1 +1,1 @@
-export * from "./ProfileViewLayout";
+export * from "./ProfileViewLayout.jsx";

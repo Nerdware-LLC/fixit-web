@@ -1,5 +1,6 @@
-import { getDateAndTimeStr } from "@/utils/formatters/dateTime";
+import { getDateAndTimeStr } from "@/utils/formatters/dateTime.js";
 import type { GridColDef } from "@mui/x-data-grid";
+import type { ConfigType as DayJsCtorParamType } from "dayjs";
 
 const GLOBAL_DEFAULTS = {
   type: "string",
@@ -31,13 +32,13 @@ export const commonColDefs = {
     ...GLOBAL_DEFAULTS,
     type: "dateTime",
     minWidth: 160,
-    valueFormatter: ({ value }) => (value ? getDateAndTimeStr(value) : null),
+    valueFormatter: (value: DayJsCtorParamType) => (value ? getDateAndTimeStr(value) : null),
     ...CENTERED_COLUMN,
   },
   /** GridColDef configs for centering column header and content. */
   centeredColumn: CENTERED_COLUMN,
   /** GridColDef configs for columns with `renderCell`, which need a `valueFormatter` for printing/exporting. */
   renderCellBaseValueFormatter: {
-    valueFormatter: ({ value }: { value?: unknown }) => value,
+    valueFormatter: (value?: unknown) => value,
   },
 } as const satisfies Record<string, Partial<GridColDef>>;

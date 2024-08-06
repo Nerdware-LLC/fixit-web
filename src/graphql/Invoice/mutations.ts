@@ -1,4 +1,4 @@
-import { gql } from "@/graphql/__codegen__";
+import { gql } from "@/types/__codegen__/gql.js";
 
 export const CREATE_INVOICE = gql(`
   mutation CreateInvoice($invoice: InvoiceInput!) {
@@ -28,7 +28,7 @@ export const DELETE_INVOICE = gql(`
   mutation DeleteInvoice($invoiceID: ID!) {
     deleteInvoice(invoiceID: $invoiceID) {
       id
-      wasDeleted
+      success
     }
   }
 `);

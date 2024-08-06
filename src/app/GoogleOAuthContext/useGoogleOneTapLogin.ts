@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
-import { useFetchStateContext } from "@/app/FetchStateContext/useFetchStateContext";
-import { useGoogleOAuthContext } from "./GoogleOAuthContext";
-import { extractClientID } from "./helpers";
+import { useFetchStateContext } from "@/app/FetchStateContext/useFetchStateContext.js";
+import { useGoogleOAuthContext } from "./GoogleOAuthContext.jsx";
+import { extractClientID } from "./helpers.js";
 import type {
   CredentialResponse,
   GoogleCredentialResponse,
   IdConfiguration,
   MomentListener,
   Context,
-} from "@/types/googleOAuth";
+} from "@/types/googleOAuth.js";
 
 interface UseGoogleOneTapLoginOptions {
   onSuccess: (credentialResponse: CredentialResponse) => void;
@@ -64,7 +64,7 @@ export const useGoogleOneTapLogin = ({
     googleAPI.accounts.id.initialize({
       client_id: clientID,
       callback: (credentialResponse: GoogleCredentialResponse) => {
-        if (!credentialResponse?.credential) {
+        if (!credentialResponse.credential) {
           setFetchError(
             new Error(
               "Oops! We were unable to obtain valid login credentials from Google — please try again."

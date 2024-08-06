@@ -1,6 +1,6 @@
 import { object as yupObject } from "yup";
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
-import { AutoCompleteStates, type AutoCompleteStatesProps } from "./AutoCompleteStates";
+import { AutoCompleteStates, type AutoCompleteStatesProps } from "./AutoCompleteStates.jsx";
 import { yupCommonSchema } from "../helpers";
 import type { Meta, StoryObj } from "@storybook/react";
 
@@ -26,7 +26,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicDemo = {
   args: {
-    id: "location",
+    fieldID: "location",
     label: "Location",
 
     _form_decorator_args: {

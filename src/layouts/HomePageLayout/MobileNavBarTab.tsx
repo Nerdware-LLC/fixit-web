@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { alpha } from "@mui/material/styles";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import { useIsActiveNavAction } from "./helpers";
-import type { AppNavActionConfig } from "@/routes/appNavActions";
+import { useIsActiveNavAction } from "./helpers.js";
+import type { AppNavActionConfig } from "@/routes/appNavActions.js";
 import type { SetRequired } from "type-fest";
 
 export const MobileNavBarTab = ({ label, path, icon }: MobileNavBarTabProps) => {

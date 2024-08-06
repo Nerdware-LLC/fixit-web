@@ -10,61 +10,6 @@ import {
 } from "../helpers";
 import type { SelectProps as MuiSelectProps } from "@mui/material/Select";
 
-export const Select = <
-  ValueType extends string | number | null | undefined = string | number | null,
->({
-  id,
-  options,
-  label,
-  variant: explicitVariant,
-  fullWidth = false,
-  sx,
-  FormControlProps = {},
-  ...muiSelectProps
-}: SelectProps<ValueType>) => {
-  const [
-    { value: fieldValue, variant, error: showErrorState, helperText },
-    { setValue, setError },
-  ] = useFormikFieldProps<ValueType>({
-    fieldID: id,
-    variant: explicitVariant,
-  });
-
-  const handleChange: SelectProps["onChange"] = async (event) => {
-    await setValue(event.target.value as ValueType).catch((error: unknown) =>
-      setError(getFormInputErrMsg(error))
-    );
-  };
-
-  const selectLabelID = `Select:InputLabel:${id}`;
-
-  return (
-    <FormControl
-      variant={variant}
-      fullWidth={fullWidth}
-      error={showErrorState}
-      sx={sx}
-      {...FormControlProps}
-    >
-      <InputLabel id={selectLabelID}>{label ?? id}</InputLabel>
-      <MuiSelect
-        labelId={selectLabelID}
-        value={fieldValue ?? ""}
-        onChange={handleChange}
-        error={showErrorState}
-        {...muiSelectProps}
-      >
-        {options.map(({ value, label }, index) => (
-          <MenuItem key={`Select:${value ?? index}`} value={value ?? ""}>
-            {label ?? value}
-          </MenuItem>
-        ))}
-      </MuiSelect>
-      <FormHelperText>{helperText}</FormHelperText>
-    </FormControl>
-  );
-};
-
 export type SelectProps<
   ValueType extends string | number | null | undefined = string | number | null,
 > = FormikIntegratedInputProps<
@@ -82,3 +27,69 @@ export type SelectOptions<
   value: ValueType;
   label?: string;
 }>;
+
+/**
+ * MUI Select with Formik integration.
+ *
+ * - If an `id` attribute/prop is not provided, one will be generated from the
+ *   `fieldID` prop by removing all non-alphanumeric characters.
+ *
+ * - The Mui `sx` prop is passed to the containiner — a Mui FormControl.
+ */
+export const Select = <
+  ValueType extends string | number | null | undefined = string | number | null,
+>({
+  fieldID,
+  id: selectElementID,
+  options,
+  label,
+  variant: explicitVariant,
+  fullWidth = false,
+  sx,
+  FormControlProps = {},
+  ...muiSelectProps
+}: SelectProps<ValueType>) => {
+  const [
+    { value: fieldValue, variant, error: showErrorState, helperText },
+    { setValue, setError },
+  ] = useFormikFieldProps<ValueType>({
+    fieldID,
+    variant: explicitVariant,
+  });
+
+  const handleChange: SelectProps["onChange"] = async (event) => {
+    await setValue(event.target.value as ValueType).catch((error: unknown) =>
+      setError(getFormInputErrMsg(error))
+    );
+  };
+
+  selectElementID ||= fieldID.replace(/[^a-zA-Z0-9_-]/, "");
+
+  const labelID = `Select:InputLabel:${selectElementID}`;
+
+  return (
+    <FormControl
+      variant={variant}
+      fullWidth={fullWidth}
+      error={showErrorState}
+      sx={sx}
+      {...FormControlProps}
+    >
+      <InputLabel id={labelID}>{label ?? fieldID}</InputLabel>
+      <MuiSelect
+        labelId={labelID}
+        value={fieldValue ?? ""}
+        onChange={handleChange}
+        error={showErrorState}
+        {...muiSelectProps}
+      >
+        {options.map(({ value, label }, index) => (
+          <MenuItem key={`Select:${value ?? index}`} value={value ?? ""}>
+            {label ?? value}
+          </MenuItem>
+        ))}
+      </MuiSelect>
+      <FormHelperText>{helperText}</FormHelperText>
+    </FormControl>
+  );
+};

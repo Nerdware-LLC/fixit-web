@@ -1,10 +1,10 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import PhoneIcon from "@mui/icons-material/Phone";
-import { ItemDetails } from "./ItemDetails";
-import { ItemDetailsGroup } from "./ItemDetailsGroup";
-import { LocationDetails } from "./LocationDetails";
-import { BasicDemo as LocationDetailsBasicDemo } from "./LocationDetails.stories";
+import { ItemDetails } from "./ItemDetails.jsx";
+import { ItemDetailsGroup } from "./ItemDetailsGroup.jsx";
+import { LocationDetails } from "./LocationDetails.jsx";
+import { BasicDemo as LocationDetailsBasicDemo } from "./LocationDetails.stories.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

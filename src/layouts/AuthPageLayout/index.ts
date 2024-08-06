@@ -1,2 +1,3 @@
-export * from "./AuthPageLayout";
-export * from "./classNames";
+export * from "./AuthPageLayout.jsx";
+
+export * from "./classNames.js";

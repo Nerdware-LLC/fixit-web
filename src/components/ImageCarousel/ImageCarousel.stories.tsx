@@ -1,4 +1,4 @@
-import { ImageCarousel } from "./ImageCarousel";
+import { ImageCarousel } from "./ImageCarousel.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

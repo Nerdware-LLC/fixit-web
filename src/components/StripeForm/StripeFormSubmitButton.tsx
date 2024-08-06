@@ -1,7 +1,7 @@
 import {
   BaseFormSubmitButton,
   type BaseFormSubmitButtonProps,
-} from "@/components/Form/BaseFormSubmitButton";
+} from "@/components/Form/BaseFormSubmitButton.jsx";
 import type { SetOptional } from "type-fest";
 
 export const StripeFormSubmitButton = ({

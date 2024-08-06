@@ -3,7 +3,7 @@ import deepMerge from "lodash.merge";
 import { styled } from "@mui/material/styles";
 import MuiList, { type ListProps as MuiListProps } from "@mui/material/List";
 import { typographyClasses } from "@mui/material/Typography";
-import { listClassNames } from "../classNames";
+import { listClassNames } from "../classNames.js";
 
 /**
  * This function return the `List` ForwardRefExoticComponent used by `VirtualizedList` for the

@@ -6,7 +6,7 @@ Fixit is a SaaS product that provides users with powerful tools for managing mai
 
 Author: [Trevor Anderson](https://github.com/trevor-anderson), Founder of [Nerdware](https://github.com/Nerdware-LLC)
 
-[<img src=".storybook/assets/powered_by_Stripe_blurple.svg" height="22" style="position:relative;top:1px;"/>](https://stripe.com/ "stripe.com")
+[<img src=".storybook/assets/powered_by_Stripe_blurple.svg" height="22" style="position:relative;top:1px;" alt="Powered By Stripe"/>](https://stripe.com/ "stripe.com")
 &nbsp;
 [![Test Workflow][test-status-badge]](https://github.com/Nerdware-LLC/fixit-web/actions/workflows/test.yaml "View Test Workflow")
 &nbsp;

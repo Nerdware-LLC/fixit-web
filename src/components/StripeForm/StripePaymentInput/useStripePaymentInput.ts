@@ -1,6 +1,6 @@
-import { stripeService } from "@/services/stripeService";
-import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
-import { checkoutValuesStore } from "@/stores/checkoutValuesStore";
+import { stripeService } from "@/services/stripeService.js";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore.js";
 import type { Stripe, StripeElements } from "@stripe/stripe-js";
 
 /**
@@ -11,7 +11,7 @@ import type { Stripe, StripeElements } from "@stripe/stripe-js";
  */
 export const useStripePaymentInput = () => {
   // Route protection guarantees that selectedSubscription is defined, hence the as cast
-  const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore<true>();
+  const { selectedSubscription, promoCode } = checkoutValuesStore.useSubToStore();
 
   const handleSubmit = async (stripe: Stripe, elements: StripeElements) => {
     // Trigger form validation and wallet collection
@@ -20,7 +20,7 @@ export const useStripePaymentInput = () => {
     if (submitError) throw submitError;
 
     // Gather available data for billing details
-    const { email, phone } = authenticatedUserStore.get<true>();
+    const { email, phone } = authenticatedUserStore.get()!;
 
     // Create the PaymentMethod using the details collected by the Payment Element
     const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -35,13 +35,14 @@ export const useStripePaymentInput = () => {
 
     // Check for possible errors
     if (error) throw error;
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!paymentMethod)
       throw new Error("Stripe Error: Failed to gather payment details — please try again.");
 
     const {
       checkoutCompletionInfo: { isCheckoutComplete, clientSecret },
     } = await stripeService.submitPaymentForSubscription({
-      selectedSubscription,
+      selectedSubscription: selectedSubscription!,
       paymentMethodID: paymentMethod.id,
       ...(!!promoCode && { promoCode }),
     });
@@ -55,7 +56,7 @@ export const useStripePaymentInput = () => {
       const { error, paymentIntent } = await stripe.handleNextAction({ clientSecret });
 
       if (error) throw error;
-      if (!paymentIntent || paymentIntent?.status !== "succeeded")
+      if (!paymentIntent || paymentIntent.status !== "succeeded")
         throw new Error("Your payment could not be completed at this time");
     }
   };

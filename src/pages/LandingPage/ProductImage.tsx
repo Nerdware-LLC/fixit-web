@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import Dialog, { dialogClasses } from "@mui/material/Dialog";
 import Tooltip from "@mui/material/Tooltip";
-import { globalClassNames } from "@/app/GlobalStyles/classNames";
+import { globalClassNames } from "@/app/GlobalStyles/classNames.js";
 import {
   ImageCarousel,
   type ImageCarouselProps,
@@ -18,6 +18,7 @@ import type { OverrideProperties } from "type-fest";
 export const ProductImage = ({
   label,
   ImageCarouselProps = {},
+  sx,
   ...boxProps
 }: ProductImageProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,7 +28,7 @@ export const ProductImage = ({
 
   const productImgSrcIndex = PRODUCT_IMAGES.findIndex((image) => image.label === label);
 
-  const src = PRODUCT_IMAGES?.[productImgSrcIndex]?.src;
+  const src = PRODUCT_IMAGES[productImgSrcIndex]?.src;
 
   if (!src) {
     throw new Error(`ProductImage received an invalid "label" prop: "${label}".`);
@@ -36,7 +37,14 @@ export const ProductImage = ({
   return (
     <>
       <Tooltip title={`Click to view image: ${label}`}>
-        <Box component="img" src={src} alt={label} onClick={handleOpen} {...boxProps} />
+        <Box
+          component="img"
+          src={src}
+          alt={label}
+          onClick={handleOpen}
+          sx={{ "&:hover": { cursor: "pointer" }, ...sx }}
+          {...boxProps}
+        />
       </Tooltip>
       {isModalOpen && (
         <StyledDialog

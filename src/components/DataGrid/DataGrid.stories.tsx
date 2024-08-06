@@ -1,13 +1,13 @@
 import Box from "@mui/material/Box";
 import ConstructionIcon from "@mui/icons-material/Construction";
-import { withNavDecorator, type NavDecoratorArgs } from "@/../.storybook/decorators";
-import { TABLE_VIEW_DATA_SETS } from "@/layouts/CoreItemsListView/types";
+import { withNavDecorator } from "@/../.storybook/decorators";
+import { TABLE_VIEW_DATA_SETS } from "@/layouts/CoreItemsListView/types.js";
 import {
   workOrderTableProps,
   type WorkOrderTableRowData,
-} from "@/pages/WorkOrdersListView/tableProps";
+} from "@/pages/WorkOrdersListView/tableProps.jsx";
 import { MOCK_WORK_ORDERS } from "@/tests/mockItems";
-import { DataGrid, type DataGridProps } from "./DataGrid";
+import { DataGrid, type DataGridProps } from "./DataGrid.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
@@ -63,7 +63,7 @@ export const WorkOrdersDemo = {
       })),
     ],
   },
-} satisfies StoryObj<typeof meta & NavDecoratorArgs>;
+} satisfies StoryObj<typeof meta>;
 
 export const Empty = {
   args: {

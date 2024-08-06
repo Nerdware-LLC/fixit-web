@@ -1,2 +1,2 @@
-export * from "./availableLotties";
-export * from "./useLottie";
+export * from "./availableLotties.js";
+export * from "./useLottie.js";

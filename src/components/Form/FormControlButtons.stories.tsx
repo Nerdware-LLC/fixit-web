@@ -5,7 +5,7 @@ import {
   type FormDecoratorArgs,
   type NavDecoratorArgs,
 } from "@/../.storybook/decorators";
-import { FormControlButtons, type FormControlButtonsProps } from "./FormControlButtons";
+import { FormControlButtons, type FormControlButtonsProps } from "./FormControlButtons.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

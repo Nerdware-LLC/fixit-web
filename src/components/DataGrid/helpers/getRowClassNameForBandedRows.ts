@@ -1,4 +1,4 @@
-import { dataGridClassNames } from "../classNames";
+import { dataGridClassNames } from "../classNames.js";
 import type { GridRowClassNameParams } from "@mui/x-data-grid";
 
 /**

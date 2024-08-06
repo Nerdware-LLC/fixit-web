@@ -1,20 +1,22 @@
 import Text from "@mui/material/Typography";
-import { Anchor } from "@/components/Navigation/Anchor";
-import { Link } from "@/components/Navigation/Link";
-import { ClickToCopyText } from "@/components/Text/ClickToCopyText";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
+import { Link } from "@/components/Navigation/Link.jsx";
+import { ClickToCopyText } from "@/components/Text/ClickToCopyText.jsx";
 import { LegalPolicyPageLayout } from "@/layouts/LegalPolicyPageLayout";
-import { LegalPolicySection } from "@/layouts/LegalPolicyPageLayout/LegalPolicySection";
-import { PolicyInfoTable } from "@/layouts/LegalPolicyPageLayout/PolicyInfoTable";
-import { APP_PATHS } from "@/routes/appPaths";
+import { LegalPolicySection } from "@/layouts/LegalPolicyPageLayout/LegalPolicySection.jsx";
+import { PolicyInfoTable } from "@/layouts/LegalPolicyPageLayout/PolicyInfoTable.jsx";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { APP_URLS } from "@/routes/appURLs.js";
 
 export const CookiePolicyPage = () => (
   <LegalPolicyPageLayout pageTitle="Cookie Policy" lastUpdated="March 12, 2024">
     <Text>
       This Cookie Policy explains how Nerdware, LLC ("Company," "we," "us," and "our") uses cookies
       and similar technologies to enhance product security and aid in user and/or device recognition
-      when you visit our website at <Anchor href="https://gofixit.app">https://gofixit.app</Anchor>,
-      or any of its relevant subdomains ("Website", collectively). It explains what these
-      technologies are and why we use them, as well as your rights to control our use of them.
+      when you visit our website at{" "}
+      <Anchor href={APP_URLS.APP_ORIGIN}>{APP_URLS.APP_ORIGIN}</Anchor>, or any of its relevant
+      subdomains ("Website", collectively). It explains what these technologies are and why we use
+      them, as well as your rights to control our use of them.
     </Text>
     <Text>
       In some cases we may use cookies for security purposes, such as fraud prevention and
@@ -101,7 +103,7 @@ export const CookiePolicyPage = () => (
             "Tracks the user's session for Stripe",
             "m.stripe.com",
             "Stripe",
-            <Anchor key="stripe-privacy-policy" href="https://stripe.com/privacy">
+            <Anchor key="stripe-privacy-policy" href={APP_URLS.STRIPE_PRIVACY_POLICY}>
               View Stripe's Privacy Policy
             </Anchor>,
             "server_cookie",
@@ -112,7 +114,7 @@ export const CookiePolicyPage = () => (
             "Fraud prevention and detection",
             "stripe.com",
             "Stripe",
-            <Anchor key="stripe-privacy-policy" href="https://stripe.com/privacy">
+            <Anchor key="stripe-privacy-policy" href={APP_URLS.STRIPE_PRIVACY_POLICY}>
               View Stripe's Privacy Policy
             </Anchor>,
             "http_cookie",
@@ -123,7 +125,7 @@ export const CookiePolicyPage = () => (
             "Fraud prevention and detection",
             "stripe.com",
             "Stripe",
-            <Anchor key="stripe-privacy-policy" href="https://stripe.com/privacy">
+            <Anchor key="stripe-privacy-policy" href={APP_URLS.STRIPE_PRIVACY_POLICY}>
               View Stripe's Privacy Policy
             </Anchor>,
             "http_cookie",

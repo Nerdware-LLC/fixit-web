@@ -1,5 +1,5 @@
 import { setContext } from "@apollo/client/link/context";
-import { authTokenLocalStorage } from "@/stores/authenticatedUserStore";
+import { authTokenLocalStorage } from "@/stores/authTokenLocalStorage.js";
 
 /**
  * **Apollo Link: getAuthToken** - Sets Authorization header

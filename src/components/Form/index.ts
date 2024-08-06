@@ -1,6 +1,8 @@
-export * from "./Form";
-export * from "./FormControlButtons";
-export * from "./FormSubmitButton";
+export * from "./Form.jsx";
+export * from "./FormControlButtons.jsx";
+export * from "./FormSubmitButton.jsx";
+
 export * from "./Inputs";
-export * from "./classNames";
+
+export * from "./classNames.js";
 export * from "./helpers";

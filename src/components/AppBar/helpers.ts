@@ -1,4 +1,4 @@
-import type { ThemeCustomAppVariables } from "@/app/ThemeProvider/themes";
+import type { ThemeCustomAppVariables } from "@/app/ThemeProvider/themes.js";
 
 /**
  * Returns the height of the `AppBar` component, which is dependent on the

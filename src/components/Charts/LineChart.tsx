@@ -4,7 +4,7 @@ import deepMerge from "lodash.merge";
 import { useTheme, alpha } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import { usePageLayoutContext } from "@/app/PageLayoutContext";
-import { Loading } from "@/components/Indicators/Loading";
+import { Loading } from "@/components/Indicators/Loading.jsx";
 import type { ChartData, ChartOptions, DefaultDataPoint } from "chart.js";
 import type { ChartProps } from "react-chartjs-2/dist/types";
 import type { Simplify } from "type-fest";
@@ -69,7 +69,7 @@ export const LineChart = <
 
   // If `title` was not provided,  but `options.plugins.title.text` was, set `title` to that value:
   if (!title) {
-    const maybeTitlePluginText = options?.plugins?.title?.text;
+    const maybeTitlePluginText = options.plugins?.title?.text;
     if (isString(maybeTitlePluginText)) title = maybeTitlePluginText;
   }
 

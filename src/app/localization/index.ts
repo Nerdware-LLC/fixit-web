@@ -1,2 +1,2 @@
-export * from "./DateTimeLocalizationProvider";
-export * from "./i18n";
+export * from "./DateTimeLocalizationProvider.jsx";
+export * from "./i18n.js";

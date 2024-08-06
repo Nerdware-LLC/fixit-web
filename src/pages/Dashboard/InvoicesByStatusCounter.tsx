@@ -1,5 +1,5 @@
-import { INVOICE_STATUS_ICONS_JSX } from "@/components/Icons/InvoiceStatusIcon";
-import { StatusCountWidget } from "@/components/Widgets/StatusCountWidget";
+import { INVOICE_STATUS_ICONS_JSX } from "@/components/Icons/InvoiceStatusIcon.jsx";
+import { StatusCountWidget } from "@/components/Widgets/StatusCountWidget.jsx";
 import { useDashboardDataContext } from "./DashboardDataContext";
 
 export const InvoicesByStatusCounter = () => {

@@ -1,2 +1,2 @@
-export * from "./MockApolloProvider";
-export * from "./MockRouter";
+export * from "./MockApolloProvider.jsx";
+export * from "./MockRouter.jsx";

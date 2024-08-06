@@ -3,7 +3,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Paper, { paperClasses } from "@mui/material/Paper";
 import Switch from "@mui/material/Switch";
 import Text from "@mui/material/Typography";
-import { MobileModalContentBox } from "./MobileModalContentBox";
+import { MobileModalContentBox } from "./MobileModalContentBox.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

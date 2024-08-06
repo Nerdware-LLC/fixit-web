@@ -4,8 +4,8 @@ import IconButton, { iconButtonClasses } from "@mui/material/IconButton";
 import { svgIconClasses } from "@mui/material/SvgIcon";
 import Tooltip from "@mui/material/Tooltip";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { THEMES } from "@/app/ThemeProvider/themes";
-import { textClassNames } from "./classNames";
+import { THEMES } from "@/app/ThemeProvider/themes.js";
+import { textClassNames } from "./classNames.js";
 
 export const ClickToCopyText = ({
   children: textToCopy,

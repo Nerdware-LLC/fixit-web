@@ -1,6 +1,6 @@
 import { object as yupObject, number as yupNumber } from "yup";
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
-import { Slider, type SliderProps } from "./Slider";
+import { Slider, type SliderProps } from "./Slider.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
@@ -19,7 +19,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicDemo = {
   args: {
-    id: "number",
+    fieldID: "number",
     label: "Pick a Number",
     marks: Array.from({ length: 9 }).map((_, index) => ({
       value: (index + 1) * 10,

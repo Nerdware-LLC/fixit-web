@@ -1,3 +1,4 @@
-export * from "./Stepper";
-export * from "./classNames";
-export * from "./types";
+export * from "./Stepper.jsx";
+
+export * from "./classNames.js";
+export * from "./types.js";

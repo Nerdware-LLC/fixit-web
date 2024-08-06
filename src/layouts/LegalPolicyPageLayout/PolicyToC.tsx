@@ -1,7 +1,13 @@
 import { styled } from "@mui/material/styles";
 import Text from "@mui/material/Typography";
-import { THEMES } from "@/app/ThemeProvider/themes";
-import { Anchor } from "@/components/Navigation/Anchor";
+import { THEMES } from "@/app/ThemeProvider/themes.js";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
+
+export type PolicyToCProps = {
+  header?: string;
+  headerID?: string;
+  policySections: Record<string, { HREF: string; ID?: string }>;
+};
 
 /**
  * Legal policy table of contents.
@@ -45,23 +51,20 @@ export const PolicyToC = ({
 const StyledOL = styled("ol")(({ theme: { breakpoints } }) => ({
   width: "fit-content",
 
-  columnGap: "2rem",
+  columnGap: "3rem",
+
   // TWO columns when viewport-width > 600px
   [breakpoints.up("sm")]: { columnCount: 2 },
   // THREE columns when viewport-width > 1000px
   [breakpoints.up(1000)]: { columnCount: 3 },
 
-  paddingInlineStart: "2rem",
-  /* Note: `paddingInlineStart` is where the <li>'s CONTENT starts, which does not
-  include the ::marker pseudo-el when `list-style-position` is "outside" (default).*/
+  paddingInlineStart: "2rem", // <-- Applies to <li>'s content (not ::marker) in first col only.
 
-  "& > li > *": {
-    verticalAlign: "top", // <-- ensures ::marker pseudo-els are aligned with <li> text
+  "& > li": {
+    marginBottom: "0.25rem",
+
+    "& > a": {
+      textDecoration: "none",
+    },
   },
 }));
-
-export type PolicyToCProps = {
-  header?: string;
-  headerID?: string;
-  policySections: Record<string, { HREF: string; ID?: string }>;
-};

@@ -1,6 +1,6 @@
-import { INVOICE_STATUS_ICONS_JSX } from "@/components/Icons/InvoiceStatusIcon";
-import { StyledChip, type StyledChipProps } from "./StyledChip";
-import type { InvoiceStatus } from "@/graphql/types";
+import { INVOICE_STATUS_ICONS_JSX } from "@/components/Icons/InvoiceStatusIcon.jsx";
+import { StyledChip, type StyledChipProps } from "./StyledChip.jsx";
+import type { InvoiceStatus } from "@/types/graphql.js";
 import type { Except } from "type-fest";
 
 /**

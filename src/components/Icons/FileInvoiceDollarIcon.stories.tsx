@@ -1,4 +1,4 @@
-import { FileInvoiceDollarIcon as FileInvoiceDollarIconFC } from "./FileInvoiceDollarIcon";
+import { FileInvoiceDollarIcon as FileInvoiceDollarIconFC } from "./FileInvoiceDollarIcon.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

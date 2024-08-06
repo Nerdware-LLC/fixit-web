@@ -1,4 +1,5 @@
-export * from "./Checklist";
-export * from "./ChecklistItem";
-export * from "./classNames";
-export * from "./types";
+export * from "./Checklist.jsx";
+export * from "./ChecklistItem.jsx";
+
+export * from "./classNames.js";
+export * from "./types.js";

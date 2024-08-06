@@ -1,4 +1,5 @@
-export * from "./Timeline";
-export * from "./TimelineEvent";
-export * from "./TimelineEventIcon";
-export * from "./classNames";
+export * from "./Timeline.jsx";
+export * from "./TimelineEvent.jsx";
+export * from "./TimelineEventIcon.jsx";
+
+export * from "./classNames.js";

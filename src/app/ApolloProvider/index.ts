@@ -1,2 +1,2 @@
-export * from "./ApolloProvider";
-export * from "./apolloClient";
+export * from "./ApolloProvider.jsx";
+export * from "./apolloClient.js";

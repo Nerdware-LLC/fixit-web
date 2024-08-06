@@ -1,29 +1,29 @@
 import { faker } from "@faker-js/faker";
 import { makeFake } from "@/tests/utils/makeFake";
-import { MOCK_USERS } from "./mockUsers";
-import type { Contact } from "@/graphql/types";
+import { MOCK_USERS } from "./mockUsers.js";
+import type { Contact } from "@/types/graphql.js";
 import type { SetRequired } from "type-fest";
-import type { StaticMockContactName } from "./staticMockContacts";
+import type { StaticMockContactName } from "./staticMockContacts.js";
 
 const createMockContact = (
   overrides: Partial<Contact> & { userID?: string } = {}
 ): SetRequired<Contact, "__typename"> => {
   const handle = makeFake.userHandle(overrides);
-  const createdAt = overrides?.createdAt ?? faker.date.recent({ days: 365 });
+  const createdAt = overrides.createdAt ?? faker.date.recent({ days: 365 });
 
   return {
     __typename: "Contact",
-    id: overrides?.id
+    id: overrides.id
       ? overrides.id
-      : overrides?.userID
+      : overrides.userID
         ? `CONTACT#${overrides.userID}`
-        : `CONTACT#${makeFake.userID()}`,
+        : `CONTACT#${makeFake.userID(handle)}`,
     handle,
     email: makeFake.email(overrides),
     phone: makeFake.phone(overrides),
     profile: makeFake.userProfile(overrides, handle),
     createdAt,
-    updatedAt: overrides?.updatedAt ?? faker.date.between({ from: createdAt, to: new Date() }),
+    updatedAt: overrides.updatedAt ?? faker.date.between({ from: createdAt, to: new Date() }),
   };
 };
 

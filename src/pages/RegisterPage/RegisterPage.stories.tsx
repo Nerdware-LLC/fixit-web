@@ -1,5 +1,5 @@
 import { withRootAppLayoutDecorator } from "@/../.storybook/decorators";
-import { RegisterPage } from "./RegisterPage";
+import { RegisterPage } from "./RegisterPage.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

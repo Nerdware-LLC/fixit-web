@@ -1,5 +1,5 @@
 import BusinessIcon from "@mui/icons-material/Business";
-import { LocationDetails as LocationDetailsFC } from "./LocationDetails";
+import { LocationDetails as LocationDetailsFC } from "./LocationDetails.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

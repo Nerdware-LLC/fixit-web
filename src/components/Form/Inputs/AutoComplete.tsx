@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import { grid as muiGridSxProps, type GridProps as MuiGridSxProps } from "@mui/system";
 import { styled } from "@mui/material/styles";
 import MuiAutocomplete, {
+  autocompleteClasses,
   type AutocompleteProps as MuiAutocompleteProps,
+  type AutocompleteRenderOptionState as MuiAutocompleteRenderOptionState,
+  type AutocompleteOwnerState as MuiAutocompleteOwnerState,
 } from "@mui/material/Autocomplete";
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
-import { formClassNames } from "../classNames";
+import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
 import type { AutocompleteValue } from "@mui/base/useAutocomplete";
-import type { Simplify, SetRequired, SetOptional } from "type-fest";
+import type { Simplify, SetRequired, OverrideProperties } from "type-fest";
 
 /**
  * A MUI Autocomplete with Formik integration which takes an optional type arg `OptionType` which
@@ -34,11 +37,12 @@ export const AutoComplete = <
   FreeSolo extends boolean = false,
   ChipComponent extends React.ElementType = "div",
 >({
-  id,
+  fieldID,
   label,
   options,
-  getFieldValueFromOption: caller_getFieldValueFromOption,
-  getOptionFromFieldValue: caller_getOptionFromFieldValue,
+  getFieldValueFromOption,
+  getOptionFromFieldValue,
+  isOptionEqualToValue,
   onChange: caller_onChange,
   onInputChange: caller_onInputChange,
   // behavior-determining props:
@@ -60,35 +64,36 @@ export const AutoComplete = <
   // Short-hand for the type of the Autocomplete's `value` prop:
   type ValuePropType = AutocompleteValue<OptionType, Multiple, DisableClearable, FreeSolo>;
 
-  const [selectedOption, setSelectedOption] = useState<ValuePropType | null>(null);
-  const [textFieldValue, setTextFieldValue] = useState("");
+  // Assign default fns for bi-directional conversion between `fieldValue` and `selectedOption`:
+
+  getFieldValueFromOption ??= (option) => {
+    return (option as { id?: string } | null)?.id ?? (option as string | null);
+  };
+
+  getOptionFromFieldValue ??= (fieldValueArg) => {
+    const targetOption = fieldValueArg
+      ? (options.find((opt) => getFieldValueFromOption(opt) === fieldValueArg) ?? fieldValueArg)
+      : fieldValueArg;
+    return targetOption as ValuePropType;
+  };
+
+  isOptionEqualToValue ??= (option, value) => {
+    return getFieldValueFromOption(option) === getFieldValueFromOption(value);
+  };
 
   const [
     { value: fieldValue, error: fieldIsInvalid, helperText: fieldErrorMessage, variant },
     { setValue: setFormFieldValue, setError: setFormFieldErrorMessage },
   ] = useFormikFieldProps<string | null>({
-    fieldID: id,
+    fieldID,
     variant: explicitTextFieldVariant,
     placeholder: explicitPlaceholder,
   });
 
-  // Defaults for getFieldValueFromOption and getOptionFromFieldValue:
-
-  const getFieldValueFromOption = caller_getFieldValueFromOption
-    ? caller_getFieldValueFromOption
-    : (opt: OptionType | ValuePropType | null) => {
-        const targetFieldValue = !!opt && "id" in opt ? opt.id : opt;
-        return targetFieldValue as string | null;
-      };
-
-  const getOptionFromFieldValue = caller_getOptionFromFieldValue
-    ? caller_getOptionFromFieldValue
-    : (fieldValueArg: string | null) => {
-        const targetOption = fieldValueArg
-          ? options.find((opt) => opt.id === fieldValueArg) ?? fieldValueArg
-          : fieldValueArg;
-        return targetOption as ValuePropType;
-      };
+  const [textFieldValue, setTextFieldValue] = useState("");
+  const [selectedOption, setSelectedOption] = useState<ValuePropType | null>(
+    getOptionFromFieldValue(fieldValue)
+  );
 
   /* This useEffect ensures that if the form field's value is set externally, the input is updated
   accordingly to reflect the new value. For example, during create operations in InvoiceForm, the
@@ -96,8 +101,8 @@ export const AutoComplete = <
   useEffect(() => {
     if (fieldValue !== getFieldValueFromOption(selectedOption)) {
       const newFieldValue = getOptionFromFieldValue(fieldValue);
-      // Ensure newFieldValue !undefined, which would cause Mui to think the comp is uncontrolled.
-      if (newFieldValue !== undefined) setSelectedOption(newFieldValue);
+      // Ensure `undefined` is not passed, which would cause Mui to think the comp is uncontrolled.
+      setSelectedOption(newFieldValue ?? null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fieldValue]);
@@ -128,16 +133,13 @@ export const AutoComplete = <
 
   // Assign a default renderInput if one isn't provided
   renderInput ??= ({ InputProps, ...params }) => (
-    <TextField
+    <StyledAutoCompleteTextField
       {...params}
       label={label}
       variant={variant}
       error={fieldIsInvalid}
       helperText={fieldErrorMessage}
-      InputProps={{
-        ...InputProps,
-        ...explicitTextFieldInputProps,
-      }}
+      InputProps={{ ...InputProps, ...explicitTextFieldInputProps }}
     />
   );
 
@@ -147,8 +149,8 @@ export const AutoComplete = <
 
   return (
     <StyledAutoComplete<OptionType, Multiple, DisableClearable, FreeSolo, ChipComponent>
-      id={id}
       options={options}
+      isOptionEqualToValue={isOptionEqualToValue}
       // state values and handlers:
       value={autoCompleteValue}
       onChange={handleChangeSelectedOption}
@@ -175,13 +177,22 @@ const StyledAutoComplete = styled(MuiAutocomplete, {
   shouldForwardProp: (propName: string) => !propName.startsWith("grid"),
 })<MuiGridSxProps>(muiGridSxProps) as typeof MuiAutocomplete;
 
+const StyledAutoCompleteTextField = styled(TextField)({
+  [`& .${autocompleteClasses.input}`]: {
+    lineHeight: "inherit",
+    overflow: "hidden",
+    whiteSpace: "pre",
+    textOverflow: "ellipsis",
+  },
+});
+
+///////////////////////////////////////////////////////////////////////////////
+// AutoComplete Props:
+
 /**
  * The base type for AutoComplete props. An optional type arg `OptionType` can be provided
  * to specify the type of option objects. If not provided, this type parameter defaults to
  * {@link BaseAutoCompleteOption|`BaseAutoCompleteOption`}.
- *
- * ### State Hooks:
- * - Use `doAfterSetSelectedOption` to perform additional operations with the selected option.
  *
  * ### Usage Notes:
  * - For grouped options, each option must have a `group` property string value.
@@ -197,12 +208,20 @@ export type AutoCompleteProps<
   FreeSolo extends boolean | undefined = false,
   ChipComponent extends React.ElementType = "div",
 > = Simplify<
-  SetOptional<
+  OverrideProperties<
     FormikIntegratedInputProps<
       MuiAutocompleteProps<BaseOptionType, Multiple, DisableClearable, FreeSolo, ChipComponent>,
       "onChange" | "onInputChange"
     >,
-    "renderInput"
+    {
+      renderInput?: AutoCompleteRenderInputFn;
+      renderOption?: (
+        props: React.HTMLAttributes<HTMLLIElement> & { key?: string | undefined },
+        option: BaseOptionType,
+        state: MuiAutocompleteRenderOptionState,
+        ownerState: MuiAutocompleteOwnerState<BaseOptionType, Multiple, DisableClearable, FreeSolo, ChipComponent> // prettier-ignore
+      ) => React.ReactNode;
+    }
   > & {
     groupBy?: (option: SetRequired<BaseOptionType, "group">) => string;
     // Custom functions:

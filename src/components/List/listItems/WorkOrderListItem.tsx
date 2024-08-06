@@ -8,7 +8,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Text from "@mui/material/Typography";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
 import { WorkOrderStatusIcon } from "@/components/Icons/WorkOrderStatusIcon";
-import type { WorkOrder } from "@/graphql/types";
+import type { WorkOrder } from "@/types/graphql.js";
 import type { Simplify } from "type-fest";
 
 /**
@@ -72,25 +72,12 @@ const WorkOrderListItemContent = ({ workOrder, userToDisplay }: WorkOrderListIte
       <ListItemText
         primary={
           <>
-            <Text
-              component="span"
-              sx={{
-                ...(!displayName && {
-                  color: "text.disabled",
-                  fontStyle: "italic",
-                }),
-              }}
-            >
+            <Text sx={{ ...(!displayName && { color: "text.disabled", fontStyle: "italic" }) }}>
               {displayName || "- Unassigned -"}
             </Text>
             <Text
               component="span"
-              style={{
-                fontSize: "0.8rem",
-                position: "absolute",
-                right: 0,
-                top: "0.1rem",
-              }}
+              style={{ fontSize: "0.8rem", position: "absolute", right: 0, top: "0.1rem" }}
             >
               {prettyCreatedAt}
             </Text>
@@ -100,11 +87,12 @@ const WorkOrderListItemContent = ({ workOrder, userToDisplay }: WorkOrderListIte
           <>
             <Text component="span" variant="body2" color="text.primary" style={{ opacity: 0.9 }}>
               {location.streetLine1}
+              <br />
             </Text>
             <Text component="span" variant="body2">
               {description}
             </Text>
-            <Tooltip title={prettyStatus} placement="top">
+            <Tooltip title={prettyStatus} placement="right">
               <WorkOrderStatusIcon
                 status={status}
                 style={{
@@ -118,6 +106,7 @@ const WorkOrderListItemContent = ({ workOrder, userToDisplay }: WorkOrderListIte
           </>
         }
         style={{ position: "relative", paddingRight: "3rem" }}
+        sx={{ "& *": { overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" } }}
       />
     </>
   );

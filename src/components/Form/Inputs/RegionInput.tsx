@@ -1,6 +1,11 @@
 import { useField } from "formik";
-import { AutoCompleteStates } from "./AutoCompleteStates";
-import { TextInput } from "./TextInput";
+import { AutoCompleteStates } from "./AutoCompleteStates.jsx";
+import { TextInput } from "./TextInput.jsx";
+
+export type RegionInputProps = {
+  countryFieldID: string;
+  regionFieldID: string;
+};
 
 /**
  * This Formik-integrated input is used to gather a location's _region_.
@@ -18,13 +23,8 @@ export const RegionInput = ({ countryFieldID, regionFieldID }: RegionInputProps)
   const [{ value: countryValue }] = useField<string | null | undefined>(countryFieldID);
 
   return countryValue === "USA" || !countryValue ? (
-    <AutoCompleteStates id={regionFieldID} label="State" />
+    <AutoCompleteStates fieldID={regionFieldID} label="State" />
   ) : (
-    <TextInput id={regionFieldID} label="Region" />
+    <TextInput fieldID={regionFieldID} label="Region" />
   );
-};
-
-export type RegionInputProps = {
-  countryFieldID: string;
-  regionFieldID: string;
 };

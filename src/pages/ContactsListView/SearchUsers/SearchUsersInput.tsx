@@ -6,16 +6,19 @@ import Backdrop from "@mui/material/Backdrop";
 import Grow from "@mui/material/Grow";
 import Popper from "@mui/material/Popper";
 import TextField from "@mui/material/TextField";
-import { useFormikFieldProps } from "@/components/Form/helpers/useFormikFieldProps";
-import { MUTATIONS } from "@/graphql/mutations";
-import { QUERIES } from "@/graphql/queries";
-import { SearchUsersContactOptionListItem } from "./SearchUsersContactOptionListItem";
-import { SearchUsersInputAdornmentBtn } from "./SearchUsersInputAdornmentBtn";
-import { SearchUsersPopperContent } from "./SearchUsersPopperContent";
-import { ariaElementIDs } from "./classNames";
-import { helpers } from "./helpers";
-import { useSearchUsersQuery } from "./useSearchUsersQuery";
-import type { Contact } from "@/graphql/types";
+import {
+  useFormikFieldProps,
+  type FormikFieldIdProp,
+} from "@/components/Form/helpers/useFormikFieldProps.js";
+import { MUTATIONS } from "@/graphql/mutations.js";
+import { QUERIES } from "@/graphql/queries.js";
+import { SearchUsersInputAdornmentBtn } from "./SearchUsersInputAdornmentBtn.jsx";
+import { SearchUsersOptionListItem } from "./SearchUsersOptionListItem.jsx";
+import { SearchUsersPopperContent } from "./SearchUsersPopperContent.jsx";
+import { ariaElementIDs } from "./classNames.js";
+import { helpers } from "./helpers.js";
+import { useSearchUsersQuery } from "./useSearchUsersQuery.js";
+import type { User } from "@/types/graphql.js";
 
 /**
  * **Search Users Input**
@@ -34,7 +37,7 @@ import type { Contact } from "@/graphql/types";
  *
  * - If INPUT-TYPE is EMAIL, only validate onBlur
  */
-export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) => {
+export const SearchUsersInput = ({ fieldID }: FormikFieldIdProp) => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [shouldUseMuiBackdrop, setShouldUseMuiBackdrop] = useState(false);
@@ -44,7 +47,6 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
   // TEXT FIELD PROPERTIES
   const [
     {
-      id,
       value: searchFieldValue,
       error: searchFieldHasError,
       helperText: _searchFieldErrMsg, // <-- currently unused
@@ -55,7 +57,7 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
     },
     { setValue: setSearchFieldValue, setError: setSearchFieldError },
   ] = useFormikFieldProps<string>({
-    fieldID: formikFieldID,
+    fieldID,
     label: "Search & Invite Users",
     shouldAlwaysRenderHelperText: false,
   });
@@ -105,9 +107,9 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
   const { options, optionsHandles, optionsByHandle } = searchUsersQueryData?.reduce(
     (
       acc: {
-        options: Array<Contact>;
-        optionsHandles: Array<Contact["handle"]>;
-        optionsByHandle: Record<string, Contact>;
+        options: Array<User>;
+        optionsHandles: Array<User["handle"]>;
+        optionsByHandle: Record<string, User>;
       },
       { handle, ...contactFields }
     ) => ({
@@ -228,7 +230,7 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
 
   // prettier-ignore
   const autoCompleteRenderOption: AutocompleteProps<string, false, false, true>["renderOption"] = (props, handle) => (
-    <SearchUsersContactOptionListItem contact={optionsByHandle[handle]} {...props} />
+    <SearchUsersOptionListItem user={optionsByHandle[handle]} {...props} />
   );
 
   // prettier-ignore
@@ -260,7 +262,7 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
     <>
       <Backdrop open={!!popperAnchorEl && shouldUseMuiBackdrop} />
       <AutoComplete<string, false, false, true>
-        id={id}
+        id={fieldID}
         options={optionsHandles}
         open={isAutoCompleteOpen}
         ref={popperAnchorElRef}
@@ -322,7 +324,3 @@ const StyledPopper = styled(Popper)(({ theme: { variables } }) => ({
   minWidth: variables.isMobilePageLayout ? "min(100%, calc(100dvw - 2rem))" : "14rem", // 14rem = width of non-mobile CreateItemButton
   maxWidth: "calc(100dvw - 2rem)",
 }));
-
-export type SearchUsersInputProps = {
-  id: string;
-};

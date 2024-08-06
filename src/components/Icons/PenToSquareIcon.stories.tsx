@@ -1,4 +1,4 @@
-import { PenToSquareIcon as PenToSquareIconFC } from "./PenToSquareIcon";
+import { PenToSquareIcon as PenToSquareIconFC } from "./PenToSquareIcon.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

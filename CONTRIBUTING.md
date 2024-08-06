@@ -23,24 +23,27 @@ This project uses [GitHub Flow](https://guides.github.com/introduction/flow/), s
 
 ## Project Layout
 
-- [`.github/`](/.github) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; GitHub Actions and other GitHub-related files
-- [`.storybook/`](/.storybook) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Storybook configs and decorators
-- [`fixit@current.graphql`](/fixit%40current.graphql) &nbsp; &nbsp; The Fixit API GraphQL schema
-- [`public/`](/public) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; App manifest, favicon, and other dist files
-- [`src/`](/src) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Source code root dir
-  - [`src/app/`](/src/app) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;High-level app structure and features
-  - [`src/components/`](/src/components) &nbsp; &nbsp; &nbsp; &nbsp;Reusable JSX components
-  - [`src/graphql/`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; GraphQL queries and mutations
-  - [`src/hooks/`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Reusable React hooks
-  - [`src/images/`](/src/images) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; In-app image assets (included with build bundle)
-  - [`src/layouts/`](/src/config) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Reusable page layout components
-  - [`src/pages/`](/src/pages) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Application pages (nav targets)
-  - [`src/routes/`](/src/routers) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Routers and other nav-related components
-  - [`src/services/`](/src/services) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;HTTP handlers for the Fixit and Stripe APIs
-  - [`src/stores/`](/src/types) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [Apollo Reactive vars](https://www.apollographql.com/docs/react/local-state/reactive-variables/) and other state stores
-  - [`src/tests/`](/src/types) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Test setup and mocks
-  - [`src/types/`](/src/types) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Ambient typedefs and shared types
-  - [`src/utils/`](/src/utils) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Helper functions for formatting, logging, etc.
+| Dir                                             | Purpose                                                           |
+| :---------------------------------------------- | :---------------------------------------------------------------- |
+| [**`.github/`**](/.github)                      | GitHub Actions workflows and other GitHub-related files           |
+| [**`.storybook/`**](/.storybook)                | Storybook configs and decorators                                  |
+| [**`public/`**](/public)                        | App manifest, favicon, and other dist files                       |
+| [**`src/`**](/src)                              | Source code                                                       |
+| &emsp; [**`src/app/`**](/src/app)               | High-level app structure and features                             |
+| &emsp; [**`src/components/`**](/src/components) | Reusable JSX components                                           |
+| &emsp; [**`src/graphql/`**](/src/graphql)       | GraphQL queries and mutations                                     |
+| &emsp; [**`src/hooks/`**](/src/hooks)           | Reusable React hooks                                              |
+| &emsp; [**`src/images/`**](/src/images)         | In-app image assets                                               |
+| &emsp; [**`src/layouts/`**](/src/layouts)       | Reusable page layout components                                   |
+| &emsp; [**`src/pages/`**](/src/pages)           | Application pages                                                 |
+| &emsp; [**`src/routes/`**](/src/routes)         | Routing-related components, constants, and utils                  |
+| &emsp; [**`src/services/`**](/src/services)     | REST API service handlers                                         |
+| &emsp; [**`src/stores/`**](/src/stores)         | [Apollo Reactive vars][reactive-vars-docs] and other state stores |
+| &emsp; [**`src/tests/`**](/src/tests)           | Test setup and global mocks                                       |
+| &emsp; [**`src/types/`**](/src/types)           | Ambient typedefs and shared types                                 |
+| &emsp; [**`src/utils/`**](/src/utils)           | Helper functions for formatting, logging, etc.                    |
+
+[reactive-vars-docs]: https://www.apollographql.com/docs/react/local-state/reactive-variables/
 
 ## Commit Messages
 
@@ -62,7 +65,7 @@ This project uses [Semantic Release](https://github.com/semantic-release/semanti
 >
 > The robot minions work hard to manage these - **_please don't upset them_** 🤖
 
-Once tests are passing on your pull request, and it has been approved by a maintainer, it will be merged into the `next` branch, which will trigger a versioned pre-release. After final review and approval of the pre-release build, a maintainer will merge `next` into `main`, which will trigger a release build of the package to be published to [npm](https://www.npmjs.com/package/fixit-web).
+Once tests are passing on your pull request, and it has been approved by a maintainer, it will be merged into the `next` branch, which will trigger a versioned pre-release. After final review and approval of the pre-release build, a maintainer will merge `next` into `main`, which will trigger a release build.
 
 ## Code of Conduct
 

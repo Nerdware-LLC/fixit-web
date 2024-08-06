@@ -3,8 +3,8 @@ import Divider from "@mui/material/Divider";
 import Text from "@mui/material/Typography";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import SendIcon from "@mui/icons-material/Send";
-import { SmallWidgetLayout } from "@/components/Widgets/SmallWidgetLayout";
-import { fmt } from "@/utils/formatters";
+import { SmallWidgetLayout } from "@/components/Widgets/SmallWidgetLayout.jsx";
+import { intToCurrencyStr } from "@/utils/formatters/currency.js";
 import { useDashboardDataContext } from "./DashboardDataContext";
 
 // IDEA Add btns which open Invoices table with filters: status=OPEN,listName=Inbox|Sent
@@ -142,7 +142,7 @@ const InvoiceStat = ({ label, amount }: { label: "Total" | "Average"; amount: nu
       <Text
         style={{
           /* The below width ensures "Total" and "Average" always wrap/unwrap
-        together (the 8.15 figure accounts for difference in char length).*/
+          together (the 8.15 figure accounts for difference in char length).*/
           width: label === "Total" ? "8.150625rem" : "6.925rem",
           maxWidth: "100%",
           fontSize: "1.35rem",
@@ -152,7 +152,7 @@ const InvoiceStat = ({ label, amount }: { label: "Total" | "Average"; amount: nu
           textAlign: "right",
         }}
       >
-        $ {fmt.intToCurrencyStr(amount).slice(1, -3) || 0}
+        $ {intToCurrencyStr(amount).slice(1, -3) || 0}
       </Text>
     </Box>
   );

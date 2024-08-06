@@ -1,6 +1,6 @@
 import { useFormikContext } from "formik";
-import { BaseFormSubmitButton, type BaseFormSubmitButtonProps } from "./BaseFormSubmitButton";
-import { formClassNames } from "./classNames";
+import { BaseFormSubmitButton, type BaseFormSubmitButtonProps } from "./BaseFormSubmitButton.jsx";
+import { formClassNames } from "./classNames.js";
 import type { Simplify } from "type-fest";
 
 /**

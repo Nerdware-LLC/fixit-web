@@ -1,18 +1,17 @@
 import { InMemoryCache } from "@apollo/client/cache";
 import { ENV } from "@/app/env";
-import { queryTypePolicies } from "./typePolicies";
+import { typePolicies } from "./typePolicies";
 
 export const apolloCache = new InMemoryCache({
-  typePolicies: {
-    ...queryTypePolicies,
-  },
+  addTypename: true, // Automatically add `__typename` to all queried fields
+  typePolicies,
   possibleTypes: {
-    FixitUser: ["Contact", "User"],
+    PublicUserFields: ["Contact", "User"],
   },
 });
 
-// In staging and production, enable cache persistance in localStorage.
-if (/^(prod|staging)/i.test(ENV.MODE) && !ENV.IS_STORYBOOK) {
+// In staging and production, enable cache persistance in localStorage
+if (ENV.IS_DEPLOYED_ENV && !ENV.IS_STORYBOOK) {
   const { persistCache } = await import("apollo3-cache-persist");
 
   await persistCache({

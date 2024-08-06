@@ -2,18 +2,18 @@ import { styled } from "@mui/material/styles";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import DollarIcon from "@mui/icons-material/AttachMoney";
 import TimelineIcon from "@mui/icons-material/Timeline";
-import { ContactAvatar } from "@/components/Avatar/ContactAvatar";
-import { InvoiceStatusChip } from "@/components/Chips/InvoiceStatusChip";
+import { ContactAvatar } from "@/components/Avatar";
+import { InvoiceStatusChip } from "@/components/Chips/InvoiceStatusChip.jsx";
 import {
   ItemDetails,
   ItemDetailsGroup,
   InvoiceWorkOrderDetails,
   dataDisplayClassNames,
 } from "@/components/DataDisplay";
-import { fmt } from "@/utils/formatters";
-import { InvoiceStatusTracker } from "./InvoiceStatusTracker";
-import { invoiceItemViewElementIDs } from "./elementIDs";
-import type { Invoice } from "@/graphql/types";
+import { intToCurrencyStr, getDateStr } from "@/utils/formatters";
+import { InvoiceStatusTracker } from "./InvoiceStatusTracker.jsx";
+import { invoiceItemViewElementIDs } from "./elementIDs.js";
+import type { Invoice } from "@/types/graphql.js";
 
 export const InvoiceItemViewContent = ({ invoice }: { invoice: Invoice }) => {
   const { amount, createdBy, assignedTo, status, workOrder, createdAt } = invoice;
@@ -25,7 +25,7 @@ export const InvoiceItemViewContent = ({ invoice }: { invoice: Invoice }) => {
         label="Amount"
         labelIcon={<DollarIcon />}
       >
-        <Text>{fmt.intToCurrencyStr(amount)}</Text>
+        <Text>{intToCurrencyStr(amount)}</Text>
       </ItemDetailsGroup>
 
       <ItemDetails gridArea="status" label="Status">
@@ -33,7 +33,7 @@ export const InvoiceItemViewContent = ({ invoice }: { invoice: Invoice }) => {
       </ItemDetails>
 
       <ItemDetails gridArea="createdAt" label="Created">
-        {fmt.getDateStr(createdAt)}
+        {getDateStr(createdAt)}
       </ItemDetails>
 
       <InvoiceWorkOrderDetails gridArea="work-order" workOrder={workOrder} />
@@ -57,70 +57,51 @@ export const InvoiceItemViewContent = ({ invoice }: { invoice: Invoice }) => {
   );
 };
 
-const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } }) => ({
+const StyledDiv = styled("div")(({ theme: { palette, breakpoints } }) => ({
   display: "grid",
   gridAutoRows: "min-content",
-  ...(variables.isMobilePageLayout
-    ? {
-        gap: "1rem",
-        // 0-width col creates 1rem "left-padding" for middle col
-        gridTemplateColumns: "0 minmax(0,1fr) minmax(0,1fr)",
-        gridTemplateAreas: `
-            "amount          amount          amount"
-            ".               createdAt       status"
-            ".               createdBy       assignedTo"
-            ".               work-order      ."
-            "status-tracker  status-tracker  status-tracker"`,
-      }
-    : {
-        // Compact layout for smaller viewports
-        gap: "1rem",
-        gridTemplateColumns:
-          "minmax(min-content,2fr) minmax(8rem,1fr) minmax(8rem,1fr) minmax(min-content,1.5fr)",
-        gridTemplateAreas: `
-            "amount          status          createdAt       work-order"
-            "amount          assignedTo      createdBy       work-order"
-            "status-tracker  status-tracker  status-tracker  work-order"`,
 
-        [breakpoints.up("lg")]: {
-          gridTemplateColumns:
-            "minmax(min-content,2fr) 0 minmax(8rem,1fr) minmax(8rem,1fr) minmax(min-content,1.5fr)",
-          gridTemplateAreas: `
-            "amount          .               status          createdAt       work-order"
-            "amount          .               assignedTo      createdBy       work-order"
-            "status-tracker  status-tracker  status-tracker  status-tracker  work-order"`,
-        },
-        [breakpoints.up("xl")]: {
-          gap: "3rem",
-          gridTemplateColumns:
-            "minmax(min-content,2fr) minmax(0,1fr) minmax(8rem,1fr) minmax(8rem,1fr) minmax(min-content,1.5fr)",
-        },
-      }),
+  gap: "2rem 1rem",
+  gridTemplateColumns: "minmax(0,0.5fr) repeat(2, 40vw) minmax(0,0.5fr)",
+  gridTemplateAreas: `
+    "amount          amount          amount          amount"
+    ".               createdAt       status          ."
+    ".               createdBy       assignedTo      ."
+    "work-order      work-order      work-order      work-order"
+    "status-tracker  status-tracker  status-tracker  status-tracker"`,
+
+  // WIDEN LAYOUT FOR lg+ VIEWPORTS
+  [breakpoints.up("lg")]: {
+    gap: "2rem",
+    gridTemplateColumns:
+      "minmax(min-content,2fr) minmax(8rem,1fr) minmax(8rem,1fr) minmax(min-content,1.5fr)",
+    gridTemplateAreas: `
+      "amount          status          createdAt       work-order"
+      "amount          assignedTo      createdBy       work-order"
+      "status-tracker  status-tracker  status-tracker  work-order"`,
+  },
 
   // ItemDetails containers (status, createdAt, createdBy, assignedTo)
   [`& > .${dataDisplayClassNames.root}`]: {
-    height: "min-content",
-    ...(!variables.isMobilePageLayout && {
-      alignSelf: "center",
-    }),
+    height: "100%",
+    alignSelf: "center",
   },
 
   // Grid Area: amount
   [`& #${invoiceItemViewElementIDs.contentAmountIDG}`]: {
     gridArea: "amount",
-    width: variables.isMobilePageLayout ? "100%" : "min-content",
-    maxWidth: "calc(100vw - 1rem)",
+    minWidth: "100%",
+    [breakpoints.up("lg")]: { minWidth: "66%" },
+    maxWidth: "max-content",
+
     display: "flex",
     flexDirection: "column",
-    // Hide header on mobile
+
+    // Only show Amount IDG header on lg+ viewports
     [`& > .${dataDisplayClassNames.groupHeader}`]: {
-      ...(variables.isMobilePageLayout && {
-        display: "none",
-      }),
-      "& svg": {
-        marginRight: "0.5rem",
-      },
+      [breakpoints.down("lg")]: { display: "none" },
     },
+
     [`& > .${dataDisplayClassNames.groupContent}`]: {
       flexGrow: 1,
       justifyContent: "center",

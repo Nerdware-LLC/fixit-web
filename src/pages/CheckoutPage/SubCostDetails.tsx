@@ -1,151 +1,127 @@
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import { chipClasses as muiChipClasses } from "@mui/material/Chip";
+import { chipClasses } from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { checkoutValuesStore } from "@/stores";
-import { fmt } from "@/utils/formatters";
-import { PromoCodeInput } from "./PromoCodeInput";
-import { SwitchToAnnual } from "./SwitchToAnnual";
-import { checkoutPageClassNames } from "./classNames";
-import { checkoutPageElementIDs } from "./elementIDs";
-import { SUB_PRICING_DISPLAY_CONFIGS, getPrice_FOR_DISPLAY_ONLY } from "./helpers";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore.js";
+import { SUB_PRICING_DISPLAY_CONFIGS } from "@/types/UserSubscription.js";
+import { intToCurrencyStr, getPrice_FOR_DISPLAY_ONLY } from "@/utils/formatters/currency.js";
+import { PromoCodeInput } from "./PromoCodeInput.js";
+import { SwitchToAnnual } from "./SwitchToAnnual.js";
+import { checkoutPageClassNames } from "./classNames.js";
+import { checkoutPageElementIDs } from "./elementIDs.js";
 
 /**
  * **SubCostDetails** displays pricing info the the user.
  *
- * > `The values used here are for DISPLAY PURPOSES ONLY and merely
- *   convey information to the user. All pricing/product info is stored
- *   and calculated by the backend API. Sending invalid pricing/product
- *   info to the server results a 400 response.`
+ * > `This component is for DISPLAY PURPOSES ONLY and merely conveys information to the user.
+ * >  All pricing/product info is stored and calculated by the backend API.
+ * >  Sending invalid pricing/product info to the server results in a 400 response.`
  */
 export const SubCostDetails = () => {
   // Route protection guarantees that these values are defined, hence the as cast
   const { selectedSubscription, discountPercentage: discount } =
-    checkoutValuesStore.useSubToStore<true>();
+    checkoutValuesStore.useSubToStore();
 
-  const { label, price, billingPeriod, trialDays, afterTrial } =
-    SUB_PRICING_DISPLAY_CONFIGS[selectedSubscription];
+  const { label, price, billingPeriod, isTrial, trialDays, afterTrial } =
+    SUB_PRICING_DISPLAY_CONFIGS[selectedSubscription!];
 
-  const priceStr = fmt.intToCurrencyStr(price);
-  const afterTrialPriceStr = afterTrial ? fmt.intToCurrencyStr(afterTrial.price) : null;
+  // Note: TRIAL subs are not ellible for promo-code discounts
+  const basePriceStr = intToCurrencyStr(isTrial ? afterTrial.price : price);
+  const maybeDiscountedPriceStr = isTrial
+    ? basePriceStr
+    : getPrice_FOR_DISPLAY_ONLY(price, discount);
 
   return (
     <StyledDiv>
       <div id={checkoutPageElementIDs.priceHeaderRoot}>
         <Text>{label}</Text>
         <div>
-          <Text>{billingPeriod ? priceStr : `${trialDays} days free`}</Text>
+          <Text>{isTrial ? `${trialDays} days free` : basePriceStr}</Text>
           {!!billingPeriod && <span>{`per\n${billingPeriod}`}</span>}
         </div>
       </div>
       <Box
-        style={{ borderWidth: "1px", borderStyle: "solid", borderRadius: "5px" }}
-        borderColor="divider"
+        sx={({ palette }) => ({
+          paddingTop: "1rem",
+          border: `1px solid ${palette.divider}`,
+          borderRadius: "5px",
+        })}
       >
         <div className={checkoutPageClassNames.priceInfoRow}>
-          <Text style={{ whiteSpace: "normal" }}>Fixit Subscription</Text>
-          <Text style={{ textAlign: "right" }}>
-            {billingPeriod ? `${priceStr} / ${billingPeriod}` : `${trialDays} days free`}
-          </Text>
+          <Text>Fixit Subscription</Text>
+          <Text>{isTrial ? `${trialDays} days free` : `${basePriceStr} / ${billingPeriod}`}</Text>
         </div>
-        <div
-          className={checkoutPageClassNames.priceInfoRow}
-          style={{ maxHeight: "1rem", alignItems: "flex-end" }}
-        >
-          <Text variant="body2">
-            {billingPeriod
-              ? `Billed ${billingPeriod}ly`
-              : afterTrial && afterTrialPriceStr
-                ? `Then ${afterTrialPriceStr} per ${afterTrial.billingPeriod} thereafter`
-                : ""}
-          </Text>
-        </div>
+        <Text variant="body2" style={{ padding: "1rem" }}>
+          {isTrial
+            ? `Then ${basePriceStr} per ${afterTrial.billingPeriod} thereafter`
+            : `Billed ${billingPeriod}ly`}
+        </Text>
         <SwitchToAnnual />
       </Box>
       <div className={checkoutPageClassNames.priceInfoRow}>
         <Text>Subtotal</Text>
-        <Text>{priceStr}</Text>
+        <Text>{maybeDiscountedPriceStr}</Text>
       </div>
-      {selectedSubscription !== "TRIAL" && (
-        <>
-          <Divider />
-          <PromoCodeInput />
-        </>
+      <Divider />
+      {isTrial ? (
+        <Box
+          className={checkoutPageClassNames.priceInfoRow}
+          sx={{ backgroundColor: "divider", padding: "1rem !important" }}
+        >
+          <Text>Total after trial</Text>
+          <Text>{basePriceStr}</Text>
+        </Box>
+      ) : (
+        <PromoCodeInput />
       )}
       <Divider />
-      {!!afterTrial && (
-        <div className={checkoutPageClassNames.priceInfoRow} style={{ paddingBottom: 0 }}>
-          <Text>Total after trial</Text>
-          <Text>
-            {getPrice_FOR_DISPLAY_ONLY(afterTrial.price, discount, { formatAsCurrency: true })}
-          </Text>
-        </div>
-      )}
-      <div className={checkoutPageClassNames.priceInfoRow} style={{ paddingBottom: 0 }}>
+      <div className={checkoutPageClassNames.priceInfoRow}>
         <Text>Total due today</Text>
-        <Text>{getPrice_FOR_DISPLAY_ONLY(price, discount, { formatAsCurrency: true })}</Text>
+        <Text>{isTrial ? "$0.00" : maybeDiscountedPriceStr}</Text>
       </div>
     </StyledDiv>
   );
 };
 
-const StyledDiv = styled("div")({
-  height: "100%",
+const StyledDiv = styled("div")(({ theme: { palette } }) => ({
   width: "100%",
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
   whiteSpace: "nowrap",
+  gap: "1rem",
+  flexGrow: 1,
 
-  // DEFAULT body1 TEXT SLIGHTLY LARGER THAN NORMAL:
-  [`& .${typographyClasses.body1}`]: {
-    fontSize: "clamp(1rem, 4vw, 1.15rem)",
-    lineHeight: "1.5rem",
-  },
-
-  [`& > #${checkoutPageElementIDs.priceHeaderRoot}`]: {
-    marginBottom: "1rem",
-
-    "& > div:first-of-type": {
-      display: "flex",
-      alignItems: "center",
-      whiteSpace: "pre",
-
-      [`& > .${typographyClasses.root}:first-of-type`]: {
-        fontSize: "clamp(2.5rem, 10vw, 3rem)",
-        lineHeight: "3.25rem",
-        margin: "0 0.5rem 0 0",
-      },
-
-      "& > span:first-of-type": {
-        width: "100%",
-        display: "inline-block",
-        whiteSpace: "pre",
-        fontWeight: "normal",
-        lineHeight: "1.35rem",
-      },
-
-      [`& > .${typographyClasses.root}.${typographyClasses.caption}`]: {
-        margin: "0.1rem 0 0 0",
-      },
-    },
-  },
-
-  [`& .${checkoutPageClassNames.priceInfoRow}`]: {
-    position: "relative",
-    width: "100%",
-    padding: "1rem",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: "1rem",
-  },
-
-  [`& .${muiChipClasses.root}`]: {
-    marginLeft: "auto",
+  // DEFAULTS FOR ALL DESCENDANT MUI <Text(body1)> AND <Chip> ELEMENTS:
+  [`& .${typographyClasses.body1}`]: { fontSize: "clamp(1rem, 4vw, 1.15rem)" },
+  [`& .${chipClasses.root}`]: {
     fontWeight: "bold",
     borderRadius: "3px",
+    backgroundColor: palette.success.main,
+    color: palette.success.contrastText,
+    // The below styles effectively set Chip size="small"
+    height: "1.5rem",
+    [`& > .${chipClasses.label}`]: { padding: "0 0.5rem" },
   },
-});
+
+  [`& > #${checkoutPageElementIDs.priceHeaderRoot} > div`]: {
+    display: "flex",
+    alignItems: "center",
+    whiteSpace: "pre",
+
+    [`& > .${typographyClasses.root}`]: {
+      fontSize: "clamp(2.5rem, 10vw, 3rem)",
+      lineHeight: "3.25rem",
+      marginRight: "0.5rem",
+    },
+
+    "& > span": {
+      width: "100%",
+      display: "inline-block",
+      whiteSpace: "pre",
+      fontWeight: "normal",
+      lineHeight: "1.35rem",
+    },
+  },
+}));

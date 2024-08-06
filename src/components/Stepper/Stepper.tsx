@@ -3,10 +3,10 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import MuiStepper from "@mui/material/Stepper";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { StepContentContainer } from "./StepContentContainer";
-import { StepIconContainer } from "./StepIconContainer";
-import { stepperClassNames as classNames } from "./classNames";
-import type { StepperProps } from "./types";
+import { StepContentContainer } from "./StepContentContainer.jsx";
+import { StepIconContainer } from "./StepIconContainer.jsx";
+import { stepperClassNames as classNames } from "./classNames.js";
+import type { StepperProps } from "./types.js";
 
 /**
  * A Mui `Stepper` component with app-specific logic and styles.
@@ -58,7 +58,7 @@ export const Stepper = ({
             >
               {`${index + 1}. ${label}`}
             </StepLabel>
-            {useVerticalOrientation && index === activeStepIndex && content && (
+            {useVerticalOrientation && index === activeStepIndex && (
               <StepContentContainer content={content} useVerticalOrientation={true} />
             )}
           </Step>
@@ -89,11 +89,9 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
           stepCaptionMarginLeft: 0,
         };
 
-  // Light/Dark mode-dependent values:
-  const connectorColor = palette.mode === "dark" ? "#757575" : "rgba(0,0,0,0.87)";
-
   return {
-    width: "auto",
+    width: variables.isMobilePageLayout ? "auto" : "100%",
+    minWidth: "min-content",
     alignSelf: "center",
 
     [`& > .${classNames.stepper.root}`]: {
@@ -110,49 +108,12 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
 
       // STEPS
       [`& > .${classNames.step.root}`]: {
-        // Set a min-width for steps in horizontal layout
-        [`&.${classNames.step.horizontal}`]: {
-          minWidth: "max(15rem, fit-content)",
-        },
-
-        /* The below css provides a small connector extension above+below/left+right of
-        step icon containers depending on the orientation (ignores first and last steps),
-        which is sometimes necessary for gaps not to appear in the connectors. The icon
-        containers do not receive the orientation-class, hence the nested selectors. */
-        [`&:not(:first-of-type):not(:last-of-type)`]: {
-          [`& .${classNames.stepLabel.iconContainer}`]: {
-            position: "relative",
-            zIndex: 1,
-            "&::after": {
-              overflow: "hidden",
-              position: "absolute",
-              zIndex: -1,
-              content: '""',
-              display: "inline-block",
-              alignSelf: "center",
-            },
-          },
-          [`&.${classNames.step.vertical} .${classNames.stepLabel.iconContainer}::after`]: {
-            left: `calc( ${iconContainerSize} / 2 )`,
-            height: "calc(100% + 3rem)",
-            borderLeft: `1px solid ${connectorColor}`,
-          },
-          [`&.${classNames.step.horizontal} .${classNames.stepLabel.iconContainer}::after`]: {
-            top: `calc( ${iconContainerSize} / 2 )`,
-            left: "-50%",
-            width: "calc(100% + 6rem)",
-            borderBottom: `1px solid ${connectorColor}`,
-          },
-        },
+        overflow: "visible",
 
         // STEP LABELS
         [`& > .${classNames.stepLabel.root}`]: {
           // step-label-root is a flex row on VERTICAL, flex col on HORIZONTAL
           padding: 0,
-
-          [`&.${classNames.stepLabel.horizontal}`]: {
-            minWidth: "10rem",
-          },
 
           [`& > .${classNames.stepLabel.iconContainer}`]: {
             width: iconContainerSize,

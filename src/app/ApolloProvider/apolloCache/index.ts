@@ -1,1 +1,1 @@
-export * from "./apolloCache";
+export * from "./apolloCache.js";

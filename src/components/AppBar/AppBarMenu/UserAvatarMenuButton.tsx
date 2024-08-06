@@ -5,9 +5,9 @@ import IconButton, { type IconButtonProps } from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { paperClasses } from "@mui/material/Paper";
-import { AvatarMyProfile } from "@/components/Avatar/AvatarMyProfile";
-import { appBarMenuElementIDs } from "./elementIDs";
-import type { AppBarMenuOptionConfigs } from "./useAppBarMenuOptionConfigs";
+import { AvatarMyProfile } from "@/components/Avatar/AvatarMyProfile.jsx";
+import { appBarMenuElementIDs } from "./elementIDs.js";
+import type { AppBarMenuOptionConfigs } from "./useAppBarMenuOptionConfigs.jsx";
 
 export const UserAvatarMenuButton = ({
   appState,

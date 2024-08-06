@@ -21,10 +21,15 @@ if (/^(dev|staging|prod)/i.test(ENV.MODE) && !ENV.IS_STORYBOOK && !!ENV.SENTRY_D
         createRoutesFromChildren,
         matchRoutes,
       }),
+      Sentry.replayIntegration(),
+    ],
+    tracePropagationTargets: [
+      ENV.IS_DEPLOYED_ENV ? /^https:\/\/(www\.)?((demo|staging)\.)?gofixit.app/ : /localhost/,
     ],
     tracesSampleRate: 0.5,
-    tracePropagationTargets: ["localhost", /^https:\/\/(www\.)?((demo|staging)\.)?gofixit.app/],
-    ...(/^(staging|prod)/i.test(ENV.MODE) && {
+    replaysSessionSampleRate: 0.1, // Capture Replay for 10% of all sessions
+    replaysOnErrorSampleRate: 1.0, // Capture Replay for 100% of sessions with an error
+    ...(ENV.IS_DEPLOYED_ENV && {
       tunnel: "/sentry-proxy",
     }),
   });

@@ -5,8 +5,8 @@ import EngineerCogsIcon from "@mui/icons-material/EngineeringRounded";
 import ExclamationMarkIcon from "@mui/icons-material/ErrorOutline";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
 import ClockDottedOutlineIcon from "@mui/icons-material/HistoryToggleOffRounded";
-import { useMaybeRef } from "@/hooks/useMaybeRef";
-import type { WorkOrderStatus } from "@/graphql/types";
+import { useMaybeRef } from "@/hooks/useMaybeRef.js";
+import type { WorkOrderStatus } from "@/types/graphql.js";
 import type { SvgIconProps } from "@mui/material/SvgIcon";
 
 export const WorkOrderStatusIcon = forwardRef<SVGSVGElement, WorkOrderStatusIconProps>(

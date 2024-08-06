@@ -1,3 +1,4 @@
-export * from "./CoreItemsListView";
-export * from "./classNames";
-export * from "./types";
+export * from "./CoreItemsListView.jsx";
+
+export * from "./classNames.js";
+export * from "./types.js";

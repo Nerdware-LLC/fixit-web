@@ -1,3 +1,3 @@
-export * from "./DevTools";
-export * from "./DemoInfo";
-export * from "./DemoInfoDialog";
+export * from "./DevTools.jsx";
+export * from "./DemoInfo.jsx";
+export * from "./DemoInfoDialog.jsx";

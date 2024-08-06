@@ -2,9 +2,9 @@ import { forwardRef } from "react";
 import { styled } from "@mui/material/styles";
 import MuiAvatar from "@mui/material/Avatar";
 import Text from "@mui/material/Typography";
-import { useMaybeRef } from "@/hooks/useMaybeRef";
-import { avatarClassNames } from "./classNames";
-import type { Profile } from "@/graphql/types";
+import { useMaybeRef } from "@/hooks/useMaybeRef.js";
+import { avatarClassNames } from "./classNames.js";
+import type { Profile } from "@/types/graphql.js";
 import type { AvatarProps as MuiAvatarProps } from "@mui/material/Avatar";
 import type { Simplify, Except } from "type-fest";
 
@@ -41,7 +41,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
   // is unavailable and `fallback` is null/undefined.
   const alt =
     explicitAltProp ||
-    avatarProps?.alt ||
+    avatarProps.alt ||
     profile?.displayName ||
     profile?.businessName ||
     profile?.givenName ||

@@ -1,8 +1,10 @@
 import { useState, useMemo, type SyntheticEvent } from "react";
-import Tab from "@mui/material/Tab";
+import { styled } from "@mui/material/styles";
+import MuiTab from "@mui/material/Tab";
 import MuiTabs, { type TabsProps as MuiTabsProps } from "@mui/material/Tabs";
-import { TabPanel, type TabPanelProps } from "./TabPanel";
-import { getTabComponentIDs } from "./helpers";
+import { TabPanel, type TabPanelProps } from "./TabPanel.jsx";
+import { tabsClassNames } from "./classNames.js";
+import { getTabComponentIDs } from "./helpers.js";
 import type { SetRequired } from "type-fest";
 
 /**
@@ -37,21 +39,21 @@ export const Tabs = ({
 
   return (
     <>
-      <MuiTabs
+      <StyledMuiTabs
         value={activeTabIndex}
         onChange={handleChangeActiveTabIndex}
         aria-label={tabsAriaLabel}
         {...muiTabsProps}
       >
         {tabConfigs.map(({ tabLabel, tabID, tabPanelID }) => (
-          <Tab
+          <MuiTab
             key={`Tab:${tabID}`}
             label={tabLabel}
             id={tabID} //                 matches TabPanel's aria-labelledby
             aria-controls={tabPanelID} // matches TabPanel's id
           />
         ))}
-      </MuiTabs>
+      </StyledMuiTabs>
       {tabConfigs.map(({ tabPanelID, tabID, tabContent, tabIndex }) => (
         <TabPanel
           key={`TabPanel:${tabPanelID}`}
@@ -66,6 +68,31 @@ export const Tabs = ({
     </>
   );
 };
+
+const StyledMuiTabs = styled(MuiTabs)(({ theme: { palette, variables } }) => ({
+  borderWidth: "0 0 1px 0",
+  borderStyle: "solid",
+  borderColor: palette.divider,
+
+  padding: "0 0.5rem",
+  /* The above padding ensures the active tab's bottom highlight doesn't touch
+  the side, so a little gray border-bottom will always show on Tabs L and R. */
+
+  [`& .${tabsClassNames.muiTabs.flexContainer}`]: {
+    gap: "0.5rem",
+    justifyContent: "flex-start",
+
+    ...(variables.isMobilePageLayout && {
+      justifyContent: "space-around",
+
+      [`& > .${tabsClassNames.muiTab.root}`]: {
+        flexGrow: 1,
+        maxWidth: "45%",
+        padding: "0.3rem 0 0 0",
+      },
+    }),
+  },
+}));
 
 export type TabsProps = {
   tabsContentMap: Record<string, React.ReactNode>;

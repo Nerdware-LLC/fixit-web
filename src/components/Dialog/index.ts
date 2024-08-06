@@ -1,3 +1,4 @@
-export * from "./Dialog";
-export * from "./useDialog";
-export * from "./elementIDs";
+export * from "./Dialog.jsx";
+
+export * from "./useDialog.js";
+export * from "./elementIDs.js";

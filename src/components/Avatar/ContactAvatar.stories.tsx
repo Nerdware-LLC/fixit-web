@@ -1,7 +1,9 @@
-import { expect } from "@storybook/jest";
-import { within, userEvent } from "@storybook/testing-library";
-import { withNavDecorator, type NavDecoratorArgs } from "@/../.storybook/decorators/NavDecorator";
-import { ContactAvatar, type ContactAvatarProps } from "./ContactAvatar";
+import { expect, within, userEvent } from "@storybook/test";
+import {
+  withNavDecorator,
+  type NavDecoratorArgs,
+} from "@/../.storybook/decorators/NavDecorator.jsx";
+import { ContactAvatar, type ContactAvatarProps } from "./ContactAvatar.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

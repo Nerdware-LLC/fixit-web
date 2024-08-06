@@ -1,6 +1,6 @@
 import { object as yupObject } from "yup";
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
-import { TextInput, type TextInputProps } from "./TextInput";
+import { TextInput, type TextInputProps } from "./TextInput.jsx";
 import { yupCommonSchema } from "../helpers";
 import type { Meta, StoryObj } from "@storybook/react";
 
@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicDemo = {
   args: {
-    id: "text",
+    fieldID: "text",
     label: "Foo Text",
     placeholder: "Type some text here ...",
 

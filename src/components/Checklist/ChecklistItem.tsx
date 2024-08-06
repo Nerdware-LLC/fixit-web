@@ -2,10 +2,10 @@ import { styled } from "@mui/material/styles";
 import Text, { type TypographyProps } from "@mui/material/Typography";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import EmptyCheckBoxIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import { checklistClassNames } from "./classNames";
+import { checklistClassNames } from "./classNames.js";
 import type { SvgIconProps } from "@mui/material/SvgIcon";
 import type { Simplify } from "type-fest";
-import type { BaseChecklistItemType } from "./types";
+import type { BaseChecklistItemType } from "./types.js";
 
 /**
  * A component for displaying a single checklist item's `description` and `isCompleted` values.

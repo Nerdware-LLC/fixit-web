@@ -1,1 +1,1 @@
-export * from "./StripeForm";
+export * from "./StripeForm.jsx";

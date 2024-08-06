@@ -1,30 +1,24 @@
-import { ReactiveStore } from "./ReactiveStore";
-import { LocalStorageValueManager } from "./helpers";
-import type { SubscriptionPriceLabel } from "@/graphql/types";
+import { ReactiveStore, LocalStorageValueManager } from "./helpers";
+import type { SubscriptionPriceName } from "@/types/graphql.js";
+
+/**
+ * The values stored in the {@link checkoutValuesStore}.
+ */
+export type CheckoutValues = {
+  selectedSubscription: SubscriptionPriceName | null;
+  promoCode: string | null;
+  discountPercentage: number | null;
+};
 
 /**
  * A `LocalStorageValueManager` instance for the `"checkoutValues"` key.
  *
  * Used by the {@link checkoutValuesStore} to manage checkout-flow values.
  */
-export const checkoutValuesLocalStorage = new LocalStorageValueManager<StoredCheckoutValues>(
-  "checkoutValues",
-  { selectedSubscription: null, promoCode: null, discountPercentage: null }
-);
-
-export const checkoutValuesStore = new ReactiveStore<StoredCheckoutValues, CheckoutValues>({
-  storageValueManager: checkoutValuesLocalStorage,
+const checkoutValuesLocalStorage = new LocalStorageValueManager<CheckoutValues>("checkoutValues", {
+  initialValue: { selectedSubscription: null, promoCode: null, discountPercentage: null },
 });
 
-/**
- * A type for when selectedSub has been confirmed to not be null.
- */
-export type CheckoutValues = {
-  selectedSubscription: SubscriptionPriceLabel;
-  promoCode: string | null;
-  discountPercentage?: number | null;
-};
-
-export type StoredCheckoutValues = {
-  [K in keyof CheckoutValues]: CheckoutValues[K] | null;
-};
+export const checkoutValuesStore = new ReactiveStore<CheckoutValues>({
+  storageValueManager: checkoutValuesLocalStorage,
+});

@@ -1,4 +1,4 @@
-import { Avatar } from "./Avatar";
+import { Avatar } from "./Avatar.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

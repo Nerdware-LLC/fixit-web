@@ -6,12 +6,12 @@ import Text from "@mui/material/Typography";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import GppGoodIcon from "@mui/icons-material/GppGood";
 import MoneyOffIcon from "@mui/icons-material/MoneyOff";
-import { GitHubLogo } from "@/components/Branding/GitHubLogo";
-import { Anchor } from "@/components/Navigation/Anchor";
-import { APP_LINKS } from "@/routes/appLinks";
-import { DemoInfoListItem } from "./DemoInfoListItem";
-import { DemoModeStatement } from "./DemoModeStatement";
-import { StripeTestCardInfo } from "./StripeTestCardInfo";
+import { GitHubLogo } from "@/components/Branding/GitHubLogo.jsx";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
+import { APP_URLS } from "@/routes/appURLs.js";
+import { DemoInfoListItem } from "./DemoInfoListItem.jsx";
+import { DemoModeStatement } from "./DemoModeStatement.jsx";
+import { StripeTestCardInfo } from "./StripeTestCardInfo.jsx";
 
 export const DemoInfo = ({
   initShowStripeTestCardInfo = false,
@@ -68,7 +68,7 @@ export const DemoInfo = ({
       ))}
     </List>
 
-    <Anchor href={APP_LINKS.REPO}>
+    <Anchor href={APP_URLS.REPO}>
       <Stack direction="row" spacing="0.5rem" alignItems="center">
         <Text>View this project on GitHub</Text>
         <GitHubLogo height="40" alt="Check out the Fixit GitHub repo" />

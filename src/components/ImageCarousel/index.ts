@@ -1,2 +1,3 @@
-export * from "./ImageCarousel";
-export * from "./classNames";
+export * from "./ImageCarousel.jsx";
+
+export * from "./classNames.js";

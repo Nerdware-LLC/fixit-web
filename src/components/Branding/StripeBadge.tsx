@@ -1,8 +1,8 @@
 import { styled } from "@mui/material/styles";
 import Tooltip, { type TooltipProps } from "@mui/material/Tooltip";
-import { Anchor, type AnchorProps } from "@/components/Navigation/Anchor";
+import { Anchor, type AnchorProps } from "@/components/Navigation/Anchor.jsx";
 import StripeBadgeSVG from "@/images/powered_by_Stripe_purple.svg";
-import { brandingClassNames } from "./classNames";
+import { brandingClassNames } from "./classNames.js";
 import type { Simplify, Except } from "type-fest";
 
 export const StripeBadge = ({

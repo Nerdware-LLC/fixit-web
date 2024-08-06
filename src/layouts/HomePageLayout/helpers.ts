@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { APP_PATHS } from "@/routes/appPaths";
+import { APP_PATHS } from "@/routes/appPaths.js";
 
 /**
  * This hook takes a `path` and returns an object containing a boolean value,

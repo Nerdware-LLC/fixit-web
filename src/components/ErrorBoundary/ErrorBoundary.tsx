@@ -1,15 +1,15 @@
+import { getErrorMessage } from "@nerdware/ts-type-safety-utils";
 import * as Sentry from "@sentry/react";
-import { logger } from "@/utils/logger";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
-import { DefaultErrorFallback } from "./DefaultErrorFallback";
+import { logger } from "@/utils/logger.js";
+import { DefaultErrorFallback } from "./DefaultErrorFallback.jsx";
 
 /**
  * Default `onError` handler fn for {@link ErrorBoundary}
  */
 const defaultErrorBoundaryOnErrorHandler: ErrorBoundaryOnErrorHandler = (
-  error: Error,
-  _componentStack: string,
-  _eventId: string
+  error,
+  _componentStack,
+  _eventId
 ) => {
   logger.error(error, "Sentry.ErrorBoundary");
 };
@@ -18,11 +18,11 @@ const defaultErrorBoundaryOnErrorHandler: ErrorBoundaryOnErrorHandler = (
  * Default `fallback` render fn for {@link ErrorBoundary}
  */
 const defaultErrorBoundaryFallback: ErrorBoundaryFallbackFn = ({ error }) => (
-  <DefaultErrorFallback errorMessage={getTypeSafeError(error).message} />
+  <DefaultErrorFallback errorMessage={getErrorMessage(error)} />
 );
 
 /**
- ;* A reusable [`Sentry ErrorBoundary`][sentry-eb-docs] component.
+ * A reusable [`Sentry ErrorBoundary`][sentry-eb-docs] component.
  *
  * > **NOTE:** ErrorBoundary components DO NOT catch the following:
  * >   - Event-driven errors

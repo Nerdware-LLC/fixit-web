@@ -1,12 +1,12 @@
 import Text from "@mui/material/Typography";
 import DollarSignIcon from "@mui/icons-material/AttachMoney";
-import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext";
-import { INVOICE_STATUS_ICONS_JSX } from "@/components/Icons/InvoiceStatusIcon";
+import { usePageLayoutContext } from "@/app/PageLayoutContext/usePageLayoutContext.js";
+import { INVOICE_STATUS_ICONS_JSX } from "@/components/Icons/InvoiceStatusIcon.jsx";
 import { Stepper, type StepperProps, type StepperStepConfig } from "@/components/Stepper";
-import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
-import { getDateAndTimeStr } from "@/utils/formatters/dateTime";
-import { PayInvoiceButton } from "./PayInvoiceButton";
-import type { Invoice } from "@/graphql/types";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { getDateAndTimeStr } from "@/utils/formatters/dateTime.js";
+import { PayInvoiceButton } from "./PayInvoiceButton.jsx";
+import type { Invoice } from "@/types/graphql.js";
 
 export const InvoiceStatusTracker = ({ invoice }: { invoice: Invoice }) => {
   const { isMobilePageLayout } = usePageLayoutContext();
@@ -38,18 +38,20 @@ export const InvoiceStatusTracker = ({ invoice }: { invoice: Invoice }) => {
               : {
                   caption: "Status: OPEN",
                   content: {
-                    ...(statusStepConstants.OPEN?.content ?? {}),
-                    stepActionButtons: (
-                      <PayInvoiceButton
-                        invoice={invoice}
-                        variant="outlined"
-                        sx={{
-                          "& .MuiButton-startIcon": {
-                            display: "none",
-                          },
-                        }}
-                      />
-                    ),
+                    ...(statusStepConstants.OPEN.content ?? {}),
+                    ...(!!authenticatedUser && {
+                      stepActionButtons: (
+                        <PayInvoiceButton
+                          invoice={invoice}
+                          variant="outlined"
+                          sx={{
+                            "& .MuiButton-startIcon": {
+                              display: "none",
+                            },
+                          }}
+                        />
+                      ),
+                    }),
                   },
                 }),
           }),

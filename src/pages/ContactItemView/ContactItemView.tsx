@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client/react/hooks";
 import { Loading, ErrorDialog } from "@/components/Indicators";
-import { QUERIES } from "@/graphql/queries";
+import { QUERIES } from "@/graphql/queries.js";
 import { ProfileViewLayout } from "@/layouts/ProfileViewLayout";
 
 /**
@@ -16,6 +16,7 @@ export const ContactItemView = () => {
   const { data, loading, error } = useQuery(QUERIES.CONTACT, {
     variables: { contactID: contactID ?? "" },
     skip: !contactID,
+    fetchPolicy: "cache-only",
   });
 
   return loading || !data?.contact ? (

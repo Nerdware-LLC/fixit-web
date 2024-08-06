@@ -1,8 +1,8 @@
 import { alpha, type Theme } from "@mui/material/styles";
 import { paperClasses } from "@mui/material/Paper";
-import { globalClassNames } from "./classNames";
+import { globalClassNames } from "./classNames.js";
 import type { CSSObject } from "@emotion/react";
-import type { RootElementIdArg } from "./types";
+import type { RootElementIdArg } from "./types.js";
 
 /**
  * SCROLLBAR STYLES

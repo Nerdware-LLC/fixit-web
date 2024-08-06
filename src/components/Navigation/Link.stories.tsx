@@ -1,6 +1,6 @@
 import Tooltip from "@mui/material/Tooltip";
 import { withNavDecorator, type NavDecoratorArgs } from "@/../.storybook/decorators";
-import { Link, type LinkProps } from "./Link";
+import { Link, type LinkProps } from "./Link.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

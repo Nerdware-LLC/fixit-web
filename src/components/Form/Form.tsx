@@ -5,7 +5,7 @@ import {
   type FormikValues as BaseFormikValues,
 } from "formik";
 import { styled } from "@mui/material/styles";
-import { formClassNames } from "./classNames";
+import { formClassNames } from "./classNames.js";
 import type { Simplify } from "type-fest";
 import type { Schema as YupSchema } from "yup";
 

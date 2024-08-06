@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client/react/hooks";
-import { QUERIES } from "@/graphql/queries";
-import { helpers } from "./helpers";
+import { QUERIES } from "@/graphql/queries.js";
+import { helpers } from "./helpers.js";
 
 /**
  * This hook will automatically run the `SearchForUsersByHandle` query once per

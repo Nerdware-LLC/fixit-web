@@ -1,4 +1,5 @@
-export * from "./VirtualizedList";
+export * from "./VirtualizedList.jsx";
+
 export * from "./subComponents";
 
-export * from "./classNames";
+export * from "./classNames.js";

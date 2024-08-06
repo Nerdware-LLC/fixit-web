@@ -1,6 +1,4 @@
-export * from "./ContactListItem";
-export * from "./InvoiceListItem";
-export * from "./WorkOrderListItem";
-export * from "./WorkOrderCategoryListItem";
-
-export * from "./classNames";
+export * from "./ContactListItem.jsx";
+export * from "./InvoiceListItem.jsx";
+export * from "./WorkOrderListItem.jsx";
+export * from "./WorkOrderCategoryListItem.jsx";

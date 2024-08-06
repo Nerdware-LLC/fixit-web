@@ -1,6 +1,6 @@
 import { styled } from "@mui/material/styles";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { productSelectionClassNames } from "./classNames";
+import { productSelectionClassNames } from "./classNames.js";
 
 export const SingleProductBoxSwitch = ({ checked, handleChange }: SingleProductBoxSwitchProps) => (
   <StyledLabel>
@@ -41,6 +41,10 @@ const StyledLabel = styled("label")(({ theme: { palette } }) => ({
     alignItems: "center",
     justifyContent: "center",
     zIndex: 10,
+
+    "&:hover": {
+      opacity: "0.5",
+    },
 
     // Child Mui Text (labels "Monthly" and "Yearly")
     [`& .${typographyClasses.root}`]: {

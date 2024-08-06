@@ -1,5 +1,5 @@
 import Text from "@mui/material/Typography";
-import { ShimmerBox } from "./ShimmerBox";
+import { ShimmerBox } from "./ShimmerBox.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

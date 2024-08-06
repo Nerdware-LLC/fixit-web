@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import { ReactiveStore } from "./ReactiveStore";
-import type { UserSubscription } from "@/graphql/types";
+import { ReactiveStore } from "./helpers";
+import type { UserSubscription } from "@/types/graphql.js";
 
 /**
  * A sub-class of {@link ReactiveStore} for managing the {@link IsActiveAccount} app-state value.
@@ -28,7 +28,7 @@ class IsActiveAccountStore extends ReactiveStore<IsActiveAccount> {
     this.set(
       !!(
         dayjs(currentPeriodEnd).unix() >= dayjs().unix() &&
-        IsActiveAccountStore.IS_VALID_SUB_STATUS?.[status] === true
+        IsActiveAccountStore.IS_VALID_SUB_STATUS[status] === true
       )
     );
   }

@@ -6,8 +6,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import PhoneIcon from "@mui/icons-material/Phone";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import { ItemDetails, dataDisplayClassNames } from "@/components/DataDisplay";
-import { fmt } from "@/utils/formatters";
-import type { FixitUser } from "@/graphql/types";
+import { prettifyPhoneNumStr } from "@/utils/formatters/phone.js";
+import type { User } from "@/types/graphql.js";
 
 /**
  * This component displays the user's profile details.
@@ -27,7 +27,7 @@ export const UserProfileDetails = ({
       {businessName}
     </ItemDetails>
     <ItemDetails label="Phone" labelIcon={<PhoneIcon />}>
-      {phone ? fmt.prettifyPhoneNum(phone) : ""}
+      {phone ? prettifyPhoneNumStr(phone) : ""}
     </ItemDetails>
     <ItemDetails label="Email" labelIcon={<EmailIcon />}>
       {email}
@@ -85,4 +85,4 @@ const StyledDiv = styled("div")(({ theme: { variables } }) => ({
   },
 }));
 
-export type UserProfileDetailsProps = Pick<FixitUser, "email" | "phone" | "profile">;
+export type UserProfileDetailsProps = Pick<User, "email" | "phone" | "profile">;

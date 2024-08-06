@@ -1,4 +1,4 @@
-import { TitleLogo } from "./TitleLogo";
+import { TitleLogo } from "./TitleLogo.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

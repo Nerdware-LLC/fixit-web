@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client/react/hooks";
-import { QUERIES } from "@/graphql/queries";
-import { Avatar, type AvatarProps } from "./Avatar";
+import { QUERIES } from "@/graphql/queries.js";
+import { Avatar, type AvatarProps } from "./Avatar.jsx";
 
 /**
  * `AvatarMyProfile` is simply a wrapper around `Avatar` that uses the

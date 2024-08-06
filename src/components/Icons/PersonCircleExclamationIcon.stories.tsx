@@ -1,4 +1,4 @@
-import { PersonCircleExclamationIcon as PersonCircleExclamationIconFC } from "./PersonCircleExclamationIcon";
+import { PersonCircleExclamationIcon as PersonCircleExclamationIconFC } from "./PersonCircleExclamationIcon.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

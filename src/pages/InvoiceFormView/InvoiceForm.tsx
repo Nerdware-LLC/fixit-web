@@ -8,73 +8,80 @@ import {
   AutoCompleteMyContacts,
   formClassNames,
 } from "@/components/Form";
-import { FormInvoiceWorkOrderInfo } from "./FormInvoiceWorkOrderInfo";
+import { FormInvoiceWorkOrderInfo } from "./FormInvoiceWorkOrderInfo.jsx";
+import { invFormViewElementIDs } from "./elementIDs.js";
 import { InvoiceWorkOrderInput, InvoiceAmountInput } from "./inputs";
-import { invoiceFormSchema, type InvoiceFormValues } from "./schema";
-import type { Invoice } from "@/graphql/types";
+import { invoiceFormSchema, type InvoiceFormValues } from "./schema.js";
+import type { Invoice } from "@/types/graphql.js";
+
+export type InvoiceFormProps = {
+  initialFormValues: InvoiceFormValues;
+  onSubmit: (submittedFormValues: InvoiceFormValues) => void | Promise<void>;
+  existingInvoice?: Invoice; // <-- indicates UPDATE operation
+};
 
 export const InvoiceForm = ({ initialFormValues, onSubmit, existingInvoice }: InvoiceFormProps) => (
   <Form
     initialValues={initialFormValues}
     validationSchema={invoiceFormSchema}
     onSubmit={onSubmit}
-    style={{ height: "100%" }}
+    style={{ height: "100%", display: "flex", flexDirection: "column" }}
   >
-    <StyledDiv>
+    <StyledDiv id="invoice-form-content-div-wrapper">
       {/* INVOICE: assignedTo */}
 
       {!existingInvoice ? (
         <AutoCompleteMyContacts
-          id='assignedTo["id"]'
-          label="To"
+          fieldID='assignedTo["id"]'
+          label="To Recipient"
           gridArea="assign-to"
-          disabled={!!existingInvoice}
-          getFieldValueFromOption={(option) => option?.id || ""}
-          // The above opt-chain ||'s to an empty string, bc value is non-nullable
         />
       ) : (
-        <ItemDetailsGroup label="To" labelIcon={<PersonIcon />} gridArea="assign-to">
+        <ItemDetailsGroup
+          label="To Recipient"
+          labelIcon={<PersonIcon />}
+          gridArea="assign-to"
+          id={invFormViewElementIDs.invAssignedToIDG}
+        >
           <ContactAvatar contact={existingInvoice.assignedTo} />
         </ItemDetailsGroup>
       )}
 
       {/* INVOICE: workOrder */}
 
-      <InvoiceWorkOrderInput id="workOrder" label="Work Order" gridArea="select-wo" />
+      <InvoiceWorkOrderInput label="Work Order" gridArea="select-wo" />
       <FormInvoiceWorkOrderInfo gridArea="work-order" />
 
       {/* INVOICE: amount */}
 
-      <InvoiceAmountInput id="amount" gridArea="amount" />
+      <InvoiceAmountInput fieldID="amount" gridArea="amount" />
 
       <FormControlButtons gridArea="form-btns" />
     </StyledDiv>
   </Form>
 );
 
-const StyledDiv = styled("div")(({ theme }) => ({
-  width: "auto",
-  alignSelf: "center",
-  display: "grid",
-  ...(theme.variables.isMobilePageLayout
+const StyledDiv = styled("div")(({ theme: { variables } }) => ({
+  width: "100%",
+  maxWidth: "max-content",
+
+  ...(variables.isMobilePageLayout
     ? {
-        height: "100%",
-        padding: "0.5rem 0",
-        gap: "0", // m-b is used instead
-        gridTemplateRows: "repeat(4,min-content) 1fr",
-        gridTemplateColumns: "1fr",
-        gridTemplateAreas: `
-          "assign-to"
-          "select-wo"
-          "work-order"
-          "amount"
-          "form-btns"`,
+        minHeight: "min-content",
+        alignSelf: "center",
+        padding: 0,
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem",
       }
     : {
+        flexGrow: 0,
+        height: "min-content",
         padding: "1rem 0",
-        gap: "2rem 6rem",
-        gridTemplateRows: "repeat(3,min-content) 1fr",
-        gridTemplateColumns: "minmax(20rem,1fr) minmax(0,2fr)",
+        display: "grid",
+        gap: "1rem 3rem",
+        gridTemplateRows: "repeat( 4, min-content )",
+        gridTemplateColumns: "repeat( 2, minmax(min-content,20rem))",
         gridTemplateAreas: `
           "assign-to  work-order"
           "select-wo  work-order"
@@ -82,27 +89,26 @@ const StyledDiv = styled("div")(({ theme }) => ({
           "form-btns  work-order"`,
       }),
 
-  [`& > div:not(.${dataDisplayClassNames.invoiceWorkOrderDetailsRoot}):not(.${formClassNames.controlButtonsContainer})`]:
-    {
-      ...(theme.variables.isMobilePageLayout && {
-        marginBottom: "1rem",
-      }),
-    },
+  // IDGs: assignedTo + InvoiceWorkOrderInfo
+  [`& > .${dataDisplayClassNames.groupRoot}`]: {
+    // For even spacing, p-b is added to IDGs that's equal to the height of inputs' HelperText:
+    paddingBottom: "22.906px",
 
-  // INVOICE: assignedTo IDG (only visible during UPDATE, not CREATE)
-  [`& .${dataDisplayClassNames.groupContent} .${avatarClassNames.muiAvatar.root}`]: {
-    marginRight: "0.25rem",
+    // INV assignedTo IDG
+    [`&#${invFormViewElementIDs.invAssignedToIDG}`]: {
+      [`& .${dataDisplayClassNames.groupContent}`]: {
+        alignItems: "center",
+        [`& .${avatarClassNames.displayName}`]: {
+          // By default, Avatar displayName only has m-l, but that messes up the horizontal centering
+          margin: "0 0.5rem",
+        },
+      },
+    },
   },
 
   // FORM-CONTROL BUTTONS CONTAINER
-
   [`& .${formClassNames.controlButtonsContainer}`]: {
-    alignSelf: "end",
+    justifyContent: "center",
+    ...(variables.isMobilePageLayout ? { padding: "1rem 0 2rem 0" } : {}),
   },
 }));
-
-export type InvoiceFormProps = {
-  initialFormValues: InvoiceFormValues;
-  onSubmit: (submittedFormValues: InvoiceFormValues) => void | Promise<void>;
-  existingInvoice?: Invoice; // <-- indicates UPDATE operation
-};

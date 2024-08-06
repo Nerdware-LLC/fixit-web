@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import { InvoiceStatusIcon } from "./InvoiceStatusIcon";
+import { InvoiceStatusIcon } from "./InvoiceStatusIcon.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

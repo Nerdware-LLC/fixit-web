@@ -18,6 +18,7 @@ export const dataDisplayClassNames = {
   locationDetailsMapAnchor: "location-details__map-anchor",
   // InvoiceWorkOrderDetails
   invoiceWorkOrderDetailsRoot: "invoice-work-order-details__root",
+  invoiceWorkOrderDetailsContentWrapper: "invoice-work-order-details__content-wrapper",
   // HelpInfoIcon
   helpInfoIcon: "help-info-icon",
 } as const;

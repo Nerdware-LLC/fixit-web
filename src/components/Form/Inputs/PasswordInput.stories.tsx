@@ -1,6 +1,6 @@
 import { object as yupObject } from "yup";
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
-import { PasswordInput, type PasswordInputProps } from "./PasswordInput";
+import { PasswordInput, type PasswordInputProps } from "./PasswordInput.jsx";
 import { yupCommonSchema } from "../helpers";
 import type { Meta, StoryObj } from "@storybook/react";
 
@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicDemo = {
   args: {
-    id: "password",
+    fieldID: "password",
     label: "Password",
 
     _form_decorator_args: {

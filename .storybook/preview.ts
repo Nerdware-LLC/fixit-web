@@ -1,15 +1,12 @@
 import { themes } from "@storybook/theming";
 import { globalDecorators } from "./decorators";
-import { customUserAgents } from "./userAgents";
-import { customViewports } from "./viewports";
+import { customUserAgents } from "./userAgents.js";
+import { customViewports } from "./viewports.js";
 import type { Preview } from "@storybook/react";
 
 export default {
   decorators: globalDecorators,
   parameters: {
-    actions: {
-      argTypesRegex: "^on[A-Z].*",
-    },
     controls: {
       expanded: true, // Adds the description and default columns
       matchers: {

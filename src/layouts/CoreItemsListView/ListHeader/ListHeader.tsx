@@ -1,6 +1,6 @@
 import Text from "@mui/material/Typography";
-import { ListHeaderContainer } from "./ListHeaderContainer";
-import type { ListViewListName } from "../types";
+import { ListHeaderContainer } from "./ListHeaderContainer.jsx";
+import type { ListViewListName } from "../types.js";
 
 export const ListHeader = ({ listName }: ListHeaderProps) => (
   <ListHeaderContainer>

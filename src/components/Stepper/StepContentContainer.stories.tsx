@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button";
 import MuiStep from "@mui/material/Step";
 import MuiStepper from "@mui/material/Stepper";
-import { StepContentContainer } from "./StepContentContainer";
+import { StepContentContainer } from "./StepContentContainer.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

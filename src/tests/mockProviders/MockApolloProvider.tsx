@@ -4,6 +4,8 @@ import {
 } from "@apollo/client/testing";
 import { apolloCache } from "@/app/ApolloProvider/apolloCache";
 
+export type MockApolloProviderProps = MockedProviderProps;
+
 /**
  * MockApolloProvider is a wrapper for Apollo's {@link ApolloMockedProvider|MockedProvider}
  * that provides the app's {@link apolloCache} instance as the default for the `cache` prop.
@@ -22,5 +24,3 @@ export const MockApolloProvider = ({
     {children}
   </ApolloMockedProvider>
 );
-
-export type MockApolloProviderProps = MockedProviderProps;

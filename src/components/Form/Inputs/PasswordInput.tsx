@@ -3,9 +3,24 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { TextInput, type TextInputProps } from "./TextInput";
-import { formClassNames } from "../classNames";
+import { TextInput, type TextInputProps } from "./TextInput.jsx";
+import { formClassNames } from "../classNames.js";
 import type { OverrideProperties } from "type-fest";
+import type { PasswordAutoCompleteValue } from "./types.js";
+
+/**
+ * Prop types for `PasswordInput`
+ * - Base type: `TextInputProps`
+ * - `autoComplete` is restricted to only the values that are valid for password inputs
+ * - `type` and `InputProps["endAdornment"]` are removed since they're handled internally
+ */
+export type PasswordInputProps = OverrideProperties<
+  Omit<TextInputProps, "type">,
+  {
+    autoComplete?: PasswordAutoCompleteValue;
+    InputProps?: Omit<TextInputProps["InputProps"], "endAdornment">;
+  }
+>;
 
 export const PasswordInput = ({ InputProps = {}, ...props }: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,17 +52,3 @@ export const PasswordInput = ({ InputProps = {}, ...props }: PasswordInputProps)
     />
   );
 };
-
-/**
- * Prop types for `PasswordInput`
- * - Base type: `TextInputProps`
- * - `autoComplete` is restricted to only the values that are valid for password inputs
- * - `type` and `InputProps["endAdornment"]` are removed since they're handled internally
- */
-export type PasswordInputProps = OverrideProperties<
-  Omit<TextInputProps, "type">,
-  {
-    autoComplete?: "current-password" | "new-password";
-    InputProps?: Omit<TextInputProps["InputProps"], "endAdornment">;
-  }
->;

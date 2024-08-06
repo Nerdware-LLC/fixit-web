@@ -1,8 +1,8 @@
-export * from "./LeadingDotsSpan";
-export * from "./PhoneShapedContainer";
-export * from "./RainbowBorderBox";
-export * from "./ReceiptShapedContainer";
-export * from "./ShimmerBox";
-export * from "./XscrollContainer";
+export * from "./LeadingDotsSpan.jsx";
+export * from "./PhoneShapedContainer.jsx";
+export * from "./RainbowBorderBox.jsx";
+export * from "./ReceiptShapedContainer.jsx";
+export * from "./ShimmerBox.jsx";
+export * from "./XscrollContainer.jsx";
 
-export * from "./classNames";
+export * from "./classNames.js";

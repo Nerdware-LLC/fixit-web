@@ -1,2 +1,3 @@
-export * from "./RootAppLayout";
-export * from "./elementIDs";
+export * from "./RootAppLayout.jsx";
+
+export * from "./elementIDs.js";

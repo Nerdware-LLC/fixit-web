@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client/react/hooks";
 import { getInitialValuesFromSchema } from "@/components/Form/helpers";
 import { useLottie } from "@/components/LottieAnimations";
-import { MUTATIONS } from "@/graphql/mutations";
-import { QUERIES } from "@/graphql/queries";
-import { APP_PATHS } from "@/routes/appPaths";
-import { logger } from "@/utils/logger";
-import { WorkOrderForm } from "./WorkOrderForm";
-import { workOrderFormSchema, type WorkOrderFormValues } from "./schema";
+import { MUTATIONS } from "@/graphql/mutations.js";
+import { QUERIES } from "@/graphql/queries.js";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { logger } from "@/utils/logger.js";
+import { WorkOrderForm } from "./WorkOrderForm.jsx";
+import { workOrderFormSchema, type WorkOrderFormValues } from "./schema.js";
 
 export const FormCreateWO = () => {
   const { LottieView, playLottie } = useLottie({ animation: "success-checkmark" });
@@ -26,12 +26,14 @@ export const FormCreateWO = () => {
     },
   });
 
-  const handleSubmit = async ({ assignedTo, ...formValues }: WorkOrderFormValues) => {
+  const handleSubmit = async (formValues: WorkOrderFormValues) => {
     await createWorkOrder({
       variables: {
         workOrder: {
-          assignedTo: assignedTo?.id ?? null,
           ...formValues,
+          assignedTo: formValues.assignedTo?.id ?? null,
+          dueDate: formValues.dueDate?.toDate(),
+          scheduledDateTime: formValues.scheduledDateTime?.toDate(),
         },
       },
     }).catch(logger.error);

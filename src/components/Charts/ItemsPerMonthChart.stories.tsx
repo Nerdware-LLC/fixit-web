@@ -1,5 +1,5 @@
-import { TABLE_VIEW_DATA_SETS } from "@/layouts/CoreItemsListView/types";
-import { ItemsPerMonthChart } from "./ItemsPerMonthChart";
+import { TABLE_VIEW_DATA_SETS } from "@/layouts/CoreItemsListView/types.js";
+import { ItemsPerMonthChart } from "./ItemsPerMonthChart.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

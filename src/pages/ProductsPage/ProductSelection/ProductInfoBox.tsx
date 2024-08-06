@@ -3,8 +3,18 @@ import Button, { buttonClasses } from "@mui/material/Button";
 import Paper, { type PaperProps } from "@mui/material/Paper";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import { ShimmerBox, containerClassNames } from "@/components/Containers";
-import { ProductFeatures } from "./ProductFeatures";
-import { productSelectionClassNames } from "./classNames";
+import { ProductFeatures } from "./ProductFeatures.jsx";
+import { productSelectionClassNames } from "./classNames.js";
+
+export type ProductInfoBoxProps = {
+  priceName: string;
+  priceAmount: string;
+  priceDescription: string;
+  showMostPopularBadge?: boolean;
+  buttonLabel: string;
+  onClickButton: React.MouseEventHandler<HTMLButtonElement>;
+  onClickContainer?: React.MouseEventHandler<HTMLDivElement | HTMLButtonElement>;
+} & Omit<PaperProps, "children">;
 
 export const ProductInfoBox = ({
   priceName,
@@ -152,13 +162,3 @@ const StyledPaper = styled(Paper)(({ onClick, theme: { palette, variables } }) =
     },
   },
 }));
-
-export type ProductInfoBoxProps = {
-  priceName: string;
-  priceAmount: string;
-  priceDescription: string;
-  showMostPopularBadge?: boolean;
-  buttonLabel: string;
-  onClickButton: React.MouseEventHandler<HTMLButtonElement>;
-  onClickContainer?: React.MouseEventHandler<HTMLDivElement | HTMLButtonElement>;
-} & Omit<PaperProps, "children">;

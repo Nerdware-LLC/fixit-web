@@ -1,5 +1,5 @@
 import ContactMailIcon from "@mui/icons-material/ContactMail";
-import { ItemDetailsHeader } from "./ItemDetailsHeader";
+import { ItemDetailsHeader } from "./ItemDetailsHeader.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

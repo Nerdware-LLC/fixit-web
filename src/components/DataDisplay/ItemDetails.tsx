@@ -2,8 +2,8 @@ import { isString } from "@nerdware/ts-type-safety-utils";
 import { styled } from "@mui/material/styles";
 import Box, { type BoxProps } from "@mui/material/Box";
 import Text from "@mui/material/Typography";
-import { ItemDetailsHeader, type ItemDetailsHeaderProps } from "./ItemDetailsHeader";
-import { dataDisplayClassNames } from "./classNames";
+import { ItemDetailsHeader, type ItemDetailsHeaderProps } from "./ItemDetailsHeader.jsx";
+import { dataDisplayClassNames } from "./classNames.js";
 import type { Simplify } from "type-fest";
 
 /**

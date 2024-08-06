@@ -1,6 +1,6 @@
 import { object as yupObject, mixed as yupMixed } from "yup";
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
-import { FormSubmitButton, type FormSubmitButtonProps } from "./FormSubmitButton";
+import { FormSubmitButton, type FormSubmitButtonProps } from "./FormSubmitButton.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

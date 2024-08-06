@@ -1,1 +1,1 @@
-export * from "./SlideTransition";
+export * from "./SlideTransition.jsx";

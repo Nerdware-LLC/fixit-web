@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Text from "@mui/material/Typography";
-import { Logo } from "./Logo";
-import { brandingClassNames } from "./classNames";
+import { Logo } from "./Logo.jsx";
+import { brandingClassNames } from "./classNames.js";
 
 export const TitleLogo = ({
   size = "3rem",
@@ -30,7 +30,8 @@ export const TitleLogo = ({
 
 const StyledDiv = styled("div")(({ onClick }) => ({
   width: "min-content",
-  height: "5.5rem",
+  height: "min-content",
+  maxHeight: "5.5rem",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",

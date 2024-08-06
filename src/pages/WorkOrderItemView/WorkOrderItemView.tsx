@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client/react/hooks";
 import { Loading, ErrorDialog } from "@/components/Indicators";
-import { QUERIES } from "@/graphql/queries";
-import { coreContentViewLayoutClassNames } from "@/layouts/CoreContentViewLayout/classNames";
+import { QUERIES } from "@/graphql/queries.js";
+import { coreContentViewLayoutClassNames } from "@/layouts/CoreContentViewLayout/classNames.js";
 import { CoreItemView } from "@/layouts/CoreItemView";
-import { authenticatedUserStore } from "@/stores/authenticatedUserStore";
-import { WorkOrderItemViewContent } from "./WorkOrderItemViewContent";
-import { WorkOrderItemViewHeader } from "./WorkOrderItemViewHeader";
-import type { SxPropsWithTheme } from "@/app/ThemeProvider/helpers";
+import { authenticatedUserStore } from "@/stores/authenticatedUserStore.js";
+import { WorkOrderItemViewContent } from "./WorkOrderItemViewContent.jsx";
+import { WorkOrderItemViewHeader } from "./WorkOrderItemViewHeader.jsx";
+import type { SxPropsWithTheme } from "@/app/ThemeProvider/helpers.js";
 
 export const WorkOrderItemView = () => {
   const { id: workOrderID } = useParams();

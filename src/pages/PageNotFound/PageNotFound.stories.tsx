@@ -1,5 +1,5 @@
 import { withRootAppLayoutDecorator } from "@/../.storybook/decorators";
-import { PageNotFound } from "./PageNotFound";
+import { PageNotFound } from "./PageNotFound.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

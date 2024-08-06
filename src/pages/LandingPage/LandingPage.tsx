@@ -4,15 +4,16 @@ import Button, { buttonClasses } from "@mui/material/Button";
 import Paper, { paperClasses } from "@mui/material/Paper";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { THEMES } from "@/app/ThemeProvider/themes";
+import { THEMES } from "@/app/ThemeProvider/themes.js";
 import { PhoneShapedContainer, containerClassNames } from "@/components/Containers";
-import { DemoInfoDialog } from "@/components/DevTools/DemoInfoDialog";
-import { LegalLinks } from "@/components/Navigation/LegalLinks";
+import { DemoInfoDialog } from "@/components/DevTools/DemoInfoDialog.jsx";
+import { LegalLinksFooter } from "@/components/Navigation";
 import { NON_BREAKING_SPACE_CHAR } from "@/components/Text";
 import backgroundImageSrc from "@/images/landing_page_bg.webp";
-import { APP_PATHS } from "@/routes/appPaths";
-import { ProductImage } from "./ProductImage";
-import { landingPageClassNames } from "./classNames";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { ProductImage } from "./ProductImage.jsx";
+import { landingPageClassNames } from "./classNames.js";
+import { landingPageElementIDs } from "./elementIDs.js";
 
 /**
  * **Landing Page** - index route for RootAppRouter which renders when the path is `"/"`.
@@ -24,10 +25,8 @@ export const LandingPage = () => {
   const goToRegister = () => nav(APP_PATHS.REGISTER);
   const goToProducts = () => nav(APP_PATHS.PRODUCTS);
 
-  // non-breaking space (U+) is used to prevent hyphenated word wrap
-
   return (
-    <StyledDiv id="landing-page__content-root">
+    <StyledDiv id={landingPageElementIDs.contentRoot}>
       <div className={landingPageClassNames.textContainer}>
         <Text variant="h1">
           {`Simplify\nPayments,\nInvoices, and\nWork${NON_BREAKING_SPACE_CHAR}Orders`}
@@ -60,17 +59,14 @@ export const LandingPage = () => {
         <Text variant="h2">{`Powerful Tools,\nSimple to Use`}</Text>
         <Text>
           {/* This paragraph uses non-breaking hyphens (U+2011) to prevent hyphenated word wrap. */}
-          Empower your workflow with the tools you need to stay organized - without the learning
-          curve and additional burden of costly and time‑consuming training, webinars, and other
-          add‑ons. Try <b>Fixit</b> today.
+          Empower your workflow with the tools you need to stay organized across all your devices -
+          without the learning curve. If you're tired of services that require costly and
+          time‑consuming training, webinars, and other add‑ons, try <b>Fixit</b> today.
         </Text>
         <Button onClick={goToProducts}>Learn More</Button>
       </div>
       {isDialogVisible && <DemoInfoDialog isVisible={isDialogVisible} closeDialog={closeDialog} />}
-      <div className={landingPageClassNames.footerRoot}>
-        <LegalLinks useLongLabels />
-        <Text variant="body2">Fixit is a product of Nerdware, LLC ©</Text>
-      </div>
+      <LegalLinksFooter style={{ position: "absolute" }} />
     </StyledDiv>
   );
 };
@@ -90,8 +86,14 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
   gap: "1rem",
   padding: "0 2rem 3rem 2rem",
 
-  gridTemplateRows: "66vh minmax(0, 66vh) minmax(0, 66vh) minmax(0, 66vh) 8rem",
+  // MOBILE LAYOUT:
   gridTemplateColumns: "minmax(0, 1fr)",
+  gridTemplateRows:
+    "60vh " + //            text
+    "minmax(0, 66vh) " + // graphic
+    "minmax(0, 50vh) " + // text
+    "minmax(0, 66vh) " + // graphic
+    "8rem", //             footer
 
   [breakpoints.up(600)]: {
     padding: "2rem",
@@ -132,7 +134,7 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
       whiteSpace: "pre",
 
       [breakpoints.between(450, 600)]: {
-        "&:is(h1)": { fontSize: "4rem" },
+        "&:is(h1)": { fontSize: "3.5rem" },
         "&:is(h2)": { fontSize: "3.5rem" },
       },
     },
@@ -255,37 +257,5 @@ const StyledDiv = styled("div")(({ theme: { palette, variables, breakpoints } })
     backgroundSize: "cover",
     objectFit: "contain",
     ...(palette.mode === "light" && { filter: "invert(25%) brightness(3)" }),
-  },
-
-  // FOOTER
-  [`& > .${landingPageClassNames.footerRoot}`]: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    width: "100vw",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "1.5rem",
-    padding: "2rem",
-    borderTop: `1px solid ${palette.divider}`,
-    boxShadow: `0 0 0.5rem ${palette.divider}`,
-
-    [breakpoints.down(600)]: {
-      padding: "1.25rem 1.5rem 1.5rem 1.5rem",
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      gap: 0,
-      textAlign: "center",
-      "& > div": {
-        flexDirection: "column",
-        alignItems: "flex-start",
-        "& > hr": {
-          display: "none",
-        },
-      },
-    },
   },
 }));

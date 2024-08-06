@@ -3,10 +3,10 @@ import {
   withMockApolloDecorator,
   type MockApolloDecoratorArgs,
 } from "@/../.storybook/decorators";
-import { QUERIES } from "@/graphql/queries";
-import { MOCK_INVOICES } from "@/tests/mockItems/mockInvoices";
-import { MOCK_WORK_ORDERS } from "@/tests/mockItems/mockWorkOrders";
-import { DashboardPage } from "./DashboardPage";
+import { QUERIES } from "@/graphql/queries.js";
+import { MOCK_INVOICES } from "@/tests/mockItems/mockInvoices.js";
+import { MOCK_WORK_ORDERS } from "@/tests/mockItems/mockWorkOrders.js";
+import { DashboardPage } from "./DashboardPage.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

@@ -1,4 +1,4 @@
-import { globalClassNames } from "./classNames";
+import { globalClassNames } from "./classNames.js";
 import type { CSSObject } from "@emotion/react";
 import type { SetRequired } from "type-fest";
 

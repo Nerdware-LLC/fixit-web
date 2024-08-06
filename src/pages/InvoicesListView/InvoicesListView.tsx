@@ -1,22 +1,23 @@
-import { CreateItemButton } from "@/components/Buttons/CreateItemButton";
-import { FileInvoiceDollarIcon } from "@/components/Icons/FileInvoiceDollarIcon";
-import { InvoiceListItemButton } from "@/components/List/listItems/InvoiceListItem";
-import { QUERIES } from "@/graphql/queries";
+import { CreateItemButton } from "@/components/Buttons/CreateItemButton.jsx";
+import { FileInvoiceDollarIcon } from "@/components/Icons/FileInvoiceDollarIcon.jsx";
+import { InvoiceListItemButton } from "@/components/List/listItems/InvoiceListItem.jsx";
+import { QUERIES } from "@/graphql/queries.js";
 import {
   CoreItemsListView,
   LIST_VIEW_LIST_NAMES,
   TABLE_VIEW_DATA_SETS,
   type ListViewRenderItemFn,
 } from "@/layouts/CoreItemsListView";
-import { APP_PATHS } from "@/routes/appPaths";
-import { invoiceTableProps, type InvoiceTableRowData } from "./tableProps";
-import type { Invoice, MyInvoicesQueryReturnType } from "@/graphql/types";
+import { APP_PATHS } from "@/routes/appPaths.js";
+import { invoiceTableProps, type InvoiceTableRowData } from "./tableProps.js";
+import type { Invoice, MyInvoicesQueryResponse } from "@/types/graphql.js";
 
-type MyInvoicesQueryData = { myInvoices: MyInvoicesQueryReturnType };
+type MyInvoicesQueryData = { myInvoices: MyInvoicesQueryResponse };
 
 const getListsAndTablePropsFromMyInvoices = (data: MyInvoicesQueryData) => {
-  const invoicesCreatedByUser = data?.myInvoices?.createdByUser ?? [];
-  const invoicesAssignedToUser = data?.myInvoices?.assignedToUser ?? [];
+  const invoicesCreatedByUser = data.myInvoices.createdByUser;
+  const invoicesAssignedToUser = data.myInvoices.assignedToUser;
+
   return {
     lists: [
       {
@@ -61,7 +62,7 @@ const getListsAndTablePropsFromMyInvoices = (data: MyInvoicesQueryData) => {
 
 export const InvoicesListView = () => (
   <CoreItemsListView<MyInvoicesQueryData, Invoice, InvoiceTableRowData>
-    listQuery={QUERIES.MY_INVOICES}
+    listQuery={QUERIES.MY_INVOICES_WITH_WORKORDER_DATA}
     getListsAndTableProps={getListsAndTablePropsFromMyInvoices}
     headerLabel="Invoices"
     headerComponents={

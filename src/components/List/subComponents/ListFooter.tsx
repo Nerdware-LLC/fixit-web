@@ -1,4 +1,4 @@
-import { listClassNames } from "../classNames";
+import { listClassNames } from "../classNames.js";
 
 /**
  * This component is meant to be used by `VirtualizedList` as the `components.Footer` prop.

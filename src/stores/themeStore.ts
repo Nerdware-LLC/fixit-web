@@ -1,6 +1,5 @@
-import { THEME_NAMES, type ThemeName } from "@/app/ThemeProvider/themes";
-import { ReactiveStore } from "./ReactiveStore";
-import { LocalStorageValueManager } from "./helpers";
+import { THEME_NAMES, type ThemeName } from "@/app/ThemeProvider/themes.js";
+import { ReactiveStore, LocalStorageValueManager } from "./helpers";
 
 /**
  * A `LocalStorageValueManager` instance for the `preferredTheme` key.
@@ -9,7 +8,7 @@ import { LocalStorageValueManager } from "./helpers";
  */
 export const preferredThemeLocalStorage = new LocalStorageValueManager<ThemeName>(
   "preferredTheme",
-  THEME_NAMES.DARK
+  { initialValue: THEME_NAMES.DARK }
 );
 
 class ThemeStore extends ReactiveStore<ThemeName> {

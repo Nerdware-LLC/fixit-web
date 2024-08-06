@@ -1,4 +1,4 @@
-import type { InvoiceStatus } from "@/graphql/types";
+import type { InvoiceStatus } from "@/types/graphql.js";
 
 export const INVOICE_STATUSES = [
   "OPEN",

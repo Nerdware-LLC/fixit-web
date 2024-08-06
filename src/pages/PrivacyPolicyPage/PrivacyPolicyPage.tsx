@@ -1,10 +1,11 @@
 import Text from "@mui/material/Typography";
-import { Anchor } from "@/components/Navigation/Anchor";
+import { Anchor } from "@/components/Navigation/Anchor.jsx";
 import { LegalPolicyPageLayout } from "@/layouts/LegalPolicyPageLayout";
-import { PolicyToC } from "@/layouts/LegalPolicyPageLayout/PolicyToC";
-import { PersonalInfoCollectedTable } from "./PersonalInfoCollectedTable";
-import { POLICY_ANCHOR_TARGETS } from "./PolicyAnchorTargets";
-import { PolicySection, InShort } from "./PolicySection";
+import { PolicyToC } from "@/layouts/LegalPolicyPageLayout/PolicyToC.jsx";
+import { APP_URLS } from "@/routes/appURLs.js";
+import { PersonalInfoCollectedTable } from "./PersonalInfoCollectedTable.jsx";
+import { POLICY_ANCHOR_TARGETS } from "./PolicyAnchorTargets.jsx";
+import { PolicySection, InShort } from "./PolicySection.jsx";
 
 export const PrivacyPolicyPage = () => (
   <LegalPolicyPageLayout pageTitle="Privacy Policy" lastUpdated="January 19, 2024">
@@ -15,7 +16,7 @@ export const PrivacyPolicyPage = () => (
     </Text>
     <ul>
       <li>
-        Visit our website at <Anchor href="https://gofixit.app" />, or any website of ours that
+        Visit our website at <Anchor href={APP_URLS.APP_ORIGIN} />, or any website of ours that
         links to this privacy notice
       </li>
       <li>
@@ -89,9 +90,9 @@ export const PrivacyPolicyPage = () => (
     </Text>
     <Text>
       <b>How do you exercise your rights?</b> The easiest way to exercise your rights is by filling
-      out our data subject request form available here: <Anchor href="https://gofixit.app/home" />,
-      or by contacting us. We will consider and act upon any request in accordance with applicable
-      data protection laws.
+      out our data subject request form available here: <Anchor href={APP_URLS.APP_HOME_PAGE} />, or
+      by contacting us. We will consider and act upon any request in accordance with applicable data
+      protection laws.
     </Text>
     <Text>
       Want to learn more about what Nerdware, LLC does with any information we collect? Click{" "}
@@ -146,7 +147,7 @@ export const PrivacyPolicyPage = () => (
         including identifying information about the devices that connect to its services. Stripe
         uses this information to operate and improve the services it provides to us, including for
         fraud detection and prevention. You may find their privacy notice link(s) here:{" "}
-        <Anchor href="https://stripe.com/privacy" />.
+        <Anchor href={APP_URLS.STRIPE_PRIVACY_POLICY} />.
       </Text>
       <Text>
         <b>Social Media Login Data.</b> We may provide you with the option to register with us using
@@ -377,8 +378,7 @@ export const PrivacyPolicyPage = () => (
         If you are located in the EEA or UK and you believe we are unlawfully processing your
         personal information, you also have the right to complain to your local data protection
         supervisory authority. You can find their contact details here:{" "}
-        <Anchor href="https://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.html" />
-        .
+        <Anchor href="https://www.edpb.europa.eu/about-edpb/about-edpb/members_en" />.
       </Text>
       <Text>
         If you are located in Switzerland, the contact details for the data protection authorities
@@ -630,7 +630,7 @@ export const PrivacyPolicyPage = () => (
         Based on the applicable laws of your country, you may have the right to request access to
         the personal information we collect from you, change that information, or delete it. To
         request to review, update, or delete your personal information, please visit:{" "}
-        <Anchor href="https://gofixit.app/home" />.
+        <Anchor href={APP_URLS.APP_HOME_PAGE} />.
       </Text>
     </PolicySection>
   </LegalPolicyPageLayout>

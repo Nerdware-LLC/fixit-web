@@ -1,7 +1,12 @@
 import { isPlainObject } from "@nerdware/ts-type-safety-utils";
-import { commonColDefs } from "./commonColDefs";
-import type { GridValidRowModel, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import type { Simplify, OverrideProperties } from "type-fest";
+import { commonColDefs } from "./commonColDefs.js";
+import type {
+  GridValidRowModel,
+  GridColDef,
+  GridValueGetter,
+  GridValueFormatter,
+} from "@mui/x-data-grid";
+import type { Simplify, OverrideProperties, SetReturnType } from "type-fest";
 
 /**
  * This function provides a map of complete [`GridColDef`][col-defs-docs] objects for a
@@ -58,7 +63,7 @@ export const getDataGridColDefs = <
               ? commonColDefs.dateTimeDefaults
               : {}),
           // If `renderCell` is present, `valueFormatter` is necessary for print/export:
-          ...(!!gridColDef?.renderCell && commonColDefs.renderCellBaseValueFormatter),
+          ...(!!gridColDef.renderCell && commonColDefs.renderCellBaseValueFormatter),
           ...gridColDef, // <-- explicit configs override above defaults
         },
       ];
@@ -116,9 +121,21 @@ type MapRowDataTypesToColDefParams<
       OverrideProperties<
         GridColDef<TRowData, TColData[Key], GridColDefFormattedValueType<TColData[Key]>>,
         {
-          valueGetter?: (
-            params: GridValueGetterParams<TRowData, TColData[Key]>
-          ) => string | null | undefined;
+          valueGetter?: SetReturnType<
+            GridValueGetter<
+              TRowData,
+              TColData[Key],
+              GridColDefFormattedValueType<TColData[Key]>,
+              TColData[Key]
+            >,
+            string | null | undefined
+          >;
+          valueFormatter?: GridValueFormatter<
+            TRowData,
+            TColData[Key],
+            GridColDefFormattedValueType<TColData[Key]>,
+            TColData[Key] // <-- The pkg type def currently does not provide the `TValue` type param
+          >;
         }
       >
     >,

@@ -6,9 +6,9 @@ import { inputBaseClasses } from "@mui/material/InputBase";
 import { inputLabelClasses } from "@mui/material/InputLabel";
 import { modalClasses } from "@mui/material/Modal";
 import { Form, formClassNames, type FormValidationFunction } from "@/components/Form";
-import { SearchUsersInput } from "./SearchUsersInput";
-import { searchUsersInputClassNames as classNames } from "./classNames";
-import { helpers } from "./helpers";
+import { SearchUsersInput } from "./SearchUsersInput.jsx";
+import { searchUsersInputClassNames as classNames } from "./classNames.js";
+import { helpers } from "./helpers.js";
 
 export const SearchUsersForm = () => (
   <StyledDiv className={classNames.root}>
@@ -18,7 +18,7 @@ export const SearchUsersForm = () => (
       validateOnChange={false}
       onSubmit={() => {}} // Input submission is handled by the SearchUsersInput component
     >
-      <SearchUsersInput id="searchField" />
+      <SearchUsersInput fieldID="searchField" />
     </Form>
   </StyledDiv>
 );

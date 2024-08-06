@@ -1,8 +1,8 @@
 import { redirect, type LoaderFunction } from "react-router-dom";
 import { toast } from "react-toastify";
-import { PaymentRequiredToast } from "@/components/Alerts/PaymentRequiredToast";
+import { PaymentRequiredToast } from "@/components/Alerts/PaymentRequiredToast.jsx";
 import { isAuthenticatedStore, isActiveAccountStore } from "@/stores";
-import { APP_PATHS } from "./appPaths";
+import { APP_PATHS } from "./appPaths.js";
 
 /**
  * This function returns a react-router-dom RouteObject `loader` for "protected" routes
@@ -38,7 +38,6 @@ export const getProtectedRouteLoader = (
           closeButton: false, // PaymentRequiredToast contains its own close btn
           style: { backgroundColor: "transparent" }, // hide react-toastify's modal
         });
-
         throw redirect(APP_PATHS.PRODUCTS);
       }
     }

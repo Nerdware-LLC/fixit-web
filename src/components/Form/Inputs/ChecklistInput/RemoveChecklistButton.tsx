@@ -1,3 +1,4 @@
+import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import { useField } from "formik";
 import { dialogContentClasses } from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
@@ -5,16 +6,15 @@ import Tooltip from "@mui/material/Tooltip";
 import Text from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { Dialog } from "@/components/Dialog";
-import { getTypeSafeError } from "@/utils/typeSafety/getTypeSafeError";
-import { checklistInputClassNames } from "./classNames";
-import type { BaseChecklistType } from "@/components/Checklist/types";
-import type { ChecklistInputFormProps } from "./types";
+import { checklistInputClassNames } from "./classNames.js";
+import type { BaseChecklistType } from "@/components/Checklist/types.js";
+import type { FormikFieldIdProp } from "@/components/Form/helpers/useFormikFieldProps.js";
 
-export const RemoveChecklistButton = ({ checklistFieldID }: ChecklistInputFormProps) => {
+export const RemoveChecklistButton = ({ fieldID }: FormikFieldIdProp) => {
   const { isDialogVisible, openDialog, closeDialog } = Dialog.use();
 
   const [{ value: checklist }, { initialValue }, { setValue, setTouched, setError }] =
-    useField<BaseChecklistType | null>(checklistFieldID);
+    useField<BaseChecklistType | null>(fieldID);
 
   const resetChecklist = async () => {
     try {

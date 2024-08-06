@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Dialog } from "@/components/Dialog";
-import { ButtonLoadingIndicator } from "@/components/Indicators/ButtonLoadingIndicator";
-import { stripeService } from "@/services/stripeService";
+import { ButtonLoadingIndicator } from "@/components/Indicators/ButtonLoadingIndicator.jsx";
+import { stripeService } from "@/services/stripeService.js";
 import type { ToastContentProps } from "react-toastify";
 
 export const PaymentRequiredToast = ({ closeToast }: PaymentRequiredToastProps) => {

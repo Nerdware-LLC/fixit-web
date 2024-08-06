@@ -1,6 +1,11 @@
 import { isString } from "@nerdware/ts-type-safety-utils";
 import { styled } from "@mui/material/styles";
 
+export type PolicyInfoTableProps = {
+  headers: Array<React.ReactNode>;
+  dataRows: Array<Array<React.ReactNode>>;
+} & Omit<React.ComponentProps<typeof StyledTable>, "children">;
+
 /**
  * A simple table for displaying policy information.
  */
@@ -24,11 +29,6 @@ export const PolicyInfoTable = ({ headers, dataRows, ...tableProps }: PolicyInfo
     </tbody>
   </StyledTable>
 );
-
-export type PolicyInfoTableProps = {
-  headers: Array<React.ReactNode>;
-  dataRows: Array<Array<React.ReactNode>>;
-} & Omit<React.ComponentProps<typeof StyledTable>, "children">;
 
 const StyledTable = styled("table")(({ theme: { palette } }) => ({
   borderCollapse: "collapse",

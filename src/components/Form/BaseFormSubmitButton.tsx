@@ -1,7 +1,7 @@
 import { grid as muiGridSxProps, type GridProps as MuiGridSxProps } from "@mui/system";
 import { styled } from "@mui/material/styles";
 import Button, { type ButtonProps } from "@mui/material/Button";
-import { ButtonLoadingIndicator } from "@/components/Indicators/ButtonLoadingIndicator";
+import { ButtonLoadingIndicator } from "@/components/Indicators/ButtonLoadingIndicator.jsx";
 import type { Simplify } from "type-fest";
 
 /**

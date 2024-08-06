@@ -1,3 +1,4 @@
-export * from "./ChecklistItemInput";
-export * from "./classNames";
-export * from "./types";
+export * from "./ChecklistItemInput.jsx";
+
+export * from "./classNames.js";
+export * from "./types.js";

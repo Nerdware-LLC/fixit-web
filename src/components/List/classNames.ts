@@ -1,5 +1,4 @@
 import { listClasses as muiListClassNames } from "@mui/material/List";
-import { listItemClassNames } from "./listItems/classNames";
 
 /**
  * Class names for `List` components (src/components/List/).
@@ -18,5 +17,4 @@ export const listClassNames = {
       text: "virtualized-list__empty-placeholder__text",
     },
   },
-  listItems: { ...listItemClassNames },
 } as const;

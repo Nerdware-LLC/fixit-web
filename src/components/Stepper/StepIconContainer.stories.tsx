@@ -1,5 +1,5 @@
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
-import { StepIconContainer } from "./StepIconContainer";
+import { StepIconContainer } from "./StepIconContainer.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

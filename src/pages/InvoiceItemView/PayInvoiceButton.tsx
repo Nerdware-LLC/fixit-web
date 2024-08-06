@@ -6,10 +6,10 @@ import Text, { typographyClasses } from "@mui/material/Typography";
 import PayIcon from "@mui/icons-material/Paid";
 import { ContactAvatar, avatarClassNames } from "@/components/Avatar";
 import { Dialog } from "@/components/Dialog";
-import { MUTATIONS } from "@/graphql/mutations";
-import { fmt } from "@/utils/formatters";
-import { invoiceItemViewClassNames } from "./classNames";
-import type { Invoice } from "@/graphql/types";
+import { MUTATIONS } from "@/graphql/mutations.js";
+import { intToCurrencyStr } from "@/utils/formatters/currency.js";
+import { invoiceItemViewClassNames } from "./classNames.js";
+import type { Invoice } from "@/types/graphql.js";
 
 export const PayInvoiceButton = ({
   invoice,
@@ -108,7 +108,7 @@ export const PayInvoiceButton = ({
               <Text>Amount:</Text>
             </div>
             <div className={invoiceItemViewClassNames.payInvoiceDialogRightCol}>
-              <Text>{fmt.intToCurrencyStr(invoice.amount)}</Text>
+              <Text>{intToCurrencyStr(invoice.amount)}</Text>
             </div>
           </Box>
         </Dialog>

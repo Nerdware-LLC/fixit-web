@@ -1,18 +1,18 @@
 import { faker } from "@faker-js/faker/locale/en_US";
-import { getMakeFakeFn } from "./_helpers";
-import { makeFakeTextUpToNumChars } from "./textUpToNumChars";
-import { makeFakeUserProfile } from "./userProfile";
-import { makeFakeUserStripeConnectAccount } from "./userStripeConnectAccount";
-import { makeFakeUserSubscription } from "./userSubscription";
-import { makeFakeWorkOrderDescription } from "./workOrderDescription";
-import type { User } from "@/graphql/types";
+import { getMakeFakeFn } from "./_helpers.js";
+import { makeFakeTextUpToNumChars } from "./textUpToNumChars.js";
+import { makeFakeUserProfile } from "./userProfile.js";
+import { makeFakeUserStripeConnectAccount } from "./userStripeConnectAccount.js";
+import { makeFakeUserSubscription } from "./userSubscription.js";
+import { makeFakeWorkOrderDescription } from "./workOrderDescription.js";
+import type { User } from "@/types/graphql.js";
 
 export const makeFake = {
-  userID: getMakeFakeFn<Pick<User, "id">>("id", () => `USER#${faker.string.uuid()}`),
+  userID: (handle: string) => `USER#${handle}`,
   email: getMakeFakeFn<Pick<User, "email">>("email", () => faker.internet.email()),
   userHandle: getMakeFakeFn<Pick<User, "handle">>(
     "handle",
-    () => `@${faker.internet.userName().replace(/[.-]/g, "")}`
+    () => `@${faker.internet.userName().replace(/[^a-z0-9_]/gi, "")}`
   ),
   phone: getMakeFakeFn<Pick<User, "phone">>("phone", () =>
     [

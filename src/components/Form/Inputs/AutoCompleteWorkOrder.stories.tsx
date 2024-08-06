@@ -1,7 +1,10 @@
 import { object as yupObject } from "yup";
 import { withFormDecorator, type FormDecoratorArgs } from "@/../.storybook/decorators";
 import { MOCK_WORK_ORDERS } from "@/tests/mockItems";
-import { AutoCompleteWorkOrder, type AutoCompleteWorkOrderProps } from "./AutoCompleteWorkOrder";
+import {
+  AutoCompleteWorkOrder,
+  type AutoCompleteWorkOrderProps,
+} from "./AutoCompleteWorkOrder.jsx";
 import { yupCommonSchema } from "../helpers";
 import type { Meta, StoryObj } from "@storybook/react";
 
@@ -28,7 +31,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicDemo = {
   args: {
-    id: "workOrder",
+    fieldID: "workOrder",
     label: "Work Order",
     options: MOCK_WORK_ORDERS.myWorkOrders.assignedToUser.map((wo) => ({
       ...wo,

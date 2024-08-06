@@ -1,10 +1,10 @@
 import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Text from "@mui/material/Typography";
-import { getMuiPaperStyles } from "@/app/ThemeProvider/helpers";
-import { ItemDetailsHeader } from "./ItemDetailsHeader";
-import { dataDisplayClassNames } from "./classNames";
-import type { ItemDetailsProps } from "./ItemDetails";
+import { getMuiPaperStyles } from "@/app/ThemeProvider/helpers.js";
+import { ItemDetailsHeader } from "./ItemDetailsHeader.jsx";
+import { dataDisplayClassNames } from "./classNames.js";
+import type { ItemDetailsProps } from "./ItemDetails.jsx";
 
 /**
  * Displays one or more ItemDetails components as a group.
@@ -30,7 +30,7 @@ export const ItemDetailsGroup = ({
       />
     )}
     <div className={dataDisplayClassNames.groupContent}>
-      {typeof children === "string" ? <Text>{children || "--"}</Text> : children ?? emptyFallback}
+      {typeof children === "string" ? <Text>{children || "--"}</Text> : (children ?? emptyFallback)}
     </div>
   </StyledBox>
 );
@@ -39,8 +39,12 @@ const StyledBox = styled(Box)(({ theme: { palette, shadows, transitions } }) => 
   ...(palette.mode === "light" && { border: `2px solid ${palette.divider}` }),
   borderRadius: "0.35rem",
 
+  display: "flex",
+  flexDirection: "column",
+
   overflow: "hidden",
   textOverflow: "ellipsis",
+
   "& *": {
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -48,16 +52,19 @@ const StyledBox = styled(Box)(({ theme: { palette, shadows, transitions } }) => 
 
   // HEADER:
   [`& > .${dataDisplayClassNames.groupHeader}`]: {
-    padding: "1rem 1.25rem",
-    paddingBottom: "1rem",
-    transform: "translateY(1px)",
+    fontSize: "1rem !important",
+    padding: "1.1rem 1rem 1rem 1rem",
     borderWidth: "0 0 1px 0",
     borderStyle: "solid",
     borderColor: alpha(palette.divider, 0.05),
     borderRadius: "0.35rem 0.35rem 0 0",
     ...getMuiPaperStyles(1, { palette, shadows, transitions }),
-    [`& .${dataDisplayClassNames.label}`]: {
-      opacity: "1 !important", // rm opacity from header label
+    "& *": {
+      lineHeight: "1.5 !important",
+      [`&.${dataDisplayClassNames.label}`]: {
+        fontSize: "1rem",
+        opacity: "1 !important", // rm opacity from header label
+      },
     },
   },
 
@@ -68,6 +75,7 @@ const StyledBox = styled(Box)(({ theme: { palette, shadows, transitions } }) => 
     padding: "1.25rem",
     display: "flex",
     flexDirection: "column",
+    flexShrink: 0,
     gap: "1.5rem 2rem",
     borderRadius: "0 0 0.35rem 0.35rem",
     backgroundColor: palette.background.paper,

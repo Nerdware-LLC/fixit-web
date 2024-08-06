@@ -1,6 +1,6 @@
 import Tooltip, { type TooltipProps } from "@mui/material/Tooltip";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutlineSharp";
-import { dataDisplayClassNames } from "./classNames";
+import { dataDisplayClassNames } from "./classNames.js";
 import type { SvgIconProps } from "@mui/material/SvgIcon";
 
 /**

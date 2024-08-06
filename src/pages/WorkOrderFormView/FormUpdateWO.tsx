@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client/react/hooks";
 import { getInitialValuesFromSchema } from "@/components/Form/helpers";
 import { useLottie } from "@/components/LottieAnimations";
-import { MUTATIONS } from "@/graphql/mutations";
-import { getItemViewPath } from "@/routes/helpers";
-import { logger } from "@/utils/logger";
-import { WorkOrderForm } from "./WorkOrderForm";
-import { workOrderFormSchema, type WorkOrderFormValues } from "./schema";
-import type { WorkOrder } from "@/graphql/types";
+import { MUTATIONS } from "@/graphql/mutations.js";
+import { getItemViewPath } from "@/routes/helpers.js";
+import { logger } from "@/utils/logger.js";
+import { WorkOrderForm } from "./WorkOrderForm.jsx";
+import { workOrderFormSchema, type WorkOrderFormValues } from "./schema.js";
+import type { WorkOrder } from "@/types/graphql.js";
 
 export const FormUpdateWO = ({ existingWorkOrder }: { existingWorkOrder: WorkOrder }) => {
   const { LottieView, playLottie } = useLottie({ animation: "success-checkmark" });
@@ -18,7 +18,11 @@ export const FormUpdateWO = ({ existingWorkOrder }: { existingWorkOrder: WorkOrd
     await updateWorkOrder({
       variables: {
         workOrderID: existingWorkOrder.id,
-        workOrder: formValues,
+        workOrder: {
+          ...formValues,
+          dueDate: formValues.dueDate?.toDate(),
+          scheduledDateTime: formValues.scheduledDateTime?.toDate(),
+        },
       },
     }).catch(logger.error);
 

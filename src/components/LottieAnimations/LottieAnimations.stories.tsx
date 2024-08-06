@@ -2,7 +2,7 @@ import { useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { useLottie } from "./useLottie";
+import { useLottie } from "./useLottie.js";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

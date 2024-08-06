@@ -1,44 +1,21 @@
 import { faker } from "@faker-js/faker";
 import { makeFake } from "@/tests/utils/makeFake";
-import { STATIC_MOCK_USERS } from "./staticMockUsers";
-import type { User } from "@/graphql/types";
-import type { StaticMockContactName } from "./staticMockContacts";
+import { STATIC_MOCK_USERS } from "./staticMockUsers.js";
+import type { User } from "@/types/graphql.js";
+import type { StaticMockContactName } from "./staticMockContacts.js";
 
 const createMockUser = (overrides: Partial<User> = {}): User => {
-  const userID = makeFake.userID(overrides);
   const handle = makeFake.userHandle(overrides);
-  const userCreatedAt = overrides?.createdAt ?? faker.date.past({ years: 3 });
+  const userID = makeFake.userID(handle);
+  const userCreatedAt = overrides.createdAt ?? faker.date.past({ years: 3 });
 
   return {
     __typename: "User",
-
     id: userID,
     handle,
     email: makeFake.email(overrides),
     phone: makeFake.phone(overrides),
-
-    expoPushToken:
-      overrides?.expoPushToken ??
-      faker.helpers.maybe(() => `expo-${faker.string.alphanumeric(10)}`),
-
     profile: makeFake.userProfile(overrides, handle),
-
-    stripeCustomerID: overrides?.stripeCustomerID ?? `cus_${faker.string.alphanumeric(12)}`,
-
-    stripeConnectAccount: faker.helpers.maybe(
-      () =>
-        makeFake.userStripeConnectAccount(
-          { createdAt: userCreatedAt },
-          overrides?.stripeConnectAccount
-        ),
-      { probability: 0.9 }
-    ),
-
-    subscription: faker.helpers.maybe(
-      () => makeFake.userSubscription({ createdAt: userCreatedAt }, overrides?.subscription),
-      { probability: 0.9 }
-    ),
-
     createdAt: userCreatedAt,
     updatedAt: faker.date.between({ from: userCreatedAt, to: new Date() }),
   };
@@ -58,10 +35,19 @@ export const MOCK_USERS = {
   ...Object.fromEntries(
     Array.from({ length: 10 }).map(() => {
       const randomMockUser = createMockUser();
-      return [
-        randomMockUser.profile?.displayName?.replace(/(\s|-)/g, "_") ?? randomMockUser.handle,
-        randomMockUser,
-      ];
+      return [randomMockUser.profile.displayName.replace(/(\s|-)/g, "_"), randomMockUser];
     })
   ),
 } as Record<StaticMockContactName, User> & { [k: string]: User };
+
+/**
+ * This fn returns a random known User object.
+ */
+export const getRandomUser = () => {
+  return faker.helpers.arrayElement([
+    MOCK_USERS.Linda_McContractorLongName_Jones_Smith,
+    MOCK_USERS.Aloy_McInvoicer,
+    MOCK_USERS.Walt_McWorkOrder,
+    MOCK_USERS.Astarion_Ancunin,
+  ]);
+};

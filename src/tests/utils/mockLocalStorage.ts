@@ -43,7 +43,7 @@ export const mockLocalStorage = Object.defineProperties(
       value: (key: unknown): string | null => {
         if (typeof key !== "string") throw new TypeError(getLocalStorageErrMsg("getItem"));
 
-        return _MOCK_LOCAL_STORAGE?.[key] ?? null;
+        return _MOCK_LOCAL_STORAGE[key] ?? null;
       },
     },
     removeItem: {
@@ -51,6 +51,7 @@ export const mockLocalStorage = Object.defineProperties(
         if (typeof key !== "string") throw new TypeError(getLocalStorageErrMsg("removeItem"));
 
         if (Object.hasOwn(_MOCK_LOCAL_STORAGE, key)) {
+          // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
           delete _MOCK_LOCAL_STORAGE[key];
         }
       },
@@ -58,6 +59,7 @@ export const mockLocalStorage = Object.defineProperties(
     clear: {
       value: () => {
         for (const key in _MOCK_LOCAL_STORAGE) {
+          // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
           delete _MOCK_LOCAL_STORAGE[key];
         }
       },
@@ -70,7 +72,7 @@ export const mockLocalStorage = Object.defineProperties(
         if (typeof index !== "number") throw new TypeError(getLocalStorageErrMsg("key"));
 
         const keys = Object.keys(_MOCK_LOCAL_STORAGE);
-        return keys?.[index] ?? null;
+        return keys[index] ?? null;
       },
     },
   }

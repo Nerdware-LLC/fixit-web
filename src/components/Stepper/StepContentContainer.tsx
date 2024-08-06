@@ -2,8 +2,8 @@ import { styled } from "@mui/material/styles";
 import StepContent from "@mui/material/StepContent";
 import Text, { typographyClasses } from "@mui/material/Typography";
 import InfoIcon from "@mui/icons-material/Info";
-import { stepperClassNames as classNames } from "./classNames";
-import type { StepperStepContentProps } from "./types";
+import { stepperClassNames as classNames } from "./classNames.js";
+import type { StepperStepContentProps } from "./types.js";
 
 /**
  * StepContent container which can be used for MuiStepper in both vertical and horizontal layouts.
@@ -37,6 +37,7 @@ const StyledDiv = styled("div")({
   display: "flex",
   flexDirection: "column",
   gap: "0.5rem", // spacing between text and btn, if one is present
+  minWidth: "min-content",
 
   // StepContentContainer - VERTICAL
   [`&.${classNames.stepContent.vertical}`]: {

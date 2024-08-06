@@ -48,7 +48,17 @@ export const withFormDecorator = <StoryArgs extends Args>(
 ) => (
   <Form
     onSubmit={onSubmit}
-    style={{ minWidth: "12rem", width: "clamp(12rem, 50vw, 25rem)", ...style }}
+    style={{
+      margin: "auto",
+      width: "fit-content",
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      gap: "1rem",
+      alignItems: "center",
+      justifyContent: "center",
+      ...style,
+    }}
     {...formDecoratorArgs}
   >
     <Story />

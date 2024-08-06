@@ -3,9 +3,9 @@ import { toast } from "react-toastify";
 import * as Sentry from "@sentry/react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { RootAppLayout } from "@/layouts/RootAppLayout";
-import { checkoutValuesStore } from "@/stores/checkoutValuesStore";
-import { APP_PATHS, APP_PATH_COMPONENTS } from "./appPaths";
-import { getProtectedRouteLoader } from "./getProtectedRouteLoader";
+import { checkoutValuesStore } from "@/stores/checkoutValuesStore.js";
+import { APP_PATHS, APP_PATH_COMPONENTS } from "./appPaths.js";
+import { getProtectedRouteLoader } from "./getProtectedRouteLoader.js";
 
 const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRouter);
 
@@ -27,6 +27,16 @@ const rootAppBrowserRouter = sentryCreateBrowserRouter(
         {
           path: APP_PATHS.LOGIN,
           lazy: () => import(/* webpackChunkName: "LoginPage" */ "@/pages/LoginPage"),
+        },
+        {
+          path: APP_PATHS.FORGOT_PASSWORD,
+          lazy: () =>
+            import(/* webpackChunkName: "ForgotPasswordPage" */ "@/pages/ForgotPasswordPage"),
+        },
+        {
+          path: APP_PATHS.RESET_PASSWORD,
+          lazy: () =>
+            import(/* webpackChunkName: "ResetPasswordPage" */ "@/pages/ResetPasswordPage"),
         },
         {
           path: APP_PATHS.ToS,

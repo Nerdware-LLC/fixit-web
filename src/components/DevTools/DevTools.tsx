@@ -4,9 +4,9 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
 import Text from "@mui/material/Typography";
-import { RainbowBorderBox } from "@/components/Containers/RainbowBorderBox";
-import { CacheManagerDevTool } from "./CacheManagerDevTool";
-import { devToolsElementIDs } from "./elementIDs";
+import { RainbowBorderBox } from "@/components/Containers/RainbowBorderBox.jsx";
+import { CacheManagerDevTool } from "./CacheManagerDevTool.jsx";
+import { devToolsElementIDs } from "./elementIDs.js";
 
 export const DevTools = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

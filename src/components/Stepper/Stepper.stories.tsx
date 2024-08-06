@@ -1,5 +1,5 @@
 import Button from "@mui/material/Button";
-import { Stepper } from "./Stepper";
+import { Stepper } from "./Stepper.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

@@ -1,9 +1,9 @@
-import { GoogleCredentialResponse, TokenResponse } from "@/types/googleOAuth";
+import { GoogleCredentialResponse, TokenResponse } from "@/types/googleOAuth.js";
 
 export const extractClientID = (
   credentialResponse: GoogleCredentialResponse
 ): string | undefined => {
-  return credentialResponse?.clientId ?? credentialResponse?.client_id;
+  return credentialResponse.clientId ?? credentialResponse.client_id;
 };
 
 /**
@@ -13,7 +13,7 @@ export const extractClientID = (
  * [link]: https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#sign-out
  */
 export const googleLogout = () => {
-  window?.google?.accounts?.id?.disableAutoSelect();
+  window.google?.accounts.id.disableAutoSelect();
 };
 
 /**
@@ -25,14 +25,11 @@ export const hasGrantedAllScopesGoogle = (
   firstScope: string,
   ...restScopes: string[]
 ): boolean => {
-  if (!window?.google) return false;
+  if (!window.google) return false;
 
   return (
-    window?.google?.accounts?.oauth2?.hasGrantedAllScopes(
-      tokenResponse,
-      firstScope,
-      ...restScopes
-    ) || false
+    window.google.accounts.oauth2.hasGrantedAllScopes(tokenResponse, firstScope, ...restScopes) ||
+    false
   );
 };
 
@@ -45,13 +42,10 @@ export const hasGrantedAnyScopeGoogle = (
   firstScope: string,
   ...restScopes: string[]
 ): boolean => {
-  if (!window?.google) return false;
+  if (!window.google) return false;
 
   return (
-    window?.google?.accounts?.oauth2?.hasGrantedAnyScope(
-      tokenResponse,
-      firstScope,
-      ...restScopes
-    ) || false
+    window.google.accounts.oauth2.hasGrantedAnyScope(tokenResponse, firstScope, ...restScopes) ||
+    false
   );
 };

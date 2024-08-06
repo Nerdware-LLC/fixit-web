@@ -40,23 +40,22 @@ const StyledDiv = styled("div", {
   height: "100%",
   zIndex: 1,
   color: "#fff",
-  backgroundColor: palette.mode === "dark" ? palette.grey[700] : palette.grey[400],
+  backgroundColor: palette.mode === "dark" ? palette.grey[700] : palette.grey[500],
   borderRadius: "50%",
   display: "inline-flex",
   justifyContent: "center",
   alignItems: "center",
 
   ...(ownerState.active && {
-    backgroundImage: `linear-gradient(135deg, ${palette.primary.dark} 30%, ${palette.primary.light})`,
-    boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
+    backgroundImage: `linear-gradient(315deg, ${palette.primary.dark} 25%, ${palette.primary.light})`,
   }),
 
   ...(ownerState.completed && {
-    backgroundImage: `linear-gradient(135deg, ${palette.success.dark} 40%, ${palette.success.light})`,
+    backgroundImage: `linear-gradient(315deg, ${palette.success.dark} 25%, ${palette.success.light})`,
   }),
 
   ...(ownerState.error && {
-    backgroundImage: `linear-gradient(135deg, ${palette.error.dark} 40%, ${palette.error.light})`,
+    backgroundImage: `linear-gradient(315deg, ${palette.error.dark} 25%, ${palette.error.light})`,
     "& > svg": {
       // These styles nudge the icon up a bit and ensures it doesn't visually overflow the container
       transform: "translateY(-1px)",

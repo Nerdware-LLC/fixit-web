@@ -1,13 +1,14 @@
 import { styled } from "@mui/material/styles";
 import Text from "@mui/material/Typography";
 import ListIcon from "@mui/icons-material/List";
-import { globalClassNames } from "@/app/GlobalStyles/classNames";
-import { checklistClassNames } from "./classNames";
+import { globalClassNames } from "@/app/GlobalStyles/classNames.js";
+import { getMuiPaperStyles } from "@/app/ThemeProvider/helpers.js";
+import { checklistClassNames } from "./classNames.js";
 import type {
   BaseChecklistItemType,
   BaseRenderedChecklistItemProps,
   RenderChecklistItemFn,
-} from "./types";
+} from "./types.js";
 
 /**
  * This Checklist component renders an array of checklist-items along with a list header and footer.
@@ -48,7 +49,9 @@ export const Checklist = <
   >
     <div className={checklistClassNames.header}>
       <ListIcon className={checklistClassNames.headerIcon} />
-      <Text className={checklistClassNames.headerTitle}>{headerTitle}</Text>
+      <Text className={checklistClassNames.headerTitle} variant="h6">
+        {headerTitle}
+      </Text>
       {headerComponents}
     </div>
     {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
@@ -74,7 +77,10 @@ export const Checklist = <
 
 const StyledDiv = styled("div", {
   shouldForwardProp: (propName) => propName !== "hasFooterComponents",
-})<{ hasFooterComponents: boolean }>(({ theme: { palette }, hasFooterComponents = false }) => {
+})<{ hasFooterComponents: boolean }>(({
+  theme: { palette, shadows, transitions },
+  hasFooterComponents = false,
+}) => {
   const headerHeight = "3.5rem";
   const footerHeight = hasFooterComponents ? "3.5rem" : "1rem";
   const scrollableListContainerHeight = `calc( 100% - (${headerHeight} + ${footerHeight}))`;
@@ -94,14 +100,21 @@ const StyledDiv = styled("div", {
       height: headerHeight,
       maxHeight: headerHeight,
       width: "100%",
-      padding: "1rem 0.75rem 1rem 1rem", // a little less m-r so the IconButton looks aligned w textfields
+      padding: "1.1rem 0.75rem 1rem 1rem", // a little less m-r so the IconButton looks aligned w textfields
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      gap: "0.35rem",
+      gap: "0.75rem",
       borderWidth: "1px",
       borderRadius: "0.35rem 0.35rem 0 0",
-      backgroundColor: `rgba(0,0,0, ${palette.mode === "dark" ? "0.1" : "0.05"})`,
+      ...getMuiPaperStyles(1, { palette, shadows, transitions }),
+
+      [`& > .${checklistClassNames.headerTitle}`]: {
+        display: "inline",
+        fontSize: "0.95rem",
+        fontWeight: palette.mode === "dark" ? 200 : "normal",
+        textTransform: "uppercase",
+      },
     },
 
     // SCROLLABLE LIST CONTAINER
@@ -131,8 +144,8 @@ const StyledDiv = styled("div", {
       display: "flex",
       alignItems: "center",
       justifyContent: "flex-end",
-      backgroundColor: `rgba(0,0,0, ${palette.mode === "dark" ? "0.1" : "0.05"})`,
       borderRadius: "0 0 0.35rem 0.35rem",
+      ...getMuiPaperStyles(1, { palette, shadows, transitions }),
     },
   };
 });

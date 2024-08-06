@@ -13,8 +13,15 @@ import {
   ChecklistInput,
   checklistInputClassNames,
 } from "@/components/Form";
-import { workOrderFormSchema, type WorkOrderFormValues } from "./schema";
-import type { WorkOrder } from "@/graphql/types";
+import { woFormViewElementIDs } from "./elementIDs.js";
+import { workOrderFormSchema, type WorkOrderFormValues } from "./schema.js";
+import type { WorkOrder } from "@/types/graphql.js";
+
+export type WorkOrderFormProps = {
+  initialFormValues: WorkOrderFormValues;
+  onSubmit: (submittedFormValues: WorkOrderFormValues) => void | Promise<void>;
+  existingWorkOrder?: WorkOrder;
+};
 
 export const WorkOrderForm = ({
   initialFormValues,
@@ -28,39 +35,43 @@ export const WorkOrderForm = ({
     style={{ height: "100%", width: "100%" }}
   >
     <StyledDiv>
-      <div id={elementIDs.detailsGridArea}>
+      <div id={woFormViewElementIDs.detailsGridArea}>
         <AutoCompleteMyContacts
-          id='assignedTo["id"]'
+          fieldID='assignedTo["id"]'
           label="Assign to Contact"
           disabled={
             // assignedTo is disabled if WO status is IN_PROGRESS, DEFERRED, or COMPLETE
             existingWorkOrder &&
-            ["IN_PROGRESS", "DEFERRED", "COMPLETE"].includes(existingWorkOrder?.status)
+            ["IN_PROGRESS", "DEFERRED", "COMPLETE"].includes(existingWorkOrder.status)
           }
         />
-        <div id={elementIDs.priorityAndCategoryContainer}>
-          <SliderWorkOrderPriority id="priority" label="Priority" />
-          <AutoCompleteWorkOrderCategory id="category" label="Category" fullWidth />
+        <div id={woFormViewElementIDs.priorityAndCategoryContainer}>
+          <SliderWorkOrderPriority fieldID="priority" label="Priority" />
+          <AutoCompleteWorkOrderCategory fieldID="category" label="Category" fullWidth />
         </div>
-        <TextInput id="description" label="Description" multiline maxRows={3} />
-        <ChecklistInput checklistFieldID="checklist" />
+        <TextInput fieldID="description" label="Description" multiline maxRows={3} />
+        <ChecklistInput fieldID="checklist" />
       </div>
 
-      <fieldset id={elementIDs.locationGridArea}>
+      <fieldset id={woFormViewElementIDs.locationGridArea}>
         <legend>Location</legend>
-        <TextInput id='location["country"]' label="Country" />
+        <TextInput fieldID='location["country"]' label="Country" />
         <RegionInput regionFieldID='location["region"]' countryFieldID='location["country"]' />
-        <TextInput id='location["city"]' label="City" />
-        <TextInput id='location["streetLine1"]' label="Street Address" />
-        <TextInput id='location["streetLine2"]' label="Street Address 2" />
+        <TextInput fieldID='location["city"]' label="City" />
+        <TextInput fieldID='location["streetLine1"]' label="Street Address" />
+        <TextInput fieldID='location["streetLine2"]' label="Street Address 2" />
       </fieldset>
 
-      <div id={elementIDs.entryAndDatesGridArea}>
-        <TextInput id="entryContact" label="Entry Contact - Name" gridArea="entry-name" />
-        <DatePicker id="dueDate" label="Due Date" format="MM/DD/YYYY" gridArea="due-date" />
-        <PhoneInput id="entryContactPhone" label="Entry Contact - Phone" gridArea="entry-phone" />
+      <div id={woFormViewElementIDs.entryAndDatesGridArea}>
+        <TextInput fieldID="entryContact" label="Entry Contact - Name" gridArea="entry-name" />
+        <DatePicker fieldID="dueDate" label="Due Date" format="MM/DD/YYYY" gridArea="due-date" />
+        <PhoneInput
+          fieldID="entryContactPhone"
+          label="Entry Contact - Phone"
+          gridArea="entry-phone"
+        />
         <DateTimePicker
-          id="scheduledDateTime"
+          fieldID="scheduledDateTime"
           label="Scheduled Date/Time"
           gridArea="scheduled-date"
         />
@@ -70,13 +81,6 @@ export const WorkOrderForm = ({
     </StyledDiv>
   </Form>
 );
-
-const elementIDs = {
-  detailsGridArea: "wo-form-details-grid-area",
-  locationGridArea: "wo-form-location-grid-area",
-  entryAndDatesGridArea: "wo-form-entry-and-dates-grid-area",
-  priorityAndCategoryContainer: "wo-form-priority-and-category-container",
-} as const;
 
 const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
   const containerHeight = "calc(100% - 1rem)";
@@ -117,7 +121,7 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
         }),
 
     // GRID AREA: details
-    [`& > #${elementIDs.detailsGridArea}`]: {
+    [`& > #${woFormViewElementIDs.detailsGridArea}`]: {
       gridArea: "details",
       display: "flex",
       flexDirection: "column",
@@ -127,7 +131,7 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
         marginTop: "0.5rem",
       },
       // priority + category
-      [`& > #${elementIDs.priorityAndCategoryContainer}`]: {
+      [`& > #${woFormViewElementIDs.priorityAndCategoryContainer}`]: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -162,7 +166,7 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
     },
 
     // GRID AREA: location
-    [`& > #${elementIDs.locationGridArea}`]: {
+    [`& > #${woFormViewElementIDs.locationGridArea}`]: {
       gridArea: "location",
       height: "100%",
       width: "100%",
@@ -183,7 +187,7 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
       borderColor: palette.divider,
     },
 
-    [`& > #${elementIDs.entryAndDatesGridArea}`]: {
+    [`& > #${woFormViewElementIDs.entryAndDatesGridArea}`]: {
       gridArea: "entry-and-dates",
       display: "grid",
       gap: "inherit",
@@ -215,9 +219,3 @@ const StyledDiv = styled("div")(({ theme: { palette, variables } }) => {
     },
   };
 });
-
-export type WorkOrderFormProps = {
-  initialFormValues: WorkOrderFormValues;
-  onSubmit: (submittedFormValues: WorkOrderFormValues) => void | Promise<void>;
-  existingWorkOrder?: WorkOrder;
-};

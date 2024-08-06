@@ -1,2 +1,2 @@
-export { Component } from "./PageNotFound";
+export { Component } from "./PageNotFound.jsx";
 // Exported as "Component" for react-router-dom lazy loading

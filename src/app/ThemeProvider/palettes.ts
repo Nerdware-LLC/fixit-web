@@ -110,7 +110,7 @@ export const PALETTES = Object.fromEntries(
           : {
               primary: "rgba(0, 0, 0, 0.87)", //  MUI default
               secondary: "rgba(0, 0, 0, 0.6)", // MUI default
-              disabled: "rgba(0, 0, 0, 0.38)", // MUI default
+              disabled: "rgba(0, 0, 0, 0.45)",
               icon: "rgba(0, 0, 0, 0.5)", // Custom K-V (Mui doesn't have "icon" color in light mode)
             },
       // --------------------------------------------------

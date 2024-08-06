@@ -1,5 +1,5 @@
 import Button from "@mui/material/Button";
-import { Dialog, type DialogProps } from "./Dialog";
+import { Dialog, type DialogProps } from "./Dialog.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

@@ -1,9 +1,9 @@
 import { styled, alpha } from "@mui/material/styles";
 import Text, { typographyClasses } from "@mui/material/Typography";
-import { INVOICE_STATUSES } from "@/types/Invoice";
-import { WORK_ORDER_STATUSES } from "@/types/WorkOrder";
-import { SmallWidgetLayout } from "./SmallWidgetLayout";
-import { widgetClassNames } from "./classNames";
+import { INVOICE_STATUSES } from "@/types/Invoice.js";
+import { WORK_ORDER_STATUSES } from "@/types/WorkOrder.js";
+import { SmallWidgetLayout } from "./SmallWidgetLayout.jsx";
+import { widgetClassNames } from "./classNames.js";
 
 export const StatusCountWidget = ({
   itemTypeLabel,

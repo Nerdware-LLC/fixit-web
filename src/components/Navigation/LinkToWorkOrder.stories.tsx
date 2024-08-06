@@ -1,5 +1,5 @@
 import { withNavDecorator } from "@/../.storybook/decorators";
-import { LinkToWorkOrder } from "./LinkToWorkOrder";
+import { LinkToWorkOrder } from "./LinkToWorkOrder.jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

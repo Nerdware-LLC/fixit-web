@@ -3,7 +3,7 @@ import ListItem, { type ListItemProps } from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemButton, { type ListItemButtonProps } from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import type { Contact } from "@/graphql/types";
+import type { Contact } from "@/types/graphql.js";
 import type { Simplify } from "type-fest";
 
 /**
@@ -52,7 +52,11 @@ const ContactListItemContent = ({
       <ListItemAvatar>
         <Avatar src={photoUrl || undefined} alt={displayName} />
       </ListItemAvatar>
-      <ListItemText primary={handle} secondary={displayName} />
+      <ListItemText
+        primary={handle}
+        secondary={displayName}
+        sx={{ "& *": { overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" } }}
+      />
     </>
   );
 };
