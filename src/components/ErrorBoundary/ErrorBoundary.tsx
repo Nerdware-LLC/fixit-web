@@ -22,7 +22,7 @@ const defaultErrorBoundaryFallback: ErrorBoundaryFallbackFn = ({ error }) => (
 );
 
 /**
- ;* A reusable [`Sentry ErrorBoundary`][sentry-eb-docs] component.
+ * A reusable [`Sentry ErrorBoundary`][sentry-eb-docs] component.
  *
  * > **NOTE:** ErrorBoundary components DO NOT catch the following:
  * >   - Event-driven errors
