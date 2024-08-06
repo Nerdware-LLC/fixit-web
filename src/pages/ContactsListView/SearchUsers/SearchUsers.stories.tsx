@@ -8,9 +8,6 @@ const meta = {
   title: "Pages/ContactsListView/SearchUsers",
   component: SearchUsers,
   decorators: [withMockApolloDecorator],
-  parameters: {
-    layout: "fullscreen",
-  },
 } satisfies Meta<MockApolloDecoratorArgs>;
 
 export default meta;
