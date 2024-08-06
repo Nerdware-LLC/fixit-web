@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import { apolloClient } from "@/app/ApolloProvider/apolloClient.js";
 import { ActionsButtonGroup } from "@/components/Buttons/ActionsButtonGroup.jsx";
 import { QUERIES } from "@/graphql/queries.js";
-import { MOCK_WORK_ORDERS, MOCK_INVOICES, MOCK_CONTACTS } from "@/tests/mockItems";
+import { MOCK_WORK_ORDERS, MOCK_INVOICES, MOCK_MY_CONTACTS_RESPONSE } from "@/tests/mockItems";
 import { DevToolContainer } from "./DevToolContainer.jsx";
 import type { DataProxy } from "@apollo/client/core";
 
@@ -83,7 +83,7 @@ const MOCK_CACHE_CONFIGS = {
     ROOT_QUERY_FIELD_NAME: "myContacts",
     WRITE_QUERY_ARGS: {
       query: QUERIES.MY_CONTACTS,
-      data: { myContacts: Object.values(MOCK_CONTACTS) },
+      data: MOCK_MY_CONTACTS_RESPONSE,
     },
   },
 } as const satisfies Record<
