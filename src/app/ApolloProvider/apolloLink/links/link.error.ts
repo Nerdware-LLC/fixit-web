@@ -21,7 +21,7 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
   // Check both params for errors, start with graphQLErrors:
   if (graphQLErrors) {
     graphQLErrors.forEach((error) => {
-      const { message: errorMessage, extensions } = error;
+      const { message: errorMessage, extensions = {} } = error;
 
       logger.gqlError(
         [
