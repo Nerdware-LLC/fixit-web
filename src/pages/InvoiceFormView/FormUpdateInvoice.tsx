@@ -28,7 +28,8 @@ export const FormUpdateInvoice = ({ invoice: existingInvoice }: { invoice: Invoi
   };
 
   const formUpdateInvoiceInitialValues = getInitialValuesFromSchema(invoiceFormSchema, {
-    ...existingInvoice,
+    assignedTo: { id: existingInvoice.assignedTo.id },
+    workOrder: existingInvoice.workOrder?.id ?? null,
     amount: intToCurrencyStr(existingInvoice.amount),
   });
 
