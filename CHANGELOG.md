@@ -4,6 +4,79 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.5.0-next.1](https://github.com/Nerdware-LLC/fixit-web/compare/v1.4.0...v1.5.0-next.1) (2024-08-06)
+
+
+### Bug Fixes
+
+* add 'discountPercentage' handling ([669eb44](https://github.com/Nerdware-LLC/fixit-web/commit/669eb44d10b301d53f2227c70052cf3dc3d42632))
+* add `<br/>` to streetLine1 comp to ensure expected layout ([6cb65b4](https://github.com/Nerdware-LLC/fixit-web/commit/6cb65b4f4cdc24e50f1457b2dc78c23ff46734d5))
+* add default value for 'extensions' to prevent runtime problems ([3c20b81](https://github.com/Nerdware-LLC/fixit-web/commit/3c20b81ac693f47f9d4b1b85aa440e8aaf26262b))
+* add isAuthInitComplete state ([ef866df](https://github.com/Nerdware-LLC/fixit-web/commit/ef866df9b96046f74971f4cc298c91733cef3563))
+* add null-check to ttl logic in set method ([187008c](https://github.com/Nerdware-LLC/fixit-web/commit/187008c130263ac889709d48bab02deb91530351))
+* correct 'prettier-ignore' directive so it works in mdx ([44f979d](https://github.com/Nerdware-LLC/fixit-web/commit/44f979d370ba3ea5e8554646332814f858cd5213))
+* correct name-related autocomplete attr values ([e80b9c8](https://github.com/Nerdware-LLC/fixit-web/commit/e80b9c838efefe686a732bfb2cf69bfc6ab74913))
+* **css:** set `minWidth: "max-content"` to prevent content clipping ([fb05a82](https://github.com/Nerdware-LLC/fixit-web/commit/fb05a8237508fb1684de8dbee5083c3d49fea3cc))
+* ensure API err-response msgs are passed to FetchStateCtx err handler ([62d90d7](https://github.com/Nerdware-LLC/fixit-web/commit/62d90d70734c2d1f6890d315c5ffecdd0d31e5fc))
+* ensure autocomplete doesn't provide leading 1 ([8507e9e](https://github.com/Nerdware-LLC/fixit-web/commit/8507e9e8f1dc714d544ea00c9624e36465b16fc3))
+* extract `jsonStrSpaces`, improve fmt api ([d08d7f4](https://github.com/Nerdware-LLC/fixit-web/commit/d08d7f41d94f7f9f9ecfaf981f1a5a05cdac9bb3))
+* handle 'phone' form value to not send empty string ([5fadd2b](https://github.com/Nerdware-LLC/fixit-web/commit/5fadd2ba881d47f3af385073a4bdaa6179f3ce34))
+* impl new StoryInfoDecorator props ([05275e0](https://github.com/Nerdware-LLC/fixit-web/commit/05275e0d8bfeab67afdf6554aab263153f88a3c9))
+* impl squiggle-line w clip-path rather than inline svg ([c6c99f7](https://github.com/Nerdware-LLC/fixit-web/commit/c6c99f7ef7b3e3e29997ff88ecae8e1df7bdf155))
+* rm extraneous opt-chain condition, replace regex ([e3c1877](https://github.com/Nerdware-LLC/fixit-web/commit/e3c1877787a01828a1aac245239df7e4547f7ac4))
+* rm invalid 'name nickname' autocomplete arg ([9b12396](https://github.com/Nerdware-LLC/fixit-web/commit/9b123963639bf4043f333acfcea8574fbedb33c4))
+* rm old ReactiveStore instance type params ([37474c3](https://github.com/Nerdware-LLC/fixit-web/commit/37474c39f3d64424fb6715a3cb3ccb1765e268ae))
+* rm unused `listItems` class-names category/field ([64e7ae4](https://github.com/Nerdware-LLC/fixit-web/commit/64e7ae42685420e3315343abe3aed4f871449eff))
+* update `woOptions` def to ensure it contains expected items ([05c260e](https://github.com/Nerdware-LLC/fixit-web/commit/05c260ecb6cabd6df3935fc0fef29e9a84173eef))
+* update import for aborting http reqs ([883ac8e](https://github.com/Nerdware-LLC/fixit-web/commit/883ac8e3bc18ef66c2806443e2642b4cb50e9314))
+* update inputs to use `fieldID` instead of just `id` ([ab9c679](https://github.com/Nerdware-LLC/fixit-web/commit/ab9c67996bf60038c700050f2443b2713d015453))
+* update Query.fields.contact.read to format contactID ([b0933b6](https://github.com/Nerdware-LLC/fixit-web/commit/b0933b6e7f3611c2f4a69b29fd61b4c2fa5a9d19))
+* update styles to ensure constant comp height ([dd0a477](https://github.com/Nerdware-LLC/fixit-web/commit/dd0a477550bbb49adc19b4af5a3273bdb790c1a3))
+* update styles to ensure desired aesthetic ([44f8445](https://github.com/Nerdware-LLC/fixit-web/commit/44f8445ae95d700e46223fd0d3c27e478df7d8a7))
+* update styles+layout to ensure x-scroll works as expected ([d7a1a3f](https://github.com/Nerdware-LLC/fixit-web/commit/d7a1a3f1ecc6ba2fd3b9e9771e0e3207e72d3c3b))
+* use invs query w wo data ([fd7baa0](https://github.com/Nerdware-LLC/fixit-web/commit/fd7baa015f0ae2554820d5452c0f431eae791920))
+
+
+### Features
+
+* add 'fetchPolicy:"cache-only"` ([3c9af61](https://github.com/Nerdware-LLC/fixit-web/commit/3c9af610d927cd1e1d8a58f79bf7171fc6e7f5f1))
+* add 'link-root' className ([8b52fd6](https://github.com/Nerdware-LLC/fixit-web/commit/8b52fd679bea3857fc346d6b55db106cf6dfc128))
+* add 'screenshots' for better PWA experience ([a229a7a](https://github.com/Nerdware-LLC/fixit-web/commit/a229a7a06aae19ff352f55887941f55b40c3cc43))
+* add `text` prop ([f2a8821](https://github.com/Nerdware-LLC/fixit-web/commit/f2a8821bb14d73ed3dc2cbc8ac567e21c2efb3ef))
+* add ability to pass other router props like `initialEntries` ([9536577](https://github.com/Nerdware-LLC/fixit-web/commit/9536577836bc2e7347ef9d7459347e663a048b77))
+* add AWS Pinpoint email templates ([fe1da03](https://github.com/Nerdware-LLC/fixit-web/commit/fe1da03cdc8899899d0e7aac7b6ca43fc71619d9))
+* add CombineUnionOfObjects type util ([5fb6f2f](https://github.com/Nerdware-LLC/fixit-web/commit/5fb6f2f379c9482bbb765a23d37499c70cdcb2b1))
+* add default isOptionEqualToValue ([c8dfab8](https://github.com/Nerdware-LLC/fixit-web/commit/c8dfab8e01b638fe1f08cbc587c780ade118c544))
+* add defaultGetFieldValueFromOption ([d92ff19](https://github.com/Nerdware-LLC/fixit-web/commit/d92ff196c90963c6cc9912c2cd4a9fd10a929d4a))
+* add fixit logo svg [skip ci] ([b949265](https://github.com/Nerdware-LLC/fixit-web/commit/b949265b8c6d8ff11342311438356e05687a27fa))
+* add ForgotPasswordPage ([4e2e804](https://github.com/Nerdware-LLC/fixit-web/commit/4e2e804668aa74257d47fbe2f429bf423bd3746d))
+* add hook `useWiggleAnimation` ([6eab126](https://github.com/Nerdware-LLC/fixit-web/commit/6eab1264a295d0be709822a345fb09484c9e6dce))
+* add LegalLinksFooter comp+story ([18700e7](https://github.com/Nerdware-LLC/fixit-web/commit/18700e75028b72cffe052050c75a995b319a5f08))
+* add minor input sanitization ([ea133ef](https://github.com/Nerdware-LLC/fixit-web/commit/ea133efd4d5ba5155defed2908262610060c684e))
+* add png icon assets for html emails ([9a265e7](https://github.com/Nerdware-LLC/fixit-web/commit/9a265e74eb0d9e55e0360cb42a9340b090853379))
+* add ResetPasswordPage ([b488293](https://github.com/Nerdware-LLC/fixit-web/commit/b4882930791edf666fb71503affb5db8817a41fe))
+* add routes for forgot-pw and reset-pw pages ([f82eb05](https://github.com/Nerdware-LLC/fixit-web/commit/f82eb05de3de3c02e5f4493184a1c0eb725021dc))
+* add Sentry onRecoverableError handler ([d1f41da](https://github.com/Nerdware-LLC/fixit-web/commit/d1f41daa29493aeef1461fb9aa924b7c75a7f26e))
+* add Sentry replay integration ([afd5132](https://github.com/Nerdware-LLC/fixit-web/commit/afd5132a05c0c4995be19b19f3efbdb227abcb61))
+* add Tabs styles in StyledMuiTabs styled comp ([12ed014](https://github.com/Nerdware-LLC/fixit-web/commit/12ed0148b9370da515f2f6945ef3cd62d676b156))
+* add TTL to LSVM ([6f780f3](https://github.com/Nerdware-LLC/fixit-web/commit/6f780f389dfaaf732c2be24ee53349b083f89904))
+* **apollo:** enable assumeImmutableResults ([96fc988](https://github.com/Nerdware-LLC/fixit-web/commit/96fc9888edd830fb8ac56708c617d6c8038f67a1))
+* bump Sentry to v8 ([1585d08](https://github.com/Nerdware-LLC/fixit-web/commit/1585d085535e5533bd769a62f59fa405fd3c6526))
+* change retry attempts from 5 to 3 ([f80b310](https://github.com/Nerdware-LLC/fixit-web/commit/f80b310fa7ee7c0eef6e36290efa75d61ea69f62))
+* rm 'ValidatedValueType' type param ([54f64f9](https://github.com/Nerdware-LLC/fixit-web/commit/54f64f9b319738690db645654dd7aa6d812c16d0))
+* rm extraneous props from AutoCompleteMyContacts ([86a42a0](https://github.com/Nerdware-LLC/fixit-web/commit/86a42a0cb8ec1cd778e6a3e3a5156f2be9e55485))
+* rm unused env value IS_TEST ([e9cddb2](https://github.com/Nerdware-LLC/fixit-web/commit/e9cddb2650dc38bbb351311ec6ea827e58d29b42))
+* **sb:** add `apolloClient.writeQuery` calls for cache-only queries ([fe6f3b2](https://github.com/Nerdware-LLC/fixit-web/commit/fe6f3b23fcef60d51ae0da454dcd879359371e56))
+* **sb:** add decorator args to layout-route decs ([9b00c04](https://github.com/Nerdware-LLC/fixit-web/commit/9b00c04e92a304a97f0a688000bb8c072e6eaf32))
+* split RegisterForm into 2-step form ([69e0658](https://github.com/Nerdware-LLC/fixit-web/commit/69e065819865726c6ee4e94b0677e8e5858362b1))
+* update codegen'd OAS types ([2df422e](https://github.com/Nerdware-LLC/fixit-web/commit/2df422e5b0efee1bf6019079ee13b3925f1f5623))
+
+
+### Performance Improvements
+
+* replace useEffect w useLayoutEffect ([cc4da0f](https://github.com/Nerdware-LLC/fixit-web/commit/cc4da0fc8751270a36d8a5ec3f4429dbe57dfa5c))
+* replace useEffect w useLayoutEffect ([90e459f](https://github.com/Nerdware-LLC/fixit-web/commit/90e459f7f33763e26a151e15b7c73058a917f712))
+
 # [1.4.0](https://github.com/Nerdware-LLC/fixit-web/compare/v1.3.1...v1.4.0) (2024-03-24)
 
 
