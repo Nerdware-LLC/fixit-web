@@ -91,13 +91,11 @@ const AppStateInfoDecorator = ({
   componentName,
   appState,
   disabled = false,
-  storyInfoContainerProps, // <-- equivalent to `BoxProps`
   children, // <-- the story
 }: AppStateInfoDecoratorProps) => (
   <StoryInfoDecorator
     storyInfo={<AppStateInfo componentName={componentName} appState={appState} />}
     disabled={disabled}
-    storyInfoContainerProps={storyInfoContainerProps}
   >
     {children}
   </StoryInfoDecorator>
