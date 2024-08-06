@@ -72,25 +72,12 @@ const WorkOrderListItemContent = ({ workOrder, userToDisplay }: WorkOrderListIte
       <ListItemText
         primary={
           <>
-            <Text
-              component="span"
-              sx={{
-                ...(!displayName && {
-                  color: "text.disabled",
-                  fontStyle: "italic",
-                }),
-              }}
-            >
+            <Text sx={{ ...(!displayName && { color: "text.disabled", fontStyle: "italic" }) }}>
               {displayName || "- Unassigned -"}
             </Text>
             <Text
               component="span"
-              style={{
-                fontSize: "0.8rem",
-                position: "absolute",
-                right: 0,
-                top: "0.1rem",
-              }}
+              style={{ fontSize: "0.8rem", position: "absolute", right: 0, top: "0.1rem" }}
             >
               {prettyCreatedAt}
             </Text>
@@ -105,7 +92,7 @@ const WorkOrderListItemContent = ({ workOrder, userToDisplay }: WorkOrderListIte
             <Text component="span" variant="body2">
               {description}
             </Text>
-            <Tooltip title={prettyStatus} placement="top">
+            <Tooltip title={prettyStatus} placement="right">
               <WorkOrderStatusIcon
                 status={status}
                 style={{
@@ -119,6 +106,7 @@ const WorkOrderListItemContent = ({ workOrder, userToDisplay }: WorkOrderListIte
           </>
         }
         style={{ position: "relative", paddingRight: "3rem" }}
+        sx={{ "& *": { overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" } }}
       />
     </>
   );

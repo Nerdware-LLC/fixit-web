@@ -68,12 +68,17 @@ const InvoiceListItemContent = ({ invoice, userToDisplay }: InvoiceListItemConte
       <ListItemText
         primary={displayName}
         sx={{
-          maxHeight: { xs: "3rem", lg: "3.25rem" },
-          overflow: "hidden",
-
+          maxHeight: {
+            xs: "3rem",
+            lg: "3.25rem",
+          },
+          "& *": {
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+          },
           [`& > .${listItemTextClasses.primary}`]: {
             fontSize: { xs: "1rem", lg: "1.1rem" },
-            whiteSpace: "normal !important",
           },
         }}
       />

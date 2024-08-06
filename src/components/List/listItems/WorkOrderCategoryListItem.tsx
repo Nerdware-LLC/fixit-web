@@ -51,13 +51,7 @@ export const WorkOrderCategoryListItemContent = ({
 }: WorkOrderCategoryListItemContentProps) => (
   <>
     {icon && (
-      <ListItemIcon
-        style={{
-          minWidth: "2.5rem",
-          ...listItemIconStyle,
-        }}
-        {...listItemIconProps}
-      >
+      <ListItemIcon style={{ minWidth: "2.5rem", ...listItemIconStyle }} {...listItemIconProps}>
         {icon === true ? WO_CATEGORY_ICONS_JSX[category] : icon}
       </ListItemIcon>
     )}

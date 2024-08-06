@@ -52,7 +52,11 @@ const ContactListItemContent = ({
       <ListItemAvatar>
         <Avatar src={photoUrl || undefined} alt={displayName} />
       </ListItemAvatar>
-      <ListItemText primary={handle} secondary={displayName} />
+      <ListItemText
+        primary={handle}
+        secondary={displayName}
+        sx={{ "& *": { overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" } }}
+      />
     </>
   );
 };
