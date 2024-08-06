@@ -32,8 +32,8 @@ export const LoginForm = () => {
       validationSchema={loginFormSchema}
       onSubmit={onSubmit}
     >
-      <EmailInput id="email" />
-      <PasswordInput id="password" autoComplete="current-password" />
+      <EmailInput fieldID="email" />
+      <PasswordInput fieldID="password" autoComplete="current-password" />
       <FormSubmitButton />
       <DividerWithText flexItem>OR</DividerWithText>
       <GoogleAuthFormButton text="signin_with" />
