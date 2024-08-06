@@ -8,13 +8,23 @@ import {
 import type { OverrideProperties } from "type-fest";
 import type { TelAutoCompleteValue } from "./types.js";
 
+export type PhoneInputProps = FormikIntegratedInputProps<
+  OverrideProperties<
+    Omit<PatternFormatProps<BaseTextFieldProps>, "type" | "customInput">,
+    {
+      autoComplete?: TelAutoCompleteValue;
+      format?: string;
+    }
+  >
+>;
+
 /**
  * TextInput which uses [react-number-format] for phone formatting.
  *
  * [rnf-docs]: https://s-yadav.github.io/react-number-format/docs/pattern_format
  */
 export const PhoneInput = <ValueType extends string | null | undefined = string>({
-  id,
+  fieldID,
   format = "(###) ### - ####",
   placeholder: explicitPlaceholder = "(123) 456-7890",
   variant: explicitVariant,
@@ -22,7 +32,7 @@ export const PhoneInput = <ValueType extends string | null | undefined = string>
   ...props
 }: PhoneInputProps) => {
   const [{ value: fieldValue, ...textInputProps }] = useFormikFieldProps<ValueType>({
-    fieldID: id,
+    fieldID,
     placeholder: explicitPlaceholder,
     variant: explicitVariant,
   });
@@ -42,13 +52,3 @@ export const PhoneInput = <ValueType extends string | null | undefined = string>
     />
   );
 };
-
-export type PhoneInputProps = FormikIntegratedInputProps<
-  OverrideProperties<
-    Omit<PatternFormatProps<BaseTextFieldProps>, "type" | "customInput">,
-    {
-      autoComplete?: TelAutoCompleteValue;
-      format?: string;
-    }
-  >
->;

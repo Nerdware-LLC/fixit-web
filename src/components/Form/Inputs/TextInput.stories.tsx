@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicDemo = {
   args: {
-    id: "text",
+    fieldID: "text",
     label: "Foo Text",
     placeholder: "Type some text here ...",
 

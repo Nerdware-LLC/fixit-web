@@ -11,6 +11,13 @@ import type { BaseChecklistItemType } from "@/components/Checklist/types.js";
 import type { Simplify } from "type-fest";
 import type { ChecklistItemInputFormProps } from "./types.js";
 
+export type CheckListItemInputProps = Simplify<
+  ChecklistItemInputFormProps & {
+    autoFocus: Required<TextFieldProps["autoFocus"]>;
+    enableDelete: boolean;
+  }
+>;
+
 /**
  * An input component built with Formik and Mui TextField for gathering a single
  * checklist item's `description` and `isCompleted` values.
@@ -18,14 +25,14 @@ import type { ChecklistItemInputFormProps } from "./types.js";
  * > For use in `renderChecklistItem` prop of `Checklist` components.
  */
 export const ChecklistItemInput = ({
-  checklistFieldID = "checklist",
+  fieldID = "checklist",
   checklistItemIndex,
   autoFocus,
   enableDelete,
   ...listItemProps
 }: CheckListItemInputProps) => {
   // Ascertain the "description" Formik field ID for the checklist item:
-  const descriptionFormikFieldID = `${checklistFieldID}[${checklistItemIndex}]["description"]`;
+  const descriptionFormikFieldID = `${fieldID}[${checklistItemIndex}]["description"]`;
 
   const [{ value: descriptionValue }, meta, { setValue, setTouched, setError }] =
     useField<BaseChecklistItemType["description"]>(descriptionFormikFieldID);
@@ -74,15 +81,12 @@ export const ChecklistItemInput = ({
         fullWidth
         InputProps={{
           startAdornment: (
-            <ToggleCompleteButton
-              checklistFieldID={checklistFieldID}
-              checklistItemIndex={checklistItemIndex}
-            />
+            <ToggleCompleteButton fieldID={fieldID} checklistItemIndex={checklistItemIndex} />
           ),
           ...(enableDelete && {
             endAdornment: (
               <DeleteChecklistItemButton
-                checklistFieldID={checklistFieldID}
+                fieldID={fieldID}
                 checklistItemIndex={checklistItemIndex}
               />
             ),
@@ -113,10 +117,3 @@ const StyledLI = styled("li")(({ theme: { palette } }) => ({
     },
   },
 }));
-
-export type CheckListItemInputProps = Simplify<
-  ChecklistItemInputFormProps & {
-    autoFocus: Required<TextFieldProps["autoFocus"]>;
-    enableDelete: boolean;
-  }
->;

@@ -10,6 +10,13 @@ import {
   type FormikIntegratedInputProps,
 } from "../helpers";
 
+export type SliderProps = FormikIntegratedInputProps<
+  MuiSliderProps & {
+    label: string;
+    getFieldValue?: (value: number | Array<number>) => number | number[] | string | string[];
+  } & MuiGridSxProps
+>;
+
 /**
  * MUI Slider with Formik integration.
  *
@@ -19,17 +26,21 @@ import {
  *    whatever type/value is desired for the form. The value returned from
  *    `getFieldValue` is provided to the field's Formik-context value.
  *
- * - The Mui `sx` prop is passed to the containiner - a Mui Box.
+ * - If an `id` attribute/prop is not provided, one will be generated from the
+ *   `fieldID` prop by removing all non-alphanumeric characters.
+ *
+ * - The Mui `sx` prop is passed to the containiner — a Mui Box.
  */
 export const Slider = <ValueType extends number | string | null | undefined>({
-  id,
+  fieldID,
+  id: sliderElementID,
   label,
   getFieldValue = (value) => value,
   sx,
   style,
   ...props
 }: SliderProps) => {
-  const [_, { setValue, setError }] = useFormikFieldProps<ValueType>({ fieldID: id });
+  const [_, { setValue, setError }] = useFormikFieldProps<ValueType>({ fieldID });
 
   const handleChange = (_event: Event, value: number | Array<number>, _activeThumb: number) => {
     const fieldValue = getFieldValue(value);
@@ -38,7 +49,9 @@ export const Slider = <ValueType extends number | string | null | undefined>({
     );
   };
 
-  const labelID = `Slider:InputLabel:${id}`;
+  sliderElementID ||= fieldID.replace(/[^a-zA-Z0-9_-]/, "");
+
+  const labelID = `Slider:InputLabel:${sliderElementID}`;
 
   return (
     <Box className={formClassNames.sliderInputContainer} style={style} sx={sx}>
@@ -46,7 +59,7 @@ export const Slider = <ValueType extends number | string | null | undefined>({
         {label}
       </InputLabel>
       <StyledMuiSlider
-        id={id}
+        id={sliderElementID}
         onChange={handleChange}
         aria-labelledby={labelID}
         className={formClassNames.sliderInput}
@@ -117,10 +130,3 @@ const StyledMuiSlider = styled(MuiSlider, {
 
   ...muiGridSxProps,
 }));
-
-export type SliderProps = FormikIntegratedInputProps<
-  MuiSliderProps & {
-    label: string;
-    getFieldValue?: (value: number | Array<number>) => number | number[] | string | string[];
-  } & MuiGridSxProps
->;

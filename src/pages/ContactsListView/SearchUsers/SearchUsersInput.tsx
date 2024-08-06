@@ -6,7 +6,10 @@ import Backdrop from "@mui/material/Backdrop";
 import Grow from "@mui/material/Grow";
 import Popper from "@mui/material/Popper";
 import TextField from "@mui/material/TextField";
-import { useFormikFieldProps } from "@/components/Form/helpers/useFormikFieldProps.js";
+import {
+  useFormikFieldProps,
+  type FormikFieldIdProp,
+} from "@/components/Form/helpers/useFormikFieldProps.js";
 import { MUTATIONS } from "@/graphql/mutations.js";
 import { QUERIES } from "@/graphql/queries.js";
 import { SearchUsersInputAdornmentBtn } from "./SearchUsersInputAdornmentBtn.jsx";
@@ -34,7 +37,7 @@ import type { User } from "@/types/graphql.js";
  *
  * - If INPUT-TYPE is EMAIL, only validate onBlur
  */
-export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) => {
+export const SearchUsersInput = ({ fieldID }: FormikFieldIdProp) => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [shouldUseMuiBackdrop, setShouldUseMuiBackdrop] = useState(false);
@@ -44,7 +47,6 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
   // TEXT FIELD PROPERTIES
   const [
     {
-      id,
       value: searchFieldValue,
       error: searchFieldHasError,
       helperText: _searchFieldErrMsg, // <-- currently unused
@@ -55,7 +57,7 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
     },
     { setValue: setSearchFieldValue, setError: setSearchFieldError },
   ] = useFormikFieldProps<string>({
-    fieldID: formikFieldID,
+    fieldID,
     label: "Search & Invite Users",
     shouldAlwaysRenderHelperText: false,
   });
@@ -260,7 +262,7 @@ export const SearchUsersInput = ({ id: formikFieldID }: SearchUsersInputProps) =
     <>
       <Backdrop open={!!popperAnchorEl && shouldUseMuiBackdrop} />
       <AutoComplete<string, false, false, true>
-        id={id}
+        id={fieldID}
         options={optionsHandles}
         open={isAutoCompleteOpen}
         ref={popperAnchorElRef}
@@ -322,7 +324,3 @@ const StyledPopper = styled(Popper)(({ theme: { variables } }) => ({
   minWidth: variables.isMobilePageLayout ? "min(100%, calc(100dvw - 2rem))" : "14rem", // 14rem = width of non-mobile CreateItemButton
   maxWidth: "calc(100dvw - 2rem)",
 }));
-
-export type SearchUsersInputProps = {
-  id: string;
-};

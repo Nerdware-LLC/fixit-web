@@ -9,11 +9,11 @@ import type { BaseChecklistItemType } from "@/components/Checklist/types.js";
 import type { ChecklistItemInputFormProps } from "./types.js";
 
 export const ToggleCompleteButton = ({
-  checklistFieldID,
+  fieldID,
   checklistItemIndex,
 }: ChecklistItemInputFormProps) => {
   // Ascertain the "isCompleted" Formik field ID for the checklist item:
-  const checklistItemIsCompletedFormikFieldID = `${checklistFieldID}[${checklistItemIndex}]["isCompleted"]`;
+  const checklistItemIsCompletedFormikFieldID = `${fieldID}[${checklistItemIndex}]["isCompleted"]`;
 
   const [{ value: isCompleted }, _, { setValue, setTouched, setError }] = useField<
     BaseChecklistItemType["isCompleted"]

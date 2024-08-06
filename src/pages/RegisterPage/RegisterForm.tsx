@@ -19,12 +19,12 @@ import {
 
 const REGISTER_FORM_STEPS: Array<React.ReactNode> = [
   <>
-    <UserHandleInput id="handle" />
-    <PhoneInput id="phone" />
+    <UserHandleInput fieldID="handle" />
+    <PhoneInput fieldID="phone" />
   </>,
   <>
-    <EmailInput id="email" />
-    <PasswordInput id="password" autoComplete="new-password" />
+    <EmailInput fieldID="email" />
+    <PasswordInput fieldID="password" autoComplete="new-password" />
     <FormSubmitButton />
     <DividerWithText flexItem>OR</DividerWithText>
     <GoogleAuthFormButton<RegisterFormValues> text="signup_with" />

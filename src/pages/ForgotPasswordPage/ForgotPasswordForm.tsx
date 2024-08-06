@@ -25,7 +25,7 @@ export const ForgotPasswordForm = () => {
       validationSchema={forgotPasswordFormSchema}
       onSubmit={onSubmit}
     >
-      <EmailInput id="email" />
+      <EmailInput fieldID="email" />
       <FormSubmitButton />
       {error && <ErrorDialog error={error} onDismiss={clearError} />}
     </Form>

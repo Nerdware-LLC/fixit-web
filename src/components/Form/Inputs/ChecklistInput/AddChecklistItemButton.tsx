@@ -3,16 +3,15 @@ import Button, { buttonClasses } from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import PlusIcon from "@mui/icons-material/Add";
 import type { BaseChecklistType } from "@/components/Checklist/types.js";
-import type { ChecklistInputFormProps } from "./types.js";
+import type { FormikFieldIdProp } from "@/components/Form/helpers/useFormikFieldProps.js";
 
 /**
  * A button for adding a new checklist item to the checklist.
  *
  * > All checklist item fields are initialized to `null`.
  */
-export const AddChecklistItemButton = ({ checklistFieldID }: ChecklistInputFormProps) => {
-  const [{ value: checklistFieldValue }, meta, { setValue }] =
-    useField<BaseChecklistType>(checklistFieldID);
+export const AddChecklistItemButton = ({ fieldID }: FormikFieldIdProp) => {
+  const [{ value: checklistFieldValue }, meta, { setValue }] = useField<BaseChecklistType>(fieldID);
 
   const addChecklistItem = async () => {
     checklistFieldValue.push({ id: null, description: "", isCompleted: false });
@@ -29,7 +28,7 @@ export const AddChecklistItemButton = ({ checklistFieldID }: ChecklistInputFormP
       aria-label="add checklist item"
       sx={{
         [`& > .${buttonClasses.startIcon}`]: {
-          margin: "0 0.35rem 0.135rem 0",
+          margin: "1px 0.35rem 0 0",
         },
       }}
     >

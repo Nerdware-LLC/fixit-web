@@ -8,13 +8,13 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { Dialog } from "@/components/Dialog";
 import { checklistInputClassNames } from "./classNames.js";
 import type { BaseChecklistType } from "@/components/Checklist/types.js";
-import type { ChecklistInputFormProps } from "./types.js";
+import type { FormikFieldIdProp } from "@/components/Form/helpers/useFormikFieldProps.js";
 
-export const RemoveChecklistButton = ({ checklistFieldID }: ChecklistInputFormProps) => {
+export const RemoveChecklistButton = ({ fieldID }: FormikFieldIdProp) => {
   const { isDialogVisible, openDialog, closeDialog } = Dialog.use();
 
   const [{ value: checklist }, { initialValue }, { setValue, setTouched, setError }] =
-    useField<BaseChecklistType | null>(checklistFieldID);
+    useField<BaseChecklistType | null>(fieldID);
 
   const resetChecklist = async () => {
     try {

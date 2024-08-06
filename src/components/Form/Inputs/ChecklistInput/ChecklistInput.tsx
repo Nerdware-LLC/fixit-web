@@ -7,8 +7,21 @@ import { CreateChecklistButton } from "./CreateChecklistButton.jsx";
 import { RemoveChecklistButton } from "./RemoveChecklistButton.jsx";
 import { checklistInputClassNames } from "./classNames.js";
 import type { BaseChecklistItemType, RenderChecklistItemFn } from "@/components/Checklist/types.js";
+import type { FormikFieldIdProp } from "@/components/Form/helpers/useFormikFieldProps.js";
 import type { Simplify } from "type-fest";
-import type { ChecklistInputFormProps } from "./types.js";
+
+export type ChecklistInputProps = Simplify<
+  FormikFieldIdProp &
+    Omit<
+      ChecklistProps<BaseChecklistItemType>,
+      | "checklistItems"
+      | "renderChecklistItem"
+      | "headerTitle"
+      | "headerComponents"
+      | "footerComponents"
+      | "itemProps"
+    >
+>;
 
 /**
  * This input facilitates the creation, modification, and/or removal of checklist values within a
@@ -21,34 +34,35 @@ import type { ChecklistInputFormProps } from "./types.js";
  *   input components are _**not generic**_ due to the fact that the item type is pre-determined.
  */
 export const ChecklistInput = ({
-  checklistFieldID = "checklist",
+  fieldID = "checklist",
   ...checklistProps
 }: ChecklistInputProps) => {
-  const [{ value: checklistFieldValue }] = useField<BaseChecklistItemType>(checklistFieldID);
+  const [{ value: checklistFieldValue }] = useField<BaseChecklistItemType>(fieldID);
 
   // If checklist field value is null, show 'create checklist' btn, else show checklist comp
 
   return !Array.isArray(checklistFieldValue) ? (
-    <CreateChecklistButton checklistFieldID={checklistFieldID} />
+    <CreateChecklistButton fieldID={fieldID} />
   ) : (
     <StyledChecklist
       checklistItems={checklistFieldValue}
       renderChecklistItem={renderChecklistItemInput}
-      headerComponents={<RemoveChecklistButton checklistFieldID={checklistFieldID} />}
-      footerComponents={<AddChecklistItemButton checklistFieldID={checklistFieldID} />}
-      itemProps={{ checklistFieldID }}
+      headerComponents={<RemoveChecklistButton fieldID={fieldID} />}
+      footerComponents={<AddChecklistItemButton fieldID={fieldID} />}
+      itemProps={{ fieldID }}
       {...checklistProps}
     />
   );
 };
 
-const renderChecklistItemInput: RenderChecklistItemFn<
-  BaseChecklistItemType,
-  ChecklistInputFormProps
-> = ({ index, numItems, itemProps }) => (
+const renderChecklistItemInput: RenderChecklistItemFn<BaseChecklistItemType, FormikFieldIdProp> = ({
+  index,
+  numItems,
+  itemProps,
+}) => (
   <ChecklistItemInput
     key={`ChecklistItemInput:${index}`}
-    checklistFieldID={itemProps.checklistFieldID}
+    fieldID={itemProps.fieldID}
     checklistItemIndex={index}
     autoFocus={index === numItems - 1}
     enableDelete={numItems >= 2}
@@ -65,16 +79,3 @@ const StyledChecklist = styled(Checklist)(({ theme: { palette } }) => ({
     },
   },
 })) as typeof Checklist; // <-- Necessary to ensure generic props are passed through
-
-export type ChecklistInputProps = Simplify<
-  ChecklistInputFormProps &
-    Omit<
-      ChecklistProps<BaseChecklistItemType>,
-      | "checklistItems"
-      | "renderChecklistItem"
-      | "headerTitle"
-      | "headerComponents"
-      | "footerComponents"
-      | "itemProps"
-    >
->;

@@ -18,7 +18,7 @@ export const SearchUsersForm = () => (
       validateOnChange={false}
       onSubmit={() => {}} // Input submission is handled by the SearchUsersInput component
     >
-      <SearchUsersInput id="searchField" />
+      <SearchUsersInput fieldID="searchField" />
     </Form>
   </StyledDiv>
 );

@@ -28,7 +28,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicDemo = {
   args: {
-    id: "contact",
+    fieldID: "contact",
     label: "Contact",
     options: Object.values(STATIC_MOCK_CONTACTS),
 

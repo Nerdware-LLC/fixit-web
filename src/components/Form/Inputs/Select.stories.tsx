@@ -31,7 +31,7 @@ export default meta;
 
 export const BasicDemo = {
   args: {
-    id: "food",
+    fieldID: "food",
     label: "Favorite Food",
     options: ["🍕 Pizza", "🌮 Tacos", "🧁 Cupcakes"].map((value) => ({ value })),
     fullWidth: true,
@@ -45,7 +45,7 @@ export const BasicDemo = {
 
 export const PickANumber = {
   args: {
-    id: "number",
+    fieldID: "number",
     label: "Pick a Number",
     options: [0, 1, 2, 3, 42, 199].map((value) => ({ value })),
     fullWidth: true,

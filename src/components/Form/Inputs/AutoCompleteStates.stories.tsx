@@ -26,7 +26,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicDemo = {
   args: {
-    id: "location",
+    fieldID: "location",
     label: "Location",
 
     _form_decorator_args: {

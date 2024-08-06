@@ -27,7 +27,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicDemo = {
   args: {
-    id: "movie",
+    fieldID: "movie",
     label: "Select a Movie",
     options: [
       "2001: A Space Odyssey",

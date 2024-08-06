@@ -31,7 +31,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicDemo = {
   args: {
-    id: "workOrder",
+    fieldID: "workOrder",
     label: "Work Order",
     options: MOCK_WORK_ORDERS.myWorkOrders.assignedToUser.map((wo) => ({
       ...wo,

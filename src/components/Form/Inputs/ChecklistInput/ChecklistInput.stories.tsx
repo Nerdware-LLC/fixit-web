@@ -10,7 +10,7 @@ const meta = {
   tags: ["autodocs"],
   decorators: [withFormDecorator],
   args: {
-    checklistFieldID: "checklist",
+    fieldID: "checklist",
 
     _form_decorator_args: {
       validationSchema: yupChecklistFieldSchema,

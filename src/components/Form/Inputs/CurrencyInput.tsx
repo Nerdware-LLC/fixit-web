@@ -6,6 +6,26 @@ import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
 import type { Simplify } from "type-fest";
 
+export type CurrencyInputProps = Simplify<
+  FormikIntegratedInputProps<
+    Omit<
+      NumericFormatProps<BaseTextFieldProps>,
+      | "allowLeadingZeros"
+      | "allowNegative"
+      | "autoComplete"
+      | "customInput"
+      | "decimalScale"
+      | "fixedDecimalScale"
+      | "thousandSeparator"
+      | "type"
+      | "valueIsNumericString"
+    > & {
+      autoComplete?: "transaction-amount";
+      InputProps?: Omit<BaseTextFieldProps["InputProps"], "inputMode">;
+    }
+  >
+>;
+
 /**
  * TextInput which uses [react-number-format][rnf-docs] for currency formatting.
  *
@@ -18,14 +38,14 @@ import type { Simplify } from "type-fest";
  * [mui-type-prop]: https://mui.com/material-ui/react-text-field/#type-quot-number-quot
  */
 export const CurrencyInput = <ValueType extends string | number | null | undefined = string>({
-  id,
+  fieldID,
   placeholder: explicitPlaceholder = "0.00",
   variant: explicitVariant,
   InputProps = {},
   ...props
 }: CurrencyInputProps) => {
   const [{ value: fieldValue, ...textInputProps }] = useFormikFieldProps<ValueType>({
-    fieldID: id,
+    fieldID,
     placeholder: explicitPlaceholder,
     variant: explicitVariant,
   });
@@ -61,23 +81,3 @@ export const CurrencyInput = <ValueType extends string | number | null | undefin
     />
   );
 };
-
-export type CurrencyInputProps = Simplify<
-  FormikIntegratedInputProps<
-    Omit<
-      NumericFormatProps<BaseTextFieldProps>,
-      | "allowLeadingZeros"
-      | "allowNegative"
-      | "autoComplete"
-      | "customInput"
-      | "decimalScale"
-      | "fixedDecimalScale"
-      | "thousandSeparator"
-      | "type"
-      | "valueIsNumericString"
-    > & {
-      autoComplete?: "transaction-amount";
-      InputProps?: Omit<BaseTextFieldProps["InputProps"], "inputMode">;
-    }
-  >
->;

@@ -8,14 +8,14 @@ import type { TextInputProps } from "./TextInput.jsx";
 export type UserHandleInputProps = TextInputProps;
 
 export const UserHandleInput = <ValueType extends string | null | undefined = string>({
-  id,
+  fieldID,
   label: explicitLabel,
   variant: explicitVariant,
   placeholder = "my_username",
   ...userHandleInputProps
 }: UserHandleInputProps) => {
   const [{ value, ...textInputProps }, { setValue }] = useFormikFieldProps<ValueType>({
-    fieldID: id,
+    fieldID,
     label: explicitLabel,
     variant: explicitVariant,
     placeholder,

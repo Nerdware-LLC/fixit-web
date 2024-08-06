@@ -8,12 +8,12 @@ import type { BaseChecklistType } from "@/components/Checklist/types.js";
 import type { ChecklistItemInputFormProps } from "./types.js";
 
 export const DeleteChecklistItemButton = ({
-  checklistFieldID = "checklist",
+  fieldID = "checklist",
   checklistItemIndex,
 }: ChecklistItemInputFormProps) => {
   // This btn uses the root checklist Formik field ID to access the entire checklist array:
   const [{ value: checklist }, _, { setValue, setError }] = useField<BaseChecklistType | null>(
-    checklistFieldID
+    fieldID
   );
 
   const deleteChecklistItem: IconButtonProps["onClick"] = async (event) => {

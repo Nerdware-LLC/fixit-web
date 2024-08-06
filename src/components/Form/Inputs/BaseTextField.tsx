@@ -7,6 +7,9 @@ import MuiTextField, {
   type TextFieldVariants as MuiTextFieldVariants,
 } from "@mui/material/TextField";
 
+export type BaseTextFieldProps<Variant extends MuiTextFieldVariants = MuiTextFieldVariants> =
+  MuiTextFieldProps<Variant> & MuiGridSxProps;
+
 /**
  * This component serves as the base `TextField` component for the app.
  *
@@ -29,6 +32,3 @@ export const BaseTextField = styled(MuiTextField, {
   },
   ...muiGridSxProps,
 });
-
-export type BaseTextFieldProps<Variant extends MuiTextFieldVariants = MuiTextFieldVariants> =
-  MuiTextFieldProps<Variant> & MuiGridSxProps;

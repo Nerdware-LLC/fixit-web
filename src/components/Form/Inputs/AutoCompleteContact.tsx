@@ -3,6 +3,10 @@ import { ContactListItem } from "@/components/List/listItems/ContactListItem.jsx
 import { AutoComplete, type AutoCompleteProps } from "./AutoComplete.jsx";
 import type { Contact } from "@/types/graphql.js";
 
+export type AutoCompleteContactProps = AutoCompleteProps<AutoCompleteContactOption>;
+export type AutoCompleteContactOption = Contact;
+export type AutoCompleteContactOptions = Array<AutoCompleteContactOption>;
+
 /**
  * `AutoCompleteContact` is a Mui Autocomplete input used to select a Contact
  * from the provided list of Contact `options`.
@@ -20,6 +24,7 @@ export const AutoCompleteContact = ({
 
   return (
     <AutoComplete
+      getFieldValueFromOption={getFieldValueFromOption}
       renderOption={renderOption}
       getOptionLabel={getOptionLabel}
       {...autoCompleteProps}
@@ -31,17 +36,19 @@ export const AutoCompleteContact = ({
  * Default `getFieldValueFromOption` fn for {@link AutoCompleteContact}.
  */
 const defaultGetFieldValueFromOption: AutoCompleteContactProps["getFieldValueFromOption"] = (
-  option
-) => option?.id.replace(/^CONTACT#/, "") ?? "";
+  option: Contact | string | null // Depending on the field's nullability, this may be an empty string
+) => {
+  return (option as Contact | null)?.id ? (option as Contact).id.replace(/^CONTACT#/, "") : null;
+};
 
 /**
  * Default `renderOption` fn for {@link AutoCompleteContact}.
  */
 const defaultRenderOption: AutoCompleteContactProps["renderOption"] = (
-  listItemProps,
+  { key, ...listItemProps },
   contact // option
   // other available props: state, ownerState
-) => <ContactListItem contact={contact} {...listItemProps} />;
+) => <ContactListItem key={key} contact={contact} {...listItemProps} />;
 
 /**
  * Default `getOptionLabel` fn for {@link AutoCompleteContact}.
@@ -49,7 +56,3 @@ const defaultRenderOption: AutoCompleteContactProps["renderOption"] = (
 const defaultGetOptionLabel: AutoCompleteContactProps["getOptionLabel"] = (opt) => {
   return isString(opt.handle) ? opt.handle : isString(opt) ? opt : "";
 };
-
-export type AutoCompleteContactProps = AutoCompleteProps<AutoCompleteContactOption>;
-export type AutoCompleteContactOption = Contact;
-export type AutoCompleteContactOptions = Array<AutoCompleteContactOption>;

@@ -1,6 +1,20 @@
 import { Slider, type SliderProps } from "@/components/Form/Inputs/Slider.jsx";
 import { capitalize } from "@/utils/formatters/strings.js";
 import type { Mark } from "@mui/base/useSlider";
+import type { Except } from "type-fest";
+
+export type SliderWorkOrderPriorityProps = Except<
+  SliderProps,
+  | "marks"
+  | "getFieldValue"
+  | "valueLabelFormat"
+  | "valueLabelDisplay"
+  | "min"
+  | "max"
+  | "defaultValue"
+  | "step"
+  | "track"
+>;
 
 /**
  * WorkOrder: SelectPriority (MUI Slider)
@@ -40,16 +54,3 @@ const valueLabelFormat = (value: number) => {
   const optLabel = PRIORITY_OPTIONS.find((opt) => opt.value === value)?.label;
   return optLabel ? capitalize(optLabel) : "Priority";
 };
-
-export type SliderWorkOrderPriorityProps = Omit<
-  SliderProps,
-  | "marks"
-  | "getFieldValue"
-  | "valueLabelFormat"
-  | "valueLabelDisplay"
-  | "min"
-  | "max"
-  | "defaultValue"
-  | "step"
-  | "track"
->;

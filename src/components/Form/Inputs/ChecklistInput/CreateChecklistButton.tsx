@@ -2,17 +2,13 @@ import { useFormikContext } from "formik";
 import { styled } from "@mui/material/styles";
 import Button, { buttonClasses } from "@mui/material/Button";
 import PlusIcon from "@mui/icons-material/Add";
-import type { ChecklistInputFormProps } from "./types.js";
+import type { FormikFieldIdProp } from "@/components/Form/helpers/useFormikFieldProps.js";
 
-export const CreateChecklistButton = ({ checklistFieldID }: ChecklistInputFormProps) => {
+export const CreateChecklistButton = ({ fieldID }: FormikFieldIdProp) => {
   const { setFieldValue } = useFormikContext();
 
   const handleCreateChecklist = async () => {
-    await setFieldValue(
-      checklistFieldID,
-      [{ id: null, description: "", isCompleted: false }],
-      false
-    );
+    await setFieldValue(fieldID, [{ id: null, description: "", isCompleted: false }], false);
   };
 
   return (

@@ -1,31 +1,8 @@
 import { BaseTextField, type BaseTextFieldProps } from "./BaseTextField.jsx";
 import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
+import type { Except } from "type-fest";
 import type { AutoCompleteAttributeValue } from "./types.js";
-
-export const TextInput = <ValueType extends string | null | undefined = string>({
-  id,
-  label: explicitLabel,
-  placeholder: explicitPlaceholder,
-  variant: explicitVariant,
-  ...props
-}: TextInputProps) => {
-  const [{ value, ...textInputProps }] = useFormikFieldProps<ValueType>({
-    fieldID: id,
-    label: explicitLabel,
-    placeholder: explicitPlaceholder,
-    variant: explicitVariant,
-  });
-
-  return (
-    <BaseTextField
-      className={formClassNames.textInput}
-      value={value ?? ""}
-      {...textInputProps}
-      {...props}
-    />
-  );
-};
 
 /**
  * {@link TextInput} props
@@ -35,7 +12,7 @@ export const TextInput = <ValueType extends string | null | undefined = string>(
  * [mui-docs]: https://mui.com/material-ui/react-text-field/#type-quot-number-quot
  */
 export type TextInputProps = FormikIntegratedInputProps<
-  Omit<
+  Except<
     BaseTextFieldProps,
     // These props are removed bc they're handled internally by TextInput's Formik integration:
     | "onChange"
@@ -50,3 +27,27 @@ export type TextInputProps = FormikIntegratedInputProps<
     type?: Exclude<React.InputHTMLAttributes<unknown>["type"], "number">;
   }
 >;
+
+export const TextInput = <ValueType extends string | null | undefined = string>({
+  fieldID,
+  label: explicitLabel,
+  placeholder: explicitPlaceholder,
+  variant: explicitVariant,
+  ...props
+}: TextInputProps) => {
+  const [{ value, ...textInputProps }] = useFormikFieldProps<ValueType>({
+    fieldID,
+    label: explicitLabel,
+    placeholder: explicitPlaceholder,
+    variant: explicitVariant,
+  });
+
+  return (
+    <BaseTextField
+      className={formClassNames.textInput}
+      value={value ?? ""}
+      {...textInputProps}
+      {...props}
+    />
+  );
+};

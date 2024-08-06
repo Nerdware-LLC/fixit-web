@@ -34,11 +34,12 @@ export const ResetPasswordForm = () => {
       validationSchema={resetPasswordFormSchema}
       onSubmit={onSubmit}
     >
-      <PasswordInput id="password" disabled={!pwResetToken} />
+      <PasswordInput fieldID="password" disabled={!pwResetToken} autoComplete="new-password" />
       <PasswordInput
-        id="repeatPassword"
+        fieldID="repeatPassword"
         disabled={!pwResetToken}
         placeholder="Please re-enter your password"
+        autoComplete="new-password"
       />
       <FormSubmitButton />
       {error && <ErrorDialog error={error} onDismiss={clearError} />}

@@ -3,13 +3,16 @@ import { getTypeSafeError } from "@nerdware/ts-type-safety-utils";
 import { grid as muiGridSxProps, type GridProps as MuiGridSxProps } from "@mui/system";
 import { styled } from "@mui/material/styles";
 import MuiAutocomplete, {
+  autocompleteClasses,
   type AutocompleteProps as MuiAutocompleteProps,
+  type AutocompleteRenderOptionState as MuiAutocompleteRenderOptionState,
+  type AutocompleteOwnerState as MuiAutocompleteOwnerState,
 } from "@mui/material/Autocomplete";
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
 import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
 import type { AutocompleteValue } from "@mui/base/useAutocomplete";
-import type { Simplify, SetRequired, SetOptional } from "type-fest";
+import type { Simplify, SetRequired, OverrideProperties } from "type-fest";
 
 /**
  * A MUI Autocomplete with Formik integration which takes an optional type arg `OptionType` which
@@ -34,7 +37,7 @@ export const AutoComplete = <
   FreeSolo extends boolean = false,
   ChipComponent extends React.ElementType = "div",
 >({
-  id,
+  fieldID,
   label,
   options,
   getFieldValueFromOption,
@@ -69,7 +72,7 @@ export const AutoComplete = <
 
   getOptionFromFieldValue ??= (fieldValueArg) => {
     const targetOption = fieldValueArg
-      ? options.find((opt) => getFieldValueFromOption(opt) === fieldValueArg) ?? fieldValueArg
+      ? (options.find((opt) => getFieldValueFromOption(opt) === fieldValueArg) ?? fieldValueArg)
       : fieldValueArg;
     return targetOption as ValuePropType;
   };
@@ -82,7 +85,7 @@ export const AutoComplete = <
     { value: fieldValue, error: fieldIsInvalid, helperText: fieldErrorMessage, variant },
     { setValue: setFormFieldValue, setError: setFormFieldErrorMessage },
   ] = useFormikFieldProps<string | null>({
-    fieldID: id,
+    fieldID,
     variant: explicitTextFieldVariant,
     placeholder: explicitPlaceholder,
   });
@@ -130,17 +133,13 @@ export const AutoComplete = <
 
   // Assign a default renderInput if one isn't provided
   renderInput ??= ({ InputProps, ...params }) => (
-    <TextField
+    <StyledAutoCompleteTextField
       {...params}
       label={label}
       variant={variant}
       error={fieldIsInvalid}
       helperText={fieldErrorMessage}
-      InputProps={{
-        ...InputProps,
-        ...explicitTextFieldInputProps,
-        style: { lineHeight: "inherit", ...(explicitTextFieldInputProps.style ?? {}) },
-      }}
+      InputProps={{ ...InputProps, ...explicitTextFieldInputProps }}
     />
   );
 
@@ -150,7 +149,6 @@ export const AutoComplete = <
 
   return (
     <StyledAutoComplete<OptionType, Multiple, DisableClearable, FreeSolo, ChipComponent>
-      id={id}
       options={options}
       isOptionEqualToValue={isOptionEqualToValue}
       // state values and handlers:
@@ -179,6 +177,15 @@ const StyledAutoComplete = styled(MuiAutocomplete, {
   shouldForwardProp: (propName: string) => !propName.startsWith("grid"),
 })<MuiGridSxProps>(muiGridSxProps) as typeof MuiAutocomplete;
 
+const StyledAutoCompleteTextField = styled(TextField)({
+  [`& .${autocompleteClasses.input}`]: {
+    lineHeight: "inherit",
+    overflow: "hidden",
+    whiteSpace: "pre",
+    textOverflow: "ellipsis",
+  },
+});
+
 ///////////////////////////////////////////////////////////////////////////////
 // AutoComplete Props:
 
@@ -186,9 +193,6 @@ const StyledAutoComplete = styled(MuiAutocomplete, {
  * The base type for AutoComplete props. An optional type arg `OptionType` can be provided
  * to specify the type of option objects. If not provided, this type parameter defaults to
  * {@link BaseAutoCompleteOption|`BaseAutoCompleteOption`}.
- *
- * ### State Hooks:
- * - Use `doAfterSetSelectedOption` to perform additional operations with the selected option.
  *
  * ### Usage Notes:
  * - For grouped options, each option must have a `group` property string value.
@@ -204,12 +208,20 @@ export type AutoCompleteProps<
   FreeSolo extends boolean | undefined = false,
   ChipComponent extends React.ElementType = "div",
 > = Simplify<
-  SetOptional<
+  OverrideProperties<
     FormikIntegratedInputProps<
       MuiAutocompleteProps<BaseOptionType, Multiple, DisableClearable, FreeSolo, ChipComponent>,
       "onChange" | "onInputChange"
     >,
-    "renderInput"
+    {
+      renderInput?: AutoCompleteRenderInputFn;
+      renderOption?: (
+        props: React.HTMLAttributes<HTMLLIElement> & { key?: string | undefined },
+        option: BaseOptionType,
+        state: MuiAutocompleteRenderOptionState,
+        ownerState: MuiAutocompleteOwnerState<BaseOptionType, Multiple, DisableClearable, FreeSolo, ChipComponent> // prettier-ignore
+      ) => React.ReactNode;
+    }
   > & {
     groupBy?: (option: SetRequired<BaseOptionType, "group">) => string;
     // Custom functions:

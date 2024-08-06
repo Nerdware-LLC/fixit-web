@@ -8,6 +8,12 @@ import {
 } from "./AutoCompleteContact.jsx";
 import type { Simplify } from "type-fest";
 
+export type AutoCompleteMyContactsProps = Simplify<
+  Omit<AutoCompleteContactProps, "options"> & {
+    reduceContacts?: (contacts: AutoCompleteContactOptions) => AutoCompleteContactOptions;
+  }
+>;
+
 /**
  * `AutoCompleteMyContacts` displays the results of the `MyContacts` GQL query
  * (with `fetchPolicy: "cache-only"`), in an `AutoCompleteContact` component.
@@ -31,9 +37,3 @@ export const AutoCompleteMyContacts = ({
  * Default `reduceContacts` fn for {@link AutoCompleteContact}.
  */
 const defaultReduceContacts = (contacts: AutoCompleteContactOptions) => contacts;
-
-export type AutoCompleteMyContactsProps = Simplify<
-  Omit<AutoCompleteContactProps, "options"> & {
-    reduceContacts?: (contacts: AutoCompleteContactOptions) => AutoCompleteContactOptions;
-  }
->;
