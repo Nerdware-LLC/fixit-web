@@ -3,6 +3,7 @@
  */
 export const navigationClassNames = {
   anchorRoot: "nav-comps__anchor__root",
+  linkRoot: "nav-comps__link__root",
   legalLinksFooterRoot: "legal-links__footer-root",
   legalLinksRoot: "legal-links__root",
   legalAppLinksContainer: "legal-links__app-links-container",
