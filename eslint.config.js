@@ -179,6 +179,7 @@ export default [
       "no-alert": "off",
       "no-console": "off",
       "react-hooks/rules-of-hooks": "off",
+      "@typescript-eslint/unbound-method": "off",
     },
   },
   {
