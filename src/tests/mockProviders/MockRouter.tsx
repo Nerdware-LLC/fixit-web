@@ -15,11 +15,11 @@ import {
  * 2. Wrap `MockRouter` around `children`, which will be converted into a single `route`,
  *   the `path` for which defaults to `"*"` (customize with the `route` prop).
  */
-export const MockRouter = ({ routes, route = "*", children }: MockRouterProps) => {
+export const MockRouter = ({ routes, route = "*", children, ...opts }: MockRouterProps) => {
   // Create a `MemoryRouter` instance:
   const memoryRouter = useMemo(
-    () => createMemoryRouter(routes ? routes : [{ path: route, element: children }]),
-    [children, route, routes]
+    () => createMemoryRouter(routes ? routes : [{ path: route, element: children }], opts),
+    [children, route, routes, opts]
   );
 
   return <RouterProvider router={memoryRouter} />;
