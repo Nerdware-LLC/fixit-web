@@ -20,23 +20,15 @@ export const FormControlButtons = ({
   </StyledBox>
 );
 
-const StyledBox = styled(Box)(({ theme }) => ({
-  height: "min-content",
+const StyledBox = styled(Box)(({ theme: { variables } }) => ({
+  height: "max-content",
   display: "flex",
-  gap: "1rem",
+  flexDirection: variables.isMobilePageLayout ? "column" : "row",
   alignItems: "center",
-  ...(theme.variables.isMobilePageLayout
-    ? {
-        flexDirection: "column",
-        marginTop: "1rem",
-        marginBottom: "1rem",
-      }
-    : {
-        flexDirection: "row",
-      }),
+  gap: "inherit",
 
   "& > button": {
-    ...(theme.variables.isMobilePageLayout
+    ...(variables.isMobilePageLayout
       ? { width: "min(10rem, 35%)", margin: "0 auto" }
       : { width: "min-content", margin: "0" }),
     paddingLeft: "1.5rem",
