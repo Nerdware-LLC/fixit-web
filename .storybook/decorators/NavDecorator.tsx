@@ -4,7 +4,19 @@ import type { DecoratorFunction, Args, PartialStoryFn, StoryContext } from "@sto
 import type { SetOptional } from "type-fest";
 
 /**
- * This `decorator` wraps a `Story` in a {@link MockRouter|`MockRouter`}
+ * Args for {@link NavDecorator} functions.
+ */
+export type NavDecoratorArgs = {
+  _nav_decorator_args?: SetOptional<MockRouterProps, "children">;
+};
+
+/**
+ * A `decorator` that wraps a `Story` in a {@link MockRouter} component.
+ */
+type NavDecorator = DecoratorFunction<ReactRenderer, Args & NavDecoratorArgs>;
+
+/**
+ * This `decorator` wraps a `Story` in a {@link MockRouter}.
  */
 export const withNavDecorator = <StoryArgs extends Args>(
   Story: PartialStoryFn<ReactRenderer, StoryArgs & NavDecoratorArgs>,
@@ -17,13 +29,5 @@ export const withNavDecorator = <StoryArgs extends Args>(
   </MockRouter>
 );
 
-// Ensure `withNavDecorator` satisfies the `DecoratorFunction` type:
-withNavDecorator satisfies DecoratorFunction<ReactRenderer, Args & NavDecoratorArgs>;
-
-/**
- * {@link withNavDecorator} passes all values nested under `_nav_decorator_args` to the
- * {@link MockRouter} component decorator.
- */
-export type NavDecoratorArgs = {
-  _nav_decorator_args?: SetOptional<MockRouterProps, "children">;
-};
+// Using `satisfies` avoids forcing stories to use `NavDecoratorArgs` in their `Meta` type
+withNavDecorator satisfies NavDecorator;
