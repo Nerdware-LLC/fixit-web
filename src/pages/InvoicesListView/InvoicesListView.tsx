@@ -17,6 +17,7 @@ type MyInvoicesQueryData = { myInvoices: MyInvoicesQueryResponse };
 const getListsAndTablePropsFromMyInvoices = (data: MyInvoicesQueryData) => {
   const invoicesCreatedByUser = data.myInvoices.createdByUser;
   const invoicesAssignedToUser = data.myInvoices.assignedToUser;
+
   return {
     lists: [
       {
@@ -61,7 +62,7 @@ const getListsAndTablePropsFromMyInvoices = (data: MyInvoicesQueryData) => {
 
 export const InvoicesListView = () => (
   <CoreItemsListView<MyInvoicesQueryData, Invoice, InvoiceTableRowData>
-    listQuery={QUERIES.MY_INVOICES}
+    listQuery={QUERIES.MY_INVOICES_WITH_WORKORDER_DATA}
     getListsAndTableProps={getListsAndTablePropsFromMyInvoices}
     headerLabel="Invoices"
     headerComponents={

@@ -29,7 +29,7 @@ export const WithMockInvoices = {
     _mock_apollo_decorator_args: {
       mocks: [
         {
-          request: { query: QUERIES.MY_INVOICES },
+          request: { query: QUERIES.MY_INVOICES_WITH_WORKORDER_DATA },
           result: { data: MOCK_INVOICES },
         },
       ],
@@ -42,7 +42,7 @@ export const EmptyList = {
     _mock_apollo_decorator_args: {
       mocks: [
         {
-          request: { query: QUERIES.MY_INVOICES },
+          request: { query: QUERIES.MY_INVOICES_WITH_WORKORDER_DATA },
           result: {
             data: {
               myInvoices: {
