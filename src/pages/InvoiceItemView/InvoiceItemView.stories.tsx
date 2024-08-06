@@ -28,7 +28,7 @@ const mockINV = MOCK_INVOICES.myInvoices.createdByUser[0];
 export const WithMockInvoice = {
   args: {
     headerLabel: "Invoice",
-    headerComponents: <InvoiceItemViewHeader invoice={mockINV} isItemOwnedByUser={true} />,
+    headerComponents: <InvoiceItemViewHeader invoice={mockINV} />,
     sx: invoiceItemViewSX,
     children: <InvoiceItemViewContent invoice={mockINV} />,
   },

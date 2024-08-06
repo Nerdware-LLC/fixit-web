@@ -39,17 +39,19 @@ export const InvoiceStatusTracker = ({ invoice }: { invoice: Invoice }) => {
                   caption: "Status: OPEN",
                   content: {
                     ...(statusStepConstants.OPEN.content ?? {}),
-                    stepActionButtons: (
-                      <PayInvoiceButton
-                        invoice={invoice}
-                        variant="outlined"
-                        sx={{
-                          "& .MuiButton-startIcon": {
-                            display: "none",
-                          },
-                        }}
-                      />
-                    ),
+                    ...(!!authenticatedUser && {
+                      stepActionButtons: (
+                        <PayInvoiceButton
+                          invoice={invoice}
+                          variant="outlined"
+                          sx={{
+                            "& .MuiButton-startIcon": {
+                              display: "none",
+                            },
+                          }}
+                        />
+                      ),
+                    }),
                   },
                 }),
           }),
