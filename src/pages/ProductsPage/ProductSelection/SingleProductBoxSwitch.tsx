@@ -42,6 +42,10 @@ const StyledLabel = styled("label")(({ theme: { palette } }) => ({
     justifyContent: "center",
     zIndex: 10,
 
+    "&:hover": {
+      opacity: "0.5",
+    },
+
     // Child Mui Text (labels "Monthly" and "Yearly")
     [`& .${typographyClasses.root}`]: {
       alignSelf: "center",

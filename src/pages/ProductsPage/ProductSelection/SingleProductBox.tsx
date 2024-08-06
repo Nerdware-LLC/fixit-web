@@ -50,7 +50,10 @@ export const SingleProductBox = ({ selectedSubscription }: CheckoutValues) => {
 
   return (
     <>
-      <Tooltip title={switchOtherProduct.tooltipTitle}>
+      <Tooltip
+        title={switchOtherProduct.tooltipTitle}
+        placement={priceInfoToDisplay === "ANNUAL" ? "bottom-start" : "bottom-end"}
+      >
         <Box
           style={{
             width: "clamp(14rem, 66%, 20rem)",
