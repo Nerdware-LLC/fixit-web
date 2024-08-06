@@ -116,18 +116,18 @@ const StyledDiv = styled("div")(({ theme: { variables, breakpoints } }) => {
             gridAutoRows: "min-content",
             gridTemplateColumns: "repeat(2, minmax(8rem,1fr))",
             gridTemplateAreas: `
-            "location    location"
-            "createdAt   status"
-            "createdBy   priority"
-            "assignedTo  category"`,
+              "location    location"
+              "createdAt   status"
+              "createdBy   priority"
+              "assignedTo  category"`,
             // For viewports over 600px wide:
             [breakpoints.up("sm")]: {
               transform: "translateX(-1rem)", // shift grid to the left for XScroll pseudo-elements
               gridTemplateColumns: "minmax(min-content,2fr) repeat(2, minmax(8rem,1fr))",
               gridTemplateAreas: `
-              "location  status      createdAt"
-              "location  assignedTo  createdBy"
-              "location  priority    category"`,
+                "location  status      createdAt"
+                "location  assignedTo  createdBy"
+                "location  priority    category"`,
             },
 
             // LOCATION IDG:
@@ -171,31 +171,23 @@ const StyledDiv = styled("div")(({ theme: { variables, breakpoints } }) => {
           gridAutoColumns: "1fr",
           gap: "2rem",
           gridTemplateAreas: `
-          "description"
-          "checklist"
-          "notes"
-          "entry"`,
+            "description"
+            "checklist"
+            "notes"
+            "entry"`,
           // For viewports over 600px wide:
           [breakpoints.up("sm")]: {
             gap: "3rem",
             gridTemplateAreas: `
-            "description  checklist"
-            "notes        entry"`,
+              "description  checklist"
+              "notes        entry"`,
           },
           "& > div": {
             // CHILDREN
-            "&:nth-of-type(1)": {
-              gridArea: "description",
-            },
-            "&:nth-of-type(2)": {
-              gridArea: "checklist",
-            },
-            "&:nth-of-type(3)": {
-              gridArea: "notes",
-            },
-            "&:nth-of-type(4)": {
-              gridArea: "entry",
-            },
+            "&:nth-of-type(1)": { gridArea: "description" },
+            "&:nth-of-type(2)": { gridArea: "checklist" },
+            "&:nth-of-type(3)": { gridArea: "notes" },
+            "&:nth-of-type(4)": { gridArea: "entry" },
           },
         },
       },
