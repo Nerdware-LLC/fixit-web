@@ -2,8 +2,14 @@ import "./setupDayjs.js";
 import "./setupYup.js";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider as MuiLocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import type { PickerValidDate } from "@mui/x-date-pickers";
 import type { LocalizationProviderProps } from "@mui/x-date-pickers/LocalizationProvider";
 import type { Except } from "type-fest";
+
+export type DateTimeLocalizationProviderProps = Except<
+  LocalizationProviderProps<PickerValidDate, "en">,
+  "dateAdapter" | "adapterLocale"
+>;
 
 /**
  * This component provides date/time localization functionality using the Mui
@@ -20,8 +26,3 @@ export const DateTimeLocalizationProvider = ({
     {children}
   </MuiLocalizationProvider>
 );
-
-export type DateTimeLocalizationProviderProps = Except<
-  LocalizationProviderProps<unknown, "en">,
-  "dateAdapter" | "adapterLocale"
->;

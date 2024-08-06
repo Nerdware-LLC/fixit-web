@@ -12,8 +12,18 @@ import {
 import { formClassNames } from "../classNames.js";
 import { useFormikFieldProps, type FormikIntegratedInputProps } from "../helpers";
 import type { TextFieldProps } from "@mui/material/TextField";
-import type { ConfigType as DayjsInputType } from "dayjs";
+import type { Dayjs as DayjsObject } from "dayjs";
 import type { Simplify } from "type-fest";
+
+export type DateTimePickerProps = Simplify<
+  FormikIntegratedInputProps<
+    MobileDateTimePickerProps<DayjsObject> & DesktopDateTimePickerProps<DayjsObject>,
+    "onChange" | "onOpen"
+  > &
+    Pick<TextFieldProps, "variant" | "style"> & // <-- props passed to the TextField slot
+    MuiGridSxProps &
+    React.RefAttributes<HTMLDivElement>
+>;
 
 /**
  * Mui DateTimePicker with Formik bindings and Mui-system grid props like `gridArea`.
@@ -45,7 +55,7 @@ import type { Simplify } from "type-fest";
  * [mui-dtp]: https://github.com/mui/mui-x/blob/next/packages/x-date-pickers/src/DateTimePicker/DateTimePicker.tsx
  */
 export const DateTimePicker = ({
-  id,
+  fieldID,
   onChange: callerOnChangeHandler,
   onOpen: callerOnOpenHandler,
   variant: explicitVariant,
@@ -55,8 +65,8 @@ export const DateTimePicker = ({
   ...props
 }: DateTimePickerProps) => {
   const [{ value: fieldValue, variant }, { setValue, setTouched, setError, isMobilePageLayout }] =
-    useFormikFieldProps<DayjsInputType>({
-      fieldID: id,
+    useFormikFieldProps<DayjsObject | null>({
+      fieldID,
       variant: explicitVariant,
     });
 
@@ -109,13 +119,3 @@ export const StyledMobileDateTimePicker = styled(MobileDateTimePicker, {
 export const StyledDesktopDateTimePicker = styled(DesktopDateTimePicker, {
   shouldForwardProp: (propName: string) => !propName.startsWith("grid"),
 })<MuiGridSxProps>(muiGridSxProps) as typeof DesktopDateTimePicker;
-
-export type DateTimePickerProps = Simplify<
-  FormikIntegratedInputProps<
-    MobileDateTimePickerProps<DayjsInputType> & DesktopDateTimePickerProps<DayjsInputType>,
-    "onChange" | "onOpen"
-  > &
-    Pick<TextFieldProps, "variant" | "style"> & // <-- props passed to the TextField slot
-    MuiGridSxProps &
-    React.RefAttributes<HTMLDivElement>
->;

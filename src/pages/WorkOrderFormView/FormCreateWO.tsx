@@ -26,12 +26,14 @@ export const FormCreateWO = () => {
     },
   });
 
-  const handleSubmit = async ({ assignedTo, ...formValues }: WorkOrderFormValues) => {
+  const handleSubmit = async (formValues: WorkOrderFormValues) => {
     await createWorkOrder({
       variables: {
         workOrder: {
-          assignedTo: assignedTo?.id ?? null,
           ...formValues,
+          assignedTo: formValues.assignedTo?.id ?? null,
+          dueDate: formValues.dueDate?.toDate(),
+          scheduledDateTime: formValues.scheduledDateTime?.toDate(),
         },
       },
     }).catch(logger.error);

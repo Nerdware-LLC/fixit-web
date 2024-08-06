@@ -1,5 +1,6 @@
 import { isValidEmail, isValidPassword } from "@nerdware/ts-string-helpers";
-import { string as yupString } from "yup";
+import dayjs, { type Dayjs as DayJsObject } from "dayjs";
+import { string as yupString, mixed } from "yup";
 
 /**
  * Base string schema: `yup.string().defined().trim().max(250).default("")`
@@ -25,6 +26,11 @@ export const yupCommonSchema = {
 
   /** ### Nullable string schema: `yup.string().defined().trim().max(250).nullable().default(null)` */
   stringNullable: yupNullableStringSchema,
+
+  /** ### DayJS Object schema: `yup.mixed((input): input is dayjs.Dayjs => input instanceof dayjs)` */
+  dayjsObject: mixed((input): input is dayjs.Dayjs => input instanceof dayjs).transform(
+    (value: DayJsObject | Date | null, _input, ctx) => (ctx.isType(value) ? value : dayjs(value))
+  ),
 
   /** ### Email string schema */
   email: yupBaseStringSchema

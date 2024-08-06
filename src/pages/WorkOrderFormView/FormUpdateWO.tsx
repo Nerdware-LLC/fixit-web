@@ -18,7 +18,11 @@ export const FormUpdateWO = ({ existingWorkOrder }: { existingWorkOrder: WorkOrd
     await updateWorkOrder({
       variables: {
         workOrderID: existingWorkOrder.id,
-        workOrder: formValues,
+        workOrder: {
+          ...formValues,
+          dueDate: formValues.dueDate?.toDate(),
+          scheduledDateTime: formValues.scheduledDateTime?.toDate(),
+        },
       },
     }).catch(logger.error);
 

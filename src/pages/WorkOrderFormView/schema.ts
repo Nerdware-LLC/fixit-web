@@ -1,4 +1,4 @@
-import { object as yupObject, string, date, type InferType } from "yup";
+import { object as yupObject, string, type InferType } from "yup";
 import { yupBaseChecklistSchema } from "@/components/Form/Inputs/ChecklistInput/helpers.js";
 import { yupCommonSchema } from "@/components/Form/helpers/yupCommonSchema.js";
 import { WORK_ORDER_CATEGORIES, WORK_ORDER_PRIORITIES } from "@/types/WorkOrder.js";
@@ -22,8 +22,8 @@ export const workOrderFormSchema = yupObject({
   priority: string().oneOf(WORK_ORDER_PRIORITIES).default("NORMAL"),
   entryContact: yupCommonSchema.stringNullable,
   entryContactPhone: yupCommonSchema.phone.nullable().default(null),
-  dueDate: date().nullable().default(null),
-  scheduledDateTime: date().nullable().default(null),
+  dueDate: yupCommonSchema.dayjsObject.nullable().default(null),
+  scheduledDateTime: yupCommonSchema.dayjsObject.nullable().default(null),
 });
 
 export type WorkOrderFormValues = InferType<typeof workOrderFormSchema>;
