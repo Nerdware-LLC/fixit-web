@@ -1,6 +1,6 @@
 {
   "name": "fixit-web",
-  "version": "1.6.0-next.1",
+  "version": "1.6.0",
   "description": "React-based web app for managing work orders, invoices, and payments.",
   "author": {
     "name": "Trevor Anderson",
