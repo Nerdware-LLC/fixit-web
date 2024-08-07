@@ -36,7 +36,8 @@
             if (/^https:\/\/([a-z0-9-]+\.)?js\.stripe\.com$/i.test(scriptOrigin)) return input;
             // Sentry origin necessary for crash reporting.
             if (scriptOrigin === "https://sentry.io") return input;
-            // Return `undefined` for all other origins.
+            // For all other origins, log a warning and return `undefined`.
+            console.warn(`Blocked script URL: ${input}`);
             return undefined;
           },
         });

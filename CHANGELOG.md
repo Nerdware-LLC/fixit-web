@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+# [1.6.0-next.1](https://github.com/Nerdware-LLC/fixit-web/compare/v1.5.2...v1.6.0-next.1) (2024-08-07)
+
+
+### Features
+
+* **TrustedTypes:** add log output showing when a scriptURL is blocked ([a842e9b](https://github.com/Nerdware-LLC/fixit-web/commit/a842e9b9ae928768ad00b6a6c59fab48a8332170))
+
 ## [1.5.2](https://github.com/Nerdware-LLC/fixit-web/compare/v1.5.1...v1.5.2) (2024-08-07)
 
 ## [1.5.2-next.1](https://github.com/Nerdware-LLC/fixit-web/compare/v1.5.1...v1.5.2-next.1) (2024-08-07)
