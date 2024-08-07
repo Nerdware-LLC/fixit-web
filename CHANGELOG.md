@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.5.1](https://github.com/Nerdware-LLC/fixit-web/compare/v1.5.0...v1.5.1) (2024-08-07)
+
+
+### Bug Fixes
+
+* **TrustedTypes:** update default policy to permit stripe subdomains ([b2f1121](https://github.com/Nerdware-LLC/fixit-web/commit/b2f1121e9218220e08af7fcfb7a8e7eb4b95c62f))
+
 ## [1.5.1-next.1](https://github.com/Nerdware-LLC/fixit-web/compare/v1.5.0...v1.5.1-next.1) (2024-08-07)
 
 
