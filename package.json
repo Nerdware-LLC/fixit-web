@@ -59,7 +59,7 @@
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^3.5.0",
     "apollo3-cache-persist": "^0.15.0",
-    "axios": "^1.7.3",
+    "axios": "^1.7.7",
     "chart.js": "^4.4.3",
     "chartjs-adapter-dayjs-4": "^1.0.4",
     "dayjs": "^1.11.12",
