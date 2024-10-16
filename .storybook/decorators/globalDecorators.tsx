@@ -1,6 +1,6 @@
 import { DecoratorHelpers } from "@storybook/addon-themes";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import MuiThemeProvider from "@mui/material/styles/ThemeProvider";
 import { GlobalStyles } from "@/app/GlobalStyles";
 import { GoogleOAuthContextProvider } from "@/app/GoogleOAuthContext";
 import { PageLayoutContextProvider } from "@/app/PageLayoutContext";
@@ -27,9 +27,16 @@ const withCustomThemeProvider = (): DecoratorFunction<ReactRenderer> => {
   const DEFAULT_THEME: ThemeName = THEME_NAMES.DARK;
   initializeThemeState(Object.keys(THEMES), DEFAULT_THEME);
 
-  return (storyFn, { globals, parameters }) => {
-    const themeFromGlobals = globals?.theme;
-    const themeOverrideFromParameters = parameters?.themes?.themeOverride;
+  // eslint-disable-next-line react/display-name
+  return (
+    storyFn,
+    {
+      globals,
+      parameters,
+    }: { globals: { theme?: ThemeName }; parameters: { themes?: { themeOverride?: ThemeName } } }
+  ) => {
+    const themeFromGlobals = globals.theme;
+    const themeOverrideFromParameters = parameters.themes?.themeOverride;
 
     let selectedTheme = themeOverrideFromParameters || themeFromGlobals || DEFAULT_THEME;
 

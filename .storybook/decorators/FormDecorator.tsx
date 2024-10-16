@@ -38,6 +38,7 @@ export const withFormDecorator = <StoryArgs extends Args>(
     args: {
       _form_decorator_args: {
         onSubmit = (formValues) => {
+          // eslint-disable-next-line no-alert
           alert(`Form values: ${safeJsonStringify(formValues, null, 2)}`);
         },
         style = {},

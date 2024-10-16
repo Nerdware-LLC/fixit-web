@@ -35,6 +35,7 @@ export const withMockApolloDecorator: MockApolloDecorator = (
 ) => {
   /* EFFECT: Evict all items from the cache to ensure it doesn't contain
   stale data from previous stories that utilize this decorator. */
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     apolloCache.evict({});
   }, []);
