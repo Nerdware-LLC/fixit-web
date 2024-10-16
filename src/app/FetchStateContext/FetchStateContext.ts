@@ -27,4 +27,4 @@ export type FnWrappedWithFetchState<R> = () => Promise<R | void>;
 
 export type FetchStateContextError = Error | null;
 
-export type FetchStateErrorProcessor = <E>(err: E) => FetchStateContextError;
+export type FetchStateErrorProcessor = <E = unknown>(err: E) => FetchStateContextError;
