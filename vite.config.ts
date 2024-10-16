@@ -1,6 +1,6 @@
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import reactPlugin from "@vitejs/plugin-react";
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig, loadEnv, type PluginOption } from "vite";
 import svgrPlugin from "vite-plugin-svgr";
 import viteTsconfigPaths from "vite-tsconfig-paths";
 import GithubActionsReporter from "vitest-github-actions-reporter";
@@ -18,20 +18,20 @@ export default defineConfig(({ command, mode }) => {
   // Gather environment variables (these may or may not be present)
   const {
     VITE_NPM_LIFECYCLE_SCRIPT,
-    VITE_APP_PROTOCOL,
+    VITE_APP_PROTOCOL = "http",
     VITE_APP_HOST,
-    VITE_API_BASE_PATH,
+    VITE_API_BASE_PATH = "",
     VITE_SENTRY_AUTH_TOKEN,
     VITE_SENTRY_CI_RELEASE_NAME,
     CI, // <-- loaded by setting env prefix to "" below so vite loads all env vars, not just VITE_*
-  } = loadEnv(mode, process.cwd(), "");
+  } = loadEnv(mode, process.cwd(), "") as Record<string, string | undefined>;
 
   // For env-specific configs, ascertain info about the execution context:
   const isBuild = command === "build";
-  const isStorybookBuild = /storybook/.test(VITE_NPM_LIFECYCLE_SCRIPT ?? "");
+  const isStorybookBuild = (VITE_NPM_LIFECYCLE_SCRIPT ?? "").includes("storybook");
   const isDeployableBuild = isBuild && !isStorybookBuild && /(staging|prod)/.test(mode);
 
-  const APP_ORIGIN = `${VITE_APP_PROTOCOL}://${VITE_APP_HOST}`;
+  const APP_ORIGIN = `${VITE_APP_PROTOCOL}://${VITE_APP_HOST ?? "localhost"}`;
   const API_BASE_URI = `${APP_ORIGIN}${VITE_API_BASE_PATH}`;
 
   return {
@@ -53,7 +53,7 @@ export default defineConfig(({ command, mode }) => {
               project: "fixit-web",
               authToken: VITE_SENTRY_AUTH_TOKEN,
               telemetry: true,
-              ...(/prod/.test(mode) &&
+              ...(mode.includes("prod") &&
                 !!VITE_SENTRY_CI_RELEASE_NAME && {
                   release: {
                     name: VITE_SENTRY_CI_RELEASE_NAME,
@@ -64,7 +64,7 @@ export default defineConfig(({ command, mode }) => {
                     },
                   },
                 }),
-            }),
+            }) as PluginOption,
           ]
         : []),
     ],

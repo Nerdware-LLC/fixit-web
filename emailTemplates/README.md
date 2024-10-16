@@ -19,3 +19,4 @@ To ensure emails achieve their intended user impact, HTML emails must implement 
 | `new-user-welcome-email.html`      | Welcomes newly-registered user to Fixit             |
 | `checkout-confirmation-email.html` | Confirms subscription info upon successful checkout |
 | `fixit-user-invitation-email.html` | Invites the recipient to join Fixit                 |
+| `password-reset-email.html`        | Facilitates resetting the user's password           |

@@ -1,7 +1,7 @@
 // @ts-check
 import eslintJS from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
-import * as importPlugin from "eslint-plugin-import";
+import * as importPlugin from "eslint-plugin-import-x";
 import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
 import * as mdxPlugin from "eslint-plugin-mdx";
 import reactPlugin from "eslint-plugin-react";
@@ -12,44 +12,38 @@ import vitestPlugin from "eslint-plugin-vitest";
 import globals from "globals";
 import tsEslint from "typescript-eslint";
 
-/** @type { import("eslint").Linter.FlatConfig } */
-export default [
+export default tsEslint.config(
   ////////////////////////////////////////////////////////////////
-  // ALL TS & JS FILES
+  // ALL TS,TSX,JS,JSX FILES
   {
-    files: ["src/**/*.[tj]s?(x)", "./*.[tj]s", ".storybook/**/*.ts"],
-    ignores: ["src/**/__codegen__/**/*"], // don't lint generated code
-    linterOptions: {
-      reportUnusedDisableDirectives: true,
-    },
+    files: ["**/*.?([cm])[tj]s?(x)"],
+    ignores: ["src/**/__codegen__/"], // don't lint generated code
+    linterOptions: { reportUnusedDisableDirectives: true },
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
       parser: tsEslint.parser,
-      parserOptions: {
-        project: "./tsconfig.json",
-        ecmaVersion: "latest",
-        sourceType: "module",
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-      globals: {
-        ...globals.browser,
-        React: "readonly",
-      },
+      globals: globals.browser,
+      parserOptions: { projectService: true },
     },
     plugins: {
       "@typescript-eslint": tsEslint.plugin,
-      import: importPlugin,
+      "import-x": importPlugin,
       "react-hooks": reactHooksPlugin,
+    },
+    settings: {
+      "import-x/parsers": {
+        "@typescript-eslint/parser": [".ts", ".tsx"],
+      },
+      "import-x/resolver": {
+        node: true,
+        typescript: true,
+      },
     },
     rules: {
       // MERGE PRESETS:
       ...eslintJS.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules, // impl here bc hooks can be ts or tsx
       ...importPlugin.configs.recommended.rules,
-      ...importPlugin.configs["typescript"].rules,
+      ...importPlugin.configs.typescript.rules,
       ...tsEslint.configs.eslintRecommended.rules, // turns off base eslint rules covered by ts-eslint
       ...[
         ...tsEslint.configs.strictTypeChecked,
@@ -65,12 +59,12 @@ export default [
       "prefer-object-has-own": "error",
       "prefer-promise-reject-errors": "error",
       semi: ["error", "always"],
-      "import/named": "off", //                      TS performs this check
-      "import/namespace": "off", //                  TS performs this check
-      "import/default": "off", //                    TS performs this check
-      "import/no-named-as-default": "off", //        TS performs this check
-      "import/no-named-as-default-member": "off", // TS performs this check
-      "import/no-webpack-loader-syntax": "error",
+      "import-x/named": "off", //                      TS performs this check
+      "import-x/namespace": "off", //                  TS performs this check
+      "import-x/default": "off", //                    TS performs this check
+      "import-x/no-named-as-default": "off", //        TS performs this check
+      "import-x/no-named-as-default-member": "off", // TS performs this check
+      "import-x/no-webpack-loader-syntax": "error",
       "@typescript-eslint/array-type": "off", //                      Allow "T[]" and "Array<T>"
       "@typescript-eslint/consistent-indexed-object-style": "off", // Allow "Record<K, V>" and "{ [key: K]: V }"
       "@typescript-eslint/consistent-type-definitions": "off", //     Allow "type" and "interface", there are subtle usage differences
@@ -97,6 +91,7 @@ export default [
         },
       ],
       "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off", // Allow "if (x === true)"
+      "@typescript-eslint/no-unnecessary-type-parameters": "off", // Too many false positives
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
@@ -131,21 +126,20 @@ export default [
       ],
       ...eslintConfigPrettier.rules, // <-- must be last, removes rules that conflict with prettier
     },
-    settings: {
-      "import/parsers": {
-        "@typescript-eslint/parser": [".ts", ".tsx", ".js", ".jsx"],
-      },
-      "import/resolver": {
-        typescript: {
-          project: "./tsconfig.json",
-        },
-      },
-    },
   },
   ////////////////////////////////////////////////////////////////
-  // TSX,JSX FILES
+  // JS FILES
   {
-    files: ["src/**/*.[tj]sx"],
+    files: ["**/*.?([cm])js?(x)"],
+    ...tsEslint.configs.disableTypeChecked,
+  },
+  ////////////////////////////////////////////////////////////////
+  // TSX & JSX FILES
+  {
+    files: ["**/*.?([cm])[tj]sx"],
+    languageOptions: {
+      globals: { React: "readonly" },
+    },
     plugins: {
       "jsx-a11y": jsxA11yPlugin,
       react: reactPlugin,
@@ -204,12 +198,9 @@ export default [
   ////////////////////////////////////////////////////////////////
   // TEST FILES
   {
-    files: ["src/**/*.test.[tj]s?(x)", "**/tests/**/*", "**/__mocks__/**/*"],
+    files: ["src/**/*.test.[tj]s?(x)", "**/tests/", "**/__mocks__/"],
     languageOptions: {
-      globals: {
-        ...vitestPlugin.environments.env.globals,
-        React: "readonly",
-      },
+      globals: vitestPlugin.environments.env.globals,
     },
     plugins: {
       "testing-library": testingLibPlugin,
@@ -260,6 +251,6 @@ export default [
         },
       ],
     },
-  },
+  }
   ////////////////////////////////////////////////////////////////
-];
+);

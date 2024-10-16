@@ -1,6 +1,6 @@
 import { APP_PATH_COMPONENTS } from "./appPaths.js";
 
-const { HOME, WORK_ORDERS, INVOICES, CONTACTS } = APP_PATH_COMPONENTS;
+const { HOME } = APP_PATH_COMPONENTS;
 
 /**
  * Get the URI-encoded path to the item view for the given `itemType` and `id`.
@@ -9,7 +9,7 @@ const { HOME, WORK_ORDERS, INVOICES, CONTACTS } = APP_PATH_COMPONENTS;
  * @returns The path to the item view.
  */
 export const getItemViewPath = (
-  itemType: typeof WORK_ORDERS | typeof INVOICES | typeof CONTACTS,
+  itemType: (typeof APP_PATH_COMPONENTS)["WORK_ORDERS" | "INVOICES" | "CONTACTS"],
   id: string
 ) => {
   return `/${HOME}/${itemType}/${encodeURIComponent(id)}`;
