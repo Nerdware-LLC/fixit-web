@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.6.1](https://github.com/Nerdware-LLC/fixit-web/compare/v1.6.0...v1.6.1) (2024-10-16)
+
 ## [1.6.1-next.1](https://github.com/Nerdware-LLC/fixit-web/compare/v1.6.0...v1.6.1-next.1) (2024-10-16)
 
 # [1.6.0](https://github.com/Nerdware-LLC/fixit-web/compare/v1.5.2...v1.6.0) (2024-08-07)
