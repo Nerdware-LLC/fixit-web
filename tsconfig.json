@@ -1,5 +1,6 @@
 {
-  "include": ["src/", ".storybook/**/*"],
+  "include": ["src/", ".storybook/**/*", "./*.ts", "./*.js"],
+  "exclude": ["node_modules"],
 
   "compilerOptions": {
     // Language and Environment:
