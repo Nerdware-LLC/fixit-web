@@ -1,3 +1,7 @@
+> [!IMPORTANT]
+> ### ⚠️ This repo has been [ARCHIVED](https://docs.github.com/en/repositories/archiving-a-github-repository/archiving-repositories) ⚠️
+> ### All `fixit-web` code has been migrated to the [Fixit monorepo](https://github.com/Nerdware-LLC/fixit).
+
 <div align="center">
 
 [<img src=".storybook/assets/fixit_web_repo_header.png" alt="Fixit logo repo banner" height="135" />](https://main--659981450c81cefabec86fa2.chromatic.com/ "Check out the Fixit Storybook")
